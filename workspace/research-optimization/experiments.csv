@@ -1,0 +1,22 @@
+experiment,task,priority,status,change,platform,job_id,good_fraction,good_output_tokens_s,ttft_ms,itl_ms,average_s_step,Cd,notes
+Q01,qwen,1,completed,07 topology; N16; baseline,Firmus H200,22135,,,,,,,SLA sweep + full confirmation; tokenizer fixed before this run
+Q02,qwen,1,completed,07 topology; concurrency nearest passing SLA,Firmus H200,22197,,,,,,,Full N32; fixed metrics conflict 22143 and registration race 22147
+Q03,qwen,2,completed,09 topology; same initial N then tune,Firmus H200,22131,,,,,,,See measured rows below and qwen-experiments/RESULTS.md
+Q04,qwen,3,planned,08 topology only if prefill bottleneck,Firmus H200,,,,,,,,
+Q05,qwen,3,planned,FP8 KV vs current dtype if backend supported,Firmus H200,,,,,,,,
+Q06,qwen,1,planned,Final candidate official command single N,Firmus H200,,,,,,,,
+H01,openfoam,1,planned,Site module baseline; full chain,Gadi or ASPIRE-2A,,,,,,,,
+H02,openfoam,2,planned,scotch vs hierarchical same ranks,Same as H01,,,,,,,,
+H03,openfoam,2,planned,Half ranks per node; re-decompose,Same as H01,,,,,,,,
+H04,openfoam,1,planned,Final 1/2/4 node scaling full chain,Same as H01,,,,,,,,
+J22131-confirm-N32,qwen,1,measured_pass,candidate09; N32; confirm,Firmus H200,22131,0.978448275862069,1472.72832887667,891.6789227877155,16.68148593818229,,,Local only; accuracy not checked; cancelled=0
+J22131-sweep-N16,qwen,1,measured_pass,candidate09; N16; sweep,Firmus H200,22131,1.0,856.9870888512942,688.8922425106383,14.736400733454504,,,Local only; accuracy not checked; cancelled=0
+J22131-sweep-N32,qwen,1,measured_pass,candidate09; N32; sweep,Firmus H200,22131,1.0,1465.3537838321354,939.731219214876,16.57181812434071,,,Local only; accuracy not checked; cancelled=0
+J22131-sweep-N64,qwen,1,measured_fail_sla,candidate09; N64; sweep,Firmus H200,22131,0.6700251889168766,1509.3354709837502,1506.7994995012593,18.808148712922293,,,Local only; accuracy not checked; cancelled=0
+J22135-sweep-N16,qwen,1,measured_fail_sla,baseline07; N16; sweep,Firmus H200,22135,0.8205128205128205,106.66058086813004,1294.988405769231,12.424987128205128,,,Local only; accuracy not checked; cancelled=14
+J22135-sweep-N32,qwen,1,measured_fail_sla,baseline07; N32; sweep,Firmus H200,22135,0.5821917808219178,321.12818916813796,7880.469970856164,15.621078187581743,,,Local only; accuracy not checked; cancelled=0
+J22135-sweep-N64,qwen,1,measured_fail_sla,baseline07; N64; sweep,Firmus H200,22135,0.6537313432835821,1191.5682202912394,2792.927260397015,18.00792828287707,,,Local only; accuracy not checked; cancelled=0
+J22197-confirm-N32,qwen,1,measured_pass,baseline07; N32; confirm,Firmus H200,22197,0.9723557692307693,1297.0178084383886,1470.285029121394,16.370192742248506,,,Local only; accuracy not checked; cancelled=0
+J22200-sweep-N40,qwen,1,measured_pass,candidate09; N40; sweep,Firmus H200,22200,0.9128787878787878,1411.6177763660996,1485.5923635681818,17.086392457616366,,,Local only; accuracy not checked; cancelled=0
+J22200-sweep-N48,qwen,1,measured_fail_sla,candidate09; N48; sweep,Firmus H200,22200,0.8816568047337278,1690.190064127243,948.4779853461538,18.51395969108858,,,Local only; accuracy not checked; cancelled=0
+J22200-confirm-N40,qwen,1,measured_pass,candidate09; N40; confirm,Firmus H200,22200,0.9780743565300286,1649.265997708578,1246.707809620591,17.135039708083408,,,Local only; accuracy not checked; cancelled=None
