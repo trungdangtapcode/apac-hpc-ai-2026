@@ -1,0 +1,45 @@
+benchmark.sh: OK
+config.json: OK
+job.sbatch: OK
+placement.tsv: OK
+summarize.py: OK
+topology-job.sh: OK
+warm-topology.py: OK
+worker.sh: OK
+START job=22220 nodes=g1 g4 at 2026-10-10T07:43:37+08:00
+{
+  "id": "P8-TP2_D8-TP4-EP4",
+  "prefill_gpus": 8,
+  "decode_gpus": 8,
+  "prefill_tp": 2,
+  "decode_tp": 4,
+  "decode_ep": 4,
+  "prefill_workers": 4,
+  "decode_workers": 2,
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "client_image": "/scratch/enroot-images/aiperf.sqsh",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "concurrency": [
+    16,
+    32,
+    40,
+    48
+  ],
+  "sweep_warmup_s": 10,
+  "sweep_measure_s": 20,
+  "confirm_warmup_s": 60,
+  "confirm_measure_s": 120,
+  "grace_s": 30,
+  "memory_fraction": 0.9,
+  "decode_max_running_requests": 256,
+  "context_length": 8192,
+  "kv_dtype": "auto",
+  "transfer": "nixl"
+}
+READY prefill-0 after 296s
+READY prefill-1 after 301s
+READY prefill-2 after 306s
+READY prefill-3 after 311s
+READY decode-0 after 312s
+READY decode-1 after 313s
+ALL_WORKERS_READY after 339s
