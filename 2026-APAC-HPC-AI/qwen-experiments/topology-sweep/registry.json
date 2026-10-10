@@ -1,0 +1,1745 @@
+{
+  "created_utc": "2026-10-09T23:19:10.712269+00:00",
+  "scope": "17 homogeneous-role TP topologies, 16 H200, local experiments",
+  "experiments": [
+    {
+      "index": 1,
+      "config": {
+        "id": "P8-TP4_D8-TP4-EP4",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 4,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 2,
+        "decode_workers": 2,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/01-P8-TP4_D8-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.412559+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "988493943878a99ba9c01198b893c57dca998718b65f9412b4f91798b1ffcbec",
+        "job.sbatch": "545adcee11c845aed980447016222679c74d7f23c9ee02535d783a8f8f8d41c9",
+        "placement.tsv": "eec68d307225a44232ede129bfb83c487cebc8dba8279a73e465f258e114c2d2",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22219",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-09T23:19:42.465975+00:00",
+      "status": {
+        "JobID": "22219",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:15:48",
+        "Start": "2026-10-09T23:27:38",
+        "End": "2026-10-09T23:43:26"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22219/confirm/n40/artifacts/profile_export_aiperf.json",
+          "phase": "confirm",
+          "concurrency": 40,
+          "good_request_fraction": 0.978240302743614,
+          "sla_pass": true,
+          "good_output_tokens_s": 1666.0095960803812,
+          "raw_output_tokens_s": 1703.0517243336578,
+          "ttft_avg_ms": 1229.457323575213,
+          "itl_avg_ms": 17.110034397855554,
+          "ttft_p95_ms": 2095.929237,
+          "itl_p95_ms": 18.161740726633163,
+          "requests": 1057.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22219/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 1.0,
+          "sla_pass": true,
+          "good_output_tokens_s": 811.4874187219934,
+          "raw_output_tokens_s": 811.4874187219934,
+          "ttft_avg_ms": 743.8366643043479,
+          "itl_avg_ms": 14.762905329473456,
+          "ttft_p95_ms": 2137.8338203000003,
+          "itl_p95_ms": 16.159268642713567,
+          "requests": 92.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22219/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 1.0,
+          "sla_pass": true,
+          "good_output_tokens_s": 1377.2236185118486,
+          "raw_output_tokens_s": 1377.2236185118484,
+          "ttft_avg_ms": 962.2919829285714,
+          "itl_avg_ms": 16.70522185406198,
+          "ttft_p95_ms": 2086.85238655,
+          "itl_p95_ms": 18.69949693969849,
+          "requests": 168.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22219/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.9402985074626866,
+          "sla_pass": true,
+          "good_output_tokens_s": 1488.5666063277283,
+          "raw_output_tokens_s": 1583.0787718088538,
+          "ttft_avg_ms": 1005.2623560646766,
+          "itl_avg_ms": 18.061911016425412,
+          "ttft_p95_ms": 3058.972303,
+          "itl_p95_ms": 19.080053582914573,
+          "requests": 201.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22219/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.775,
+          "sla_pass": false,
+          "good_output_tokens_s": 1428.2274167976243,
+          "raw_output_tokens_s": 1842.874086190483,
+          "ttft_avg_ms": 960.6448327958333,
+          "itl_avg_ms": 18.63684299524707,
+          "ttft_p95_ms": 3407.37357225,
+          "itl_p95_ms": 20.286138919849247,
+          "requests": 240.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "id": "P8-TP2_D8-TP4-EP4",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 2,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 4,
+        "decode_workers": 2,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/02-P8-TP2_D8-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.430920+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "fdcc37ed5d68ddb2e9aaf967f97f8910e0bb17dcf36f67cfdc6edc30e188c49c",
+        "job.sbatch": "9ce45f15e77f2793e39c26cba9abd5c4fb360e6f360ddcbcfc2576ac0948659c",
+        "placement.tsv": "35e8bf325f562190a37cb9faee375de7c12b863f14afe85fa9d985e390aa4df1",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22220",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-09T23:19:42.475272+00:00",
+      "status": {
+        "JobID": "22220",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:09:18",
+        "Start": "2026-10-09T23:43:36",
+        "End": "2026-10-09T23:52:54"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22220/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/decode-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/pair-warmup.log",
+          "message": "srun: error: g1: task 0: Exited with exit code 1"
+        },
+        {
+          "path": "runs/22220/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/prefill-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/prefill-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/prefill-3.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22220/router.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "id": "P8-TP8_D8-TP4-EP4",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 8,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 1,
+        "decode_workers": 2,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/03-P8-TP8_D8-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.452939+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "a1d71ed2959f71a68927da647b4587b66ad39d87f0a51cf65529b32890e93f5d",
+        "job.sbatch": "e6b5e633b52d9544265e645c8e84a95c4842be763e3464339abc6a10b81d8d9a",
+        "placement.tsv": "a47ec3dfc8dd744a1ef6212b66f30c2369db82c76c1a11e0b3d7af5fc3f414df",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22221",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-09T23:19:42.485209+00:00",
+      "status": {
+        "JobID": "22221",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:01:49",
+        "Start": "2026-10-09T23:53:04",
+        "End": "2026-10-09T23:54:53"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22221.err",
+          "message": "FATAL: worker/router step 1545193 exited before readiness"
+        },
+        {
+          "path": "runs/22221/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22221/decode-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22221/prefill-0.log",
+          "message": "srun: error: g1: task 0: Killed"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "id": "P8-TP4_D8-TP8-EP8",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 4,
+        "decode_tp": 8,
+        "decode_ep": 8,
+        "prefill_workers": 2,
+        "decode_workers": 1,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/04-P8-TP4_D8-TP8-EP8",
+      "frozen_utc": "2026-10-09T23:19:10.472917+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "9a7651ccc0328b6087f21e8fdb37829ca7fdbec78ae4176a4e1f804ddd933678",
+        "job.sbatch": "480f6b3edadedc7ae48f7775dda343aaf39d3b7fe2f701639a019f3c492e14f8",
+        "placement.tsv": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22222",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-09T23:19:42.494587+00:00",
+      "status": {
+        "JobID": "22222",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:08:29",
+        "Start": "2026-10-09T23:55:03",
+        "End": "2026-10-10T00:03:32"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22222/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22222/pair-warmup.log",
+          "message": "srun: error: g1: task 0: Exited with exit code 1"
+        },
+        {
+          "path": "runs/22222/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22222/prefill-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22222/router.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "id": "P4-TP4_D12-TP4-EP4",
+        "prefill_gpus": 4,
+        "decode_gpus": 12,
+        "prefill_tp": 4,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 1,
+        "decode_workers": 3,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/05-P4-TP4_D12-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.492611+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "11dcb8e2e400cb206fcfd079c141fe3126cc08159eba7fd9cb713c548b24fd96",
+        "job.sbatch": "95e83e90ab4c4b211dac32e4b03f584aaded235a14d5c438133235a9e960abb6",
+        "placement.tsv": "9f33b13d91c8fa242ab3e08cf4e02fe9ea170d97b53b20e542831cb11b4f38d5",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22231",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-09T23:43:57.321634+00:00",
+      "status": {
+        "JobID": "22231",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:15:42",
+        "Start": "2026-10-10T00:03:37",
+        "End": "2026-10-10T00:19:19"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22231/confirm/n40/artifacts/profile_export_aiperf.json",
+          "phase": "confirm",
+          "concurrency": 40,
+          "good_request_fraction": 0.9740406320541761,
+          "sla_pass": true,
+          "good_output_tokens_s": 1382.158142116071,
+          "raw_output_tokens_s": 1418.9863303871707,
+          "ttft_avg_ms": 2399.376451767494,
+          "itl_avg_ms": 15.743196670500877,
+          "ttft_p95_ms": 2735.087373,
+          "itl_p95_ms": 16.594261459798993,
+          "requests": 886.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22231/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 1.0,
+          "sla_pass": true,
+          "good_output_tokens_s": 846.8892620763862,
+          "raw_output_tokens_s": 846.8892620763861,
+          "ttft_avg_ms": 853.4457581041665,
+          "itl_avg_ms": 13.62764310458543,
+          "ttft_p95_ms": 2127.17103025,
+          "itl_p95_ms": 16.027812110552762,
+          "requests": 96.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22231/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 1.0,
+          "sla_pass": true,
+          "good_output_tokens_s": 1372.4948798678195,
+          "raw_output_tokens_s": 1372.4948798678195,
+          "ttft_avg_ms": 1336.8910108641974,
+          "itl_avg_ms": 14.922881737576773,
+          "ttft_p95_ms": 2135.3566351,
+          "itl_p95_ms": 17.08254418165829,
+          "requests": 162.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22231/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.9853658536585366,
+          "sla_pass": true,
+          "good_output_tokens_s": 1641.1923885055646,
+          "raw_output_tokens_s": 1665.5259093153377,
+          "ttft_avg_ms": 1173.4379210682926,
+          "itl_avg_ms": 16.35119167749947,
+          "ttft_p95_ms": 2554.5875447999997,
+          "itl_p95_ms": 18.605749029145727,
+          "requests": 205.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22231/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.8821138211382114,
+          "sla_pass": false,
+          "good_output_tokens_s": 1647.9438603789556,
+          "raw_output_tokens_s": 1868.1380181286693,
+          "ttft_avg_ms": 1277.9193100487803,
+          "itl_avg_ms": 16.95499842728032,
+          "ttft_p95_ms": 4490.79898375,
+          "itl_p95_ms": 19.524611899497486,
+          "requests": 246.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "id": "P12-TP4_D4-TP4-EP4",
+        "prefill_gpus": 12,
+        "decode_gpus": 4,
+        "prefill_tp": 4,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 3,
+        "decode_workers": 1,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/06-P12-TP4_D4-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.511966+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "6c1b7e8f3dd24bf5463639b8754135294fe5517886d500886a37b642387fcdc0",
+        "job.sbatch": "fd4234d53b75e861c540049618cd20434d80f8149312ace890afffae6ea09e65",
+        "placement.tsv": "1325c625b3fa732b0eb0abad607a97ef4935e21f0e42b9d771c52bf212e6306c",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22232",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-09T23:53:49.679214+00:00",
+      "status": {
+        "JobID": "22232",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:08:50",
+        "Start": "2026-10-10T00:19:24",
+        "End": "2026-10-10T00:28:14"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22232/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22232/pair-warmup.log",
+          "message": "srun: error: g1: task 0: Exited with exit code 1"
+        },
+        {
+          "path": "runs/22232/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22232/prefill-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22232/prefill-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22232/router.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "id": "P8-TP2_D8-TP2-EP2",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 2,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 4,
+        "decode_workers": 4,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/07-P8-TP2_D8-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.530301+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "4e5d474793a0a32094c42b54b1f8375c504b1e731316b9980ee725bfcf46e67a",
+        "job.sbatch": "908b5512925bf16987ad91415a58324067f71ee230a11b515f3054c3054cba3e",
+        "placement.tsv": "b26b9bc3b9081b56b144d876672aebb1ddcaedd4d3ed0dfa0ce4d8c114bf8796",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22233",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-09T23:55:20.565270+00:00",
+      "status": {
+        "JobID": "22233",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:34",
+        "Start": "2026-10-10T00:28:24",
+        "End": "2026-10-10T00:39:58"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22233/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.8051948051948052,
+          "sla_pass": false,
+          "good_output_tokens_s": 545.7151760299857,
+          "raw_output_tokens_s": 677.7430411985307,
+          "ttft_avg_ms": 1196.8245206753247,
+          "itl_avg_ms": 16.96164024897213,
+          "ttft_p95_ms": 3282.9032276,
+          "itl_p95_ms": 21.488599394974873,
+          "requests": 77.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22233/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.6180555555555556,
+          "sla_pass": false,
+          "good_output_tokens_s": 721.0412304741583,
+          "raw_output_tokens_s": 1166.6285077334696,
+          "ttft_avg_ms": 1296.5190683055555,
+          "itl_avg_ms": 19.061918985099105,
+          "ttft_p95_ms": 3935.0663187999976,
+          "itl_p95_ms": 23.721890787939696,
+          "requests": 144.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22233/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.4350282485875706,
+          "sla_pass": false,
+          "good_output_tokens_s": 595.8166574855021,
+          "raw_output_tokens_s": 1369.5658349564474,
+          "ttft_avg_ms": 1302.7055837288135,
+          "itl_avg_ms": 20.173770285199755,
+          "ttft_p95_ms": 2702.014379599999,
+          "itl_p95_ms": 24.7986259959799,
+          "requests": 177.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22233/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.46808510638297873,
+          "sla_pass": false,
+          "good_output_tokens_s": 693.6467877785989,
+          "raw_output_tokens_s": 1481.8423621413374,
+          "ttft_avg_ms": 1778.5115191968084,
+          "itl_avg_ms": 20.184721670151205,
+          "ttft_p95_ms": 4599.082516750002,
+          "itl_p95_ms": 24.616947089447233,
+          "requests": 188.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "config": {
+        "id": "P8-TP2_D8-TP8-EP8",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 2,
+        "decode_tp": 8,
+        "decode_ep": 8,
+        "prefill_workers": 4,
+        "decode_workers": 1,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/08-P8-TP2_D8-TP8-EP8",
+      "frozen_utc": "2026-10-09T23:19:10.548873+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "e5140130aea72b607a082e6dcc8e698af5765cbb346c97d378fda64399702966",
+        "job.sbatch": "143cfbaff95bf23d0521d516ae20426f1e6e46cde3990815d2329696898c4480",
+        "placement.tsv": "3b93b9f4bdaaadf70a3ee6de06e5072d6e7ea15479a922c62c5c3a4c2574f20c",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22234",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-10T00:03:40.709575+00:00",
+      "status": {
+        "JobID": "22234",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:02:43",
+        "Start": "2026-10-10T00:40:08",
+        "End": "2026-10-10T00:42:51"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22234.err",
+          "message": "FATAL: worker/router step 1585227 exited before readiness"
+        },
+        {
+          "path": "runs/22234/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22234/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22234/prefill-1.log",
+          "message": "srun: error: g1: task 0: Killed"
+        },
+        {
+          "path": "runs/22234/prefill-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22234/prefill-3.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "config": {
+        "id": "P8-TP4_D8-TP2-EP2",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 4,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 2,
+        "decode_workers": 4,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/09-P8-TP4_D8-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.566803+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "0fa7967d4a481509bde6e794e7d5d8f6cd385a0e27e61eb4cde1fc92fb397669",
+        "job.sbatch": "e2355d55ca3139e9bb26635e75d7ce5267271e6ab9dc82c8d6983516a81a2f87",
+        "placement.tsv": "fd7230a6eda09b030fa1cd42aaa97382fb9aedf7b0ed09e37581c4baa8a289f0",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22235",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-10T00:19:36.286744+00:00",
+      "status": {
+        "JobID": "22235",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:01",
+        "Start": "2026-10-10T00:43:17",
+        "End": "2026-10-10T00:54:18"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22235/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.8235294117647058,
+          "sla_pass": false,
+          "good_output_tokens_s": 597.1495521921828,
+          "raw_output_tokens_s": 725.1101705190791,
+          "ttft_avg_ms": 754.0871645529412,
+          "itl_avg_ms": 16.8639644,
+          "ttft_p95_ms": 2166.6506429999995,
+          "itl_p95_ms": 21.80125954572864,
+          "requests": 85.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22235/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.6666666666666666,
+          "sla_pass": false,
+          "good_output_tokens_s": 804.3793893567757,
+          "raw_output_tokens_s": 1206.5690840351635,
+          "ttft_avg_ms": 1003.9010163680556,
+          "itl_avg_ms": 19.28569781958403,
+          "ttft_p95_ms": 1852.4246420999998,
+          "itl_p95_ms": 21.570934244221107,
+          "requests": 144.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22235/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.32222222222222224,
+          "sla_pass": false,
+          "good_output_tokens_s": 454.6280133537385,
+          "raw_output_tokens_s": 1410.9145242012573,
+          "ttft_avg_ms": 984.707829711111,
+          "itl_avg_ms": 20.810952271859296,
+          "ttft_p95_ms": 1628.9382240999996,
+          "itl_p95_ms": 24.017974150251252,
+          "requests": 180.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22235/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.2079207920792079,
+          "sla_pass": false,
+          "good_output_tokens_s": 334.37364893005804,
+          "raw_output_tokens_s": 1608.1780258064696,
+          "ttft_avg_ms": 919.2853335693069,
+          "itl_avg_ms": 21.597812660032837,
+          "ttft_p95_ms": 1641.2301591499997,
+          "itl_p95_ms": 25.738325977638183,
+          "requests": 202.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "config": {
+        "id": "P8-TP8_D8-TP2-EP2",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 8,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 1,
+        "decode_workers": 4,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/10-P8-TP8_D8-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.585378+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "25dc635a2c28fb750178937e79eff32e468edd8009144641e91cb51db4a362d4",
+        "job.sbatch": "7e023db6a7cc344344ccd9c0934836a56d2e70228d5abce22d3cec4b9d1edc32",
+        "placement.tsv": "2e41ce5c6250172ada62f48ae0fbdc01d66e20d8cec1cbd5412cfd1c255c5abb",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22236",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-10T00:28:46.963108+00:00",
+      "status": {
+        "JobID": "22236",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:01:52",
+        "Start": "2026-10-10T00:54:28",
+        "End": "2026-10-10T00:56:20"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22236.err",
+          "message": "FATAL: worker/router step 1599156 exited before readiness"
+        },
+        {
+          "path": "runs/22236/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22236/decode-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22236/decode-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22236/decode-3.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22236/prefill-0.log",
+          "message": "srun: error: g1: task 0: Killed"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "config": {
+        "id": "P8-TP8_D8-TP8-EP8",
+        "prefill_gpus": 8,
+        "decode_gpus": 8,
+        "prefill_tp": 8,
+        "decode_tp": 8,
+        "decode_ep": 8,
+        "prefill_workers": 1,
+        "decode_workers": 1,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/11-P8-TP8_D8-TP8-EP8",
+      "frozen_utc": "2026-10-09T23:19:10.603253+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "2ce6be09cad7f07a1d0db11619b4690caf6901205333a2163ea66274eed5827b",
+        "job.sbatch": "9211572eeec15d1ab515c31dd3849369d8b35333bcf1215df04f5ba7e83f354e",
+        "placement.tsv": "d13dae69ad9517a6e0dd3e064a12e7705a3d18a322ebf81363b3b7c18ca9a97e",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22238",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-10T00:40:10.996020+00:00",
+      "status": {
+        "JobID": "22238",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:01:48",
+        "Start": "2026-10-10T00:57:26",
+        "End": "2026-10-10T00:59:14"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22238.err",
+          "message": "FATAL: worker/router step 1602373 exited before readiness"
+        },
+        {
+          "path": "runs/22238/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22238/prefill-0.log",
+          "message": "srun: error: g1: task 0: Killed"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "config": {
+        "id": "P4-TP2_D12-TP2-EP2",
+        "prefill_gpus": 4,
+        "decode_gpus": 12,
+        "prefill_tp": 2,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 2,
+        "decode_workers": 6,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/12-P4-TP2_D12-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.620755+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "0ac29b97a6456649365cff01653910ec9ac6d697ac0a71c37b8d9fdac937b1b3",
+        "job.sbatch": "196833f235d6e9fb880720250fd55a4eebbb822c1c65805461e9eb828b8da54c",
+        "placement.tsv": "e56944abfdbcf700bd259ceccea4c68b746f3705b3bc0d673cfc6ce40c5ce92c",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22239",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-10T00:44:00.960544+00:00",
+      "status": {
+        "JobID": "22239",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:19",
+        "Start": "2026-10-10T00:59:19",
+        "End": "2026-10-10T01:10:38"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22239/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.7922077922077922,
+          "sla_pass": false,
+          "good_output_tokens_s": 539.1794883724676,
+          "raw_output_tokens_s": 680.6036164701641,
+          "ttft_avg_ms": 1310.9652772987013,
+          "itl_avg_ms": 16.028520772890424,
+          "ttft_p95_ms": 3297.9251649999997,
+          "itl_p95_ms": 21.282046576884422,
+          "requests": 77.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22239/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.7518248175182481,
+          "sla_pass": false,
+          "good_output_tokens_s": 803.9755840798493,
+          "raw_output_tokens_s": 1069.365582708149,
+          "ttft_avg_ms": 2012.5124606934305,
+          "itl_avg_ms": 17.381832107655065,
+          "ttft_p95_ms": 4045.466428399995,
+          "itl_p95_ms": 20.869038911557784,
+          "requests": 137.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22239/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.7423312883435583,
+          "sla_pass": false,
+          "good_output_tokens_s": 959.1501654313669,
+          "raw_output_tokens_s": 1292.117956331735,
+          "ttft_avg_ms": 2189.7168778036807,
+          "itl_avg_ms": 17.210351068557973,
+          "ttft_p95_ms": 4324.642838800002,
+          "itl_p95_ms": 20.83962520351759,
+          "requests": 163.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22239/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.6065573770491803,
+          "sla_pass": false,
+          "good_output_tokens_s": 848.6654261704508,
+          "raw_output_tokens_s": 1399.1511080107432,
+          "ttft_avg_ms": 2596.5554757377045,
+          "itl_avg_ms": 17.44667619996156,
+          "ttft_p95_ms": 5176.709689400002,
+          "itl_p95_ms": 20.661746801005023,
+          "requests": 183.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "config": {
+        "id": "P4-TP2_D12-TP4-EP4",
+        "prefill_gpus": 4,
+        "decode_gpus": 12,
+        "prefill_tp": 2,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 2,
+        "decode_workers": 3,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/13-P4-TP2_D12-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.638502+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "fd37196bec4c630886098a416514520afb83bb65091a8cc42d52fb50bef101af",
+        "job.sbatch": "a8bc6f7a2998d62bd097aaee93c2a8b174609ef7ae8d5b6cb0ae2371e08ea628",
+        "placement.tsv": "e61ffff4171047b14f0e09bfc2abf3c44a559fa8a9b4ded6740a3b0eaddd039d",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22240",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-10T00:54:40.981256+00:00",
+      "status": {
+        "JobID": "22240",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:08:53",
+        "Start": "2026-10-10T01:10:48",
+        "End": "2026-10-10T01:19:41"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22240/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22240/decode-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22240/decode-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22240/pair-warmup.log",
+          "message": "srun: error: g1: task 0: Exited with exit code 1"
+        },
+        {
+          "path": "runs/22240/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22240/prefill-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22240/router.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "config": {
+        "id": "P4-TP4_D12-TP2-EP2",
+        "prefill_gpus": 4,
+        "decode_gpus": 12,
+        "prefill_tp": 4,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 1,
+        "decode_workers": 6,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/14-P4-TP4_D12-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.656237+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "ccdc86bb6e7ce49e096c17e844dc6ac83839fa54d1b4bcc3e674ed02a382ed67",
+        "job.sbatch": "781d4e2a30632d91f9d6ab430089b9d1706b842462ac9ad75140a621c486b005",
+        "placement.tsv": "f83920026ae0867b592a908bd08703c495ad9f130e2e6bd3454705a281ebed20",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22241",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-10T00:57:46.119190+00:00",
+      "status": {
+        "JobID": "22241",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:10:53",
+        "Start": "2026-10-10T01:19:51",
+        "End": "2026-10-10T01:30:44"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22241/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.8275862068965517,
+          "sla_pass": false,
+          "good_output_tokens_s": 610.7379296425444,
+          "raw_output_tokens_s": 737.9749983180743,
+          "ttft_avg_ms": 881.5255528275861,
+          "itl_avg_ms": 15.706398813608269,
+          "ttft_p95_ms": 2168.6866194,
+          "itl_p95_ms": 21.785871867839194,
+          "requests": 87.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22241/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.86,
+          "sla_pass": false,
+          "good_output_tokens_s": 1022.7411950620709,
+          "raw_output_tokens_s": 1189.2339477465941,
+          "ttft_avg_ms": 1348.5225715133333,
+          "itl_avg_ms": 17.72038199929648,
+          "ttft_p95_ms": 2103.3433334499996,
+          "itl_p95_ms": 20.555988893969847,
+          "requests": 150.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22241/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.6557377049180327,
+          "sla_pass": false,
+          "good_output_tokens_s": 971.4745986460166,
+          "raw_output_tokens_s": 1481.4987629351751,
+          "ttft_avg_ms": 1175.3333684699453,
+          "itl_avg_ms": 18.925317492874203,
+          "ttft_p95_ms": 2399.0964335000003,
+          "itl_p95_ms": 22.91921093467337,
+          "requests": 183.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22241/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.4748858447488584,
+          "sla_pass": false,
+          "good_output_tokens_s": 749.5377680853226,
+          "raw_output_tokens_s": 1578.353569333516,
+          "ttft_avg_ms": 1461.299978739726,
+          "itl_avg_ms": 19.92488497235033,
+          "ttft_p95_ms": 3283.3500648,
+          "itl_p95_ms": 24.55787713366834,
+          "requests": 219.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "config": {
+        "id": "P12-TP2_D4-TP2-EP2",
+        "prefill_gpus": 12,
+        "decode_gpus": 4,
+        "prefill_tp": 2,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 6,
+        "decode_workers": 2,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/15-P12-TP2_D4-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.675765+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "bffa889c218505fd099357e4cca9ca12a73039a76848ae20de907f1ba964448b",
+        "job.sbatch": "783c5d64c227052cf71d567b387aa7b994604afed51e1097d91e45c3399386c9",
+        "placement.tsv": "acf5aec81a7e347c56df7ecb90b40c531ec753493ada265c8088d2414623c60d",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22242",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-10T01:00:03.406257+00:00",
+      "status": {
+        "JobID": "22242",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:10:45",
+        "Start": "2026-10-10T01:30:54",
+        "End": "2026-10-10T01:41:39"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22242/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.7605633802816901,
+          "sla_pass": false,
+          "good_output_tokens_s": 471.17308299973973,
+          "raw_output_tokens_s": 619.5053498700281,
+          "ttft_avg_ms": 1063.125466887324,
+          "itl_avg_ms": 18.937331502441783,
+          "ttft_p95_ms": 3281.8314649999998,
+          "itl_p95_ms": 21.579360718592962,
+          "requests": 71.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22242/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.1484375,
+          "sla_pass": false,
+          "good_output_tokens_s": 154.11991262926904,
+          "raw_output_tokens_s": 1038.2815166603386,
+          "ttft_avg_ms": 1199.79803334375,
+          "itl_avg_ms": 22.44078128596105,
+          "ttft_p95_ms": 4173.425551249999,
+          "itl_p95_ms": 25.276288035427136,
+          "requests": 128.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22242/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.06493506493506493,
+          "sla_pass": false,
+          "good_output_tokens_s": 79.68629060633462,
+          "raw_output_tokens_s": 1227.12903219225,
+          "ttft_avg_ms": 1253.225138487013,
+          "itl_avg_ms": 23.96245956702491,
+          "ttft_p95_ms": 3148.1849863499997,
+          "itl_p95_ms": 25.908026213819095,
+          "requests": 154.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22242/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.011560693641618497,
+          "sla_pass": false,
+          "good_output_tokens_s": 15.491018364307592,
+          "raw_output_tokens_s": 1339.9730885126066,
+          "ttft_avg_ms": 1532.3233085953757,
+          "itl_avg_ms": 24.819935590786304,
+          "ttft_p95_ms": 4067.644544800002,
+          "itl_p95_ms": 28.358942664321606,
+          "requests": 173.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "config": {
+        "id": "P12-TP2_D4-TP4-EP4",
+        "prefill_gpus": 12,
+        "decode_gpus": 4,
+        "prefill_tp": 2,
+        "decode_tp": 4,
+        "decode_ep": 4,
+        "prefill_workers": 6,
+        "decode_workers": 1,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/16-P12-TP2_D4-TP4-EP4",
+      "frozen_utc": "2026-10-09T23:19:10.693974+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "605b9fd6d22ae85a40e46d97bb2ab7c620bd8dd246c502f44de3347a7f86ef73",
+        "job.sbatch": "c63351cc1c68a7ab60eff30b24273d4bd5c2d4be8a2390d752ee6bd08dc31609",
+        "placement.tsv": "904a70134f1c8dd0798ba9cfd6512c516d0b5079b64cbe758c615d786adbbf31",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22245",
+      "state": "FAILED",
+      "submitted_utc": "2026-10-10T01:11:32.679768+00:00",
+      "status": {
+        "JobID": "22245",
+        "State": "FAILED",
+        "ExitCode": "1:0",
+        "Elapsed": "00:09:12",
+        "Start": "2026-10-10T01:41:49",
+        "End": "2026-10-10T01:51:01"
+      },
+      "metrics": [],
+      "failure_evidence": [
+        {
+          "path": "runs/22245/decode-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/pair-warmup.log",
+          "message": "srun: error: g1: task 0: Exited with exit code 1"
+        },
+        {
+          "path": "runs/22245/prefill-0.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/prefill-1.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/prefill-2.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/prefill-3.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/prefill-4.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/prefill-5.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        },
+        {
+          "path": "runs/22245/router.log",
+          "message": "srun: error: Timed out waiting for job step to complete"
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "config": {
+        "id": "P12-TP4_D4-TP2-EP2",
+        "prefill_gpus": 12,
+        "decode_gpus": 4,
+        "prefill_tp": 4,
+        "decode_tp": 2,
+        "decode_ep": 2,
+        "prefill_workers": 3,
+        "decode_workers": 2,
+        "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+        "client_image": "/scratch/enroot-images/aiperf.sqsh",
+        "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "concurrency": [
+          16,
+          32,
+          40,
+          48
+        ],
+        "sweep_warmup_s": 10,
+        "sweep_measure_s": 20,
+        "confirm_warmup_s": 60,
+        "confirm_measure_s": 120,
+        "grace_s": 30,
+        "memory_fraction": 0.9,
+        "decode_max_running_requests": 256,
+        "context_length": 8192,
+        "kv_dtype": "auto",
+        "transfer": "nixl"
+      },
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/17-P12-TP4_D4-TP2-EP2",
+      "frozen_utc": "2026-10-09T23:19:10.712263+00:00",
+      "payload_sha256": {
+        "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+        "config.json": "e65f89fd42465dc59a03768a32d3b3bdb3c9dd88bd6757089e00e83e88d9d964",
+        "job.sbatch": "6b6f9ffbb2b0bceb3a97040e50a65c251d4ef8276e4352ed4ac61e8ac3b587fc",
+        "placement.tsv": "b4b4ae84079fe8841dbc97042fd63dbceb0d56d56960db94415b1d6fe39fb899",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "f861d8501781733b61965ac237b08a73664a05a377ef73fb42fc27b9ae7a91e1",
+        "warm-topology.py": "c7898a78d2cb82aac28fcd983cac7fc54c86341a36b85b73c634a2285f6c32f0",
+        "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+      },
+      "job": "22246",
+      "state": "COMPLETED",
+      "submitted_utc": "2026-10-10T01:19:57.172198+00:00",
+      "status": {
+        "JobID": "22246",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:08",
+        "Start": "2026-10-10T01:51:07",
+        "End": "2026-10-10T02:02:15"
+      },
+      "metrics": [
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22246/sweep/n16/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 16,
+          "good_request_fraction": 0.5833333333333334,
+          "sla_pass": false,
+          "good_output_tokens_s": 360.1658137907966,
+          "raw_output_tokens_s": 617.4271093556514,
+          "ttft_avg_ms": 806.1894909166666,
+          "itl_avg_ms": 19.555610677484644,
+          "ttft_p95_ms": 2208.8356488,
+          "itl_p95_ms": 21.9955801620603,
+          "requests": 72.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22246/sweep/n32/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 32,
+          "good_request_fraction": 0.038461538461538464,
+          "sla_pass": false,
+          "good_output_tokens_s": 40.88739680848658,
+          "raw_output_tokens_s": 1063.0723170206509,
+          "ttft_avg_ms": 1004.1719459076922,
+          "itl_avg_ms": 23.287234012833398,
+          "ttft_p95_ms": 1778.8669698499996,
+          "itl_p95_ms": 25.241385680653266,
+          "requests": 130.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22246/sweep/n40/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 40,
+          "good_request_fraction": 0.00625,
+          "sla_pass": false,
+          "good_output_tokens_s": 7.89133255934599,
+          "raw_output_tokens_s": 1262.5737528325617,
+          "ttft_avg_ms": 931.532419425,
+          "itl_avg_ms": 24.720179714321127,
+          "ttft_p95_ms": 1730.2524381999992,
+          "itl_p95_ms": 28.364895323366834,
+          "requests": 160.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        },
+        {
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22246/sweep/n48/artifacts/profile_export_aiperf.json",
+          "phase": "sweep",
+          "concurrency": 48,
+          "good_request_fraction": 0.005208333333333333,
+          "sla_pass": false,
+          "good_output_tokens_s": 6.84800424157932,
+          "raw_output_tokens_s": 1314.8168143832295,
+          "ttft_avg_ms": 1145.2112937395832,
+          "itl_avg_ms": 26.42084105399393,
+          "ttft_p95_ms": 2368.5886384999994,
+          "itl_p95_ms": 28.478575437437183,
+          "requests": 192.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ]
+    }
+  ],
+  "updated_utc": "2026-10-10T03:52:09.519217+00:00"
+}

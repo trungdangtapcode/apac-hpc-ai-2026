@@ -1,0 +1,53 @@
+{
+  "pilot": {
+    "job": "22270",
+    "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/pilot-07",
+    "config": {
+      "id": "P8-TP2_D8-TP4-EP4",
+      "prefill_gpus": 8,
+      "decode_gpus": 8,
+      "prefill_tp": 2,
+      "decode_tp": 4,
+      "decode_ep": 4,
+      "prefill_workers": 4,
+      "decode_workers": 2,
+      "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+      "client_image": "/scratch/enroot-images/aiperf.sqsh",
+      "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+      "concurrency": [
+        16,
+        32,
+        40,
+        48
+      ],
+      "sweep_warmup_s": 10,
+      "sweep_measure_s": 20,
+      "confirm_warmup_s": 60,
+      "confirm_measure_s": 120,
+      "grace_s": 30,
+      "memory_fraction": 0.9,
+      "decode_max_running_requests": 256,
+      "context_length": 8192,
+      "kv_dtype": "auto",
+      "transfer": "nixl",
+      "repair_of_job": "22220",
+      "prefill_ep": 1,
+      "pair_timeout_s": 360,
+      "nccl_port_policy": "40000 + http_port - 30100",
+      "purpose": "Pilot repair: fixed NCCL ports and larger bounded pair timeout; measure all N, do not label deploy failure as measured."
+    },
+    "payload_sha256": {
+      "benchmark.sh": "3cc7585d67b4be5576cce98c4ce8193edb65946fc6b65a590ce54c69b8c1dede",
+      "config.json": "a7a39430fb3f821693bcf8fb70f3941945418ee001ede114eeda60016e219e44",
+      "job.sbatch": "8ac9ad9bb2750ad296b8de7308486284f86ab2de98bfa82376143de215c7e813",
+      "placement.tsv": "35e8bf325f562190a37cb9faee375de7c12b863f14afe85fa9d985e390aa4df1",
+      "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+      "topology-job.sh": "3f969762ff2b12c8a82ed56cbdcb7db4f69b1adca6101e44ef38ed67bfb2d406",
+      "warm-topology.py": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d",
+      "worker.sh": "378b130ccb0dbd12dc4c07ed7caf8a59897dc522310a5b530e4082449b1d8338"
+    }
+  },
+  "original_measured": 8,
+  "unmeasured_original": 9,
+  "complete": false
+}
