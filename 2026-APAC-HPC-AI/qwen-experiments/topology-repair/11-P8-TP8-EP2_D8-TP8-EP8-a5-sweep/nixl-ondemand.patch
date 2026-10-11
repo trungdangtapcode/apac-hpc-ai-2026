@@ -1,0 +1,27 @@
+--- a/python/sglang/srt/disaggregation/nixl/conn.py
++++ b/python/sglang/srt/disaggregation/nixl/conn.py
+@@ -984,6 +984,24 @@
+         # If prefill does not run speculative decoding (the usual case),
+         # decode with speculative decoding will have more kv items.
+         # Prefill having more kv items is impossible.
++        if (
++            self.attn_tp_size == peer_info.decode_tp_size == 8
++            and self.pp_size == 1
++            and not self.is_mla_backend
++            and not self.is_hybrid_mla_backend
++            and not peer_info.requires_dcp_relayout
++            and self.src_mem_kind == "VRAM"
++            and len(self.kv_args.kv_item_lens) > 0
++            and self.kv_args.kv_item_lens == peer_info.dst_kv_item_lens
++            and self.kv_args.kv_layer_ids == peer_info.dst_kv_layer_ids
++            and all(kind == "VRAM" for kind in peer_info.dst_kv_mem_kinds)
++        ):
++            # With no prepared handles, _send_kvcache_generic uses its original
++            # non-prepped path: coalesce request pages and initialize_xfer.
++            peer_info.dst_homogeneous_mem_kind = "VRAM"
++            logger.info("NIXL_EQUAL_ON_DEMAND peer=%s TP8->TP8; pool dlists skipped",
++                        peer_info.agent_name)
++            return
+         n_src = len(self.kv_args.kv_item_lens)
+         n_dst = len(peer_info.dst_kv_item_lens)
+         if n_dst < n_src:
