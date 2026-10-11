@@ -1,0 +1,55 @@
+benchmark.sh: OK
+config.json: OK
+job.sbatch: OK
+placement.tsv: OK
+summarize.py: OK
+topology-job.sh: OK
+warm-topology.py: OK
+worker.sh: OK
+START job=22750 nodes=g1 g4 at 2026-10-11T22:47:21+08:00
+{
+  "id": "P8-TP8-EP2_D8-TP8-EP8",
+  "prefill_gpus": 8,
+  "decode_gpus": 8,
+  "prefill_tp": 8,
+  "decode_tp": 8,
+  "decode_ep": 8,
+  "prefill_workers": 1,
+  "decode_workers": 1,
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "client_image": "/scratch/enroot-images/aiperf.sqsh",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "concurrency": [
+    16,
+    32
+  ],
+  "sweep_warmup_s": 10,
+  "sweep_measure_s": 20,
+  "confirm_warmup_s": 60,
+  "confirm_measure_s": 120,
+  "grace_s": 30,
+  "memory_fraction": 0.9,
+  "decode_max_running_requests": 256,
+  "context_length": 8192,
+  "kv_dtype": "auto",
+  "transfer": "nixl",
+  "prefill_ep": 2,
+  "nccl_port_policy": "20000 + http_port - 30100 (outside ephemeral range)",
+  "phase": "sweep",
+  "pair_timeout_s": 480,
+  "disaggregation_bootstrap_timeout_s": 600,
+  "disaggregation_waiting_timeout_s": 600,
+  "original_job": "22238",
+  "is_prefill_ep_variant": true,
+  "transport_patch": null
+}
+READY prefill-0 after 244s
+READY decode-0 after 245s
+ALL_WORKERS_READY after 276s
+ALL_PAIRS_WARM after 763s
+START sweep N=16 at 2026-10-11T23:00:08+08:00
+DONE sweep N=16 at 2026-10-11T23:01:05+08:00
+START sweep N=32 at 2026-10-11T23:01:05+08:00
+DONE sweep N=32 at 2026-10-11T23:02:06+08:00
+CONFIRM_SKIPPED: insufficient remaining Slurm time; best sweep N=32
+MEASUREMENTS_COMPLETE after 886s at 2026-10-11T23:02:07+08:00
