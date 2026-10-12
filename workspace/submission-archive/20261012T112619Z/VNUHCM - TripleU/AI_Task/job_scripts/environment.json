@@ -1,0 +1,43 @@
+{
+  "method": "Reuse the exact organiser-provided enroot/Pyxis images on shared storage; no custom image build and no serving-code patch in the declared Basic stack.",
+  "container_images": [
+    {
+      "path": "/scratch/enroot-images/sglang-harbor.sqsh",
+      "bytes": 26476240896,
+      "sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+      "override_environment_variable": "TRIPLEU_SGLANG_IMAGE"
+    },
+    {
+      "path": "/scratch/enroot-images/aiperf.sqsh",
+      "bytes": 815869952,
+      "sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+      "override_environment_variable": "TRIPLEU_AIPERF_IMAGE"
+    }
+  ],
+  "model": {
+    "id": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "path": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "metadata_sha256": {
+      "config.json": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+      "model.safetensors.index.json": "eba7df2a5452caffdfbbb2511cbd91ff887f1b62388f742e870cd16ce829bcb2"
+    },
+    "precision": "Published FP8 weights; BF16 KV (kv_cache_dtype=auto, dtype torch.bfloat16 evidenced in worker logs)",
+    "weight_shards_not_included": true
+  },
+  "versions": {
+    "sglang": "0.5.17",
+    "sglang_router": "0.3.2",
+    "nixl": "1.3.2",
+    "aiperf": "0.12.0",
+    "transformers_client": "5.14.1",
+    "tokenizers_client": "0.22.2"
+  },
+  "tokenizer": {
+    "id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "revision": "ac9c66cc9b46af7306746a9250f23d47083d689e",
+    "included_cache": "hf-cache",
+    "tokenizer_json_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+  },
+  "rules_snapshot_commit": "5a67229942589c9559a8ba5e404bbd08ae91c6e2",
+  "accuracy_check": "NOT_RUN; no reference quality score or organiser verification result available"
+}

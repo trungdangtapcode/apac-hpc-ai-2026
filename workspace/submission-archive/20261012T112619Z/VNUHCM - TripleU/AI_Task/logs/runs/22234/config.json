@@ -1,0 +1,29 @@
+{
+  "id": "P8-TP2_D8-TP8-EP8",
+  "prefill_gpus": 8,
+  "decode_gpus": 8,
+  "prefill_tp": 2,
+  "decode_tp": 8,
+  "decode_ep": 8,
+  "prefill_workers": 4,
+  "decode_workers": 1,
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "client_image": "/scratch/enroot-images/aiperf.sqsh",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "concurrency": [
+    16,
+    32,
+    40,
+    48
+  ],
+  "sweep_warmup_s": 10,
+  "sweep_measure_s": 20,
+  "confirm_warmup_s": 60,
+  "confirm_measure_s": 120,
+  "grace_s": 30,
+  "memory_fraction": 0.9,
+  "decode_max_running_requests": 256,
+  "context_length": 8192,
+  "kv_dtype": "auto",
+  "transfer": "nixl"
+}

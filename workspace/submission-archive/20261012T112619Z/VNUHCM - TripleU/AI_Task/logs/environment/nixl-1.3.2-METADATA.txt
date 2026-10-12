@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: nixl
+Version: 1.3.2
+Summary: NIXL Python API meta package for CUDA variants
+Author-email: NIXL Developers <nixl-developers@nvidia.com>
+License-Expression: MIT AND Apache-2.0
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: nixl-cu12==1.3.2
+Requires-Dist: nixl-cu13==1.3.2
+Provides-Extra: cu12
+Requires-Dist: nixl-cu12==1.3.2; extra == "cu12"
+Provides-Extra: cu13
+Requires-Dist: nixl-cu13==1.3.2; extra == "cu13"
+Dynamic: license-file
+
+# nixl
+
+This is a *meta package*. The PyPI distribution installs both the CUDA 12
+and CUDA 13 backends, and the correct one is selected automatically at
+runtime based on the CUDA version reported by PyTorch. Source builds install
+a single backend unless built with `-Drelease_wheel=true`.
+
+```bash
+pip install nixl
+```
+
+The `nixl[cu12]` and `nixl[cu13]` extras are accepted for backwards
+compatibility but have no additional effect.

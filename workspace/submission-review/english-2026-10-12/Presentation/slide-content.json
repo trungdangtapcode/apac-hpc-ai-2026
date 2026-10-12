@@ -1,0 +1,283 @@
+[
+  {
+    "number": 1,
+    "title": "Serving the full model. Meeting the latency gate.",
+    "text": [
+      "Qwen3-235B-A22B\nPD disaggregated inference",
+      "VNUHCM - TripleU",
+      "Evidence snapshot  |  12 October 2026",
+      "BEST INTERNAL RESULT",
+      "1,912.30",
+      "good output tokens/s\n97.44% SLA fraction\nN48 / 16 H200"
+    ],
+    "speaker_notes_en": "Our declared Qwen Basic result serves the official FP8 checkpoint on 16 H200 GPUs with plain prefill/decode disaggregation. The winning measured configuration is P8-TP4_D8-TP8-EP8 at N48, with our request-scoped NIXL descriptor patch. It achieves 1912.30 good output tokens/s and 97.44% SLA. These are local measurements, not an official organiser score."
+  },
+  {
+    "number": 2,
+    "title": "Best measured stack, with explicit limits",
+    "text": [
+      "GOOD OUTPUT RATE",
+      "1,912.30",
+      "req/s goodput × 200\n9.56150 good req/s",
+      "REQUESTS WITHIN BOTH SLAs",
+      "97.44%",
+      "1,180 / 1,211 requests\n0 errors; 0 cancellations",
+      "VALIDATION STATUS",
+      "Pending",
+      "Full-set accuracy\nOrganiser official re-run"
+    ],
+    "speaker_notes_en": "Job 22415 used the long 60/120/30 protocol. Of 1211 profiling requests, 1180 met both latency limits; there were no request errors or cancellations. The primary packaged Slurm job now deploys this exact layout and patch, then runs the official client once at N48. Full-set accuracy and official organiser re-verification are pending."
+  },
+  {
+    "number": 3,
+    "title": "Throughput counts only when latency passes",
+    "text": [
+      "WORKLOAD",
+      "4,000 → 200",
+      "Synthetic Shakespeare inputs\nOfficial FP8 checkpoint",
+      "PER-REQUEST SLA",
+      "3,000 / 20",
+      "TTFT ≤ 3,000 ms\nMean ITL ≤ 20 ms",
+      "POINT ACCEPTANCE",
+      "≥ 90%",
+      "Requests must pass both\nErrors stay in denominator",
+      "Closed-loop load: a completed request is immediately replaced, sustaining N concurrent requests."
+    ],
+    "speaker_notes_en": "TTFT measures the wait for the first token. The per-request average ITL measures the time between output tokens. A good request must meet both TTFT at most 3000 ms and mean ITL at most 20 ms. At least 90% must pass; errors remain in the denominator. The synthetic Shakespeare performance workload is distinct from full-set model accuracy checks."
+  },
+  {
+    "number": 4,
+    "title": "One platform, one unchanged checkpoint",
+    "text": [
+      "COMPUTE",
+      "2 × HGX H200 nodes / 16 GPUs total",
+      "NETWORK",
+      "InfiniBand NDR between the two nodes",
+      "MODEL",
+      "Qwen3-235B-A22B-Instruct-2507-FP8",
+      "SERVING",
+      "SGLang 0.5.17 / router 0.3.2 / NIXL 1.3.2",
+      "CLIENT",
+      "AIPerf 0.12.0; pinned official tokenizer",
+      "PRECISION",
+      "Published FP8 weights / BF16 KV (auto, verified in logs)"
+    ],
+    "speaker_notes_en": "The platform is two eight-GPU H200 nodes connected by InfiniBand. We reuse the exact organiser SGLang and AIPerf images. SGLang is version 0.5.17, the router 0.3.2, NIXL 1.3.2 and AIPerf 0.12.0. The published FP8 weights are unchanged; worker logs confirm BF16 KV. The included module is a read-only serving-source overlay, not a rebuilt or requantised model."
+  },
+  {
+    "number": 5,
+    "title": "Best layout: 2 prefill + 1 decode worker",
+    "text": [
+      "NODE 0  /  8 H200",
+      "NODE 1  /  8 H200",
+      "Prefill worker 0  ·  4 GPUs  ·  TP4 / EP1",
+      "Prefill worker 1  ·  4 GPUs  ·  TP4 / EP1",
+      "Decode worker 0\n8 GPUs  ·  TP8 / EP8",
+      "KV cache\nNIXL →",
+      "AIPerf N48 → OpenAI-compatible gateway :8000 → Prefill → Decode → streamed tokens"
+    ],
+    "speaker_notes_en": "Node 0 has two prefill workers, each TP4/EP1 using four GPUs. Node 1 has one decode worker, TP8/EP8 using eight GPUs. NIXL transfers KV across the two possible P/D pairs. All scored requests target the OpenAI-compatible gateway, rather than worker endpoints. No tensor-parallel group spans both nodes."
+  },
+  {
+    "number": 6,
+    "title": "Starting layouts establish our measured reference",
+    "text": [
+      "Reference layout 07",
+      "Prefill: 4 workers × TP2\nDecode: 2 workers × TP4 / EP4\nNode split: 8 + 8 GPUs\nLong run: N32",
+      "Previous best layout 09",
+      "Prefill: 2 workers × TP4\nDecode: 2 workers × TP4 / EP4\nNode split: 8 + 8 GPUs\nLong run: N40",
+      "Trade-off: fewer prefill replicas, wider tensor parallelism; measure the balance under the SLA."
+    ],
+    "speaker_notes_en": "Layouts 07 and 09 are organiser-provided starting examples, not libraries or models created by our team. Layout 07 uses four TP2 prefill workers; 09 uses two TP4 prefill workers. Both use two TP4/EP4 decode workers. The previous best was 09/N40. We extend the topology search, select load and patch KV descriptor preparation. The improvement does not isolate one variable."
+  },
+  {
+    "number": 7,
+    "title": "A 17-layout search, with measured coverage",
+    "text": [
+      "GPU SPLIT P + D",
+      "PREFILL TP",
+      "DECODE TP",
+      "LAYOUTS",
+      "8 + 8",
+      "2 / 4 / 8",
+      "2 / 4 / 8",
+      "9",
+      "4 + 12",
+      "2 / 4",
+      "2 / 4",
+      "4",
+      "12 + 4",
+      "2 / 4",
+      "2 / 4",
+      "4",
+      "14/17 originals measured",
+      "+ 3 measured EP2 variants",
+      "Each completed topology has N16, N32, N40 and N48 actual measurement exports."
+    ],
+    "speaker_notes_en": "The finite search contains 17 topology arrangements across 8+8, 4+12 and 12+4 GPU splits, with compatible TP2/4/8 values. Fourteen exact originals and three explicit EP2 replacements have all four measured sweep points. Three TP8/EP1 originals remain FP8-block-incompatible. Replacements are named separately; failed deployments never count as measurements."
+  },
+  {
+    "number": 8,
+    "title": "Screen quickly; confirm at the full duration",
+    "text": [
+      "Deploy + initialize",
+      "All P/D paths\nSeparate setup prompts",
+      "Explore",
+      "N16 / 32 / 40 / 48\n10s + 20s + 30s",
+      "Long confirmation",
+      "Best N48 / latest N32\n60s + 120s + 30s",
+      "Official timing",
+      "60s warmup",
+      "120s measurement",
+      "30s grace",
+      "A short sweep and a long confirmation use different windows; their difference is not an optimisation gain."
+    ],
+    "speaker_notes_en": "Exploratory runs use 10-second warmup, 20-second measurement and 30-second grace. They screen configurations and are not official scoring runs. Long confirmation uses 60/120/30. The declared entry performs only the official N48 point, without a sweep. Separate setup prompts initialize every P/D path without using the official dataset or seed and without changing official warmup."
+  },
+  {
+    "number": 9,
+    "title": "Winner sweeps select N48; the long run confirms it",
+    "text": [
+      "N48 sweep: 1,788.65 good tokens/s; 90.95% SLA. Long N48: 1,912.30; 97.44% SLA."
+    ],
+    "speaker_notes_en": "All four winning-layout sweeps passed the 90% gate. Short N48 produced 1788.65 good tokens/s with 90.95% SLA. The long N48 confirmation produced 1912.30 with 97.44%. These windows have different durations and populations; their difference is not an optimisation speedup. We select the long confirmation as the declared performance evidence."
+  },
+  {
+    "number": 10,
+    "title": "Best long run: +14.78% over the previous best",
+    "text": [
+      "Observed gain includes topology, concurrency and transport changes. Repeated matched A/B is still needed."
+    ],
+    "speaker_notes_en": "The winning long run is 14.78% above the previous long result of 1666.01. All bars show passing long measurements on the same 16-H200 platform. Topology, concurrency and transport differ, so this is an observed end-to-end gain, not an isolated NIXL patch speedup. Repeated matched A/B testing remains useful. The baseline is our local run, not the organisers reference score."
+  },
+  {
+    "number": 11,
+    "title": "Check the gate per request, not from averages",
+    "text": [
+      "1,180 / 1,211",
+      "requests pass both limits",
+      "Mean TTFT: 1,482.22 ms\nMean ITL: 16.79 ms\nP95 TTFT: 2,456.56 ms\nP95 ITL: 17.99 ms"
+    ],
+    "speaker_notes_en": "The original JSONL contains 1211 profiling records. Recomputing both per-request limits gives 1180 good requests, exactly matching the 97.44% aggregate fraction. Thirty-one miss a limit; none error or cancel. Aggregate means alone cannot determine whether 90% pass. The displayed TTFT and ITL statistics are performance metrics, not accuracy scores."
+  },
+  {
+    "number": 12,
+    "title": "Failures remain evidence; actual exports count",
+    "text": [
+      "FP8 sharding",
+      "TP8 / EP1 gives a 192-wide expert shard; FP8 block size is 128.",
+      "Use a distinct EP2 variant; keep the EP1 original incompatible.",
+      "Cold P/D transfer",
+      "22778 timed out before measurement; patched 22809 completes.",
+      "Request-scoped descriptors; setup deadlines do not relax benchmark SLAs.",
+      "Distributed ports",
+      "A deployment hit EADDRINUSE before producing metrics.",
+      "Assign explicit distinct ports; preserve the failed logs and source."
+    ],
+    "speaker_notes_en": "Failures expose three practical issues: FP8 expert shard dimensions, slow cold KV path setup, and distributed port collisions. Job 22778 failed before measurement and is not counted as finished. The repaired equal-TP job 22809 has four sweep exports and a long N32 confirmation. A successful repaired run does not prove that a single suspected cause explained every earlier timeout."
+  },
+  {
+    "number": 13,
+    "title": "EP2 makes TP8 compatible with FP8 blocks",
+    "text": [
+      "TP8 / EP1",
+      "128 experts / 1 expert group\n1536 ÷ 8 = 192\n192 is not divisible by 128",
+      "TP8 / EP2",
+      "64 experts / group × 2 groups\n1536 ÷ 4 = 384\n384 = 3 × 128",
+      "All 3 EP2 replacements are measured. All experts and weights are retained; the originals stay labelled."
+    ],
+    "speaker_notes_en": "TP partitions matrices inside each expert; EP distributes expert groups. With TP8/EP1, the 1536-wide dimension produces a 192-wide shard, incompatible with 128-wide FP8 blocks. EP2 gives effective TP4 and 384-wide shards, exactly three blocks, while retaining all 128 experts and weights. These are explicit variants. The winning layout uses prefill TP4/EP1 and decode TP8/EP8."
+  },
+  {
+    "number": 14,
+    "title": "NIXL: two request-scoped transport patches",
+    "text": [
+      "Full-pool descriptor plan",
+      "≈ 403.8 million source entries / rank",
+      "Request-scoped plan",
+      "188 entries: contiguous TP8→TP4 or TP8→TP8",
+      "Byte ranges, head mapping and notifications retained.",
+      "720 + 936",
+      "CPU range cases\nBoth patches GPU-tested",
+      "1,507.96",
+      "latest equal-TP / N32\n95.38% SLA; no errors"
+    ],
+    "speaker_notes_en": "We patch SGLang integration with NIXL, not the underlying NIXL library. The heterogeneous-TP patch passed 720 CPU byte-range comparisons and is used by winning job 22415. The separate restricted equal-TP8 patch passed 936 range cases and five fallback guards; job 22809 confirms GPU operation. For contiguous TP8-to-TP4 or TP8-to-TP8 copies, 4000 tokens need 188 descriptors. This count is not universal for TP4-to-TP8 geometry. Geometry checks do not replace model accuracy."
+  },
+  {
+    "number": 15,
+    "title": "The primary job deploys the winning stack",
+    "text": [
+      "01",
+      "Winning layout",
+      "2 prefill TP4 / EP1 + 1 decode TP8 / EP8; N48; all 16 H200.",
+      "02",
+      "Enabled patch",
+      "Read-only NIXL module mount; source hash checked by every worker.",
+      "03",
+      "One Slurm job",
+      "Deploy, initialize both P/D paths, run the locked official command once.",
+      "04",
+      "Reconstruction",
+      "Exact organiser images; published model; portable paths; offline cache."
+    ],
+    "speaker_notes_en": "The primary submit.sbatch now selects the measured winning TP4-to-TP8/EP8 layout, concurrency 48 and the exact NIXL module hash. It allocates 16 GPUs, deploys three workers and the gateway, initializes two P/D pairs, then invokes the unchanged official AIPerf command in the same job. Image/model metadata, the patch as text, pinned tokenizer cache and package-relative replay instructions support reconstruction under a dedicated account."
+  },
+  {
+    "number": 16,
+    "title": "Correctness claims follow the available evidence",
+    "text": [
+      "Published FP8 weights and BF16 KV, unchanged",
+      "Worker logs / source",
+      "Plain PD on 16 GPUs; no speculative decoding",
+      "Configured / local logs",
+      "Best long run / N48 latency gate",
+      "97.44% pass fraction",
+      "Full-set accuracy ≥ 99% of reference",
+      "Not yet tested",
+      "Organiser reconstruction + official scored re-run",
+      "Pending",
+      "Local latency evidence is available. Official acceptance and any Bonus validation remain pending."
+    ],
+    "speaker_notes_en": "The model checkpoint and precision remain unchanged; all requests use plain PD without speculative decoding or skipped computation. The descriptor patch is intended to preserve byte geometry, but local latency and CPU geometry checks do not establish the full-set accuracy gate. The organisers accuracy threshold is 99% of their own FP8 reference score. No accuracy pass, official score or verified Bonus claim is made."
+  },
+  {
+    "number": 17,
+    "title": "Topology coverage complete; submission work remains",
+    "text": [
+      "Measured coverage",
+      "14 original + 3 EP2 layouts\nAll four concurrency sweeps\nWinning long-run evidence\nBoth NIXL patches and logs",
+      "Still outstanding",
+      "Full-set accuracy check\nPackaged job GPU replay\nHPC/OpenFOAM evidence\nOfficial upload and re-run"
+    ],
+    "speaker_notes_en": "Fourteen original layouts plus three explicit EP2 replacements are measured at all four concurrency points. Measuring a layout does not imply that it passes the SLA. The Qwen package contains the winning entry, source patch, English presentation and raw evidence. The full-set accuracy check, packaged orchestration GPU replay and official re-run remain separate validation steps. HPC results were not supplied for this Qwen-scoped workspace."
+  },
+  {
+    "number": 18,
+    "title": "Current winner: TP4 prefill + TP8 / EP8 decode",
+    "text": [
+      "1,912.30",
+      "good output tokens per second",
+      "97.44% request SLA fraction  ·  N48 / 16 H200  ·  Official FP8 model",
+      "Accuracy and organiser re-verification remain pending."
+    ],
+    "speaker_notes_en": "The declared current winner is 1912.30 good output tokens/s with 97.44% SLA at N48 on 16 H200 GPUs. The organisers supply the checkpoint, images, cluster and locked benchmark. Our contribution is topology/load selection and request-scoped descriptor preparation. All usable search layouts are measured. Official acceptance still depends on organiser reconstruction and accuracy checks."
+  },
+  {
+    "number": 19,
+    "title": "Appendix: the final repaired layout and selection",
+    "text": [
+      "Final layout",
+      "P8-TP8-EP2_D8-TP8-EP8; job 22809 completed.",
+      "N32 long run",
+      "1,507.96 good tokens/s; 95.38% SLA; no errors/cancels.",
+      "N40 / N48 short sweeps",
+      "89.50% / 86.06% SLA: both miss the 90% gate.",
+      "Selection",
+      "Job 22415 remains the best passing long measurement.",
+      "Interpretation",
+      "Measured coverage does not mean every layout passes SLA."
+    ],
+    "speaker_notes_en": "Job 22809 completed the final repaired P8-TP8-EP2_D8-TP8-EP8 layout with four short sweeps and a long N32 confirmation. N40 and N48 reached only 89.50% and 86.06% SLA, below the 90% gate. N32 passed with 1507.96 good tokens/s and 95.38% SLA, but did not beat job 22415. Unpatched job 22750 points remain distinct and are not combined into the patched sweep."
+  }
+]
