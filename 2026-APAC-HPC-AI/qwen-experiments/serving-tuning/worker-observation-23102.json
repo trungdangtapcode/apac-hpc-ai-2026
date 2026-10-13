@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-13T06:41:25.149305+00:00",
+  "job": "23102",
+  "scope": "Recent worker log samples during N52; diagnostic observation, not final client metrics",
+  "workers": {
+    "decode-0": {
+      "source": "runs/23102/decode-0.log",
+      "samples": 120,
+      "first_line": "[2026-10-13 14:39:55 TP0 EP0] Decode batch, #running-req: 42, #token: 211875, token usage: 0.10, pre-allocated usage: 0.02, #prealloc-req: 0, #transfer-req: 10, #retracted-req: 0, cuda graph: True, gen throughput (token/s): 2195.53, #queue-req: 0",
+      "last_line": "[2026-10-13 14:41:23 TP0 EP0] Decode batch, #running-req: 41, #token: 211711, token usage: 0.10, pre-allocated usage: 0.02, #prealloc-req: 0, #transfer-req: 11, #retracted-req: 0, cuda graph: True, gen throughput (token/s): 2206.54, #queue-req: 0",
+      "mean_active_requests": 40.1,
+      "mean_transfer_waiting_requests": 11.658333333333333,
+      "interpretation": "Transfer-waiting can include waiting for prefill; this does not isolate network transfer time."
+    },
+    "prefill-0": {
+      "source": "runs/23102/prefill-0.log",
+      "samples": 120,
+      "first_line": "[2026-10-13 14:40:43 TP0] Prefill batch, #new-seq: 1, #new-token: 3990, #cached-token: 4, token usage: 0.01, #running-req: 0, #queue-req: 0, #pending-token: 0, #bootstrap-req: 0, #inflight-req: 1, #optimistic-req: 0, cuda graph: True, input throughput (token/s): 9549.15",
+      "last_line": "[2026-10-13 14:41:22 TP0] Prefill batch, #new-seq: 1, #new-token: 1248, #cached-token: 0, token usage: 0.01, #running-req: 0, #queue-req: 0, #pending-token: 0, #bootstrap-req: 0, #inflight-req: 3, #optimistic-req: 0, cuda graph: True, input throughput (token/s): 701598.95",
+      "mean_prefill_queue": 3.125,
+      "max_prefill_queue": 12
+    },
+    "prefill-1": {
+      "source": "runs/23102/prefill-1.log",
+      "samples": 120,
+      "first_line": "[2026-10-13 14:40:47 TP0] Prefill batch, #new-seq: 2, #new-token: 7981, #cached-token: 7, token usage: 0.02, #running-req: 0, #queue-req: 0, #pending-token: 0, #bootstrap-req: 1, #inflight-req: 4, #optimistic-req: 0, cuda graph: True, input throughput (token/s): 29078.70",
+      "last_line": "[2026-10-13 14:41:23 TP0] Prefill batch, #new-seq: 3, #new-token: 8192, #cached-token: 7, token usage: 0.02, #running-req: 0, #queue-req: 6, #pending-token: 26690, #bootstrap-req: 0, #inflight-req: 4, #optimistic-req: 0, cuda graph: True, input throughput (token/s): 29335.46",
+      "mean_prefill_queue": 1.6166666666666667,
+      "max_prefill_queue": 6
+    }
+  }
+}

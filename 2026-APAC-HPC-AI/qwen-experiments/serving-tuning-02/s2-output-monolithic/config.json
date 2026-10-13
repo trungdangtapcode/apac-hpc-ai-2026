@@ -1,0 +1,29 @@
+{
+  "experiment": "s2-output-monolithic",
+  "purpose": "Investigate job 23128 reverse-string anomaly without KV transport",
+  "scope": "UNRANKED diagnostic; not a contest P/D deployment or accuracy gate",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "original_conn_sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601",
+  "disaggregation": false,
+  "gpu_count": 16,
+  "endpoints": [
+    {
+      "tp": 4,
+      "ep": 1,
+      "instances": 2
+    },
+    {
+      "tp": 8,
+      "ep": 8,
+      "instances": 1
+    }
+  ],
+  "short_cases": 8,
+  "short_repetitions": 4,
+  "long_cases": 12,
+  "expected_requests": 132,
+  "temperature": 0,
+  "max_tokens": 64,
+  "kv_dtype": "auto"
+}
