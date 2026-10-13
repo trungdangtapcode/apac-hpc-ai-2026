@@ -1,0 +1,42 @@
+config.json: OK
+job.sbatch: OK
+nixl-conn.py: OK
+output-diagnostic.py: OK
+output-smoke.py: OK
+placement.tsv: OK
+topology-job.sh: OK
+worker.sh: OK
+START job=23146 nodes=g1 g4 at 2026-10-14T03:12:08+08:00
+{
+  "experiment": "s2-output-monolithic",
+  "purpose": "Investigate job 23128 reverse-string anomaly without KV transport",
+  "scope": "UNRANKED diagnostic; not a contest P/D deployment or accuracy gate",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "original_conn_sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601",
+  "disaggregation": false,
+  "gpu_count": 16,
+  "endpoints": [
+    {
+      "tp": 4,
+      "ep": 1,
+      "instances": 2
+    },
+    {
+      "tp": 8,
+      "ep": 8,
+      "instances": 1
+    }
+  ],
+  "short_cases": 8,
+  "short_repetitions": 4,
+  "long_cases": 12,
+  "expected_requests": 132,
+  "temperature": 0,
+  "max_tokens": 64,
+  "kv_dtype": "auto"
+}
+READY prefill-0 after 290s
+READY prefill-1 after 291s
+READY decode-0 after 292s
+OUTPUT_DIAGNOSTIC_COMPLETE after 371s at 2026-10-14T03:18:19+08:00
