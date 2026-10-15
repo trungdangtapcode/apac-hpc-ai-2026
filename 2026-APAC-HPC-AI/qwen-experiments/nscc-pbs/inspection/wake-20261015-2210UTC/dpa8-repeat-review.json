@@ -1,0 +1,151 @@
+{
+  "reviewed_utc": "2026-10-15T22:12:02.213622+00:00",
+  "runs": [
+    {
+      "job": "23780",
+      "good_tokens_s": 2549.1966422711453,
+      "sla": 0.9887076537013801,
+      "requests": 1594.0,
+      "ttft_ms": 596.4418812829359,
+      "itl_ms": 16.962309085601337,
+      "phase_timings": [
+        {
+          "kind": "warmup",
+          "elapsed_s": 63.58679571,
+          "successful": 792
+        },
+        {
+          "kind": "profiling",
+          "elapsed_s": 123.646797102,
+          "successful": 1594
+        }
+      ],
+      "nixl_initialized_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "smoke_failed_cases": [
+        "reverse"
+      ],
+      "manifest_files_verified": 47,
+      "observed_input_mean": 3986.0037641154327,
+      "observed_output": {
+        "unit": "tokens",
+        "avg": 199.9987452948557,
+        "p1": 200.0,
+        "p5": 200.0,
+        "p10": 200.0,
+        "p25": 200.0,
+        "p50": 200.0,
+        "p75": 200.0,
+        "p90": 200.0,
+        "p95": 200.0,
+        "p99": 200.0,
+        "min": 199.0,
+        "max": 200.0,
+        "std": 0.03539958840568603,
+        "count": 1594,
+        "sum": 318798.0
+      }
+    },
+    {
+      "job": "23859",
+      "good_tokens_s": 2538.0805211811708,
+      "sla": 0.9886506935687264,
+      "requests": 1586.0,
+      "ttft_ms": 617.1402442358134,
+      "itl_ms": 16.955704802633573,
+      "phase_timings": [
+        {
+          "kind": "warmup",
+          "elapsed_s": 63.473870637,
+          "successful": 791
+        },
+        {
+          "kind": "profiling",
+          "elapsed_s": 123.557939704,
+          "successful": 1586
+        }
+      ],
+      "nixl_initialized_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "smoke_failed_cases": [
+        "reverse"
+      ],
+      "manifest_files_verified": 46,
+      "observed_input_mean": 3986.0037831021436,
+      "observed_output": {
+        "unit": "tokens",
+        "avg": 200.00063051702395,
+        "p1": 200.0,
+        "p5": 200.0,
+        "p10": 200.0,
+        "p25": 200.0,
+        "p50": 200.0,
+        "p75": 200.0,
+        "p90": 200.0,
+        "p95": 200.0,
+        "p99": 200.0,
+        "min": 199.0,
+        "max": 201.0,
+        "std": 0.04348739495717625,
+        "count": 1586,
+        "sum": 317201.0
+      }
+    }
+  ],
+  "identical_payload": {
+    "worker.sh": true,
+    "benchmark.sh": true,
+    "topology-job.sh": true,
+    "output-smoke.py": true,
+    "nixl-conn.py": true,
+    "nixl-ondemand.patch": true,
+    "nixl-patch-metadata.json": true,
+    "warm-topology.py": true,
+    "placement.tsv": true,
+    "profile-serving.py": true,
+    "summarize.py": true,
+    "nixl-geometry-test.json": true
+  },
+  "config_differences": {
+    "experiment": [
+      "s8-rr-dpa8-deepep-n52",
+      "s8-dpa8-repeat-n52"
+    ],
+    "purpose": [
+      "Architecture pilot: decode DP-attention8 (attention TP1), EP8, DeepEP low-latency FP8 dispatch and DeepGEMM. Retain 8+8 P/D split and RR N52 to isolate the architecture package before any 12+4 reallocation or speculation.",
+      "Independent architecture repeat only after at least 2% validated N52 goodput gain over both controls."
+    ]
+  },
+  "mean_good_tokens_s": 2543.638581726158,
+  "repeat_change_percent": -0.43606369574027415,
+  "gain_percent_vs_controls": {
+    "23576": 6.085625246410276,
+    "23607": 5.983919363491741,
+    "23778": -1.8719431848188917,
+    "23839": -1.9007502583388902
+  },
+  "gain_percent_vs_mnnvl_mean": -1.886348836084517,
+  "mean_ttft_ms": 606.7910627593747,
+  "mean_itl_ms": 16.959006944117455,
+  "ttft_delta_ms_vs_23607": 259.95107447643153,
+  "itl_delta_ms_vs_23607": -2.5659444775559095,
+  "existing_n54_gate_passes": true,
+  "accuracy_verified": false,
+  "no_new_gpu_submission": true
+}

@@ -1,0 +1,125 @@
+{
+  "reviewed_utc": "2026-10-15T21:01:27.069816+00:00",
+  "scope": "Independent CPU evidence audit; no new GPU submission. Runtime initialization is not a new kernel profile; two runs do not estimate all-cluster variability. Organiser accuracy unverified.",
+  "runs": [
+    {
+      "job": "23778",
+      "good_tokens_s": 2592.162388904698,
+      "sla": 0.9900682805710739,
+      "good_requests": 1595.0,
+      "requests": 1611.0,
+      "itl_ms": 17.12725777836029,
+      "ttft_ms": 516.2843060242085,
+      "nominal_input_tokens": 4000,
+      "observed_input_tokens_mean": 3986.003724394786,
+      "observed_output_tokens": {
+        "unit": "tokens",
+        "avg": 200.0,
+        "p1": 200.0,
+        "p5": 200.0,
+        "p10": 200.0,
+        "p25": 200.0,
+        "p50": 200.0,
+        "p75": 200.0,
+        "p90": 200.0,
+        "p95": 200.0,
+        "p99": 200.0,
+        "min": 199.0,
+        "max": 201.0,
+        "std": 0.03523442817211266,
+        "count": 1611,
+        "sum": 322200.0
+      },
+      "smoke_failed_cases": [
+        "reverse"
+      ],
+      "mnnvl_initialized_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "manifest_files_verified": 47,
+      "manifest_mismatches": []
+    },
+    {
+      "job": "23839",
+      "good_tokens_s": 2592.923583436864,
+      "sla": 0.9900744416873449,
+      "good_requests": 1596.0,
+      "requests": 1612.0,
+      "itl_ms": 17.154539604599798,
+      "ttft_ms": 508.2481712853598,
+      "nominal_input_tokens": 4000,
+      "observed_input_tokens_mean": 3986.0037220843674,
+      "observed_output_tokens": {
+        "unit": "tokens",
+        "avg": 199.99937965260546,
+        "p1": 200.0,
+        "p5": 200.0,
+        "p10": 200.0,
+        "p25": 200.0,
+        "p50": 200.0,
+        "p75": 200.0,
+        "p90": 200.0,
+        "p95": 200.0,
+        "p99": 200.0,
+        "min": 199.0,
+        "max": 201.0,
+        "std": 0.04313533763323193,
+        "count": 1612,
+        "sum": 322399.0
+      },
+      "smoke_failed_cases": [
+        "reverse"
+      ],
+      "mnnvl_initialized_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "manifest_files_verified": 47,
+      "manifest_mismatches": []
+    }
+  ],
+  "mean_good_tokens_s": 2592.542986170781,
+  "repeat_change_percent": 0.02936523326717566,
+  "mean_gain_percent_vs": {
+    "23607": 8.021583241691443,
+    "23773": 6.318415900268115
+  },
+  "mean_ttft_delta_ms_vs_23607": 165.42625037184104,
+  "mean_itl_delta_ms_vs_23607": -2.3840527301933214,
+  "config_differences": {
+    "experiment": [
+      "s7-rr-mnnvl-n52",
+      "s7-mnnvl-repeat-n52"
+    ],
+    "purpose": [
+      "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+      "Repeat isolated decode mnnvl N52 only after at least 2% goodput improvement over both round-robin controls and research output checks."
+    ]
+  },
+  "identical_submitted_payload": {
+    "worker.sh": true,
+    "benchmark.sh": true,
+    "topology-job.sh": true,
+    "output-smoke.py": true,
+    "nixl-conn.py": true,
+    "warm-topology.py": true,
+    "placement.tsv": true
+  },
+  "existing_n54_gate_passes": true,
+  "next_job": "23924",
+  "next_job_submitted_by": "existing watcher at2026-10-15T21:00:05.820399+00:00",
+  "no_new_pbs_auth_or_qsub": true
+}

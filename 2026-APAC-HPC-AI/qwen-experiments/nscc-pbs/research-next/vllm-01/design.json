@@ -1,0 +1,51 @@
+{
+  "state": "RESEARCH_DESIGN_ONLY",
+  "submitted": false,
+  "gpu_validated": false,
+  "accuracy_verified": false,
+  "source_revision": "d12ea8e309d71a79d2001255f500e9642cfe87ef",
+  "image_available": false,
+  "target_model": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "target_revision": "e156cb4efae43fbee1a1ab073f946a1377e6b969",
+  "kv_dtype": "auto (verify BF16 in runtime)",
+  "sequence": [
+    "Pin and inspect vLLM OCI image digest/dependencies/CLI on CPU; no image chosen or downloaded this run.",
+    "One-node TP8/EP8 monolithic correctness baseline; compare against matched8GPU SGLang control only.",
+    "After correctness/memory gate, separate16GPU PD pilot: twoTP4prefill replicas and TP8/EP8decode, same model/BF16KV/attention backend.",
+    "Use full60/120/30 AIPerf4000/200, matching SLA/errors/output checks; no mixing engine and speculation in first test."
+  ],
+  "proposed_monolithic_command": [
+    "vllm",
+    "serve",
+    "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "--served-model-name",
+    "qwen",
+    "--tensor-parallel-size",
+    "8",
+    "--enable-expert-parallel",
+    "--max-model-len",
+    "8192",
+    "--gpu-memory-utilization",
+    "0.90",
+    "--kv-cache-dtype",
+    "auto"
+  ],
+  "proposed_pd_connector_prefill": {
+    "kv_connector": "NixlConnector",
+    "kv_role": "kv_producer",
+    "kv_load_failure_policy": "fail"
+  },
+  "proposed_pd_connector_decode": {
+    "kv_connector": "NixlConnector",
+    "kv_role": "kv_consumer",
+    "kv_load_failure_policy": "fail"
+  },
+  "pd_conditions": [
+    "Match engine/connector version, model geometry, attention backend and cache dtype; enforce handshake compatibility.",
+    "Unique VLLM_NIXL_SIDE_CHANNEL_PORT for each worker on host, explicit reachable host, UCX IB devices.",
+    "Inspected current upstream matrix supports MoE heteroTP; selected image must independently implement it.",
+    "Use native vLLM connector/proxy and preserve request metadata; SGLang conn.py patch is not portable.",
+    "First prove transport on small diagnostic traffic; stop on corruption, cancellation or incomplete exports."
+  ],
+  "budget": "No reservation now. Reuse live policy gates under budget.lock at submission; campaign16384SU total incl all previous charges, retain13000SU."
+}

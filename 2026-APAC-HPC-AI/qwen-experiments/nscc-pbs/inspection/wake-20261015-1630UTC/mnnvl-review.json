@@ -1,0 +1,107 @@
+{
+  "recorded_utc": "2026-10-15T16:31:52.837461+00:00",
+  "job": "23778",
+  "state": "COMPLETED",
+  "metrics": {
+    "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23778/confirm/n52/artifacts/profile_export_aiperf.json",
+    "phase": "confirm",
+    "concurrency": 52,
+    "good_request_fraction": 0.9900682805710739,
+    "sla_pass": true,
+    "good_output_tokens_s": 2592.162388904698,
+    "raw_output_tokens_s": 2618.1652718028017,
+    "ttft_avg_ms": 516.2843060242085,
+    "itl_avg_ms": 17.12725777836029,
+    "ttft_p95_ms": 868.7211285,
+    "itl_p95_ms": 17.7660508241206,
+    "requests": 1611.0,
+    "errors": 0,
+    "cancelled_requests": 0
+  },
+  "good_requests": 1595,
+  "latency_failed_requests": 16,
+  "protocol_checked": true,
+  "mnnvl_initialized_ranks": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ],
+  "backend_scope": "Eight rank initialization logs plus completed benchmark; no new profile proving individual kernel durations",
+  "output_diagnostic": {
+    "passed": 7,
+    "total": 8,
+    "known_failure": "reverse",
+    "new_failures": [],
+    "organiser_accuracy_verified": false
+  },
+  "comparisons": {
+    "23325": {
+      "concurrency": 52,
+      "good_tokens_s": 2402.643915457695,
+      "gain_fraction": 0.07887913486793163,
+      "itl_change_ms": -2.43921379155676,
+      "ttft_change_ms": 183.0298208485238
+    },
+    "23576": {
+      "concurrency": 52,
+      "good_tokens_s": 2397.7221945178003,
+      "gain_fraction": 0.08109371253745312,
+      "itl_change_ms": -2.329220514819127,
+      "ttft_change_ms": 150.99078416477073
+    },
+    "23607": {
+      "concurrency": 52,
+      "good_tokens_s": 2400.0231327568404,
+      "gain_fraction": 0.08005725175121658,
+      "itl_change_ms": -2.397693643313076,
+      "ttft_change_ms": 169.44431774126537
+    },
+    "23773": {
+      "concurrency": 53,
+      "good_tokens_s": 2438.470291546399,
+      "gain_fraction": 0.06302807866518334,
+      "itl_change_ms": -2.5458804393995607,
+      "ttft_change_ms": 187.3839882656559
+    },
+    "23777": {
+      "concurrency": 52,
+      "good_tokens_s": 2440.386061375686,
+      "gain_fraction": 0.062193572538048914,
+      "itl_change_ms": -1.586089081369881,
+      "ttft_change_ms": 78.23597095447167
+    }
+  },
+  "repeat_job": "23839",
+  "repeat_config_changed_fields": {
+    "experiment": [
+      "s7-rr-mnnvl-n52",
+      "s7-mnnvl-repeat-n52"
+    ],
+    "purpose": [
+      "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+      "Repeat isolated decode mnnvl N52 only after at least 2% goodput improvement over both round-robin controls and research output checks."
+    ]
+  },
+  "repeat_payload_identical": {
+    "benchmark.sh": true,
+    "worker.sh": true,
+    "topology-job.sh": true,
+    "output-smoke.py": true
+  },
+  "decision": "Retain original 2% automatic gate; 23839 independently repeats N52. N54 awaits reproduced gain, SLA >=95%, mean ITL <=19.3ms. No automatic promotion.",
+  "raw_evidence_sha256": {
+    "runs/23778/confirm/n52/artifacts/profile_export_aiperf.json": "6883fe796bb1b4ab8dad5a86f55c2c9682b479feb2d970eca04b117a5e34528e",
+    "runs/23778/confirm/n52/artifacts/profile_export.jsonl": "2e64841afdc674a1be054e99354bdf23975eb31baceeeaab07cdb20c04872464",
+    "runs/23778/confirm/n52/client.log": "8039ee329405b589ff464fd35c959d18f2323b9a3ee2ddc7abff69cfdd6447e4",
+    "runs/23778/confirm/n52/artifacts/logs/aiperf.log": "63f1d4dcab2e5c22a7c97166aa40da278c628c2f20b579dd54b2af1f71abec64",
+    "runs/23778/decode-0.log": "e98754c2fdc79130328a2faa2be9fdde67e5ad11a5832513924d9826207b461d",
+    "runs/23778/benchmark.sh": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822",
+    "runs/23778/config.json": "6694a859e0b5fe2c458ab186703d5fe9a8ff3513cddb7fbb0e8d82bef808f772",
+    "runs/23778/output-smoke.json": "78aef7af8fa56355cf4763c614a257a84afd25f418bd7103c29207ac3a7f3c56"
+  }
+}

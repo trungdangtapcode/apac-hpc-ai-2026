@@ -1,0 +1,228 @@
+{
+  "reviewed_utc": "2026-10-15T22:16:13.266212+00:00",
+  "scope": "CPU read-only audit and result interpretation preparation; no benchmark, submission or quality promotion",
+  "all_checks_pass": true,
+  "candidates": [
+    {
+      "job": "23924",
+      "registry_state": "PENDING",
+      "payload_hashes": {
+        "benchmark.sh": true,
+        "config.json": true,
+        "job.sbatch": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true,
+        "worker.sh": true
+      },
+      "frozen_seal_pass": true,
+      "stored_script_matches": true,
+      "baselines": [
+        {
+          "job": "23778",
+          "identical_operational_files": {
+            "benchmark.sh": true,
+            "nixl-conn.py": true,
+            "nixl-geometry-test.json": true,
+            "nixl-ondemand.patch": true,
+            "nixl-patch-metadata.json": true,
+            "output-smoke.py": true,
+            "placement.tsv": true,
+            "profile-serving.py": true,
+            "summarize.py": true,
+            "topology-job.sh": true,
+            "warm-topology.py": true,
+            "worker.sh": true
+          },
+          "config_differences": {
+            "concurrency": [
+              [
+                52
+              ],
+              [
+                54
+              ]
+            ],
+            "purpose": [
+              "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+              "Try decode mnnvl N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms."
+            ],
+            "experiment": [
+              "s7-rr-mnnvl-n52",
+              "s7-mnnvl-n54"
+            ]
+          },
+          "good_tokens_s": 2592.162388904698,
+          "sla_fraction": 0.9900682805710739,
+          "ttft_ms": 516.2843060242085,
+          "itl_ms": 17.12725777836029
+        },
+        {
+          "job": "23839",
+          "identical_operational_files": {
+            "benchmark.sh": true,
+            "nixl-conn.py": true,
+            "nixl-geometry-test.json": true,
+            "nixl-ondemand.patch": true,
+            "nixl-patch-metadata.json": true,
+            "output-smoke.py": true,
+            "placement.tsv": true,
+            "profile-serving.py": true,
+            "summarize.py": true,
+            "topology-job.sh": true,
+            "warm-topology.py": true,
+            "worker.sh": true
+          },
+          "config_differences": {
+            "concurrency": [
+              [
+                52
+              ],
+              [
+                54
+              ]
+            ],
+            "purpose": [
+              "Repeat isolated decode mnnvl N52 only after at least 2% goodput improvement over both round-robin controls and research output checks.",
+              "Try decode mnnvl N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms."
+            ],
+            "experiment": [
+              "s7-mnnvl-repeat-n52",
+              "s7-mnnvl-n54"
+            ]
+          },
+          "good_tokens_s": 2592.923583436864,
+          "sla_fraction": 0.9900744416873449,
+          "ttft_ms": 508.2481712853598,
+          "itl_ms": 17.154539604599798
+        }
+      ],
+      "baseline_means": {
+        "good_tokens_s": 2592.542986170781,
+        "sla_fraction": 0.9900713611292093,
+        "ttft_ms": 512.2662386547842,
+        "itl_ms": 17.140898691480043
+      },
+      "effective_load": 54,
+      "inherited_metadata_warning": "matched_concurrency=52 and older source/control fields are provenance; launcher QWEN_TUNE_NS=54 and config concurrency=[54]. Runtime unverified."
+    },
+    {
+      "job": "23934",
+      "registry_state": "PENDING",
+      "payload_hashes": {
+        "benchmark.sh": true,
+        "config.json": true,
+        "job.sbatch": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true,
+        "worker.sh": true
+      },
+      "frozen_seal_pass": true,
+      "stored_script_matches": true,
+      "baselines": [
+        {
+          "job": "23780",
+          "identical_operational_files": {
+            "benchmark.sh": true,
+            "nixl-conn.py": true,
+            "nixl-geometry-test.json": true,
+            "nixl-ondemand.patch": true,
+            "nixl-patch-metadata.json": true,
+            "output-smoke.py": true,
+            "placement.tsv": true,
+            "profile-serving.py": true,
+            "summarize.py": true,
+            "topology-job.sh": true,
+            "warm-topology.py": true,
+            "worker.sh": true
+          },
+          "config_differences": {
+            "concurrency": [
+              [
+                52
+              ],
+              [
+                54
+              ]
+            ],
+            "purpose": [
+              "Architecture pilot: decode DP-attention8 (attention TP1), EP8, DeepEP low-latency FP8 dispatch and DeepGEMM. Retain 8+8 P/D split and RR N52 to isolate the architecture package before any 12+4 reallocation or speculation.",
+              "Architecture N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3ms."
+            ],
+            "experiment": [
+              "s8-rr-dpa8-deepep-n52",
+              "s8-dpa8-n54"
+            ]
+          },
+          "good_tokens_s": 2549.1966422711453,
+          "sla_fraction": 0.9887076537013801,
+          "ttft_ms": 596.4418812829359,
+          "itl_ms": 16.962309085601337
+        },
+        {
+          "job": "23859",
+          "identical_operational_files": {
+            "benchmark.sh": true,
+            "nixl-conn.py": true,
+            "nixl-geometry-test.json": true,
+            "nixl-ondemand.patch": true,
+            "nixl-patch-metadata.json": true,
+            "output-smoke.py": true,
+            "placement.tsv": true,
+            "profile-serving.py": true,
+            "summarize.py": true,
+            "topology-job.sh": true,
+            "warm-topology.py": true,
+            "worker.sh": true
+          },
+          "config_differences": {
+            "concurrency": [
+              [
+                52
+              ],
+              [
+                54
+              ]
+            ],
+            "purpose": [
+              "Independent architecture repeat only after at least 2% validated N52 goodput gain over both controls.",
+              "Architecture N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3ms."
+            ],
+            "experiment": [
+              "s8-dpa8-repeat-n52",
+              "s8-dpa8-n54"
+            ]
+          },
+          "good_tokens_s": 2538.0805211811708,
+          "sla_fraction": 0.9886506935687264,
+          "ttft_ms": 617.1402442358134,
+          "itl_ms": 16.955704802633573
+        }
+      ],
+      "baseline_means": {
+        "good_tokens_s": 2543.638581726158,
+        "sla_fraction": 0.9886791736350533,
+        "ttft_ms": 606.7910627593747,
+        "itl_ms": 16.959006944117455
+      },
+      "effective_load": 54,
+      "inherited_metadata_warning": "matched_concurrency=52 and older source/control fields are provenance; launcher QWEN_TUNE_NS=54 and config concurrency=[54]. Runtime unverified."
+    }
+  ],
+  "accuracy_verified": false
+}

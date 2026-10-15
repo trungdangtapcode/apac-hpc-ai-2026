@@ -1,0 +1,323 @@
+{
+  "all_pending_payload_checks_pass": true,
+  "baseline_jobs": [
+    "23778",
+    "23839"
+  ],
+  "baselines": [
+    {
+      "cancelled_requests": 0,
+      "concurrency": 52,
+      "errors": 0,
+      "good_output_tokens_s": 2592.162388904698,
+      "good_request_fraction": 0.9900682805710739,
+      "itl_avg_ms": 17.12725777836029,
+      "job": "23778",
+      "ttft_avg_ms": 516.2843060242085
+    },
+    {
+      "cancelled_requests": 0,
+      "concurrency": 52,
+      "errors": 0,
+      "good_output_tokens_s": 2592.923583436864,
+      "good_request_fraction": 0.9900744416873449,
+      "itl_avg_ms": 17.154539604599798,
+      "job": "23839",
+      "ttft_avg_ms": 508.2481712853598
+    }
+  ],
+  "candidates": [
+    {
+      "config_differences": {
+        "accuracy_verified": {
+          "base": null,
+          "candidate": false
+        },
+        "changed_factor": {
+          "base": null,
+          "candidate": {
+            "attention": "flashinfer"
+          }
+        },
+        "decode_extra_flags": {
+          "base": [
+            "--cuda-graph-max-bs-decode",
+            "64",
+            "--cuda-graph-bs-decode",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "--flashinfer-allreduce-fusion-backend",
+            "mnnvl"
+          ],
+          "candidate": [
+            "--flashinfer-allreduce-fusion-backend",
+            "mnnvl",
+            "--decode-attention-backend",
+            "flashinfer"
+          ]
+        },
+        "experiment": {
+          "base": "s7-rr-mnnvl-n52",
+          "candidate": "s9-mnnvl-flashinfer-n52"
+        },
+        "purpose": {
+          "base": "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+          "candidate": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend."
+        },
+        "source_job": {
+          "base": "23576",
+          "candidate": "23778"
+        },
+        "wave": {
+          "base": 7,
+          "candidate": 9
+        }
+      },
+      "id": "s9-mnnvl-flashinfer-n52",
+      "job": "23904",
+      "payload_hashes": {
+        "benchmark.sh": true,
+        "config.json": true,
+        "job.sbatch": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true,
+        "worker.sh": true
+      },
+      "registry_state_at_review": "PENDING",
+      "seal_pass": true,
+      "stored_sbatch_command_output": "batch script for job 23904 written to /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2150UTC/23904-stored.sbatch\n",
+      "stored_sbatch_command_rc": 0,
+      "stored_sbatch_matches_frozen": true,
+      "unchanged_shared_payload": {
+        "benchmark.sh": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true
+      },
+      "worker_has_only_expected_change": true
+    },
+    {
+      "config_differences": {
+        "accuracy_verified": {
+          "base": null,
+          "candidate": false
+        },
+        "changed_factor": {
+          "base": null,
+          "candidate": {
+            "chunk": 2048
+          }
+        },
+        "experiment": {
+          "base": "s7-rr-mnnvl-n52",
+          "candidate": "s9-mnnvl-chunk2048-n52"
+        },
+        "prefill_chunk_size": {
+          "base": 4096,
+          "candidate": 2048
+        },
+        "purpose": {
+          "base": "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+          "candidate": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend."
+        },
+        "source_job": {
+          "base": "23576",
+          "candidate": "23778"
+        },
+        "wave": {
+          "base": 7,
+          "candidate": 9
+        }
+      },
+      "id": "s9-mnnvl-chunk2048-n52",
+      "job": "23905",
+      "payload_hashes": {
+        "benchmark.sh": true,
+        "config.json": true,
+        "job.sbatch": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true,
+        "worker.sh": true
+      },
+      "registry_state_at_review": "PENDING",
+      "seal_pass": true,
+      "stored_sbatch_command_output": "batch script for job 23905 written to /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2150UTC/23905-stored.sbatch\n",
+      "stored_sbatch_command_rc": 0,
+      "stored_sbatch_matches_frozen": true,
+      "unchanged_shared_payload": {
+        "benchmark.sh": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true
+      },
+      "worker_has_only_expected_change": true
+    },
+    {
+      "config_differences": {
+        "accuracy_verified": {
+          "base": null,
+          "candidate": false
+        },
+        "changed_factor": {
+          "base": null,
+          "candidate": {
+            "chunk": 8192
+          }
+        },
+        "experiment": {
+          "base": "s7-rr-mnnvl-n52",
+          "candidate": "s9-mnnvl-chunk8192-n52"
+        },
+        "prefill_chunk_size": {
+          "base": 4096,
+          "candidate": 8192
+        },
+        "purpose": {
+          "base": "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+          "candidate": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend."
+        },
+        "source_job": {
+          "base": "23576",
+          "candidate": "23778"
+        },
+        "wave": {
+          "base": 7,
+          "candidate": 9
+        }
+      },
+      "id": "s9-mnnvl-chunk8192-n52",
+      "job": "23906",
+      "payload_hashes": {
+        "benchmark.sh": true,
+        "config.json": true,
+        "job.sbatch": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true,
+        "worker.sh": true
+      },
+      "registry_state_at_review": "PENDING",
+      "seal_pass": true,
+      "stored_sbatch_command_output": "batch script for job 23906 written to /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2150UTC/23906-stored.sbatch\n",
+      "stored_sbatch_command_rc": 0,
+      "stored_sbatch_matches_frozen": true,
+      "unchanged_shared_payload": {
+        "benchmark.sh": true,
+        "nixl-conn.py": true,
+        "nixl-geometry-test.json": true,
+        "nixl-ondemand.patch": true,
+        "nixl-patch-metadata.json": true,
+        "output-smoke.py": true,
+        "placement.tsv": true,
+        "profile-serving.py": true,
+        "summarize.py": true,
+        "topology-job.sh": true,
+        "warm-topology.py": true
+      },
+      "worker_has_only_expected_change": true
+    }
+  ],
+  "mean_baseline_good_tokens_s": 2592.542986170781,
+  "metadata_caution": "source_experiment=s5-rr-repeat-n52, control_job=22415 and reference_jobs=23325/23576 are inherited provenance fields. Matched MNNVL performance references are23778 AND23839. Frozen queued payload unchanged.",
+  "reviewed_utc": "2026-10-15T21:51:16.039281+00:00",
+  "scope": "CPU preparation and own pending Slurm script audit; no GPU measurement, submission or quality promotion"
+}
