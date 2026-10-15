@@ -1,0 +1,199 @@
+{
+  "checked_utc": "2026-10-15T22:12:35.544975+00:00",
+  "queue": {
+    "command": [
+      "squeue",
+      "-h",
+      "-u",
+      "apacsc42",
+      "-o",
+      "%i|%T|%R|%S|%M"
+    ],
+    "returncode": 0,
+    "stdout": "23934|PENDING|(Resources)|N/A|0:00\n23924|PENDING|(Resources)|N/A|0:00\n23906|PENDING|(Resources)|N/A|0:00\n23905|PENDING|(Resources)|N/A|0:00\n23904|PENDING|(Resources)|N/A|0:00\n",
+    "stderr": ""
+  },
+  "accounting": {
+    "command": [
+      "sacct",
+      "-X",
+      "-j",
+      "23859,23904,23905,23906,23924",
+      "-P",
+      "--format=JobID,State%30,ExitCode,Elapsed,Start,End"
+    ],
+    "returncode": 0,
+    "stdout": "JobID|State|ExitCode|Elapsed|Start|End\n23859|COMPLETED|0:0|00:09:08|2026-10-15T22:02:26|2026-10-15T22:11:34\n23904|PENDING|0:0|00:00:00|Unknown|Unknown\n23905|PENDING|0:0|00:00:00|Unknown|Unknown\n23906|PENDING|0:0|00:00:00|Unknown|Unknown\n23924|PENDING|0:0|00:00:00|Unknown|Unknown\n",
+    "stderr": ""
+  },
+  "watcher": {
+    "command": [
+      "ps",
+      "-p",
+      "3514431",
+      "-o",
+      "pid,etime,args"
+    ],
+    "returncode": 0,
+    "stdout": "    PID     ELAPSED COMMAND\n3514431    02:09:19 python3 -u /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/watch-serving-tuning.py --run\n",
+    "stderr": ""
+  },
+  "followup_plan": {
+    "state": "ACTIVE",
+    "matched_control": "s6-rr-profile-n52",
+    "reference_good_tokens_s": 2400.1830549877477,
+    "min_gain_fraction": 0.02,
+    "higher_min_sla": 0.95,
+    "higher_max_itl_ms": 19.3,
+    "max_active_jobs": 5,
+    "candidates": [
+      {
+        "source_experiment": "s8-rr-dpa8-deepep-n52",
+        "repeat": {
+          "id": "s8-dpa8-repeat-n52",
+          "state": "MEASURED",
+          "purpose": "Independent architecture repeat only after at least 2% validated N52 goodput gain over both controls.",
+          "job": "23859",
+          "n": 52
+        },
+        "higher_load": {
+          "id": "s8-dpa8-n54",
+          "state": "SUBMITTED",
+          "purpose": "Architecture N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3ms.",
+          "job": "23934",
+          "n": 54
+        }
+      }
+    ],
+    "scope": "One architecture pilot, one gated independent N52 repeat, then one gated N54; shared per-user cap five. No automatic contest promotion.",
+    "updated_utc": "2026-10-15T22:12:25.009404+00:00",
+    "comparison_floor_good_tokens_s": 2448.1867160875026
+  },
+  "repeat_registry": [
+    {
+      "id": "s8-dpa8-repeat-n52",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s8-dpa8-repeat-n52",
+      "planned_ns": [
+        52
+      ],
+      "purpose": "Independent architecture repeat only after at least 2% validated N52 goodput gain over both controls.",
+      "state": "MEASURED",
+      "attempts": [
+        {
+          "job": "23859",
+          "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s8-dpa8-repeat-n52",
+          "state": "COMPLETED",
+          "submitted_utc": "2026-10-15T17:17:43.049300+00:00",
+          "status": {
+            "JobID": "23859",
+            "State": "COMPLETED",
+            "ExitCode": "0:0",
+            "Elapsed": "00:09:08",
+            "Start": "2026-10-15T22:02:26",
+            "End": "2026-10-15T22:11:34"
+          },
+          "measurements": [
+            {
+              "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23859/confirm/n52/artifacts/profile_export_aiperf.json",
+              "phase": "confirm",
+              "concurrency": 52,
+              "good_request_fraction": 0.9886506935687264,
+              "sla_pass": true,
+              "good_output_tokens_s": 2538.0805211811708,
+              "raw_output_tokens_s": 2567.2247429821064,
+              "ttft_avg_ms": 617.1402442358134,
+              "itl_avg_ms": 16.955704802633573,
+              "ttft_p95_ms": 825.40864425,
+              "itl_p95_ms": 17.120264839195976,
+              "requests": 1586.0,
+              "errors": 0,
+              "cancelled_requests": 0
+            }
+          ],
+          "output_smoke": {
+            "passed": 7,
+            "total": 8
+          },
+          "output_baseline_comparison": {
+            "policy": "research-baseline-v1",
+            "research_eligible": true,
+            "accuracy_verified": false,
+            "scope": "Eight-case non-regression diagnostic, not organiser accuracy",
+            "candidate_passed": 7,
+            "candidate_total": 8,
+            "baseline": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23146/output-diagnostic.jsonl",
+            "baseline_sha256": "19acdf51da0824d670b32c63f729cbe4a4082d0b5f83df336552eb8a40b9c106",
+            "known_baseline_failed_cases": [
+              "reverse"
+            ],
+            "new_failed_cases": [],
+            "reason": "No newly failed cases versus the independent baseline"
+          }
+        }
+      ],
+      "payload_sha256": {
+        "benchmark.sh": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822",
+        "config.json": "9193b0d9e31d09a771dca28c83702686f7feaa64d83ae8c5d8d3de6507a886e1",
+        "job.sbatch": "6ef755242fe160686c1bd92d5447f9bbb37bb8a402bf54d4f9e355c62a829eb3",
+        "nixl-conn.py": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl-geometry-test.json": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608",
+        "nixl-ondemand.patch": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8",
+        "nixl-patch-metadata.json": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27",
+        "output-smoke.py": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0",
+        "placement.tsv": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb",
+        "profile-serving.py": "7a51cebfc4ac0dc06c84c7b7262f204b06c7822d8590a5ae18e771c1c6f14779",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "bfe870c23c51eff1285ace72f15c3f0d4aedb17ed25aa9ec1570ac6e14b0bb2d",
+        "warm-topology.py": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d",
+        "worker.sh": "3e3de88ed66139c025dc39746c354e0cfcbc7f16fa1a7658a7dba4812ea1e5b1"
+      },
+      "measurements": [
+        {
+          "job": "23859",
+          "experiment": "s8-dpa8-repeat-n52",
+          "topology": "P8-TP4_D8-TP8-EP8",
+          "output_smoke": {
+            "passed": 7,
+            "total": 8
+          },
+          "output_baseline_comparison": {
+            "policy": "research-baseline-v1",
+            "research_eligible": true,
+            "accuracy_verified": false,
+            "scope": "Eight-case non-regression diagnostic, not organiser accuracy",
+            "candidate_passed": 7,
+            "candidate_total": 8,
+            "baseline": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23146/output-diagnostic.jsonl",
+            "baseline_sha256": "19acdf51da0824d670b32c63f729cbe4a4082d0b5f83df336552eb8a40b9c106",
+            "known_baseline_failed_cases": [
+              "reverse"
+            ],
+            "new_failed_cases": [],
+            "reason": "No newly failed cases versus the independent baseline"
+          },
+          "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23859/confirm/n52/artifacts/profile_export_aiperf.json",
+          "phase": "confirm",
+          "concurrency": 52,
+          "good_request_fraction": 0.9886506935687264,
+          "sla_pass": true,
+          "good_output_tokens_s": 2538.0805211811708,
+          "raw_output_tokens_s": 2567.2247429821064,
+          "ttft_avg_ms": 617.1402442358134,
+          "itl_avg_ms": 16.955704802633573,
+          "ttft_p95_ms": 825.40864425,
+          "itl_p95_ms": 17.120264839195976,
+          "requests": 1586.0,
+          "errors": 0,
+          "cancelled_requests": 0
+        }
+      ],
+      "missing_ns": [],
+      "benchmark_complete": true,
+      "profile_complete": null,
+      "traces": [],
+      "wave": 8,
+      "stopped_load_increase": false,
+      "higher_ns_skipped_after_failed_gate": []
+    }
+  ]
+}

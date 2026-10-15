@@ -1,0 +1,52 @@
+[
+  {
+    "utc": "2026-10-15T21:01:24.319897+00:00",
+    "argv": [
+      "squeue",
+      "-u",
+      "apacsc42",
+      "-o",
+      "%.18i %.40j %.10T %.12M %.20R"
+    ],
+    "exit_code": 0,
+    "stdout": "slurm-own-queue.txt",
+    "stderr": "slurm-own-queue.stderr"
+  },
+  {
+    "utc": "2026-10-15T21:01:24.327346+00:00",
+    "argv": [
+      "sacct",
+      "-j",
+      "23778,23839,23859,23904,23905,23906,23924",
+      "--format=JobID,State,ExitCode,Elapsed,Start,End",
+      "-X"
+    ],
+    "exit_code": 0,
+    "stdout": "slurm-accounting.txt",
+    "stderr": "slurm-accounting.stderr"
+  },
+  {
+    "utc": "2026-10-15T21:01:24.334968+00:00",
+    "argv": [
+      "ps",
+      "-p",
+      "3514431",
+      "-o",
+      "pid,etime,stat,comm"
+    ],
+    "exit_code": 0,
+    "stdout": "watcher-process.txt",
+    "stderr": "watcher-process.stderr"
+  },
+  {
+    "utc": "2026-10-15T21:01:24.346317+00:00",
+    "argv": [
+      "/home/apacsc42/workspace/vpn-rootless/vpn.sh",
+      "ssh-batch",
+      "date -u; qstat -u apacsc42; myprojects"
+    ],
+    "exit_code": 1,
+    "stdout": "nscc-pbs-credit.txt",
+    "stderr": "nscc-pbs-credit.stderr"
+  }
+]

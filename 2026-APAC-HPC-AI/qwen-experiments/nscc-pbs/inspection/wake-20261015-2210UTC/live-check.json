@@ -1,0 +1,53 @@
+{
+  "slurm_queue": {
+    "command": [
+      "squeue",
+      "-h",
+      "-u",
+      "apacsc42",
+      "-o",
+      "%i|%T|%R|%S|%M"
+    ],
+    "returncode": 0,
+    "stdout": "23924|PENDING|(Resources)|N/A|0:00\n23906|PENDING|(Resources)|N/A|0:00\n23905|PENDING|(Resources)|N/A|0:00\n23904|PENDING|(Resources)|N/A|0:00\n23859|RUNNING|g[1,4]|2026-10-15T22:02:26|8:00\n",
+    "stderr": ""
+  },
+  "slurm_accounting": {
+    "command": [
+      "sacct",
+      "-X",
+      "-j",
+      "23859,23904,23905,23906,23924",
+      "-P",
+      "--format=JobID,State%30,ExitCode,Elapsed,Start,End"
+    ],
+    "returncode": 0,
+    "stdout": "JobID|State|ExitCode|Elapsed|Start|End\n23859|RUNNING|0:0|00:08:00|2026-10-15T22:02:26|Unknown\n23904|PENDING|0:0|00:00:00|Unknown|Unknown\n23905|PENDING|0:0|00:00:00|Unknown|Unknown\n23906|PENDING|0:0|00:00:00|Unknown|Unknown\n23924|PENDING|0:0|00:00:00|Unknown|Unknown\n",
+    "stderr": ""
+  },
+  "nscc_existing_access": {
+    "command": [
+      "timeout",
+      "25",
+      "/home/apacsc42/workspace/vpn-rootless/vpn.sh",
+      "ssh-batch",
+      "bash -lc 'qstat -u apacsc42; myprojects'"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "Expected one live VPN session; start bash vpn.sh connect in another terminal.\n"
+  },
+  "watcher": {
+    "command": [
+      "ps",
+      "-p",
+      "3514431",
+      "-o",
+      "pid,etime,args"
+    ],
+    "returncode": 0,
+    "stdout": "    PID     ELAPSED COMMAND\n3514431    02:07:10 python3 -u /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/watch-serving-tuning.py --run\n",
+    "stderr": ""
+  },
+  "checked_utc": "2026-10-15T22:10:26.800920+00:00"
+}

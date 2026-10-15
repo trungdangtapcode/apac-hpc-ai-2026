@@ -1,0 +1,142 @@
+{
+  "updated_utc": "2026-10-15T19:19:14.062770+00:00",
+  "project": "59010042",
+  "commissioning_cap_su": 4096.0,
+  "cap_interpretation": "Conservatively include the existing 70.543 SU of probes in the 4096 SU total cap.",
+  "billing_su_per_gpu_hour": 128,
+  "max_gpu_jobs_pending_or_running": 1,
+  "max_gpus_per_job": 16,
+  "max_walltime_minutes": 30,
+  "max_charge_per_30min_job_su": 1024,
+  "retain_project_su": 13000,
+  "ledger": {
+    "as_of": "2026-10-16T03:00:01+08:00",
+    "grant_su": 64000,
+    "used_su": 539.307,
+    "balance_su": 63460.693,
+    "in_doubt_su": 0,
+    "source": "Live myprojects read2026-10-15 19:18UTC; inspection/wake-20261015-1915UTC/retry-submit.txt",
+    "balance_semantics": "Balance excludes any in-doubt prepayment shown in that snapshot; local1024SU reservation is a separate conservative cap until reconciliation."
+  },
+  "jobs": [
+    {
+      "job_id": "220453.pbs111",
+      "state": "F",
+      "exit_status": 1,
+      "requested_gpus": 16,
+      "requested_walltime": "00:05:00",
+      "observed_walltime": "00:00:00",
+      "max_charge_su": 170.666667,
+      "included_in_ledger_used": true
+    },
+    {
+      "job_id": "220454.pbs111",
+      "state": "F",
+      "exit_status": 1,
+      "requested_gpus": 16,
+      "requested_walltime": "00:05:00",
+      "observed_walltime": "00:00:40",
+      "max_charge_su": 170.666667,
+      "included_in_ledger_used": true
+    },
+    {
+      "job_id": "220456.pbs111",
+      "state": "F",
+      "exit_status": 1,
+      "requested_gpus": 16,
+      "requested_walltime": "00:05:00",
+      "observed_walltime": "00:00:38",
+      "max_charge_su": 170.666667,
+      "included_in_ledger_used": true
+    },
+    {
+      "job_id": "220457.pbs111",
+      "state": "F",
+      "exit_status": 0,
+      "requested_gpus": 16,
+      "requested_walltime": "00:05:00",
+      "observed_walltime": "00:00:46",
+      "max_charge_su": 170.666667,
+      "included_in_ledger_used": true
+    },
+    {
+      "job_id": "220486.pbs111",
+      "state": "F",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": true,
+      "reservation_recorded": true,
+      "exit_status": 1,
+      "observed_walltime": "00:03:34",
+      "accounting_pending": false,
+      "failure": "Triton cache PermissionError before readiness/export"
+    },
+    {
+      "job_id": "220489.pbs111",
+      "state": "F",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": true,
+      "reservation_recorded": true,
+      "retry_of": "220486.pbs111",
+      "bundle": "baseline-n32-private-tmp-01",
+      "exit_status": 1,
+      "observed_walltime": "00:10:10",
+      "failure": "Prefill readiness600s timeout while still loading checkpoint; no measurements"
+    },
+    {
+      "job_id": "220562.pbs111",
+      "state": "Q",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": false,
+      "reservation_recorded": true,
+      "retry_of": "220489.pbs111",
+      "bundle": "baseline-n32-readiness-02",
+      "submitted_utc": "2026-10-15T19:18:11.855894+00:00",
+      "last_checked_utc": "2026-10-15T19:19:14.062770+00:00",
+      "queue": "aiq2",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: mem"
+    }
+  ],
+  "pending_reservations": [
+    {
+      "reservation_id": "baseline-n32-readiness-02-20261015T1915UTC",
+      "job_id": "220562.pbs111",
+      "max_charge_su": 1024,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "bundle": "baseline-n32-readiness-02",
+      "retry_of": "220489.pbs111",
+      "recorded_utc": "2026-10-15T19:18:11.226180+00:00",
+      "state": "Q"
+    }
+  ],
+  "active_pbs_jobs": [
+    "220562.pbs111"
+  ],
+  "unallocated_commissioning_su": 2532.693,
+  "next_baseline_max_charge_su": 1024,
+  "next_baseline_reserved": true,
+  "submission_rule": "Before any qsub: refresh all own PBS jobs and myprojects; reconcile manual submissions; reserve 1024 SU in this file; require used plus unaccounted charges plus reservations <=4096 and project balance after reserves >=13000. Record uncertain qsub outcomes and reconcile before any retry.",
+  "reconciliation_note": "19:18UTC: all six earlier own PBS jobs terminal and reconciled in ledger539.307SU. New sole own active job220562.pbs111 is Q(aiq2, insufficient mem); reserve1024SU, headroom2532.693SU. Ledger03:00Singapore predates submission, in_doubt0; retain local reservation. No NSCC measured export.",
+  "evidence": [
+    "inspection/all-probe-accounting.txt",
+    "inspection/wake-20261015-1542UTC/pbs-own-jobs.txt",
+    "inspection/wake-20261015-1600UTC/pbs-own-accounting.txt",
+    "inspection/wake-20261015-1630UTC/pbs-and-credit.txt",
+    "inspection/wake-20261015-1701UTC/pbs-and-credit.txt",
+    "inspection/wake-20261015-1915UTC/retry-preflight-jobs-credit.txt",
+    "inspection/wake-20261015-1915UTC/retry-submit.txt",
+    "inspection/wake-20261015-1915UTC/retry-first-live-check.txt"
+  ],
+  "latest_access_check": {
+    "state": "AUTHENTICATED",
+    "checked_utc": "2026-10-15T19:18:11.855912+00:00",
+    "pbs_and_ledger_refreshed": true,
+    "source": "inspection/wake-20261015-1915UTC/retry-submit.txt"
+  }
+}

@@ -1,0 +1,21 @@
+#!/bin/bash -l
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-pbs-16gpu-probe
+#PBS -l select=2:ngpus=8:mpiprocs=1
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:05:00
+#PBS -j oe
+
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p "runs/$PBS_JOBID"
+ART=$PWD/runs/$PBS_JOBID
+export APAC_PBS_BUNDLE=$PWD
+printf 'Job=%s started=%s\n' "$PBS_JOBID" "$(date -u +%FT%TZ)"
+cat "$PBS_NODEFILE" | sort -u | tee "$ART/nodes.txt"
+[[ $(wc -l < "$ART/nodes.txt") == 2 ]]
+qstat -f "$PBS_JOBID" > "$ART/job-start.txt"
+pbsdsh -c 2 /bin/bash -l "$PWD/probe-node.sh" "$PWD" "$ART"
+python3 "$PWD/summarize-probe.py" "$ART"
+printf 'PROBE_COMPLETE %s\n' "$(date -u +%FT%TZ)"

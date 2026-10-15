@@ -1,0 +1,60 @@
+{
+  "checked_utc": "2026-10-15T19:16:33.988658+00:00",
+  "passed": true,
+  "scope": "Actual wait_http function with mocked HTTP success/failure and live shell PID checks; CPU validation only, not GPU startup.",
+  "changed_files": [
+    "topology-job.sh",
+    "config.json",
+    "benchmark.pbs",
+    "SHA256SUMS"
+  ],
+  "unchanged_files": [
+    "placement.tsv",
+    "nixl-patch-metadata.json",
+    "benchmark.sh",
+    "worker.sh",
+    "nixl-conn.py",
+    "nixl-ondemand.patch",
+    "warm-topology.py",
+    "nixl-geometry-test.json",
+    "summarize.py",
+    "profile-serving.py",
+    "output-smoke.py",
+    "pbs-shim.sh",
+    "pbs-container.sh",
+    "pbs-exec.py"
+  ],
+  "shell_syntax_pass": true,
+  "frozen_payload_checksums_pass": true,
+  "worker_model_client_placement_patch_unchanged": true,
+  "readiness_cases": [
+    {
+      "case": "worker-success",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "case": "worker-shared-deadline",
+      "exit_code": 1,
+      "diagnostic": "FATAL: readiness timeout http://worker"
+    },
+    {
+      "case": "worker-exit",
+      "exit_code": 1,
+      "diagnostic": "FATAL: worker/router step 99999999 exited before readiness"
+    },
+    {
+      "case": "router-success",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "case": "router-timeout",
+      "exit_code": 1,
+      "diagnostic": "FATAL: readiness timeout http://router"
+    }
+  ],
+  "worker_startup_s": 1200,
+  "pbs_walltime_s": 1800,
+  "full_point_deferral_gate_preserved": true
+}

@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "scope": "CPU PBS launch adaptation and immutable source checks; full Qwen runtime untested on NSCC",
+  "gpu_mapping_cases": [
+    {
+      "node": 0,
+      "gpu_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "cpus": 32,
+      "command": [
+        "bash",
+        "/art/worker.sh",
+        "prefill-0",
+        "30100",
+        "/model",
+        "4"
+      ]
+    },
+    {
+      "node": 0,
+      "gpu_indices": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "cpus": 32,
+      "command": [
+        "bash",
+        "/art/worker.sh",
+        "prefill-1",
+        "30100",
+        "/model",
+        "4"
+      ]
+    },
+    {
+      "node": 1,
+      "gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cpus": 64,
+      "command": [
+        "bash",
+        "/art/worker.sh",
+        "decode-0",
+        "30100",
+        "/model",
+        "8"
+      ]
+    },
+    {
+      "node": 0,
+      "gpu_indices": [],
+      "cpus": 4,
+      "command": [
+        "bash",
+        "/art/benchmark.sh",
+        "n0:8000",
+        "/model",
+        "/art"
+      ]
+    }
+  ],
+  "official_client_worker_router_patch_preserved": true,
+  "client_sha256": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822"
+}
