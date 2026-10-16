@@ -1,0 +1,62 @@
+# Replicate MNNVL + FlashInfer and refresh the matched control
+
+2026-10-16: continuous-research scope extended after all wave9 measurements
+completed. Earlier handoffs saying no new repeat were wave9 stopping decisions,
+not a user cancellation of the continuing optimization request.
+
+23904 N52=2631.0854goodt/s,SLA99.022%,ITL16.233ms,0errors/cancel.
+MNNVL23778/23839 mean2592.543: gain1.4867%, currently single observation.
+Chunk2048/8192 were slower; do not spend slots repeating losing chunks.
+
+Fill three available slots under sharedcap5 with two independent N52 combo
+replications and one fresh MNNVL N52 control. Preserve23924/23934 queue positions.
+Compare every run, baseline means and time drift; do not select only peak score.
+Full60/120/30 and frozen model,KV,placement,engine flags remain unchanged.
+Second combo run includes12 synthetic~3800token retrieval checks AFTER ranked
+measurements; retain raw results and explicit failure/deferred marker.
+No new higher-load gate or N56 is introduced. Existing wave7/8 N54 continues.
+
+Decision: require each combo repeat full protocol,SLA>=90%,0errors/cancel and
+no new short-output failures before calling gain reproduced. Compare against
+all three MNNVL controls; new long failures block quality claims and require
+investigation. Accuracy99%reference remains unverified regardless of result.
+After these runs, select the next load based on repeated goodput and ITL
+headroom, record an explicit next-step plan, and keep useful queue slots filled.
+
+## Bounded extension after sealed N54 result — 16Oct2026 05:20 UTC
+
+23924 completed successfully at04:31:37UTC. Independent sealed/raw/runtime review
+finds2634.0344goodt/s,SLA98.9024%,TTFT600.4446ms,ITL17.1102ms,zero request
+errors/cancellations and no new short failures. Versus both MNNVL N52 controls
+and their mean, gain is+1.6153%/+1.5855%/+1.6004%; mean TTFT rises88.1784ms.
+One observation does not establish a repeatable load gain. Comparison with
+FlashInfer N52 is confounded by both load and backend; do not attribute kernels.
+
+Use the single freed shared-cap5 slot for exactly ONE independent MNNVL N54
+repeat, s10-mnnvl-repeat-n54. This is an explicitly planned continuation of the
+authorized research, not an automatic continuation of the closed wave7 plan.
+Keep all12 execution files, actual N54 load and60/120/30 protocol identical to
+23924; only experiment/purpose and launcher name/path change. The config's
+wave7/matched_concurrency52 fields remain inherited provenance; the actual
+launcher and planned_ns specify54. Existing queued bundles remain frozen.
+Reuse the live watcher's prepared-pilot loader; no second watcher or controller.
+No new automatic retry or higher-load gate is added by this extension.
+The existing watcher still permits budget-deferred replacement attempts (at
+most three total attempts), only for an incomplete point with deferred markers.
+This is one independent confirmation point, not a promise of one allocation.
+Preserve every failed attempt; a further successful confirmation is not planned.
+
+Review the repeat against23924, both historical N52 controls and the fresh
+23974 control. Report each result and means, full SLA/error/output/runtime,
+TTFT/ITL tradeoffs and control drift. Same-backend N52-to-N54 comparisons
+measure load; DP N54 awaits23934. An incomplete/failed repeat remains evidence,
+and no third repeat is planned here. No N56 or configuration promotion.
+Combo N54 still requires the existing wave10 repeat and long-diagnostic gates;
+this MNNVL repeat does not waive them. Accuracy99% remains unverified.
+
+Evidence and staging validation: nscc-pbs/inspection/wake-20261016-0520UTC/.
+
+Watcher419440 submitted24009 at05:23UTC; checked05:24:11UTC it and23934,
+23973–23975 are PENDING(Resources),5/5slots. Stored24009 launcher matches frozen.
+Use review-mnnvl-n54-repeat.py after sealing; if replacement attempts occur,
+the reviewer explicitly requires manual review rather than silently picking one.

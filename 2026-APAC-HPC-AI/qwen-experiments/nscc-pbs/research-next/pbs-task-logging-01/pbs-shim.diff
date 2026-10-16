@@ -1,0 +1,13 @@
+--- load-sweep-03/pbs-shim.sh
++++ future-bundle/pbs-shim.sh
+@@ -37,7 +37,9 @@
+ PY
+     return
+   fi
+-  pbsdsh -n "$node" -- /bin/bash -l "$QWEN_BUNDLE/pbs-container.sh" \
++  local log_prefix="${SLURM_SUBMIT_DIR:?}/runs/${PBS_JOBID:?}/task-${role:-aux}-node${node}"
++  pbsdsh -n "$node" -- /bin/bash -l "$QWEN_BUNDLE/pbs-task-log.sh" "$log_prefix" \
++    /bin/bash -l "$QWEN_BUNDLE/pbs-container.sh" \
+     "$image" "$mounts" "$offset" "$gpu" "$cpus" "$env_json" "${command[@]}"
+ }
+ export -f srun scontrol

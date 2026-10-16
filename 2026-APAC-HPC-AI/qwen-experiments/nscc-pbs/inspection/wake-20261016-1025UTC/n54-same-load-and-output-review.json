@@ -1,0 +1,70 @@
+{
+  "reviewed_utc": "2026-10-16T10:27:18.201872+00:00",
+  "dp_job": "23934",
+  "mnnvl_job": "23924",
+  "dp_n54_vs_mnnvl_n54": {
+    "goodput_gain_percent": -2.984439505030345,
+    "ttft_delta_ms": 151.54353062771827,
+    "itl_delta_ms": -0.22293209885441456
+  },
+  "dp_metrics": {
+    "good_tokens_s": 2555.4232233831785,
+    "sla_fraction": 0.9874843554443054,
+    "sla_pass": true,
+    "ttft_ms": 751.9881562966207,
+    "itl_ms": 16.887294529861958,
+    "phases": [
+      {
+        "kind": "warmup",
+        "elapsed_s": 63.667923584,
+        "requests": 802
+      },
+      {
+        "kind": "profiling",
+        "elapsed_s": 123.502047376,
+        "requests": 1598
+      }
+    ]
+  },
+  "mnnvl_metrics": {
+    "good_tokens_s": 2634.034386180431,
+    "sla_fraction": 0.9890243902439024,
+    "sla_pass": true,
+    "ttft_ms": 600.4446256689024,
+    "itl_ms": 17.110226628716372,
+    "phases": [
+      {
+        "kind": "warmup",
+        "elapsed_s": 63.147481798,
+        "requests": 818
+      },
+      {
+        "kind": "profiling",
+        "elapsed_s": 123.157086218,
+        "requests": 1640
+      }
+    ]
+  },
+  "dp_runtime_fields": {
+    "kv_cache_dtype": "'auto'",
+    "tp_size": "8",
+    "dp_size": "8",
+    "enable_dp_attention": "True",
+    "disable_custom_all_reduce": "False",
+    "ep_size": "8",
+    "moe_a2a_backend": "'deepep'",
+    "moe_runner_backend": "'deep_gemm'",
+    "deepep_mode": "'low_latency'",
+    "deepep_dispatcher_output_dtype": "'fp8'"
+  },
+  "raw_smoke_rescored": {
+    "baseline_cases": 132,
+    "baseline_passed": 120,
+    "candidate_cases": 8,
+    "candidate_passed": 7,
+    "candidate_failed": [
+      "reverse"
+    ]
+  },
+  "caveat": "One N54 point per backend, seed/node/time drift; descriptive package comparison, no isolated kernel effect, repeatability or organiser accuracy claim. No extra DP repeat or N56 planned."
+}
