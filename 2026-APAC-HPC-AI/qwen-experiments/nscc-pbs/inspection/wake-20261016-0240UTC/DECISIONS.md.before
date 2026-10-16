@@ -1,0 +1,50 @@
+# Yêu cầu và quyết định cần giữ qua các phiên
+
+## Cách làm việc
+
+- Trả lời ngắn, rõ, tiếngViệt. Câu hỏi kiến thức phải ghi vào note cùng lượt.
+- Chủ động research→nhận định→submit→đọc kết quả→thử tiếp; tận dụng thời gian
+  chờ GPU để chuẩn bị phần không cầnGPU. Không chỉ hứa hoặc chờ người dùng nhắc.
+- Giữ mọi thí nghiệm và dữ liệu thô, bao gồm lỗi; không tính lỗi deployment
+  như đã đo thành công. Không tự tạo kết quả, không báo queued làrunning.
+- Có sửa kết luận cũ phải nói rõ, cập nhật phần hiện hành để không truyền sai
+  qua phiên khác. Số liệu động phải kèm thời điểm/jobID.
+
+## Phạm vi cuộc thi và tài liệu
+
+- TrackQwen; không lẫnOpenFOAM. Gói `VNUHCM - TripleU/` gồmPresentation,
+  AI_Task/job_scripts,AI_Task/logs,HPC_Task/job_scripts,HPC_Task/logs.
+- HPC_Task để rỗng nếu không có bài; không thêm câu tuyên bố thiếuHPC vào slide.
+- Bài nộp và slide phảiEnglish. Tutorial giải thích cho người dùng dùngVietnamese.
+- Slide để **thuyết trình kỹ thuật**, không mô tảfolder/README hay nhồi“evidence”.
+  Giữ theme hiện có, gradient nhẹ, background ảnh chìm nhưng thấy được, dùng
+  ảnh đa dạng; tránh lấy cùng asset làm background và hình chính gây lặp.
+- Không tự quảng bá pilot vào submission. Chưa có ghi nhận uploadBTC.
+
+## Thực thi, budget và queue
+
+- H200Slurm sharedcap5 pending/running theoQoS đã kiểm tra. Không hủy/requeue
+  chỉ vìPriority; chỉ hủy khi người dùng yêu cầu hoặc có lý do kỹ thuật rõ.
+- NSCCPBS một jobGPU pending/running mỗi lần, tối đa16GPU; nhiều mức tải trong
+  cùng allocation giúp tránh lặp20phút startup. Mỗi điểm giữ nguyên protocol.
+- Commissioning ban đầu4096SU; sau baseline đạt và chỉ dẫn“tận dụng toàn bộ
+  thời gian vàgpu”, đã công bố mở campaign **16384SU tổng**, giữ13000SU dự phòng,
+  max45phút/job=1536SU dự trù. Không tiêu toàn bộgrant vì chỉ muốn bậnGPU.
+- Lượt tự động phải ghi dự trù trướcqsub, đối soát job chưa chắc trạng thái,
+  không nhân đôi khoảnInDoubt đã trừ khỏibalance.
+- So candidate cùnghardware/protocol, repeat phương án tốt, kiểm tra output.
+  SLA/goodput không phảiquality; smoke không thay fullaccuracy99%reference.
+
+## VPN và quyền truy cập
+
+- Người dùng cho phép cài/thửVPNrootless, kết nốiNSCC, dùngPBS đểresearch.
+- Gateway đúng.sg; TLS phảiverify. Không dùngDocker/sudo nếu không cần.
+- Không lưu password/OTP vàonotes/config/commandline; không xuất secret qua log.
+- Đăng nhập lại khi có chỉ dẫn mới; không lặp thử mù khi gateway từ chối.
+- Không yêu cầu người dùng ngắtVPNWindows đang tốt chỉ dựa trên suy đoán.
+
+## Chỉ dẫn mới16/10: xác thực và khôi phục
+Người dùng phản đối login khi người giữDUO không có mặt; đã dừng thửxác thực. Yêu cầu tiếp theo là tìm session cũ local, không phải cho phép login mới. Search đã thực hiện, không cósessionblob được tìm thấy; không tự suy ra/serverWindows hết hạn.
+
+## Tiếp tục nghiên cứu16Oct02:36UTC
+Sau3wave9hoàntất,đãmởwave10đểmôphỏnglạigain1,49% bằng2combo repeat+1freshMNNVLcontrol,gửi23973–23975. Cácdòngno-repeatởsnapshotwave9khôngphảiuserhủy yêu cầu liên tục research. Giữsharedcap5,khôngN56hayVPNauthmới.

@@ -1,0 +1,50 @@
+# Đọc wave10: lặp combo và control mới
+
+Chuẩn bị 16/10/2026; chưa có kết quả runtime của 23973/23974/23975 tại lúc viết.
+Job ACTIVE trong controller chỉ nghĩa đang theo dõi. Kiểm tra scheduler trực tiếp.
+
+Chạy sau khi watcher đã thu artifact và tạo terminal seal:
+
+```bash
+python3 serving-tuning-10/review-wave10.py --out /path/to/new-wave10-review.json
+```
+
+Tool chỉ đọc CPU, không gửi job, sửa payload hay tự chọn cấu hình. File output
+phải mới. Khi chưa có seal, trả `WAITING_FOR_SEALED_RESULTS`; một phần hoàn tất
+thì `PARTIAL_RESULTS`. Seal/transport/output/runtime không hợp lệ trả lý do cụ thể.
+SLA dưới 90% với evidence đầy đủ vẫn giữ là `MEASURED_SLA_FAIL`.
+
+- Combo: 23904 gốc, 23973 repeat1, 23975 repeat2. Control MNNVL: 23778,
+  23839 và 23974 mới. Không lấy `control_job`/`reference_jobs` kế thừa trong
+  config làm baseline. Chúng là metadata lịch sử.
+- Đọc từng combo so từng control, mean cả ba mỗi nhóm và drift của 23974 so
+  mean hai control cũ. Tool không chọn peak. Cờ gain lặp được là quy tắc mô tả
+  thận trọng: tất cả đạt SLA90%, mean combo cao hơn mean control và cả hai
+  repeat cao hơn control mới. Không phải kiểm định ý nghĩa thống kê.
+- Tái dùng reader N54 để kiểm terminal seal, payload hash, raw export, protocol
+  60/120/30, SLA, error/cancel, short non-regression, NIXL/warmup. Kiểm thêm
+  8 rank MNNVL, 8 rank FlashInfer ở combo, execution files giống source và
+  resolved ServerArgs chỉ khác engine random_seed. Long benchmark phải giữ
+  nguyên prefix đo của 23904; phần append có trong frozen payload đã hash.
+- Goodput vẫn là good request/giây nhân quy ước 200 tokens; observed lengths
+  là diagnostic. Engine seed chưa khóa; seed AIPerf2026 không khóa seed engine.
+
+23975 chạy 12 retrieval sau phép đo. Tool kiểm seal và tái chấm câu trả lời từ
+response gốc; giữ riêng `PASSED`, `FAILED`, `DEFERRED`, `INCOMPLETE`, `MISSING`.
+Timeout có thể để lại log/marker mà chưa ghi JSON vì script ghi kết quả cuối
+cùng; không biến thiếu JSON thành pass. Số token input là tokenizer.encode
+prompt trong script, chưa bao gồm chat template; không gọi là chính xác3800.
+Nếu failed/deferred, giữ benchmark đã đo và điều tra diagnostic riêng.
+
+Gate viết plan comboN54 cần gain lặp được theo quy tắc trên, cả ba combo
+SLA>=95%, meanITL mỗi lượt<=19,3ms, không error/cancel/new short regression,
+và long diagnostic PASSED. Cờ này chỉ phục vụ viết plan có giới hạn sau khi
+đọc evidence và queue; **không tự submit**, không mở N56. Hai N54 23924/23934
+tiếp tục dùng `serving-tuning/review-n54.py` và gate wave7/8 riêng.
+
+Smoke7/8 với reverse thất bại đã biết, hay long12/12, đều không chứng nhận
+accuracy99% của BTC. Nếu có sai khác mới thì giữ nguyên câu trả lời và điều tra.
+
+Bằng chứng chuẩn bị: `nscc-pbs/inspection/wake-20261016-0240UTC/`.
+Stored Slurm scripts của ba job được giữ lúc còn queue và khớp frozen scripts;
+đây là kiểm launcher, chưa chứng minh runtime.

@@ -1,0 +1,30 @@
+4723: 
+4724:         if prefill_cuda_graph_config.max_bs is None:
+4725:             # Refer to pr #15927, by default we set the prefill max_bs to the chunked prefill size.
+4726:             # For MLA backend, the introduction of piecewise cuda graph will influence the kernel dispatch difference compared to the original mode.
+4727:             # To avoid the performance regression, we set max_bs to 2048 by default.
+4728:             if not self.use_mla_backend():
+4729:                 prefill_cuda_graph_config.max_bs = self.chunked_prefill_size
+4730:             else:
+4731:                 prefill_cuda_graph_config.max_bs = 2048
+4732: 
+4733:             # If max_total_tokens is set, cap prefill max_bs to not exceed max_total_tokens.
+4734:             if self.max_total_tokens is not None:
+4735:                 prefill_cuda_graph_config.max_bs = min(
+4736:                     prefill_cuda_graph_config.max_bs, self.max_total_tokens
+4737:                 )
+4738: 
+4739:             # For Llama2 series models, max_bs is limited to 4096.
+4740:             # TODO(yuwei): remove this after the issue is fixed
+4741:             if "llama-2" in self.model_path.lower():
+4742:                 prefill_cuda_graph_config.max_bs = min(
+4743:                     prefill_cuda_graph_config.max_bs, 4096
+4744:                 )
+4745: 
+4746:         if prefill_cuda_graph_config.bs is None:
+4747:             prefill_cuda_graph_config.bs = (
+4748:                 self._generate_prefill_cuda_graph_batch_sizes(
+4749:                     prefill_cuda_graph_config.max_bs
+4750:                 )
+4751:             )
+4752: 

@@ -1,0 +1,84 @@
+# Đối soát token EAGLE3 — chuẩn bị CPU, 16/10/2026
+
+`review-token-pairs.py` chỉ đọc hai capture JSON cục bộ. Chưa có capture Qwen
+thật, chưa kiểm HTTP runtime, chưa tải draft/chạy GPU/upload hay đặt SU.
+30 ca dữ liệu tổng hợp và 6 kiểm tra source đạt. Đây không phải 30 ca model đúng.
+
+## Đường lấy token trong image thực
+
+Đã trích 5 file từ `/scratch/enroot-images/sglang-harbor.sqsh` bằng 2 CPU,
+hash từng file tại `../../inspection/wake-20261016-0205UTC/token-review-validation.json`.
+Không rehash toàn image hay xác nhận lại image NSCC.
+
+- `entrypoints/http_server.py:911–916`: native `/generate`, nonstreaming,
+  trả payload từ tokenizer manager qua `orjson_response(ret)`.
+- `managers/tokenizer_manager.py:2356–2363`: nhánh text bình thường khi finished
+  trả `text`, `output_ids` và `meta_info`. Không cần bật skip-tokenizer hoặc
+  return-logprob chỉ để lấy token IDs trong source image này.
+- `managers/detokenizer_manager.py:439–447`: chuyển scheduler `output_ids`
+  sang BatchStrOutput; không tái tokenize text để tạo IDs.
+- `managers/io_struct.py:298–299`, `tokenizer_manager.py:797`: đặt
+  `return_prompt_token_ids=true` để lưu cả input đã được tokenize.
+- `sampling/sampling_params.py:144–147`: temperature0 được chuẩn hóa sang
+  top_k1. Phép so đầu tiên dùng greedy, penalty trung tính, không grammar/bias.
+
+Đây là bằng chứng source; payload HTTP thực và shape/count/finish khi bật
+EAGLE3 vẫn phải kiểm khi có GPU. Nếu runtime không đáp ứng contract, giữ raw
+response và điều tra; không sửa count, cắt EOS hoặc tái tạo IDs để ép PASS.
+
+## Contract capture cho lần thử tương lai
+
+Mỗi file chứa `schema=1`, `target_revision` đúng revision FP8 đã pin,
+`tokenizer_sha256` của cùng file tokenizer.json và `cases` không rỗng. Mỗi case
+có `case_id` duy nhất, `request` chính xác đã gửi và `response` native nguyên bản.
+Giữ raw request/HTTP response riêng kèm SHA256, runtime manifest/resolved args,
+image identity và môi trường worker; tool không chứng thực các khai báo này.
+
+`request` chỉ có bốn trường:
+
+```json
+{
+  "input_ids": [11, 22],
+  "stream": false,
+  "return_prompt_token_ids": true,
+  "sampling_params": {
+    "temperature": 0, "top_k": 1, "top_p": 1, "min_p": 0,
+    "repetition_penalty": 1, "frequency_penalty": 0, "presence_penalty": 0,
+    "n": 1, "max_new_tokens": 200, "min_new_tokens": 0,
+    "ignore_eos": false, "skip_special_tokens": true, "no_stop_trim": false
+  }
+}
+```
+
+`[11,22]` chỉ minh họa schema, không phải prompt Qwen thực. Chuẩn bị short/long
+prompts một lần bằng đúng tokenizer/chat template đã pin, lưu input IDs và
+template hash; gửi CÙNG input IDs và settings cho hai deployment. Chạy từng
+request tuần tự ở phép so đầu tiên; giữ thứ tự và kiểm control tự lặp trước.
+Thêm cap1/3/4/5 quanh draft_tokens4, cap200, long retrieval/context phù hợp8192
+và ít nhất một case kết thúc EOS thực (không giả lập). Đây là kế hoạch case,
+chưa chạy. Native `/generate` không tự áp chat template cho input_ids.
+
+Control/candidate cùng target FP8, TP8/EP8, BF16KV, memory0.75, context8192,
+max-running-requests48, attention/graph/sampling tương ứng; audit mọi khác biệt
+resolved args. Ghi `SGLANG_SIMULATE_ACC_LEN=-1` hiệu lực trong mỗi container.
+Nếu FP8/batch/kernel đổi token, điều tra cả tính tự lặp của control; không quy
+ngay khác biệt cho verifier. Token IDs khớp trên case nhỏ vẫn chưa chứng minh
+lossless toàn miền hoặc accuracy BTC.
+
+Tool kiểm case set, exact request, pinned target/tokenizer declarations,
+prompt IDs/counts, raw output IDs/counts, cap/min và finish stop/length. Nó
+phân biệt capture thiếu/hỏng với capture đủ nhưng token hoặc finish khác nhau.
+EOS/tail không bị bỏ; text chỉ là diagnostic, không thay đối chiếu token IDs.
+Không so latency hay tự mở job từ kết quả này.
+
+```bash
+python3 nscc-pbs/research-next/eagle3-01/review-token-pairs.py \
+  control-capture.json candidate-capture.json --out new-token-review.json
+```
+
+Exit0=`CAPTURED_CASES_MATCH`, exit1=`CAPTURED_CASES_DIFFER`,
+exit2=`INVALID_OR_INCOMPLETE_CAPTURE`. Output phải là file mới; không ghi đè
+bằng chứng. Synthetic fixtures trong inspection được gắn nhãn rõ và không dùng
+làm capture GPU. Official accuracy, compiled verifier, draft compatibility,
+memory và acceptance vẫn chưa xác minh. Backend04→05→loader06 và mọi gate
+VPN/queue/credit/budget giữ nguyên; không tạo job mới từ bước chuẩn bị này.

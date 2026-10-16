@@ -1,0 +1,78 @@
+# Wave9 matched review — 2026-10-15 21:51 UTC
+
+Historical preflight: all three jobs were PENDING(Resources) at21:50:29UTC. This was CPU preparation,
+not a new benchmark. Own Slurm stored batch scripts23904–23906 exactly match the
+frozen job.sbatch files. Registry payload hashes and SHA256SUMS pass for each
+bundle. Relative to23778, all common scripts match; worker differences are
+exactly the one named factor. No queued payload or watcher was changed.
+
+| Job | Single worker change | Good tokens/s | SLA | TTFT mean ms | ITL mean ms |
+|---|---|---:|---:|---:|---:|
+| 23778 | MNNVL, chunk4096 baseline | 2592.1624 | 99.0068% | 516.2843 | 17.1273 |
+| 23839 | independent identical baseline | 2592.9236 | 99.0074% | 508.2482 | 17.1545 |
+| 23904 | add FlashInfer decode attention | pending | pending | pending | pending |
+| 23905 | prefill chunk2048 | pending | pending | pending | pending |
+| 23906 | prefill chunk8192 | pending | pending | pending | pending |
+
+Matched mean goodput is2592.542986; report candidate gain against EACH run and
+this mean:100*(candidate/reference-1). Report TTFT/ITL absolute changes as well.
+A positive mean delta can still be below the better baseline; retain both
+comparisons. Two close baseline runs do not supply a confidence interval or
+prove future noise bounds. A faster single candidate needs independent repeat
+before selection. Do not add standalone FlashInfer and MNNVL gains to predict
+23904: interaction can change the bottleneck.
+
+Before interpreting completed candidates, verify scheduler state/exit, sealed
+artifact hashes, submitted worker/config, full60/120/30 phases and actual phase
+timing, benchmark request/error/cancel totals, observed token lengths and raw
+short-output cases. Confirm all8decode ranks initialize MNNVL and inspect the
+requested attention backend when applicable. Preserve any startup failure as
+INCOMPLETE and any complete SLA failure as measured failure. A populated
+registry or COMPLETED alone does not replace raw evidence. Keep7/8 diagnostic
+and organiser accuracy unverified; new output failures block promotion.
+
+Some config provenance is inherited: source_experiment=s5-rr-repeat-n52,
+control_job=22415 and reference_jobs=23325/23576. Those fields do not identify
+the matched wave9 MNNVL comparator. source_job=23778 and the validated pair
+23778/23839 identify this comparison. FlashInfer candidate config's
+`decode_extra_flags` does not list the inherited dense CUDA graph flags, but
+the actual worker retains the identical64-size graph list; chunk configs also
+retain the old prefill_extra_flags4096 metadata while the actual worker uses
+the intended2048/8192. Use the stored launcher plus hashed worker and runtime
+log to determine execution. Frozen artifacts stay intact; this guide records
+the metadata limitations explicitly.
+
+No new repeat, higher-load extension or submission gate is installed here.
+Shared H200 cap5 remains full;23924N54 is the existing wave7 continuation and
+has no authorized automaticN56 extension. NSCC04→05 retains its independent
+access, baseline, queue, credit and budget gates.
+
+Evidence:[audit JSON](../nscc-pbs/inspection/wake-20261015-2150UTC/wave9-preflight-review.json),
+[own scheduler/access snapshot](../nscc-pbs/inspection/wake-20261015-2150UTC/live-check.json).
+Stored scripts, raw sha256 output and worker diffs are alongside the audit.
+
+
+## Runtime audit — 2026-10-15 22:57:45 UTC
+
+23904 RUNNING since22:51:04UTC on g1/g4;23905/23906/23924/23934 remain
+PENDING(Resources) at22:57:45UTC. The five-job shared cap remains full and the
+existing watcher is alive. This supersedes the all-pending historical snapshot.
+
+23904 frozen and copied payload hashes, SHA256SUMS and Slurm-stored batch script
+all match. Captured logs confirm all8ranks initialize MNNVL, hybrid FlashInfer
+decode/FA3 prefill attention and NIXL/UCX. Both prefill instances use chunk4096;
+decode graph sizes1–64 match; both P/D paths warmed successfully. Comparing
+resolved ServerArgs against EACH of23778/23839 yields only the requested decode
+attention change plus engine-generated random_seed differences. AIPerf's fixed
+random-seed2026 is distinct from that unpinned server seed. Frozen payloads are
+unchanged; this audit does not retroactively control seeds or quantify their
+effect, nor does it establish deterministic output or noise bounds.
+
+No full export or output-smoke result was available in this runtime audit;
+initialization is not a measured speedup or accuracy result. Captured log
+prefixes have hashes and timestamps, not final artifact seals. After terminal,
+follow the checklist above and compare goodput/TTFT/ITL with both baselines.
+No repeat/N56 is submitted by this audit.
+
+Evidence: [runtime audit](../nscc-pbs/inspection/wake-20261015-2255UTC/runtime-review.json),
+[final queue](../nscc-pbs/inspection/wake-20261015-2255UTC/final-queue.json).

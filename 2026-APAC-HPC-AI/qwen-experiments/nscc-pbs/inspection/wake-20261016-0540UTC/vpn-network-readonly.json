@@ -1,0 +1,15 @@
+{
+  "checked_utc": "2026-10-16T05:40:56.386929+00:00",
+  "command": [
+    "bash",
+    "/home/apacsc42/workspace/vpn-rootless/vpn.sh",
+    "enter",
+    "python3",
+    "-c",
+    "import json,subprocess; print(json.dumps({\"addresses\":json.loads(subprocess.check_output([\"ip\",\"-j\",\"address\",\"show\"])),\"route_to_nscc\":json.loads(subprocess.check_output([\"ip\",\"-j\",\"route\",\"get\",\"10.103.71.15\"]))}))"
+  ],
+  "returncode": 0,
+  "stdout": "{\"addresses\": [{\"ifindex\": 1, \"ifname\": \"lo\", \"flags\": [\"LOOPBACK\", \"UP\", \"LOWER_UP\"], \"mtu\": 65536, \"qdisc\": \"noqueue\", \"operstate\": \"UNKNOWN\", \"group\": \"default\", \"txqlen\": 1000, \"link_type\": \"loopback\", \"address\": \"00:00:00:00:00:00\", \"broadcast\": \"00:00:00:00:00:00\", \"addr_info\": [{\"family\": \"inet\", \"local\": \"127.0.0.1\", \"prefixlen\": 8, \"scope\": \"host\", \"label\": \"lo\", \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}, {\"family\": \"inet6\", \"local\": \"::1\", \"prefixlen\": 128, \"scope\": \"host\", \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}]}, {\"ifindex\": 2, \"ifname\": \"tap0\", \"flags\": [\"BROADCAST\", \"UP\", \"LOWER_UP\"], \"mtu\": 1500, \"qdisc\": \"fq_codel\", \"operstate\": \"UNKNOWN\", \"group\": \"default\", \"txqlen\": 1000, \"link_type\": \"ether\", \"address\": \"3e:b9:8d:0d:f3:1b\", \"broadcast\": \"ff:ff:ff:ff:ff:ff\", \"addr_info\": [{\"family\": \"inet\", \"local\": \"10.0.2.100\", \"prefixlen\": 24, \"broadcast\": \"10.0.2.255\", \"scope\": \"global\", \"label\": \"tap0\", \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}, {\"family\": \"inet6\", \"local\": \"fe80::3cb9:8dff:fe0d:f31b\", \"prefixlen\": 64, \"scope\": \"link\", \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}]}, {\"ifindex\": 3, \"ifname\": \"snx-tun\", \"flags\": [\"POINTOPOINT\", \"MULTICAST\", \"NOARP\", \"UP\", \"LOWER_UP\"], \"mtu\": 1350, \"qdisc\": \"fq_codel\", \"operstate\": \"UNKNOWN\", \"group\": \"default\", \"txqlen\": 500, \"link_type\": \"none\", \"addr_info\": [{\"family\": \"inet\", \"local\": \"10.103.62.11\", \"prefixlen\": 24, \"broadcast\": \"10.103.62.255\", \"scope\": \"global\", \"label\": \"snx-tun\", \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}, {\"family\": \"inet6\", \"local\": \"fe80::8857:360b:2b39:6b42\", \"prefixlen\": 64, \"scope\": \"link\", \"stable-privacy\": true, \"valid_life_time\": 4294967295, \"preferred_life_time\": 4294967295}]}], \"route_to_nscc\": [{\"dst\": \"10.103.71.15\", \"dev\": \"snx-tun\", \"table\": \"18000\", \"prefsrc\": \"10.103.62.11\", \"flags\": [], \"uid\": 0, \"cache\": []}]}\n",
+  "stderr": "",
+  "new_authentication_attempted": false
+}

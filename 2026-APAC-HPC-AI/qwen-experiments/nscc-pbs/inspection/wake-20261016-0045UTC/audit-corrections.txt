@@ -1,0 +1,13 @@
+CPU development only; no payload, GPU run, scheduler or accuracy claim changed.
+Attempt01: KeyError 'state'. Older terminal manifests use State/ExitCode;
+newer23859 uses state/exit. Final reader accepts both recorded schemas.
+Attempt02: ValueError 'seal path outside own run'. The seals also include own
+runs/JOB.out and runs/JOB.err. Final reader permits exactly those two siblings.
+Attempt03: ValueError 'goodput duration mismatch'. Exported benchmark_duration
+is not the rate denominator in these four historical runs. Manifest profiling
+elapsed agrees exactly with good_request_count/goodput; evidence retained in
+duration-crosscheck.json. No general causal claim about timing overhead made.
+Attempt04: ValueError 'observed output length outside matched baseline range'.
+DP original/repeat extrema differ200/201. Final report preserves each range as
+a diagnostic, rather than imposing an unsupported same-extrema quality gate.
+Final CPU validation must pass before this preparation is described as ready.

@@ -1,0 +1,339 @@
+# Autonomous research history
+
+- 2026-10-15: user requested autonomous wake-ups; authenticated CLI smoke passed.
+
+## Lượt Qwen — 2026-10-15 15:48 UTC
+
+- **GPU:** Slurm 23778 (MNNVL) và 23780 (attention DP + DeepEP) vẫn `PENDING (Resources)`. Watcher PID 2305942 còn sống, registry tiếp tục cập nhật. PBS không có job đang chờ/chạy; lịch sử chỉ có bốn probe 220453/220454/220456/220457.pbs111 đã kết thúc. Không gửi job mới.
+- **Kết quả thực:** xác nhận 23777 đạt 2.440,39 good tokens/s, SLA 98,95%, ITL 18,71 ms, không lỗi/hủy; cả tám rank dùng decode FlashInfer. Chỉ tăng 1,68% so với control N52 và 0,08% so với N53 23773; giữ nguyên ngưỡng tự lặp 2%. Diagnostic 7/8 chưa chứng minh accuracy BTC. 23776 lỗi illegal memory access khi capture CUDA graph qua CUTLASS; chưa có benchmark hợp lệ, chưa xác định kernel gốc.
+- **NSCC:** 12/24 shard đã xác minh SHA256 chính thức, chưa có lỗi tải; AIPerf đã xác minh đủ 815.869.952 byte. SGLang image đang chuyển, snapshot có 4,037,541,888 / 26.476.240.896 byte. Hai transfer hiện có tiếp tục chạy; không tạo bản sao.
+- **Chuẩn bị:** tăng kiểm tra preflight để chặn model chưa xác minh xong, kiểm kích thước/digest chính thức và SHA256 images; đã cập nhật bản remote. 5/5 ca CPU và kiểm tra PBS placement/payload đóng băng đạt. Preflight remote trả `ready=false`, đúng vì tài sản chưa đủ.
+- **Ngân sách:** ledger mới dùng 70,543 SU, còn 63.929,457 SU. Đã lập [nscc-budget.json](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json), tính cả probe trong cap 4.096 SU; còn 4.025,457 SU, chưa giữ chỗ job mới.
+
+Bước tiếp: khi tài sản đủ và preflight đạt, kiểm lại toàn bộ job/credit, ghi dự trù 1.024 SU trước khi gửi duy nhất baseline N32, tối đa 16 GPU/30 phút, giữ ít nhất 13.000 SU. Hiện chỉ còn chờ queue và transfer, không còn chuẩn bị độc lập cần làm trong lượt này; kết thúc sớm sau khoảng 6 phút.
+
+[Chứng cứ và kết quả kiểm tra](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1542UTC/wake-summary.json) · [Phân tích H200](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/PLAN.md). Đã bổ sung sổ hỏi đáp tiếng Việt.
+
+## Lượt Qwen — 2026-10-15 16:03 UTC
+
+- **H200:** Slurm **23778** chuyển sang `RUNNING` lúc 16:01:05 UTC trên g1/g4; cả tám rank đã khởi tạo MNNVL. Đang capture CUDA graph, chưa có benchmark hợp lệ. **23780** vẫn `PENDING (Resources)`. Watcher **2305942** còn sống, giữ lock và cập nhật registry; không tạo watcher/job mới.
+- **Kết quả:** chưa có phép đo mới so với lượt trước. Giữ 23777 ở mức một quan sát 2.440,39 good tokens/s, chưa đạt ngưỡng tự lặp 2%; 23776 vẫn là deployment lỗi, không tính là phép đo. Chưa xác minh accuracy BTC.
+- **NSCC:** model chính thức đã hoàn tất lúc 15:54:55 UTC: đủ **24/24 shard**, **236.426.193.880 byte** weights, manifest 33 file khớp kích thước và SHA256 LFS chính thức. Preflight thực chỉ còn chặn image SGLang: snapshot 16:01 UTC có **16.029.483.008 / 26.476.240.896 byte (~60,5%)**. AIPerf đã đủ và băm SHA256 đạt. Transfer **2861397** tiếp tục chạy; downloader model đã kết thúc sau khi hoàn tất.
+- **PBS/ngân sách:** queue của mình trống; accounting chi tiết vẫn chỉ có bốn probe **220453/220454/220456/220457.pbs111** đã kết thúc. Ledger mốc 00:00:02 Singapore: dùng **70,543 SU**, dư **63.929,457 SU**, không có SU giữ chỗ. Cap commissioning còn **4.025,457 SU**; chưa reserve/gửi baseline.
+
+Đã lưu manifest hoàn tất, preflight thực, accounting, log startup MNNVL và hash chứng cứ; cập nhật README, plan và sổ hỏi đáp. Bước tiếp: watcher thu đầy đủ kết quả/output của 23778; khi SGLang đủ và SHA256 đạt, kiểm lại queue/credit rồi reserve **1.024 SU** trước duy nhất baseline N32 (16 GPU, tối đa 30 phút, giữ dư ít nhất 13.000 SU). Phần chuẩn bị độc lập đã hoàn tất; kết thúc lượt kiểm tra, để watcher và transfer hiện có tiếp tục.
+
+[Chứng cứ](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1600UTC/wake-summary.json) · [Ngân sách](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json).
+
+## Lượt Qwen — 2026-10-15 16:32 UTC
+
+- **Kết quả mới H200:** **23778 (MNNVL)** hoàn tất, đạt **2.592,16 good tokens/s**, SLA **99,01%** (1.595/1.611 request), ITL **17,13 ms**, TTFT **516,28 ms**, không lỗi/hủy. Tăng **8,01%** so với control N52 **23607**, **6,30%** so với N53 **23773**; TTFT tăng **169,44 ms** so với control. Đã đối chiếu export đầy đủ 60/120/30, log tám rank MNNVL và diagnostic 7/8 không có lỗi mới; accuracy BTC chưa xác minh.
+- **Queue thực:** **23839** (lặp MNNVL N52 do watcher tự gửi lúc 16:11:17 UTC) và **23780** (attention DP + DeepEP) đều `PENDING (Priority)` tại kiểm tra. Watcher **2305942** còn sống, giữ lock, cập nhật kết quả. Đã xác nhận payload lượt lặp giữ nguyên; N54 vẫn phải qua cổng xác nhận cũ. Không gửi thêm job trong lượt này.
+- **NSCC:** transfer hiện có đã hoàn tất lúc **16:14:09 UTC**, hai image khớp SHA256; model trước đó đã đủ 24 shard và manifest chính thức. Tuy nhiên một lần SSH không tương tác trả `Permission denied (password)`. Không thử lại xác thực; chưa chạy được preflight mới, chưa xác minh PBS/credit hiện tại và chưa gửi baseline.
+- **Ngân sách:** giữ cap **4.096 SU**, không reserve mới. Ledger thành công gần nhất lúc 16:00 UTC: đã dùng **70,543 SU**, dư **63.929,457 SU**, còn **4.025,457 SU** trong cap; đây là số lịch sử. Đã ghi rõ tình trạng chưa làm mới trong sổ ngân sách.
+
+Đã lưu export, snapshot scheduler/registry, đối chiếu và SHA256 chứng cứ; cập nhật plan, README và sổ hỏi đáp. Bước tiếp: watcher thu lượt lặp **23839**; sau khi phiên SSH NSCC được xác thực lại, chạy preflight, đối soát toàn bộ PBS/credit rồi reserve **1.024 SU** trước duy nhất baseline N32, tối đa 16 GPU/30 phút và giữ dư ít nhất 13.000 SU. Phần chuẩn bị độc lập đã xong; kết thúc sớm vì job H200 đang chờ và NSCC bị chặn xác thực.
+
+[Chứng cứ](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1630UTC/wake-summary.json) · [Đối chiếu MNNVL](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1630UTC/mnnvl-review.json) · [Ngân sách](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json).
+
+## Khôi phục SSH và chạy baseline — 2026-10-15 17:01 UTC
+
+- Lịch tự chạy đã hoàn tất ba lượt15:42,16:00,16:30UTC; không gửi thông báo vào chat gốc.
+- H200: MNNVL23778 đạt2592,16 goodtokens/s, SLA99,01%, không lỗi/hủy; cao hơn N53 trước6,30%. Lượt xác nhận23839 và attentionDP23780 còn chờGPU tại16:59UTC.
+- NSCC: đã nối lại SSH, đổi ControlPersist sang24giờ (không lưu mật khẩu). Model và hai images hoàn tất, preflight ready=true và frozen checksums đều đạt.
+- Đã submit baseline N32 **220486.pbs111**, **RUNNING16H100** lúc17:00:42UTC, walltime tối đa30phút. Đã reserve1024SU, cap commissioning4096SU giữ nguyên; chưa có benchmark Qwen NSCC.
+- Next: thu log/benchmark và đối soát chi phí220486; giữ nguyên queueH200. Không gửi thêm PBSjob khi baseline còn chạy.
+
+# Báo cáo Qwen — 2026-10-15 19:15 UTC
+
+- H200: MNNVL23778 vẫn cao nhất2592,16 goodtokens/s, SLA99,01%. DP-attention+DeepEP23780 đạt2549,20, SLA98,87%, không lỗi/hủy. Hai lượt xác nhận23839(MNNVL),23859(DP) cònPENDING Resources tại19:14UTC.
+- NSCC220486 lỗi quyền ghi Triton cache; retry220489 đã qua decode CUDA graph nhưng prefill vẫn load checkpoint khi hết readiness600giây, exit1 sau10m10s, không có benchmark export. Raw artifacts mới đã collect vào collected/220489.pbs111/20261015T191428376429Z.
+- Credit NSCC: ledger03:00Singapore dùng539,307SU, còn63460,693SU, không khoản giữ trước; capcommissioning4096 còn3556,693SU. Không có PBSjob active.
+- Codex wake bị quota limit trong lượt17:01 và17:30/19:00; lượt17:01 đã sửa cache và gửi retry trước khi bị cắt. Controller Slurm vẫn hoạt động độc lập. Sửa wake để lỗi quota sẽ thử lại vào lần kiểm tra sau, không bỏ qua vì queue không đổi.
+- Next: xác nhận quota Codex đã mở lại; inspect slow prefill checkpoint load, chuẩn bị retry với readiness phù hợp trong walltime30phút, giữ model/client/protocol. Không coi hai deployment lỗi là kết quả benchmark.
+
+
+
+# Báo cáo Qwen — 2026-10-15 19:19 UTC
+
+- Đã đọc POLICY và kiểm tra scheduler thật. H200 **23839** (lặp MNNVL), **23859** (lặp DP) vẫn `PENDING(Resources)`; watcher PID2305942 đang giữ lock, kết quả cũ đã được ghi.
+- Đối chiếu export/log **23780**: **2.549,20 good tokens/s**, SLA **98,87%**, ITL16,96ms, TTFT596,44ms, không lỗi/hủy. Log xác nhận DP8/EP8, DeepEP và UCX đủ8rank; diagnostic7/8, chưa phải accuracy BTC. Cao hơn control23607 **6,22%**, thấp hơn MNNVL23778 **1,66%**; chưa có lượt lặp mới.
+- NSCC **220489.pbs111** không có benchmark: decode đã ready, prefill vẫn đọc shard khi hết600giây. Đã giữ log/hash, tạo bundle retry chỉ sửa hạn readiness chung1.200giây, router120giây; năm kiểm tra hàm chờ, shell/checksum và preflight asset đều đạt. Model/client/N32/protocol giữ nguyên.
+- Đã giữ trước **1.024 SU trước qsub**, gửi đúng một retry **220562.pbs111**,16H100/30phút. PBS lúc19:18UTC báo **Q(aiq2)** vì thiếu bộ nhớ khả dụng; chưa chạy, chưa có số đo H100. Sáu job cũ đều terminal và đã đối soát. Ledger dùng **539,307 SU**, số dư **63.460,693 SU**; trần commissioning4.096 còn **2.532,693 SU sau giữ trước**.
+- Bằng chứng: [inspection](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1915UTC/). Đã cập nhật README NSCC, PLAN wave8 và sổ hỏi đáp.
+- Tiếp theo: khi220562 chạy, kiểm tra prefill có ready trước1.200giây và collect artifact/export đầy đủ; đối soát chi phí sau khi kết thúc. Giữ nguyên vị trí hai job H200. Các job hiện đều chờ; không còn bước chuẩn bị độc lập cần làm trong lượt này nên kết thúc sớm.
+
+
+# Báo cáo Qwen — 2026-10-15 19:48 UTC
+
+- **Baseline H100 đầu tiên hoàn tất:** NSCC **220562.pbs111**, exit0,16H100,23phút33giây. N32 đạt **1.565,16 good tokens/s**, SLA **100% (966/966)**, ITL **18,57ms**, TTFT **346,63ms**, không lỗi/hủy; export đúng **60/120/30**,4000/200.
+- Đã thu stdout PBS, export, response và hash; checksum payload đạt. Hai đường P/D đều chat HTTP200,16rank khởi tạo NIXL UCX. Diagnostic **7/8**, chỉ lỗi reverse đã biết; **chưa xác nhận accuracy BTC hoặc long-context H100**. Đây là một lượt đo.
+- Prefill ready sau1.104/1.105giây, router1.150giây, warm P/D1.193giây. Runtime ghi tải weight prefill851giây, graph115–119giây; chưa xác định nguyên nhân tải chậm. Đã bổ sung Q&A và README bằng số đo thực tế.
+- PBS: cả7job của mình đã terminal, không gửi job mới. Ledger03:40Singapore vẫn dùng539,307SU, balance62.436,693SU, In Doubt1.024SU; giữ nguyên dự phòng local1.024SU đến khi accounting cập nhật. Trần4.096SU còn **2.532,693SU sau dự phòng**; không trừ In Doubt lần nữa khỏi balance.
+- H200 **23839/23859** vẫn `PENDING(Resources)`; watcher PID2305942 sống và giữ lock, các kết quả cũ đã được ghi. Giữ nguyên vị trí queue.
+- Bằng chứng: [baseline review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-1930UTC/baseline-review.json), [artifact cuối](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/collected/220562.pbs111/20261015T194718195272Z/).
+- Tiếp: đối soát ledger sau completion, kiểm tra long-context H100 và xác nhận lại N32 trước khi chọn tải cao hơn. Đã hoàn tất thu/đánh giá baseline; hai job GPU còn lại đều đang chờ, không còn chuẩn bị độc lập cần làm trong lượt này nên kết thúc.
+
+# Báo cáo Qwen — 2026-10-15 20:07 UTC
+
+- Đã gửi NSCC **220575.pbs111**,16H100 tối đa45phút, một lần load model đo N32/34/36/38/40/42 đầy đủ60/120/30; dừng tăng khi failSLA/error. Trạng thái gần nhấtQUEUED.
+- H200 đủ5/5slot:23839,23859 giữ nguyên; mới23904(MNNVL+FlashInfer),23905(MNNVLchunk2048),23906(MNNVLchunk8192), đềuN52. CPU/cap/checksum đạt; GPU chưa đo.
+- Hai pilotH100 MNNVL04 vàFlashInfer05 đã chuẩn bị, upload và kiểmSHA256, chưasubmit. Có12long-context checks riêng; chỉ gửi từngjob saukhi gate/budget đạt.
+- Ledger04:00Singapore:đã dùng1343,147SU, balance62656,853SU trước reservejobmới. Reserve1536SU cho220575. Campaign mở từcommissioning4096 lên16384SU theo yêu cầu tiếp tục tận dụngGPU, giữ ít nhất13000SU dự phòng.
+- Cron kiểm tra mỗi5phút, chỉ gọiCodex khi trạng thái đổi hoặc đến kỳresearch; quotaerror nghỉ30phút. HandoffPOLICY đã thay bằng trạng thái hiện tại và các bước có thể submit, tránh dừng khi vẫn còn pilot hợp lệ.
+- BaselineH100220562:1565,16goodt/s,SLA100%. H200MNNVL23778:2592,16,SLA99,01%;accuracyBTCchưa xác minh.
+
+
+# Báo cáo Qwen — 2026-10-15 20:13 UTC
+
+- **NSCC 220575 đang chạy** trên 16 H100 từ 20:06:22 UTC. Snapshot 20:12:38 chưa có export benchmark hay output smoke; đã lưu raw artifacts và xác minh checksum payload.
+- **H200: cả 5 job vẫn chờ tài nguyên** (23839, 23859, 23904–23906). Watcher hiện có vẫn hoạt động.
+- Đã chuẩn bị cục bộ **pilot loader-prefetch-06**, qua kiểm tra cú pháp, checksum và giao thức. Chưa upload/submit/chạy GPU; giữ MNNVL04 và FlashInfer05 ưu tiên trước. Nguồn image xác nhận bật prefetch cũng đổi iterator sang một luồng; nguyên nhân prefill chậm chưa được xác định.
+- Đã lưu thiết kế EAGLE3/vLLM cùng nguồn ghim phiên bản. Draft chưa xác nhận tương thích Instruct-2507-FP8; vLLM chưa có image kiểm chứng. Chưa có kết quả GPU mới.
+- **Ngân sách:** đã dùng 1.343,147 SU; giữ reserve 1.536 SU cho 220575; còn 13.504,853 SU trong cap 16.384 SU. Đã cập nhật dưới lock, không gửi job mới.
+- Tiếp theo: thu kết quả khi 220575 kết thúc; chỉ gửi MNNVL04 khi N32, short checks, queue và budget đạt gate. **Accuracy BTC vẫn chưa xác minh.**
+
+Bằng chứng: [snapshot](../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2007UTC/), [phân tích loader](../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/LOADER_RESEARCH.md), [thiết kế nhánh tiếp](../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/README.md).
+
+
+# Báo cáo Qwen — 2026-10-15 20:25 UTC
+
+- **H200:** cả 5 job 23839, 23859, 23904–23906 vẫn `PENDING (Resources)`; watcher 3514431 còn sống. Không có phép đo mới.
+- **NSCC:** chưa làm mới được trạng thái 220575. Helper không tìm thấy phiên VPN; SSH master còn tồn tại nhưng truy vấn PBS/credit qua kết nối cũ hết hạn sau 20 giây, không trả dữ liệu. Trạng thái xác nhận cuối là **RUNNING lúc 20:12:38 UTC**. Không thử xác thực mới, không gửi job.
+- **Tiến triển:** đã chuẩn bị công cụ lấy mẫu CPU/page fault/I/O/NUMA của đúng cây tiến trình worker; kiểm tra CPU cục bộ đạt. Chưa upload, tích hợp hay chạy NSCC; các pilot 04/05/06 giữ nguyên. Source xác nhận expert bị bỏ qua sau khi iterator tạo tensor view; chưa chứng minh giảm I/O.
+- **Ngân sách chưa làm mới:** ledger cuối dùng **1.343,147 SU**; tiếp tục giữ **1.536 SU** cho 220575, còn **13.504,853 SU** trong cap 16.384 SU theo số đã biết. Đã ghi trạng thái truy cập và dự phòng dưới lock.
+- Tiếp theo: khi truy cập hiện có hoạt động, thu 220575 và làm mới toàn bộ queue/credit; chỉ gửi MNNVL04 rồi FlashInfer05 khi job trước terminal và đủ gate. **Accuracy BTC chưa xác minh.** Phần chuẩn bị độc lập của lượt này đã xong; kết thúc sớm, không chờ rỗng.
+
+[Bằng chứng và lỗi truy cập](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2020UTC/wake-summary.json) · [Công cụ và giới hạn đo](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/STARTUP_SAMPLING.md).
+
+# Báo cáo Qwen — 2026-10-15 20:40 UTC
+
+- H200:23839,23859,23904,23905,23906 vẫnPENDING(Resources) tại20:38:55UTC. Watcher3514431 còn sống; không có phép đo mới.
+- NSCC220575: trạng thái xác nhận gần nhấtRUNNING20:12:38UTC; chưa lấy được kết quả cuối do VPN mất phiên.20:39UTC đã thực hiện một lần kết nối lại gateway đúng.sg vớiTLSverification,20:40:05UTC client báoIPsec authentication failed,status0 / Authentication failed. Không cóDUOchallenge hiển thị; chưa xác định nguyên nhân từ chối. Không lặp thử mật khẩu.
+- Giữ nguyên dự phòng1536SU cho220575 và không gửi thêmPBSjob khi trạng thái cũ chưa rõ. Không có dữ liệu để cập nhật credit.
+- Kết quả tốt nhất đã xác nhận vẫnH200MNNVL2592,16goodt/s,SLA99,01%; H100baselineN32 đạt1565,16,SLA100%. Các pilot tiếp theo và công cụ phân tích startup đã chuẩn bị;accuracyBTCchưa xác minh.
+
+
+## Đính chính VPN và bộ nhớ sau20:47UTC
+
+Đã lấy log gốc: tunnel cũ ngắt doIKE SA expired lúc20:17:01UTC. Kiểmsource đúng
+snx-rs6.5.1 xác nhận defaultIKE28800s, helper cũ khôngoverride; đã sửa helper
+request86400s cho kết nối mới. Chưa kiểm chứng24giờ, gateway vẫn có thể ápgiới hạn.
+Login thử20:47 cũng trảAuthentication failedstatus0; nguyên nhân xác thực chưa rõ,
+không phải lỗiSSH. Người dùng báoWindows vẫn kết nối tốt24giờ. Chưa cóVPNmới.
+
+Bộ nhớ tổng hợp: workspace/notes/README.md vàCURRENT.md; rootAGENTS.md yêu cầu
+đọc trước khi tiếp tụcAPAC/VPN. Promptautopilot đã bắt buộc đọc/cập nhật bộ nhớ.
+
+
+# Báo cáo Qwen — 2026-10-15 20:58 UTC
+
+- **H200:** lúc 20:57:20 UTC, **23839 RUNNING** trên g[1,4], bắt đầu 20:50:37 UTC; **23859, 23904–23906 PENDING (Priority)**. Watcher 3514431 còn sống lúc 20:55:43 UTC. 23839 đang benchmark, chưa có export hoàn chỉnh; chưa có số đo mới.
+- **NSCC:** helper lúc 20:55:43 UTC báo không có phiên VPN sống, trước bước SSH. Trạng thái xác nhận cuối của **220575.pbs111** vẫn là RUNNING lúc 20:12:38 UTC; kết quả cuối và credit hiện tại chưa xác minh. Không đăng nhập lại, không qsub.
+- **Tiến triển:** hoàn thiện `analyze-startup.py` phân tích CPU/I/O từ log sampler. Kiểm tra offline đạt với PID tái sử dụng, counter thiếu/reset, khoảng lấy mẫu gián đoạn, dòng cuối chưa ghi xong và chống ghi đè. Raw own-child cũ được giữ nguyên; bản phân tích có nhãn kiểm tra CPU cục bộ. Công cụ chưa upload/tích hợp/chạy NSCC; pilot 04/05/06 giữ nguyên.
+- **Ngân sách:** giữ dự phòng **1.536 SU** cho 220575. Ledger cuối 04:00 Singapore ghi used **1.343,147 SU**, balance **62.656,853 SU**; headroom sau dự phòng **13.504,853 SU** là số đã biết, không phải số dư live. Đã cập nhật dưới budget.lock; không thêm khoản dự trù.
+- Đã cập nhật CURRENT, POLICY, kế hoạch và Q&A; sửa câu Q&A cũ dùng trần 4.096 SU thành mốc lịch sử, campaign hiện hành **16.384 SU**. **Accuracy BTC chưa xác minh.**
+- Tiếp: watcher thu 23839 và chỉ mở N54 theo gate hiện có. Khi truy cập NSCC hoạt động, thu 220575, làm mới toàn bộ own queue/credit, rồi gửi MNNVL04 và FlashInfer05 lần lượt khi đủ gate. Hoàn tất phần chuẩn bị độc lập của lượt này; kết thúc sớm, không chờ rỗng.
+
+[Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2055UTC/) · [Hướng dẫn phân tích startup](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/STARTUP_SAMPLING.md).
+
+
+# Báo cáo Qwen — 2026-10-15 21:03 UTC
+
+- **MNNVL H200 đã lặp độc lập:** 23839 hoàn tất exit0 lúc20:59:45UTC, đạt **2.592,92 goodtokens/s**, SLA99,0074%, ITL17,15ms, không lỗi/hủy. Trung bình với23778: **2.592,54**, chênh0,029%; cao hơn controlN52 8,02%. ITL giảm2,38ms nhưngTTFT tăng165,43ms so control.
+- **Bằng chứng:** kiểm tra đầy đủ checksum hai manifest, payload, protocol60/120/30 và cả8rank khởi tạoMNNVL đều đạt. Diagnostic7/8, chỉ reverse đã biết; **accuracy BTC chưa xác minh**.
+- **Queue lúc21:01:24UTC:** watcher3514431 còn sống, đã gửi N54 **23924** lúc21:00:05 theo gate cũ.23924,23859,23904–23906 đều **PENDING(Priority)**, đủcap5. Đã chuẩn bị tiêu chí đọcN54/so sánhwave9; không mởN56 hay gửijob trùng.
+- **NSCC:** helper21:01:24UTC vẫn thiếu phiênVPN, trướcSSH; trạng thái cuối/kết quả220575 vàcredit chưa xác minh. Không đăng nhập lại/qsub. Giữ **1.536SU** dự trù; ledger04:00SGT used1.343,147SU/balance62.656,853SU là lịch sử, headroom13.504,853SU theo số đã biết. Trầncampaign16.384SU giữ nguyên.
+- Đã cập nhật CURRENT, POLICY, kế hoạch, budget dướilock và Q&A. Khi có lại truy cậpNSCC: thu220575, làm mới ownqueue/credit rồi gửi04→05 khi đủgate. Phần độc lập của lượt này hoàn tất; kết thúc sớm, không chờ queue.
+
+[Audit và scheduler](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2100UTC/) · [Kết quả lặp và bướcN54](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/MNNVL_REPEAT_REVIEW.md).
+
+
+# Báo cáo Qwen — 2026-10-15 21:09 UTC
+
+- **H200:** queue thực lúc **21:08:39UTC** có23859,23904–23906,23924 đều **PENDING(Priority)**, đủcap5. Watcher3514431 còn sống21:05:34UTC; chưa có số đo mới.
+- **NSCC:** helper21:05:34UTC báo thiếu phiênVPN trướcSSH. Trạng thái/kết quả220575 vàcredit hiện tại chưa xác minh. Không đăng nhập lại/qsub; giữ **1.536SU** dự trù. Ledger04:00Singapore vàheadroom13.504,853SU là số lịch sử; trầncampaign16.384SU giữ nguyên.
+- **Tiến triển:** chuẩn bị bộ đánh giá sweep offline cho220575, xác minh checksum, protocol60/120/30, thời gianphase, SLA/error/cancel và shortoutput so baselineH100. **11ca kiểm tra CPU đạt**. Tái tính1.565,161394goodtokens/s từ dữ liệu220562 cũ; không phải phép đo/repeat mới. Flagoffline không thay gatequeue/credit/budget; accuracyBTC chưa xác minh.
+- Đã cập nhật CURRENT, POLICY, kế hoạch, budget dướilock và Q&A. Khi truy cập trở lại: thu220575, làm mới ownqueue/credit, đánh giáN32 rồi gửi04→05 lần lượt khi đủgate. Chuẩn bị độc lập đã xong; kết thúc sớm, không chờqueue.
+
+[Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2105UTC/) · [Hướng dẫn thu và đánh giá sweep](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/LOAD_SWEEP_REVIEW.md).
+
+
+# Báo cáo Qwen — 2026-10-15 21:52 UTC
+
+- **H200 lúc21:50:29UTC:** 23859,23904–23906,23924 đều **PENDING(Resources)**, đủcap5; watcher3514431 còn sống. Chưa có số đo mới.
+- **NSCC:** không có phiênVPN trướcSSH; kết quả/trạng thái220575 vàcredit hiện tại chưa xác minh. Không đăng nhập lại/qsub; giữ **1.536SU** dự trù. Ledger04:00Singapore vàheadroom13.504,853SU là lịch sử; trầncampaign16.384SU giữ nguyên.
+- **Tiến triển:** audit3batchscript thực lưu ởSlurm khớp bảnfrozen; checksum vàworker đúng1factor đều đạt. Chuẩn bị bảng đọcwave9 với cả23778/23839, mean2.592,542986goodtokens/s vàTTFT/ITL. Ghi rõ configmetadata kế thừa thiếu/cũ; worker đúng dự kiến, chưa kiểmruntime. Không sửapayload đangqueue; chưa cóbenchmark/accuracy mới.
+- Đã cập nhật CURRENT, POLICY, Q&A, kế hoạch vàbudget dướilock. Tiếp: watcher thuH200; khi có lại truy cậpNSCC, thu220575 vàđối soát ownqueue/credit trước04→05. Phần chuẩn bị độc lập đã xong; kết thúc sớm, không chờqueue.
+
+[Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2150UTC/) · [Bảng đối chiếu wave9](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md).
+
+## 2026-10-15 22:05–22:08UTC
+
+- **H200 kiểm tra22:06:58UTC:**23859 RUNNING từ22:02:26 trên g1/g4;23904–23906,23924 PENDING(Resources), đủcap5; watcher còn sống. Chưa có benchmark mới.
+- **Tiến triển:** audit repeat23859 khớp23780: checksum/scriptSlurm đạt,12file thực thi giống nhau, runtimeDP8/DeepEP đúng. Đã kiểm lại seal23780 và chuẩn bị [checklistthu/reviewN54](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-08/REPEAT_REVIEW.md). Weightload xong chưa chứng minh transport/benchmark đạt; snapshot22:06 chưa có export/smoke.
+- **NSCC22:05:24UTC:** chưa có phiênVPN;220575/credit hiện tại chưa xác minh. Giữ1.536SU dự trù, trầncampaign16.384SU; không đăng nhập lại/qsub. Ledger04:00Singapore vẫn là lịch sử.
+- Đã cập nhật CURRENT,POLICY,Q&A,plan vàbudget dướilock; không đổi payload hay tạo job/lịch. Tiếp: watcher thu23859 và xétgateN54; khi truy cậpNSCC trở lại, thu220575/ownqueue/credit rồi04→05. Hoàn tất phần chuẩn bị độc lập, kết thúc sớm.
+
+[Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2205UTC/).
+
+
+## Báo cáo Qwen — 2026-10-15 22:14 UTC
+
+- **23859 hoàn tất exit0 lúc 22:11:34 UTC:** 2538,08 good tokens/s, SLA 98,87%, ITL 16,956 ms, không lỗi/hủy. Audit checksum, protocol, 8 rank NIXL, hai đường P/D và output non-regression đều đạt.
+- **DP-attention đã lặp độc lập:** trung bình 2543,64 good tokens/s; chênh repeat −0,436%. Hơn control23607 5,98%, thấp hơn MNNVL trung bình 1,89%. So control, TTFT trung bình tăng 259,95 ms và ITL giảm 2,566 ms. Accuracy BTC chưa xác minh.
+- **Queue lúc 22:12:35 UTC:** watcher đã gửi 23934 (DP N54) theo gate hiện có. Cả 23904–23906,23924,23934 đều PENDING(Resources), đủ cap5; watcher còn sống. Không gửi job trùng hay mở N56.
+- **NSCC lúc 22:10:26 UTC:** chưa có phiên VPN; kết quả220575 và credit hiện tại chưa xác minh. Giữ 1536 SU dự trù, trần campaign16384 SU; không đăng nhập lại/qsub. Pilot04→05 chờ đủ gate truy cập, baseline, queue và credit.
+- Đã cập nhật CURRENT, POLICY, Q&A, review, plan/budget dưới lock; lưu bằng chứng và lần audit CPU false-reject do artifact directory trước khi sửa. Phần việc độc lập hoàn tất, kết thúc sớm.
+
+[Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-08/REPEAT_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2210UTC/).
+
+
+# Báo cáo Qwen — 2026-10-15 22:17 UTC
+
+- **H200 lúc 22:17:19 UTC:** 23904–23906,23924,23934 đều PENDING(Resources), đủ cap5; watcher còn sống khi kiểm tra22:15:28. Chưa có phép đo mới.
+- **Tiến triển:** audit hai payload N54 với cả hai baseline N52 tương ứng đạt: script lưu trên Slurm khớp frozen, checksum đạt, 12file thực thi giống nhau; chỉ đổi tên/path/mục đích và tải52→54. Đã chuẩn bị bảng so sánh và hướng dẫn phân biệt gate mởjob với SLA benchmark; ghi rõ metadata kế thừa. Chưa xác minh runtimeN54 hay accuracyBTC.
+- **NSCC lúc22:15:28 UTC:** không có phiênVPN trướcSSH; kết quả220575 và credit hiện tại chưa xác minh. Giữ1536SU dự trù, trầncampaign16384SU; không đăng nhập lại/qsub. Pilot04→05 chờ đủ gate truy cập, baseline, queue và credit.
+- Đã cập nhật CURRENT,POLICY,Q&A,plan/budget dưới lock và lưu bằng chứng. Không thêm job/lịch, không mởN56. Phần chuẩn bị độc lập hoàn tất; kết thúc sớm, không chờ queue.
+
+[Hướng dẫn N54](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/N54_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2215UTC/).
+
+
+## Báo cáo Qwen — 2026-10-15 22:57 UTC
+
+- **H200 lúc 22:57:45 UTC:** 23904 RUNNING từ22:51:04 trên g1/g4;23905/23906/23924/23934 PENDING(Resources), đủcap5; watcher còn sống.
+- **Tiến triển:** audit payload và runtime23904 đạt: scriptSlurm/checksum khớp, đủ8rankMNNVL+FlashInferdecode+NIXL/UCX, hai đườngP/Dwarmup,chunk4096 vàgraph64. So cả23778/23839 chỉ khácbackend attention vàseed engine tự sinh; đã ghi giới hạn seedAIPerf2026 không khóa seedengine. Chưa có sốđo mới/accuracyBTC.
+- **NSCC lúc22:55:57 UTC:** chưa có phiênVPN trướcSSH;220575 vàcredit hiện tại chưa xác minh. Giữ1536SU dự trù vàtrần16384SU; khôngauth/qsub. Pilot04→05 chờ đủgate truycập/baseline/queue/credit.
+- Đã cậpnhậtCURRENT,POLICY,Q&A,review vàplan/budget dướilock; giữrawlogprefix cùnghash. Không thêmjob/lịch/repeat/N56. Kếtthúc sau phầnviệc độclập; watcher tiếp tục thu kếtquả.
+
+[Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261015-2255UTC/).
+
+
+## Báo cáo Qwen — 2026-10-16 00:19 UTC
+
+- **23904 — MNNVL + FlashInfer:** **2631,09 goodtokens/s**, SLA 99,02%; hơn trung bình hai baseline **1,49%**. TTFT tăng 122,97 ms, ITL giảm 0,91 ms. Mới có một lượt, chưa xác nhận bằng repeat.
+- **23905 — chunk2048:** **2331,35 goodtokens/s**, SLA 98,77%; goodput giảm **10,07%** dù ITL giảm 1,33 ms. TTFT tăng 676,50 ms. Runtime cũng đổi giới hạn graph prefill 4096→2048; chưa thể quy kết riêng cho chunk.
+- Cả hai đã đối soát đủ giao thức 60/120/30, không lỗi/hủy; kiểm tra đầu ra 7/8, chỉ lỗi reverse đã biết. Checksum đạt cho 47 file mỗi run, gồm hai baseline và hai candidate. Accuracy BTC chưa xác minh.
+- **H200 lúc 00:19:38 UTC:** 23906/23924/23934 PENDING(Resources), dùng 3/5 slot; watcher còn sống. Bước tiếp: thu ba job và kiểm tra graph thực của chunk8192. Không thêm job, repeat hay N56.
+- **NSCC lúc 00:15:52 UTC:** chưa có phiên VPN sống; kết quả 220575 và credit hiện tại chưa xác minh. Giữ 1536 SU dự trù, trần campaign 16384 SU; lượt nghiên cứu này không đăng nhập lại hay qsub. Pilot 04→05 chờ đủ điều kiện truy cập, baseline, queue và credit.
+- Đã cập nhật CURRENT, POLICY, Q&A, review và budget/plan; giữ artifact cùng các lần audit CPU và đính chính. Lượt này kết thúc sau phần việc độc lập; watcher tiếp tục thu kết quả.
+
+[Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0015UTC/).
+
+
+## Báo cáo Qwen — 2026-10-16 00:52 UTC
+
+- **H200 kiểm tra 00:50:03 UTC:** 23906/23924/23934 đều PENDING(Resources), 3/5 slot; watcher còn sống. Chưa có số đo GPU mới.
+- Đã chuẩn bị **công cụ đối soát N54**: qua 21 ca CPU, rehash và tái tính đúng bốn baseline đã lưu. So từng baseline và trung bình, kiểm tra bằng chứng thô; phân biệt thiếu export với điểm đo đủ nhưng fail SLA. Runtime N54 còn chờ.
+- Khi tái tính bốn run cũ, goodput dùng thời gian profiling phase trong manifest; `benchmark_duration` lệch khoảng 2,8–4,0 ms. Đã ghi rõ convention và giữ các prototype/đính chính, không sửa số liệu cũ.
+- **NSCC 00:46:05 UTC:** thiếu phiên VPN; 220575/kết quả/credit chưa xác minh. Giữ 1536 SU dự trù, trần campaign 16384 SU, pilot 04→05 chờ các gate hiện hành. Không xác thực mới hay qsub.
+- Đã cập nhật CURRENT, POLICY, Q&A, review, budget/plan và HISTORY. Không thêm job/repeat/N56 hay lịch; kết thúc sau phần chuẩn bị, watcher tiếp tục thu ba job.
+
+[Hướng dẫn N54](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/N54_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0045UTC/).
+
+
+## Báo cáo Qwen — 2026-10-16 00:59 UTC
+
+- **H200 00:58:48 UTC:** 23906/23924/23934 vẫn PENDING(Resources), 3/5 slot; watcher còn sống. Chưa có số đo GPU mới.
+- **Tiến triển CPU:** kiểm source EAGLE3 trong image, 12 kiểm tra cấu trúc đạt, 72 file được hash. Đã làm rõ nhánh target verification, yêu cầu tắt simulation acceptance và đặt cùng giới hạn 48 request cho control/candidate. Thiết kế tiếp theo đã cập nhật; CUDA/output/compatibility Instruct-2507 vẫn chưa kiểm chứng.
+- **NSCC 00:55:29 UTC:** thiếu phiên VPN trước SSH; 220575/kết quả/credit chưa xác minh. Giữ 1536 SU dự trù, campaign 16384 SU; pilot 04→05→06 giữ thứ tự và gate. Không xác thực mới/qsub/tải draft.
+- Đã cập nhật CURRENT, POLICY, Q&A, plan/budget và giữ bằng chứng. Không thêm job/repeat/N56/lịch; kết thúc sau phần chuẩn bị, watcher tiếp tục thu ba job.
+
+[Review EAGLE3](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/SOURCE_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0055UTC/).
+
+
+# Báo cáo Qwen — 2026-10-16 01:43 UTC
+
+- **H200 01:43:17 UTC:** 23906 RUNNING từ01:38:03 trên g1/g4; 23924/23934 PENDING(Resources), 3/5 slot; watcher còn sống. Chưa có kết quả benchmark mới.
+- **Tiến triển:** audit23906 đạt checksum payload/script; cả8rank MNNVL/NIXL. Hai worker prefill dùng chunk8192 **đồng thời graph prefill tăng4096→8192**, thêm8capture; decodegraph giữ nguyên. So cả hai baseline, chỉ khác chunk/graph và seed tự sinh. Không quy kết riêng cho chunk scheduling.
+- Đã ghi checklist thu/đối soát final23906 trong review; log khởi tạo có hash, chưa phải finalseal. P/Dwarmup chưa xong tại audit01:41:56, không coi là lỗi. Watcher tiếp tục thu23906 và hai N54; không thêmjob/repeat/N56/lịch.
+- **NSCC01:40:59 UTC:** thiếuVPN trướcSSH;220575/kết quả/credit vẫn chưa xác minh. Giữ1536SU dự trù, campaign16384SU, pilot04→05→06 và các gate. Không xác thực mới/qsub.
+- Đã cập nhật CURRENT/POLICY/Q&A/review và budget/plan dưới lock; giữ bằng chứng. Kết thúc sau phần việc độc lập, không chờ queue.
+
+[Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0140UTC/runtime-review.json).
+
+
+# Báo cáo Qwen — 16/10/2026 01:47:27 UTC
+
+- **H200:** 23906 RUNNING;23924/23934 PENDING(Resources),3/5slot;watcher sống. Chưa có kết quả benchmark hoàn chỉnh mới.
+- **Audit mới:** hai P/D paths đã warmup;8rank MNNVL/NIXL và checksum payload/script đạt. Thay thế snapshot01:41 chưa warmup. Chunk8192 cũng tăng graph prefill lên8192; không quy riêng hiệu ứng cho scheduling.
+- Đã chuẩn bị công cụ chỉ đọc đối soát final23906 với cả hai baseline/mean; replay seal/rawmetrics hai baseline đạt. Đây là dữ liệu cũ; terminal path còn chờ23906 hoàn chỉnh. Watcher tiếp tục thu; không thêmjob/repeat/N56/lịch.
+- **NSCC01:45:30UTC:** thiếuVPN trướcSSH;220575/kết quả/credit chưa xác minh. Giữ1536SUreserve,campaign16384SU và gate04→05→06; không xác thực mới/qsub.
+- Đã cập nhật CURRENT/POLICY/review và budget/plan dưới lock; kết thúc sau phần việc độc lập, không chờ queue.
+
+[Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0145UTC/runtime-review.json) · [Công cụ final](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0145UTC/review-chunk8192.py).
+
+
+# Báo cáo Qwen — 16/10/2026 01:52:34 UTC
+
+- **23906 đã hoàn tất exit0 lúc01:48:16UTC.** Finalaudit đạt:2547,85goodtokens/s,SLA98,87%,TTFT735,56ms,ITL16,32ms;0lỗi/hủy request,short7/8chỉreverseđãbiết.
+- **Chunk8192 thấp hơn meanhai baseline1,7238%**;TTFT+223,294ms dùITL−0,8249ms. Rehash47file/mỗi run,full60/120/30,raw789warmup/1589profiling,payload/runtime đềuđạt. Chunkcũngđổigraphprefill;chưa chọncấuhình/accuracyBTC.
+- **H200 hiện tại:**23924/23934PENDING(Resources),2/5slot;watcher sống. Cả3wave9 đãfinalaudit;tiếp tục thu haiN54 và dùngreview-n54.py,không thêmjob/repeat/N56/lịch.
+- **NSCC01:50:59UTC:**không cóVPN trướcSSH;220575/kết quả/credit chưa xác minh. Giữ1536SUreserve,campaign16384SU vàgate04→05→06;khôngauth/qsub.
+- Đã cập nhật CURRENT,POLICY,Q&A,matchedreview,budget/plan dướilock;giữrawartifact và bằngchứng cũ. Kết thúc sauaudit,không chờqueue.
+
+[Bằng chứng final](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0150UTC/chunk8192-final-review.json) · [Scheduler](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0150UTC/final-queue.json).
+
+
+# Báo cáo Qwen — 16/10/2026 02:10:45 UTC
+
+- **H200 02:09:40 UTC:**23924/23934 PENDING(Priority),2/5slot;watcher sống. Chưa có số đo GPU mới;wave9 đã finalaudit từ lượt trước.
+- **Tiến triển CPU:** chuẩn bị công cụ đối chiếu token EAGLE3 và hướng dẫn capture native. 30ca tổng hợp +6kiểm source đạt;giữ input/output IDs,EOS/tail,finish reason. Source image trả output_ids cả nhánh text. Chưa thử HTTP/model/GPU hay xác nhận lossless/accuracy BTC.
+- **NSCC 02:06:07 UTC:**thiếu VPN trướcSSH;220575/kết quả/credit chưa xác minh. Giữ1536SU dự trù,campaign16384SU vàgate04→05→06;không xác thực mới/qsub.
+- Đã cập nhật CURRENT,POLICY,Q&A,design,budget/plan dưới lock và giữ bằng chứng. Tiếp:watcher thu haiN54 rồi chạy review-n54.py so cả hai baseline/mean. Không thêmjob/repeat/N56/controller/lịch;phần chuẩn bị độc lập đã xong,kết thúc không chờ queue.
+
+[Hướng dẫn](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/TOKEN_REVIEW.md) · [CPU/source](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0205UTC/token-review-validation.json) · [Scheduler](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0205UTC/final-queue.json).
+
+
+# Báo cáo Qwen — 16/10/2026 02:19:28 UTC
+
+- **H200 02:18:09 UTC:**23924/23934 PENDING(Resources),2/5slot;watcher sống. Chưa có số đo GPU mới.
+- **Tiến triển CPU:**chuẩn bị bộ thu token nativeHTTP tuần tự,giữ raw request/response/hash và evidence lỗi.35ca HTTP giả lập đạt;chưa thử SGLang/Qwen/GPU,chưa có suite thực hay chứng minh accuracy.
+- **NSCC 02:15:33 UTC:**thiếu VPN trướcSSH;220575/result/credit chưa xác minh. Giữ1536SU dự trù,campaign16384SU vàgate04→05→06;không xác thực mới/qsub.
+- Đã cập nhật CURRENT,POLICY,Q&A,design,budget/plan và giữ raw evidence. Tiếp:watcher thu haiN54,chạy review-n54.py so cả hai baseline/mean. Không thêmjob/repeat/N56/controller/lịch;kết thúc vì chuẩn bị độc lập đã xong.
+
+[Hướng dẫn](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/TOKEN_REVIEW.md) · [CPU/mockHTTP](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0215UTC/attempt02/capture-validation.json) · [Scheduler](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0215UTC/final-queue.json).
+
+# Báo cáo Qwen —16/10/2026 02:36UTC
+
+- Kết quả mới xác nhận23904MNNVL+FlashInfer:2631,09goodt/s,SLA99,02%,ITL16,23ms,0lỗi/hủy; hơnMNNVLmean1,49%,chưa lặp.
+-23905chunk2048:2331,35;23906chunk8192:2547,85; cảhai thấp hơnMNNVL,khônglặp.
+- Đã gửi23973(comboN52repeat1),23974(freshMNNVLcontrolN52),23975(comboN52repeat2+longretrievalsauđo). Cùng23924/23934N54 hiệnđủ5/5slot,đềuPENDING(Resources). Watcher419440cònhoạtđộng.
+- Wave10đãfreeze/checksum/CPUvalidate vàdryrunsharedcap2/4/5; không đổi cácjobqueued cũ hay mởN56. So mọirepeat vàcontrol,khônglấypeaklàmthắng.
+- NSCCkhôngxácthựcmới/DUO;220575kếtquảvàcreditmớivẫnchưaxácminh. AccuracyBTCchưađạtchứngnhận.
+- v111làtênjobđộikhác,khôngcóđiểmcủahọđểsoaiđanghơn. So tiếntriểncủamìnhbằngfullmeasurementvàrepeat.
+
+
+
+# Báo cáo Qwen —16/10/2026 02:46 UTC
+
+- **H200 02:45:04 UTC:**23924/23934/23973/23974/23975 đều PENDING(Resources),5/5slot;watcher419440 sống. Chưa có số đo GPU mới.
+- Đã chuẩn bị **review-wave10.py**:so từng combo với3control/mean vàdriftcontrolmới;kiểm seal/raw/protocol/runtime;giữ longpass/fail/deferred/thiếu riêng. 14kiểm source/export/gate và8ca longCPU tổng hợp đạt,không phải thửQwen.
+- Stored Slurm script23973–23975 khớp frozen;không sửa payloadqueued haygửi thêmjob. Gain23904 **1,4867%** vẫn là kết quả đơn trước wave10,chưa được lặp xác nhận.
+- **NSCC02:41:22UTC:**thiếuVPN trướcSSH;220575/kết quả/credit chưa xác minh. Khôngauth/DUO/qsub;giữ1536SUreserve,campaign16384SU vàgate04→05→06.
+- Đã cập nhật CURRENT,POLICY,DECISIONS,Q&A. Tiếp:watcher thu5job;đọc N54bằngreview-n54.py,wave10bằngreview-wave10.py. AccuracyBTC chưa xác minh;khôngN56 haytựpromote. Kết thúc sauchuẩn bị,không chờqueue.
+
+[Hướng dẫn wave10](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/MATCHED_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0240UTC/final-queue.json).
+
+
+# Báo cáo Qwen —16/10/2026 05:25 UTC
+
+- **23924 MNNVL N54 hoàn tất exit0** lúc04:31:37UTC. Finalaudit đạt: **2634,03goodtokens/s,SLA98,90%,TTFT600,44ms,ITL17,11ms**,0lỗi/hủyrequest;short7/8chỉreverseđãbiết.
+- So cảhaiN52control:gain+1,6153%/+1,5855%;so mean **+1,6004%**,TTFT+88,18ms. Seal47file,raw818warmup/1640profiling,full60/120/30,payload/runtime đạt. Một lượtN54;chưa chứng minh gain lặp hayaccuracyBTC.
+- Đã mở1điểm xác nhận MNNVL N54 **24009** theo plan mới,giữ12file thực thi;storedSlurm khớp frozen. Dùng watcher419440 hiện có. Kế thừa budget-deferred replacement tối đa3attempt khi chưa đo đủ;giữ mọiattempt,không mở điểm xác nhận thứ3/N56.
+- **05:24:11UTC:**23934/23973/23974/23975/24009 đều PENDING(Resources),5/5slot;watcher sống. ComboN52 gain1,4867% vẫn chờrepeat;comboN54 giữgate riêng. Đã chuẩn bị reviewer24009;chưa thử terminalpath job mới.
+- **NSCC05:20:46UTC:**thiếuVPN trướcSSH;220575/result/credit chưa xác minh. Khôngauth/DUO/qsub;giữ1536SUreserve,campaign16384SU và04→05→06.
+- Đã cập nhật CURRENT,POLICY,DECISIONS,Q&A vàmatchedguides;giữ bằng chứng. Tiếp:thu23934 vàwave10,so24009 với23924 và3N52control;kết thúc không chờqueue.
+
+[Finalaudit23924](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0520UTC/n54-23924-review.json) · [Scheduler vàscript24009](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0520UTC/final-queue.json) · [Plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/PLAN.md).
+
+
+## Lượt Qwen —16/10/2026 05:38 UTC
+
+- **05:36:58UTC:**23934/23973/23974/23975/24009 đều **PENDING(Resources),5/5slot**;watcher419440 sống lúc05:30:29. Chưa có số đoGPU mới;23924 vẫn là1lượtN54,2634,03goodtokens/s,gain1,6004% chưa lặp.
+- Đã chuẩn bị **suite14ca EAGLE3** bằngtokenizer/template đúngrevisionpin;6file khớpcache/ETag. Cap1/3/4/5/200,short/multilingual/multiturn vàretrieval3788/7885token gồmtemplate;maxinput+cap8085/8192.
+- Preflight bộthu,hashseal vàdựng lại5file giốngbyte đạt. ChỉinputCPU;chưa cóHTTP/modeloutput/EOSthật,compatibility,acceptance hayaccuracy. Giữ cácattempt/probeCPU lỗi;đãsửareturn_dict=False choTransformers5.14.1.
+- **NSCC05:30:29UTC:**thiếuVPN trướcSSH;220575/result/credit chưa xácminh. Khôngauth/DUO/qsub;giữ1536SUreserve,campaign16384SU và04→05→06. Khôngthêmjob/watcher/N56hay sửaqueuedpayload.
+- Đã cậpnhậtCURRENT,POLICY,Q&A,design vàbudgetaccessmetadata. Tiếp:thu seal qua watcher,review23934/wave10/24009 theo3reviewer hiện có. Phần độc lập xong;kếtthúc khôngchờqueue.
+
+[Suite](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/token-suite-v1/suite.json) · [Hướngdẫn](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/TOKEN_REVIEW.md) · [KiểmCPU](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0530UTC/suite-validation.json) · [Scheduler](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0530UTC/final-queue.json).

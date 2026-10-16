@@ -1,0 +1,169 @@
+# Đối soát token EAGLE3 — chuẩn bị CPU, 16/10/2026
+
+`review-token-pairs.py` chỉ đọc hai capture JSON cục bộ. Chưa có capture Qwen
+thật, chưa kiểm HTTP runtime, chưa tải draft/chạy GPU/upload hay đặt SU.
+30 ca dữ liệu tổng hợp và 6 kiểm tra source đạt. Đây không phải 30 ca model đúng.
+
+## Đường lấy token trong image thực
+
+Đã trích 5 file từ `/scratch/enroot-images/sglang-harbor.sqsh` bằng 2 CPU,
+hash từng file tại `../../inspection/wake-20261016-0205UTC/token-review-validation.json`.
+Không rehash toàn image hay xác nhận lại image NSCC.
+
+- `entrypoints/http_server.py:911–916`: native `/generate`, nonstreaming,
+  trả payload từ tokenizer manager qua `orjson_response(ret)`.
+- `managers/tokenizer_manager.py:2356–2363`: nhánh text bình thường khi finished
+  trả `text`, `output_ids` và `meta_info`. Không cần bật skip-tokenizer hoặc
+  return-logprob chỉ để lấy token IDs trong source image này.
+- `managers/detokenizer_manager.py:439–447`: chuyển scheduler `output_ids`
+  sang BatchStrOutput; không tái tokenize text để tạo IDs.
+- `managers/io_struct.py:298–299`, `tokenizer_manager.py:797`: đặt
+  `return_prompt_token_ids=true` để lưu cả input đã được tokenize.
+- `sampling/sampling_params.py:144–147`: temperature0 được chuẩn hóa sang
+  top_k1. Phép so đầu tiên dùng greedy, penalty trung tính, không grammar/bias.
+
+Đây là bằng chứng source; payload HTTP thực và shape/count/finish khi bật
+EAGLE3 vẫn phải kiểm khi có GPU. Nếu runtime không đáp ứng contract, giữ raw
+response và điều tra; không sửa count, cắt EOS hoặc tái tạo IDs để ép PASS.
+
+## Contract capture cho lần thử tương lai
+
+Mỗi file chứa `schema=1`, `target_revision` đúng revision FP8 đã pin,
+`tokenizer_sha256` của cùng file tokenizer.json và `cases` không rỗng. Mỗi case
+có `case_id` duy nhất, `request` chính xác đã gửi và `response` native nguyên bản.
+Giữ raw request/HTTP response riêng kèm SHA256, runtime manifest/resolved args,
+image identity và môi trường worker; tool không chứng thực các khai báo này.
+
+`request` chỉ có bốn trường:
+
+```json
+{
+  "input_ids": [11, 22],
+  "stream": false,
+  "return_prompt_token_ids": true,
+  "sampling_params": {
+    "temperature": 0, "top_k": 1, "top_p": 1, "min_p": 0,
+    "repetition_penalty": 1, "frequency_penalty": 0, "presence_penalty": 0,
+    "n": 1, "max_new_tokens": 200, "min_new_tokens": 0,
+    "ignore_eos": false, "skip_special_tokens": true, "no_stop_trim": false
+  }
+}
+```
+
+`[11,22]` chỉ minh họa schema, không phải prompt Qwen thực. Chuẩn bị short/long
+prompts một lần bằng đúng tokenizer/chat template đã pin, lưu input IDs và
+template hash; gửi CÙNG input IDs và settings cho hai deployment. Chạy từng
+request tuần tự ở phép so đầu tiên; giữ thứ tự và kiểm control tự lặp trước.
+Thêm cap1/3/4/5 quanh draft_tokens4, cap200, long retrieval/context phù hợp8192
+và ít nhất một case kết thúc EOS thực (không giả lập). Đây là kế hoạch case,
+chưa chạy. Native `/generate` không tự áp chat template cho input_ids.
+
+Control/candidate cùng target FP8, TP8/EP8, BF16KV, memory0.75, context8192,
+max-running-requests48, attention/graph/sampling tương ứng; audit mọi khác biệt
+resolved args. Ghi `SGLANG_SIMULATE_ACC_LEN=-1` hiệu lực trong mỗi container.
+Nếu FP8/batch/kernel đổi token, điều tra cả tính tự lặp của control; không quy
+ngay khác biệt cho verifier. Token IDs khớp trên case nhỏ vẫn chưa chứng minh
+lossless toàn miền hoặc accuracy BTC.
+
+Tool kiểm case set, exact request, pinned target/tokenizer declarations,
+prompt IDs/counts, raw output IDs/counts, cap/min và finish stop/length. Nó
+phân biệt capture thiếu/hỏng với capture đủ nhưng token hoặc finish khác nhau.
+EOS/tail không bị bỏ; text chỉ là diagnostic, không thay đối chiếu token IDs.
+Không so latency hay tự mở job từ kết quả này.
+
+```bash
+python3 nscc-pbs/research-next/eagle3-01/review-token-pairs.py \
+  control-capture.json candidate-capture.json --out new-token-review.json
+```
+
+Exit0=`CAPTURED_CASES_MATCH`, exit1=`CAPTURED_CASES_DIFFER`,
+exit2=`INVALID_OR_INCOMPLETE_CAPTURE`. Output phải là file mới; không ghi đè
+bằng chứng. Synthetic fixtures trong inspection được gắn nhãn rõ và không dùng
+làm capture GPU. Official accuracy, compiled verifier, draft compatibility,
+memory và acceptance vẫn chưa xác minh. Backend04→05→loader06 và mọi gate
+VPN/queue/credit/budget giữ nguyên; không tạo job mới từ bước chuẩn bị này.
+
+
+## Bộ thu HTTP cục bộ — 16/10/2026 02:19:28 UTC
+
+`capture-native-tokens.py` đã kiểm **35 ca HTTP giả lập/CPU**, không có Qwen,
+model/GPU hay HTTP SGLang thực. Report final ở `nscc-pbs/inspection/wake-20261016-0215UTC/attempt02/capture-validation.json`.
+Attempt đầu34ca được giữ lịch sử; bản final thêm kiểm Content-Length bị thiếu dù
+body có thể parse JSON hợp lệ. Không thay comparator hay payload GPU đang chờ.
+
+Đầu vào là suiteJSON có schema1,target_revision,tokenizer_sha256 và cases giống
+contract ở trên, nhưng mỗi case chỉ có case_id/request, KHÔNG có response. Dùng
+input IDs đã chuẩn bị bằng tokenizer/chat template đúng target; SHA256 trong suite
+phải khớp file tokenizer.json truyền vào. Tool chỉ kiểm hash file local, không
+chứng thực provenance target/revision hay tạo chat template. Không lấy tokenizer
+của checkpoint khác để thay cho bước xác minh.
+
+Khi đã có deployment và forward được cho phép, thu lần lượt control, control-repeat
+và candidate với cùng suite, cùng thứ tự. Ví dụ dùng endpoint loopback đã thiết lập:
+
+```bash
+python3 nscc-pbs/research-next/eagle3-01/capture-native-tokens.py \
+  --suite verified-token-suite.json --tokenizer /verified/target/tokenizer.json \
+  --endpoint http://127.0.0.1:30000/generate --outdir new-control-capture
+```
+
+Sau đó dùng `new-control-capture/capture.json` cho comparator; so control tự lặp
+trước khi diễn giải khác biệt candidate. Tool không khởi động server, mở tunnel,
+xác thực hay gửi job. Chỉ hỗ trợ numeric loopback HTTP, không auth/query/redirect,
+không proxy, không retry. Endpoint phải trỏ đúng deployment được audit riêng.
+
+Mọi request greedy/trung tính được kiểm trước khi kết nối; giới hạn64case,
+cap1..200,min0 và input+cap<=8192. Từng request tuần tự, lưu exactJSON bytes,
+response bytes nguyên bản, hash/status HTTP và journal đã flush/fsync. Lỗi thì
+ngừng, giữ request và phần response đã nhận; không ghi capture hoàn chỉnh khi
+count/IDs/finish/HTTP lỗi. Không sửa EOS/tail hay chuẩn hóa output thành PASS.
+Mỗi outdir phải mới; không ghi đè bằng chứng cũ. Thời gian monotonic chỉ diagnostic,
+không phải throughput/TTFT/ITL benchmark. Header xác thực/session không được thu.
+
+Tại mốc02:19, chưa có suite thực (đã được thay bởi cập nhật 05:38 bên dưới).
+Còn phải audit image/weights/
+resolved args và simulation=-1, chạy nativeHTTP/model thật rồi đánh giá compatibility,
+EOS, output và acceptance. Chưa tải draft/upload hay đổi04→05→06/queue/credit/budget.
+
+
+## Bộ đầu vào thực bằng CPU —16/10/2026 05:38 UTC
+
+Đã có `token-suite-v1/suite.json` cho native capture; chưa có output model hoặc
+HTTP/model/GPU test. `prepare-token-suite.py` dùng AutoTokenizer offline với
+`local_files_only=True`, `trust_remote_code=False`; không đọc weights/tải draft.
+Sáu file tokenizer/config nhỏ khớp revision e156cb4 đã pin và ETag trong cache.
+Provenance lưu hash tài sản, chat template, messages, rendered prompts, IDs và
+thứ tự case; chưa chứng thực image/weights/deployment remote.
+
+14 ca gồm một prompt với cap 1/3/4/5/200; EOS probe; Việt/Trung/code/multiturn;
+retrieval ở 3 vị trí với 3.788 input tokens và một ca 7.885 token. Khác diagnostic
+23975, count này **đã gồm chat template**; input+cap lớn nhất 8.085/8.192.
+`prompts.json` lưu thông tin semantic để điều tra, chưa chấm accuracy. EOS probe
+chỉ khuyến khích dừng; phải quan sát EOS/finish thật, không giả lập hoặc ép PASS.
+
+Tất cả ca qua preflight của capture-native-tokens.py; seal đạt, 5 cap cùng IDs.
+Encode sau render khớp trực tiếp apply_chat_template và roundtrip. Dựng lại 5
+file giống từng byte. Dùng Transformers 5.14.1/tokenizers 0.22.2/Jinja 3.1.6 trích
+từ aiperf.sqsh bằng 2 CPU, chạy Python và loader giải nén. Đây chưa phải kiểm
+container runtime; không có PyTorch/model trong phép thử. Probe container lỗi
+và các attempt CPU được giữ ở inspection0530, không phải lỗi của Qwen.
+Attempt01 so nhầm BatchEncoding với list đã sửa bằng `return_dict=False`.
+Attempt02 chậm đã dừng; bản cuối cache vocab size và bỏ encode lặp khi tìm
+độ dài. Payload đang queue giữ nguyên.
+
+Tái tạo từ model cache đúng revision bằng môi trường cùng phiên bản:
+
+```bash
+python3 prepare-token-suite.py \
+  --model-dir /scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8 \
+  --outdir /new/path/token-suite
+```
+
+Khi deployment/forward đã được phép và audit riêng, dùng cùng file suite đã seal
+cho control, control-repeat và candidate; truyền `--suite token-suite-v1/suite.json`
+cùng tokenizer.json thực đã xác minh cho bộ thu. So control tự lặp trước; nếu
+khác thì điều tra, giữ mọi capture. Không tái tokenize text output hoặc bỏ EOS/tail.
+Gate weights/draft, memory, simulation=-1, CUDA, acceptance, quality và accuracy
+vẫn chưa đạt. Thứ tự 04→05→06, hạn chế VPN auth, budget và queue gates giữ nguyên.
+Bằng chứng: `nscc-pbs/inspection/wake-20261016-0530UTC/suite-validation.json`
+và `suite-reproducibility.json`. Preflight PASS không tự mở job GPU.

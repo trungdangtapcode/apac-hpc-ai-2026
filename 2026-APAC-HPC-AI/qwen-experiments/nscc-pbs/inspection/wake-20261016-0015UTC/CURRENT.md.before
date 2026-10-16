@@ -1,0 +1,162 @@
+# Trạng thái bàn giao và các đính chính
+
+Cập nhật kiến thức: **15/10/2026, lượt research22:55–22:57UTC**.
+Mọi trạng thái bên dưới là lần kiểm tra ghi rõ; phải kiểm tra lại khi làm tiếp.
+
+## Điều cần nhớ trước tiên
+
+- Người dùng thi **Qwen**, không phải OpenFOAM. Tiếp tục research và submit job
+  hữu ích, không đợi người dùng nhắc từng lần; giữ dữ liệu của cả lần lỗi.
+- Hai cụm riêng: H200 ban đầu dùng Slurm; NSCC H100 dùng PBS qua CheckPointVPN.
+  “Firmus” là cách trợ lý gọi cụm ban đầu, không phải scheduler hay tên lệnh.
+- Thử nghiệm chưa đồng nghĩa nộp bài BTC. Chưa xác minh đầy đủ accuracy99%reference.
+
+## VPN: câu trả lời hiện tại, thay cho các suy đoán cũ
+
+**Cập nhật mới16/10/2026 00:18:46UTC:** theo yêu cầu người dùng, thử lại cùng
+credential với helper đã đặtIKE86400s. Gateway trả`Authentication failed,status0`
+sau khoảng64giây; không tạoVPNtunnel, chưa tớiSSH. Không suy ra mật khẩu sai hay
+nguyên nhânDUO từ mã0. Câu hỏiDUO của lần07:17giờVN đã gửi, chưa có trả lời.
+Không thử lại liên tục. [Bằng chứng](/home/apacsc42/workspace/vpn-rootless/inspection/login-attempt-20261016-0017UTC.json).
+
+
+1. Client cài trên VPS là **snx-rs6.5.1**, dự án cộng đồng, **không phải client
+   CheckPoint chính thức**. Người dùng báo client Windows của họ vẫn kết nối tốt,
+   phiên24giờ; đây là thông tin người dùng cung cấp, không được phủ nhận bằng logLinux.
+2. PhiênLinux đầu kết nối được khoảng12:17UTC, đã SSH/chạy PBS/download thành công.
+   Log cuối chính xác20:17:01UTC: `IKE SA expired, disconnecting tunnel`, sau đó
+   `Tunnel disconnected`, exit0. Không phải bằng chứng server/VPNWindows hết phiên.
+3. Đã đọc đúng sourcev6.5.1, revision
+   `86aa48031888050f957af7b6adf2c2e39d4745fd`: mặc định
+   **ike-lifetime28800giây=8giờ**, helper cũ không override. Client đề xuất giá trị
+   này khi tạo SA, dùng lifetime đã đàm phán để tự ngắt khi hết hạn. Đây là điểm
+   cấu hình bỏ sót phù hợp thời điểm ngắt; không phải kết luận server chỉ cho8giờ.
+4. Helper hiện đã sửa **`--ike-lifetime86400` (24giờ)** cho kết nối IPsec mới.
+   Đã thử login với86400s ngày16/10 nhưng xác thực thất bại; **chưa có phiên mới thành công với
+   cấu hình này, chưa chứng minh giữ được24giờ**.
+5. Đã thử login lại hai lần được ghi nhận,20:40 và20:47UTC: gateway trả
+   `IPsec authentication failed,status0` / `Authentication failed`. Đây là
+   **lỗi xác thực VPN**, xảy ra trước SSH. Chưa xác định do mật khẩu, DUO, chính
+   sách hay nguyên nhân khác. Không tự kết luận mật khẩu sai hoặc hết phiên.
+   Lần20:47 bắt đầu trước khi helper được sửa; không tính là phép thử24giờ.
+6. Câu hỏi DUO đã gửi người dùng: điện thoại đội trưởng có yêu cầu khớp lần login
+   hay không. Chưa có câu trả lời tại mốc ghi này. Không tự phê duyệt DUO.
+7. **ControlPersist86400 là SSH**, không phải VPN lifetime.
+   **ike-persist là lưu/khôi phục SA lên đĩa**, không đồng nghĩa tự rekey.
+8. VPN mất không tự hủy job PBS đã nhận. Chưa kết nối được thì chưa biết trạng
+   thái/kết quả cuối của job; không gửi job thay thế trùng lặp.
+
+Nguồn: [chẩn đoán và revision](/home/apacsc42/workspace/vpn-rootless/inspection/ike-lifetime-diagnosis.json),
+[log phiên cũ](/home/apacsc42/workspace/vpn-rootless/inspection/vpn-disconnect-20261015.json),
+[tài liệu đúng phiên bản](https://github.com/ancwrd1/snx-rs/blob/v6.5.1/docs/options.md).
+
+## Research: các dữ kiện đã xác nhận
+
+| Môi trường | Job | Kết quả |
+|---|---|---|
+| H200, RR,N53 | 23616 /23773 | 2433,41 /2438,47 goodtokens/s; đã lặp độc lập |
+| H200,MNNVL,N52 | 23778 /23839 | **2592,16 /2592,92**, SLA99,01%, không lỗi/hủy; đã lặp độc lập |
+| H200,DP-attention+DeepEP,N52 | 23780 /23859 | **2549,20 /2538,08**, SLA98,87%, không lỗi/hủy; đã lặp độc lập |
+| NSCC16H100,N32 | 220562.pbs111 | **1565,16**, SLA100%, ITL18,57ms, không lỗi/hủy; một lượt |
+
+H200 MNNVL N52 đã lặp độc lập: trung bình **2592,54 goodtokens/s**, chênh0,029%;
+tăng8,02% so controlN52 23607 và6,32% so N53 23773. ITL giảm2,38ms nhưng
+TTFT tăng165,43ms so23607. Chưa chứng minh SOTA toàn cuộc thi.
+Không xếp hạng H100/H200 như cùng phần cứng. Tất cả chưa có chứng nhận accuracyBTC.
+
+H200 **23839 COMPLETED** exit0 lúc20:59:45UTC; export và artifact checksum
+đã kiểm tra ở lượt21:01. Cả8decode rank khởi tạoMNNVL; payload giữ nguyên,
+chỉ đổi tên/mục đích. Diagnostic7/8, chỉ reverse đã biết. Gate hiện có mởN54
+**23924** (MNNVL) và **23934** (DP; watcher gửi22:12:24UTC sau repeat đạt).
+Kiểm tra queue mới **22:57:45UTC**: **23904 RUNNING** từ22:51:04 trên g1/g4;
+**23905,23906,23924,23934 PENDING(Resources)**, đủcap5; watcher3514431 còn sống.
+Snapshot cả5PENDING22:17 là lịch sử.23859 **COMPLETED exit0 lúc22:11:34UTC**.
+Các snapshot23859RUNNING22:06 vàallPENDING21:50 là lịch sử.
+[Review MNNVL](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/MNNVL_REPEAT_REVIEW.md).
+DP mean2lượt **2543,64**, repeat−0,436%; hơncontrol23607 **5,98%**, thấp hơn
+MNNVLmean **1,89%**. MeanTTFT606,79ms tăng259,95ms so23607; meanITL16,959ms
+giảm2,566ms. Không quy kết hiệu ứng riêng cho một kernel.
+
+NSCC **220575.pbs111** đoN32/34/36/38/40/42 trong một allocation45phút,
+dừng tăng khi failSLA/error. Lần truy cập thành công cuối xác nhậnRUNNING20:12:38UTC.
+**Chưa lấy được kết quả cuối do VPN ngắt.** Hai backendH100MNNVL04/FlashInfer05
+đã chuẩn bị/upload/checksum; chưa có job ID xác nhận nộp hai pilot này.
+Kiểm tra helper mới22:55:57UTC tiếp tục báo không có phiênVPN sống, không truy vấn
+đượcPBS/credit; không đăng nhập lại hayqsub. Giữ trạng thái cuối là chưa xác minh,
+không suy ra job hoàn tất chỉ từ45phút walltime.
+
+## Credit và bước tiếp
+
+Ledger xác nhận gần nhất04:00Singapore16/10: used1343,147SU,
+balance62656,853SU trước dự trùjob220575. Giữ1536SU dự trù cho job45phút.
+Campaign tối đa16384SU tổng, gồm chi phí cũ; giữ tối thiểu13000SU dự phòng,
+tối đa16GPU NSCC/một job active. Xem budgetJSON, chưa coi số này là số dư live.
+
+Tiếp: watcher thu hai nhánhN54 (23924/23934) vàwave9; không thêmjob ngoàicap5 hoặc tự mởN56.
+Chỉ xử lý xác thựcVPN/DUO khi có chỉ dẫn mới; sau khi vào được,
+thu220575 và đối soát queue/credit trước khi gửi pilot kế tiếp. Trong lúc chờ,
+watcherH200 tiếp tục và có thể chuẩn bị nhánh startup/EAGLE3/vLLM bằngCPU.
+
+Đã hoàn thiện `nscc-pbs/analyze-startup.py` cho log sampler cục bộ: rates theo
+monotonic time vàPID/start-time; đánh dấu thiếucounter/PIDchurn/gap/reset thay
+vì coi là0. Kiểm traoffline và rawown-child cũ đạt; chưa upload/tích hợp/chạyNSCC.
+Các pilot04/05/06 giữ nguyên. Bằng chứng mới:
+`nscc-pbs/inspection/wake-20261015-2055UTC/`. AuditMNNVL mới:
+`nscc-pbs/inspection/wake-20261015-2100UTC/`.
+
+Đã chuẩn bị `nscc-pbs/review-load-sweep.py` và [hướng dẫn thu/đánh giá220575](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/LOAD_SWEEP_REVIEW.md).
+Kiểm tra CPU cục bộ đạt11ca, tái tính1565,161394goodtokens/s từ snapshot220562
+cũ; **không phải phép đo/repeat mới**. Tool xác minh seal, protocol và thời gian
+phase, error/cancel, short non-regression; tải cao fail không tự chặnN32đạt.
+Flag offline không thay ownqueue/credit/budget/runtime gates;04/05/06 giữ nguyên.
+Export thành công220562 bỏ metricerror_request_count; chỉ chấp nhận vắng metric
+khi error_summary, manifest và log cùng xác nhận không lỗi. Bản phát triển đầu
+bị false-reject đã đánh dấu lịch sử trong guide; finalreview và11ca tại
+`nscc-pbs/inspection/wake-20261015-2105UTC/`.
+
+Đã audit wave9 lúc21:51UTC: cả3stored batch script từSlurm khớp bản frozen,
+SHA256SUMS/registryhash đạt, worker chỉ thay đúng1factor. Metadataconfig có
+trường kế thừa: graphflags không ghi đủ ở23904; prefill_extra_flags vẫn4096 ở
+23905/23906. Worker thực giữgraph64 và dùngchunk2048/8192 đúng dự kiến; chưa
+có bằng chứngruntime tại snapshot21:51 vì cả3cònPENDING (lịch sử). Không sửa payload đangqueue.
+Bảng so sánh dùng **23778 và23839**, không lấycontrol_job/reference_jobs cũ
+làm matchedbaseline: [hướng dẫnwave9](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md).
+Bằng chứng mới: `nscc-pbs/inspection/wake-20261015-2150UTC/`.
+
+Đã audit cuối DP-repeat23859 lúc22:12UTC: seals23780/23859 rehashđạt,
+12file thực thi giống nhau, config chỉ khác tên/mụcđích. Full60/120/30 vàthờigian
+phaseđạt;791warmup/1586measured,0lỗi/hủy;8rankNIXL/UCX và2P/Dwarmupđạt.
+Short7/8, chỉreverseđãbiết; recomputeđốichiếu132responsebaselineđạt.
+[Review vàbướcđọc23934](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-08/REPEAT_REVIEW.md)
+so với cả23780/23859; gateN54đãmở23934,không tựmởN56. Snapshot22:06chưaNIXL/export
+là lịch sử. AuditCPUđầu false-reject vìartifactdirtheojobđãsửa, giữattempt01;
+khôngsửapayload. Bằngchứng:`nscc-pbs/inspection/wake-20261015-2210UTC/`.
+
+Đã audit CPU cả hai N54 (23924/23934), bằng chứng mới22:15UTC: script thực
+Slurm khớp frozen, SHA256SUMS/registryhash đạt; với CẢ HAI baseline tương ứng,
+12file thực thi giống nhau, config chỉ khác tên/mục đích/concurrency52→54.
+Launcher chỉ khác tên/path/load. `matched_concurrency=52` và source/control cũ
+là metadata kế thừa; launcher đặt54, chưa có export runtime để xác nhận load.
+[Bảng và hướng dẫn N54](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/N54_REVIEW.md)
+phân biệt gateN52 để mởjob (SLA95%,meanITL19,3ms) với SLA benchmark90% sốrequest
+đạt TTFT3000ms/ITL20ms. N54 phải so mỗi baseline và mean; tải cao hơn chưa chứng
+minh goodput tốt hơn. Không mởN56 hay tự gửi repeat. Bằng chứng:
+`nscc-pbs/inspection/wake-20261015-2215UTC/`.
+
+
+Đã audit runtime23904 lúc22:56:40UTC: checksum frozen/copied payload và script
+thựcSlurm đạt;8rank cùng khởi tạo MNNVL+FlashInferdecode vàNIXL/UCX,2P/Dwarmup
+đạt,2prefillchunk4096,decodegraph1–64 đúng. So resolvedServerArgs với CẢ23778/23839:
+chỉ khácdecode_attention_backend vàrandom_seed engine tự sinh. SeedAIPerf2026
+không khóa seedengine; giữ caveat này khi đọc repeat, không tự đổi payload.
+Chưa có full export/smoke tại audit nên chưa có sốđo mới hay xácnhậnaccuracy.
+Logprefix được giữ/hash riêng, chưa phải finalseal. Bằngchứng:
+`nscc-pbs/inspection/wake-20261015-2255UTC/`. Tiếp: watcherthu23904 và4jobcònchờ;
+không thêmrepeat/N56. NSCC04→05 vẫn cần truycập,terminal220575,baseline,queue,credit.
+
+## Tự động hóa và bộ nhớ
+
+Cron kiểm tra5phút, gọiCodex khi trạng thái thay đổi hoặc tới kỳresearch,
+mỗi lượt tối đa20phút, có lock; quotaerror nghỉ30phút. LượtCodex là **phiên mới**,
+không tự thấy nguyên chat này. Nó phải đọc README/CURRENT/POLICY và báo cáo.
+Không tự nhắn được vào chat gốc. QuotaCodex và creditGPU là hai ngân sách riêng.

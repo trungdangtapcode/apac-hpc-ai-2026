@@ -1,0 +1,89 @@
+# Current Qwen research handoff —16Oct2026 05:25UTC
+
+## New measured result and bounded continuation
+
+23924 MNNVL N54 COMPLETED exit0 at04:31:37UTC. Sealed/raw/runtime review PASS:
+2634.0344goodt/s,SLA98.9024%,TTFT600.4446ms,ITL17.1102ms,0requesterrors/cancel,
+short7/8 only knownreverse. Gain+1.6004% versus two N52 controls mean; TTFT
++88.1784ms. One N54 observation, not a reproduced improvement or accuracy proof.
+05:20:46UTC queue has23934/23973/23974/23975 PENDING(Resources),4/5slots,
+watcher419440 alive. Prior five-pending snapshot below is historical.
+Explicitly extend wave10 by ONE unchanged MNNVL N54 repeat in the freed slot,
+s10-mnnvl-repeat-n54, submitted24009; see serving-tuning-10/PLAN.md. Use existing prepared-pilot
+loader/watcher, sharedcap5; do not modify queued payloads or add a controller.
+Review against23924 and all three MNNVL N52 controls. No third repeat, N56,
+promotion or bypass of the comboN54 gates. This replaces the old wave7 bounded
+stopping decision only for this one measured promising point. VPN restriction,
+NSCC budget and04→05→06 remain unchanged;05:20 helper still lacks liveVPN.
+Final05:24:11UTC:23934/23973/23974/23975/24009 PENDING(Resources),5/5slots;
+watcher419440 alive, stored24009 launcher matches frozen. Use
+serving-tuning-10/review-mnnvl-n54-repeat.py after seal to compare23924 and
+all3N52controls. Existing watcher budget-deferred replacements remain capped
+at3attempts for this single confirmation point; preserve failed attempts, and
+review manually if replacements occur. No further successful N54 repeat planned.
+
+Read workspace/notes/README.md andCURRENT.md first. Latest user asks about real
+progress versus competitor v111; earlier directive remains: continue research,
+use time/GPU, preserve all results, don't require manual reminders. Previous
+policy is archived in POLICY-before-wave10-20261016.md, not current constraints.
+
+## Current jobs and confirmed results (older observations explicitly dated)
+
+Root /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments.
+- H200Slurm queue cap5; live watcher PIDfile serving-tuning/watcher.pid,
+  latestPID419440. Never duplicate watcher or change queued frozen bundles.
+- Historical02:45 H200jobs23924(MNNVLN54),23934(DP+DeepEPN54),23973(comboN52repeat1),
+  23974(freshMNNVLN52control),23975(comboN52repeat2+post-measurementlongchecks).
+  At02:45:04UTC allPENDING(Resources),5/5slots; watcher419440 alive. These are scheduler observations, not GPU results. Wave10filled the three unused slots.
+- Original combo single result23904MNNVL+FlashInfer:2631.0854goodt/s,SLA99.022%,
+  ITL16.233ms,0errors/cancel. Only one observation. Wave10replicates a1.4867%
+  gain against MNNVL23778/23839mean2592.543. Repeat control to assess drift.
+- Losing wave9chunks2048/8192:2331.353/2547.854goodt/s; don't repeat losers.
+- MNNVL independently reproduced:2592.16/2592.92,SLA99.01%.
+  DP independently reproduced:2549.20/2538.08,SLA98.87%.
+- Fullprotocol60/120/30,officialFP8 checkpoint,BF16KV,16H2008+8,RR.
+ 8case smoke7/8knownreverse,notorganiser99%accuracy. Longchecks separate.
+- Plans:serving-tuning-10/PLAN.md andprepared-pilots.json. Watcher now includes
+  wave10. CPUvalidation and mockedcap2/4/5 tests passed, realjobIDs above.
+
+## Next actions
+
+1. Check actual schedulers and logs; controllerACTIVE is not RUNNING.
+2. 23924 already final-reviewed. Collect23934 using serving-tuning/review-n54.py; compare both source
+   baselines andmean, output/protocol/runtime. Preserve failed points as data.
+3. Read serving-tuning-10/MATCHED_REVIEW.md and use review-wave10.py after seals. Offline tool compares all three controls, means and fresh-control drift; long failure/deferred remains separate. CPU preparation validated; no wave10 GPU results yet. Review wave10replications andfreshcontrol, not just peak; first two preserve
+   all execution files; third appends12~3800token retrieval tests after ranked
+   benchmark. Keep failed/deferred diagnostics explicit and investigate.
+4. Previous wave9 'no new repeat/job' statements described stopping that bounded
+   wave, NOT cancellation of user's continuous request. Wave10is now explicitly
+   planned andsubmitted. Do not reimpose old self-created prohibitions.
+5. After validcombo replications, write the next bounded load/kernel plan based
+   on measured gain/ITL. If SLA>=95%,ITL<=19.3ms,zeroerrors/cancel,no new output
+   regression andlongdiagnostic passes, prioritize comboN54 then boundedload
+   refinement. Preserve existingwave7/8gates. No blindN56 or automaticpromotion.
+6. Do useful preparatory research while queued; sourceinspection/EAGLE3/vLLM
+   work should make a concrete candidate reviewable. Avoid repeated audits of
+   already sealed immutable files or mocktests that don't advance a hypothesis.
+
+## NSCC and authentication restriction
+
+NO NEW VPN AUTHENTICATION/DUOPUSH. User explicitly objected and authorized only
+local recovery search. Old session not found; launcher hadike-persistfalse.
+OldLinux tunnel ended20:17UTC,IKEexpiry, defaultclient8h; helpernowrequests24h,
+no successful new tunnel; loginfailed at16Oct00:18status0,reasonunknown.
+Windows user session reported stillworking; do not dispute or readitssecrets.
+NSCC220575 lastconfirmedR20:12UTC15Oct; result/terminalstateunknown afterVPNloss.
+Do not duplicate it or qsub without liveownqueue/credit/reconciliation.
+Already prepared frozen H100pilots04/05/06; don't clone themagain.
+Budget16384SUtotal,retain13000SU; max16GPU/oneownPBSjob,45min1536SUreserve.
+Keep220575reserve until actualaccounting; lastledger1343.147used beforejob.
+See nscc-pbs/nscc-budget.json andcontinuous-plan.json.
+
+## Reports and limits
+
+Eachwake20min, no subagents/nestedCodex/new schedules, externalmessages/BTCupload,
+others'privatefiles orGPUworkonlogin. CPUstaging<=4threads. No secrets innotes,
+no authfile/chatcredential access orTLSbypass. No submission/slide changes.
+Write concise Vietnamese LATEST.md, appendHISTORY andupdateCURRENT/knowledge.
+Cron is localfreshCodexsessions, every5mincheck withchangegate, quota30minbackoff;
+no push intooriginalchat. Codexquota is separatefromGPUSU.

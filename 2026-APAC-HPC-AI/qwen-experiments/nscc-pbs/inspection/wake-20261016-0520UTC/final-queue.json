@@ -1,0 +1,25 @@
+{
+  "checked_utc": "2026-10-16T05:24:11.653626+00:00",
+  "queue": {
+    "rc": 0,
+    "stdout": "24009|ap42-s10-mnnvl-repeat-n54|PENDING|(Resources)|0:00|\n23975|ap42-s10-combo-repeat2-long-n52|PENDING|(Resources)|0:00|\n23974|ap42-s10-mnnvl-control-n52|PENDING|(Resources)|0:00|\n23973|ap42-s10-combo-repeat1-n52|PENDING|(Resources)|0:00|\n23934|ap42-tune-s8-dpa8-n54|PENDING|(Resources)|0:00|\n",
+    "stderr": ""
+  },
+  "accounting": {
+    "rc": 0,
+    "stdout": "23924|COMPLETED|0:0|2026-10-16T04:22:11|2026-10-16T04:31:37|00:09:26|g[1,4]\n23934|PENDING|0:0|Unknown|Unknown|00:00:00|None assigned\n23973|PENDING|0:0|Unknown|Unknown|00:00:00|None assigned\n23974|PENDING|0:0|Unknown|Unknown|00:00:00|None assigned\n23975|PENDING|0:0|Unknown|Unknown|00:00:00|None assigned\n24009|PENDING|0:0|Unknown|Unknown|00:00:00|None assigned\n",
+    "stderr": ""
+  },
+  "watcher": {
+    "rc": 0,
+    "stdout": "    PID                  STARTED STAT COMMAND\n 419440 Fri Oct 16 02:35:19 2026 Ss   python3 -u /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/watch-serving-tuning.py --run\n",
+    "stderr": ""
+  },
+  "stored_script": {
+    "rc": 0,
+    "stdout": "#!/bin/bash\n#SBATCH -J ap42-s10-mnnvl-repeat-n54\n#SBATCH -p hpcai\n#SBATCH -N 2\n#SBATCH -t 00:17:00\n#SBATCH --gres=gpu:8\n#SBATCH --exclusive\n#SBATCH --propagate=NONE\n#SBATCH -o runs/%j.out\n#SBATCH -e runs/%j.err\nset -euo pipefail\nexport QWEN_BUNDLE=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-mnnvl-repeat-n54\nexport QWEN_PREFILL_EP=1\nexport QWEN_PAIR_TIMEOUT=480\nexport QWEN_TUNE_NS=54\nexport QWEN_DIAGNOSTIC_PROFILE=0\nexport QWEN_NIXL_PATCH_SHA256=912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f\ncd \"$QWEN_BUNDLE\"\nsha256sum --check SHA256SUMS\nexec bash \"$QWEN_BUNDLE/topology-job.sh\"\n",
+    "stderr": "",
+    "matches_frozen": true
+  },
+  "historical_23924_script_lookup": "Current scontrol retrieval no longer available after completion; original queued stored-script capture exists at wake-20261015-2215UTC and matched frozen. Current export/seal/raw/runtime checks pass separately."
+}

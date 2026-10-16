@@ -1,0 +1,46 @@
+{
+  "h200-queue": {
+    "checked_utc": "2026-10-16T12:50:42.878024+00:00",
+    "returncode": 0,
+    "command": [
+      "squeue",
+      "-u",
+      "apacsc42",
+      "-o",
+      "%.18i %.10P %.28j %.10T %.12M %.5D %R"
+    ]
+  },
+  "h200-accounting": {
+    "checked_utc": "2026-10-16T12:50:42.885782+00:00",
+    "returncode": 0,
+    "command": [
+      "sacct",
+      "-X",
+      "-j",
+      "23924,23934,23973,23974,23975,24009",
+      "--format=JobID,State,ExitCode,Elapsed,Start,End,AllocTRES,NodeList",
+      "-P"
+    ]
+  },
+  "watcher": {
+    "checked_utc": "2026-10-16T12:50:42.895362+00:00",
+    "returncode": 0,
+    "command": [
+      "ps",
+      "-p",
+      "419440",
+      "-o",
+      "pid,etime,stat,args"
+    ]
+  },
+  "nscc-access": {
+    "checked_utc": "2026-10-16T12:50:42.908646+00:00",
+    "returncode": 1,
+    "command": [
+      "bash",
+      "/home/apacsc42/workspace/vpn-rootless/vpn.sh",
+      "ssh-batch",
+      "bash -lc 'qstat -u apacsc42; qstat -xf 220720.pbs111 220721.pbs111 220722.pbs111; myprojects'"
+    ]
+  }
+}

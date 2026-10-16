@@ -1,0 +1,2 @@
+Lần tìm đầu dùng sai serving-tuning/runs; thư mục thật là qwen-experiments/runs theo ROOT của reviewer. Không có artifact bị sửa. Seal check ban đầu không có giá trị; kiểm lại đúng đường dẫn dưới đây. Tương tự continuous-plan nằm ở root, không serving-tuning.
+Seal chưa có ở12:12:00; đến12:12:16 watcher đãseal,review-wave10 sau đó PARTIAL_RESULTS/23973 MEASURED_SLA_PASS. Raw-runtime-review state pendingseal là lịch sử. Broad rg vô tình đi qua own container-home mount và gặp permission denied; đã dừng tìm rộng, không đọc file riêng người khác.

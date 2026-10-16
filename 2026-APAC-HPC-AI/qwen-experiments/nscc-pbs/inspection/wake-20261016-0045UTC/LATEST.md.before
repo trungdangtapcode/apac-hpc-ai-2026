@@ -1,0 +1,10 @@
+# Báo cáo Qwen — 2026-10-16 00:19 UTC
+
+- **23904 — MNNVL + FlashInfer:** **2631,09 goodtokens/s**, SLA 99,02%; hơn trung bình hai baseline **1,49%**. TTFT tăng 122,97 ms, ITL giảm 0,91 ms. Mới có một lượt, chưa xác nhận bằng repeat.
+- **23905 — chunk2048:** **2331,35 goodtokens/s**, SLA 98,77%; goodput giảm **10,07%** dù ITL giảm 1,33 ms. TTFT tăng 676,50 ms. Runtime cũng đổi giới hạn graph prefill 4096→2048; chưa thể quy kết riêng cho chunk.
+- Cả hai đã đối soát đủ giao thức 60/120/30, không lỗi/hủy; kiểm tra đầu ra 7/8, chỉ lỗi reverse đã biết. Checksum đạt cho 47 file mỗi run, gồm hai baseline và hai candidate. Accuracy BTC chưa xác minh.
+- **H200 lúc 00:19:38 UTC:** 23906/23924/23934 PENDING(Resources), dùng 3/5 slot; watcher còn sống. Bước tiếp: thu ba job và kiểm tra graph thực của chunk8192. Không thêm job, repeat hay N56.
+- **NSCC lúc 00:15:52 UTC:** chưa có phiên VPN sống; kết quả 220575 và credit hiện tại chưa xác minh. Giữ 1536 SU dự trù, trần campaign 16384 SU; lượt nghiên cứu này không đăng nhập lại hay qsub. Pilot 04→05 chờ đủ điều kiện truy cập, baseline, queue và credit.
+- Đã cập nhật CURRENT, POLICY, Q&A, review và budget/plan; giữ artifact cùng các lần audit CPU và đính chính. Lượt này kết thúc sau phần việc độc lập; watcher tiếp tục thu kết quả.
+
+[Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/MATCHED_REVIEW.md) · [Bằng chứng](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-0015UTC/).

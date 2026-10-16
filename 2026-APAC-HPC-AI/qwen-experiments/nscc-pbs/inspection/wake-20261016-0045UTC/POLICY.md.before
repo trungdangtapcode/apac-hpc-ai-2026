@@ -1,0 +1,281 @@
+# Autonomous Qwen research — current handoff2026-10-16 00:19UTC
+
+> Persistent memory entry: `/home/apacsc42/workspace/notes/README.md` and
+> `CURRENT.md` must be read first. Historical snapshots below are not live state.
+> Update memory whenever a conversation explanation, decision or correction changes.
+
+User: “tiếp đi, tận dụng toàn bộ thời gian và gpu”. Continue authorized research,
+measure, infer, prepare and submit next useful experiments without manual reminders.
+This file is the current policy; older chronological reports are historical facts.
+
+## Systems and sources
+
+- Root `/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments`.
+- Read `SERVING_TUNING_RESULTS.md`, `serving-tuning-09/PLAN.md`,
+  `nscc-pbs/continuous-plan.json`, `nscc-pbs/nscc-budget.json`, `LATEST.md`.
+- H200 Slurm watcher `watch-serving-tuning.py --run`; shared queue cap5.
+  Read `serving-tuning/watcher.pid`; historicalPID3514431. Never duplicate watcher.
+- H20023839 COMPLETED exit0 at20:59:45UTC; independent repeat2592.92goodt/s,
+  SLA99.0074%,ITL17.1545ms,0errors/cancel,7/8smoke/no newfailure. Two-run MNNVL
+  mean2592.54;8.02% gain over23607. Existing watcher submitted gatedN54 job23924
+  at21:00:05UTC. DP23859 COMPLETED exit0 at22:11:34UTC; repeat2538.08,
+  SLA98.8651%,ITL16.9557ms,0errors/cancel; fullprotocol,seal,NIXL8ranks,
+  twoP/Dwarmup andshortnonregression independently audited. DPmean2543.64,
+  +5.98% vs23607,−1.89% vsMNNVLmean. Existingwatcher submittedDP N54 **23934**
+  at22:12:24UTC. Latestqueue16Oct00:19:38UTC:23906/23924/23934 PENDING(Resources),
+  threeofcap5;watcher3514431alive.23904 COMPLETED exit0 at15Oct23:01:10UTC;
+  23905 COMPLETED exit0 at16Oct00:05:14UTC. FinalauditsPASS:2631.0854/2331.3530
+  goodt/s,SLA99.0220/98.7697%,0errors/cancel,fullprotocol,short7/8knownreverse.
+  VersusMNNVLmean:+1.4867%/−10.0747%;23904single-runprovisional,noauto-repeat.
+  Chunk2048alsochangesresolvedprefillgraphmax_bs4096→2048/captures;notisolated
+  scheduling. Seeupdatedserving-tuning-09/MATCHED_REVIEW.md. Earlierpending/
+  runtime-onlysnapshots and23859RUNNINGsnapshot arehistorical.
+  Comparewave9 against23778 AND23839; DP N54 against23780 AND23859.
+  No automaticN56 extension. Reviews:serving-tuning-07/MNNVL_REPEAT_REVIEW.md
+  andserving-tuning-08/REPEAT_REVIEW.md.
+- NSCC PBS helper `/home/apacsc42/workspace/vpn-rootless/vpn.sh ssh-batch`.
+  At16Oct00:15:52UTC helper again found NO liveVPNsession, before SSH/PBS query.
+  Earlier20:20UTC existing master query timed out; this is historical. No new
+  authentication attempted this wake. Use existing access only; do not assume it is live.
+  Separate user-directed session: CURRENT records authentication rejection at
+  16Oct00:18:46UTC with IKE86400s; no successful tunnel. Preserve that newer VPN
+  finding; it does not provide PBS access or resolve the cause. No retry here.
+- NSCC project59010042, remote root
+  `/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015`.
+- All model assets verified and staged. Official FP8 checkpoint pinned revision
+  e156cb4efae43fbee1a1ab073f946a1377e6b969. Do not transfer again.
+
+## Confirmed data and current work
+
+- H20023778 MNNVL:2592.16goodt/s,SLA99.01%,ITL17.13ms,0errors/cancel.
+  H20023780/23859 attentionDP+DeepEP:2549.20/2538.08,SLA98.87%,0errors/cancel.
+  MNNVL independently reproduced by23839; attentionDP reproduced by23859; organiser accuracy unverified.
+- NSCC220486 failed Triton cache permissions.220489 failed600s prefill startup
+  timeout.220562 successfully benchmarked N32:1565.16goodt/s,SLA100%,ITL18.57ms,
+  0errors/cancel. Startup~20min, total23m33s. Frozen successful source is
+  `nscc-pbs/baseline-n32-readiness-02` with private/tmp and absolute readiness1200s.
+- Current NSCC **220575.pbs111** LASTCONFIRMED RUNNING20:12:38UTC, since20:06:22UTC,
+  currentstateUNVERIFIED due accessfailure20:20UTC, in `load-sweep-03`:45min16H100,
+  N32/34/36/38/40/42, each full60/120/30; stop increasing after SLA/error failure.
+  N32 is an independent repeat; amortize model loading across points.
+- Two next NSCC pilots already frozen, uploaded and SHA256 verified, NOT submitted:
+  `h100-mnnvl-04`, `h100-flashinfer-05`. Same45min/loadgrid/model/benchmark;
+  change only named decode backend. Include separate12-case~3800token retrieval
+  diagnostic after benchmark if time allows. Long diagnostic is NOT BTC accuracy.
+  See `continuous-plan.json` for gates. Do not stage duplicate pilots.
+
+## Budget and scheduler bounds
+
+- Commissioning passed. Under latest user instruction, campaign total budget was
+  explicitly amended from4096 to **16384SU**, counting ALL previous charges.
+  Preserve at least13000SU project balance; never silently increase campaign cap.
+- Rate128SU/GPU-hour. Maximum16GPU allocated simultaneously on NSCC;
+  one own PBS GPU job pending/running at once. Max45min/job=1536SU reserve.
+- Most recent reconciled ledger04:00Singapore16Oct:used1343.147,balance62656.853,
+  in_doubt0. Then reserved1536 for220575, cap headroom13504.853SU. Read live ledger.
+- Before qsub, refresh all own PBS states + credit and reserve maximum in budget
+  under `budget.lock`. Reconcile manually submitted jobs too. Balance already
+  excludes In Doubt: do not deduct prepayment twice. Preserve uncertain qsub
+  outcomes and reconcile before retry. No uncontrolled retry loops.
+- Do not wait idle for old ledger: retain conservative max charge for terminal
+  jobs not yet accounted, and use remaining budget for next useful job if it fits.
+- Do not wait for all higher-load points to pass before backend trials: require
+  the matching baseline N32 full protocol,SLA>=90%,0errors/cancel and no new
+  short-output failures; higher loads can validly fail and define the frontier.
+- After220575 terminal, collect results and submit MNNVL04 as soon as gate/budget
+  allow, then FlashInfer05 after previous job terminal. Choose next loads from
+  observed SLA/ITL. Do not end a wake saying no work remains while eligible
+  prepared pilots exist and own PBS queue is empty.
+- Research full accuracy remains unverified. Output smoke7/8 only known reverse
+  failure is research evidence, not accreditation. Failed long checks require
+  investigation and block quality claims/promotion.
+
+## Prepared in wake20:07UTC
+
+- Live collection20:12:38UTC:220575R, payloadchecksumsPASS, noexport/smoke yet.
+- `nscc-pbs/LOADER_RESEARCH.md`: source-inspected8thread/rank default, prefetch
+  policy also switches iterator. `h100-loader-prefetch-06` frozenLOCALONLY,
+  notuploaded/notreserved/notsubmitted; after04/05, samequeue/budget/quality gates.
+  Initial partial permission-failed preparation retained asattempt01-incomplete.
+- `nscc-pbs/research-next/`: EAGLE3/vLLM designs, pinnedpublicsources. Draft
+  compatibilitywithInstruct2507unverified; vLLMimageabsent. Neither ranGPU.
+
+## Useful work during queues
+
+Inspect startup bottleneck: prefill weight loading851s vs fast decode; inspect
+actual loader paths/threading/affinity and storage I/O, prepare isolated changes
+using real image/source evidence. Also prepare losslessEAGLE3 and separatevLLM
+branches from public research, without claiming they ran. Fill vacant H200slots
+with validated useful plans under cap5. Retain all attempts and raw artifacts.
+
+## Safety and execution scope
+
+Each wake20min. No GPU work on login; CPU<=4 for staging. No subagents, nested
+Codex, new schedules, reading other teams' private files, external messages or
+BTCuploads. Do not edit submission/slides. Never read auth files/chat credentials,
+write passwords, bypass TLS or automate DUO approvals. Use existing SSH only;
+if authentication expires, record it and continue independent local work.
+This is a local cron CLI workflow; it cannot send messages to the original chat.
+
+Each wake: check actual schedulers, preserve results, make one concrete research
+advance, update budget/plans and concise Vietnamese LATEST.md and HISTORY.md.
+New knowledge goes to tutorial/14-so-tay-hoi-dap.md. Do not confuse queued with
+running, scheduler COMPLETED with measured, or smoke with organiser accuracy.
+
+## Handoff wake20:20–20:25UTC
+
+- All5H200jobs stillPENDING(Resources); watcher3514431alive.
+- No freshNSCCscheduler/credit or benchmark due missingVPNsession and existing
+  SSHcommandtimeout. Preserve1536SU reservation for220575; no qsub.
+- Prepared localCPUvalidated `nscc-pbs/startup-sampler.py` and
+  `STARTUP_SAMPLING.md`: ownexplicitworkerprocess-tree counters only, noGPU.
+  Notuploaded/notintegrated; frozenpilots04/05/06unchanged.
+- Source confirms nonlocalexpert skip occurs after iterator yields tensorviews;
+  thisdoesnotprove avoidedmmapI/O. Evidencewake-20261015-2020UTC.
+- Next04/05priority and originalgatesremain. Restoreexistingaccess or record
+  unavailable; never submit without currentownqueue/credit/220575terminal.
+
+## VPN diagnosis correction
+OriginalVPN process final log20:17:01UTC: IKE SA expired, disconnecting tunnel; exit0. Reconnect20:40 authenticationfailedstatus0 is separate, cause unknown.24hControlPersist applies only toSSH. ike-persist controls on-disk session persistence per localhelp; do not mislabel as rekey. Evidence workspace/vpn-rootless/inspection/vpn-disconnect-20261015.json.
+
+## IKE lifetime source diagnosis20:47UTC
+Pinned snx-rs6.5.1 defaultsike-lifetime28800s; old helper did not override. Source rekey_tunnel terminates when negotiated IKE lifetime expires. Helper now requests86400s for NEW logins. Server may enforce shorter;24h not validated. Authentication rejection is separate and not explained by the lifetime setting. Evidence workspace/vpn-rootless/inspection/ike-lifetime-diagnosis.json.
+
+## Handoff wake20:55–20:58UTC
+
+- LiveH200:23839R, otherfourPENDING(Priority); no complete new export20:57:20UTC.
+  Existing watcher remains responsible for collecting and gatedN54 follow-up.
+- NSCC helper unavailable beforeSSH;220575 currentstate/credit remain unknown.
+  Keep1536SU reserve; no newauthentication/qsub. Backend04/05 priority unchanged.
+- Prepared `nscc-pbs/analyze-startup.py`, offlineCPUvalidated with PIDreuse,
+  missingcounter/reset/gap/truncatedtail/overwrite cases and prior ownchild data.
+  Localonly, notuploaded/notintegrated/noGPU. See STARTUP_SAMPLING.md.
+- Evidence `nscc-pbs/inspection/wake-20261015-2055UTC/`. End promptly after
+  handoff; no need to wait idle for benchmark completion or retry VPNlogin.
+
+## Handoff wake21:00–21:03UTC
+
+- Independent MNNVL repeat audited: both sealed manifests match, config differs
+  only name/purpose, all8ranks initializeMNNVL,fullprotocol/output gate pass.
+  Mean2592.54,repeatdelta0.029%; ITL improves2.38ms butTTFT rises165.43ms vs23607.
+- Existing watcher submitted23924N54; full ownqueue5PENDING(Priority)21:01:24UTC.
+  Next step checklist prepared inMNNVL_REPEAT_REVIEW.md; do not inventN56jobs.
+- NSCC no liveVPNsession beforeSSH21:01:24UTC.220575 stillcurrentstateunknown;
+  noauth/qsub;1536SUreserve and04/05priority unchanged. Ledger remains historical.
+- Evidence:nscc-pbs/inspection/wake-20261015-2100UTC/. No idle wait necessary.
+
+## Handoff wake21:05–21:09UTC
+
+- Fresh ownH200queue21:08:39UTC:23859,23904–23906,23924 allPENDING(Priority),
+  fullcap5; watcher3514431alive21:05:34UTC. No duplicate watcher/job orN56.
+- NSCCexistinghelper21:05:34UTC failed beforeSSH: no liveVPNsession.220575
+  currentstate/result/credit unknown; keep1536SUreserve, historicalledger and
+  backend04→05 priorities. No authentication/qsub.
+- Prepared localCPUvalidated `nscc-pbs/review-load-sweep.py` and
+  `LOAD_SWEEP_REVIEW.md` for collection/review of220575 when access returns.
+  Seal/protocol/actualphase/error/cancel/shortsuite checks;11localcases pass.
+  Recomputed1565.161394 from historical220562, not a new benchmark/repeat.
+  OfflineN32flag never replaces freshqueue/credit/budget/runtime gates. Missing
+  error metric requires explicit corroboration, not a generic zero default.
+- Evidence:nscc-pbs/inspection/wake-20261015-2105UTC/. Frozen04/05/06 unchanged.
+  Independent preparation complete; finish promptly without waiting on queues.
+
+## Handoff wake21:50–21:52UTC
+
+- OwnH200queue21:50:29UTC:23859,23904–23906,23924 allPENDING(Resources),cap5full;
+  watcher3514431alive. No duplicate watcher/job, noN56.
+- NSCCmissingVPN beforeSSH; nofreshPBS/credit/results220575, noauth/qsub.
+  Keep1536SU reserve; historicalledger and campaign16384SU unchanged;04→05gates remain.
+- Prepared serving-tuning-09/MATCHED_REVIEW.md; audited actual Slurm-stored
+  scripts23904–23906 against frozen jobs, allpayloadhashes/seals pass. Worker
+  changes only named factor, common scripts match23778. Metadata has inherited
+  flags/provenance; hashed worker specifies execution. No runtime validation yet.
+- Use both23778/23839 andmean2592.542986 forwave9, retainTTFT/ITL tradeoffs;
+  one faster candidate needsrepeat. Evidence:nscc-pbs/inspection/wake-20261015-2150UTC/.
+  Independent preparation complete; finish without idle waiting or newlogin.
+
+## Handoff wake22:05–22:08UTC
+
+- FreshH20022:06:58UTC:23859R since22:02:26 on g1/g4;23904–23906,23924PD(Resources),
+  sharedcap5full; watcher3514431alive. No new job/controller/schedule.
+- DP-repeat audit: frozen/copied seals,registryhash andSlurm-storedscript pass;
+  all12operationalfiles identical23780, config onlyexperiment/purpose. Runtime
+  package matches, prefill4096/decode1024. At22:06 snapshot8decodeweightsloaded
+  but noNIXLinit/export/smoke; no new performance/quality result.23780seal rehashpass.
+- Prepared serving-tuning-08/REPEAT_REVIEW.md with matchedcontrols, MNNVLalternative
+  andexactexistingN54gate2448.186716goodt/s,95%SLA,19.3msITL plusfullvalidprotocol,
+  0errors/cancel andshortoutputnonregression. Existingwatcher handlesgate/cap5.
+- NSCC22:05:24UTC helper missingVPN beforeSSH; nofreshPBS/credit/220575result,
+  noauth/qsub;1536SUreserve and04→05priority unchanged. Budgetupdated underlock.
+- Evidence nscc-pbs/inspection/wake-20261015-2205UTC/. Independentprep complete;
+  finish promptly without waiting for23859 orretryingVPNauthentication.
+
+## Handoff wake22:10–22:14UTC
+
+- DP23859 COMPLETED exit0 at22:11:34UTC; independentfinalaudit passes,fullprotocol,
+  1586measured/791warmup,0errors/cancel,8NIXLranks,2P/Dwarmup,short7/8knownreverse.
+  Mean23780/23859=2543.638582goodt/s;repeat−0.4361%,+5.9839%vs23607,
+  −1.8863%vsMNNVLmean. MeanTTFT+259.951ms,ITL−2.56594msvs23607.
+- Watcher submitted23934 DPN54 afterexistinggate.22:12:35UTC ownqueue5PENDING
+  (23904–23906/23924/23934),watcheralive. No newcontroller/schedule/duplicatejob.
+- NSCC22:10:26UTC helper missingVPN beforeSSH;220575/creditcurrentunknown;
+  noauth/qsub,1536SUreserve,campaign16384SU and04→05priorityunchanged.
+- Evidence:nscc-pbs/inspection/wake-20261015-2210UTC/. InitialCPUaudit mistakenly
+  requiredsameartifactdestination;correctedallowonlyjobpath/endpointdifferences,
+  allremainingclientsettingsmatch. Retainedattempt01. No benchmarkpayloadchange.
+- Next:watchercollectbothN54/wave9;do notextendN56. NSCCneedsaccess/terminal220575/
+  baselineN32/ownqueue/livecredit before04. Independentworkcomplete;endpromptly.
+
+## Handoff wake22:15–22:17UTC
+
+- LiveH200 22:17:19UTC:23904–23906/23924/23934 allPENDING(Resources),cap5full;
+  watcher3514431alive at22:15:28UTC. No newjob/controller/schedule orN56.
+- Audited BOTH queuedN54 payloads against BOTH matchingN52 runs: storedSlurm
+  script/frozen seal/registryhash pass;12operationalfiles identical perbranch;
+  onlyname/purpose/concurrency52→54 inconfig. Launcher onlyname/path/load differ.
+  inherited matched_concurrency52 is provenance, actualruntime54 notyetobserved.
+- Prepared serving-tuning/N54_REVIEW.md with perbaseline/mean/latency comparisons,
+  measuredfailure vsincomplete distinction and launchgate vsbenchmarkSLA.
+  No newperformance,qualitypromotion orsubmissiongate changes.
+- NSCC22:15:28UTC noexistingVPNsession beforeSSH;220575/creditstillunverified.
+  Noauthentication/qsub.1536SUreserve,campaign16384SU and04→05priorityunchanged.
+- Evidence:nscc-pbs/inspection/wake-20261015-2215UTC/. Independentprepcomplete;
+  finishpromptly withoutwaitingforqueue. NextcollectN54/wave9; NSCCneedsaccess
+  andterminal220575/baselineN32/ownqueue/livecredit before04.
+
+## Handoff wake22:55–22:57UTC
+
+- FreshH20022:57:45UTC:23904RUNNING since22:51:04,g1/g4;four other jobs
+  PENDING(Resources),sharedcap5full;watcher3514431alive. No newjob/controller/schedule.
+- Runtime23904 audit: frozen/copied payload andSlurmstoredscript match;
+  all8ranks MNNVL+FlashInferdecode+NIXL/UCX,2P/Dwarmup,chunk4096/graph64 pass.
+  ServerArgs versusBOTH23778/23839 differ onlydecodeattention andunfixedengine
+  random_seed; AIPerf2026 isseparate. No newperformance/accuracy result yet.
+- NSCC22:55:57UTC noexistingVPN beforeSSH;220575/result/creditunverified.
+  Noauth/qsub;1536SUreserve,campaign16384SU and04→05gates unchanged.
+- Evidence:nscc-pbs/inspection/wake-20261015-2255UTC/. Logprefixeshashed,notfinalseals.
+  Independent runtimeprepcomplete;endpromptly,watchercollectsfinalartifacts.
+  No repeat/N56 extension; no idlewaiting orVPNauthenticationretry.
+
+## User-authorized VPN retry16Oct00:18UTC
+Retried same provided credentials, this time helperrequestedIKE86400s; gatewayAuthenticationfailedstatus0 after64s, no tunnel orSSH. User asked about matchingDUO, no reply yet. Do not infer passwordwrong or DUOfailed from genericstatus0. Evidence workspace/vpn-rootless/inspection/login-attempt-20261016-0017UTC.json.
+
+## Handoff wake16Oct00:15–00:19UTC
+
+- LiveH20000:19:38UTC:23906/23924/23934 PENDING(Resources),3/5slots;watcheralive.
+  23904/23905 terminalexit0 and independentlyfinalaudited versusBOTH23778/23839.
+- FlashInfer+MNNVL2631.0854goodt/s,+1.4867%vsmean,TTFT+122.9668ms,ITL−0.9075ms;
+  single-runprovisional.Chunk2048:2331.3530,−10.0747%,TTFT+676.5036ms,ITL−1.3345ms.
+  Fullprotocol,0errors/cancel,short7/8nonewfails;accuracyunverified.
+- Newruntimefinding:chunk2048alsoresolvesprefillbreakablegraphmax_bs2048instead4096;
+  graphcaptureschange;decodesame. Audit23906resolvedgraphwhenitruns. CLIonefactor
+  doesnotisolateeveryderivedruntimeeffect. Rawoutputlengths199–201/199–200preserved;
+  fixed200goodputisbenchmarkconvention. BothCPUauditattemptsandcorrectionsretained.
+- NSCC00:15:52UTC noexistingVPNbeforeSSH;220575/results/creditunverified;
+  noauth/qsub,1536SUreserve,campaign16384SU,04→05gatesunchanged.
+- Evidence:nscc-pbs/inspection/wake-20261016-0015UTC/.UpdatedCURRENT,Q&A,matchedreview,budget/planunderlock.
+  Nojob/repeat/N56/controller/scheduleadded. Existingwatchercollectsthreependingjobs;
+  finishpromptlyafterindependentwork,withoutidlewaiting.
+
+## User authentication restriction16Oct
+STOP NEW VPN AUTHENTICATION. User explicitly objected to login attempts without DUO holder present. Latest authorization was LOCAL OLD SESSION SEARCH only, now completed: no saved blob or live VPN/SSH remains; originalike-persistfalse, known DBabsent. Do not authenticate, requestDUO, mine credentials or infer serverWindows session expired. Use independent CPU/H200 work and existing connections only if available. Evidence workspace/vpn-rootless/inspection/session-recovery-search-20261016.json.
