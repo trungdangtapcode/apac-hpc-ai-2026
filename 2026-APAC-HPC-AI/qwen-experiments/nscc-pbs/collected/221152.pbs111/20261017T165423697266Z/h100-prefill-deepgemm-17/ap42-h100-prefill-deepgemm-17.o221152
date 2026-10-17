@@ -1,0 +1,111 @@
+benchmark.pbs: OK
+benchmark.sh: OK
+client-with-longcheck.sh: OK
+config.json: OK
+long-context-check.py: OK
+nixl-conn.py: OK
+nixl-geometry-test.json: OK
+nixl-ondemand.patch: OK
+nixl-patch-metadata.json: OK
+output-smoke.py: OK
+pbs-container.sh: OK
+pbs-exec.py: OK
+pbs-shim.sh: OK
+pbs-task-log.sh: OK
+placement.tsv: OK
+profile-serving.py: OK
+summarize.py: OK
+topology-job.sh: OK
+warm-topology.py: OK
+worker.sh: OK
+START job=221152.pbs111 nodes=a2ap-dgx032.asp2p.nscc.sg a2ap-dgx033.asp2p.nscc.sg at 2026-10-17T23:41:14+08:00
+{
+  "id": "P8-TP4_D8-TP8-EP8",
+  "prefill_gpus": 8,
+  "decode_gpus": 8,
+  "prefill_tp": 4,
+  "decode_tp": 8,
+  "decode_ep": 8,
+  "prefill_workers": 2,
+  "decode_workers": 1,
+  "image": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh",
+  "client_image": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/aiperf.sqsh",
+  "model": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "concurrency": [
+    50
+  ],
+  "sweep_warmup_s": 10,
+  "sweep_measure_s": 20,
+  "confirm_warmup_s": 60,
+  "confirm_measure_s": 120,
+  "grace_s": 30,
+  "memory_fraction": 0.9,
+  "decode_max_running_requests": 256,
+  "context_length": 8192,
+  "kv_dtype": "auto",
+  "transfer": "nixl",
+  "prefill_ep": 1,
+  "nccl_port_policy": "20000 + http_port - 30100 (outside ephemeral range)",
+  "nixl_on_demand": true,
+  "phase": "confirm",
+  "pair_timeout_s": 480,
+  "disaggregation_bootstrap_timeout_s": 600,
+  "disaggregation_waiting_timeout_s": 600,
+  "original_job": "22222",
+  "is_prefill_ep_variant": false,
+  "transport_patch": "hetero-tp-request-descriptors-v1",
+  "transport_patch_metadata": {
+    "name": "hetero-tp-request-descriptors-v1",
+    "original_sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601",
+    "patched_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "scope": "Only heterogeneous-TP KV descriptor preparation/transfer; equal-TP path, weights, precision, head mapping and notifications retained."
+  },
+  "experiment": "h100-prefill-deepgemm-17",
+  "control_job": "22415",
+  "decode_extra_flags": [
+    "--flashinfer-allreduce-fusion-backend",
+    "mnnvl",
+    "--decode-attention-backend",
+    "flashinfer"
+  ],
+  "diagnostic_profile": false,
+  "purpose": "Matched control / phase-specific compute or startup hypothesis; full protocol, no assumed transfer gain",
+  "protocol": "Full-duration, closed-loop 4000/200; stop load increase on failed SLA/error gate",
+  "prefill_extra_flags": [
+    "--chunked-prefill-size",
+    "4096",
+    "--moe-runner-backend",
+    "deep_gemm"
+  ],
+  "wave": 5,
+  "quality_status": "Research checks only; organiser full-set accuracy unverified",
+  "standalone": true,
+  "prefill_chunk_size": 4096,
+  "source_experiment": "h100-mnnvl-repeat-08",
+  "source_job": "221058.pbs111",
+  "reference_jobs": [
+    "23130",
+    "23266"
+  ],
+  "fresh_control_job": "23286",
+  "router_extra_flags": [
+    "--prefill-policy",
+    "round_robin"
+  ],
+  "platform": "NSCC ASPIRE2A+",
+  "gpu": "H100 80GB",
+  "scheduler": "PBS",
+  "cpu_binding": "Deterministic source CPU counts, offset 8 CPUs per preceding GPU; not NUMA-tuned.",
+  "benchmark_runtime_validation": "PENDING_NEW_ALLOCATION",
+  "accuracy_verified": false,
+  "retry_of": "220489.pbs111",
+  "retry_reason": "Prefill still advancing checkpoint shards when600s readiness expired; extend shared startup deadline within30min allocation.",
+  "container_tmp": "Unique mktemp directory per process on compute node, bind mounted at /tmp",
+  "worker_readiness_deadline_s": 1200,
+  "router_readiness_timeout_s": 120,
+  "walltime_minutes": 45,
+  "source_control_job": "220575.pbs111",
+  "diagnostic": "12 concurrent long-context retrieval checks after benchmark; deferred explicitly if time insufficient",
+  "task_logging": "pbs-task-log.sh, identical in control and candidate"
+}
+FATAL: readiness timeout http://10.104.4.106:30100/health
