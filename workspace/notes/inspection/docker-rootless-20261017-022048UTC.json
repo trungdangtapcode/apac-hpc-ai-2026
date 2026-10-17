@@ -1,0 +1,118 @@
+{
+  "checked_at_utc": "2026-10-17T02:20:48.313145+00:00",
+  "scope": "Current shell on login.hpcai2025.smc only; no compute-node or remote-cluster inference",
+  "commands": [
+    {
+      "argv": [
+        "hostname"
+      ],
+      "returncode": 0,
+      "stdout": "login.hpcai2025.smc\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "id"
+      ],
+      "returncode": 0,
+      "stdout": "uid=3042(apacsc42) gid=3042(apacsc42) groups=3042(apacsc42)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-r"
+      ],
+      "returncode": 0,
+      "stdout": "4.18.0-553.63.1.el8_10.x86_64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cat",
+        "/etc/os-release"
+      ],
+      "returncode": 0,
+      "stdout": "NAME=\"Rocky Linux\"\nVERSION=\"9.8 (Blue Onyx)\"\nRELEASE_TYPE=\"stable\"\nID=\"rocky\"\nID_LIKE=\"rhel centos fedora\"\nVERSION_ID=\"9.8\"\nPLATFORM_ID=\"platform:el9\"\nPRETTY_NAME=\"Rocky Linux 9.8 (Blue Onyx)\"\nANSI_COLOR=\"0;32\"\nLOGO=\"fedora-logo-icon\"\nCPE_NAME=\"cpe:/o:rocky:rocky:9::baseos\"\nHOME_URL=\"https://rockylinux.org/\"\nVENDOR_NAME=\"RESF\"\nVENDOR_URL=\"https://resf.org/\"\nBUG_REPORT_URL=\"https://bugs.rockylinux.org/\"\nSUPPORT_END=\"2032-05-31\"\nROCKY_SUPPORT_PRODUCT=\"Rocky-Linux-9\"\nROCKY_SUPPORT_PRODUCT_VERSION=\"9.8\"\nREDHAT_SUPPORT_PRODUCT=\"Rocky Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=\"9.8\"\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cat",
+        "/proc/sys/user/max_user_namespaces"
+      ],
+      "returncode": 0,
+      "stdout": "515482\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "unshare",
+        "--user",
+        "--map-root-user",
+        "id"
+      ],
+      "returncode": 0,
+      "stdout": "uid=0(root) gid=0(root) groups=0(root)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "getcap",
+        "/usr/bin/newuidmap",
+        "/usr/bin/newgidmap"
+      ],
+      "returncode": 0,
+      "stdout": "/usr/bin/newuidmap cap_setuid=ep\n/usr/bin/newgidmap cap_setgid=ep\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "findmnt",
+        "-T",
+        "/home/apacsc42",
+        "-o",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "returncode": 0,
+      "stdout": "TARGET SOURCE              FSTYPE OPTIONS\n/home  beegfs_nodev[/home] beegfs rw,nosuid,relatime,sync,cfgFile=/etc/beegfs/beegfs-client.conf,sysMgmtdHost=198.18.57.54\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "findmnt",
+        "-T",
+        "/tmp",
+        "-o",
+        "TARGET,FSTYPE,OPTIONS"
+      ],
+      "returncode": 0,
+      "stdout": "TARGET FSTYPE OPTIONS\n/tmp   tmpfs  rw,nosuid,nodev,relatime\n",
+      "stderr": ""
+    }
+  ],
+  "binaries_on_PATH": {
+    "docker": null,
+    "dockerd": null,
+    "dockerd-rootless-setuptool.sh": null,
+    "rootlesskit": null,
+    "slirp4netns": null,
+    "newuidmap": "/usr/bin/newuidmap",
+    "newgidmap": "/usr/bin/newgidmap",
+    "fuse-overlayfs": null,
+    "getsubids": null
+  },
+  "known_slirp4netns_outside_PATH": "/home/apacsc42/workspace/vpn-rootless/bin/slirp4netns",
+  "subordinate_id_entries_for_current_user": {
+    "/etc/subuid": [],
+    "/etc/subgid": []
+  },
+  "nss_subid_config": [],
+  "sudo_observation": "sudo -n -l returned: sudo: a password is required; interactive sudo rights not determined",
+  "conclusion": "Standard Docker rootless prerequisite not met: no subordinate UID/GID ranges for apacsc42. User namespace with a single own UID works. Helper file capabilities are present. Installation/start not attempted; no daemon or host configuration changed.",
+  "followup": "Administrator must allocate non-overlapping subordinate UID/GID ranges of at least 65536 each. Kernel 4.18 storage driver and data-root filesystem require a separate check after prerequisites are met.",
+  "sources": [
+    "https://docs.docker.com/engine/security/rootless/",
+    "https://docs.docker.com/engine/security/rootless/troubleshoot/"
+  ]
+}
