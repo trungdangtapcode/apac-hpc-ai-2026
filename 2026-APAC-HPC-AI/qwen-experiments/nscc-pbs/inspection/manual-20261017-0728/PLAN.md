@@ -1,0 +1,20 @@
+# Independent combo load replication —17Oct2026
+
+User requests continued useful queuedGPUwork.221051midpoint terminal25:45exit0;
+N47goodput2101.24/SLA96.716%,less thanN46 controls;closeMNNVLmidpointbranch.
+221052combo48/50/52alreadyrunning;priorcombo48twopasseswithsealedruntime/short/long.
+Submit oneindependent SAME48/50/52combo sweep afterany221052 to distinguish
+run/node/timevariability and frontier threshold,notanewunreviewedbackend.
+StopincreaseonfirstfailedSLA/error. NoN54orautomaticretry/promotion.
+16H100,40minmax1365.3334SU. Sameexecution/protocol/weights/precision/quality;
+onlywalltimeandmatchinginternaldiagnosticdeadline45→40change. Readiness1200s,
+3fullpoints~11min+checks fit whenstartuptypical~20min. Slowstartcanleaddeferred
+checks;preserverawandmarkincomplete,neverpromotesmokeorpartialprotocol.
+
+RefreshALLownqueue/credit/accountingunderbudget.lock;confirm221051Fwall25:45,
+replaceitspendingmaxchargewithconservativeallocatedtimeestimate878.934SUuntil
+ledgerposts;retainpendingrecord. Running221052max1536SUstillreserved. Thus
+used12487.681+unposted878.934+active1536+new1365.334=16267.949<16384SU;
+headroom>=116.051SUbeforeactualchargeupdates. NoanotherGPUjobfitsconservatively.
+Ifledgeradvanced,reconcileactualterminalchargesfirst,neverdoublecountInDoubt.
+Projectretain13000SU,max1running16GPU,cap3PBS,strictafterany221052.

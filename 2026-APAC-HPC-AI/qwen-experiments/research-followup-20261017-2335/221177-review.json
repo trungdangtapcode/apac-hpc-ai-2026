@@ -1,0 +1,102 @@
+{
+  "job": "221177.pbs111",
+  "checked_utc": "2026-10-17T23:39:49.966290+00:00",
+  "state": "REVIEWED_SLA_AND_RESEARCH_QUALITY_PASS",
+  "accuracy_verified": false,
+  "submitted_new_jobs": false,
+  "snapshot": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/collected/221177.pbs111/20261017T233841242542Z",
+  "point": {
+    "concurrency": 50,
+    "protocol_pass": true,
+    "phase_complete": true,
+    "latency_error_gate_pass": true,
+    "sla_fraction": 0.9850107066381156,
+    "good_output_tokens_s": 2232.719907528564,
+    "ttft_avg_ms": 492.58071808850815,
+    "itl_avg_ms": 19.38878686912533
+  },
+  "frozen_payload": {
+    "benchmark.pbs": true,
+    "benchmark.sh": true,
+    "client-with-longcheck.sh": true,
+    "config.json": true,
+    "long-context-check.py": true,
+    "nixl-conn.py": true,
+    "nixl-geometry-test.json": true,
+    "nixl-ondemand.patch": true,
+    "nixl-patch-metadata.json": true,
+    "output-smoke.py": true,
+    "pbs-container.sh": true,
+    "pbs-exec.py": true,
+    "pbs-shim.sh": true,
+    "pbs-task-log.sh": true,
+    "placement.tsv": true,
+    "profile-serving.py": true,
+    "summarize.py": true,
+    "topology-job.sh": true,
+    "warm-topology.py": true,
+    "worker.sh": true
+  },
+  "long": {
+    "state": "PASSED",
+    "passed": 12,
+    "total": 12,
+    "errors": 0
+  },
+  "runtime": {
+    "prefill-0": {
+      "runtime_differences": {
+        "moe_runner_backend": [
+          "'auto'",
+          "'deep_gemm'"
+        ],
+        "random_seed": [
+          "734264537",
+          "349787726"
+        ],
+        "speculative_moe_runner_backend": [
+          "'auto'",
+          "'deep_gemm'"
+        ]
+      },
+      "startup_timing_lines": [
+        "[2026-10-18 07:32:10] Engine startup timings (s): load_weight=906.99, kv_cache_allocation=0.27, scheduler_e2e=1096.62, cuda_graph={prefill=160.30, decode=0.00, target_verify=0.00, draft_prefill=0.00, draft_decode=0.00, draft_extend=0.00}, tokenizer_e2e=1118.84"
+      ]
+    },
+    "prefill-1": {
+      "runtime_differences": {
+        "moe_runner_backend": [
+          "'auto'",
+          "'deep_gemm'"
+        ],
+        "random_seed": [
+          "964893971",
+          "372231243"
+        ],
+        "speculative_moe_runner_backend": [
+          "'auto'",
+          "'deep_gemm'"
+        ]
+      },
+      "startup_timing_lines": [
+        "[2026-10-18 07:32:04] Engine startup timings (s): load_weight=906.42, kv_cache_allocation=0.32, scheduler_e2e=1089.35, cuda_graph={prefill=154.76, decode=0.00, target_verify=0.00, draft_prefill=0.00, draft_decode=0.00, draft_extend=0.00}, tokenizer_e2e=1111.54"
+      ]
+    },
+    "decode-0": {
+      "runtime_differences": {
+        "random_seed": [
+          "233075513",
+          "1064236305"
+        ]
+      },
+      "startup_timing_lines": [
+        "[2026-10-18 07:17:57] Engine startup timings (s): load_weight=92.33, kv_cache_allocation=0.57, scheduler_e2e=244.65, cuda_graph={prefill=0.00, decode=123.76, target_verify=0.00, draft_prefill=0.00, draft_decode=0.00, draft_extend=0.00}, tokenizer_e2e=266.96"
+      ]
+    }
+  },
+  "fresh_control_job": "221151.pbs111",
+  "goodput_gain_percent": 0.05786034293835396,
+  "ttft_delta_ms": -3.3344115222060964,
+  "itl_delta_ms": 0.002740525165236818,
+  "interpretation": "Startup diagnostics and allocation cost are separate from scored throughput. Ordering, loading and cache can confound startup. One useful observed gain requires independent confirmation; official accuracy is not established."
+}
