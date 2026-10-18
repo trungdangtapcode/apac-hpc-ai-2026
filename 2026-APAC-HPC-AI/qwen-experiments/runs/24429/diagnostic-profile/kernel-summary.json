@@ -1,0 +1,1429 @@
+{
+  "traces": [
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-0-EP-0.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 612414.1779999982,
+      "collective_fraction_of_summed_kernel_time": 0.2300309399433929,
+      "moe_fraction_of_summed_kernel_time": 0.2908884777647979,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 159279.3959999997
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100954.55799999976
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 70573.38999999994
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 67277.72799999996
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 56764.48799999922
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20388.159000000018
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 18864.831999999788
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13815.921999999915
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13507.556999999828
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9646.963999999933
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9149.810000000032
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8313.415000000088
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8217.04600000002
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7128.187999999984
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7108.424000000053
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6563.36299999992
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6079.551000000027
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5718.525000000033
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5120.85599999996
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4564.411000000037
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-1-EP-1.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 630687.3920000001,
+      "collective_fraction_of_summed_kernel_time": 0.24854339723347435,
+      "moe_fraction_of_summed_kernel_time": 0.26863988427407876,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 150255.75600000017
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100855.07699999995
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 78499.00900000006
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 75408.14799999991
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 66019.86499999942
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21980.93600000008
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19172.03200000043
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13828.747999999934
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13594.694999999867
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9659.037000000106
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9217.195000000045
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8358.824000000008
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8268.330000000176
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7150.706999999934
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7138.704999999985
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6527.422999999928
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6023.680000000008
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5740.151999999982
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5098.66099999998
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4588.1210000000365
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-2-EP-2.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 618358.4919999994,
+      "collective_fraction_of_summed_kernel_time": 0.23501664953280854,
+      "moe_fraction_of_summed_kernel_time": 0.28210503657156966,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 155290.27200000008
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100906.95899999992
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 72466.078
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 69200.05199999984
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 60031.02799999911
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21847.956000000086
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19151.7730000004
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13882.98699999992
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13584.291999999852
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9649.609000000113
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9253.766000000034
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8361.813000000002
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8280.950000000093
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7167.216999999993
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7138.243999999984
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6541.3699999999135
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6074.161000000027
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5707.280000000017
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5091.0789999999915
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4599.134000000035
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-3-EP-3.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 622870.7969999999,
+      "collective_fraction_of_summed_kernel_time": 0.23969899651596618,
+      "moe_fraction_of_summed_kernel_time": 0.2770401868752254,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 153395.90300000005
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100951.53400000003
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 74808.43999999994
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 71488.91600000013
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 62472.72799999921
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21900.985000000037
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19164.339000000542
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13836.650999999927
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13553.67699999988
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9664.640000000063
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9212.015000000045
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8378.338000000023
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8280.86700000011
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7126.696999999957
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7125.4860000000035
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6543.219999999923
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6066.076000000026
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5706.126000000001
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5153.091000000065
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4595.868000000023
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-4-EP-4.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 608378.3900000005,
+      "collective_fraction_of_summed_kernel_time": 0.22278211262566355,
+      "moe_fraction_of_summed_kernel_time": 0.2946164820219872,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 160101.1480000002
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100736.29800000021
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 68848.02399999999
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 65408.299000000006
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 55615.69399999925
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21378.55900000013
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19137.15300000047
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13828.290999999934
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13575.005999999863
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9641.032000000154
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9258.429000000053
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8365.658000000001
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8292.157000000107
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7256.331999999991
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7106.981000000057
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6533.543999999948
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6095.586000000018
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5699.017000000014
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5155.206000000039
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4591.5540000000165
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-5-EP-5.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 629315.9149999996,
+      "collective_fraction_of_summed_kernel_time": 0.2501087248047749,
+      "moe_fraction_of_summed_kernel_time": 0.2702353300567653,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 151195.29800000018
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100809.55400000022
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 78685.97999999985
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 75366.57000000017
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 64842.52499999884
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20897.320000000065
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 18868.095999999965
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13735.826999999887
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13594.019999999873
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9681.981000000127
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9227.05700000005
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8299.794000000102
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8167.346000000027
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7143.949000000083
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7130.282999999963
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6535.860999999935
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6032.531000000009
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5624.401000000071
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5160.733000000113
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4592.81500000002
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-6-EP-6.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 632114.0079999993,
+      "collective_fraction_of_summed_kernel_time": 0.25209279494404113,
+      "moe_fraction_of_summed_kernel_time": 0.26591779943595356,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 149010.72600000037
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100940.09599999996
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 79656.03699999985
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 76373.16499999995
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 66800.10099999879
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21460.533000000123
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19079.640000000196
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13891.361999999934
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13606.159999999825
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9686.248000000107
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9233.17900000004
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8290.836000000085
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8202.429000000036
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7160.169999999981
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7065.713999999972
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6541.705999999928
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6048.170000000013
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5664.898000000093
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5100.310999999989
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4592.430000000026
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-7-EP-7.trace.json.gz",
+      "kernels": 79324,
+      "summed_kernel_us": 618927.2279999981,
+      "collective_fraction_of_summed_kernel_time": 0.234887257214026,
+      "moe_fraction_of_summed_kernel_time": 0.2811066295503163,
+      "top_kernels": [
+        {
+          "name": "fused_moe_kernel",
+          "summed_us": 154984.49499999962
+        },
+        {
+          "name": "void flashinfer::BatchPrefillWithPagedKVCacheKernel<flashinfer::KernelTraits<(flashinfer::MaskMode)0, 16u, 1u, 2u, 8u, 8u, 1u, 4u, (flashinfer::PosEncodingMode)0, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, int, flashinfer::DefaultAttention<false, false, false, false> >, PagedParams>(PagedParams)",
+          "summed_us": 100719.32100000003
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::rmsNormLamport<__nv_bfloat16, (flashinfer::trtllm_mnnvl_allreduce::QuantType)0, true, 1, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 74044.85500000007
+        },
+        {
+          "name": "void flashinfer::trtllm_mnnvl_allreduce::twoshotAllreduceKernel<(unsigned char)8, __nv_bfloat16, false, float4>(flashinfer::trtllm_mnnvl_allreduce::AllReduceKernelParams<__nv_bfloat16>)",
+          "summed_us": 70389.96799999962
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 61408.996999998664
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 16u, 128u, 128u, 128u, 32u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 21937.726000000133
+        },
+        {
+          "name": "void moe_align_block_size_small_batch_expert_kernel<int, 256>(int const*, int*, int*, int*, int, int, unsigned long, bool, bool, int)",
+          "summed_us": 19000.05200000001
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 64u, 32u, 128u, 128u, 128u, 64u, 16u, 128u, 128u, 1u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 13877.179999999922
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x4_h_bz_splitK_TNT",
+          "summed_us": 13537.54899999986
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9680.89499999996
+        },
+        {
+          "name": "void flashinfer::PersistentVariableLengthMergeStatesKernel<8u, 16u, 8u, 4u, __nv_bfloat16, __nv_bfloat16, int>(__nv_bfloat16*, float*, int*, __nv_bfloat16*, float*, unsigned int, unsigned int*, unsigned int)",
+          "summed_us": 9153.879000000057
+        },
+        {
+          "name": "void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1}>(long, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>, at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1} const&, bool)::{lambda(int)#1})",
+          "summed_us": 8357.798000000033
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 8278.769000000086
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 7092.746000000054
+        },
+        {
+          "name": "void moe_sum_reduce_kernel<c10::BFloat16, 8>(c10::BFloat16 const*, c10::BFloat16*, long, long, long, long, long, at::OpMathType<c10::BFloat16>::type)",
+          "summed_us": 7034.648999999962
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 6533.540999999935
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, true, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 6064.898000000021
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "summed_us": 5745.284999999981
+        },
+        {
+          "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+          "summed_us": 5093.528000000051
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4596.703000000025
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-0.trace.json.gz",
+      "kernels": 14960,
+      "summed_kernel_us": 546387.0719999999,
+      "collective_fraction_of_summed_kernel_time": 0.24206156363816736,
+      "moe_fraction_of_summed_kernel_time": 0.00799069235664493,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 132259.30899999992
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 89144.66499999998
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66833.673
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43702.54499999998
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 29997.443
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24294.628000000022
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22524.314000000028
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22178.207999999977
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20560.87999999999
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20291.913999999986
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13496.410999999982
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9590.746
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9557.354000000007
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7629.966000000003
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6225.247999999996
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4554.808
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4366.011000000002
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4017.812999999994
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3497.913000000002
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2020.7689999999986
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-1.trace.json.gz",
+      "kernels": 14960,
+      "summed_kernel_us": 544754.9830000002,
+      "collective_fraction_of_summed_kernel_time": 0.24401383217819964,
+      "moe_fraction_of_summed_kernel_time": 0.008031274860316413,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 132927.75100000005
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 87971.86399999999
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66338.54300000002
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43632.84700000004
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 29993.846999999994
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24284.11399999999
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22539.994000000017
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22361.359000000008
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20568.191000000006
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20522.992000000006
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13128.297999999984
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9642.940000000006
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9611.802000000003
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7667.692999999993
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6047.6100000000015
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4567.254000000007
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4375.076999999997
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 3853.014999999996
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3470.464000000002
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2019.9599999999984
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-2.trace.json.gz",
+      "kernels": 14960,
+      "summed_kernel_us": 544723.5119999998,
+      "collective_fraction_of_summed_kernel_time": 0.24442653395141148,
+      "moe_fraction_of_summed_kernel_time": 0.008022925215682632,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 133144.88000000003
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 88215.48499999996
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66392.11700000001
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43456.94700000002
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 29996.345999999976
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24309.095
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22533.062000000034
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22126.016999999985
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20564.523999999998
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20280.624999999996
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13114.770999999988
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9626.238
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9626.129999999996
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7676.890000000004
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6084.6799999999985
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4561.665000000002
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4370.275999999999
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 3944.8299999999917
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3466.1960000000045
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2017.6139999999982
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-3.trace.json.gz",
+      "kernels": 14960,
+      "summed_kernel_us": 546005.483,
+      "collective_fraction_of_summed_kernel_time": 0.23837705856884223,
+      "moe_fraction_of_summed_kernel_time": 0.007985776948690458,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 130155.181
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 90050.43100000001
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 67147.70699999997
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43970.05799999996
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 30000.13499999999
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24150.01199999997
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22548.533000000007
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22469.867999999995
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20680.39899999999
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20583.884000000016
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13262.563999999984
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9631.831000000007
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9543.688999999995
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7642.296000000001
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6218.859999999997
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4593.273000000001
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4360.277999999999
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4067.984999999994
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3510.1560000000045
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2018.9459999999974
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-0.trace.json.gz",
+      "kernels": 14953,
+      "summed_kernel_us": 542869.0809999997,
+      "collective_fraction_of_summed_kernel_time": 0.2381633906315619,
+      "moe_fraction_of_summed_kernel_time": 0.008042810233283484,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 129291.54099999992
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 89329.85600000001
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66712.804
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43586.60300000001
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 30030.400999999994
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24269.971
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22523.280999999988
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22049.803000000014
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20736.465999999993
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20158.248000000003
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13530.433999999981
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9652.517999999998
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9432.426000000001
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7641.272000000007
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6183.639999999995
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4581.265000000004
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4366.1929999999975
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4007.952999999994
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3521.1660000000074
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2012.6159999999975
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-1.trace.json.gz",
+      "kernels": 14953,
+      "summed_kernel_us": 543561.5669999998,
+      "collective_fraction_of_summed_kernel_time": 0.24311868797007868,
+      "moe_fraction_of_summed_kernel_time": 0.008046212730121146,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 132149.97499999998
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 87955.462
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66266.46199999997
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43545.09700000001
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 30007.99900000001
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24305.24699999999
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22530.017000000007
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22269.882000000012
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20567.869000000002
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20437.84100000001
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13120.59099999998
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9610.704
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9603.386999999997
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7666.933000000002
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6059.400999999995
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4568.1280000000015
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4373.611999999996
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 3863.8599999999933
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3466.6810000000037
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2025.1599999999987
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-2.trace.json.gz",
+      "kernels": 14953,
+      "summed_kernel_us": 543892.3710000003,
+      "collective_fraction_of_summed_kernel_time": 0.23976164394480912,
+      "moe_fraction_of_summed_kernel_time": 0.008040754445515101,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 130404.52900000008
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 88945.517
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66773.24600000006
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43728.036
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 29996.979999999996
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24345.648
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22517.165999999997
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22335.065000000006
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20583.765
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20443.64000000002
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13124.71399999998
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9635.310000000001
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9619.532999999996
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7669.136000000005
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6132.698999999997
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4568.634
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4373.305000000001
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 4007.0629999999937
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3477.206000000003
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2022.282999999998
+        }
+      ]
+    },
+    {
+      "trace": "runs/24429/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-3.trace.json.gz",
+      "kernels": 14953,
+      "summed_kernel_us": 543964.3699999998,
+      "collective_fraction_of_summed_kernel_time": 0.24409689369912219,
+      "moe_fraction_of_summed_kernel_time": 0.008023744275751006,
+      "top_kernels": [
+        {
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<4096ul>)",
+          "summed_us": 132780.01299999992
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 768u, 4096u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 87732.54799999998
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 4096u, 384u, 128u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)1, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 66140.43999999994
+        },
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, true, false, false, true, true, false, false, false, true, true, true, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<128> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, true, true, false, false>, flash::VarlenDynamicPersistentTileScheduler<128, 128, 256, 128, false, true, true, true, true, true> > >::Params)",
+          "summed_us": 43399.87499999998
+        },
+        {
+          "name": "post_reorder_deepgemm_triton_kernel",
+          "summed_us": 29993.301000000025
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gmemalign128oi64409640961_tensorptrbf16gme_0",
+          "summed_us": 24225.152
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul> >(int, at::native::FillFunctor<c10::Float8_e4m3fn>, std::array<char*, 1ul>)",
+          "summed_us": 22528.391000000003
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 128u, 192u, 128u, 128u, 128u, 128u, 4u, 128u, 256u, 2u, false, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 22314.580000000027
+        },
+        {
+          "name": "_fwd_kernel_ep_scatter_2",
+          "summed_us": 20609.90200000002
+        },
+        {
+          "name": "void deep_gemm::sm90_fp8_gemm_1d2d_impl<(cute::UMMA::Major)0, 0u, 0u, 0u, 1u, 256u, 128u, 128u, 128u, 128u, 128u, 3u, 128u, 256u, 2u, true, 132u, (deep_gemm::GemmType)0, cutlass::bfloat16_t, deep_gemm::epilogue::transform::EpilogueIdentity>(float*, int*, unsigned int, unsigned int, unsigned int, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)",
+          "summed_us": 20508.838
+        },
+        {
+          "name": "_tma_align_input_scale_kernel",
+          "summed_us": 13206.339999999982
+        },
+        {
+          "name": "void (anonymous namespace)::act_and_mul_kernel<__nv_bfloat16, ((anonymous namespace)::ActivationKind)0, true, false, false, false>((anonymous namespace)::ActivationParams)",
+          "summed_us": 9626.493999999992
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, true, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 9529.961
+        },
+        {
+          "name": "void (anonymous namespace)::per_token_group_quant_flat_kernel<(anonymous namespace)::QuantTrait<__nv_bfloat16, __nv_fp8_e4m3, 128u, false, false, true, false>, true>((anonymous namespace)::QuantKernelParams)",
+          "summed_us": 7634.6160000000045
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "summed_us": 6083.989999999997
+        },
+        {
+          "name": "nvjet_sm90_tst_64x64_64x13_2x1_v_bz_TNT",
+          "summed_us": 4590.636999999999
+        },
+        {
+          "name": "fused_moe_dispatch_index_triton_kernel",
+          "summed_us": 4364.631
+        },
+        {
+          "name": "void (anonymous namespace)::fused_qknorm_warp<128l, true, __nv_bfloat16>((anonymous namespace)::QKNormParams)",
+          "summed_us": 3861.296999999991
+        },
+        {
+          "name": "void (anonymous namespace)::fused_rope_store_kernel<true, 128l, true, __nv_bfloat16, __nv_bfloat16, long, 16u>((anonymous namespace)::FusedRopeStoreParams)",
+          "summed_us": 3458.248000000004
+        },
+        {
+          "name": "_router_triton_kernel",
+          "summed_us": 2013.830999999998
+        }
+      ]
+    }
+  ],
+  "interpretation": "Per-rank summed GPU kernel durations; overlap can double-count wall time. Not a speedup or accuracy measurement."
+}
