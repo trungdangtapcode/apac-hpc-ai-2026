@@ -1,0 +1,129 @@
+{
+  "created_utc": "2026-10-15T03:32:32.028001+00:00",
+  "state": "FINISHED",
+  "scope": "Three independent initial jobs; same confirmed RR N52 and official protocol. Keep four account jobs pending/running. No automatic submission promotion.",
+  "source_experiment": "s5-rr-repeat-n52",
+  "reference_jobs": [
+    "23325",
+    "23576"
+  ],
+  "max_active_jobs": 4,
+  "pilots": [
+    {
+      "id": "s6-rr-profile-n52",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-profile-n52",
+      "planned_ns": [
+        52
+      ],
+      "state": "MEASURED",
+      "wave": 6,
+      "purpose": "Fresh full round-robin N52 control, followed by separate 52-request GPU profiling; identify the new decode bottleneck without profiling ranked traffic.",
+      "diagnostic_profile": true,
+      "expected_profile_ranks": {
+        "prefill-0": 4,
+        "prefill-1": 4,
+        "decode-0": 8
+      },
+      "payload_sha256": {
+        "benchmark.sh": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822",
+        "config.json": "cd5f2e5673b3e5b2d6b58d278eb57cbaf6796bd9849a2c12015b647fd85f4017",
+        "job.sbatch": "96eac8c70e98cabbb41b6257f75633873b52efed513dca31880884696c9a26a7",
+        "nixl-conn.py": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl-geometry-test.json": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608",
+        "nixl-ondemand.patch": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8",
+        "nixl-patch-metadata.json": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27",
+        "output-smoke.py": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0",
+        "placement.tsv": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb",
+        "profile-serving.py": "09e24b1fcbcb0ebe8e176eabbd0363bbfd7ffbc9a435dd3272c19d75ea333d59",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "bfe870c23c51eff1285ace72f15c3f0d4aedb17ed25aa9ec1570ac6e14b0bb2d",
+        "warm-topology.py": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d",
+        "worker.sh": "5b3576cf1d3f3576651757fa725c3d1ff67f32f997b398318b80a57b885f1cfc"
+      },
+      "measurements": [],
+      "missing_ns": [
+        52
+      ],
+      "benchmark_complete": false,
+      "profile_complete": null,
+      "traces": [],
+      "attempts": [],
+      "job": "23607"
+    },
+    {
+      "id": "s6-rr-fp8kv-n52",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-fp8kv-n52",
+      "planned_ns": [
+        52
+      ],
+      "state": "MEASURED",
+      "wave": 6,
+      "purpose": "FP8 E4M3 KV on P and D versus BF16 on the confirmed round-robin N52 configuration; test decode bandwidth/ITL headroom. Accuracy required before any submission use.",
+      "diagnostic_profile": false,
+      "expected_profile_ranks": {},
+      "payload_sha256": {
+        "benchmark.sh": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822",
+        "config.json": "9677a6d200032f36974b21dfd9b3e91d06c9a95732fd6b29b92433f734774c08",
+        "job.sbatch": "705ab15bd1b4069746bd2b9975a37efc952d1cef054c296bef832c4f2dc1a28a",
+        "nixl-conn.py": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl-geometry-test.json": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608",
+        "nixl-ondemand.patch": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8",
+        "nixl-patch-metadata.json": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27",
+        "output-smoke.py": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0",
+        "placement.tsv": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb",
+        "profile-serving.py": "7a51cebfc4ac0dc06c84c7b7262f204b06c7822d8590a5ae18e771c1c6f14779",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "bfe870c23c51eff1285ace72f15c3f0d4aedb17ed25aa9ec1570ac6e14b0bb2d",
+        "warm-topology.py": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d",
+        "worker.sh": "c50e7018436881a1022678120c95600ae668339e1a34098f6621a11498f864f0"
+      },
+      "measurements": [],
+      "missing_ns": [
+        52
+      ],
+      "benchmark_complete": false,
+      "profile_complete": null,
+      "traces": [],
+      "attempts": [],
+      "job": "23608"
+    },
+    {
+      "id": "s6-rr-deepgemm-n52",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-deepgemm-n52",
+      "planned_ns": [
+        52
+      ],
+      "state": "MEASURED",
+      "wave": 6,
+      "purpose": "Decode DeepGEMM versus auto/Triton on the same round-robin N52 configuration and identical dense graph list; test the fuller decode batch after routing changed.",
+      "diagnostic_profile": false,
+      "expected_profile_ranks": {},
+      "payload_sha256": {
+        "benchmark.sh": "650b76be21d80ab9424e1fabb981f9db32d79899c5c15b2787d6fa7696f7c822",
+        "config.json": "20b39bd0a04f4b8ae15fcaca73c3673c8e35daa10ef1e18fb16af890b9b2c0b1",
+        "job.sbatch": "8ee2475a11c9349d24fed8af754966009c8efbdb5aba449f17731abc158c4232",
+        "nixl-conn.py": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl-geometry-test.json": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608",
+        "nixl-ondemand.patch": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8",
+        "nixl-patch-metadata.json": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27",
+        "output-smoke.py": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0",
+        "placement.tsv": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb",
+        "profile-serving.py": "7a51cebfc4ac0dc06c84c7b7262f204b06c7822d8590a5ae18e771c1c6f14779",
+        "summarize.py": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c",
+        "topology-job.sh": "bfe870c23c51eff1285ace72f15c3f0d4aedb17ed25aa9ec1570ac6e14b0bb2d",
+        "warm-topology.py": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d",
+        "worker.sh": "3f3cd5c29da94ad87d0d1761ecbab5c938b533c3de7c2160f261ef6591f9dc13"
+      },
+      "measurements": [],
+      "missing_ns": [
+        52
+      ],
+      "benchmark_complete": false,
+      "profile_complete": null,
+      "traces": [],
+      "attempts": [],
+      "job": "23609"
+    }
+  ],
+  "updated_utc": "2026-10-18T02:43:31.845199+00:00"
+}

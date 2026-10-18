@@ -1,0 +1,66 @@
+{
+  "state": "FINISHED",
+  "matched_control": "s6-rr-profile-n52",
+  "reference_good_tokens_s": 2400.1830549877477,
+  "min_gain_fraction": 0.02,
+  "higher_min_sla": 0.95,
+  "higher_max_itl_ms": 19.3,
+  "max_active_jobs": 5,
+  "candidates": [
+    {
+      "source_experiment": "s7-rr-cutlass-n52",
+      "repeat": {
+        "id": "s7-cutlass-repeat-n52",
+        "state": "SKIPPED_NO_VALIDATED_GAIN",
+        "purpose": "Repeat isolated decode cutlass N52 only after at least 2% goodput improvement over both round-robin controls and research output checks.",
+        "reason": "Need a full passing N52 point with output research eligibility and at least 2% gain over both controls."
+      },
+      "higher_load": {
+        "id": "s7-cutlass-n54",
+        "state": "SKIPPED_NO_REPEAT",
+        "purpose": "Try decode cutlass N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms."
+      }
+    },
+    {
+      "source_experiment": "s7-rr-flashinfer-n52",
+      "repeat": {
+        "id": "s7-flashinfer-repeat-n52",
+        "state": "SKIPPED_NO_VALIDATED_GAIN",
+        "purpose": "Repeat isolated decode flashinfer N52 only after at least 2% goodput improvement over both round-robin controls and research output checks.",
+        "reason": "Need a full passing N52 point with output research eligibility and at least 2% gain over both controls."
+      },
+      "higher_load": {
+        "id": "s7-flashinfer-n54",
+        "state": "SKIPPED_NO_REPEAT",
+        "purpose": "Try decode flashinfer N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms."
+      }
+    },
+    {
+      "source_experiment": "s7-rr-mnnvl-n52",
+      "repeat": {
+        "id": "s7-mnnvl-repeat-n52",
+        "state": "MEASURED",
+        "purpose": "Repeat isolated decode mnnvl N52 only after at least 2% goodput improvement over both round-robin controls and research output checks.",
+        "job": "23839",
+        "n": 52
+      },
+      "higher_load": {
+        "id": "s7-mnnvl-n54",
+        "state": "MEASURED",
+        "purpose": "Try decode mnnvl N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms.",
+        "job": "23924",
+        "n": 54
+      }
+    }
+  ],
+  "scope": "At most one independent N52 repeat and one gated N54 per candidate; shared account cap four. No automatic submission promotion.",
+  "updated_utc": "2026-10-18T02:43:31.887858+00:00",
+  "comparison_floor_good_tokens_s": 2448.1867160875026,
+  "queue_limit_amendment": {
+    "date_utc": "2026-10-15",
+    "previous_controller_limit": 4,
+    "cluster_qos": "normal",
+    "observed_MaxSubmitPU": 5,
+    "reason": "Verified public Slurm QoS; fill the fifth slot with a validated architecture pilot."
+  }
+}

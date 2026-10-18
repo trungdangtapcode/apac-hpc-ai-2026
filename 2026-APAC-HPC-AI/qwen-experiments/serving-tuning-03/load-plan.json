@@ -1,0 +1,67 @@
+{
+  "created_utc": "2026-10-14T05:30:46.047233+00:00",
+  "state": "FINISHED",
+  "source_experiment": "s2-repeat-best",
+  "source_jobs": [
+    "23130",
+    "23266"
+  ],
+  "source_good_tokens_s": [
+    2078.964453879525,
+    2079.1798547791814
+  ],
+  "reference_good_tokens_s": 2079.072154329353,
+  "max_active_jobs": 4,
+  "repeat_min_gain_fraction": 0.02,
+  "steps": [
+    {
+      "id": "s3-control-n52",
+      "n": 52,
+      "parent": "s2-repeat-best",
+      "state": "MEASURED",
+      "purpose": "Independent standalone N52; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+      "job": "23286"
+    },
+    {
+      "id": "s3-best-n54",
+      "n": 54,
+      "parent": "s2-repeat-best",
+      "state": "MEASURED",
+      "purpose": "Independent standalone N54; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+      "job": "23287"
+    },
+    {
+      "id": "s3-best-n56",
+      "n": 56,
+      "parent": "s3-best-n54",
+      "state": "MEASURED",
+      "purpose": "Independent standalone N56; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+      "job": "23437"
+    },
+    {
+      "id": "s3-best-n60",
+      "n": 60,
+      "parent": "s3-best-n56",
+      "state": "MEASURED",
+      "purpose": "Independent standalone N60; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+      "job": "23495"
+    }
+  ],
+  "refinement": {
+    "id": "s3-midpoint",
+    "state": "MEASURED",
+    "n": 58,
+    "purpose": "Independent N58 midpoint between N56 and N60; same confirmed BF16 chunk4096/dense-graph serving config.",
+    "job": "23505"
+  },
+  "repeat": {
+    "id": "s3-best-load-repeat",
+    "state": "MEASURED",
+    "n": 58,
+    "purpose": "Independent confirmation at N58 after 2157.31 good tokens/s in load refinement; no automatic submission promotion.",
+    "job": "23516"
+  },
+  "scope": "At most six full independent jobs: N52/54/56/60, optional midpoint, optional winner repeat. No output/model precision changes or automatic submission promotion.",
+  "gates": "N56 requires passing N54; N60 requires passing N56. Failed deployment is not a load boundary. Output research eligibility and full measurements required. Organiser accuracy remains unverified.",
+  "updated_utc": "2026-10-18T02:43:31.799356+00:00"
+}

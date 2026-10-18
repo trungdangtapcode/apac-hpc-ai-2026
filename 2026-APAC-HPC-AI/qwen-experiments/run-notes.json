@@ -1,0 +1,1061 @@
+{
+  "22130": {
+    "topology": "07",
+    "purpose": "L\u1ea7n \u0111\u1ea7u ch\u1ea1y \u0111\u1ed1i ch\u1ee9ng v\u00e0 client",
+    "finding": "Deployment \u0111\u00e3 l\u00ean, client l\u1ed7i tokenizer tr\u01b0\u1edbc khi c\u00f3 s\u1ed1 \u0111o h\u1ee3p l\u1ec7.",
+    "lesson": "D\u00f9ng official tokenizer ID c\u00f9ng HF cache offline; ki\u1ec3m tra tokenizer tr\u01b0\u1edbc benchmark.",
+    "performance_evidence": false
+  },
+  "22131": {
+    "topology": "09",
+    "purpose": "Sweep N16/32/64 v\u00e0 confirm N32",
+    "finding": "N32 confirm \u0111\u1ea1t 97,84% SLA v\u00e0 1472,73 good tokens/s; N64 sweep tr\u01b0\u1ee3t SLA.",
+    "lesson": "Gi\u1eef N32 l\u00e0m \u1ee9ng vi\u00ean; thu h\u1eb9p kho\u1ea3ng N32\u2013N64 thay v\u00ec ch\u1ec9 t\u0103ng t\u1ea3i.",
+    "provenance_note": "benchmark.sh \u0111\u01b0\u1ee3c s\u1eeda tr\u01b0\u1edbc khi client b\u1eaft \u0111\u1ea7u \u0111\u1ec3 d\u00f9ng tokenizer h\u1ee3p l\u1ec7 v\u00e0 confirm; summarize.py \u0111\u00e3 \u0111\u01b0\u1ee3c s\u1eeda \u0111\u1ec3 lo\u1ea1i warmup/exports tr\u00f9ng. C\u00e1c snapshot n\u00e0y kh\u00f4ng ph\u1ea3i l\u1ecbch s\u1eed b\u1ea5t bi\u1ebfn t\u1eeb l\u00fac submit.",
+    "performance_evidence": true
+  },
+  "22135": {
+    "topology": "07",
+    "purpose": "Sweep N16/32/64 sau s\u1eeda tokenizer",
+    "finding": "C\u1ea3 3 \u0111i\u1ec3m tr\u01b0\u1ee3t SLA; N16 c\u00f3 14 request b\u1ecb h\u1ee7y; logs c\u00f2n cold KV bootstrap.",
+    "lesson": "L\u01b0u s\u1ed1 li\u1ec7u nh\u01b0ng kh\u00f4ng suy ra speedup nhi\u1ec1u l\u1ea7n t\u1eeb cold-path run; c\u1ea7n warm \u0111\u1ee7 t\u1eebng c\u1eb7p v\u00e0 confirm d\u00e0i.",
+    "provenance_note": "summarize.py \u0111\u01b0\u1ee3c c\u1eadp nh\u1eadt trong qu\u00e1 tr\u00ecnh ch\u1ea1y \u0111\u1ec3 l\u1ecdc \u0111\u00fang export ch\u00ednh v\u00e0 th\u00eam th\u1ed1ng k\u00ea; raw artifacts gi\u1eef nguy\u00ean.",
+    "performance_evidence": true
+  },
+  "22143": {
+    "topology": "07",
+    "purpose": "Th\u1eed warm \u0111\u1ee7 8 c\u1eb7p tr\u01b0\u1edbc confirm N32",
+    "finding": "Gateway t\u1ea1m tr\u00f9ng c\u1ed5ng Prometheus 29000; l\u1ed7i tr\u01b0\u1edbc benchmark.",
+    "lesson": "API port ri\u00eang ch\u01b0a \u0111\u1ee7; c\u1ed5ng metrics c\u0169ng ph\u1ea3i ri\u00eang cho t\u1eebng gateway.",
+    "performance_evidence": false
+  },
+  "22147": {
+    "topology": "07",
+    "purpose": "Ch\u1ea1y l\u1ea1i warm t\u1eebng c\u1eb7p sau s\u1eeda c\u1ed5ng metrics",
+    "finding": "Gateway /health tr\u1ea3 OK tr\u01b0\u1edbc khi worker registration ho\u00e0n t\u1ea5t; warmup nh\u1eadn no-workers HTTP503.",
+    "lesson": "Readiness ph\u1ea3i ki\u1ec3m tra kh\u1ea3 n\u0103ng ph\u1ee5c v\u1ee5; retry c\u00f3 gi\u1edbi h\u1ea1n \u0111\u00fang l\u1ed7i ch\u01b0a c\u00f3 worker.",
+    "performance_evidence": false
+  },
+  "22197": {
+    "topology": "07",
+    "purpose": "Warm 8 c\u1eb7p c\u00f3 retry registration, confirm N32",
+    "finding": "809/832 request \u0111\u1ea1t SLA; 1297,02 good tokens/s. Warmup t\u1eebng c\u1eb7p th\u00e0nh c\u00f4ng.",
+    "lesson": "\u0110\u1ed1i ch\u1ee9ng d\u00e0i h\u1ee3p l\u1ec7; 09/N32 cao h\u01a1n 13,55% trong hai l\u01b0\u1ee3t \u0111o, c\u1ea7n l\u1eb7p \u0111\u1ec3 \u0111\u00e1nh gi\u00e1 dao \u0111\u1ed9ng.",
+    "performance_evidence": true
+  },
+  "22200": {
+    "topology": "09",
+    "purpose": "Warm 4 c\u1eb7p; sweep N40/N48; confirm m\u1ee9c t\u1ed1t nh\u1ea5t qua SLA",
+    "finding": "Ho\u00e0n th\u00e0nh: N40 confirm 1026/1049 request \u0111\u1ea1t SLA (97,81%), 1649,27 good tokens/s, cancelled=0. N48 sweep ch\u1ec9 88,17% n\u00ean lo\u1ea1i.",
+    "lesson": "N40 c\u1ea3i thi\u1ec7n so N32 trong m\u1ed9t deployment; t\u0103ng l\u00ean N48 \u0111\u00e3 tr\u01b0\u1ee3t SLA. D\u00f9ng N40 l\u00e0m m\u1ed1c tr\u01b0\u1edbc \u0111\u1ee3t 17 topology, ch\u01b0a ch\u1ee9ng minh \u0111\u1ed9 \u1ed5n \u0111\u1ecbnh qua nhi\u1ec1u deployment.",
+    "performance_evidence": true
+  },
+  "22219": {
+    "topology": "P8-TP4_D8-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 5 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. T\u1ed1t nh\u1ea5t (confirm) N40: 1666.01 good tokens/s, 97.82% SLA.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/01-P8-TP4_D8-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22219/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22220": {
+    "topology": "P8-TP2_D8-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: srun: error: Timed out waiting for job step to complete srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/02-P8-TP2_D8-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22220/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22221": {
+    "topology": "P8-TP8_D8-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: FATAL: worker/router step 1545193 exited before readiness srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/03-P8-TP8_D8-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22221/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22222": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: srun: error: Timed out waiting for job step to complete srun: error: g1: task 0: Exited with exit code 1",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/04-P8-TP4_D8-TP8-EP8/SHA256SUMS; b\u1ea3n sao \u1edf runs/22222/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22231": {
+    "topology": "P4-TP4_D12-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 5 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. T\u1ed1t nh\u1ea5t (confirm) N40: 1382.16 good tokens/s, 97.40% SLA.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/05-P4-TP4_D12-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22231/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22232": {
+    "topology": "P12-TP4_D4-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: srun: error: Timed out waiting for job step to complete srun: error: g1: task 0: Exited with exit code 1",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/06-P12-TP4_D4-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22232/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22233": {
+    "topology": "P8-TP2_D8-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/07-P8-TP2_D8-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22233/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22234": {
+    "topology": "P8-TP2_D8-TP8-EP8",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: FATAL: worker/router step 1585227 exited before readiness srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/08-P8-TP2_D8-TP8-EP8/SHA256SUMS; b\u1ea3n sao \u1edf runs/22234/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22235": {
+    "topology": "P8-TP4_D8-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/09-P8-TP4_D8-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22235/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22236": {
+    "topology": "P8-TP8_D8-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: FATAL: worker/router step 1599156 exited before readiness srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/10-P8-TP8_D8-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22236/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22238": {
+    "topology": "P8-TP8_D8-TP8-EP8",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: FATAL: worker/router step 1602373 exited before readiness srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/11-P8-TP8_D8-TP8-EP8/SHA256SUMS; b\u1ea3n sao \u1edf runs/22238/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22239": {
+    "topology": "P4-TP2_D12-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/12-P4-TP2_D12-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22239/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22240": {
+    "topology": "P4-TP2_D12-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: srun: error: Timed out waiting for job step to complete srun: error: Timed out waiting for job step to complete",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/13-P4-TP2_D12-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22240/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22241": {
+    "topology": "P4-TP4_D12-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/14-P4-TP4_D12-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22241/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22242": {
+    "topology": "P12-TP2_D4-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/15-P12-TP2_D4-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22242/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22245": {
+    "topology": "P12-TP2_D4-TP4-EP4",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i FAILED; 0 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export. D\u1ea5u l\u1ed7i trong log: srun: error: Timed out waiting for job step to complete srun: error: g1: task 0: Exited with exit code 1",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": false,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/16-P12-TP2_D4-TP4-EP4/SHA256SUMS; b\u1ea3n sao \u1edf runs/22245/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22246": {
+    "topology": "P12-TP4_D4-TP2-EP2",
+    "purpose": "Sweep 17 topology: N16/32/40/48; confirm \u0111i\u1ec3m t\u1ed1t nh\u1ea5t qua SLA n\u1ebfu \u0111\u1ee7 th\u1eddi gian.",
+    "finding": "Tr\u1ea1ng th\u00e1i COMPLETED; 4 l\u01b0\u1ee3t \u0111\u00e3 c\u00f3 raw export.",
+    "lesson": "Gi\u1eef \u0111i\u1ec3m tr\u01b0\u1ee3t SLA v\u00e0 l\u1ed7i deploy; kh\u00f4ng x\u1ebfp \u0111i\u1ec3m ch\u01b0a qua SLA ho\u1eb7c b\u1ecb h\u1ee7y v\u00e0o nh\u00f3m hi\u1ec7u n\u0103ng h\u1ee3p l\u1ec7.",
+    "performance_evidence": true,
+    "provenance_note": "Payload c\u1ed1 \u0111\u1ecbnh tr\u01b0\u1edbc submit, hash \u1edf /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-sweep/17-P12-TP4_D4-TP2-EP2/SHA256SUMS; b\u1ea3n sao \u1edf runs/22246/submitted/. Weights/images ngo\u00e0i payload."
+  },
+  "22270": {
+    "topology": "P8-TP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22220; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 4 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/pilot-07; original failed logs preserved."
+  },
+  "22271": {
+    "topology": "P8-TP8-EP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22221; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm FAILED; 0 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/03-P8-TP8-EP2_D8-TP4-EP4-a1-sweep; original failed logs preserved."
+  },
+  "22272": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Recovery of 22222; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. Pilot 22294 served the actual workload; replace unstarted full-pool transfer retry with on-demand descriptors.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/04-P8-TP4_D8-TP8-EP8-a1-sweep; original failed logs preserved."
+  },
+  "22273": {
+    "topology": "P12-TP4_D4-TP4-EP4",
+    "purpose": "Recovery of 22232; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 4 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/06-P12-TP4_D4-TP4-EP4-a1-sweep; original failed logs preserved."
+  },
+  "22274": {
+    "topology": "P8-TP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22220; confirm N[48].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. User requested cancel and resubmit unchanged pending job to test queue behavior.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/02-P8-TP2_D8-TP4-EP4-a2-confirm; original failed logs preserved."
+  },
+  "22280": {
+    "topology": "P8-TP8-EP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22221; sweep N[16, 32].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. Cancelled while PENDING, Start=None, elapsed=0; replaced by job 22294 with tested on-demand NIXL patch. Frozen original retry remains unchanged.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/03-P8-TP8-EP2_D8-TP4-EP4-a2-sweep; original failed logs preserved."
+  },
+  "22294": {
+    "topology": "P8-TP8-EP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22221; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/03-P8-TP8-EP2_D8-TP4-EP4-a3-sweep; original failed logs preserved."
+  },
+  "22300": {
+    "topology": "P8-TP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22234; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. User requested cancel and resubmit unchanged pending job to test queue behavior.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/08-P8-TP2_D8-TP8-EP8-a1-sweep; original failed logs preserved."
+  },
+  "22305": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Recovery of 22222; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. User requested cancel and resubmit unchanged pending job to test queue behavior.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/04-P8-TP4_D8-TP8-EP8-a2-sweep; original failed logs preserved."
+  },
+  "22413": {
+    "topology": "P12-TP4_D4-TP4-EP4",
+    "purpose": "Recovery of 22232; confirm N[16].",
+    "finding": "Slurm CANCELLED; 0 exports. Failure is not a completed benchmark. User requested cancel and resubmit unchanged pending job to test queue behavior.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/06-P12-TP4_D4-TP4-EP4-a2-confirm; original failed logs preserved."
+  },
+  "22414": {
+    "topology": "P8-TP2_D8-TP4-EP4",
+    "purpose": "Recovery of 22220; confirm N[48].",
+    "finding": "Slurm COMPLETED; 1 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/02-P8-TP2_D8-TP4-EP4-a2-confirm; original failed logs preserved."
+  },
+  "22415": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Recovery of 22222; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/04-P8-TP4_D8-TP8-EP8-a2-sweep; original failed logs preserved."
+  },
+  "22416": {
+    "topology": "P12-TP4_D4-TP4-EP4",
+    "purpose": "Recovery of 22232; confirm N[16].",
+    "finding": "Slurm COMPLETED; 1 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/06-P12-TP4_D4-TP4-EP4-a2-confirm; original failed logs preserved."
+  },
+  "22417": {
+    "topology": "P8-TP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22234; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/08-P8-TP2_D8-TP8-EP8-a1-sweep; original failed logs preserved."
+  },
+  "22468": {
+    "topology": "P8-TP8-EP2_D8-TP2-EP2",
+    "purpose": "Recovery of 22236; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 4 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/10-P8-TP8-EP2_D8-TP2-EP2-a1-sweep; original failed logs preserved."
+  },
+  "22509": {
+    "topology": "P8-TP8-EP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22238; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm FAILED; 0 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/11-P8-TP8-EP2_D8-TP8-EP8-a1-sweep; original failed logs preserved."
+  },
+  "22517": {
+    "topology": "P4-TP2_D12-TP4-EP4",
+    "purpose": "Recovery of 22240; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/13-P4-TP2_D12-TP4-EP4-a1-sweep; original failed logs preserved."
+  },
+  "22524": {
+    "topology": "P8-TP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22234; sweep N[48].",
+    "finding": "Slurm COMPLETED; 1 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/08-P8-TP2_D8-TP8-EP8-a3-sweep; original failed logs preserved."
+  },
+  "22532": {
+    "topology": "P12-TP2_D4-TP4-EP4",
+    "purpose": "Recovery of 22245; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Original worker TP/EP arrangement retained. Transport patch: hetero-tp-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/16-P12-TP2_D4-TP4-EP4-a1-sweep; original failed logs preserved."
+  },
+  "22538": {
+    "topology": "P8-TP8-EP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22238; sweep N[16, 32].",
+    "finding": "Slurm FAILED; 0 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/11-P8-TP8-EP2_D8-TP8-EP8-a2-sweep; original failed logs preserved."
+  },
+  "22750": {
+    "topology": "P8-TP8-EP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22238; sweep N[16, 32].",
+    "finding": "Slurm COMPLETED; 2 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/11-P8-TP8-EP2_D8-TP8-EP8-a3-sweep; original failed logs preserved."
+  },
+  "22778": {
+    "topology": "P8-TP8-EP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22238; sweep N[40, 48].",
+    "finding": "Slurm FAILED; 0 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/11-P8-TP8-EP2_D8-TP8-EP8-a4-sweep; original failed logs preserved."
+  },
+  "22809": {
+    "topology": "P8-TP8-EP2_D8-TP8-EP8",
+    "purpose": "Recovery of 22238; sweep N[16, 32, 40, 48].",
+    "finding": "Slurm COMPLETED; 5 exports. Failure is not a completed benchmark.",
+    "lesson": "Fixed distinct NCCL ports and bounded cold-path warmup. Prefill EP2 is a distinct variant to align FP8 expert shards. Transport patch: equal-tp8-request-descriptors-v1.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/topology-repair/11-P8-TP8-EP2_D8-TP8-EP8-a5-sweep; original failed logs preserved."
+  },
+  "23102": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Repeat N48 and increase N52/N56 using full 60/120/30 measurements; stop raising load after a failed gate.",
+    "finding": "Slurm COMPLETED; 2 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/control-load"
+  },
+  "23103": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode graphs for every batch 1..64; remove padding to coarse graph sizes. Other workers and model precision unchanged.",
+    "finding": "Slurm COMPLETED; 2 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/dense-decode-graphs"
+  },
+  "23104": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent N48 repeat, then GPU traces under separate 48-request diagnostic traffic; traces never used as performance scores.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/profile-control"
+  },
+  "23106": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Repeat N48 and increase N52/N56 using full 60/120/30 measurements; stop raising load after a failed gate.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/control-load-retry-2"
+  },
+  "23109": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode graphs for every batch 1..64; remove padding to coarse graph sizes. Other workers and model precision unchanged.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/dense-decode-graphs-retry-2"
+  },
+  "23113": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent full repeat at N52 after a higher passing goodput in the control load search; confirm stability before promotion.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/load-best-repeat"
+  },
+  "23114": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Prefill chunk 4096 versus original 8192; keep decode, KV, model, NIXL patch and client protocol unchanged.",
+    "finding": "Slurm COMPLETED; 2 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/prefill-chunk4096"
+  },
+  "23115": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode DeepGEMM MoE runner versus original auto/Triton; profile MoE kernel fraction up to 29.2%. Separate quality validation required before promotion.",
+    "finding": "Slurm COMPLETED; 2 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/decode-deepgemm"
+  },
+  "23128": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Standalone N52 control with the old chunk 8192; measure cold deployment reproducibility.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-control-n52"
+  },
+  "23129": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Standalone N52 confirmation of the current best chunk 4096.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-chunk4096-n52"
+  },
+  "23130": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Combine the independently measured chunk 4096 and dense decode graphs; compare with chunk-only at the same N52.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-chunk4096-dense-n52"
+  },
+  "23131": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Larger prefill chunk 16384 versus 8192/4096; test batching throughput against TTFT and startup time.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-chunk16384-n52"
+  },
+  "23146": {
+    "topology": "Monolithic TP4/EP1 (2 instances) + TP8/EP8 (1 instance); no P/D",
+    "purpose": "Unranked diagnostic; not a contest P/D deployment or accuracy gate",
+    "finding": "Slurm COMPLETED; 132 diagnostic responses.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-output-monolithic",
+    "lesson": "Output correctness and performance are separate; preserve failed output checks."
+  },
+  "23264": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Matched DeepGEMM control for the DeepEP pilot, chunk 4096, coarse decode graph cap 64.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-deepgemm-control-n52"
+  },
+  "23265": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "FP8 E4M3 KV on both P/D versus matched BF16 chunk-4096 control. Accuracy is required before any promotion.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-fp8-kv-n52"
+  },
+  "23266": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N52 repeat of s2-chunk4096-dense-n52 after 2078.96 good tokens/s; candidate ranking remains provisional.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s2-repeat-best"
+  },
+  "23267": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N52 repeat of s2-chunk4096-n52 after 2033.03 good tokens/s; candidate ranking remains provisional.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s2-repeat-runner"
+  },
+  "23272": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "DeepEP low-latency FP8 dispatch versus matched DeepGEMM control; TP/EP and BF16 KV retained.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/s2-deepep-ll-n52"
+  },
+  "23286": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N52; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-control-n52"
+  },
+  "23287": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N54; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-best-n54"
+  },
+  "23324": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Limit each prefill batch to one request at chunk4096; test completion/TTFT against partially packed two-request batches observed in logs.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-04/s4-prefill-single-n52"
+  },
+  "23325": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Route prefill round-robin instead of inherited cache_aware policy; test initial burst balance on the cache-busted workload. Decode routing retained.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-04/s4-prefill-roundrobin-n52"
+  },
+  "23437": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N56; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-best-n56"
+  },
+  "23495": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent standalone N60; same twice-measured BF16 chunk4096/dense-graph configuration. Only concurrency changes.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-best-n60"
+  },
+  "23505": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent N58 midpoint between N56 and N60; same confirmed BF16 chunk4096/dense-graph serving config.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-midpoint"
+  },
+  "23516": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent confirmation at N58 after 2157.31 good tokens/s in load refinement; no automatic submission promotion.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s3-best-load-repeat"
+  },
+  "23576": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent repeat of job23325 round-robin prefill at N52; validate the 2402.64 single-point result.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s5-rr-repeat-n52"
+  },
+  "23577": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Round-robin N50 versus N52: test more ITL headroom with identical serving and official client.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s5-rr-n50"
+  },
+  "23583": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Round-robin N54 only after the N52 repeat passes SLA/output research checks; stop advancing after a failure.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s5-rr-n54"
+  },
+  "23607": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh full round-robin N52 control, followed by separate 52-request GPU profiling; identify the new decode bottleneck without profiling ranked traffic.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-profile-n52"
+  },
+  "23608": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "FP8 E4M3 KV on P and D versus BF16 on the confirmed round-robin N52 configuration; test decode bandwidth/ITL headroom. Accuracy required before any submission use.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-fp8kv-n52"
+  },
+  "23609": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode DeepGEMM versus auto/Triton on the same round-robin N52 configuration and identical dense graph list; test the fuller decode batch after routing changed.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/s6-rr-deepgemm-n52"
+  },
+  "23616": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent N53 midpoint between N52 and N54; same round-robin prefill, BF16 chunk4096/dense-graph serving config.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s5-rr-midpoint"
+  },
+  "23773": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent confirmation at N53 after 2433.41 good tokens/s in load refinement; no automatic submission promotion.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s5-rr-best-repeat"
+  },
+  "23776": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode CUTLASS block-FP8 MoE versus auto/Triton. Round-robin N52 profile attributes 27.4% summed decode kernel duration to MoE; actual staged implementation supports SM90 block FP8.",
+    "finding": "Slurm FAILED; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/s7-rr-cutlass-n52"
+  },
+  "23777": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode FlashInfer attention versus FA3, BF16 KV unchanged on both roles. FA3 attention is 19.6% of summed decode kernel duration; leave prefill attention, page size and KV transport unchanged.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/s7-rr-flashinfer-n52"
+  },
+  "23778": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Decode MNNVL fused allreduce versus auto/TRTLLM. Collectives are 20.1% of summed decode kernel duration; exact staged resolver permits SM90 single-node TP8. No quantized communication.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/s7-rr-mnnvl-n52"
+  },
+  "23780": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Architecture pilot: decode DP-attention8 (attention TP1), EP8, DeepEP low-latency FP8 dispatch and DeepGEMM. Retain 8+8 P/D split and RR N52 to isolate the architecture package before any 12+4 reallocation or speculation.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-08/s8-rr-dpa8-deepep-n52"
+  },
+  "23839": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Repeat isolated decode mnnvl N52 only after at least 2% goodput improvement over both round-robin controls and research output checks.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s7-mnnvl-repeat-n52"
+  },
+  "23859": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent architecture repeat only after at least 2% validated N52 goodput gain over both controls.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s8-dpa8-repeat-n52"
+  },
+  "23904": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/s9-mnnvl-flashinfer-n52"
+  },
+  "23905": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/s9-mnnvl-chunk2048-n52"
+  },
+  "23906": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Single additional factor on successful MNNVL N52; compare matched MNNVL, not old auto backend.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-09/s9-mnnvl-chunk8192-n52"
+  },
+  "23924": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Try decode mnnvl N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3 ms.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s7-mnnvl-n54"
+  },
+  "23934": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Architecture N54 only after reproduced N52 gain, SLA at least 95% and mean ITL at most 19.3ms.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/s8-dpa8-n54"
+  },
+  "23973": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent matched replication of small MNNVL+FlashInfer gain; no higher load or engine change.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-repeat1-n52"
+  },
+  "23974": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent matched replication of small MNNVL+FlashInfer gain; no higher load or engine change.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-mnnvl-control-n52"
+  },
+  "23975": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent matched replication of small MNNVL+FlashInfer gain; no higher load or engine change.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-repeat2-long-n52"
+  },
+  "24009": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One independent full-protocol MNNVL N54 replication after sealed job23924 gained 1.6004% over both N52 controls mean; same load and execution, no N56 or automatic promotion.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-mnnvl-repeat-n54"
+  },
+  "24131": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Bounded N54 load extension after three full-protocol N52 combo observations and long12/12 pass; no N56 or automatic promotion",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-n54"
+  },
+  "24174": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh N52 comparator for independently replicated combo N54",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-fresh-n52"
+  },
+  "24175": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One independent combo N54 replication against fresh N52 and all previous N52/N54 runs",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-repeat-n54"
+  },
+  "24189": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "N54 control and N56 capacity after two passing N54 measurements; no N58 or automatic promotion",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-control-n54-v2"
+  },
+  "24190": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "N54 control and N56 capacity after two passing N54 measurements; no N58 or automatic promotion",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-probe-n56"
+  },
+  "24235": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Confirm N56 or modest N58 probe after full passing N56; noN60 or promotion",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-repeat-n56"
+  },
+  "24236": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Confirm N56 or modest N58 probe after full passing N56; noN60 or promotion",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-probe-n58"
+  },
+  "24263": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Profile new MNNVL+FlashInfer N56 winner after throughput plateau atN58; trace only after full ranked measurement, no profiler in score",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-profile-n56"
+  },
+  "24272": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Direct H200N50 validation of empirical H100\u2192H200 transfer estimate calibrated atsameN52;notnewbackend",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-cross-platform-n50"
+  },
+  "24281": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Test prefill batching or parallelism after N56/N58 ITLplateau and TTFTgrowth;compareunchangedcomboN56,notassumedbottleneck",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-prefill-single-n56"
+  },
+  "24282": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Test prefill batching or parallelism after N56/N58 ITLplateau and TTFTgrowth;compareunchangedcomboN56,notassumedbottleneck",
+    "finding": "Slurm FAILED; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-prefill-tp8-n56"
+  },
+  "24291": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Profile-guided prefill-only DeepGEMM trial; decode unchanged",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-n56"
+  },
+  "24320": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh N56 control / corrected TP8EP2 prefill / prefill weight prefetch, same decode and protocol",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-combo-control-n56-v3"
+  },
+  "24321": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh N56 control / corrected TP8EP2 prefill / prefill weight prefetch, same decode and protocol",
+    "finding": "Slurm FAILED; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-tp8ep2-n56"
+  },
+  "24322": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh N56 control / corrected TP8EP2 prefill / prefill weight prefetch, same decode and protocol",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-prefetch-n56"
+  },
+  "24327": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Replicate reviewed job 24291 (+1.81% versus 24263); compare new control 24320, retain full protocol and quality gates",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-repeat-n56"
+  },
+  "24352": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "New prefill backend may move capacity frontier: one N58 test, not a blind N60 increase. Existing combo N58 plateaued; independent DeepGEMM N56 confirmation remains required.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-n58"
+  },
+  "24375": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Repair TP8-to-TP8 warmup timeout using exact previously GPU-validated equal-TP transport patch; no model/kernel/load changes",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-tp8ep2-equal-n56"
+  },
+  "24376": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Measure prefill CUDA graph startup cost versus scored goodput; decode graphs and kernels unchanged",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-no-graph-n56"
+  },
+  "24425": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Confirmed DeepGEMM backend: test chunk8192 interaction at N56 with graph settings retained. No combination with unresolved graph-off trial.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-chunk8192-n56"
+  },
+  "24426": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Complete auto/DeepGEMM \u00d7 prefill-graph-on/off comparison; one flag versus confirmed DeepGEMM N56. Decode unchanged. Separate startup savings and throughput.",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-no-graph-n56"
+  },
+  "24428": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Bracket confirmed DeepGEMM N56/N58 with N54; do not assume higher concurrency wins",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-n54"
+  },
+  "24429": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Profile changed prefill backend after scored N56 benchmark; compare separate N48 diagnostic with prior 24263, 4 prefill/32 decode steps, 16 ranks",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s10-prefill-deepgemm-profile-n56"
+  },
+  "24526": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh DeepGEMM chunk4096 N56 control for chunk and backend trials",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-dg-control-n56"
+  },
+  "24527": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent repeat of the provisional 0.20 percent chunk8192 gain",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-dg-chunk8192-repeat-n56"
+  },
+  "24528": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Test intermediate prefill chunk size; isolate batch geometry while holding backend and load fixed",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-dg-chunk6144-n56"
+  },
+  "24529": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Source-compatible Hopper FP8 HPC-Ops prefill trial; decode unchanged",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-hpc-prefill-n56"
+  },
+  "24538": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "H200 decode-only HPC-Ops trial motivated by measured H100 gain; retain confirmed DeepGEMM prefill and compare fresh24526",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-hpc-decode-n56"
+  },
+  "24544": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One bounded N58 chunk8192 trial after two positive N56 chunk observations; compare historical N58 chunk4096 and fresh N56 chunk8192",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s11-dg-chunk8192-n58"
+  },
+  "24573": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent repetition of provisional 0.78 percent prefill chunk6144 gain; compare new chunk4096 control",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-dg-chunk6144-repeat-n56"
+  },
+  "24574": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent repetition of provisional 0.61 percent HPC-Ops prefill gain; compare new DeepGEMM control",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-hpc-prefill-repeat-n56"
+  },
+  "24575": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh confirmed DeepGEMM chunk4096 N56 control to detect drift before interpreting sub-percent gains",
+    "finding": "Slurm COMPLETED; 1 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-dg-fresh-control-n56"
+  },
+  "24588": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Repeat provisional N58 chunk8192 peak against a new same-load chunk4096 control; do not rely only on historical comparator",
+    "finding": "Slurm TIMEOUT; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-dg-chunk8192-repeat-n58"
+  },
+  "24589": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh DeepGEMM chunk4096 N58 control to isolate chunk effect at the new operating point",
+    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-dg-fresh-control-n58"
+  },
+  "24639": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One N58 HPC-Ops decode trial from verified N56 ITL headroom; retain DeepGEMM prefill chunk4096 and compare same-load control24589",
+    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-decode-n58"
+  },
+  "24640": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Combine independently repeated HPC-Ops prefill with independently repeated chunk6144; compare24574 for chunk and24573 for runner effects",
+    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-prefill-chunk6144-n56"
+  },
+  "24641": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Add verified HPC-Ops decode to repeated HPC-Ops prefill at N56; isolate decode against24574 and prefill against24538",
+    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
+    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-both-n56"
+  }
+}

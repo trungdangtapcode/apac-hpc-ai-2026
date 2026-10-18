@@ -1,0 +1,60 @@
+{
+  "created_utc": "2026-10-15T01:33:38.930297+00:00",
+  "state": "FINISHED",
+  "source_experiment": "s4-prefill-roundrobin-n52",
+  "source_jobs": [
+    "23325"
+  ],
+  "source_good_tokens_s": [
+    2402.643915457695
+  ],
+  "reference_good_tokens_s": 2402.643915457695,
+  "configuration_label": "round-robin prefill, BF16 chunk4096/dense-graph",
+  "max_active_jobs": 4,
+  "repeat_min_gain_fraction": 0.0,
+  "steps": [
+    {
+      "id": "s5-rr-repeat-n52",
+      "n": 52,
+      "parent": "s4-prefill-roundrobin-n52",
+      "purpose": "Independent repeat of job23325 round-robin prefill at N52; validate the 2402.64 single-point result.",
+      "state": "MEASURED",
+      "job": "23576"
+    },
+    {
+      "id": "s5-rr-n50",
+      "n": 50,
+      "parent": "s4-prefill-roundrobin-n52",
+      "purpose": "Round-robin N50 versus N52: test more ITL headroom with identical serving and official client.",
+      "state": "MEASURED",
+      "job": "23577"
+    },
+    {
+      "id": "s5-rr-n54",
+      "n": 54,
+      "parent": "s5-rr-repeat-n52",
+      "purpose": "Round-robin N54 only after the N52 repeat passes SLA/output research checks; stop advancing after a failure.",
+      "state": "MEASURED",
+      "job": "23583"
+    }
+  ],
+  "refinement": {
+    "id": "s5-rr-midpoint",
+    "state": "MEASURED",
+    "n": 53,
+    "purpose": "Independent N53 midpoint between N52 and N54; same round-robin prefill, BF16 chunk4096/dense-graph serving config.",
+    "job": "23616"
+  },
+  "repeat": {
+    "id": "s5-rr-best-repeat",
+    "state": "MEASURED",
+    "n": 53,
+    "purpose": "Independent confirmation at N53 after 2433.41 good tokens/s in load refinement; no automatic submission promotion.",
+    "job": "23773"
+  },
+  "scope": "At most five independent deployments: N52 repeat, N50, gated N54, optional midpoint and best-new-point confirmation. All exact serving flags preserved, only N varies.",
+  "reason": "Round-robin measured2402.64 at N52 with98.93% SLA; mean ITL19.57ms and maximum19.90ms are close to20ms. Confirm before selection and compare a lower load.",
+  "accuracy_verified": false,
+  "repeat_always": true,
+  "updated_utc": "2026-10-18T02:43:31.830208+00:00"
+}
