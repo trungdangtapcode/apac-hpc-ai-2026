@@ -1,0 +1,37 @@
+# APAC HPC-AI Qwen research archive
+
+This repository imports the team's existing Qwen-serving research, run evidence, learning notes and presentation work from a temporary cluster account. It preserves the two original directory trees so links, run IDs and frozen execution payloads remain traceable.
+
+- `2026-APAC-HPC-AI/`: organiser reference material and `qwen-experiments/`, containing serving configurations, Slurm/PBS scripts, run artifacts, reviews, transport patches and failed attempts.
+- `workspace/`: persistent notes, tutorials, reports, submission materials and reviewed operational source.
+- `backup/manifest.jsonl`: every retained original file, SHA-256, size, permissions, modification time and storage location.
+- `provenance/`: original upstream Git bundles and the explicit import-history ledger.
+- `tools/`: snapshot, verification and restoration programs.
+
+## Read the current research state
+
+Start with [the handoff](workspace/notes/CURRENT.md), [notes index](workspace/notes/README.md), and the latest linked experiment review. These are dated snapshots, not live scheduler state. Failed deployments and incomplete benchmarks remain evidence; they are not accepted performance results. Local synthetic output checks do not establish organiser full-set accuracy.
+
+The existing absolute `/home/apacsc42` links and container/model paths are part of the original records. See [reproduction and portability](REPRODUCIBILITY.md) before running them under another account. Preserve frozen submitted bundles; adapt a new derived experiment instead of editing historical evidence.
+
+## Git is only one part of this backup
+
+Small reviewed files are stored directly in Git. Larger files are stored once by content hash, compressed with Zstandard, in the **sibling directory `../apac-hpc-ai-research-artifacts/`**. Multiple original files with the same bytes refer to one object. This retains repeated inputs, raw requests, logs, profiles, slide assets and exact local container images without putting huge blobs in Git.
+
+**Copy both directories off this machine. A local commit alone is not a remote backup. Cloning this Git repository alone does not recover the external objects.** The object store's manifest is committed; the bytes must be uploaded separately when remote backup is configured. Objects marked `LOCAL_ONLY_REVIEW_REQUIRED` are not approved for automatic upload. No upload or GitHub authentication is part of the local preparation step.
+
+```bash
+python3 tools/verify_snapshot.py --store ../apac-hpc-ai-research-artifacts
+python3 tools/verify_snapshot.py --store ../apac-hpc-ai-research-artifacts --deep
+python3 tools/restore_snapshot.py --store ../apac-hpc-ai-research-artifacts --destination ../restored-apac
+```
+
+Verification without `--deep` hashes Git files and checks object presence and metadata. Deep verification decompresses each unique object and checks its full hash and length. Restoration verifies every copied file and refuses to replace existing different content by default. Requirements: Python 3.9+, Git and the `zstd` command.
+
+## History and secret handling
+
+The commits are a **transparent retrospective import**, not a claim that the repository existed during the original experiments. Author dates for dated research imports follow retained file metadata and are documented; committer dates record the actual import. No commits are invented for missing days. Original organiser history is retained separately with its original attribution. See [history provenance](HISTORY_PROVENANCE.md).
+
+Credentials, VPN authentication/session state, private logs, environment secrets, machine-private directories, container homes and recreatable environments are excluded. Potential secret matches are excluded from all portable payloads, with paths and reasons recorded in `backup/scan-results.json`; secret values are never written into that report. Pattern scanning is a precaution, not proof against every possible secret. Frozen model/client containers are opaque local runtime objects, not Git blobs or published assets.
+
+See [backup summary](backup/summary.json), [scope and exclusions](BACKUP_SCOPE.md), and [verification report](backup/verification.json) for actual coverage and unresolved limitations.
