@@ -1,5 +1,11 @@
 # Current APAC handoff — 18 October 2026, 19:25 UTC
 
+## Foreground task — local preservation, 18 October 2026
+
+The current user request is local Git backup first; GitHub CLI/authentication/upload is deferred. Archive: `/home/apacsc42/apac-hpc-ai-research`; required large objects: `/home/apacsc42/apac-hpc-ai-research-artifacts`. Read [the preservation report](../reports/local-repository-backup-20261018/REPORT.md). This is a captured archive copy; original research paths/jobs are unchanged and new results need an explicit later capture. No new optimisation job, VPN authentication or AI scheduling this turn. Retained source dates are transparently imported; no invented month or filled-in days. Future remote is private `trungdangtapcode/apac-hpc-ai-research`, not yet created/pushed.
+
+The verified base capture contains 17,570 source files and 477 unique large objects, about 93.31 GB logical / 18.83 GB compressed objects. Exact containers retained; model weights are not copied. Credentials/session state are excluded. Two damaged collection archives are local-only review objects. Deep verification and representative restoration passed. Keep Git and the object store together; local storage alone does not survive loss of this machine. User Git identity: `trungdangtapcode <tcuong1000@gmail.com>`.
+
 ## Standing instructions
 
 Vietnamese chat only. All work artifacts in readable English. Qwen only; keep HPC_Task empty. Preserve failed runs, raw artifacts and corrected interpretations. No organiser upload or official script promotion. Update slides when requested.

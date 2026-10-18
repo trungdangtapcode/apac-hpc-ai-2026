@@ -35,3 +35,5 @@ The commits are a **transparent retrospective import**, not a claim that the rep
 Credentials, VPN authentication/session state, private logs, environment secrets, machine-private directories, container homes and recreatable environments are excluded. Potential secret matches are excluded from all portable payloads, with paths and reasons recorded in `backup/scan-results.json`; secret values are never written into that report. Pattern scanning is a precaution, not proof against every possible secret. Frozen model/client containers are opaque local runtime objects, not Git blobs or published assets.
 
 See [backup summary](backup/summary.json), [scope and exclusions](BACKUP_SCOPE.md), and [verification report](backup/verification.json) for actual coverage and unresolved limitations.
+
+The archive is a captured copy. Active research still runs from the original source directories; future results are not automatically mirrored here. See [local preservation status](workspace/reports/local-repository-backup-20261018/REPORT.md).
