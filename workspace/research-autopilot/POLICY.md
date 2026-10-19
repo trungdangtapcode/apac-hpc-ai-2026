@@ -1,3 +1,7 @@
+## Manual result review and next batch — 2026-10-19T05:32:52.311985+00:00
+
+H200 24722 N60 passes at 2839.532 good tokens/s (+2.1266% vs fresh 24721); H100 221590 N54 passes at 2430.891 good tokens/s (+0.8123% vs fresh N52 repeat 221589). All local terminal/protocol/runtime/short/long gates pass; official accuracy unverified. Submitted H200 24732 N60 repeat and 24733 N62; PBS 221645 N54 repeat → 221646 N56, new maximum 3072 SU. Older 24723/24724 keep positions. Conservative internal headroom 18814.542 SU; no budget increase. Full readable report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0527/RESULTS.md. Autopilot remains OFF. This supersedes older queue/measurement/credit snapshots below.
+
 ## Manual continuation — 19 October 2026
 
 Four H200 trials 24721–24724 and two serial PBS trials 221589→221590 were explicitly submitted after user continuation, source review and live queue/credit checks. New maximum reserve 3072 SU, internal headroom 20728.853 SU; no budget increase. No new score yet. Latest report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0412/RESULTS.md. This supersedes scheduler/access/budget snapshots below; standing safety and acceptance rules continue. Autopilot remains OFF and no background watcher was started.
