@@ -1,10 +1,16 @@
-# Current APAC handoff — 18 October 2026, 19:25 UTC
+# Current APAC handoff — 19 October 2026, status and login check
 
-## Foreground task — local preservation, 18 October 2026
+## Latest live check — 19 October 2026, 04:00–04:06 UTC
 
-The current user request is local Git backup first; GitHub CLI/authentication/upload is deferred. Archive: `/home/apacsc42/apac-hpc-ai-research`; required large objects: `/home/apacsc42/apac-hpc-ai-research-artifacts`. Read [the preservation report](../reports/local-repository-backup-20261018/REPORT.md). This is a captured archive copy; original research paths/jobs are unchanged and new results need an explicit later capture. No new optimisation job, VPN authentication or AI scheduling this turn. Retained source dates are transparently imported; no invented month or filled-in days. Future remote is private `trungdangtapcode/apac-hpc-ai-research`, not yet created/pushed.
+The user requested live Slurm status and a PBS/DUO login attempt. Both own queues are empty. All five H200 jobs and all three recovered H100 jobs finished successfully and pass local protocol/SLA/output checks. Full report and raw evidence: [19 October results](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/RESULTS.md).
 
-The verified base capture contains 17,570 source files and 477 unique large objects, about 93.31 GB logical / 18.83 GB compressed objects. Exact containers retained; model weights are not copied. Credentials/session state are excluded. Two damaged collection archives are local-only review objects. Deep verification and representative restoration passed. Keep Git and the object store together; local storage alone does not survive loss of this machine. User Git identity: `trungdangtapcode <tcuong1000@gmail.com>`.
+H200 24647 independently repeats chunk 8192 N58 at **2780.483 good tokens/s**, +2.2688% versus fresh same-load control 24589 (2718.797); original peak 24544 remains 2786.696. H100 new highest observation is **221341, both-phase HPC-Ops N52, 2398.728**; N52 repeat remains outstanding. H100 N50 221346 scores 2375.807 versus fresh decode-only control 221340 at 2302.223. Full official accuracy remains unverified.
+
+VPN restored at 04:01:09 UTC and SSH on a2ap-login01 succeeded; tmux tunnel remains running, private cache preserved. Client requested no extra MFA code; phone-side DUO was not observed. Fresh ledger 19 October 12:00:01 SGT: Used 27199.147 SU, Balance 36800.853 SU, In Doubt 0. Reconciled all three terminal jobs; no outstanding reserves, internal headroom 23800.853 SU. No new job, slide, organiser upload or AI schedule this turn. Older queue/VPN/credit statements below are historical.
+
+## Local preservation and active workspaces
+
+Work in `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace`; archive into `/home/apacsc42/apac-hpc-ai-research` with sibling `apac-hpc-ai-research-artifacts`. AGENTS.md records explicit milestone capture and commit, not an automatic mirror. Preserve history and large-object hashes; exclude secrets. GitHub CLI and upload remain deferred. The initial 47-commit snapshot is historical; later captures use actual dates. Both local directories remain on this machine, so off-host recovery is not yet assured.
 
 ## Standing instructions
 
@@ -14,7 +20,7 @@ Review each completed job, refine the hypothesis and submit the next justified e
 
 Codex autopilot remains OFF. No replacement schedules or background Codex. The old non-AI Slurm watcher exited after its prior wave. Its submission function has been invoked once per manual batch under its lock; no background watcher is running. Do not promise automatic chat notifications.
 
-## Latest failure and live queue — supersedes older queue snapshots
+## Historical 18 October failure and queue — superseded by the live check above
 
 Latest report: [19:25 UTC](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-1923/RESULTS.md). **24588 TIMEOUT, no accepted measurement**: sent 858 warmup requests, 857 raw warmup records, zero scored records. One completion remained outstanding through warmup's infinite drain. Workers loaded normally; health responses do not establish stream completion. Shutdown connection refusals are consequences, not the isolated root cause.
 
@@ -46,7 +52,7 @@ At 18:46 UTC all five own jobs are pending Resources, each 16 H200 / 17 minutes:
 
 No sixth job; preserve positions. Independent improvements do not guarantee additive combination gains. Require full local gates for every combination, repeat useful gains before promotion, and close losing/backend/output-failing branches without unchanged retries. No automatic N60. H100 chunk 8192, graph-off branches and invalid equal-TP8/EP2 job 24375 stay closed/quarantined. CPU geometry tests are not model correctness evidence; see nixl-equal-ondemand/VALIDATION_STATUS.md.
 
-## H100 access and historical verified results
+## Historical H100 access and results — superseded above
 
 At 18:44 UTC SSH wrapper still fails before SSH: no matching live rootless VPN process. Last sanitised log finding is IKE SA expired 18 October 14:08:45 UTC, about 24 hours after documented restoration. This timing is consistent with configured lifetime 86,400 seconds, not proof of server policy or cache validity. tmux presence is not a live tunnel. Authentication cache is preserved; no restart, reauthentication or DUO request this turn. Do not claim remote PBS outcomes, queue or credit without live access. Local VPN loss does not itself cancel PBS allocations.
 

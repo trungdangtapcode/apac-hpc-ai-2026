@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-18T13:50:41.344302+00:00",
+  "updated_utc": "2026-10-19T04:04:27.163739+00:00",
   "project": "59010042",
   "commissioning_cap_su": 51000.0,
   "cap_interpretation": "Use project credit under the current user instruction; retain the existing13000SU conservative project reserve. Previous16384SU internal campaign cap is historical, not a BTC limit.",
@@ -10,15 +10,15 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 13000,
   "ledger": {
-    "as_of": "18/10/2026-21:40:01",
+    "as_of": "19/10/2026-12:00:01",
     "grant_su": 64000.0,
-    "used_su": 25846.898,
-    "balance_su": 36617.102,
-    "in_doubt_su": 1536.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-1350/pbs-pre-submit.txt",
+    "used_su": 27199.147,
+    "balance_su": 36800.853,
+    "in_doubt_su": 0.0,
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/pbs-status-credit.txt",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-18T13:50:41.076608+00:00",
-    "freshness_note": "Reconcile only charges reflected in Used; retain full maximum reservations for ledger lag. Balance already excludes prepayment."
+    "queried_utc": "2026-10-19T04:04:27.163739+00:00",
+    "freshness_note": "New Used delta matches all three recovered terminal jobs at 128 SU per GPU-hour within rounding; no own active PBS jobs."
   },
   "jobs": [
     {
@@ -762,47 +762,59 @@
     {
       "job_id": "221340.pbs111",
       "bundle": "h100-hpc-decode-control-34",
-      "state": "SUBMITTED",
+      "state": "F",
       "requested_gpus": 16,
       "requested_walltime": "00:45:00",
       "max_charge_su": 1536,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
       "dependency_afterany": "221339.pbs111",
       "planned_ns": [
         50
       ],
-      "submitted_utc": "2026-10-18T13:25:59.768172+00:00"
+      "submitted_utc": "2026-10-18T13:25:59.768172+00:00",
+      "exit_status": 0,
+      "observed_walltime": "00:14:43",
+      "last_checked_utc": "2026-10-19T04:04:27.163739+00:00",
+      "state_fresh": true
     },
     {
       "job_id": "221341.pbs111",
       "bundle": "h100-hpc-both-n52-35",
-      "state": "SUBMITTED",
+      "state": "F",
       "requested_gpus": 16,
       "requested_walltime": "00:45:00",
       "max_charge_su": 1536,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
       "dependency_afterany": "221340.pbs111",
       "planned_ns": [
         52
       ],
-      "submitted_utc": "2026-10-18T13:25:59.941790+00:00"
+      "submitted_utc": "2026-10-18T13:25:59.941790+00:00",
+      "exit_status": 0,
+      "observed_walltime": "00:11:35",
+      "last_checked_utc": "2026-10-19T04:04:27.163739+00:00",
+      "state_fresh": true
     },
     {
       "job_id": "221346.pbs111",
       "bundle": "h100-hpc-both-profile-36",
-      "state": "SUBMITTED",
+      "state": "F",
       "requested_gpus": 16,
       "requested_walltime": "00:45:00",
       "max_charge_su": 1536,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
       "dependency_afterany": "221341.pbs111",
       "planned_ns": [
         50
       ],
-      "submitted_utc": "2026-10-18T13:50:41.344296+00:00"
+      "submitted_utc": "2026-10-18T13:50:41.344296+00:00",
+      "exit_status": 0,
+      "observed_walltime": "00:13:19",
+      "last_checked_utc": "2026-10-19T04:04:27.163739+00:00",
+      "state_fresh": true
     }
   ],
   "pending_reservations": [
@@ -1220,16 +1232,12 @@
       "submitted_utc": "2026-10-18T13:50:41.344272+00:00"
     }
   ],
-  "active_pbs_jobs": [
-    "221340.pbs111",
-    "221341.pbs111",
-    "221346.pbs111"
-  ],
-  "unallocated_commissioning_su": 20545.102,
+  "active_pbs_jobs": [],
+  "unallocated_commissioning_su": 23800.853,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh all own jobs and project credit. Under budget.lock, reserve the maximum charge and record each returned job ID. Keep used plus unaccounted charges and outstanding reservations within 51,000 SU, retaining a conservative 13,000 SU project reserve. These are planning bounds, not organiser limits. At most three active PBS GPU jobs in an afterany chain, with one running 16-GPU allocation. Retain uncertain reservations and do not retry an uncertain submission.",
-  "reconciliation_note": "HPC-Ops gain passes a fresh control comparison. Reserve 1536 SU for replicated both-phase HPC-Ops N50 score plus separate post-score profile. Reconcile old terminal charges and retain any ledger-lag reserve.",
+  "reconciliation_note": "Recovered terminal 221340/221341/221346; Used delta 1352.249 SU matches their measured walltimes. No outstanding allocation reservations; no new qsub.",
   "evidence": [
     "inspection/all-probe-accounting.txt",
     "inspection/wake-20261015-1542UTC/pbs-own-jobs.txt",
@@ -1269,10 +1277,11 @@
     "inspection/wake-20261016-1055UTC/pbs_credit.json",
     "inspection/wake-20261016-1105UTC/pbs_credit.json",
     "inspection/wake-20261016-1205UTC/pbs_credit.json",
-    "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-1325UTC/pbs-credit.txt"
+    "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/inspection/wake-20261016-1325UTC/pbs-credit.txt",
+    "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/pbs-status-credit.txt"
   ],
   "latest_access_check": {
-    "checked_utc": "2026-10-17T14:09:56.761363+00:00",
+    "checked_utc": "2026-10-19T04:04:27.163739+00:00",
     "state": "VPN_AND_SSH_RESTORED_AT_USER_REQUEST",
     "pbs_and_credit_refreshed": true,
     "qsub_attempted": false
@@ -1287,7 +1296,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 20545.102,
+  "campaign_headroom_after_reserved_su": 23800.853,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",

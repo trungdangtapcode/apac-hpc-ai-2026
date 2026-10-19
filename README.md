@@ -37,3 +37,9 @@ Credentials, VPN authentication/session state, private logs, environment secrets
 See [backup summary](backup/summary.json), [scope and exclusions](BACKUP_SCOPE.md), and [verification report](backup/verification.json) for actual coverage and unresolved limitations.
 
 The archive is a captured copy. Active research still runs from the original source directories; future results are not automatically mirrored here. See [local preservation status](workspace/reports/local-repository-backup-20261018/REPORT.md).
+
+## Later milestone captures
+
+The initial 47-commit import is followed by ordinary commits using actual dates. The 19 October status milestone recovers three PBS runs, captures the five completed H200 runs and records live queue, VPN and credit observations. Read `2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/RESULTS.md` and `backup/updates/20261019-status/` for this capture's scope. This is a manual archive, not an automatic mirror of the active source directories.
+
+For an explicit later milestone, supply a JSON list of source-relative paths to `tools/capture_update.py --selection <list.json> --report <capture.json>`. It applies the existing exclusion/scanning policy and hashes selected data, verifies newly compressed objects, updates the cumulative manifest, and retains unselected paths. It does not infer that every source change has been captured. Verify, commit and refresh the recovery set before claiming the milestone is backed up. Never rerun the initial fresh-tree builder over this repository.

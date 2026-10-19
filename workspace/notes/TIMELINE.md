@@ -577,3 +577,7 @@ At the user's explicit “submit” request, verified three existing Slurm jobs 
 No new PBS job because 221181 → 221194 → 221195 already fills the three-job active cap. Fresh ledger as of 18 October 07:40:01 SGT: Used 18,482.062 SU, Balance 45,517.938 SU, In Doubt 0. The 221177 terminal charge (869.262 SU) is now reconciled and its extra conservative reservation released. Three pending jobs reserve 4,608 SU; internal 51,000 SU limit headroom is 27,909.938 SU. No double prepayment deduction.
 
 Full plan, validation, scheduler IDs and fresh PBS ledger: research-followup-20261017-2355/. Scored-result reviewers include new job IDs; profile coverage still needs a separate all-rank trace review after completion. No BTC upload, slide update, official-script promotion or new AI scheduling.
+
+## 19 October 2026 — live queues, restored PBS access and recovered results
+
+Both own queues are empty. At the user’s explicit request, restored the existing tmux VPN and authenticated SSH without exposing or changing the private cache. No client MFA code requested; phone-side DUO unknown. H200 24647 passes at 2780.483 good tokens/s, +2.2688% versus fresh 24589. Recovered H100 221341 N52 passes at 2398.728, independent N52 repeat outstanding. N50 221346 passes at 2375.807. Fresh balance 36800.853 SU; reconciled three completed PBS jobs. No new submission or AI schedule. Full source-linked report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/RESULTS.md. Archive capture is a separate explicit local operation; no GitHub upload.
