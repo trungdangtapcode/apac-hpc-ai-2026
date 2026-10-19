@@ -1,3 +1,5 @@
+> Historical pre-submission plan. The later [19 October correction](../status-review-20261019-1755/CORRECTION.md) resolves the LL-symbol ambiguity from existing NCCL TUNING logs. Missing Simple-labelled kernels did not prove a missing treatment. Preserve this plan as the rationale at submission time; do not launch another job to resolve that symbol alone.
+
 # Resolve protocol activation before claiming its performance effect
 
 The completed scoped-selector trial 221829 scores 2414.548 versus fresh N54 control 221827 at 2413.802 good tokens/s (+0.0309%). This is not an established gain. Its separate diagnostic traces contain Ring LL all-reduce kernels and no named Simple all-reduce kernel on the prefill ranks. The environment log alone therefore does not establish the intended treatment. This is a diagnostic N48 observation; it does not identify the protocol of every ranked N54 call.

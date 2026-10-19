@@ -10,9 +10,9 @@ All three allocations ended with exit status zero and separately passed the full
 
 The global Simple setting is **0.2315%** above its matched instrumented control. This small single comparison does not establish a useful gain against baseline variation. It does not beat the highest H100 observation, 221590 at 2430.891 good output tokens/s. The independent baseline repeat 221886 remains below that observation and supplies CPU/GPU evidence, not a new winner.
 
-## Protocol activation remains unresolved
+## Corrected protocol interpretation
 
-Both trials use Torch NCCL 2.28.9. Candidate logs explicitly report that NCCL read `NCCL_PROTO=Simple`. Nevertheless, sealed separate N48 diagnostic traces show Ring LL and no named Simple all-reduce kernel on all eight prefill ranks. Each job has 16 nonempty rank traces and all diagnostic requests succeeded (372 control, 377 candidate). Environment parsing is now demonstrated, but activation on the measured kernel path is still unverified. This is not proof of the protocol used by every ranked N54 call. Close further full-model protocol-selector sweeps until a smaller communicator reproduction explains this discrepancy. Do not promote the 0.23% point or claim Simple caused it.
+The earlier inference from LL-labelled GPU symbols was wrong. Sealed NCCL TUNING logs demonstrate Simple decisions for candidate 221885; the control already selects Simple for its 18–32 MiB all-reduces, while its 4-byte operations select LL. NVIDIA's matching-version generator uses representative LL kernel symbols across protocol variants. The +0.2315% score remains unchanged and establishes no useful gain. Keep automatic protocol policy and close the forced-Simple branch on performance evidence. [Source-linked correction, parsed counts and evidence limits](../status-review-20261019-1755/CORRECTION.md). Historical analyzers count symbol names and must not serve as activation gates.
 
 ## CPU and GPU evidence
 
