@@ -51,3 +51,7 @@ Research + output/log/quality/runtime/chi phí các lượt trước → giả t
 ## Cách viết ghi chú
 
 Viết câu rõ ràng, đầy đủ khoảng trắng; giải thích thuật ngữ khi cần. Không nén tài liệu thành chuỗi từ viết dính hoặc quá nhiều viết tắt. Đưa chi tiết kỹ thuật vào phần riêng hoặc link nguồn.
+
+## Private GitHub publication
+
+The private repository is [apac-hpc-ai-research](https://github.com/trungdangtapcode/apac-hpc-ai-research). Read [publication, commit history and recovery coverage](../reports/github-publication-20261019/REPORT.md). GitHub contains the Git portion; large external objects still require their separate backup.

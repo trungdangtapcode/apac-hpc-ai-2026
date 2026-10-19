@@ -64,6 +64,18 @@ Codex or schedules. Report any uncaptured changes honestly. The initial snapshot
 builder refuses an existing Git repository; do not bypass that guard or rebuild
 over the archive. Preserve the existing history when adding later captures.
 
-GitHub CLI installation, authentication and upload remain deferred until the
-user asks to proceed. Local Git and its sibling artifact store are on the same
-machine and do not yet provide protection against loss of that machine.
+The owner authorised the private GitHub repository
+`https://github.com/trungdangtapcode/apac-hpc-ai-research` on 19 October 2026.
+GitHub CLI authentication is configured outside the archive. During authorised
+work, capture, verify and commit each completed milestone, push safe Git changes
+to the existing private origin, and verify that origin/main matches local HEAD.
+This is an explicit workflow, not an automatic mirror or background schedule.
+The sibling artifact store has not been uploaded by Git and still requires a
+separate off-host copy. Never capture GitHub CLI credentials.
+
+Use descriptive conventional commit subjects such as `feat(bench): ...`,
+`fix(nixl): ...`, `research(load): ...`, `docs(...): ...` and `chore(...): ...`.
+Do not use generic `Import records...` titles for the research history. The
+owner-requested reconstruction aligns existing record author/committer dates
+with retained metadata; its mapping is in provenance/. Ordinary new work uses
+actual dates. Preserve that audit trail and do not routinely rewrite history.

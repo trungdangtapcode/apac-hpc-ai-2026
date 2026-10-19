@@ -1,6 +1,12 @@
 # Current APAC handoff — 19 October 2026
 
-## Active batch and live checks
+## Foreground repository publication — 19 October 2026
+
+Private GitHub repository: https://github.com/trungdangtapcode/apac-hpc-ai-research. GitHub CLI is authenticated as trungdangtapcode. The first 50 commits were successfully uploaded. The owner then requested at least 60 commits and descriptive conventional subjects, with reconstructed record committer dates aligned to existing metadata-based author dates. All 57 rewritten per-commit trees are byte-identical; the mapping and date policy are retained in provenance/history-rewrite-20261019.json. Publication documentation and this handoff complete the requested minimum. Verify remote main against local HEAD for the current exact revision.
+
+The Git history and inline files are uploaded; the sibling object store remains local. GitHub authentication is excluded. No scheduler, VPN, new GPU result or budget was checked or changed during this repository task. The research states below remain their earlier dated snapshots.
+
+## Research snapshot — last checked in the linked review
 
 The user requested continued optimisation. Latest plan, receipts, source measurements and profile analysis: [19 October followups](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0527/RESULTS.md). Check actual schedulers again before reporting a later live state.
 
@@ -32,4 +38,4 @@ Vietnamese chat only; all new work artifacts in readable English. Qwen only; kee
 
 Codex autopilot stays OFF. No background Codex, replacement schedules or automatic chat notifications. No background Slurm watcher is running; this batch was submitted explicitly under locks.
 
-Work once in `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace`. Capture completed milestones into `/home/apacsc42/apac-hpc-ai-research` with sibling artifact store, scan/verify and commit. AGENTS.md records this manual workflow; no automatic mirror. GitHub CLI/upload remain deferred. A same-machine archive is not yet an off-host backup. Historical handoff snapshots are in notes/archive and Git; they are not live scheduler state.
+Work once in `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace`. Capture completed milestones into `/home/apacsc42/apac-hpc-ai-research` with sibling artifact store, scan/verify and commit. AGENTS.md records this manual workflow; no automatic mirror. GitHub publication is now authorised and the private remote stores Git. The sibling artifact store still has no configured off-host copy, so the GitHub clone is not complete evidence/runtime recovery. Historical handoff snapshots are in notes/archive and Git; they are not live scheduler state.
