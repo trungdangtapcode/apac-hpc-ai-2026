@@ -36,7 +36,7 @@ Verification without `--deep` hashes Git files and checks object presence and me
 
 ## History and secret handling
 
-The commits are a **transparent retrospective import**, not a claim that the repository existed during the original experiments. Author dates for dated research imports follow retained file metadata and are documented; committer dates record the actual import. No commits are invented for missing days. Original organiser history is retained separately with its original attribution. See [history provenance](HISTORY_PROVENANCE.md).
+The early research history is reconstructed from retained artifacts. Its conventional commit subjects describe the actual grouped work; both author and committer dates for these record commits follow retained file metadata after the owner-requested correction. The provenance ledger preserves the reconstruction and original capture dates. No commits are invented for missing days. Original organiser history is retained separately with its original attribution. See [history provenance](HISTORY_PROVENANCE.md).
 
 Credentials, VPN authentication/session state, private logs, environment secrets, machine-private directories, container homes and recreatable environments are excluded. Potential secret matches are excluded from all portable payloads, with paths and reasons recorded in `backup/scan-results.json`; secret values are never written into that report. Pattern scanning is a precaution, not proof against every possible secret. Frozen model/client containers are opaque local runtime objects, not Git blobs or published assets.
 
