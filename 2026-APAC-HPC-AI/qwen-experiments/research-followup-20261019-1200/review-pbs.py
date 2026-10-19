@@ -1,10 +1,27 @@
 """Review newly recovered PBS measurements, frozen payloads and actual runtime."""
 from pathlib import Path
-import datetime,importlib.util,json,re
+import ast,copy,datetime,importlib.util,json,re
 R=Path(__file__).resolve().parents[1];O=Path(__file__).resolve().parent;P=R/'nscc-pbs'
 def module(name,path):
  s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 m=module('candidate',P/'review-candidate-sweep.py');core=module('core',R/'serving-tuning/review-n54.py')
+
+# Reproduce derived graph buckets from the exact inspected runtime source.
+args_source=O/'runtime-attention-source/sgl-workspace/sglang/python/sglang/srt/server_args.py'
+args_hashes=json.loads((O/'runtime-attention-source-sha256.json').read_text())
+assert core.sha(args_source)==args_hashes[str(args_source.relative_to(O))]
+source_ast=ast.parse(args_source.read_text())
+fn=copy.deepcopy(next(x for x in ast.walk(source_ast) if isinstance(x,ast.FunctionDef) and x.name=='_generate_prefill_cuda_graph_batch_sizes'))
+fn.decorator_list=[];namespace={};exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(args_source),'exec'),namespace)
+def graph_without_derived_prefill(value,chunk):
+ node=ast.parse(value,mode='eval');assert isinstance(node.body,ast.Call) and isinstance(node.body.func,ast.Name) and node.body.func.id=='CudaGraphConfig'
+ fields={x.arg:x for x in node.body.keywords};prefill=fields['prefill'].value
+ assert isinstance(prefill,ast.Call) and isinstance(prefill.func,ast.Name) and prefill.func.id=='PhaseConfig'
+ pf={x.arg:x for x in prefill.keywords}
+ assert ast.literal_eval(pf['max_bs'].value)==chunk
+ assert ast.literal_eval(pf['bs'].value)==namespace['_generate_prefill_cuda_graph_batch_sizes'](None,chunk)
+ prefill.keywords=[x for x in prefill.keywords if x.arg not in {'max_bs','bs'}]
+ return ast.dump(node,include_attributes=False)
 base=P/'collected/220575.pbs111/20261016T054555388584Z';smoke=P/'collected/220562.pbs111/20261015T194718195272Z/runs/220562.pbs111/output-smoke.json'
 receipts=json.loads((O/'pbs-receipts.json').read_text())
 specs=[(x['job'].split('.')[0],x['id'],54) for x in receipts]
@@ -26,6 +43,8 @@ for number,name,n in specs:
    delta={k:[b.get(k),a.get(k)] for k in a.keys()|b.keys() if a.get(k)!=b.get(k)};allowed={'random_seed'}
    if name=='h100-hpc-chunk6144-n54-43' and role.startswith('prefill'):
     allowed.add('chunked_prefill_size');assert delta.get('chunked_prefill_size')==['4096','6144'],delta
+    assert graph_without_derived_prefill(b['cuda_graph_config'],4096)==graph_without_derived_prefill(a['cuda_graph_config'],6144)
+    allowed.add('cuda_graph_config')
    if name=='h100-hpc-prefill-simple-n54-44':
     if role.startswith('prefill'):assert 'PREFILL_NCCL_PROTO=allreduce:Simple' in text
     else:assert 'PREFILL_NCCL_PROTO=' not in text
