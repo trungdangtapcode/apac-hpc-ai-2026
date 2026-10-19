@@ -1,5 +1,9 @@
 # Current APAC handoff — 19 October 2026
 
+## Latest queue check — 19 October 2026, 11:45 UTC
+
+No new result. H200 24733/24736/24737/24738 remain pending; reason changed from Priority to Resources while both hpcai nodes remain allocated. This does not establish queue rank or start time. PBS queue empty; existing VPN/SSH works. Balance remains 34608.356 SU (ledger 19:40:02 SGT), Used 29391.644 and In Doubt zero. No new allocation or research decision. Preserve queue positions and prior branch stopping rules. [Dated evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1144/RESULTS.md).
+
 ## Latest queue check — 19 October 2026, 11:26 UTC
 
 No new result since the 11:11 UTC review below. H200 24733/24736/24737/24738 still pending for Priority; both hpcai nodes allocated. PBS queue empty; existing VPN/SSH access works without authentication or restart. Balance remains 34608.356 SU (ledger 19:20:02 SGT), Used 29391.644, In Doubt zero. No new allocation, budget change or schedule. Preserve H200 positions; no unchanged Tree retry or automatic H100 load increase. [Raw status evidence and interpretation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1125/RESULTS.md). Highest observations and verification limits are unchanged.
