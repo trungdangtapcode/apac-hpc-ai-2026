@@ -3,6 +3,7 @@
 Start with [the research journey and next priorities](workspace/reports/research-journey-20261019/REPORT.md) for the explanation of how the measured throughput improved, why the latest combination can help, what is still unverified and when to change direction.
 
 - [Illustrated research journey: GPU split, measured gains, failed branches and next gates](workspace/reports/research-journey-20261019/diagram/README.md).
+- [19 October status: H100 repeat, N56 and measured Tree regression; H200 queue](2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md).
 - [Persistent notes](workspace/notes/README.md) and [latest dated handoff](workspace/notes/CURRENT.md).
 - [Experiment notebook](2026-APAC-HPC-AI/qwen-experiments/RUNS.md) and [serving results](2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md).
 - [Metric definitions, units and job cards](workspace/reports/all-history-metric-records-20261017/REPORT.md).

@@ -1395,7 +1395,7 @@
       "id": "h100-hpc-both-n54-repeat-39",
       "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-both-n54-repeat-39",
       "job_id": "221645.pbs111",
-      "state": "Q",
+      "state": "F",
       "max_su": 1536,
       "minutes": 45,
       "ns": [
@@ -1426,13 +1426,27 @@
         "worker.sh": "b307e67fb3503e39d310b7d27f5fc345eb3c7bfefae13aec4eee7d601d6ed3d7"
       },
       "accuracy_verified": false,
-      "result_state": "AWAITING_BENCHMARK"
+      "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/221645.pbs111-review.json",
+      "measurements": [
+        {
+          "concurrency": 54,
+          "protocol_pass": true,
+          "phase_complete": true,
+          "latency_error_gate_pass": true,
+          "sla_fraction": 0.9861386138613861,
+          "good_output_tokens_s": 2418.587542497228,
+          "ttft_avg_ms": 711.7799262871287,
+          "itl_avg_ms": 18.25450749221495
+        }
+      ],
+      "research_outcome": "INDEPENDENT_REPEAT"
     },
     {
       "id": "h100-hpc-both-n56-40",
       "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-both-n56-40",
       "job_id": "221646.pbs111",
-      "state": "H",
+      "state": "F",
       "max_su": 1536,
       "minutes": 45,
       "ns": [
@@ -1463,13 +1477,27 @@
         "worker.sh": "b307e67fb3503e39d310b7d27f5fc345eb3c7bfefae13aec4eee7d601d6ed3d7"
       },
       "accuracy_verified": false,
-      "result_state": "AWAITING_BENCHMARK"
+      "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/221646.pbs111-review.json",
+      "measurements": [
+        {
+          "concurrency": 56,
+          "protocol_pass": true,
+          "phase_complete": true,
+          "latency_error_gate_pass": true,
+          "sla_fraction": 0.9841688654353562,
+          "good_output_tokens_s": 2407.363820559768,
+          "ttft_avg_ms": 886.2967094281001,
+          "itl_avg_ms": 18.201333695811844
+        }
+      ],
+      "research_outcome": "NO_OBSERVED_LOAD_GAIN"
     },
     {
       "id": "h100-hpc-prefill-tree-n54-41",
       "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-prefill-tree-n54-41",
       "job_id": "221669.pbs111",
-      "state": "H",
+      "state": "F",
       "max_su": 1536,
       "minutes": 45,
       "ns": [
@@ -1501,11 +1529,25 @@
       },
       "accuracy_verified": false,
       "diagnostic_profile": true,
-      "result_state": "AWAITING_BENCHMARK"
+      "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/221669.pbs111-review.json",
+      "measurements": [
+        {
+          "concurrency": 54,
+          "protocol_pass": true,
+          "phase_complete": true,
+          "latency_error_gate_pass": true,
+          "sla_fraction": 0.981021897810219,
+          "good_output_tokens_s": 2160.9464215447415,
+          "ttft_avg_ms": 1380.6989653532846,
+          "itl_avg_ms": 17.259659201965796
+        }
+      ],
+      "research_outcome": "TREE_EXECUTED_PERFORMANCE_REGRESSION_CLOSED"
     }
   ],
   "gate": "Baseline220575 terminal,payloadverified,full60/120/30 atN32/34/36,baselineN32SLA100%0errors/cancel,short7/8onlyknownreverse. Three independent trials queued in afteranychain04\u219205\u219206 with1536SU each reserved beforeqsub. HigherloadN36failure is valid negative data,not missingmeasurement. Max3pending/running and1running16GPU; no furtherjob until budgets/ownqueue/resultsgatespermit. Accuracy stillunverified.",
-  "updated_utc": "2026-10-19T06:03:32.282291+00:00",
+  "updated_utc": "2026-10-19T11:15:15.315162+00:00",
   "current_job_state": "NO_ACTIVE_PBS",
   "latest_evidence": "inspection/manual-20261017-0858/",
   "startup_pilots": [
@@ -1669,7 +1711,7 @@
     "changes_existing_submitted_payloads": false,
     "does_not_waive_runtime_quality_credit_gates": true
   },
-  "next_bounded_step": "Review N54 repeat/N56 plus Tree-prefill N54. Verify actual profile activation; no unchanged failures or automatic load increase.",
+  "next_bounded_step": "H100 N54 repeated, N56 has no observed improvement and forced prefill Tree regresses with activation verified. No automatic load growth or unchanged Tree rerun. Preserve H200 queue positions; review pending interaction before a distinct evidence-backed experiment.",
   "user_continuation": "User explicitly repeats KEEP SUBMITTING when resources/budget/gates allow; do not misinterpret autopilotOFF as stopping manual GPUresearch.",
   "budget_amendment": "The previous 16,384 SU internal cap is historical. The user authorised continued use of project credit. Retain the existing 13,000 SU planning reserve; this is not an organiser requirement."
 }

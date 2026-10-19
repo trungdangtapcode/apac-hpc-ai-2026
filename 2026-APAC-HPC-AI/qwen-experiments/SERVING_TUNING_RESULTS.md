@@ -407,3 +407,8 @@ H200 24724 passes at 2938.628 good tokens/s (+5.6907% versus same-N58 control 24
 ## 19 October 2026 — research progression and independent N60 repeat
 
 24732 auto-decode N60 completes full local review at 2836.531 good tokens/s (−0.106% versus source 24722). The highest observed HPC-Ops-decode point 24724 still awaits its own repeat. [Research progression, units, attribution limits and next priorities](../../workspace/reports/research-journey-20261019/REPORT.md). No new job submitted in this report turn.
+
+## Status review — 2026-10-19T11:15:15.315162+00:00
+
+Live checks at 11:11 UTC: H200 24733/24736/24737/24738 remain pending for Priority; two hpcai nodes allocated. Highest H200 observation remains 2938.628 good tokens/s; its own interaction repeat has not run. All three PBS jobs completed and pass full local protocol/SLA/runtime/output checks: N54 repeat 221645 = 2418.588; N56 221646 = 2407.364; forced prefill Tree 221669 = 2160.946 good tokens/s. Tree execution is proved on all eight prefill ranks in 16 sealed diagnostic traces (355/355 successful requests); it loses 10.65% versus fresh N54 and is closed. N56 has no observed gain; no automatic N58. Highest H100 individual observation remains 2430.891. Official accuracy unverified. PBS queue empty; VPN/SSH usable without restart or authentication. Balance 34608.356 SU; three terminal charges reconcile, zero remaining reservations and internal headroom 21608.356 SU under the unchanged cap/buffer. No new GPU job, schedule, slide or submission change. [Full report and raw evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md). This supersedes earlier queue and credit snapshots below.
+
