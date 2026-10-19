@@ -2,7 +2,17 @@
 
 ## Recover evidence first
 
-Copy the Git repository and its sibling object store to durable storage. Run deep verification, then restore into a new destination with `tools/restore_snapshot.py`. Restore does not submit jobs, start VPN, authenticate, launch Codex or overwrite a running experiment. Keep `backup/manifest.jsonl`, `backup/scan-results.json`, the object index and upstream Git bundles with the archive.
+Clone the private Git repository using an authorised GitHub account:
+
+```bash
+git clone https://github.com/trungdangtapcode/apac-hpc-ai-research.git
+cd apac-hpc-ai-research
+git log -5 --oneline
+```
+
+A successful clone recovers committed inline files and the complete published Git history. It does not fetch the content-addressed objects referenced by the manifest. Obtain the matching sibling object store from its separately preserved copy before requesting full restoration.
+
+Copy the sibling object store to durable storage. Run deep verification, then restore into a new destination with `tools/restore_snapshot.py`. Restore does not submit jobs, start VPN, authenticate, launch Codex or overwrite a running experiment. Keep `backup/manifest.jsonl`, `backup/scan-results.json`, the object index and upstream Git bundles with the archive.
 
 Original file SHA-256 and modification times are retained. Original run manifests may refer to excluded container homes or dependency caches; an archive can preserve evidence without claiming every cluster path is portable. Refer to the scope/exclusion reports when a historical manifest contains a file outside the retained set.
 
@@ -22,4 +32,4 @@ Revalidate topology/TP/EP, native FP8 weights, BF16 cache, NIXL transport varian
 
 ## Known recovery boundaries
 
-This archive cannot recover deleted intermediate edits, uncollected remote PBS results, private authentication, scheduler reservations, GPU availability or public-model bytes that were never copied. The manifest and verification report identify what was actually captured. A durable off-machine copy is still required; local commits and local object files are lost with the same temporary machine.
+This archive cannot recover deleted intermediate edits, uncollected remote PBS results, private authentication, scheduler reservations, GPU availability or public-model bytes that were never copied. The manifest and verification report identify what was actually captured. The published Git history now has an off-machine copy in the private GitHub repository. External object bytes remain local until copied separately and would still be lost with this temporary machine. Do not describe the GitHub clone as complete runtime or evidence recovery.
