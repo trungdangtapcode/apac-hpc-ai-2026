@@ -1,0 +1,15 @@
+"""Extract report numbers from retained runs without mixing platforms or durations."""
+from pathlib import Path
+import datetime,json
+R=Path('/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments');O=Path(__file__).resolve().parent
+jobs=[('22415',48),('23114',52),('23778',52),('23975',52),('24131',54),('24263',56),('24327',56),('24573',56),('24721',58),('24722',60),('24723',58),('24724',58),('24732',60)]
+rows={}
+for job,n in jobs:
+ source=R/'runs'/job/'summary.json';matches=[x for x in json.loads(source.read_text()) if x['phase']=='confirm' and x['concurrency']==n];assert len(matches)==1;point=matches[0];assert point['sla_pass'] and not point['errors'] and not point['cancelled_requests'];export=Path(point['export']);data=json.loads(export.read_text());phases={p['kind']:p for p in data['input_config']['phases']};assert (phases['warmup']['duration'],phases['profiling']['duration'],phases['profiling']['grace_period'])==(60,120,30)
+ rows[job]=dict(concurrency=n,source=str(source),export=str(export),good_tokens_s=point['good_output_tokens_s'],raw_tokens_s=point['raw_output_tokens_s'],sla_fraction=point['good_request_fraction'],ttft_ms=point['ttft_avg_ms'],itl_ms=point['itl_avg_ms'],requests=point['requests'],good_requests=data['good_request_count']['avg'],scored_elapsed_s=phases['profiling'].get('elapsed_duration'),output_lengths=data['output_sequence_length'])
+# Use the independently validated phase duration, not an assumed120-second denominator.
+for j,review in [('24721',R/'research-followup-20261019-0527/24721-review.json'),('24724',R/'research-followup-20261019-0600/24724-review.json'),('24732',O/'24732-review.json')]:
+ d=json.loads(review.read_text());rows[j]['scored_elapsed_s']=next(p['elapsed_s'] for p in d['point']['metrics']['phases'] if p['kind']=='profiling');rows[j]['validated_review']=str(review);assert abs(rows[j]['good_requests']/rows[j]['scored_elapsed_s']*200-rows[j]['good_tokens_s'])<1e-6
+b,a=rows['24721'],rows['24724'];pct=lambda x,y:100*(x/y-1)
+result=dict(generated_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),rows=rows,comparisons=dict(interaction_gain_pct=pct(a['good_tokens_s'],b['good_tokens_s']),relative_to_early_baseline_pct=pct(a['good_tokens_s'],rows['22415']['good_tokens_s']),larger_chunk_change_pct=pct(rows['24723']['good_tokens_s'],b['good_tokens_s']),ttft_change_ms=a['ttft_ms']-b['ttft_ms'],itl_change_ms=a['itl_ms']-b['itl_ms'],sla_change_percentage_points=100*(a['sla_fraction']-b['sla_fraction']),good_requests_s=a['good_tokens_s']/200,rough_199_interval_saving_ms=199*(b['itl_ms']-a['itl_ms']),rough_cycle_saving_ms=199*(b['itl_ms']-a['itl_ms'])-(a['ttft_ms']-b['ttft_ms']),auto_n60_repeat_change_pct=pct(rows['24732']['good_tokens_s'],rows['24722']['good_tokens_s'])),limits='Historical milestone table is descriptive, not a causal cumulative ablation. Cycle arithmetic is approximate and cannot reconstruct concurrency, queues or overlapping GPU work. Official accuracy unverified.')
+(O/'evidence.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result['comparisons'],indent=2))

@@ -1,5 +1,7 @@
 # Research navigation
 
+Start with [the research journey and next priorities](workspace/reports/research-journey-20261019/REPORT.md) for the explanation of how the measured throughput improved, why the latest combination can help, what is still unverified and when to change direction.
+
 - [Persistent notes](workspace/notes/README.md) and [latest dated handoff](workspace/notes/CURRENT.md).
 - [Experiment notebook](2026-APAC-HPC-AI/qwen-experiments/RUNS.md) and [serving results](2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md).
 - [Metric definitions, units and job cards](workspace/reports/all-history-metric-records-20261017/REPORT.md).

@@ -1,5 +1,13 @@
 # Current APAC handoff — 19 October 2026
 
+## Research explanation and direction report — 19 October 2026
+
+The user requested a readable account of the research progression, latest gain, whether it is our best result and whether to change direction. Read [the research journey and next priorities](../reports/research-journey-20261019/REPORT.md). Commit category for this report is `report`, as explicitly requested. No new GPU allocation, VPN authentication, budget change or background AI was performed in this report turn.
+
+At the report's 06:14 UTC scheduler snapshot, 24732 completed and passes the complete local gates at **2836.531 good tokens/s**, an independent auto-decode N60 repeat of 24722 (2839.532), −0.106%. Our highest locally accepted H200 observation is still **24724 = 2938.628**, with its own interaction repeat 24737 pending. Jobs 24733/24736/24737/24738 are pending; PBS 221645 is queued and 221646/221669 dependency-held. Scheduler snapshots are linked in the report; no live status is implied after that check.
+
+The latest +5.6907% matched-N58 comparison comes with TTFT +87.465 ms and ITL −1.500 ms per interval. Approximate request-cycle arithmetic explains plausibility, not a profiled causal mechanism. The top point is not a global optimum, leaderboard rank, repeated interaction gain or official accuracy pass. Immediate direction: finish fresh control/repeat, evaluate queued load steps, establish official accuracy, then profile the actual winner and follow demonstrated communication/kernel costs. Do not declare the research exhausted or restart a broad blind search.
+
 ## Current research — 19 October 2026, 06:00–06:05 UTC
 
 The user requested continued optimisation. Latest full review, source inspection, plan and actual receipts: [chunk/decode interaction and prefill communication](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md). Check live schedulers again for any later status claim.

@@ -1,8 +1,16 @@
-## Manual optimisation — 2026-10-19T06:04:59.145550+00:00
+## Report update — 19 October 2026
 
-H200 24724 passes at 2938.628 good tokens/s, +5.6907% versus fresh same-N58 control 24721. Chunk-12288 job 24723 passes but loses 2.3789%; close it. Submitted H200 24736/24737/24738 for fresh control, independent interaction repeat and N60. Existing 24732 running, 24733 pending. Submitted one source-checked H100 N54 prefill Tree trial 221669 after 221646, preserving 221645→221646→221669 serial chain. Total PBS max reserve 4608 SU; ledger Balance 36024.320 SU, internal headroom 18416.320 SU, no budget increase. Full local gates and actual Tree trace activation required. Report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md. No official accuracy claim, slides, organiser upload or AI schedule; autopilot OFF. Supersedes older snapshots below.
+The owner requested a source-linked research journey and future-direction report, committed with category `report`. See workspace/reports/research-journey-20261019/REPORT.md. Highest accepted H200 observation remains 24724 = 2938.628, interaction repeat pending; completed auto-decode N60 repeat 24732 passes at 2836.531. No new submission, budget change, authentication or AI schedule in this report turn. Later scheduler changes need a fresh check. Earlier running 24732 statements below are historical and superseded by this report. Autopilot remains OFF.
 
 # Current APAC handoff — 19 October 2026
+
+## Research explanation and direction report — 19 October 2026
+
+The user requested a readable account of the research progression, latest gain, whether it is our best result and whether to change direction. Read [the research journey and next priorities](../reports/research-journey-20261019/REPORT.md). Commit category for this report is `report`, as explicitly requested. No new GPU allocation, VPN authentication, budget change or background AI was performed in this report turn.
+
+At the report's 06:14 UTC scheduler snapshot, 24732 completed and passes the complete local gates at **2836.531 good tokens/s**, an independent auto-decode N60 repeat of 24722 (2839.532), −0.106%. Our highest locally accepted H200 observation is still **24724 = 2938.628**, with its own interaction repeat 24737 pending. Jobs 24733/24736/24737/24738 are pending; PBS 221645 is queued and 221646/221669 dependency-held. Scheduler snapshots are linked in the report; no live status is implied after that check.
+
+The latest +5.6907% matched-N58 comparison comes with TTFT +87.465 ms and ITL −1.500 ms per interval. Approximate request-cycle arithmetic explains plausibility, not a profiled causal mechanism. The top point is not a global optimum, leaderboard rank, repeated interaction gain or official accuracy pass. Immediate direction: finish fresh control/repeat, evaluate queued load steps, establish official accuracy, then profile the actual winner and follow demonstrated communication/kernel costs. Do not declare the research exhausted or restart a broad blind search.
 
 ## Current research — 19 October 2026, 06:00–06:05 UTC
 

@@ -55,3 +55,7 @@ Viết câu rõ ràng, đầy đủ khoảng trắng; giải thích thuật ng�
 ## Private GitHub publication
 
 The private repository is [apac-hpc-ai-research](https://github.com/trungdangtapcode/apac-hpc-ai-research). Read [publication, commit history and recovery coverage](../reports/github-publication-20261019/REPORT.md). GitHub contains the Git portion; large external objects still require their separate backup.
+
+## Research progression and next decisions
+
+[How Qwen serving reached 2938.628 good tokens/s](../reports/research-journey-20261019/REPORT.md) explains the measured trajectory, metrics and units, matched controls, failure lessons, current evidence limits and when to change research direction. Read it as a dated report; current scheduler state still needs checking.

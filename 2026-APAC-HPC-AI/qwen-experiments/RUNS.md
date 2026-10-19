@@ -2096,3 +2096,7 @@ H200 24722 = 2839.532 good tokens/s, +2.1266% versus fresh N58 control 24721. H1
 ## 19 October 2026 — prefill/decode interaction
 
 H200 24724 passes at 2938.628 good tokens/s (+5.6907% versus same-N58 control 24721); 24723 chunk 12288 loses 2.3789% and is closed. New H200 24736–24738 repeat/control/load trials, plus H100 prefill Tree N54 job 221669 after existing221645→221646. [Full report and source references](research-followup-20261019-0600/RESULTS.md). All new jobs await complete GPU gates; official accuracy unverified.
+
+## 19 October 2026 — research progression and independent N60 repeat
+
+24732 auto-decode N60 completes full local review at 2836.531 good tokens/s (−0.106% versus source 24722). The highest observed HPC-Ops-decode point 24724 still awaits its own repeat. [Research progression, units, attribution limits and next priorities](../../workspace/reports/research-journey-20261019/REPORT.md). No new job submitted in this report turn.
