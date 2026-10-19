@@ -581,3 +581,8 @@ Full plan, validation, scheduler IDs and fresh PBS ledger: research-followup-202
 ## 19 October 2026 — live queues, restored PBS access and recovered results
 
 Both own queues are empty. At the user’s explicit request, restored the existing tmux VPN and authenticated SSH without exposing or changing the private cache. No client MFA code requested; phone-side DUO unknown. H200 24647 passes at 2780.483 good tokens/s, +2.2688% versus fresh 24589. Recovered H100 221341 N52 passes at 2398.728, independent N52 repeat outstanding. N50 221346 passes at 2375.807. Fresh balance 36800.853 SU; reconciled three completed PBS jobs. No new submission or AI schedule. Full source-linked report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/RESULTS.md. Archive capture is a separate explicit local operation; no GitHub upload.
+
+## Manual continuation — 19 October 2026
+
+Four H200 trials 24721–24724 and two serial PBS trials 221589→221590 were explicitly submitted after user continuation, source review and live queue/credit checks. New maximum reserve 3072 SU, internal headroom 20728.853 SU; no budget increase. No new score yet. Latest report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0412/RESULTS.md. This supersedes scheduler/access/budget snapshots below; standing safety and acceptance rules continue. Autopilot remains OFF and no background watcher was started.
+

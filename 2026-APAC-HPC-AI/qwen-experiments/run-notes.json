@@ -1029,33 +1029,73 @@
   "24589": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "Fresh DeepGEMM chunk4096 N58 control to isolate chunk effect at the new operating point",
-    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
-    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
-    "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s12-dg-fresh-control-n58"
+    "finding": "Complete terminal measurement; full local protocol/SLA/short/long evidence passes. See research-followup-20261019-0400.",
+    "lesson": "Use matched same-platform controls; preserve failed attempts separately. Official accuracy unverified.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen submitted payload and post-completion artifact manifest retained."
   },
   "24639": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "One N58 HPC-Ops decode trial from verified N56 ITL headroom; retain DeepGEMM prefill chunk4096 and compare same-load control24589",
-    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
-    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
-    "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-decode-n58"
+    "finding": "Complete terminal measurement; full local protocol/SLA/short/long evidence passes. See research-followup-20261019-0400.",
+    "lesson": "Use matched same-platform controls; preserve failed attempts separately. Official accuracy unverified.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen submitted payload and post-completion artifact manifest retained."
   },
   "24640": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "Combine independently repeated HPC-Ops prefill with independently repeated chunk6144; compare24574 for chunk and24573 for runner effects",
-    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
-    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
-    "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-prefill-chunk6144-n56"
+    "finding": "Complete terminal measurement; full local protocol/SLA/short/long evidence passes. See research-followup-20261019-0400.",
+    "lesson": "Use matched same-platform controls; preserve failed attempts separately. Official accuracy unverified.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen submitted payload and post-completion artifact manifest retained."
   },
   "24641": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "Add verified HPC-Ops decode to repeated HPC-Ops prefill at N56; isolate decode against24574 and prefill against24538",
-    "finding": "Slurm PENDING; 0 canonical exports. Failed deployment is not a benchmark result.",
-    "lesson": "Separate full measurements from diagnostic profiling. Stop increasing load at the first failed latency/error gate.",
+    "finding": "Complete terminal measurement; full local protocol/SLA/short/long evidence passes. See research-followup-20261019-0400.",
+    "lesson": "Use matched same-platform controls; preserve failed attempts separately. Official accuracy unverified.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen submitted payload and post-completion artifact manifest retained."
+  },
+  "24647": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One diagnostic retry after warmup completion stall; cap entire AIPerf invocation at360s without changing its phases, requests or scoring. Do not retry this failure again unchanged.",
+    "finding": "Complete terminal measurement; full local protocol/SLA/short/long evidence passes. See research-followup-20261019-0400.",
+    "lesson": "Use matched same-platform controls; preserve failed attempts separately. Official accuracy unverified.",
+    "performance_evidence": true,
+    "provenance_note": "Frozen submitted payload and post-completion artifact manifest retained."
+  },
+  "24721": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh repeated best observed H200 operating point, matched control for three single-factor trials; retain whole-client 360 s containment.",
+    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
+    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
     "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s13-hpc-both-n56"
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg8192-control-n58"
+  },
+  "24722": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Single N60 trial justified by independently repeated N58 chunk8192 latency headroom; compare fresh N58 control, no automatic N62.",
+    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
+    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg8192-n60"
+  },
+  "24723": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "At N58 test whether 12288-token prefill capacity improves over 8192 by accommodating more prompt tokens per batch; larger workspace/graph cost may lose, no automatic larger chunk.",
+    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
+    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg12288-n58"
+  },
+  "24724": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Test HPC-Ops decode interaction with repeated DeepGEMM chunk8192 at N58; decoded-token latency improved at chunk4096 but aggregate gain was small, so retain same-load chunk8192 control.",
+    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
+    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
+    "performance_evidence": false,
+    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg8192-hpc-decode-n58"
   }
 }

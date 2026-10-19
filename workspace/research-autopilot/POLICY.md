@@ -1,3 +1,7 @@
+## Manual continuation — 19 October 2026
+
+Four H200 trials 24721–24724 and two serial PBS trials 221589→221590 were explicitly submitted after user continuation, source review and live queue/credit checks. New maximum reserve 3072 SU, internal headroom 20728.853 SU; no budget increase. No new score yet. Latest report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0412/RESULTS.md. This supersedes scheduler/access/budget snapshots below; standing safety and acceptance rules continue. Autopilot remains OFF and no background watcher was started.
+
 ## Live status update — 19 October 2026
 
 This user-requested status/login check supersedes older queue, VPN and credit snapshots below. Both own queues are empty; VPN and SSH restored at 04:01 UTC with private cache retained. Five H200 runs and three recovered PBS runs pass local protocol/SLA/output checks. H200 24647 repeats 2780.483 good tokens/s; H100 221341 N52 reaches 2398.728, awaiting an independent N52 repeat. Fresh PBS balance is 36800.853 SU, In Doubt 0; all three terminal reservations reconciled. No new job or AI schedule was submitted. Full report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0400/RESULTS.md. Autopilot remains OFF. Older access restrictions describe their historical checks; this login was explicitly requested by the user.

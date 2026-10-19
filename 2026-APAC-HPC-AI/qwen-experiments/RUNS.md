@@ -2084,3 +2084,7 @@ Mỗi job là dữ kiện: lỗi deploy dùng sửa quy trình; số đo qua/tr�
 - Profiler GPU traces hiện có trong diagnostic-profile/ của các job: 23104, 23607, 24263, 24429; profiling riêng, không dùng làm điểm benchmark. Accuracy của BTC chưa được xác nhận.
 
 Đọc [bảng số đo](RESULTS.md) và [tổng hợp máy đọc được](comparison.json).
+
+## 19 October 2026 — recovered measurements and new controlled batch
+
+[Accepted source results](research-followup-20261019-0400/RESULTS.md): H200 24647 repeats 2780.483 good tokens/s; H100 221341 N52 reaches 2398.728, awaiting repeat. All local gates pass; full organiser accuracy remains unverified. [New plan and receipts](research-followup-20261019-0412/RESULTS.md): H200 24721–24724 and PBS 221589→221590 submitted. New jobs have no accepted measurement yet. Preserve all raw runs and use platform-matched controls.
