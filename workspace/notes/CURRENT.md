@@ -1,5 +1,9 @@
 # Current APAC handoff — 19 October 2026
 
+## Latest queue check — 19 October 2026, 11:26 UTC
+
+No new result since the 11:11 UTC review below. H200 24733/24736/24737/24738 still pending for Priority; both hpcai nodes allocated. PBS queue empty; existing VPN/SSH access works without authentication or restart. Balance remains 34608.356 SU (ledger 19:20:02 SGT), Used 29391.644, In Doubt zero. No new allocation, budget change or schedule. Preserve H200 positions; no unchanged Tree retry or automatic H100 load increase. [Raw status evidence and interpretation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1125/RESULTS.md). Highest observations and verification limits are unchanged.
+
 ## Status review — 2026-10-19T11:15:15.315162+00:00
 
 Live checks at 11:11 UTC: H200 24733/24736/24737/24738 remain pending for Priority; two hpcai nodes allocated. Highest H200 observation remains 2938.628 good tokens/s; its own interaction repeat has not run. All three PBS jobs completed and pass full local protocol/SLA/runtime/output checks: N54 repeat 221645 = 2418.588; N56 221646 = 2407.364; forced prefill Tree 221669 = 2160.946 good tokens/s. Tree execution is proved on all eight prefill ranks in 16 sealed diagnostic traces (355/355 successful requests); it loses 10.65% versus fresh N54 and is closed. N56 has no observed gain; no automatic N58. Highest H100 individual observation remains 2430.891. Official accuracy unverified. PBS queue empty; VPN/SSH usable without restart or authentication. Balance 34608.356 SU; three terminal charges reconcile, zero remaining reservations and internal headroom 21608.356 SU under the unchanged cap/buffer. No new GPU job, schedule, slide or submission change. [Full report and raw evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md). This supersedes earlier queue and credit snapshots below.
