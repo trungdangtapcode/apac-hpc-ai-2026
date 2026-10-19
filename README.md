@@ -8,6 +8,12 @@ This repository imports the team's existing Qwen-serving research, run evidence,
 - `provenance/`: original upstream Git bundles and the explicit import-history ledger.
 - `tools/`: snapshot, verification and restoration programs.
 
+## Private GitHub repository
+
+The owner authorised GitHub publication on 19 October 2026. The private repository is [trungdangtapcode/apac-hpc-ai-research](https://github.com/trungdangtapcode/apac-hpc-ai-research), with `main` tracking `origin/main`. The first 50 local commits were successfully pushed before the publication documentation updates.
+
+GitHub contains the Git history and reviewed inline files. External artifacts remain in the sibling store on the cluster; they have not been uploaded by this Git push. Follow [the GitHub workflow](docs/GITHUB_WORKFLOW.md) for later milestones and [off-host recovery coverage](docs/OFF_HOST_RECOVERY.md) before relying on the remote as a complete backup.
+
 ## Read the current research state
 
 Start with [the handoff](workspace/notes/CURRENT.md), [notes index](workspace/notes/README.md), and the latest linked experiment review. These are dated snapshots, not live scheduler state. Failed deployments and incomplete benchmarks remain evidence; they are not accepted performance results. Local synthetic output checks do not establish organiser full-set accuracy.
@@ -18,7 +24,7 @@ The existing absolute `/home/apacsc42` links and container/model paths are part 
 
 Small reviewed files are stored directly in Git. Larger files are stored once by content hash, compressed with Zstandard, in the **sibling directory `../apac-hpc-ai-research-artifacts/`**. Multiple original files with the same bytes refer to one object. This retains repeated inputs, raw requests, logs, profiles, slide assets and exact local container images without putting huge blobs in Git.
 
-**Copy both directories off this machine. A local commit alone is not a remote backup. Cloning this Git repository alone does not recover the external objects.** The object store's manifest is committed; the bytes must be uploaded separately when remote backup is configured. Objects marked `LOCAL_ONLY_REVIEW_REQUIRED` are not approved for automatic upload. No upload or GitHub authentication is part of the local preparation step.
+**Copy both directories off this machine. A local commit alone is not a remote backup. Cloning this Git repository alone does not recover the external objects.** The object store's manifest is committed; the bytes must be uploaded separately when remote backup is configured. Objects marked `LOCAL_ONLY_REVIEW_REQUIRED` are not approved for automatic upload. The initial local preparation did not authenticate or upload. The later owner-authorised GitHub push covers only Git objects; it does not transfer the sibling artifact store.
 
 ```bash
 python3 tools/verify_snapshot.py --store ../apac-hpc-ai-research-artifacts
