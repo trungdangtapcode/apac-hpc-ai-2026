@@ -1,3 +1,7 @@
+## Manual optimisation — 2026-10-19T06:04:59.145550+00:00
+
+H200 24724 passes at 2938.628 good tokens/s, +5.6907% versus fresh same-N58 control 24721. Chunk-12288 job 24723 passes but loses 2.3789%; close it. Submitted H200 24736/24737/24738 for fresh control, independent interaction repeat and N60. Existing 24732 running, 24733 pending. Submitted one source-checked H100 N54 prefill Tree trial 221669 after 221646, preserving 221645→221646→221669 serial chain. Total PBS max reserve 4608 SU; ledger Balance 36024.320 SU, internal headroom 18416.320 SU, no budget increase. Full local gates and actual Tree trace activation required. Report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md. No official accuracy claim, slides, organiser upload or AI schedule; autopilot OFF. Supersedes older snapshots below.
+
 ## Repository publication update — 2026-10-19T05:48:14.782568+00:00
 
 The owner authorised the private GitHub repository, safe Git publication and a conventional-subject history correction with at least 60 commits. This supersedes older GitHub-deferred statements below. Git is hosted privately; external artifact bytes remain local. No new GPU submission, scheduler query, VPN authentication, budget change or AI schedule occurred in this repository task. Autopilot remains OFF. Report: workspace/reports/github-publication-20261019/REPORT.md.

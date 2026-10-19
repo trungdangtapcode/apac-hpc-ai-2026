@@ -1,28 +1,30 @@
-## Repository publication update — 2026-10-19T05:48:14.782568+00:00
+## Manual optimisation — 2026-10-19T06:04:59.145550+00:00
 
-The owner authorised the private GitHub repository, safe Git publication and a conventional-subject history correction with at least 60 commits. This supersedes older GitHub-deferred statements below. Git is hosted privately; external artifact bytes remain local. No new GPU submission, scheduler query, VPN authentication, budget change or AI schedule occurred in this repository task. Autopilot remains OFF. Report: workspace/reports/github-publication-20261019/REPORT.md.
-
-## Manual result review and next batch — 2026-10-19T05:32:52.311985+00:00
-
-H200 24722 N60 passes at 2839.532 good tokens/s (+2.1266% vs fresh 24721); H100 221590 N54 passes at 2430.891 good tokens/s (+0.8123% vs fresh N52 repeat 221589). All local terminal/protocol/runtime/short/long gates pass; official accuracy unverified. Submitted H200 24732 N60 repeat and 24733 N62; PBS 221645 N54 repeat → 221646 N56, new maximum 3072 SU. Older 24723/24724 keep positions. Conservative internal headroom 18814.542 SU; no budget increase. Full readable report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0527/RESULTS.md. Autopilot remains OFF. This supersedes older queue/measurement/credit snapshots below.
+H200 24724 passes at 2938.628 good tokens/s, +5.6907% versus fresh same-N58 control 24721. Chunk-12288 job 24723 passes but loses 2.3789%; close it. Submitted H200 24736/24737/24738 for fresh control, independent interaction repeat and N60. Existing 24732 running, 24733 pending. Submitted one source-checked H100 N54 prefill Tree trial 221669 after 221646, preserving 221645→221646→221669 serial chain. Total PBS max reserve 4608 SU; ledger Balance 36024.320 SU, internal headroom 18416.320 SU, no budget increase. Full local gates and actual Tree trace activation required. Report: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md. No official accuracy claim, slides, organiser upload or AI schedule; autopilot OFF. Supersedes older snapshots below.
 
 # Current APAC handoff — 19 October 2026
 
-## Active batch and live checks
+## Current research — 19 October 2026, 06:00–06:05 UTC
 
-The user requested continued optimisation. Latest plan, receipts, source measurements and profile analysis: [19 October followups](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0527/RESULTS.md). Check actual schedulers again before reporting a later live state.
+The user requested continued optimisation. Latest full review, source inspection, plan and actual receipts: [chunk/decode interaction and prefill communication](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md). Check live schedulers again for any later status claim.
 
-H200 24721 (N58 control) and 24722 (N60) are completed and fully reviewed. **24722 = 2839.532 good tokens/s**, +2.1266% versus 24721 = 2780.403, is the new highest observation; independent N60 repeat **24732** and one N62 trial **24733** are now submitted. Existing **24723** chunk 12288 at N58 is running and **24724** HPC-Ops decode at N58 is pending at this check. Preserve positions. Each requests 16 GPUs / 17 minutes. No automatic N64 or unchanged failure retry.
+**H200 24724 = 2938.628 good tokens/s**, +5.6907% versus fresh same-N58 auto-decode control 24721 = 2780.403. DeepGEMM prefill chunk 8192 plus HPC-Ops decode passes every local protocol/runtime/short/12-long gate. This is one observation, not a reproduced gain. New jobs: **24736** fresh auto-decode N58 control, **24737** interaction N58 repeat, **24738** interaction N60. Compare 24738 with 24737 for load and 24732 for runner. Five active H200 jobs: **24732** auto N60 repeat is running; **24733** auto N62 and **24736–24738** pending. Preserve positions; each 16 GPUs / 17 minutes.
 
-H100 221589 N52 repeat (2411.304) and 221590 N54 (2430.891) both completed and pass full local checks. **221590 = 2430.891** is the new highest observation, +0.8123% versus the fresh N52 repeat. Independent N54 repeat **221645.pbs111** and one N56 trial **221646.pbs111** were submitted with verified afterany dependency; at most one 16-GPU PBS allocation running. Each requests at most 45 minutes. No automatic H100 N58. New jobs have no score yet.
+**24723 chunk 12288 loses 2.3789%** versus control, despite local correctness/SLA pass. Close that branch without an unchanged retry or larger chunk. Original N60 auto-decode 24722 = 2839.532 remains a useful earlier point. No automatic higher load or promotion from a single result; whole-client timeout is failure, not a passing measurement.
 
-VPN and SSH were restored at the user's request at 04:01 UTC and remain in use through the tmux client. Private cache preserved; client requested no extra MFA code, phone-side DUO unknown. Do not restart a live tunnel. Use workspace/vpn-rootless/vpn.sh ssh-batch. A batch SSH auth failure alone does not establish VPN loss.
+H100 peak still **221590 N54 = 2430.891** (prior N52 repeat 221589 = 2411.304). PBS chain **221645 N54 repeat → 221646 N56 → 221669 N54 prefill-Tree** is verified serial, at most one 16-GPU allocation running. All three are queued/dependency-held at this check. New fixed-N54 candidate changes only prefill NCCL algorithm selection; decode retained. The existing separate post-score N48 profile must prove actual Tree execution. Log env alone is insufficient. No new PBS score yet.
 
-Pre-submission ledger as of 19/10/2026-13:20:02 SGT: Used 27577.458 SU, Balance 34886.542 SU, In Doubt 1536.000. New two-job maximum reserve **3072 SU**; conservative internal headroom **18814.542 SU** under the unchanged 51000-SU bound and 13000-SU buffer. Retain any terminal-ledger-lag maximum reservation until Used reconciles; do not deduct prepayment twice. Reserve under budget.lock and never retry uncertain qsub. This is a dated published ledger snapshot.
+Runtime logs and exact image header establish NCCL 2.28.9. Sealed H100 profile shows Ring all-reduce share 22.784%/24.007% of summed prefill kernel durations; not elapsed bottleneck shares or speed predictions. Exact image source shows PyNccl version/all-reduce calls and SGLang dispatch; actual GPU activation still required. NVIDIA 2.28 documentation and source hashes are linked in the latest report. Local extraction option/destination mistakes are preserved and corrected; no GPU used for inspection.
+
+VPN/SSH remain usable without restart or authentication. Ledger as of 19 October 13:40:01 SGT: Used 27975.680 SU, Balance **36024.320 SU**, In Doubt 0. Terminal 221590 charge reconciled in Used. Total three-job PBS maximum reserve **4608 SU**, conservative internal headroom **18416.320 SU**, unchanged 51000-SU bound and 13000-SU buffer. Budget reconciled under lock; no increase or double prepayment deduction. Never retry uncertain submissions.
+
+## Private Git archive
+
+The private GitHub repo is https://github.com/trungdangtapcode/apac-hpc-ai-research. The 60-commit history correction was verified at 906ae52; new milestones use actual dates and ordinary pushes. Preserve provenance/history-rewrite-20261019.json. GitHub stores Git, not the sibling external object store; those bytes remain local. Edit active sources once, then explicit safe capture, verify, commit and push; no automatic mirror.
 
 ## Accepted local measurements and evidence limits
 
-Latest complete review: [new operating points](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0527/RESULTS.md). Older source measurements below remain historical context. All listed observations pass full local protocol, SLA/error, frozen payload, runtime and short/12-long checks. These do not establish official full-set accuracy at 99% of the organiser reference score.
+Latest complete review: [interaction result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md). Older source measurements below remain historical context. All listed observations pass full local protocol, SLA/error, frozen payload, runtime and short/12-long checks. These do not establish official full-set accuracy at 99% of the organiser reference score.
 
 - H200 chunk 8192 N58: **24647 = 2780.483 good tokens/s**, +2.2688% versus fresh 24589 = 2718.797. Original 24544 = 2786.696; two-observation descriptive mean 2783.589. Failed warmup 24588 remains failure evidence, not a score or proven root-cause repair.
 - H200 24639 = 2724.552 (DeepGEMM prefill/HPC-Ops decode N58), 24640 = 2714.903 (HPC-Ops prefill chunk 6144 N56), 24641 = 2742.207 (both HPC-Ops N56). Do not assume additive gains. The winning chunk-8192 configuration is the current comparison source.
@@ -32,7 +34,7 @@ Latest complete review: [new operating points](/home/apacsc42/2026-APAC-HPC-AI/q
 
 Recovered H100 221346 has 16 sealed nonzero-rank traces and 376/376 successful separate diagnostic requests at N48. Named HPC grouped GEMM shares: prefill 33.812%/33.259%, decode 22.888%. Leading prefill NCCL Ring all-reduce shares 22.784%/24.007%. These are summed kernel durations, not wall-time or speed predictions. Actual-name analysis and NVIDIA source references are in the latest report.
 
-Potential future prefill communication trial needs exact NCCL version/active-communicator validation and a same-platform control before submission. No new credit reserved for it. H100 auto-prefill chunk 8192 and graph-off losing branches remain closed; invalid equal-TP8/EP2 24375 stays quarantined. Do not infer correctness from CPU geometry tests. Establish organiser accuracy tasks/harness/reference before claiming full accuracy.
+Prefill Tree trial is now explicitly submitted as 221669 after source/version/profile review. Its activation and performance still require GPU evidence; compare with 221645 N54 default-algorithm repeat. H100 auto-prefill chunk 8192 and graph-off losing branches remain closed; invalid equal-TP8/EP2 24375 stays quarantined. Do not infer correctness from CPU geometry tests. Establish organiser accuracy tasks/harness/reference before claiming full accuracy.
 
 ## Standing workflow
 
@@ -40,4 +42,4 @@ Vietnamese chat only; all new work artifacts in readable English. Qwen only; kee
 
 Codex autopilot stays OFF. No background Codex, replacement schedules or automatic chat notifications. No background Slurm watcher is running; this batch was submitted explicitly under locks.
 
-Work once in `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace`. Capture completed milestones into `/home/apacsc42/apac-hpc-ai-research` with sibling artifact store, scan/verify and commit. AGENTS.md records this manual workflow; no automatic mirror. GitHub CLI/upload remain deferred. A same-machine archive is not yet an off-host backup. Historical handoff snapshots are in notes/archive and Git; they are not live scheduler state.
+Work once in `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace`. Capture completed milestones into `/home/apacsc42/apac-hpc-ai-research` with sibling artifact store, scan/verify and commit. AGENTS.md records this manual workflow; no automatic mirror. GitHub publication is now authorised and the private remote stores Git. The sibling artifact store still has no configured off-host copy, so the GitHub clone is not complete evidence/runtime recovery. Historical handoff snapshots are in notes/archive and Git; they are not live scheduler state.

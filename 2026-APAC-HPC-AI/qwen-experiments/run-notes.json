@@ -1083,18 +1083,16 @@
   "24723": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "At N58 test whether 12288-token prefill capacity improves over 8192 by accommodating more prompt tokens per batch; larger workspace/graph cost may lose, no automatic larger chunk.",
-    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
-    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
-    "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg12288-n58"
+    "finding": "Full local gates pass; chunk12288 loses, HPC-Ops decode plus chunk8192 improves. See research-followup-20261019-0600.",
+    "lesson": "Control same load/chunk; interaction gains need repeats. Preserve losing evidence.",
+    "performance_evidence": true
   },
   "24724": {
     "topology": "P8-TP4_D8-TP8-EP8",
     "purpose": "Test HPC-Ops decode interaction with repeated DeepGEMM chunk8192 at N58; decoded-token latency improved at chunk4096 but aggregate gain was small, so retain same-load chunk8192 control.",
-    "finding": "Submitted; no measurement yet. See research-followup-20261019-0412 receipts.",
-    "lesson": "One changed factor versus fresh control; stop after backend/output failure.",
-    "performance_evidence": false,
-    "provenance_note": "Frozen payload before submission: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s14-dg8192-hpc-decode-n58"
+    "finding": "Full local gates pass; chunk12288 loses, HPC-Ops decode plus chunk8192 improves. See research-followup-20261019-0600.",
+    "lesson": "Control same load/chunk; interaction gains need repeats. Preserve losing evidence.",
+    "performance_evidence": true
   },
   "24732": {
     "topology": "P8-TP4_D8-TP8-EP8",
@@ -1108,6 +1106,27 @@
     "purpose": "One load step from fully passing N60 to N62; compare independent same-platform control, no automatic higher load",
     "finding": "Submitted; no measurement yet.",
     "lesson": "One load step with source gates and a fresh repeat; no automatic higher load.",
+    "performance_evidence": false
+  },
+  "24736": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Fresh N58 auto-decode control for the observed chunk 8192 plus HPC-Ops decode interaction; no kernel or workload change.",
+    "finding": "Submitted; no accepted result yet.",
+    "lesson": "Fresh matched control and independent repeat before promotion.",
+    "performance_evidence": false
+  },
+  "24737": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "Independent N58 repeat of 2938.628 good tokens/s from 24724; compare fresh auto-decode control at identical load and chunk.",
+    "finding": "Submitted; no accepted result yet.",
+    "lesson": "Fresh matched control and independent repeat before promotion.",
+    "performance_evidence": false
+  },
+  "24738": {
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "purpose": "One N60 operating-point trial from passing N58 HPC-Ops decode plus DeepGEMM chunk 8192; compare N58 interaction repeat for load, pending auto-decode N60 repeat 24732 for runner.",
+    "finding": "Submitted; no accepted result yet.",
+    "lesson": "Fresh matched control and independent repeat before promotion.",
     "performance_evidence": false
   }
 }
