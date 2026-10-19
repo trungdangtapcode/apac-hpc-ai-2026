@@ -1,5 +1,10 @@
 # Current APAC handoff — 19 October 2026
 
+## Research continuation — 2026-10-19T14:27:36.052008+00:00
+
+At the 14:18 UTC check all three preceding PBS allocations finished and H200's five jobs remained pending Priority. Submitted **221880.pbs111** for the already prepared dense FlashInfer-prefill N54 trial, source/fresh control 221827 passing at 2413.802 good tokens/s. The other completed trials show no clear throughput gain; preserve their separate reviews. Scoped Simple activation is unverified because separate N48 traces still show Ring LL. Chunk6144's derived prefill graph settings are now strictly checked against the exact runtime source. Published Balance 33270.898 SU, Used 30729.102, In Doubt zero; terminal charges 1337.458 SU reconciled. New maximum reserve 1536 SU; internal headroom 18734.898 SU. Continue researching and using available PBS slots within caps. [Submission and budget evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/SUBMISSION.md). No new peak, official accuracy, scheduler automation or slide claim.
+
+
 ## Frequent commit and push rule — 2026-10-19T13:38:30.266691+00:00
 
 The user requires small, coherent backup checkpoints rather than large batches. Commit and push each safe, reviewable unit as it is completed: hypothesis/scripts/config; submission receipts with reservation updates; one completed-run review; a fix; or docs. Do not wait for GPU completion or a whole experiment wave, and do not sweep unrelated staged changes together. Keep dependent files reproducible, exclude secrets, verify capture and origin/main, and disclose exact uncaptured/unpushed work if interrupted. No artificial commit count, new history rewrite, background sync, schedule or GPU allocation is authorised by this rule. Persisted in home and archive AGENTS.md and archive docs/GITHUB_WORKFLOW.md. Existing research snapshots below retain their original timestamps.
