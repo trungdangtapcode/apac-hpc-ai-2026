@@ -11,3 +11,9 @@ Public model weight shards under `/scratch/models` are not copied into this snap
 Existing Vietnamese historical documents are preserved byte-for-byte as evidence. New import/backup documents are English. Presentation snapshots remain snapshots; no new official score or organiser submission is created. No license is imposed on third-party source, benchmark text or supplied assets; their existing notices remain applicable.
 
 Two damaged collection archives, if listed in `backup/scan-results.json` under `local_only_review`, are preserved byte-for-byte in `local-review-objects/`. They are local evidence with incomplete archive-member inspection and **must not be automatically published** with the normal object set. Their manifest entries explicitly require distribution review. The object store directory is owner-only on the source machine. This preserves failed capture evidence without treating malformed archives as approved upload content.
+
+## GitHub transport coverage — 19 October 2026
+
+The private GitHub repository receives committed Git objects, including all imported history, reviewed inline source files, manifests, provenance bundles and later documentation. The sibling `apac-hpc-ai-research-artifacts` directory is outside the Git working tree and is not transferred by `git push`. Its normal objects, review-only objects and frozen container binaries remain local. A link or manifest entry in GitHub does not mean the corresponding large payload is stored there.
+
+GitHub CLI authentication is machine-private state outside the two source trees. Do not capture `~/.config/gh`, `hosts.yml`, credential helpers or access tokens as research evidence. The logged-in account and private repository URL can be recorded without copying authentication material. This hosting change adds an off-host copy of Git; complete recovery still needs an independently preserved object store and the model checkpoint.
