@@ -6,6 +6,12 @@ Research files are grouped by their retained last-modified UTC day and topic. Th
 
 All committer timestamps use the actual time of import. Imported commit messages identify the records as imports. Bootstrap, archive metadata and final validation commits use current timestamps. No activity is fabricated to fill missing days or extend the work to an invented month. Old vendor/extracted/reference files are imported with a current author timestamp rather than attributed to the user's past work; upstream Git bundles retain their original authors and dates.
 
-Git identity requested by the owner: `trungdangtapcode <tcuong1000@gmail.com>`. This is commit attribution only, not GitHub authentication. The intended remote is a private `trungdangtapcode/apac-hpc-ai-research` repository; no remote is created or pushed during local preparation.
+Git identity requested by the owner: `trungdangtapcode <tcuong1000@gmail.com>`. This is commit attribution only, not GitHub authentication. The remote is the private `trungdangtapcode/apac-hpc-ai-research` repository, created and first pushed on 19 October 2026 after the owner completed GitHub authentication. Local preparation preceded that upload.
 
 The source checkouts are not rewritten, reset or cleaned. Their untracked research is snapshotted separately; their original `.git` metadata is represented by portable Git bundles. This import does not reproduce versions that no surviving file, archive or source history contains. Source data that changes during capture is reported rather than silently claimed as verified.
+
+## Why the initial pushed branch had 50 commits
+
+The base local archive had 47 commits: bootstrap, metadata-dated import groups and final archive/handoff records. Three later research milestones added status recovery, a controlled submission batch and the next accepted operating-point results. This produced the first 50 commits pushed to GitHub. A commit is a group of retained changes, not one experiment, one job or one calendar day. Several job runs can be preserved in one milestone.
+
+The owner subsequently requested at least 60 commits. Publication work is split into separate nonempty commits for repository overview, transport scope, clone/recovery instructions, research navigation, provenance, authentication exclusions, agent handoff, the GitHub workflow, off-host recovery and publication records. These are actual documentation/configuration changes at their real work dates. They are not ten additional benchmark runs or reconstructed historical edits. Published history is retained without a force push.
