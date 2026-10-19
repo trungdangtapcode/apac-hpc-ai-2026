@@ -13,3 +13,15 @@ Git history is a retrospective import with explicit provenance. Do not fabricate
 On the original machine, edit active sources under `/home/apacsc42/2026-APAC-HPC-AI` and `/home/apacsc42/workspace` once, then explicitly capture each completed milestone into this archive and commit safe changes. Do not maintain three independently edited copies. `tools/capture_update.py` accepts an explicit JSON path selection and preserves prior Git history; it does not commit, upload, delete source files or run automatically. Verify the new snapshot and refresh the recovery bundle and transport checksums after committing. Keep large objects in the sibling store. Review `provenance/current-home-AGENTS.md` for the current original-machine workflow, while preserving `original-home-AGENTS.md` as historical provenance. The owner authorised creation and Git publication of the private `trungdangtapcode/apac-hpc-ai-research` repository on 19 October 2026. Push safe milestone commits to that existing private origin when continuing authorised repository work, then verify the remote branch matches the local commit. Do not infer that a Git push uploads the sibling artifact store. Keep GitHub authentication files outside the archive and keep the repository private.
 
 Use descriptive conventional commit subjects (`feat`, `fix`, `research`, `docs`, `chore`) for actual work. Reconstructed record committer dates were aligned with the existing retained metadata author dates at the owner's explicit request; provenance/history-rewrite-20261019.json preserves the mapping. Do not reintroduce generic import-category titles or invent missing experiments. Future ordinary work uses actual timestamps and normal pushes.
+
+
+Commit small coherent checkpoints and push each one promptly. Do not bundle
+several experiments, unrelated fixes, code changes and reports into a large
+end-of-session commit. Capture only relevant safe source paths, review staged
+paths and verify the private origin matches HEAD. Keep a hypothesis/config,
+submission receipts/budget update, a completed-run review, a fix and a docs
+update as separate checkpoints when each is independently reviewable. Do not
+wait for GPU completion or a whole wave; do not create artificial empty commits
+or rewrite history. End a turn with a safe checkpoint or state exact remaining
+uncaptured/unpushed work. Full source instruction is recorded in
+provenance/current-home-AGENTS.md and docs/GITHUB_WORKFLOW.md.

@@ -93,3 +93,27 @@ global research stop. Preserve queue positions, acceptance gates, budget and
 active-job caps. Do not submit blind duplicates solely to fill a queue.
 This does not re-enable background Codex, autopilot, schedules or automatic
 chat notifications.
+
+## Commit small checkpoints and push promptly
+
+The user explicitly requires frequent backup commits. Split work into small,
+coherent checkpoints and commit/push each checkpoint as soon as its files are
+safe and reviewable. Do not accumulate several experiments, unrelated fixes,
+code changes and reports into one large end-of-session commit.
+
+Typical separate checkpoints are a hypothesis with its scripts/configuration,
+actual submission receipts with reservation changes, one completed-run review
+with its interpretation, a fix, and a documentation update. Keep files needed
+for one reproducible change together; do not split mechanically by file count
+or create empty commits to inflate history. Do not wait for GPU completion or
+an entire experiment wave before backing up already completed work.
+
+Edit active sources once, capture only the checkpoint's relevant safe paths,
+verify the capture, use a descriptive conventional subject with actual dates,
+push to the existing private origin, and verify origin/main matches local HEAD.
+Review staged paths explicitly; do not sweep unrelated pending work into a
+commit. End each work turn with a safe checkpoint or identify exactly what is
+still uncaptured or unpushed. Preserve frozen evidence and the existing history.
+Keep credentials and session state excluded, and preserve external artifact
+manifests/recovery metadata. This is an agent workflow, not authorisation for
+a background watcher, automatic schedule or extra GPU spending.
