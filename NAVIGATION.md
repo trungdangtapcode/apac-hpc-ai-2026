@@ -4,6 +4,7 @@ Start with [the research journey and next priorities](workspace/reports/research
 
 - [Illustrated research journey: GPU split, measured gains, failed branches and next gates](workspace/reports/research-journey-20261019/diagram/README.md).
 - [19 October status: H100 repeat, N56 and measured Tree regression; H200 queue](2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md).
+- [Active research: new H100 protocol/chunk trials, H200 winner profile and prepared next attention comparison](2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1200/RESULTS.md).
 - [Persistent notes](workspace/notes/README.md) and [latest dated handoff](workspace/notes/CURRENT.md).
 - [Experiment notebook](2026-APAC-HPC-AI/qwen-experiments/RUNS.md) and [serving results](2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md).
 - [Metric definitions, units and job cards](workspace/reports/all-history-metric-records-20261017/REPORT.md).

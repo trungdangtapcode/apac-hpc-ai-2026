@@ -79,3 +79,17 @@ Do not use generic `Import records...` titles for the research history. The
 owner-requested reconstruction aligns existing record author/committer dates
 with retained metadata; its mapping is in provenance/. Ordinary new work uses
 actual dates. Preserve that audit trail and do not routinely rewrite history.
+
+## Continue the authorised research loop
+
+The user reaffirmed on 19 October 2026 that an available research queue must not
+be left empty merely because the preceding branch lost. During active authorised
+work, review completed runs, research the next distinct hypothesis, check budget
+and queue capacity, then submit the justified followup without another reminder.
+A status request during this research is also a checkpoint for continuing that
+loop, not a reason to do repeated status-only turns while feasible work is idle.
+Close unchanged losing branches; do not interpret their stopping rules as a
+global research stop. Preserve queue positions, acceptance gates, budget and
+active-job caps. Do not submit blind duplicates solely to fill a queue.
+This does not re-enable background Codex, autopilot, schedules or automatic
+chat notifications.
