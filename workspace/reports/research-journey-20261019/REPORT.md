@@ -2,6 +2,8 @@
 
 **Research review dated 19 October 2026.** This report explains the measured progression, the latest gain, what remains unproven, and where to spend the next GPU time. It does not submit a new job or change the official submission package.
 
+An [illustrated overview of the full research journey](diagram/README.md) shows the GPU layout, measured progression, rejected branches, separate H100 lane and remaining verification loop. [Open the vector diagram](diagram/research-journey.svg) or [download the PDF](diagram/research-journey.pdf).
+
 ## Current answer
 
 **Job 24724 is our highest locally accepted H200 observation: 2,938.628 good output tokens/s.** It combines DeepGEMM for prefill, an 8,192-token prefill chunk and HPC-Ops for decode. At the same concurrency of 58, the fresh auto-decode control 24721 scores 2,780.403: **a 5.6907% increase**.

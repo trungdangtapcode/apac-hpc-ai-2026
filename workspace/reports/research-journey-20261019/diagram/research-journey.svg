@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2430" viewBox="0 0 1800 2430" role="img" aria-labelledby="figure-title figure-desc">
+<title id="figure-title">Qwen research journey: from working deployment to a measured kernel interaction</title>
+<desc id="figure-desc">Six illustrated H200 research stages, a good output throughput trajectory, rejected branches, a separate H100 lane and the remaining verification loop. Dated evidence reviewed 19 October 2026 at 06:14 UTC. The 2938.628 H200 peak is a single locally accepted observation; independent interaction repeat and official accuracy are unverified.</desc>
+<defs>
+<linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1f6fd"/><stop offset=".55" stop-color="#fafbfe"/><stop offset="1" stop-color="#edf7f4"/></linearGradient>
+<linearGradient id="hero" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#12345b"/><stop offset="1" stop-color="#176962"/></linearGradient>
+<marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#7b91ab"/></marker>
+</defs>
+<rect width="1800" height="2430" fill="url(#background)"/>
+<g font-family="DejaVu Sans, sans-serif">
+<text x="60" y="66" font-size="20" fill="#34678b" font-weight="700" text-anchor="start">QWEN / THE RESEARCH JOURNEY</text>
+<text x="60" y="120" font-size="42" fill="#12243b" font-weight="700" text-anchor="start">Make it work. Measure it. Improve it. Verify it.</text>
+<text x="60" y="157" font-size="21" fill="#586b80" font-weight="400" text-anchor="start">29 Sep–19 Oct 2026  •  Qwen3-235B-A22B-Instruct-2507-FP8  •  SGLang serving</text>
+<rect x="1380" y="43" width="360" height="32" rx="16" fill="#e0eaf4" stroke="none" stroke-width="1"/>
+<text x="1560.0" y="65" font-size="16" fill="#35516f" font-weight="600" text-anchor="middle">Evidence: 19 Oct 2026, 06:14 UTC</text>
+<rect x="60" y="185" width="1680" height="78" rx="18" fill="url(#hero)" stroke="none" stroke-width="1"/>
+<text x="86" y="218" font-size="16" fill="#bde8e1" font-weight="700" text-anchor="start">FIXED WORKLOAD</text>
+<text x="86" y="244" font-size="21" fill="#ffffff" font-weight="600" text-anchor="start">~4,000 input → 200 output tokens</text>
+<text x="655" y="218" font-size="16" fill="#bde8e1" font-weight="700" text-anchor="start">GOOD REQUEST</text>
+<text x="655" y="244" font-size="20" fill="#ffffff" font-weight="600" text-anchor="start">TTFT ≤ 3,000 ms AND request mean ITL ≤ 20 ms</text>
+<text x="1260" y="218" font-size="16" fill="#bde8e1" font-weight="700" text-anchor="start">SCORE / GATE</text>
+<text x="1260" y="244" font-size="19" fill="#ffffff" font-weight="600" text-anchor="start">good requests/s × 200; ≥90% jointly good</text>
+<text x="60" y="307" font-size="17" fill="#4d6c8b" font-weight="700" text-anchor="start">A</text>
+<text x="112" y="307" font-size="25" fill="#14243a" font-weight="700" text-anchor="start">H200: six stages of improvement</text>
+<text x="1740" y="307" font-size="17" fill="#5c6c7d" font-weight="400" text-anchor="end">16 GPUs • selected milestones, not isolated causal effects</text>
+<rect x="60" y="332" width="536" height="294" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="60" y="332" width="536" height="6" rx="3" fill="#397d96" stroke="none" stroke-width="1"/>
+<rect x="84" y="352" width="40" height="32" rx="16" fill="#397d96" stroke="none" stroke-width="1"/>
+<text x="104.0" y="374" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">01</text>
+<text x="138" y="376" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Build a trustworthy test</text>
+<rect x="88" y="416" width="23" height="34" rx="4" fill="#d3e7ef" stroke="#5c91a6" stroke-width="1"/>
+<rect x="119" y="422" width="23" height="34" rx="4" fill="#d3e7ef" stroke="#5c91a6" stroke-width="1"/>
+<rect x="150" y="428" width="23" height="34" rx="4" fill="#d3e7ef" stroke="#5c91a6" stroke-width="1"/>
+<path d="M186,443 L240,443" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="254" y="416" width="140" height="52" rx="8" fill="#eaf4f8" stroke="none" stroke-width="1"/>
+<text x="324" y="448" font-size="19" fill="#28576e" font-weight="600" text-anchor="middle">Serving API</text>
+<path d="M401,443 L451,443" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="465" y="416" width="101" height="52" rx="8" fill="#eaf4f8" stroke="none" stroke-width="1"/>
+<text x="516" y="448" font-size="18" fill="#28576e" font-weight="600" text-anchor="middle">Metrics</text>
+<text x="127" y="489" font-size="15" fill="#397d96" font-weight="600" text-anchor="middle">AIPerf</text>
+<text x="84" y="508" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Slurm smoke test; later a separate PBS cluster.</text>
+<text x="84" y="539" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Pin model, containers, protocol and output checks.</text>
+<text x="84" y="570" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Fix startup races, offline paths and port conflicts.</text>
+<text x="84" y="607" font-size="19" fill="#397d96" font-weight="600" text-anchor="start">60 s warmup → 120 s scoring → 30 s grace</text>
+<rect x="632" y="332" width="536" height="294" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="632" y="332" width="536" height="6" rx="3" fill="#496fb4" stroke="none" stroke-width="1"/>
+<rect x="656" y="352" width="40" height="32" rx="16" fill="#496fb4" stroke="none" stroke-width="1"/>
+<text x="676.0" y="374" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">02</text>
+<text x="710" y="376" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Repair topology + KV transfer</text>
+<rect x="658" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M655,422 L658,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M679,422 L682,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M655,429 L658,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M679,429 L682,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M655,436 L658,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M679,436 L682,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="686" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M683,422 L686,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M707,422 L710,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M683,429 L686,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M707,429 L710,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M683,436 L686,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M707,436 L710,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="714" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M711,422 L714,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M735,422 L738,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M711,429 L714,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M735,429 L738,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M711,436 L714,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M735,436 L738,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="742" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M739,422 L742,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M763,422 L766,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M739,429 L742,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M763,429 L766,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M739,436 L742,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M763,436 L766,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<text x="710.5" y="465" font-size="16" fill="#668bd2" font-weight="600" text-anchor="middle">Prefill 1 · TP4</text>
+<rect x="812" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M809,422 L812,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M833,422 L836,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M809,429 L812,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M833,429 L836,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M809,436 L812,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M833,436 L836,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="840" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M837,422 L840,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M861,422 L864,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M837,429 L840,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M861,429 L864,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M837,436 L840,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M861,436 L864,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="868" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M865,422 L868,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M889,422 L892,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M865,429 L868,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M889,429 L892,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M865,436 L868,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M889,436 L892,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<rect x="896" y="416" width="21" height="25" rx="4" fill="#668bd2" stroke="none" stroke-width="1"/>
+<path d="M893,422 L896,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M917,422 L920,422" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M893,429 L896,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M917,429 L920,429" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M893,436 L896,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<path d="M917,436 L920,436" fill="none" stroke="#668bd2" stroke-width="1.5"/>
+<text x="864.5" y="465" font-size="16" fill="#668bd2" font-weight="600" text-anchor="middle">Prefill 2 · TP4</text>
+<path d="M944,440 L1000,440" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1015" y="411" width="134" height="49" rx="8" fill="#e9edfb" stroke="none" stroke-width="1"/>
+<text x="1082" y="442" font-size="16" fill="#496fb4" font-weight="600" text-anchor="middle">8-GPU decode</text>
+<text x="658" y="508" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">17 named trials: failures are not valid scores.</text>
+<text x="658" y="539" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Request-scoped NIXL enables TP4 → TP8 KV.</text>
+<text x="658" y="570" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Retained: 8 prefill GPUs + 8 decode GPUs.</text>
+<text x="658" y="607" font-size="23" fill="#496fb4" font-weight="700" text-anchor="start">1,912.300 good tokens/s · 22415 · N48</text>
+<rect x="1204" y="332" width="536" height="294" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="1204" y="332" width="536" height="6" rx="3" fill="#7162b3" stroke="none" stroke-width="1"/>
+<rect x="1228" y="352" width="40" height="32" rx="16" fill="#7162b3" stroke="none" stroke-width="1"/>
+<text x="1248.0" y="374" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">03</text>
+<text x="1282" y="376" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Improve the serving pipeline</text>
+<rect x="1230" y="416" width="145" height="52" rx="8" fill="#eeebf8" stroke="none" stroke-width="1"/>
+<text x="1302" y="448" font-size="18" fill="#65559e" font-weight="600" text-anchor="middle">Route</text>
+<rect x="1394" y="416" width="145" height="52" rx="8" fill="#eeebf8" stroke="none" stroke-width="1"/>
+<text x="1466" y="448" font-size="18" fill="#65559e" font-weight="600" text-anchor="middle">Graphs</text>
+<rect x="1558" y="416" width="145" height="52" rx="8" fill="#eeebf8" stroke="none" stroke-width="1"/>
+<text x="1630" y="448" font-size="18" fill="#65559e" font-weight="600" text-anchor="middle">Transfer</text>
+<path d="M1377,442 L1390,442" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M1541,442 L1554,442" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1230" y="508" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Chunk 4096 + load: 2,140.096 (23114).</text>
+<text x="1230" y="539" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Round robin, graphs, MNNVL: 2,592.162.</text>
+<text x="1230" y="570" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">FlashInfer decode attention: 2,632.610.</text>
+<text x="1230" y="607" font-size="23" fill="#7162b3" font-weight="700" text-anchor="start">N56 pipeline: 2,667.465 · 24263</text>
+<path d="M601,481 L626,481" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M1173,481 L1198,481" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M1472,633 L1472,667" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1437" y="654" font-size="15" fill="#667a91" font-weight="400" text-anchor="end">then</text>
+<rect x="1204" y="676" width="536" height="294" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="1204" y="676" width="536" height="6" rx="3" fill="#b47b2d" stroke="none" stroke-width="1"/>
+<rect x="1228" y="696" width="40" height="32" rx="16" fill="#b47b2d" stroke="none" stroke-width="1"/>
+<text x="1248.0" y="718" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">04</text>
+<text x="1282" y="720" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Choose kernels for each phase</text>
+<rect x="1230" y="756" width="218" height="56" rx="8" fill="#fbf0df" stroke="none" stroke-width="1"/>
+<text x="1339" y="778" font-size="14" fill="#94601d" font-weight="700" text-anchor="middle">PREFILL</text>
+<text x="1339" y="802" font-size="20" fill="#94601d" font-weight="600" text-anchor="middle">DeepGEMM</text>
+<rect x="1472" y="756" width="230" height="56" rx="8" fill="#f4eadc" stroke="none" stroke-width="1"/>
+<text x="1587" y="778" font-size="14" fill="#94601d" font-weight="700" text-anchor="middle">DECODE</text>
+<text x="1587" y="802" font-size="20" fill="#94601d" font-weight="600" text-anchor="middle">auto / HPC-Ops</text>
+<text x="1230" y="851" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Prefill and decode have different batch shapes.</text>
+<text x="1230" y="882" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">DeepGEMM prefill: +1.74% vs fresh control.</text>
+<text x="1230" y="913" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Independent repeat supports the H200 gain.</text>
+<text x="1230" y="950" font-size="23" fill="#9e6a26" font-weight="700" text-anchor="start">2,716.787 good tokens/s · 24327 · N56</text>
+<rect x="632" y="676" width="536" height="294" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="632" y="676" width="536" height="6" rx="3" fill="#8b60b1" stroke="none" stroke-width="1"/>
+<rect x="656" y="696" width="40" height="32" rx="16" fill="#8b60b1" stroke="none" stroke-width="1"/>
+<text x="676.0" y="718" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">05</text>
+<text x="710" y="720" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Refine chunk size + client load</text>
+<rect x="658" y="763" width="110" height="34" rx="6" fill="#dbcbe9" stroke="none" stroke-width="1"/>
+<text x="713.0" y="787" font-size="19" fill="#704796" font-weight="600" text-anchor="middle">4096</text>
+<rect x="799" y="763" width="144" height="34" rx="6" fill="#dbcbe9" stroke="none" stroke-width="1"/>
+<text x="871.0" y="787" font-size="19" fill="#704796" font-weight="600" text-anchor="middle">6144</text>
+<rect x="974" y="763" width="171" height="34" rx="6" fill="#dbcbe9" stroke="none" stroke-width="1"/>
+<text x="1059.5" y="787" font-size="19" fill="#704796" font-weight="600" text-anchor="middle">8192</text>
+<text x="658" y="819" font-size="17" fill="#6e5b81" font-weight="400" text-anchor="start">Prefill token budget; the prompt stays ~4k.</text>
+<text x="658" y="858" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Chunk 6144 / N56: 2,737.410 (24573).</text>
+<text x="658" y="889" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Chunk 8192 / N58: 2,780.403 (24721).</text>
+<text x="658" y="920" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Auto-decode N60: 2,839.532 (24722).</text>
+<text x="658" y="950" font-size="23" fill="#8053a7" font-weight="700" text-anchor="start">N60 repeat: 2,836.531 · 24732</text>
+<rect x="60" y="676" width="536" height="294" rx="18" fill="#f1fbf6" stroke="#d9e2ed" stroke-width="1.4"/>
+<rect x="60" y="676" width="536" height="6" rx="3" fill="#248973" stroke="none" stroke-width="1"/>
+<rect x="84" y="696" width="40" height="32" rx="16" fill="#248973" stroke="none" stroke-width="1"/>
+<text x="104.0" y="718" font-size="19" fill="#ffffff" font-weight="600" text-anchor="middle">06</text>
+<text x="138" y="720" font-size="24" fill="#14243a" font-weight="700" text-anchor="start">Combine the useful changes</text>
+<rect x="84" y="750" width="215" height="32" rx="16" fill="#d6eee3" stroke="none" stroke-width="1"/>
+<text x="191.5" y="772" font-size="15" fill="#216d56" font-weight="600" text-anchor="middle">BEST OBSERVED H200</text>
+<text x="84" y="818" font-size="48" fill="#176d57" font-weight="700" text-anchor="start">2,938.628</text>
+<text x="404" y="815" font-size="19" fill="#3b6c60" font-weight="400" text-anchor="start">good tokens/s</text>
+<text x="84" y="856" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">DeepGEMM prefill · chunk 8192 · HPC-Ops decode</text>
+<text x="84" y="887" font-size="19" fill="#176d57" font-weight="600" text-anchor="start">N58 · job 24724 · +5.69% vs fresh N58 control</text>
+<text x="84" y="918" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">One accepted deployment; own repeat pending.</text>
+<text x="84" y="949" font-size="18" fill="#596a66" font-weight="400" text-anchor="start">Official accuracy and global optimum unverified.</text>
+<path d="M1198,824 L1173,824" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M626,824 L601,824" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="60" y="1023" font-size="17" fill="#4d6c8b" font-weight="700" text-anchor="start">B</text>
+<text x="112" y="1023" font-size="25" fill="#14243a" font-weight="700" text-anchor="start">What the measured progression looks like</text>
+<text x="1740" y="1023" font-size="17" fill="#5c6c7d" font-weight="400" text-anchor="end">good output tokens/s • H200 only</text>
+<rect x="60" y="1048" width="1680" height="240" rx="18" fill="#ffffff" stroke="#d9e2ed" stroke-width="1"/>
+<path d="M112,1205 L1686,1205" fill="none" stroke="#dbe3ed" stroke-width="1"/>
+<polyline points="136,1188.366 325,1167.765 514,1126.883 703,1123.225 892,1115.612 1081,1113.747 1270,1109.859 1459,1104.512 1648,1095.550" fill="none" stroke="#338f86" stroke-width="4"/>
+<circle cx="136" cy="1188.366" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="136" y="1174.3659171037216" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">1,912</text>
+<text x="136" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">22415</text>
+<text x="136" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N48</text>
+<circle cx="325" cy="1167.765" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="325" y="1153.7652130576894" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,140</text>
+<text x="325" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">23114</text>
+<text x="325" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N52</text>
+<circle cx="514" cy="1126.883" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="514" y="1112.8827056990533" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,592</text>
+<text x="514" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">23778</text>
+<text x="514" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N52</text>
+<circle cx="703" cy="1123.225" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="703" y="1109.2248454789412" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,633</text>
+<text x="703" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">23975</text>
+<text x="703" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N52</text>
+<circle cx="892" cy="1115.612" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="892" y="1101.612282075849" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,717</text>
+<text x="892" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">24327</text>
+<text x="892" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N56</text>
+<circle cx="1081" cy="1113.747" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="1081" y="1099.747308944355" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,737</text>
+<text x="1081" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">24573</text>
+<text x="1081" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N56</text>
+<circle cx="1270" cy="1109.859" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="1270" y="1095.8591711539434" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,780</text>
+<text x="1270" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">24721</text>
+<text x="1270" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N58</text>
+<circle cx="1459" cy="1104.512" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="1459" y="1090.5119295356121" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,840</text>
+<text x="1459" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">24722</text>
+<text x="1459" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N60</text>
+<circle cx="1648" cy="1095.550" r="6" fill="#248973" stroke="white" stroke-width="2"/>
+<text x="1648" y="1081.550133486184" font-size="20" fill="#176d57" font-weight="700" text-anchor="middle">2,939</text>
+<text x="1648" y="1232" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">24724</text>
+<text x="1648" y="1258" font-size="17" fill="#586d85" font-weight="400" text-anchor="middle">N58</text>
+<text x="84" y="1080" font-size="18" fill="#617185" font-weight="400" text-anchor="start">+53.67% from the early baseline; settings and loads differ. This is research progression, not a cumulative causal ablation.</text>
+<text x="60" y="1323" font-size="21" fill="#255e55" font-weight="600" text-anchor="start">Latest matched N58 change: mean ITL 16.498 → 14.998 ms; TTFT 784.526 → 871.991 ms; joint success 98.907%.</text>
+<text x="60" y="1354" font-size="19" fill="#627387" font-weight="400" text-anchor="start">Faster repeated decode intervals can offset slower first-token arrival. This is a plausible explanation, not a profiled causal proof.</text>
+<text x="60" y="1407" font-size="17" fill="#4d6c8b" font-weight="700" text-anchor="start">C</text>
+<text x="112" y="1407" font-size="25" fill="#14243a" font-weight="700" text-anchor="start">Branches that taught us where to stop</text>
+<text x="1740" y="1407" font-size="17" fill="#5c6c7d" font-weight="400" text-anchor="end">Failure, invalid output and slower performance have different meanings</text>
+<rect x="60" y="1430" width="393" height="158" rx="18" fill="#fff8f5" stroke="#eadbd5" stroke-width="1"/>
+<text x="80" y="1465" font-size="19" fill="#97573b" font-weight="700" text-anchor="start">Larger chunk: 12288</text>
+<text x="80" y="1500" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">2,714.261 · job 24723</text>
+<text x="80" y="1530" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">−2.38% at matched N58</text>
+<text x="80" y="1564" font-size="15.5" fill="#97573b" font-weight="600" text-anchor="start">CLOSE: slower than chunk 8192</text>
+<rect x="489" y="1430" width="393" height="158" rx="18" fill="#fff8f5" stroke="#eadbd5" stroke-width="1"/>
+<text x="509" y="1465" font-size="19" fill="#97573b" font-weight="700" text-anchor="start">Disable prefill graphs</text>
+<text x="509" y="1500" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">1,590.313 · job 24426</text>
+<text x="509" y="1530" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">Only 72.72% jointly good</text>
+<text x="509" y="1564" font-size="15.5" fill="#97573b" font-weight="600" text-anchor="start">REJECT: fails the latency gate</text>
+<rect x="918" y="1430" width="393" height="158" rx="18" fill="#fff8f5" stroke="#eadbd5" stroke-width="1"/>
+<text x="938" y="1465" font-size="19" fill="#97573b" font-weight="700" text-anchor="start">Equal TP8 / EP2 layout</text>
+<text x="938" y="1500" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Job 24375</text>
+<text x="938" y="1530" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">Output checks fail</text>
+<text x="938" y="1564" font-size="15.5" fill="#97573b" font-weight="600" text-anchor="start">QUARANTINE: score is not valid</text>
+<rect x="1347" y="1430" width="393" height="158" rx="18" fill="#fff8f5" stroke="#eadbd5" stroke-width="1"/>
+<text x="1367" y="1465" font-size="19" fill="#97573b" font-weight="700" text-anchor="start">Startup / warmup failures</text>
+<text x="1367" y="1500" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">NIXL, router, job 24588</text>
+<text x="1367" y="1530" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">No scored benchmark result</text>
+<text x="1367" y="1564" font-size="15.5" fill="#97573b" font-weight="600" text-anchor="start">DIAGNOSE: retain logs, no score</text>
+<text x="60" y="1641" font-size="17" fill="#4d6c8b" font-weight="700" text-anchor="start">D</text>
+<text x="112" y="1641" font-size="25" fill="#14243a" font-weight="700" text-anchor="start">H100: a separate research lane</text>
+<text x="1740" y="1641" font-size="17" fill="#5c6c7d" font-weight="400" text-anchor="end">PBS • 16 GPUs • no pooled H100/H200 ranking</text>
+<rect x="60" y="1666" width="536" height="190" rx="18" fill="#eff5fb" stroke="#d3dfed" stroke-width="1"/>
+<rect x="632" y="1666" width="536" height="190" rx="18" fill="#eff5fb" stroke="#d3dfed" stroke-width="1"/>
+<rect x="1204" y="1666" width="536" height="190" rx="18" fill="#eff5fb" stroke="#d3dfed" stroke-width="1"/>
+<text x="84" y="1702" font-size="22" fill="#345f89" font-weight="700" text-anchor="start">Re-measure on the second platform</text>
+<text x="84" y="1739" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">H200 DeepGEMM gains did not transfer reliably.</text>
+<text x="84" y="1770" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Faster weight loading did not prove goodput gain.</text>
+<text x="84" y="1801" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Both-phase HPC-Ops earned repeated support.</text>
+<text x="84" y="1832" font-size="21" fill="#345f89" font-weight="600" text-anchor="start">N50 repeat: 2,371.341 · job 221339</text>
+<text x="656" y="1702" font-size="22" fill="#345f89" font-weight="700" text-anchor="start">Refine the operating load</text>
+<text x="656" y="1739" font-size="20" fill="#29394d" font-weight="400" text-anchor="start">N52 repeat: 2,411.304 · job 221589</text>
+<text x="656" y="1786" font-size="32" fill="#345f89" font-weight="700" text-anchor="start">2,430.891 good tokens/s</text>
+<text x="656" y="1824" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">N54 · job 221590 · best observed, own repeat pending</text>
+<text x="1228" y="1702" font-size="22" fill="#345f89" font-weight="700" text-anchor="start">Profile → test communication</text>
+<text x="1228" y="1739" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">Ring all-reduce appears in sealed GPU traces.</text>
+<text x="1228" y="1770" font-size="19" fill="#29394d" font-weight="400" text-anchor="start">N54 repeat → N56 → prefill NCCL Tree trial.</text>
+<text x="1228" y="1801" font-size="18" fill="#29394d" font-weight="400" text-anchor="start">221645 → 221646 → 221669; outcomes pending.</text>
+<text x="1228" y="1832" font-size="18" fill="#345f89" font-weight="600" text-anchor="start">Prove actual Tree activation before crediting it.</text>
+<path d="M601,1757 L626,1757" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M1173,1757 L1198,1757" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="60" y="1912" font-size="17" fill="#4d6c8b" font-weight="700" text-anchor="start">E</text>
+<text x="112" y="1912" font-size="25" fill="#14243a" font-weight="700" text-anchor="start">What makes the next improvement credible</text>
+<text x="1740" y="1912" font-size="17" fill="#5c6c7d" font-weight="400" text-anchor="end">Planned / pending at the evidence cutoff; not new measurements</text>
+<rect x="60" y="1937" width="536" height="159" rx="18" fill="#ffffff" stroke="#cdded9" stroke-width="1"/>
+<text x="84" y="1973" font-size="22" fill="#28715f" font-weight="700" text-anchor="start">1  Reproduce + bound the load</text>
+<text x="84" y="2012" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Fresh control 24736; interaction repeat 24737.</text>
+<text x="84" y="2041" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">N60 interaction 24738; auto N62 trial 24733.</text>
+<text x="84" y="2070" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Promote only if the gain survives local gates.</text>
+<rect x="632" y="1937" width="536" height="159" rx="18" fill="#ffffff" stroke="#cdded9" stroke-width="1"/>
+<text x="656" y="1973" font-size="22" fill="#28715f" font-weight="700" text-anchor="start">2  Establish official accuracy</text>
+<text x="656" y="2012" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Freeze model, payloads, scripts and runtime.</text>
+<text x="656" y="2041" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Run the organiser harness and reference tasks.</text>
+<text x="656" y="2070" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">≥99% reference score is still unverified.</text>
+<rect x="1204" y="1937" width="536" height="159" rx="18" fill="#ffffff" stroke="#cdded9" stroke-width="1"/>
+<text x="1228" y="1973" font-size="22" fill="#28715f" font-weight="700" text-anchor="start">3  Profile, then choose the next target</text>
+<text x="1228" y="2012" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Profile the actual winning H200 combination.</text>
+<text x="1228" y="2041" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Test demonstrated kernel / collective costs.</text>
+<text x="1228" y="2070" font-size="18.5" fill="#29394d" font-weight="400" text-anchor="start">Close losing branches; avoid blind larger sweeps.</text>
+<rect x="60" y="2140" width="1680" height="168" rx="20" fill="#e8eff7" stroke="none" stroke-width="1"/>
+<text x="84" y="2178" font-size="17" fill="#4e6885" font-weight="700" text-anchor="start">THE LOOP USED THROUGHOUT</text>
+<rect x="84" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="188" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Inspect logs</text>
+<path d="M294,2220 L315,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="319" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="423" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Hypothesis</text>
+<path d="M529,2220 L550,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="554" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="658" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Freeze</text>
+<path d="M764,2220 L785,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="789" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="893" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Measure</text>
+<path d="M999,2220 L1020,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1024" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="1128" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Validate</text>
+<path d="M1234,2220 L1255,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1259" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="1363" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Repeat</text>
+<path d="M1469,2220 L1490,2220" fill="none" stroke="#90a0b4" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1494" y="2198" width="208" height="44" rx="9" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text x="1598" y="2226" font-size="18" fill="#294660" font-weight="600" text-anchor="middle">Promote / close</text>
+<path d="M1598,2247 L1598,2268 L188,2268 L188,2247" fill="none" stroke="#7b91ab" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="2295" font-size="19" fill="#425c78" font-weight="400" text-anchor="middle">Preserve raw logs + failed runs + frozen configs + checksums + controls + credit ledger + dated decisions.</text>
+<text x="60" y="2350" font-size="16" fill="#506881" font-weight="700" text-anchor="start">READING KEY</text>
+<text x="220" y="2350" font-size="19" fill="#53677c" font-weight="400" text-anchor="start">Arrows = research progression. N = active requests. All throughput figures = good output tokens/s.</text>
+<text x="60" y="2387" font-size="18" fill="#53677c" font-weight="400" text-anchor="start">Sources: REPORT.md, evidence.json and the linked run reviews. Snapshot only; no live queue status, official accuracy or global-optimum claim.</text>
+</g></svg>

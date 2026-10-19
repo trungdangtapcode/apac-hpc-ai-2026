@@ -1,5 +1,9 @@
 # Current APAC handoff — 19 October 2026
 
+## Illustrated research map — 19 October 2026
+
+The requested [overall journey diagram](../reports/research-journey-20261019/diagram/README.md) illustrates the actual GPU split, six H200 improvement stages, measured trajectory, failed branches and separate H100 lane. The latest kernel interaction and remaining verification gates are marked explicitly. SVG, PNG, PDF, editable builder and evidence links are retained. This is based on the report cutoff at 06:14 UTC; creating it does not refresh queues or submit jobs.
+
 ## Research explanation and direction report — 19 October 2026
 
 The user requested a readable account of the research progression, latest gain, whether it is our best result and whether to change direction. Read [the research journey and next priorities](../reports/research-journey-20261019/REPORT.md). Commit category for this report is `report`, as explicitly requested. No new GPU allocation, VPN authentication, budget change or background AI was performed in this report turn.
