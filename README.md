@@ -2,6 +2,19 @@
 
 This repository imports the team's existing Qwen-serving research, run evidence, learning notes and presentation work from a temporary cluster account. It preserves the two original directory trees so links, run IDs and frozen execution payloads remain traceable.
 
+## Read the whole research journey
+
+Start with [the complete retained research journal](workspace/reports/research-journey-20261019/journal/README.md). Its [32 stages](workspace/reports/research-journey-20261019/journal/JOURNEY.md) connect the original questions, hypotheses, tested changes, observations, assessments, next decisions and later corrections, including failed and losing branches.
+
+| Detail needed | Record |
+|---|---|
+| Reasoning from the first cluster trials to later phase experiments | [Journey](workspace/reports/research-journey-20261019/journal/JOURNEY.md) |
+| A specific attempt and its assessment sources | [194-job index](workspace/reports/research-journey-20261019/journal/JOBS.md) |
+| Retained plans, reviews, session comments and learning notes | [247-document index](workspace/reports/research-journey-20261019/journal/DOCUMENTS.md) |
+| Verified preservation and remaining gaps | [Dated coverage audit](workspace/reports/research-journey-20261019/journal/AUDIT.md) |
+
+The audit verifies retained written records, not a complete chat transcript. Of the indexed jobs, 127 have dedicated purpose/observation/lesson sections; the rest link reports or plans and are not certified as equally complete reviews. The new journey is a source-linked retrospective, not fabricated original dated entries. Read the dated corrections before reusing old conclusions.
+
 - `2026-APAC-HPC-AI/`: organiser reference material and `qwen-experiments/`, containing serving configurations, Slurm/PBS scripts, run artifacts, reviews, transport patches and failed attempts.
 - `workspace/`: persistent notes, tutorials, reports, submission materials and reviewed operational source.
 - `backup/manifest.jsonl`: every retained original file, SHA-256, size, permissions, modification time and storage location.
