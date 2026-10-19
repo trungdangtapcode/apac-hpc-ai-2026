@@ -1,5 +1,11 @@
 # Current APAC handoff — 19 October 2026
 
+## Research-history coverage — 2026-10-19T19:25:31.405094+00:00
+
+The user clarified that preservation means the entire research journey's hypotheses, observations, assessments, improvements and corrections. [The journal](../reports/research-journey-20261019/journal/README.md) now links 32 narrative stages, all 194 indexed own jobs and 247 retained Markdown records. The audit matches original, archive and committed Git bytes; 127 jobs have explicit purpose/observation/lesson sections. Remaining records are linked reports/plans, not certified as equally complete analyses. This is retained history, not a complete conversation transcript. New milestones must use the linked entry template and preserve their decision rationale.
+
+This documentation pass does not refresh the scheduler or credit. The operational snapshot below retains its own timestamp.
+
 Updated 2026-10-19T18:00:11.710346+00:00. PBS states are from the actual post-submit check below; H200 states were checked at 17:55 UTC.
 
 ## Queued work

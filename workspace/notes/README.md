@@ -61,3 +61,7 @@ The private repository is [apac-hpc-ai-research](https://github.com/trungdangtap
 [How Qwen serving reached 2938.628 good tokens/s](../reports/research-journey-20261019/REPORT.md) explains the measured trajectory, metrics and units, matched controls, failure lessons, current evidence limits and when to change research direction. Read it as a dated report; current scheduler state still needs checking.
 
 [Illustrated research journey](../reports/research-journey-20261019/diagram/README.md): GPU layout, six H200 stages, measured throughput trajectory, failed branches, separate H100 lane and future verification gates. SVG, PNG, PDF and editable source are retained with the dated evidence.
+
+## Complete retained research reasoning
+
+[Start with the complete research journal](../reports/research-journey-20261019/journal/README.md): 32 stages explaining the question, change, result, assessment and next decision, including failed branches and corrections. The dated coverage audit verifies 247 retained Markdown documents and indexes 194 own research jobs; 127 have dedicated purpose/observation/lesson sections. This is retained written history, not a guarantee that every historical chat statement survived.

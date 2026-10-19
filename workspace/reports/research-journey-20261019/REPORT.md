@@ -1,3 +1,5 @@
+> This earlier numeric overview is a dated snapshot. The [complete retained research journal](journal/README.md) now connects the initial trials, failures, later reviews and corrections through the inference-mode submissions. It includes a 194-job index and a dated audit of 247 retained Markdown records. Do not treat older queued-work or protocol interpretations below as live state.
+
 # How Qwen serving reached 2,938.628 good tokens/s
 
 **Research review dated 19 October 2026.** This report explains the measured progression, the latest gain, what remains unproven, and where to spend the next GPU time. It does not submit a new job or change the official submission package.

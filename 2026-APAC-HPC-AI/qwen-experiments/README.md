@@ -1,3 +1,5 @@
+> For the complete retained reasoning from initial setup to later phase-specific experiments, read [the research journal](../../workspace/reports/research-journey-20261019/journal/README.md). It links 32 stages, the individual job records and the preservation audit. This older experiment overview contains dated snapshots; use CURRENT.md and the actual scheduler for live work.
+
 # Qwen experiments — updated 13/10/2026
 
 Scope: Qwen only, official Qwen3-235B-A22B-Instruct-2507-FP8, 16 H200.

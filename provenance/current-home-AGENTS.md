@@ -117,3 +117,19 @@ still uncaptured or unpushed. Preserve frozen evidence and the existing history.
 Keep credentials and session state excluded, and preserve external artifact
 manifests/recovery metadata. This is an agent workflow, not authorisation for
 a background watcher, automatic schedule or extra GPU spending.
+
+## Preserve the complete research reasoning
+
+The owner clarified on 19 October 2026 that records must cover the whole journey,
+not just the newest result. Use workspace/reports/research-journey-20261019/journal/README.md
+and its entry template as the reading/writing route. For each reviewable research
+milestone, retain the question and prior evidence, hypothesis, exact change and
+control, job/bundle IDs, observations with metric units, assessment and limits,
+next decision and any corrected interpretation. A status line or job-ID mention
+alone is not a complete analysis. Preserve failed and losing branches. Label
+retrospective summaries honestly; never invent missing original dates, reasoning,
+chat statements or measurements. Link new records into the journey/index during
+authorised work and capture/verify/commit/push small milestones. The dated
+coverage audit verifies retained written material, not every past chat message
+or external object byte on GitHub. This does not enable schedules or extra GPU
+spending.
