@@ -688,3 +688,8 @@ Submitted three matched off/on/receive-2 pilots per platform: H200 24926/24927/2
 
 Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconcile 937.244 SU. New maximum reserve 4608 SU, internal headroom 11419.557 SU under unchanged cap/buffer. Existing access reused, no authentication, background AI, slides or official accuracy claim. [Full result/insight/next-decision entry](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261020-receive-polling.md). Older states below retain their timestamps.
 
+
+
+## N62 accepted and research talk refreshed — 20 October 2026
+
+Terminal H200 24915 passes all local review gates at 3022.035 good output tokens/s, +4.537% vs auto N62, with 1860/1884 qualifying requests. This is a single treatment observation; N60 is independently reproduced. Separate 16-rank diagnostic and missing continuous hardware telemetry are explicitly recorded. The owner requested the English presentation update. [Full reasoning and scope](../reports/research-journey-20261019/journal/entries/20261020-n62-presentation.md). No new GPU submission, PBS output review or official accuracy claim in this pass.
