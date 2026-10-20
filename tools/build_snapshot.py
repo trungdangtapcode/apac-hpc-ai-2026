@@ -11,6 +11,8 @@ VPN_ALLOW={'vpn.sh','netns.py','enter.py','inside.py','vpn-session.sh','vpn-pers
 
 def policy(path):
  p=Path(path);parts=p.parts;low=path.lower()
+ if 'hf-cache' in parts and 'drafts' in parts:return 'Recreatable public draft model cache; retain pinned recovery metadata outside this directory'
+ if p.suffix.lower() in {'.safetensors','.gguf'} or (p.name.startswith('pytorch_model') and p.suffix=='.bin'):return 'Model tensor weights excluded; retain source revision, file digest and recovery instructions'
  if path.rstrip('/')=='workspace/vpn-rootless':return None
  if path.startswith('workspace/vpn-rootless/'):
   tail=parts[2:]
