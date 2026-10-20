@@ -1,6 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T07:50:39.487550+00:00. Both H100 kernel attempts failed setup before any completed timing case: 222210 FlashInfer import cache; 222232 TVM/TensorRT runtime home caches. Private-home v3 passes CPU argument/filesystem validation and is prepared, not yet submitted. H200 four model jobs and micro 24988 are Priority-pending. Prior running snapshots below are historical.
+## Private-home retry submitted — 2026-10-20T07:52:41.504271+00:00
+
+H100 222232 failed after import/source checks with zero kernel cases (TVM/TensorRT home caches). This corrects earlier running/FlashInfer-only snapshots below. Both failures are sealed; estimated total 42.097778 SU, first 20.480 now posted and second pending ledger. New bounded H100 **222242 Q** and H200 **24990 Priority-pending** use private empty writable home plus a separate ten-case one-rank provider preflight. CPU wrapper/filesystem validation passes, full timing/config bytes unchanged, no GPU result yet. Only pending micro 24988 cancelled; four H200 model positions retained, five total. Published Used 37236.052, Balance 26593.281, In Doubt 170.667; conservative bound 341.333333 and campaign headroom 13422.615 SU under unchanged caps. [Full review and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-privatehome-20261020/RESULTS.md). No new model score, official accuracy, package edit, authentication restart or background AI. Earlier snapshots below retain their dates and are historical.
 
 ## Reproduced local findings
 
@@ -18,9 +20,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 PBS **222178/222179** both full local PASS at **2420.817 / 2419.693 good output tokens/s**, N54, unobserved interval2/control. Difference **+0.0464%** is below the declared 1% threshold; keep default interval1, close this setting without an unchanged repeat or interval growth. Both have 21 TTFT breaches, zero ITL/error/cancel breaches; separate diagnostics have 16 rank-checked traces each. Uniform scored telemetry intentionally off. [Full review, source pruning and costs](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0647/RESULTS.md).
 
-Original micro **222210.pbs111** failed import before all kernel cases: explicit FlashInfer cache routing was omitted, causing writes to read-only /home/users. [Failure and raw evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-linear-micro-review-20261020/RESULTS.md). Derived cache-only repair **222232.pbs111 R /24988 H200 pending**, no kernel timings yet. Actual dependency-path fixture passes, HOME unchanged, numeric/timing body and config unchanged. Live H100 progress has eight cache preflight records, not completed kernel validation. Pending old micro 24983 was cancelled at zero runtime; four model positions retained, five H200 total. [Plan, validations, receipts and cost limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-linear-cachefix-20261020/RESULTS.md). Actual native source pruning and original kernel-screen gates still apply; no model-level toggle without a useful fully gated screen.
-
-
+Kernel setup attempts **222210/222232** both failed before any completed case. The second passed imports/source guards, then TVM/TensorRT wrote below read-only home. This corrects earlier live running snapshots and the limited FlashInfer-only fixture. New isolated H100 **222242 Q** and H200 **24990 Priority-pending** use a private empty writable home and separate one-rank provider preflight before the unchanged full eight-rank screen. CPU wrapper/filesystem tests pass; GPU validation and timing are pending. Only pending micro 24988 replaced; four model jobs retain positions. [Plan, tests, costs and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-privatehome-20261020/RESULTS.md). No full-model toggle before useful fully gated evidence.
 
 ## Inspect beyond scores
 
@@ -32,7 +32,7 @@ The prepared profiler HTTP parsing fix is now deployed only through these new de
 
 ## Budget and execution
 
-Pre-retry publication Used **37215.572 SU**, Balance **26613.761 SU**, In Doubt **170.667 SU**, with the prior failed micro's maximum still prepaid/unposted. Estimated failed charge **20.480 SU** is not yet reconciled. Retain old max **170.666667** plus retry max **170.666667 SU**: total bound **341.333333 SU**, internal headroom **13443.094667 SU**, unchanged **51000 cap /13000 buffer**. Publication/query timestamps and failed-accounting evidence are linked from nscc-budget.json and the new receipts. Do not double-subtract prepayment; release the old maximum only when its published final delta matches.
+Latest pre-submit publication Used **37236.052 SU**, Balance **26593.281 SU**, In Doubt **170.667 SU**. First failed 20.480 SU uniquely reconciles; second failed estimated 21.617778 SU remains unposted. Retain its full max 170.666667 plus new retry max 170.666667: conservative total **341.333333 SU**, internal headroom **13422.614667 SU**, unchanged **51000 cap/13000 buffer**. [Subset accounting proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-privatehome-20261020/failed-accounting.json). No double subtraction of In Doubt.
 
 During active authorised work, review completions and submit the next distinct justified hypothesis when capacity/budget permit. No blind duplicates, unchanged losses, automatic interval/load growth or global stop because a branch loses. At most five active H200, three active PBS and one running PBS allocation. The owner explicitly authorised restoring H100 access this turn; the dead VPN pane and SSH authentication were restored, with private cache preserved. The 24-hour IKE request is not verified exact negotiated expiry; read [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
