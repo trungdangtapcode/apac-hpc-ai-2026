@@ -399,3 +399,7 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## H100 reconnection authorisation — 2026-10-20T06:15:23.556274+00:00
 
 The owner explicitly requested H100 access again. This authorises the completed dead-pane VPN restart and SSH authentication, preserving existing private recovery state. VPN and SSH are verified working; no phone-side DUO assertion or exact negotiated expiry is made. The request does not alter research caps, authorize repeated future authentication attempts indefinitely, or re-enable background Codex. Credentials and authentication/session material remain outside notes and the archive. [Safe operation record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md).
+
+## Competition tracks and required submission scope — 2026-10-20T17:40:50.865371+00:00
+
+Public README R2/R5 requires Basic results for both Qwen and OpenFOAM. R4 assigns 50 points per task: judged Basic 20, judged Bonus 15, performance/re-verification 15. The main award list also includes AI/HPC Special Prizes; their presence is not evidence of an exemption to omit a task. Our authorised assistant scope remains Qwen-only and HPC_Task remains empty. Correct any unsupported earlier implication that this work scope itself proves independent AI-only competition entry. [Sources, interpretation and unresolved scoring details](contest-scoring-and-tracks-20261020.md). No organiser communication, submission edit or extra GPU spending occurred.
