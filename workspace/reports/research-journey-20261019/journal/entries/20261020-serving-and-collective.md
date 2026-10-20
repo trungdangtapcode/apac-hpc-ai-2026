@@ -59,3 +59,25 @@ The three inference-mode jobs reconcile to **1410.275 SU**. The initial accounti
 One read-only PBS status command lacked the login-shell wrapper and returned `qstat: command not found`; adding `bash -lc` immediately returned PBS R/H. This was not authentication failure. Existing VPN/SSH was reused; no authentication material was captured. Autopilot stays off. Slides and submission materials were not promoted.
 
 New code, receipts, raw artifacts, failed/ambiguous screens and reviews were captured, hash-verified and committed/pushed as separate milestones. The dated coverage index is refreshed after captures. GitHub backs up the Git portion; large external artifacts still need a separate off-host copy. Do not claim every old chat statement was recovered.
+
+## Decision map
+
+```mermaid
+flowchart TD
+    A[Review completed H200 deployments] --> B[N58 interaction reproduced three times]
+    B --> C[N60 reaches 2990.151 good tokens/s]
+    C --> D[Fresh N60 control passes at 2838.853]
+    D --> E[N60 treatment repeat and matched N62 pair pending]
+    F[H100 phase-mode trials pass but remain flat] --> G[Close tested phase options]
+    G --> H[Screen native collective without model weights]
+    H --> I[Single-call graph timing is ambiguous]
+    I --> J[Graph32 screen rejects forced one-shot]
+    J --> K[PDL screen rejects disabling PDL]
+    K --> L[Retain native AUTO and PDL]
+    L --> M[Run fresh FlashInfer control then decode FA3]
+    E --> N[Require full gates and independent useful-gain repeat]
+    M --> N
+    N --> O[Preserve result and reason before choosing the next trial]
+```
+
+A local archive commit briefly collided with a read-only Git status index refresh. The lock disappeared when that command finished; no lock was forcibly removed. The reviewed staged checkpoint was then committed and pushed. The coverage builder correctly refused the intermediate uncommitted state and was rerun after publication. This was a local preservation-workflow issue, not a lost run or GPU failure. Future status checks during a checkpoint use `git --no-optional-locks status` and Git mutations remain serial.
