@@ -1,0 +1,3 @@
+# Local post-submission bookkeeping correction
+
+The server returned a definite job ID and both receipt and budget reservation were saved before a local TypeError in the continuous-plan writer: updated_utc was assigned the now function instead of calling now(). The plan write failed during JSON serialisation before changing the existing file. The source now calls now(), and the already submitted job was inserted into the plan from its definite receipt, then checked against actual scheduler state. No qsub retry or duplicate allocation was made. The original receipt, source checkpoint and reservation remain preserved.

@@ -48,3 +48,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [20 October: priorities after upstream and terminal reviews](entries/20261020-research-priorities.md).
 
 - [20 October: startup-prefetch control and pending comparison](entries/20261020-startup-prefetch.md).
+
+- [20 October: static locality discovery before a binding change](entries/20261020-static-locality.md).

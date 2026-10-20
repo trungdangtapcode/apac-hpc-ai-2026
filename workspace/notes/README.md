@@ -12,7 +12,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
 | Per-run inspection beyond scores and remaining telemetry gaps | [Observability review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md) |
 | Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
-| Current priorities and immediate experiment | [Research priorities](../reports/research-priorities-20261020/PLAN.md), [startup-cost pair](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/RESULTS.md) |
+| Current priorities and immediate experiment | [Research priorities](../reports/research-priorities-20261020/PLAN.md), [startup-cost pair](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/RESULTS.md), [static locality probe](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/RESULTS.md) |
 | VPN duration, why it changed, and future configuration | [VPN session lifetime](../tutorial/19-vpn-session-lifetime.md) |
 | Historical questions and explanations | [Conversation handbook](../tutorial/14-so-tay-hoi-dap.md) |
 | Tutorials by topic | [Tutorial index](../tutorial/README.md) |
