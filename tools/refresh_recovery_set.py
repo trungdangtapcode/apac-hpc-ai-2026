@@ -42,7 +42,7 @@ Keep this entire directory with the Git repository. To recover:
 
 `objects/` contains compressed content-addressed evidence. The two damaged collection archives in `local-review-objects/` require private review before any publication. Frozen runtime containers are opaque local objects, not automatically approved for redistribution. Public model weights are not copied. Only source data covered by the manifest is captured; no claim covers remote or unselected changes. Read BACKUP_SCOPE.md, REPRODUCIBILITY.md and dated milestone capture reports.
 
-`git-integrity.json` checks actual captured Git blobs, fsck and a clean worktree. `bundle-recovery-test.json` verifies restoration from a fresh bundle clone without original source directories. `SHA256SUMS` checks compressed transport bytes; deep verification checks decompressed content. Git alone does not contain large objects. No GitHub upload has occurred. This same-machine copy does not protect against loss of the machine.
+`git-integrity.json` checks actual captured Git blobs, fsck and a clean worktree. `bundle-recovery-test.json` verifies restoration from a fresh bundle clone without original source directories. `SHA256SUMS` checks compressed transport bytes; deep verification checks decompressed content. Git alone does not contain large objects. Safe Git milestones are published to the authorised private origin; this sibling artifact store has not been uploaded by those pushes. This same-machine artifact copy does not protect against loss of the machine.
 ''')
     lines = []
     for file in sorted(store.rglob('*')):
@@ -54,7 +54,7 @@ Keep this entire directory with the Git repository. To recover:
                 h.update(block)
         lines.append(h.hexdigest() + '  ' + str(file.relative_to(store)))
     (store / 'SHA256SUMS').write_text('\n'.join(lines) + '\n')
-    print(json.dumps(dict(completed_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(), head=integrity['head'], commits=integrity['commits'], transport_files=len(lines), bundle_restore_passed=True, remote_uploaded=False)))
+    print(json.dumps(dict(completed_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(), head=integrity['head'], commits=integrity['commits'], transport_files=len(lines), bundle_restore_passed=True, artifact_store_remote_uploaded=False)))
 
 
 if __name__ == '__main__':
