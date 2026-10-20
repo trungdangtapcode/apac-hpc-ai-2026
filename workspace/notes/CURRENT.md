@@ -1,3 +1,7 @@
+## Public upstream checked — 2026-10-20T12:53:15.752590+00:00
+
+Fetched main is 3d05096 (10 October), seven commits beyond retained checkout 5a67229 (26 September). Qwen rules are byte-unchanged; new PBS/Enroot notes, scripts and raw H100 reference results are useful for deployment/rebuild/startup cost. Recomputed best qualifying published H100 point: N32, 1173.718122 good output tokens/s. This is contextual, not a matched speedup against our different stack. [Complete comparison, pinned snapshot, source hashes and decisions](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md). Active checkout and submitted payloads unchanged. No new GPU spending, package edit or scheduler/credit refresh for this repository-only question.
+
 ## Workload clarification recorded — 2026-10-20T12:48:56.069388+00:00
 
 The supplied organiser reply specifies team-chosen closed-loop concurrency (no target request rate), fixed 4000/200 lengths, no prefix reuse, workload seed 2026, TTFT 3000 ms plus ITL 20 ms, and good_request_fraction >= 0.90. The current H100 benchmark script and completed sealed export 222302 match the checked settings; no frozen payload changed. The reply defines ITL, not an independent end-to-end latency threshold. [Explanation and targeted evidence](official-goodput-clarification-20261020.md#workload-and-latency-clarification-supplied-later-in-this-chat). Queue/credit snapshots below remain dated; none were refreshed in this explanation-only turn.

@@ -1,0 +1,2086 @@
+diff --git a/3.1 Qwen3 Application Notes - Firmus AI Cloud.md b/3.1 Qwen3 Application Notes - Firmus AI Cloud.md
+index 8379adc..0349ca6 100644
+--- a/3.1 Qwen3 Application Notes - Firmus AI Cloud.md	
++++ b/3.1 Qwen3 Application Notes - Firmus AI Cloud.md	
+@@ -2,7 +2,7 @@
+ 
+ This is a beginner-level worked example, not a template you need to adopt. Its main job is to save you cluster time: run the smoke tests below first, see what a healthy prefill/decode/router/aiperf log actually looks like, and get familiar with what's what before you start experimenting for real. It assumes your own cluster access, your own job-submission tooling, and your own copies of the sbatch scripts.
+ 
+-You are not required to use enroot/pyxis containers or SGLang, the choices this walkthrough happens to demonstrate. A self-built environment on shared storage is equally valid, and so is any other serving stack (vLLM, TensorRT-LLM, or either combined with Dynamo). The Task Rules do not restrict this at all. See `reference-scripts/` alongside this document for a fuller set of worked examples, and its `README.md` for what each one demonstrates.
++You are not required to use enroot/pyxis containers or SGLang, the choices this walkthrough happens to demonstrate. A self-built environment on shared storage is equally valid, and so is any other serving stack (vLLM, TensorRT-LLM, or either combined with Dynamo). The Task Rules do not restrict this at all. See `3.1-firmus-scripts/` alongside this document for a fuller set of worked examples, and its `README.md` for what each one demonstrates.
+ 
+ Every `python3 -m sglang...` command below runs inside the `sglang-harbor.sqsh` container, as an `srun` step in your sbatch script, the same way Step 1 does it. Don't run these interactively (e.g. `srun --pty`): an interactive session keeps your GPU allocation, and burns cluster time, for as long as it stays open. Cluster time matters beyond your own runs, too. Most Slurm schedulers lower a user's scheduling priority the more time they've recently used, so idle or aimless trial-and-error can push your own later, real submissions further back in the queue. Run the smoke tests cheaply first, then experiment with intent.
+ 
+@@ -37,11 +37,11 @@ srun --container-image=/scratch/enroot-images/sglang-harbor.sqsh \
+ Key points:
+ - `--container-mounts` binds `/scratch` (where the images and model weights live) and a writable local directory as `$HOME` inside the container, since the container filesystem itself is otherwise read-only/ephemeral.
+ - `--gres=gpu:1` (or your Slurm-equivalent GPU request) is required so `nvidia-smi -L` reports a visible device.
+-- Submit with `sbatch 01-smoke-image.sbatch` (see `reference-scripts/`, and adjust the filename to your own copy of the script) and check the exit code in the job's log once it completes.
++- Submit with `sbatch 01-smoke-image.sbatch` (see `3.1-firmus-scripts/`, and adjust the filename to your own copy of the script) and check the exit code in the job's log once it completes.
+ 
+ ### Step 2: Single-instance serve
+ 
+-Once the image smoke test passes, bring up a single non-disaggregated SGLang server instance (for example with a small model) and confirm it becomes healthy. See `reference-scripts/02-smoke-serve.sbatch` for the full `srun --container-image=...` invocation; the command running inside the container is:
++Once the image smoke test passes, bring up a single non-disaggregated SGLang server instance (for example with a small model) and confirm it becomes healthy. See `3.1-firmus-scripts/02-smoke-serve.sbatch` for the full `srun --container-image=...` invocation; the command running inside the container is:
+ 
+ ```bash
+ python3 -m sglang.launch_server \
+@@ -53,13 +53,13 @@ Poll the server's `/health` endpoint in a loop with a bounded timeout until it r
+ 
+ ### Step 3: Serve + AIPerf round trip
+ 
+-Finally, with the single instance from Step 2 still serving, run a short `aiperf profile` request against it from the `aiperf.sqsh` container to confirm the client can reach the server and complete a full request/response cycle (see `reference-scripts/03-smoke-serve-aiperf.sbatch`). A clean `aiperf` exit code (0) at this stage means your client, network path, and server are all correctly wired before moving on to the full PD topology.
++Finally, with the single instance from Step 2 still serving, run a short `aiperf profile` request against it from the `aiperf.sqsh` container to confirm the client can reach the server and complete a full request/response cycle (see `3.1-firmus-scripts/03-smoke-serve-aiperf.sbatch`). A clean `aiperf` exit code (0) at this stage means your client, network path, and server are all correctly wired before moving on to the full PD topology.
+ 
+ Only after all three smoke steps pass should you proceed to the PD deployment below.
+ 
+ ## PD Deployment Walkthrough
+ 
+-This section walks through a concrete, verified two-node PD split: **4× Prefill workers at TP=2** on one node, and **2× Decode workers at TP=4 (with `--ep-size 4`)** on the second node, an 8+8 GPU topology. All flag names and values below are copied verbatim from the working `reference-scripts/07-pd-235b-8plus8.sbatch` script. Do not alter them. Two other verified 235B splits (`08-pd-235b-12plus4-dynamo-match.sbatch` and `09-pd-235b-fatp-peak-bench.sbatch`) are available in the same folder as alternative starting points.
++This section walks through a concrete, verified two-node PD split: **4× Prefill workers at TP=2** on one node, and **2× Decode workers at TP=4 (with `--ep-size 4`)** on the second node, an 8+8 GPU topology. All flag names and values below are copied verbatim from the working `3.1-firmus-scripts/07-pd-235b-8plus8.sbatch` script. Do not alter them. Two other verified 235B splits (`08-pd-235b-12plus4-dynamo-match.sbatch` and `09-pd-235b-fatp-peak-bench.sbatch`) are available in the same folder as alternative starting points.
+ 
+ Node roles (2 nodes, 8 GPUs each):
+ - **Node 0 (head)**: 4 prefill workers, each `--tp-size 2` (2 GPUs per worker)
+@@ -82,7 +82,7 @@ python3 -m sglang.launch_server \
+ - `--disaggregation-mode` is set to `prefill` or `decode` per worker
+ - `--disaggregation-transfer-backend nixl`: the transfer backend used for all workers
+ 
+-These are simplified for readability. The real script also detects each node's active InfiniBand device and exports it as `UCX_NET_DEVICES` before launch, since NIXL needs the right device for cross-node KV transfer and the two nodes can differ. Use `reference-scripts/07-pd-235b-8plus8.sbatch` (its `worker.sh` heredoc) as the actual command; treat the flags above as a summary, not something to copy-paste directly.
++These are simplified for readability. The real script also detects each node's active InfiniBand device and exports it as `UCX_NET_DEVICES` before launch, since NIXL needs the right device for cross-node KV transfer and the two nodes can differ. Use `3.1-firmus-scripts/07-pd-235b-8plus8.sbatch` (its `worker.sh` heredoc) as the actual command; treat the flags above as a summary, not something to copy-paste directly.
+ 
+ ### Prefill workers (node 0, 4× TP=2)
+ 
+diff --git a/3.1-firmus-scripts/01-smoke-image.sbatch b/3.1-firmus-scripts/01-smoke-image.sbatch
+new file mode 100755
+index 0000000..8eee2ba
+--- /dev/null
++++ b/3.1-firmus-scripts/01-smoke-image.sbatch
+@@ -0,0 +1,32 @@
++#!/bin/bash
++#SBATCH -J smoke-image
++#SBATCH -p hpcai
++#SBATCH -N 1
++#SBATCH -n 1
++#SBATCH -t 00:15:00
++#SBATCH --gres=gpu:1
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# /scratch/enroot-images/sglang-harbor.sqsh
++# Pass = container starts, GPU visible, sglang imports. Exit code is the verdict.
++set -euo pipefail
++
++IMAGE=/scratch/enroot-images/sglang-harbor.sqsh
++ROOT=${SLURM_SUBMIT_DIR}
++HOME_BIND=${ROOT}/home
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami) host=$(hostname) image=${IMAGE}"
++test -r "${IMAGE}"
++ls -lh "${IMAGE}"
++
++srun --container-image="${IMAGE}" \
++  --container-mounts="/scratch:/scratch,${HOME_BIND}:${HOME}" \
++  bash -c 'set -euo pipefail
++    echo "in-container host=$(hostname) user=$(whoami)"
++    nvidia-smi -L
++    python3 -c "import sglang; print(\"sglang\", getattr(sglang, \"__version__\", \"imported\"))"
++  '
+diff --git a/3.1-firmus-scripts/02-smoke-serve.sbatch b/3.1-firmus-scripts/02-smoke-serve.sbatch
+new file mode 100755
+index 0000000..cdf3e09
+--- /dev/null
++++ b/3.1-firmus-scripts/02-smoke-serve.sbatch
+@@ -0,0 +1,47 @@
++#!/bin/bash
++#SBATCH -J smoke-serve
++#SBATCH -p hpcai
++#SBATCH -N 1
++#SBATCH -n 1
++#SBATCH -t 00:10:00
++#SBATCH --gres=gpu:1
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# Serve Qwen3-0.6B just long enough to answer /health, then exit.
++# Pass = /health 200 before READY_SECS. Exit code is the verdict.
++set -euo pipefail
++
++IMAGE=/scratch/enroot-images/sglang-harbor.sqsh
++MODEL=/scratch/models/Qwen3-0.6B
++PORT=30000
++READY_SECS=180
++ROOT=${SLURM_SUBMIT_DIR}
++HOME_BIND=${ROOT}/home
++
++export MODEL PORT READY_SECS
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami) host=$(hostname)"
++echo "image=${IMAGE} model=${MODEL} port=${PORT}"
++test -r "${IMAGE}"
++test -f "${MODEL}/config.json"
++test -f "${MODEL}/model.safetensors"
++
++srun --container-image="${IMAGE}" \
++  --container-mounts="/scratch:/scratch,${HOME_BIND}:${HOME}" \
++  bash -c 'set -euo pipefail
++    echo "in-container host=$(hostname) user=$(whoami)"
++    python3 -m sglang.launch_server \
++      --model-path "${MODEL}" \
++      --host 127.0.0.1 --port "${PORT}" \
++      --tp-size 1 --mem-fraction-static 0.4 \
++      --context-length 4096 --trust-remote-code >&2 &
++    timeout "${READY_SECS}" curl -sf \
++      --retry-connrefused --retry-all-errors \
++      --retry-delay 2 --retry 100 --max-time 2 \
++      -o /dev/null "http://127.0.0.1:${PORT}/health"
++    echo "READY after ${SECONDS}s"
++  '
+diff --git a/3.1-firmus-scripts/03-smoke-serve-aiperf.sbatch b/3.1-firmus-scripts/03-smoke-serve-aiperf.sbatch
+new file mode 100755
+index 0000000..6eeec07
+--- /dev/null
++++ b/3.1-firmus-scripts/03-smoke-serve-aiperf.sbatch
+@@ -0,0 +1,55 @@
++#!/bin/bash
++#SBATCH -J smoke-serve-aiperf
++#SBATCH -p hpcai
++#SBATCH -N 1
++#SBATCH -t 00:10:00
++#SBATCH --gres=gpu:1
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# One node: sglang serve, then 2 aiperf requests. Pass = aiperf exits 0.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-0.6B
++PORT=30000
++READY_SECS=180
++ROOT=${SLURM_SUBMIT_DIR}
++HOME_BIND=${ROOT}/home
++MOUNTS="/scratch:/scratch,${HOME_BIND}:${HOME},${ROOT}:${ROOT}"
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami) host=$(hostname)"
++echo "sglang=${SGLANG} aiperf=${AIPERF} model=${MODEL} port=${PORT}"
++test -r "${SGLANG}"
++test -r "${AIPERF}"
++test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++srun --overlap -n1 --gres=gpu:1 \
++  --container-image="${SGLANG}" --container-mounts="${MOUNTS}" \
++  python3 -m sglang.launch_server \
++    --model-path "${MODEL}" --served-model-name qwen \
++    --host 0.0.0.0 --port "${PORT}" \
++    --tp-size 1 --mem-fraction-static 0.4 \
++    --context-length 4096 --trust-remote-code >&2 &
++
++timeout "${READY_SECS}" curl -sf \
++  --retry-connrefused --retry-all-errors \
++  --retry-delay 2 --retry 100 --max-time 2 \
++  -o /dev/null "http://127.0.0.1:${PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -n1 \
++  --container-image="${AIPERF}" --container-mounts="${MOUNTS}" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${PORT}" --endpoint-type chat --streaming \
++    --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++    --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
+diff --git a/3.1-firmus-scripts/04-pd-minimal-2node.sbatch b/3.1-firmus-scripts/04-pd-minimal-2node.sbatch
+new file mode 100644
+index 0000000..e84a5b7
+--- /dev/null
++++ b/3.1-firmus-scripts/04-pd-minimal-2node.sbatch
+@@ -0,0 +1,115 @@
++#!/bin/bash
++#SBATCH -J p1-tp1-d1-tp1-2n
++#SBATCH -p hpcai
++#SBATCH -N 2
++#SBATCH -t 00:15:00
++#SBATCH --gres=gpu:1
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# 1 prefill + 1 decode + router, then 2 aiperf requests. Pass = aiperf exits 0.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-0.6B
++P_PORT=30100
++D_PORT=30200
++BOOT=9000
++R_PORT=8000
++READY_SECS=180
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++NODES=($(scontrol show hostnames "${SLURM_JOB_NODELIST}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 100 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL}"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}" "${ROOT}/home/prefill" "${ROOT}/home/decode" "${ROOT}/home/router"
++
++# IB device list must be computed on the worker node (the two nodes differ).
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++role=$1
++port=$2
++model=$3
++shift 3
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++echo "$role host=$(hostname) ib=$UCX_IB"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 4096 --tp-size 1 --mem-fraction-static 0.4 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:1 --cpus-per-task=8 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill)" \
++  bash "${ART}/worker.sh" prefill "${P_PORT}" "${MODEL}" --disaggregation-bootstrap-port "${BOOT}" \
++  >"${ART}/prefill.log" 2>&1 &
++P_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:1 --cpus-per-task=8 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode)" \
++  bash "${ART}/worker.sh" decode "${D_PORT}" "${MODEL}" --max-running-requests 256 \
++  >"${ART}/decode.log" 2>&1 &
++D_PID=$!
++
++wait_http "http://${HEAD_IP}:${P_PORT}/health"
++echo "prefill ready"
++wait_http "http://${TAIL_IP}:${D_PORT}/health"
++echo "decode ready"
++
++srun --overlap -N1 -n1 -w "${HEAD}" --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://${HEAD_IP}:${P_PORT}" "${BOOT}" \
++    --decode "http://${TAIL_IP}:${D_PORT}" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -N1 -n1 -w "${HEAD}" \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" --endpoint-type chat --streaming \
++    --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++    --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P_PID}" "${D_PID}" "${R_PID}"
++wait "${P_PID}" "${D_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/05-pd-tp-variant-1node.sbatch b/3.1-firmus-scripts/05-pd-tp-variant-1node.sbatch
+new file mode 100644
+index 0000000..7cda1b0
+--- /dev/null
++++ b/3.1-firmus-scripts/05-pd-tp-variant-1node.sbatch
+@@ -0,0 +1,117 @@
++#!/bin/bash
++#SBATCH -J p1-tp4-d1-tp2-1n
++#SBATCH -p hpcai
++#SBATCH -N 1
++#SBATCH -t 00:15:00
++#SBATCH --gres=gpu:6
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# One node: prefill TP=4 + decode TP=2 + router, then 2 aiperf requests.
++# Pass = aiperf exits 0. Two GPU steps use --exact so they get different GPUs.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-0.6B
++P_TP=4
++D_TP=2
++P_PORT=30100
++D_PORT=30200
++BOOT=9000
++R_PORT=8000
++READY_SECS=300
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 100 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami) host=$(hostname)"
++echo "sglang=${SGLANG} model=${MODEL} tp=${P_TP}+${D_TP} UCX_POSIX_USE_PROC_LINK=n"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++role=$1
++port=$2
++model=$3
++tp=$4
++shift 4
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++export UCX_POSIX_USE_PROC_LINK=n
++export TRITON_CACHE_DIR=/tmp/sglang-$role/triton
++export TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-$role/inductor
++mkdir -p "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR"
++echo "$role host=$(hostname) ib=$UCX_IB gpu=$CUDA_VISIBLE_DEVICES tp=$tp posix_proc_link=$UCX_POSIX_USE_PROC_LINK"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 4096 --tp-size "$tp" --mem-fraction-static 0.4 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -n1 --gres=gpu:${P_TP} --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill)" \
++  bash "${ART}/worker.sh" prefill "${P_PORT}" "${MODEL}" "${P_TP}" \
++    --disaggregation-bootstrap-port "${BOOT}" \
++  >"${ART}/prefill.log" 2>&1 &
++P_PID=$!
++
++srun --exact -n1 --gres=gpu:${D_TP} --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode)" \
++  bash "${ART}/worker.sh" decode "${D_PORT}" "${MODEL}" "${D_TP}" \
++    --max-running-requests 256 \
++  >"${ART}/decode.log" 2>&1 &
++D_PID=$!
++
++wait_http "http://127.0.0.1:${P_PORT}/health"
++echo "prefill ready"
++wait_http "http://127.0.0.1:${D_PORT}/health"
++echo "decode ready"
++
++srun --overlap -n1 --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://127.0.0.1:${P_PORT}" "${BOOT}" \
++    --decode "http://127.0.0.1:${D_PORT}" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://127.0.0.1:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -n1 \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" --endpoint-type chat --streaming \
++    --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++    --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P_PID}" "${D_PID}" "${R_PID}"
++wait "${P_PID}" "${D_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/06-pd-moe-example.sbatch b/3.1-firmus-scripts/06-pd-moe-example.sbatch
+new file mode 100644
+index 0000000..6646d45
+--- /dev/null
++++ b/3.1-firmus-scripts/06-pd-moe-example.sbatch
+@@ -0,0 +1,158 @@
++#!/bin/bash
++#SBATCH -J p6-tp2-d1-tp4-moe
++#SBATCH -p hpcai
++#SBATCH -N 2
++#SBATCH -t 00:17:00
++#SBATCH --gres=gpu:8
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# Two-node PD split on a small MoE model (Qwen1.5-MoE-A2.7B), 6 prefill + 1 decode:
++#   prefill TP=2 EP=1; decode TP=4 EP=4. Pass = aiperf exits 0.
++# This demonstrates the MoE-specific --ep-size flag, which the dense-model examples
++# in this folder (04, 05) do not need.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen1.5-MoE-A2.7B
++R_PORT=8000
++READY_SECS=400
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++NODES=($(scontrol show hostnames "${SLURM_JOB_NODELIST}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 100 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL}"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++name=$1
++port=$2
++model=$3
++tp=$4
++shift 4
++role=${name%%-*}
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++export UCX_POSIX_USE_PROC_LINK=n
++export TRITON_CACHE_DIR=/tmp/sglang-$name/triton
++export TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-$name/inductor
++mkdir -p "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR"
++echo "$name host=$(hostname) ib=$UCX_IB gpu=$CUDA_VISIBLE_DEVICES tp=$tp"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 4096 --tp-size "$tp" --mem-fraction-static 0.4 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-0)" \
++  bash "${ART}/worker.sh" prefill-0 30100 "${MODEL}" 2 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-0.log" 2>&1 &
++P0_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-1)" \
++  bash "${ART}/worker.sh" prefill-1 30101 "${MODEL}" 2 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-1.log" 2>&1 &
++P1_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-2)" \
++  bash "${ART}/worker.sh" prefill-2 30102 "${MODEL}" 2 --disaggregation-bootstrap-port 9002 \
++  >"${ART}/prefill-2.log" 2>&1 &
++P2_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-3)" \
++  bash "${ART}/worker.sh" prefill-3 30103 "${MODEL}" 2 --disaggregation-bootstrap-port 9003 \
++  >"${ART}/prefill-3.log" 2>&1 &
++P3_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-4)" \
++  bash "${ART}/worker.sh" prefill-4 30100 "${MODEL}" 2 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-4.log" 2>&1 &
++P4_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-5)" \
++  bash "${ART}/worker.sh" prefill-5 30101 "${MODEL}" 2 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-5.log" 2>&1 &
++P5_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-0)" \
++  bash "${ART}/worker.sh" decode-0 30200 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-0.log" 2>&1 &
++D_PID=$!
++
++wait_http "http://${HEAD_IP}:30100/health"; echo "prefill-0 ready"
++wait_http "http://${HEAD_IP}:30101/health"; echo "prefill-1 ready"
++wait_http "http://${HEAD_IP}:30102/health"; echo "prefill-2 ready"
++wait_http "http://${HEAD_IP}:30103/health"; echo "prefill-3 ready"
++wait_http "http://${TAIL_IP}:30100/health"; echo "prefill-4 ready"
++wait_http "http://${TAIL_IP}:30101/health"; echo "prefill-5 ready"
++wait_http "http://${TAIL_IP}:30200/health"; echo "decode-0 ready"
++
++srun --overlap -N1 -n1 -w "${HEAD}" --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://${HEAD_IP}:30100" 9000 \
++    --prefill "http://${HEAD_IP}:30101" 9001 \
++    --prefill "http://${HEAD_IP}:30102" 9002 \
++    --prefill "http://${HEAD_IP}:30103" 9003 \
++    --prefill "http://${TAIL_IP}:30100" 9000 \
++    --prefill "http://${TAIL_IP}:30101" 9001 \
++    --decode "http://${TAIL_IP}:30200" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -N1 -n1 -w "${HEAD}" \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" --endpoint-type chat --streaming \
++    --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++    --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${P4_PID}" "${P5_PID}" "${D_PID}" "${R_PID}"
++wait "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${P4_PID}" "${P5_PID}" "${D_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/07-pd-235b-8plus8.sbatch b/3.1-firmus-scripts/07-pd-235b-8plus8.sbatch
+new file mode 100644
+index 0000000..3e4cc2c
+--- /dev/null
++++ b/3.1-firmus-scripts/07-pd-235b-8plus8.sbatch
+@@ -0,0 +1,175 @@
++#!/bin/bash
++#SBATCH -J p4-tp2-d2-tp4-235b-bench
++#SBATCH -p hpcai
++#SBATCH -N 2
++#SBATCH -t 00:17:00
++#SBATCH --gres=gpu:8
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# 235B 8+8: 4x Prefill workers at TP=2, EP=1 + 2x Decode workers at TP=4, EP=4 = 16 GPUs.
++# Packing: node0 has all 4 prefill workers; node1 has both decode workers. Pass = aiperf
++# exits 0. This is the topology walked through in
++# 3.1 Qwen3 Application Notes - Firmus AI Cloud.md.
++#
++# The AIPerf call below follows the same shape as the official benchmark in the Task
++# Rules (closed-loop, ISL 4000 / OSL 200, warmup + duration + grace, no --request-rate),
++# but sweeps a range of concurrency values (8, 16, 40, 48, 56) at a shortened
++# warmup/benchmark/grace (20s/60s/15s instead of 60s/120s/30s), for exploratory testing
++# rather than the official scored re-run.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8
++R_PORT=8000
++READY_SECS=600  # /health cap; typically 2-4 min, fail if still down at 10 min
++ISL=4000
++OSL=200
++N=8,16,40,48,56
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++NODES=($(scontrol show hostnames "${SLURM_JOB_NODELIST}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 300 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL} isl=${ISL} osl=${OSL} N=${N}"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++name=$1
++port=$2
++model=$3
++tp=$4
++shift 4
++role=${name%%-*}
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++export UCX_POSIX_USE_PROC_LINK=n
++export TRITON_CACHE_DIR=/tmp/sglang-$name/triton
++export TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-$name/inductor
++mkdir -p "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR"
++echo "$name host=$(hostname) ib=$UCX_IB gpu=$CUDA_VISIBLE_DEVICES tp=$tp"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 8192 --tp-size "$tp" --mem-fraction-static 0.90 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-0)" \
++  bash "${ART}/worker.sh" prefill-0 30100 "${MODEL}" 2 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-0.log" 2>&1 &
++P0_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-1)" \
++  bash "${ART}/worker.sh" prefill-1 30101 "${MODEL}" 2 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-1.log" 2>&1 &
++P1_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-2)" \
++  bash "${ART}/worker.sh" prefill-2 30102 "${MODEL}" 2 --disaggregation-bootstrap-port 9002 \
++  >"${ART}/prefill-2.log" 2>&1 &
++P2_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-3)" \
++  bash "${ART}/worker.sh" prefill-3 30103 "${MODEL}" 2 --disaggregation-bootstrap-port 9003 \
++  >"${ART}/prefill-3.log" 2>&1 &
++P3_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-0)" \
++  bash "${ART}/worker.sh" decode-0 30200 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-0.log" 2>&1 &
++D0_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-1)" \
++  bash "${ART}/worker.sh" decode-1 30201 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-1.log" 2>&1 &
++D1_PID=$!
++
++wait_http "http://${HEAD_IP}:30100/health"; echo "prefill-0 ready"
++wait_http "http://${HEAD_IP}:30101/health"; echo "prefill-1 ready"
++wait_http "http://${HEAD_IP}:30102/health"; echo "prefill-2 ready"
++wait_http "http://${HEAD_IP}:30103/health"; echo "prefill-3 ready"
++wait_http "http://${TAIL_IP}:30200/health"; echo "decode-0 ready"
++wait_http "http://${TAIL_IP}:30201/health"; echo "decode-1 ready"
++
++srun --overlap -N1 -n1 -w "${HEAD}" --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://${HEAD_IP}:30100" 9000 \
++    --prefill "http://${HEAD_IP}:30101" 9001 \
++    --prefill "http://${HEAD_IP}:30102" 9002 \
++    --prefill "http://${HEAD_IP}:30103" 9003 \
++    --decode "http://${TAIL_IP}:30200" \
++    --decode "http://${TAIL_IP}:30201" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -N1 -n1 -w "${HEAD}" \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" \
++    --endpoint-type chat --endpoint /v1/chat/completions --streaming \
++    --concurrency "${N}" \
++    --warmup-duration 20 \
++    --benchmark-duration 60 \
++    --benchmark-grace-period 15 \
++    --synthetic-input-tokens-mean "${ISL}" \
++    --synthetic-input-tokens-stddev 0 \
++    --output-tokens-mean "${OSL}" \
++    --output-tokens-stddev 0 \
++    --num-dataset-entries 12800 \
++    --random-seed 2026 \
++    --cache-bust first_turn_prefix \
++    --extra-inputs "min_tokens:${OSL}" \
++    --extra-inputs "max_tokens:${OSL}" \
++    --extra-inputs "ignore_eos:true" \
++    --extra-inputs "temperature:0.0" \
++    --extra-inputs "repetition_penalty:1.0" \
++    -H "Accept: text/event-stream" \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${D0_PID}" "${D1_PID}" "${R_PID}"
++wait "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${D0_PID}" "${D1_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/08-pd-235b-12plus4-dynamo-match.sbatch b/3.1-firmus-scripts/08-pd-235b-12plus4-dynamo-match.sbatch
+new file mode 100644
+index 0000000..0cc8d82
+--- /dev/null
++++ b/3.1-firmus-scripts/08-pd-235b-12plus4-dynamo-match.sbatch
+@@ -0,0 +1,184 @@
++#!/bin/bash
++#SBATCH -J p6-tp2-d1-tp4-235b-bench
++#SBATCH -p hpcai
++#SBATCH -N 2
++#SBATCH -t 00:17:00
++#SBATCH --gres=gpu:8
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# 235B, 6x Prefill workers at TP=2, EP=1 + 1x Decode worker at TP=4, EP=4 = 16 GPUs,
++# run on SGLang (the public Dynamo Hopper recipe for this model uses TensorRT-LLM;
++# this script matches its Prefill:Decode worker ratio, not its serving stack).
++# Packing: node0 has 4 prefill workers; node1 has the remaining 2 prefill workers plus
++# the 1 decode worker. Pass = aiperf exits 0.
++#
++# The AIPerf call below follows the same shape as the official benchmark in the Task
++# Rules (closed-loop, ISL 4000 / OSL 200, warmup + duration + grace, no --request-rate),
++# but sweeps a range of concurrency values (8, 16, 32, 40, 48) at a shortened
++# warmup/benchmark/grace (20s/60s/15s instead of 60s/120s/30s), for exploratory testing
++# rather than the official scored re-run.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8
++R_PORT=8000
++READY_SECS=600  # /health cap; typically 2-4 min, fail if still down at 10 min
++ISL=4000
++OSL=200
++N=8,16,32,40,48
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++NODES=($(scontrol show hostnames "${SLURM_JOB_NODELIST}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 300 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL} isl=${ISL} osl=${OSL} N=${N}"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++name=$1
++port=$2
++model=$3
++tp=$4
++shift 4
++role=${name%%-*}
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++export UCX_POSIX_USE_PROC_LINK=n
++export TRITON_CACHE_DIR=/tmp/sglang-$name/triton
++export TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-$name/inductor
++mkdir -p "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR"
++echo "$name host=$(hostname) ib=$UCX_IB gpu=$CUDA_VISIBLE_DEVICES tp=$tp"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 8192 --tp-size "$tp" --mem-fraction-static 0.90 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-0)" \
++  bash "${ART}/worker.sh" prefill-0 30100 "${MODEL}" 2 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-0.log" 2>&1 &
++P0_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-1)" \
++  bash "${ART}/worker.sh" prefill-1 30101 "${MODEL}" 2 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-1.log" 2>&1 &
++P1_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-2)" \
++  bash "${ART}/worker.sh" prefill-2 30102 "${MODEL}" 2 --disaggregation-bootstrap-port 9002 \
++  >"${ART}/prefill-2.log" 2>&1 &
++P2_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-3)" \
++  bash "${ART}/worker.sh" prefill-3 30103 "${MODEL}" 2 --disaggregation-bootstrap-port 9003 \
++  >"${ART}/prefill-3.log" 2>&1 &
++P3_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-4)" \
++  bash "${ART}/worker.sh" prefill-4 30100 "${MODEL}" 2 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-4.log" 2>&1 &
++P4_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:2 --cpus-per-task=16 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-5)" \
++  bash "${ART}/worker.sh" prefill-5 30101 "${MODEL}" 2 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-5.log" 2>&1 &
++P5_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-0)" \
++  bash "${ART}/worker.sh" decode-0 30200 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-0.log" 2>&1 &
++D_PID=$!
++
++wait_http "http://${HEAD_IP}:30100/health"; echo "prefill-0 ready"
++wait_http "http://${HEAD_IP}:30101/health"; echo "prefill-1 ready"
++wait_http "http://${HEAD_IP}:30102/health"; echo "prefill-2 ready"
++wait_http "http://${HEAD_IP}:30103/health"; echo "prefill-3 ready"
++wait_http "http://${TAIL_IP}:30100/health"; echo "prefill-4 ready"
++wait_http "http://${TAIL_IP}:30101/health"; echo "prefill-5 ready"
++wait_http "http://${TAIL_IP}:30200/health"; echo "decode-0 ready"
++
++srun --overlap -N1 -n1 -w "${HEAD}" --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://${HEAD_IP}:30100" 9000 \
++    --prefill "http://${HEAD_IP}:30101" 9001 \
++    --prefill "http://${HEAD_IP}:30102" 9002 \
++    --prefill "http://${HEAD_IP}:30103" 9003 \
++    --prefill "http://${TAIL_IP}:30100" 9000 \
++    --prefill "http://${TAIL_IP}:30101" 9001 \
++    --decode "http://${TAIL_IP}:30200" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -N1 -n1 -w "${HEAD}" \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" \
++    --endpoint-type chat --endpoint /v1/chat/completions --streaming \
++    --concurrency "${N}" \
++    --warmup-duration 20 \
++    --benchmark-duration 60 \
++    --benchmark-grace-period 15 \
++    --synthetic-input-tokens-mean "${ISL}" \
++    --synthetic-input-tokens-stddev 0 \
++    --output-tokens-mean "${OSL}" \
++    --output-tokens-stddev 0 \
++    --num-dataset-entries 12800 \
++    --random-seed 2026 \
++    --cache-bust first_turn_prefix \
++    --extra-inputs "min_tokens:${OSL}" \
++    --extra-inputs "max_tokens:${OSL}" \
++    --extra-inputs "ignore_eos:true" \
++    --extra-inputs "temperature:0.0" \
++    --extra-inputs "repetition_penalty:1.0" \
++    -H "Accept: text/event-stream" \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${P4_PID}" "${P5_PID}" "${D_PID}" "${R_PID}"
++wait "${P0_PID}" "${P1_PID}" "${P2_PID}" "${P3_PID}" "${P4_PID}" "${P5_PID}" "${D_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/09-pd-235b-fatp-peak-bench.sbatch b/3.1-firmus-scripts/09-pd-235b-fatp-peak-bench.sbatch
+new file mode 100644
+index 0000000..02d8bca
+--- /dev/null
++++ b/3.1-firmus-scripts/09-pd-235b-fatp-peak-bench.sbatch
+@@ -0,0 +1,159 @@
++#!/bin/bash
++#SBATCH -J p2-tp4-d2-tp4-235b-bench
++#SBATCH -p hpcai
++#SBATCH -N 2
++#SBATCH -t 00:17:00
++#SBATCH --gres=gpu:8
++#SBATCH --propagate=NONE
++#SBATCH -o runs/%j.out
++#SBATCH -e runs/%j.err
++#
++# See README.md in this folder for how this script fits into the task.
++#
++# Fat-Prefill 8+8: 2x Prefill workers at TP=4, EP=1 + 2x Decode workers at TP=4, EP=4.
++# node0 holds both prefill workers; node1 holds both decode workers. Unlike 07 and 08,
++# which spread more, smaller prefill workers across the fleet, this split concentrates
++# prefill capacity into fewer, wider workers, a different point in the same tradeoff space.
++#
++# The benchmark shape here (ISL 4000, OSL 200, closed-loop, fixed duration) follows the
++# same pattern as the official AIPerf command in the Task Rules, but with a shortened
++# warmup/benchmark/grace period (20s/60s/15s instead of 60s/120s/30s) and a concurrency
++# sweep (16, then 104/112/120/128) instead of a single declared N, since this script is
++# an exploratory sweep, not the official scored re-run.
++set -euo pipefail
++
++SGLANG=/scratch/enroot-images/sglang-harbor.sqsh
++AIPERF=/scratch/enroot-images/aiperf.sqsh
++MODEL=/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8
++R_PORT=8000
++READY_SECS=600  # /health cap; typically 2-4 min, fail if still down at 10 min
++ISL=4000
++OSL=200
++N=16,104,112,120,128
++ROOT=${SLURM_SUBMIT_DIR}
++ART=${ROOT}/runs/${SLURM_JOB_ID}
++
++NODES=($(scontrol show hostnames "${SLURM_JOB_NODELIST}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++mounts() {
++  mkdir -p "${ROOT}/home/$1"
++  echo "/scratch:/scratch,${ROOT}/home/$1:${HOME},${ROOT}:${ROOT}"
++}
++
++wait_http() {
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 300 --max-time 2 \
++    -o /dev/null "$1"
++}
++
++echo "[$(date -Iseconds)] job=${SLURM_JOB_ID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL} isl=${ISL} osl=${OSL} N=${N}"
++test -r "${SGLANG}" && test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++cat >"${ART}/worker.sh" <<'EOF'
++set -euo pipefail
++name=$1
++port=$2
++model=$3
++tp=$4
++shift 4
++role=${name%%-*}
++UCX_IB=$(for d in /sys/class/infiniband/*; do
++  [ "$(cat "$d/ports/1/link_layer" 2>/dev/null)" = InfiniBand ] || continue
++  [ "$(cat "$d/ports/1/state" 2>/dev/null)" = "4: ACTIVE" ] || continue
++  echo "$(basename "$d"):1"
++done | paste -sd,)
++[ -n "$UCX_IB" ] || { echo "FATAL: no active IB on $(hostname)"; exit 1; }
++export UCX_NET_DEVICES=$UCX_IB
++export UCX_POSIX_USE_PROC_LINK=n
++export TRITON_CACHE_DIR=/tmp/sglang-$name/triton
++export TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-$name/inductor
++mkdir -p "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR"
++echo "$name host=$(hostname) ib=$UCX_IB gpu=$CUDA_VISIBLE_DEVICES tp=$tp"
++exec python3 -m sglang.launch_server \
++  --model-path "$model" --served-model-name qwen --trust-remote-code \
++  --context-length 8192 --tp-size "$tp" --mem-fraction-static 0.90 \
++  --disaggregation-mode "$role" --disaggregation-transfer-backend nixl \
++  "$@" --host 0.0.0.0 --port "$port"
++EOF
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-0)" \
++  bash "${ART}/worker.sh" prefill-0 30100 "${MODEL}" 4 --disaggregation-bootstrap-port 9000 \
++  >"${ART}/prefill-0.log" 2>&1 &
++P0_PID=$!
++
++srun --exact -N1 -n1 -w "${HEAD}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts prefill-1)" \
++  bash "${ART}/worker.sh" prefill-1 30101 "${MODEL}" 4 --disaggregation-bootstrap-port 9001 \
++  >"${ART}/prefill-1.log" 2>&1 &
++P1_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-0)" \
++  bash "${ART}/worker.sh" decode-0 30200 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-0.log" 2>&1 &
++D0_PID=$!
++
++srun --exact -N1 -n1 -w "${TAIL}" --gres=gpu:4 --cpus-per-task=32 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts decode-1)" \
++  bash "${ART}/worker.sh" decode-1 30201 "${MODEL}" 4 --ep-size 4 --max-running-requests 256 \
++  >"${ART}/decode-1.log" 2>&1 &
++D1_PID=$!
++
++wait_http "http://${HEAD_IP}:30100/health"; echo "prefill-0 ready"
++wait_http "http://${HEAD_IP}:30101/health"; echo "prefill-1 ready"
++wait_http "http://${TAIL_IP}:30200/health"; echo "decode-0 ready"
++wait_http "http://${TAIL_IP}:30201/health"; echo "decode-1 ready"
++
++srun --overlap -N1 -n1 -w "${HEAD}" --cpus-per-task=2 \
++  --container-image="${SGLANG}" --container-mounts="$(mounts router)" \
++  python3 -m sglang_router.launch_router --pd-disaggregation \
++    --prefill "http://${HEAD_IP}:30100" 9000 \
++    --prefill "http://${HEAD_IP}:30101" 9001 \
++    --decode "http://${TAIL_IP}:30200" \
++    --decode "http://${TAIL_IP}:30201" \
++    --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 &
++R_PID=$!
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++srun --overlap -N1 -n1 -w "${HEAD}" \
++  --container-image="${AIPERF}" --container-mounts="$(mounts aiperf)" \
++  aiperf profile \
++    --model qwen --tokenizer "${MODEL}" \
++    --url "http://127.0.0.1:${R_PORT}" \
++    --endpoint-type chat --endpoint /v1/chat/completions --streaming \
++    --concurrency "${N}" \
++    --warmup-duration 20 \
++    --benchmark-duration 60 \
++    --benchmark-grace-period 15 \
++    --synthetic-input-tokens-mean "${ISL}" \
++    --synthetic-input-tokens-stddev 0 \
++    --output-tokens-mean "${OSL}" \
++    --output-tokens-stddev 0 \
++    --num-dataset-entries 12800 \
++    --random-seed 2026 \
++    --cache-bust first_turn_prefix \
++    --extra-inputs "min_tokens:${OSL}" \
++    --extra-inputs "max_tokens:${OSL}" \
++    --extra-inputs "ignore_eos:true" \
++    --extra-inputs "temperature:0.0" \
++    --extra-inputs "repetition_penalty:1.0" \
++    -H "Accept: text/event-stream" \
++    --artifact-dir "${ART}"
++echo "AIPERF ok"
++
++set +e
++kill "${P0_PID}" "${P1_PID}" "${D0_PID}" "${D1_PID}" "${R_PID}"
++wait "${P0_PID}" "${P1_PID}" "${D0_PID}" "${D1_PID}" "${R_PID}"
++set -e
+diff --git a/3.1-firmus-scripts/README.md b/3.1-firmus-scripts/README.md
+new file mode 100644
+index 0000000..41fa7ff
+--- /dev/null
++++ b/3.1-firmus-scripts/README.md
+@@ -0,0 +1,58 @@
++# Reference Scripts
++
++These are worked, verified examples of PD (prefill/decode) disaggregated deployment
++on the Firmus AI Cloud cluster (Slurm + enroot/pyxis), progressing from a minimal
++smoke test to a full 235B, 16-GPU topology. Use them as a starting point, not as a
++required template.
++
++## These are examples, not requirements
++
++The Task Rules do not mandate any of the choices demonstrated here:
++
++- **Containers are not required.** These scripts use enroot/pyxis containers because
++  that is the environment the organizing committee validated on. A self-built
++  environment on shared storage is equally valid (see the Task Rules' Submission
++  Guidelines).
++- **SGLang is not required.** These scripts use SGLang because it is the stack the
++  organizing committee used to validate the cluster and the benchmark harness.
++  vLLM, TensorRT-LLM, and combinations of either with Dynamo are equally valid
++  choices under the Task Rules' Optimization Guidelines.
++- **These exact PD splits, TP/EP degrees, and GPU counts are not required.** They
++  are working data points, not a recommendation. Part of the task is finding a
++  better one.
++
++## What each script demonstrates
++
++| Script | Demonstrates |
++|---|---|
++| `01-smoke-image.sbatch` | Container starts, GPU visible, SGLang importable. The first thing to verify before anything else. |
++| `02-smoke-serve.sbatch` | A single non-disaggregated server instance comes up and answers `/health`. |
++| `03-smoke-serve-aiperf.sbatch` | A benchmarking client can reach a served instance and complete a request/response cycle. |
++| `04-pd-minimal-2node.sbatch` | The smallest possible PD deployment: 1 prefill worker + 1 decode worker + router, across 2 nodes. |
++| `05-pd-tp-variant-1node.sbatch` | Prefill and decode workers can use different tensor-parallel degrees (TP=4 prefill, TP=2 decode here), on a single node. |
++| `06-pd-moe-example.sbatch` | The MoE-specific `--ep-size` flag, demonstrated on a small MoE model (Qwen1.5-MoE-A2.7B) before touching the full 235B model. |
++| `07-pd-235b-8plus8.sbatch` | A full 235B, 16-GPU PD deployment: 4 prefill workers (TP=2) + 2 decode workers (TP=4, EP=4). This is the topology walked through in `3.1 Qwen3 Application Notes - Firmus AI Cloud.md`. |
++| `08-pd-235b-12plus4-dynamo-match.sbatch` | The same 235B model with a different worker ratio (6 prefill + 1 decode), matching the split used by the public Dynamo Hopper disaggregated recipe, as a second reference point. |
++| `09-pd-235b-fatp-peak-bench.sbatch` | A third split (2 wide prefill workers at TP=4 instead of 4 narrower ones), run with an AIPerf call shaped like the official benchmark (closed-loop, fixed ISL/OSL) but at a shortened duration and swept concurrency, for exploratory testing rather than the official scored re-run. |
++
++## Prerequisites assumed by these scripts
++
++- Container images already staged at `/scratch/enroot-images/sglang-harbor.sqsh`
++  and `/scratch/enroot-images/aiperf.sqsh`.
++- Model weights already staged under `/scratch/models/`, e.g.
++  `/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8`.
++- A Slurm cluster with enroot/pyxis and InfiniBand between nodes.
++
++## Pass/fail convention
++
++Every script's Slurm exit code is the verdict (0 = pass). None of them wrap the
++verification logic in shell tricks that could hide a failure. If a script fails,
++check the job's `.out`/`.err` log for the specific step that failed.
++
++## Suggested order
++
++Run `01` through `03` first to confirm the basic container/GPU/serving/client path
++works on your own environment, before attempting any PD topology. From there, `04`
++and `05` are the simplest PD deployments to adapt. `06` through `09` are all at
++model scales and GPU counts closer to the actual task, and are more useful as
++reference points once your own deployment is close to working.
+diff --git a/3.2 Qwen3 Application Notes - ASPIRE 2A+.md b/3.2 Qwen3 Application Notes - ASPIRE 2A+.md
+new file mode 100644
+index 0000000..863229b
+--- /dev/null
++++ b/3.2 Qwen3 Application Notes - ASPIRE 2A+.md	
+@@ -0,0 +1,373 @@
++# Qwen3-235B PD Application Notes: NSCC ASPIRE 2A+
++
++This is the ASPIRE 2A+ counterpart of [3.1 Qwen3 Application Notes - Firmus AI Cloud.md](3.1%20Qwen3%20Application%20Notes%20-%20Firmus%20AI%20Cloud.md). Like 3.1, it is a worked example, not a template you need to adopt: SGLang and containers are what it happens to demonstrate, and the Task Rules do not require either. Its job is to get your environment working on ASPIRE 2A+ cheaply, before you spend GPU hours on real experiments.
++
++What is different from Firmus: the scheduler is PBS Pro, not Slurm, and containers are started through PBS's own enroot support, not pyxis. The SGLang worker flags in 3.1 carry over; its 8+8 topology does not fit on H100 (see [Fitting Qwen3-235B FP8 on H100](#fitting-qwen3-235b-fp8-on-h100)).
++
++The complete job scripts for each step are in [3.2-aspire2p-scripts/](3.2-aspire2p-scripts/); the excerpts below show what matters in them.
++
++Every job below is a batch job. Don't hold GPUs with an interactive job (`qsub -I`) while you think: you are charged for the whole time it is open. Run the smoke tests with a small model first, and keep exploratory runs short.
++
++## The machine
++
++| | |
++|---|---|
++| GPU nodes | `a2ap-dgx001`–`040`, DGX H100: 8× H100 80GB HBM3, 2× Xeon Platinum 8480C (112 cores), about 1.9 TB memory |
++| Driver | 595.71.05, CUDA 13.2 (CUDA 12.x and 13.x container images both run) |
++| InfiniBand | 8 compute HCAs at 400 Gb/s NDR: `mlx5_0,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_9,mlx5_10,mlx5_11`; `mlx5_1` and `mlx5_7` are for storage |
++| Storage | `/home` (50 GB per user), `/scratch` (Lustre; files unused for 30 days are purged), `/data/projects/<project>` |
++| Login node | no GPU; NSCC asks that all computation, including pre- and post-processing, run through the scheduler. Import container images in a job. |
++
++The GPU nodes reach the internet (Hugging Face, Docker Hub, nvcr.io) through a proxy. It is set in the job environment (`env | grep -i proxy` in a job script shows it), but not inside containers; see the AIPerf note in the 235B section.
++
++## PBS on ASPIRE 2A+
++
++Submit to the routing queue `normal`. Jobs asking for 1–7 GPUs land in `aiq1`, 8 or more in `aiq2`. `qstat`, `qsub` and `qdel` are in `/opt/pbs/bin`.
++
++Always give a project, memory and walltime. The server defaults are `walltime=00:05:00` and `mem=10mb`; a job that does not ask for memory gets 10 MB.
++
++```bash
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l walltime=00:10:00
++#PBS -j oe
++
++# one GPU
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb
++
++# two full nodes, 16 GPUs
++#PBS -l select=2:ncpus=112:ngpus=8:mpiprocs=1:mem=1880gb
++```
++
++Charging is per GPU: **1 GPU-hour = 128 SU**, CPU is not charged separately, and every GPU comes with 14 cores and 235 GB of memory whether you ask for them or not. You are charged for the walltime used, not the walltime requested (`myprojects -p <project-id>` shows the balance). A 2-node, 16-GPU job that runs 10 minutes costs 16 × 128 / 6 ≈ 341 SU.
++
++Short walltimes help a job start sooner: the scheduler can fit it into the gap before a large job's nodes become free if it will finish in time. Ask for what the run needs, not the queue maximum.
++
++## Containers with PBS and enroot
++
++ASPIRE 2A+ has no pyxis. PBS creates the enroot container for you from a `.sqsh` before the job script starts, on every node of the job:
++
++```bash
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb:container_engine=enroot
++#PBS -l container_image=/absolute/path/to/image.sqsh
++#PBS -l container_name=sglang
++
++enroot start sglang python3 -m sglang.launch_server ...
++```
++
++- `container_engine=enroot` goes inside `select`. If you give it, you must also give `container_name`, or `qsub` rejects the job.
++- `container_image` must be an absolute path (`$HOME` and `~` are accepted).
++- The job script itself runs on the host. Only what you put after `enroot start <name>` runs in the container.
++- Only the GPUs allocated to the job are visible inside the container.
++- `/scratch` and your home directory are mounted in the container by default. The enroot data for the job lives on the node's local `/raid` and is removed with the job.
++
++Multi-node jobs:
++
++- `enroot start --env ...` and `--mount ...` only take effect on the first node. Put environment variables in a file and pass it with `#PBS -l enroot_env_file=<file>`; add mounts with `#PBS -l enroot_mounts="/src:/dst;/src2:/dst2"`.
++- Fake root (`enroot start --root`) does not work across nodes.
++- Three ways to start a process on another node of your job all worked: `ssh <node>` from inside the job, `pbsdsh`, and the system OpenMPI on the GPU nodes (`/usr/mpi/gcc/openmpi-4.1.7a1/bin/mpirun -hostfile $PBS_NODEFILE -map-by ppr:1:node ...`). With each of them, `enroot start` on the other node sees only that node's GPUs of your job.
++- If you start a container over ssh, pass `PBS_JOBID` along (`ssh <node> "export PBS_JOBID=${PBS_JOBID}; enroot start ..."`): enroot finds the job's container through it.
++- Node names in `$PBS_NODEFILE` are fully qualified (`a2ap-dgx035.asp2p.nscc.sg`); `CUDA_VISIBLE_DEVICES` in the job environment holds GPU UUIDs, not indices.
++- From the login node, `export PBS_JOBID=<id>.pbs111` and then `ssh <node>` lets you look at a running job's node.
++
++PBS takes one `container_image` per job. To use a second image in the same job (the AIPerf client next to the SGLang server, for example), create it yourself inside the job:
++
++```bash
++enroot create --name aiperf /path/to/aiperf-0.12.0.sqsh
++enroot start aiperf "aiperf profile --model qwen ..."
++```
++
++**The AIPerf image takes its command as one string.** Its entrypoint is `bash -c "$@"`, so with `enroot start aiperf aiperf profile --model ...` only the first word runs: `aiperf` prints its help and exits 0, and nothing is measured. Quote the whole command line, as above. The SGLang image does not have this problem.
++
++## Container images and model weights
++
++Shared, read-only copies for everyone on ASPIRE 2A+:
++
++```
++/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/
++├── images/
++│   ├── sglang-v0.5.17-cu129.sqsh
++│   └── aiperf-0.12.0.sqsh
++└── models/
++    ├── Qwen3-0.6B/
++    └── Qwen3-235B-A22B-Instruct-2507-FP8/
++```
++
++| Item | Source | Size |
++|---|---|---:|
++| `sglang-v0.5.17-cu129.sqsh` | `docker://lmsysorg/sglang:v0.5.17-cu129` (linux/amd64 `sha256:bbe1ec8694ab6b0e6ea0a567c2d492ed7c9bed13cb33ffe356ade0aaa8343c9f`) | 38.2 GB |
++| `aiperf-0.12.0.sqsh` | `nvcr.io/nvidia/ai-dynamo/aiperf:0.12.0` (linux/amd64 `sha256:6eab5ee35be06e72c79fdd8017fcd60b08c187399dcdb3bf9b8087f7351149bf`) | 0.87 GB |
++| `Qwen3-235B-A22B-Instruct-2507-FP8/` | Hugging Face, revision `e156cb4efae43fbee1a1ab073f946a1377e6b969` | 34 files, 236.4 GB |
++| `Qwen3-0.6B/` | Hugging Face, revision `c1899de289a04d12100db370d81485cdf75e47ca` | 10 files, 1.5 GB |
++
++The SGLang image has SGLang 0.5.17 (the same version as Firmus's `sglang-harbor.sqsh`), PyTorch 2.11.0 built for CUDA 12.9, and NIXL.
++
++Because `/scratch` is mounted in every container, jobs can use these paths directly; there is no need to copy the 236 GB of weights into your own space.
++
++If you want a different image, import it inside a job, not on the login node:
++
++```bash
++enroot import -o ${HOME}/scratch/my-image.sqsh docker://<repo>:<tag>
++```
++
++- `nvcr.io` images need an NGC API key in `~/.config/enroot/.credentials` (`machine nvcr.io login $oauthtoken password <key>`, mode 600).
++- Give the image as a tag (`:<tag>`); enroot 3.5.0 does not take `@sha256:` digests in the reference.
++- Images imported here are stored as uncompressed squashfs, about twice the size of the compressed Docker layers (38.2 GB vs 18.7 GB for the SGLang image). Plan your scratch space accordingly.
++
++## Smoke-testing your container setup
++
++The three steps of 3.1, as PBS jobs (`01-smoke-image.pbs`, `02-smoke-serve.pbs`, `03-smoke-serve-aiperf.pbs`). Each is a one-GPU job; the job's exit status is the verdict (`qstat -fx <id> | grep Exit_status`, 0 = pass). Submit from the directory where you want the `.o` file.
++
++### Step 1: Container starts, GPU visible, SGLang importable
++
++```bash
++#!/bin/bash
++#PBS -N a2p-01-image
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb:container_engine=enroot
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:10:00
++#PBS -j oe
++set -euo pipefail
++
++enroot start sglang bash -c 'set -euo pipefail
++  nvidia-smi -L
++  python3 -c "import sglang; print(\"sglang\", getattr(sglang, \"__version__\", \"imported\"))"
++'
++```
++
++A passing `.o` file ends with:
++
++```
++GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-...)
++sglang 0.5.17
++```
++
++### Step 2: Single-instance serve
++
++Same PBS header. Start one non-disaggregated server with Qwen3-0.6B and wait for `/health`:
++
++```bash
++MODEL=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/models/Qwen3-0.6B
++
++enroot start --env MODEL="${MODEL}" sglang bash -c 'set -euo pipefail
++  python3 -m sglang.launch_server --model-path "${MODEL}" \
++    --host 127.0.0.1 --port 30000 --tp-size 1 --mem-fraction-static 0.4 \
++    --context-length 4096 --trust-remote-code >&2 &
++  timeout 300 curl -sf --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 150 --max-time 2 \
++    -o /dev/null http://127.0.0.1:30000/health
++  echo "READY after ${SECONDS}s"
++  kill %1
++'
++```
++
++`--env` is fine here because it is a single node.
++
++### Step 3: Serve + AIPerf round trip
++
++The server runs in the PBS-created `sglang` container; the AIPerf container is created inside the job:
++
++```bash
++PUB=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3
++MODEL=${PUB}/models/Qwen3-0.6B
++ART=${PBS_O_WORKDIR}/aiperf-${PBS_JOBID%%.*}
++
++enroot start sglang python3 -m sglang.launch_server \
++  --model-path "${MODEL}" --served-model-name qwen \
++  --host 0.0.0.0 --port 30000 --tp-size 1 --mem-fraction-static 0.4 \
++  --context-length 4096 --trust-remote-code >&2 &
++trap 'kill $! 2>/dev/null || true' EXIT
++
++timeout 300 curl -sf --retry-connrefused --retry-all-errors \
++  --retry-delay 2 --retry 150 --max-time 2 \
++  -o /dev/null http://127.0.0.1:30000/health
++
++enroot create --name aiperf ${PUB}/images/aiperf-0.12.0.sqsh
++enroot start aiperf "aiperf profile \
++  --model qwen --tokenizer ${MODEL} \
++  --url http://127.0.0.1:30000 --endpoint-type chat --streaming \
++  --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++  --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++  --artifact-dir ${ART}"
++ls ${ART}/*.json
++```
++
++The last line makes the job fail if AIPerf measured nothing (see the entrypoint note above). A passing run prints the AIPerf metrics table (2 requests, input 16 and output 8 tokens) and writes `profile_export_aiperf.json` into `${ART}`.
++
++Only after all three pass, move on to PD.
++
++## PD across two nodes
++
++The smallest PD deployment, as in `3.1-firmus-scripts/04` (here `04-pd-minimal-2node.pbs`): one prefill worker on one node, one decode worker on another, the router next to the prefill worker, and two AIPerf requests through the router. One GPU per node is enough; `place=scatter` keeps the two chunks on different nodes so the KV cache crosses InfiniBand.
++
++```bash
++#PBS -l select=2:ncpus=14:ngpus=1:mpiprocs=1:mem=235gb:container_engine=enroot
++#PBS -l place=scatter
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++```
++
++PBS creates the `sglang` container on both nodes. Each worker is started on its node over ssh and runs its own `enroot start` there, so `--env` applies on that node:
++
++```bash
++MODEL=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/models/Qwen3-0.6B
++NODES=($(sort -u "${PBS_NODEFILE}"))
++HEAD=${NODES[0]}; TAIL=${NODES[1]}
++HEAD_IP=$(getent ahostsv4 "${HEAD}" | awk '{print $1; exit}')
++TAIL_IP=$(getent ahostsv4 "${TAIL}" | awk '{print $1; exit}')
++IB=mlx5_0:1,mlx5_3:1,mlx5_4:1,mlx5_5:1,mlx5_6:1,mlx5_9:1,mlx5_10:1,mlx5_11:1
++
++worker() {   # worker <node> <role> <port> [extra sglang flags]
++  local node=$1 role=$2 port=$3; shift 3
++  ssh "${node}" "export PBS_JOBID=${PBS_JOBID}; \
++    enroot start --env UCX_NET_DEVICES=${IB} sglang \
++      python3 -m sglang.launch_server --model-path ${MODEL} --served-model-name qwen \
++        --trust-remote-code --context-length 4096 --tp-size 1 --mem-fraction-static 0.4 \
++        --disaggregation-mode ${role} --disaggregation-transfer-backend nixl \
++        $* --host 0.0.0.0 --port ${port}"
++}
++worker "${HEAD}" prefill 30100 --disaggregation-bootstrap-port 9000 > prefill.log 2>&1 &
++worker "${TAIL}" decode  30200 --max-running-requests 256           > decode.log  2>&1 &
++# wait for http://${HEAD_IP}:30100/health and http://${TAIL_IP}:30200/health
++
++enroot start sglang python3 -m sglang_router.launch_router --pd-disaggregation \
++  --prefill "http://${HEAD_IP}:30100" 9000 --decode "http://${TAIL_IP}:30200" \
++  --host 0.0.0.0 --port 8000 > router.log 2>&1 &
++# wait for http://${HEAD_IP}:8000/health, then AIPerf against 127.0.0.1:8000 as in Step 3
++```
++
++`UCX_NET_DEVICES` lists the eight compute HCAs; the prefill log shows `NIXL KVManager initialized with backend: UCX`.
++
++Two things to handle at the end of the job:
++
++- Processes started over ssh are not children of your job script. Stop them explicitly (for example `ssh <node> "pkill -u $(id -u) -f 'sglang[.]launch_server'"`) before the script exits.
++- The SGLang router does not exit promptly on SIGTERM, so a `wait` on it at the end of the script can hold the job until its walltime runs out. Kill it and don't wait.
++
++## Fitting Qwen3-235B FP8 on H100
++
++The FP8 weights are 236 GB. On an 80 GB H100 a worker needs at least four GPUs (320 GB): the `3.1-firmus-scripts/07` topology, with prefill workers at TP=2, runs out of memory while loading weights here (2 × 80 GB = 160 GB). It fits on Firmus only because an H200 has 141 GB. With 16 H100s you have at most four TP=4 workers, or fewer, wider ones.
++
++## A 16-GPU reference deployment of Qwen3-235B
++
++This is the `3.1-firmus-scripts/09` topology (here `09-pd-235b-fatp.pbs`), which fits on H100: **2 prefill workers at TP=4** on node 0 and **2 decode workers at TP=4, EP=4** on node 1, router on node 0. The worker flags are 09's (and the same as 3.1's common flags); only the launch differs.
++
++```bash
++#PBS -l select=2:ncpus=112:ngpus=8:mpiprocs=1:mem=1880gb:container_engine=enroot
++#PBS -l place=scatter:excl
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:19:30
++```
++
++Each worker, started over ssh on its node as in the two-node example:
++
++```bash
++enroot start \
++  --env CUDA_VISIBLE_DEVICES=${gpus} \
++  --env UCX_NET_DEVICES=${IB} \
++  --env UCX_POSIX_USE_PROC_LINK=n \
++  --env TRITON_CACHE_DIR=/tmp/sglang-${name}/triton \
++  --env TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-${name}/inductor \
++  --env TMPDIR=/tmp \
++  sglang python3 -m sglang.launch_server \
++    --model-path ${MODEL} --served-model-name qwen --trust-remote-code \
++    --context-length 8192 --tp-size 4 --mem-fraction-static 0.90 \
++    --disaggregation-mode ${role} --disaggregation-transfer-backend nixl \
++    ${extra} --host 0.0.0.0 --port ${port}
++```
++
++| Worker | Node | GPUs | Port | Extra flags |
++|---|---|---|---|---|
++| prefill-0 | 0 | 0,1,2,3 | 30100 | `--disaggregation-bootstrap-port 9000` |
++| prefill-1 | 0 | 4,5,6,7 | 30101 | `--disaggregation-bootstrap-port 9001` |
++| decode-0 | 1 | 0,1,2,3 | 30200 | `--ep-size 4 --max-running-requests 256` |
++| decode-1 | 1 | 4,5,6,7 | 30201 | `--ep-size 4 --max-running-requests 256` |
++
++The router on node 0 lists both prefill workers (with their bootstrap ports) and both decode workers, and listens on port 8000, as in 3.1.
++
++Besides the flags, three things are needed:
++
++- **Read the weights once per node before starting the workers.** Four workers loading 236 GB each straight from `/scratch` took 4.5–11 minutes. Reading the safetensors files first with parallel sequential streams took 10–11 seconds per node, after which the workers loaded in 43–141 seconds:
++
++  ```bash
++  ssh <node> "find ${MODEL} -name '*.safetensors' | xargs -P 24 -I{} dd if={} of=/dev/null bs=16M status=none"
++  ```
++
++- **Set `TMPDIR=/tmp` for the workers.** PyTorch's symmetric memory creates a socket under `$TMPDIR`, and the job's `TMPDIR` (`/raid/pbs.<job-id>` on the host) does not exist inside the container. Without it the log shows `Setup Custom allreduce failed with Failed to bind socket` and SGLang falls back from its custom all-reduce.
++- **Give the AIPerf container the HTTPS proxy.** The official command loads the tokenizer by its Hugging Face name, and the proxy variables of the job environment are not passed into containers. A file in `~/.config/enroot/environ.d/` is read for every container you start. Generate it once from the job environment, in any job script:
++
++  ```bash
++  mkdir -p ~/.config/enroot/environ.d
++  env | grep -iE '^(https_proxy|no_proxy)=' | tr -d '"' > ~/.config/enroot/environ.d/50-https-proxy.env
++  ```
++
++  `tr -d '"'` removes the quotes the site puts around the `no_proxy` value. Only the HTTPS proxy is copied, so the plain-HTTP traffic between router and workers is untouched. At the time of writing the file comes out as:
++
++  ```bash
++  no_proxy=nscc.sg,.nscc.sg,asp2p.nscc.sg,.asp2p.nscc.sg,a2ap-bcm01,a2ap-bcm02,a2ap-access01,a2ap-access02,localhost,127.0.0.1,10.104.0.0/21
++  https_proxy=http://10.104.4.124:10104
++  NO_PROXY=NSCC.SG,.NSCC.SG,ASP2P.NSCC.SG,.ASP2P.NSCC.SG,LOCALHOST,A2AP-BCM01,A2AP-BCM02,A2AP-ACCESS01,A2AP-ACCESS02,127.0.0.1,10.104.0.0/21
++  HTTPS_PROXY=http://10.104.4.124:10104
++  ```
++
++  Without this file the tokenizer step stalled for about nine minutes.
++
++The first job also spends several minutes compiling DeepGEMM kernels; they are cached in `~/.cache/deep_gemm`, and later jobs start in under 5 minutes.
++
++The official command then runs through the router, inside the AIPerf container, as one string; `official-aiperf.sh` is in [3.2-aspire2p-scripts/](3.2-aspire2p-scripts/):
++
++```bash
++enroot start aiperf "cd ${ART} && N=${N} HOST=127.0.0.1:8000 MODEL=qwen bash official-aiperf.sh"
++```
++
++### Results
++
++Same deployment, same two nodes, one job per concurrency, official command unmodified. "Good output tok/s" is output token throughput × `good_request_fraction` (every request has 200 output tokens).
++
++| N | `good_request_fraction` | Good output tok/s | Output tok/s | TTFT avg / p90 (ms) | ITL avg / p90 (ms) | Requests | PBS job |
++|---:|---:|---:|---:|---:|---:|---:|---|
++| 24 | **0.986** | 1,054 | 1,068 | 872 / 1,396 | 17.84 / 18.84 | 659 | 217990.pbs111 |
++| 32 | **0.908** | 1,174 | 1,292 | 1,150 / 1,879 | 18.86 / 19.94 | 797 | 217989.pbs111 |
++| 48 | 0.309 | 508 | 1,644 | 1,698 / 2,667 | 20.20 / 21.13 | 1,033 | 217819.pbs111 |
++| 64 | 0.081 | 155 | 1,910 | 2,344 / 3,364 | 21.10 / 21.81 | 1,208 | 217834.pbs111 |
++
++With this split on H100, decode ITL crosses 20 ms between N=32 and N=48, so the gate fails there even though TTFT stays under 3 s. N=32 clears the gate with little margin. These numbers are a starting point for this one split, not a target; raw throughput is not compared across platforms.
++
++Each job took about 8.5 minutes of walltime (about 4.5–5 minutes to READY, then AIPerf), about 290 SU.
++
++## Running the official benchmark
++
++Once your PD deployment is healthy, run the official `aiperf` command exactly as specified in [1. Qwen3 AI Task Rules.md](1.%20Qwen3%20AI%20Task%20Rules.md). Do not modify any parameter. With the AIPerf image, pass it to `enroot start aiperf` as one quoted string, and make sure the container has the HTTPS proxy (see above) so the tokenizer can be fetched.
++
++## Job IDs and logs
++
++One GPU each, in `aiq1`.
++
++| Step | PBS job | Node | Walltime used | SU | Log |
++|---|---|---|---:|---:|---|
++| Import images | 217433.pbs111 | `a2ap-dgx036` | 00:27:13 | 58 | [a2p-image.o217433](3.2-aspire2p-logs/a2p-image.o217433) |
++| Download 235B FP8 | 217418.pbs111 | `a2ap-dgx038` | 00:09:57 | 21 | [a2p-weights.o217418](3.2-aspire2p-logs/a2p-weights.o217418) |
++| Download 0.6B | 217410.pbs111 | `a2ap-dgx038` | 00:00:28 | 1.0 | [a2p-w06b.o217410](3.2-aspire2p-logs/a2p-w06b.o217410) |
++| 1: image | 217471.pbs111 | `a2ap-dgx035` | 00:00:17 | 0.6 | [a2p-01-image.o217471](3.2-aspire2p-logs/a2p-01-image.o217471) |
++| 2: serve | 217472.pbs111 | `a2ap-dgx036` | 00:01:16 | 2.7 | [a2p-02-serve.o217472](3.2-aspire2p-logs/a2p-02-serve.o217472) |
++| 3: serve + AIPerf | 217474.pbs111 | `a2ap-dgx035` | 00:00:57 | 2.0 | [a2p-03-aiperf.o217474](3.2-aspire2p-logs/a2p-03-aiperf.o217474), [aiperf-217474/](3.2-aspire2p-logs/aiperf-217474/) |
++
++Two-node jobs.
++
++| Step | PBS job | Nodes | Walltime used | SU | Log |
++|---|---|---|---:|---:|---|
++| Launch methods (ssh, `pbsdsh`, `mpirun`) | 217508.pbs111 | `a2ap-dgx035`, `a2ap-dgx036` | 00:01:15 | 5.3 | [a2p-launch.o217508](3.2-aspire2p-logs/a2p-launch.o217508) |
++| PD across two nodes, one GPU each | 217647.pbs111 | `a2ap-dgx038`, `a2ap-dgx040` | 00:03:00 | 12.8 | [a2p-04-pd-min.o217647](3.2-aspire2p-logs/a2p-04-pd-min.o217647), [pd-217647/](3.2-aspire2p-logs/pd-217647/) |
++| 235B with Firmus 07's TP=2 prefill (out of memory, two full nodes, `aiq2`) | 217515.pbs111 | `a2ap-dgx013`, `a2ap-dgx028` | 00:01:20 | 46 | [a2p-07-235b.o217515](3.2-aspire2p-logs/a2p-07-235b.o217515), [pd235b-217515/](3.2-aspire2p-logs/pd235b-217515/) |
++
++235B reference deployment, official command, two full nodes (`aiq2`):
++
++| N | PBS job | Nodes | Walltime used | SU | Log |
++|---:|---|---|---:|---:|---|
++| 24 | 217990.pbs111 | `a2ap-dgx013`, `a2ap-dgx021` | 00:08:34 | 292 | [a2p-09-235b.o217990](3.2-aspire2p-logs/a2p-09-235b.o217990), [pd235b-217990/](3.2-aspire2p-logs/pd235b-217990/) |
++| 32 | 217989.pbs111 | `a2ap-dgx013`, `a2ap-dgx021` | 00:08:41 | 296 | [a2p-09-235b.o217989](3.2-aspire2p-logs/a2p-09-235b.o217989), [pd235b-217989/](3.2-aspire2p-logs/pd235b-217989/) |
++| 48 | 217819.pbs111 | `a2ap-dgx013`, `a2ap-dgx021` | 00:08:43 | 298 | [a2p-09-235b.o217819](3.2-aspire2p-logs/a2p-09-235b.o217819), [pd235b-217819/](3.2-aspire2p-logs/pd235b-217819/) |
++| 64 | 217834.pbs111 | `a2ap-dgx013`, `a2ap-dgx021` | 00:08:28 | 289 | [a2p-09-235b.o217834](3.2-aspire2p-logs/a2p-09-235b.o217834), [pd235b-217834/](3.2-aspire2p-logs/pd235b-217834/) |
+diff --git a/3.2-aspire2p-scripts/01-smoke-image.pbs b/3.2-aspire2p-scripts/01-smoke-image.pbs
+new file mode 100644
+index 0000000..1101f64
+--- /dev/null
++++ b/3.2-aspire2p-scripts/01-smoke-image.pbs
+@@ -0,0 +1,23 @@
++#!/bin/bash
++#PBS -N a2p-01-image
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb:container_engine=enroot
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:10:00
++#PBS -j oe
++#
++# ASPIRE 2A+ port of Firmus reference-scripts/01-smoke-image.sbatch.
++# PBS creates the "sglang" container from container_image on the node before
++# this script starts; /scratch and $HOME are mounted inside by default.
++# Pass = container starts, GPU visible, sglang imports. Exit code is the verdict.
++set -euo pipefail
++
++echo "[$(date -Iseconds)] job=${PBS_JOBID} user=$(whoami) host=$(hostname) queue=${PBS_QUEUE}"
++
++enroot start sglang bash -c 'set -euo pipefail
++  echo "in-container host=$(hostname) user=$(whoami)"
++  nvidia-smi -L
++  python3 -c "import sglang; print(\"sglang\", getattr(sglang, \"__version__\", \"imported\"))"
++'
+diff --git a/3.2-aspire2p-scripts/02-smoke-serve.pbs b/3.2-aspire2p-scripts/02-smoke-serve.pbs
+new file mode 100644
+index 0000000..50aea0c
+--- /dev/null
++++ b/3.2-aspire2p-scripts/02-smoke-serve.pbs
+@@ -0,0 +1,42 @@
++#!/bin/bash
++#PBS -N a2p-02-serve
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb:container_engine=enroot
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:10:00
++#PBS -j oe
++#
++# ASPIRE 2A+ port of Firmus reference-scripts/02-smoke-serve.sbatch.
++# Serve Qwen3-0.6B just long enough to answer /health, then exit.
++# Pass = /health 200 before READY_SECS. Exit code is the verdict.
++set -euo pipefail
++
++PUB=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3
++MODEL=${PUB}/models/Qwen3-0.6B
++PORT=30000
++READY_SECS=300
++
++echo "[$(date -Iseconds)] job=${PBS_JOBID} user=$(whoami) host=$(hostname) queue=${PBS_QUEUE}"
++echo "model=${MODEL} port=${PORT}"
++test -f "${MODEL}/config.json"
++test -f "${MODEL}/model.safetensors"
++
++# Single node, so `enroot start --env` is fine here. Across nodes it only
++# reaches the first node; use `#PBS -l enroot_env_file=` instead.
++enroot start --env MODEL="${MODEL}" --env PORT="${PORT}" --env READY_SECS="${READY_SECS}" \
++  sglang bash -c 'set -euo pipefail
++  echo "in-container host=$(hostname) user=$(whoami)"
++  python3 -m sglang.launch_server \
++    --model-path "${MODEL}" \
++    --host 127.0.0.1 --port "${PORT}" \
++    --tp-size 1 --mem-fraction-static 0.4 \
++    --context-length 4096 --trust-remote-code >&2 &
++  timeout "${READY_SECS}" curl -sf \
++    --retry-connrefused --retry-all-errors \
++    --retry-delay 2 --retry 150 --max-time 2 \
++    -o /dev/null "http://127.0.0.1:${PORT}/health"
++  echo "READY after ${SECONDS}s"
++  kill %1
++'
+diff --git a/3.2-aspire2p-scripts/03-smoke-serve-aiperf.pbs b/3.2-aspire2p-scripts/03-smoke-serve-aiperf.pbs
+new file mode 100644
+index 0000000..2526a97
+--- /dev/null
++++ b/3.2-aspire2p-scripts/03-smoke-serve-aiperf.pbs
+@@ -0,0 +1,54 @@
++#!/bin/bash
++#PBS -N a2p-03-aiperf
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=1:ncpus=14:ngpus=1:mem=235gb:container_engine=enroot
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:15:00
++#PBS -j oe
++#
++# ASPIRE 2A+ port of Firmus reference-scripts/03-smoke-serve-aiperf.sbatch.
++# One node: sglang serve, then 2 aiperf requests. Pass = aiperf exits 0.
++# PBS takes one container_image per job, so the AIPerf container is created by
++# hand from its .sqsh (enroot data lives under /raid, per job).
++set -euo pipefail
++
++PUB=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3
++AIPERF=${PUB}/images/aiperf-0.12.0.sqsh
++MODEL=${PUB}/models/Qwen3-0.6B
++PORT=30000
++READY_SECS=300
++ART=${PBS_O_WORKDIR}/aiperf-${PBS_JOBID%%.*}
++
++echo "[$(date -Iseconds)] job=${PBS_JOBID} user=$(whoami) host=$(hostname) queue=${PBS_QUEUE}"
++echo "aiperf=${AIPERF} model=${MODEL} port=${PORT}"
++test -r "${AIPERF}"
++test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++enroot start sglang python3 -m sglang.launch_server \
++  --model-path "${MODEL}" --served-model-name qwen \
++  --host 0.0.0.0 --port "${PORT}" \
++  --tp-size 1 --mem-fraction-static 0.4 \
++  --context-length 4096 --trust-remote-code >&2 &
++SERVER=$!
++trap 'kill ${SERVER} 2>/dev/null || true' EXIT
++
++timeout "${READY_SECS}" curl -sf \
++  --retry-connrefused --retry-all-errors \
++  --retry-delay 2 --retry 150 --max-time 2 \
++  -o /dev/null "http://127.0.0.1:${PORT}/health"
++echo "READY after ${SECONDS}s"
++
++# The AIPerf image's entrypoint is `bash -c "$@"`: only the first argument is
++# run as the command, so the whole command line must be one string.
++enroot create --name aiperf "${AIPERF}"
++enroot start aiperf "aiperf profile \
++  --model qwen --tokenizer ${MODEL} \
++  --url http://127.0.0.1:${PORT} --endpoint-type chat --streaming \
++  --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++  --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++  --artifact-dir ${ART}"
++ls "${ART}"/*.json
++echo "AIPERF ok"
+diff --git a/3.2-aspire2p-scripts/04-pd-minimal-2node.pbs b/3.2-aspire2p-scripts/04-pd-minimal-2node.pbs
+new file mode 100644
+index 0000000..a3be015
+--- /dev/null
++++ b/3.2-aspire2p-scripts/04-pd-minimal-2node.pbs
+@@ -0,0 +1,124 @@
++#!/bin/bash
++#PBS -N a2p-04-pd-min
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=2:ncpus=14:ngpus=1:mpiprocs=1:mem=235gb:container_engine=enroot
++#PBS -l place=scatter
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:15:00
++#PBS -j oe
++#
++# ASPIRE 2A+ port of Firmus reference-scripts/04-pd-minimal-2node.sbatch.
++# 1 prefill (node 0) + 1 decode (node 1) + router, then 2 aiperf requests
++# through the router. One GPU per node; place=scatter puts the two chunks on
++# different nodes so the KV cache crosses InfiniBand. Pass = aiperf exits 0.
++#
++# PBS creates the "sglang" container on both nodes. Each worker is started on
++# its node over ssh (allowed inside a job), and runs its own `enroot start`
++# there, so `--env` applies on that node.
++set -euo pipefail
++
++PUB=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3
++AIPERF=${PUB}/images/aiperf-0.12.0.sqsh
++MODEL=${PUB}/models/Qwen3-0.6B
++P_PORT=30100
++D_PORT=30200
++BOOT=9000
++R_PORT=8000
++READY_SECS=300
++IB=mlx5_0:1,mlx5_3:1,mlx5_4:1,mlx5_5:1,mlx5_6:1,mlx5_9:1,mlx5_10:1,mlx5_11:1
++ART=${PBS_O_WORKDIR}/pd-${PBS_JOBID%%.*}
++
++NODES=($(sort -u "${PBS_NODEFILE}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++PIDS=()
++wait_http() {
++  local t0=${SECONDS} p
++  until curl -sf -o /dev/null --max-time 2 "$1"; do
++    for p in "${PIDS[@]}"; do
++      kill -0 "${p}" 2>/dev/null || { echo "FATAL: a worker exited while waiting for $1"; return 1; }
++    done
++    [ $((SECONDS - t0)) -lt "${READY_SECS}" ] || { echo "FATAL: $1 not ready in ${READY_SECS}s"; return 1; }
++    sleep 2
++  done
++}
++
++echo "[$(date -Iseconds)] job=${PBS_JOBID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL}"
++test -r "${AIPERF}" && test -f "${MODEL}/config.json"
++mkdir -p "${ART}"
++
++# Runs on the host of the node it is started on.
++cat >"${ART}/worker.sh" <<EOF
++set -euo pipefail
++role=\$1 port=\$2
++shift 2
++echo "\${role} host=\$(hostname) ib=${IB}"
++exec enroot start --env UCX_NET_DEVICES=${IB} sglang \\
++  python3 -m sglang.launch_server \\
++    --model-path ${MODEL} --served-model-name qwen --trust-remote-code \\
++    --context-length 4096 --tp-size 1 --mem-fraction-static 0.4 \\
++    --disaggregation-mode \${role} --disaggregation-transfer-backend nixl \\
++    "\$@" --host 0.0.0.0 --port \${port}
++EOF
++
++on_node() {
++  local host=$1; shift
++  ssh -o StrictHostKeyChecking=no -o BatchMode=yes "${host}" "export PBS_JOBID=${PBS_JOBID}; $*"
++}
++# The router does not exit promptly on SIGTERM, so never block on it.
++# [.] keeps the pattern from matching the remote shell running pkill.
++cleanup() {
++  set +e
++  kill "${PIDS[@]}" 2>/dev/null
++  local pat
++  for pat in "${HEAD} sglang[.]launch_server.*--port ${P_PORT}" \
++             "${HEAD} sglang_router[.]launch_router.*--port ${R_PORT}" \
++             "${TAIL} sglang[.]launch_server.*--port ${D_PORT}"; do
++    on_node "${pat%% *}" "pkill -u \$(id -u) -f '${pat#* }'; sleep 3; pkill -9 -u \$(id -u) -f '${pat#* }'"
++  done
++}
++trap cleanup EXIT
++
++for h in "${HEAD}" "${TAIL}"; do
++  n=$(on_node "${h}" "enroot start sglang nvidia-smi -L" | grep -c '^GPU ' || true)
++  echo "${h}: ${n} GPUs in container"
++  [ "${n}" = 1 ] || { echo "FATAL: expected 1 GPU on ${h}"; exit 1; }
++done
++
++on_node "${HEAD}" bash "${ART}/worker.sh" prefill "${P_PORT}" --disaggregation-bootstrap-port "${BOOT}" \
++  >"${ART}/prefill.log" 2>&1 & PIDS+=($!)
++on_node "${TAIL}" bash "${ART}/worker.sh" decode "${D_PORT}" --max-running-requests 256 \
++  >"${ART}/decode.log" 2>&1 & PIDS+=($!)
++
++wait_http "http://${HEAD_IP}:${P_PORT}/health"
++echo "prefill ready"
++wait_http "http://${TAIL_IP}:${D_PORT}/health"
++echo "decode ready"
++
++enroot start sglang python3 -m sglang_router.launch_router --pd-disaggregation \
++  --prefill "http://${HEAD_IP}:${P_PORT}" "${BOOT}" \
++  --decode "http://${TAIL_IP}:${D_PORT}" \
++  --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 & PIDS+=($!)
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++# The AIPerf image's entrypoint is `bash -c "$@"`: pass the command as one string.
++enroot create --name aiperf "${AIPERF}"
++enroot start aiperf "aiperf profile \
++  --model qwen --tokenizer ${MODEL} \
++  --url http://127.0.0.1:${R_PORT} --endpoint-type chat --streaming \
++  --request-count 2 --concurrency 1 --num-dataset-entries 2 \
++  --synthetic-input-tokens-mean 16 --output-tokens-mean 8 \
++  --artifact-dir ${ART}"
++ls "${ART}"/*.json
++grep -m1 -iE "bootstrap|transfer|nixl" "${ART}/decode.log" || true
++echo "AIPERF ok"
+diff --git a/3.2-aspire2p-scripts/09-pd-235b-fatp.pbs b/3.2-aspire2p-scripts/09-pd-235b-fatp.pbs
+new file mode 100644
+index 0000000..78f5f97
+--- /dev/null
++++ b/3.2-aspire2p-scripts/09-pd-235b-fatp.pbs
+@@ -0,0 +1,138 @@
++#!/bin/bash
++#PBS -N a2p-09-235b
++#PBS -q normal
++#PBS -P <project-id>
++#PBS -l select=2:ncpus=112:ngpus=8:mpiprocs=1:mem=1880gb:container_engine=enroot
++#PBS -l place=scatter:excl
++#PBS -l container_image=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3/images/sglang-v0.5.17-cu129.sqsh
++#PBS -l container_name=sglang
++#PBS -l walltime=00:35:00
++#PBS -j oe
++#
++# ASPIRE 2A+ port of Firmus reference-scripts/09-pd-235b-fatp-peak-bench.sbatch.
++# 235B 8+8: 2x Prefill TP=4 on node 0 + 2x Decode TP=4, EP=4 on node 1, router
++# on node 0. Worker flags are 09's. (Firmus 07's TP=2 prefill does not fit on
++# H100: 236 GB of FP8 weights > 2 x 80 GB.) Then the official AIPerf command
++# (official-aiperf.sh, unmodified) at concurrency N through the router.
++# Pass = aiperf exits 0.
++#   qsub -v N=48 aspire2p-09-pd-235b-fatp.pbs
++set -euo pipefail
++
++PUB=/scratch/users/industry/hpcadvisorycouncil/pengzhi/public/2026-apac-hpc-ai/qwen3
++AIPERF=${PUB}/images/aiperf-0.12.0.sqsh
++MODEL=${PUB}/models/Qwen3-235B-A22B-Instruct-2507-FP8
++OFFICIAL=${PBS_O_WORKDIR}/official-aiperf.sh
++N=${N:-48}
++R_PORT=8000
++READY_SECS=900
++IB=mlx5_0:1,mlx5_3:1,mlx5_4:1,mlx5_5:1,mlx5_6:1,mlx5_9:1,mlx5_10:1,mlx5_11:1
++ART=${PBS_O_WORKDIR}/pd235b-${PBS_JOBID%%.*}
++
++NODES=($(sort -u "${PBS_NODEFILE}"))
++HEAD=${NODES[0]}
++TAIL=${NODES[1]}
++ip_of() { getent ahostsv4 "$1" | awk '{print $1; exit}'; }
++HEAD_IP=$(ip_of "${HEAD}")
++TAIL_IP=$(ip_of "${TAIL}")
++
++PIDS=()
++wait_http() {
++  local t0=${SECONDS} p
++  until curl -sf -o /dev/null --max-time 2 "$1"; do
++    for p in "${PIDS[@]}"; do
++      kill -0 "${p}" 2>/dev/null || { echo "FATAL: a worker exited while waiting for $1"; return 1; }
++    done
++    [ $((SECONDS - t0)) -lt "${READY_SECS}" ] || { echo "FATAL: $1 not ready in ${READY_SECS}s"; return 1; }
++    sleep 2
++  done
++}
++
++echo "[$(date -Iseconds)] job=${PBS_JOBID} user=$(whoami)"
++echo "head=${HEAD}(${HEAD_IP}) tail=${TAIL}(${TAIL_IP}) model=${MODEL} N=${N}"
++test -r "${AIPERF}" && test -f "${MODEL}/config.json" && test -r "${OFFICIAL}"
++mkdir -p "${ART}"
++cp "${OFFICIAL}" "${ART}/"
++
++# Runs on the host of the node it is started on: name port tp gpus [flags...]
++# TMPDIR: PyTorch symmetric memory binds a socket under $TMPDIR, and the job's
++# host TMPDIR does not exist inside the container (custom all-reduce then
++# falls back with "Failed to bind socket").
++cat >"${ART}/worker.sh" <<EOF
++set -euo pipefail
++name=\$1 port=\$2 tp=\$3 gpus=\$4
++shift 4
++role=\${name%%-*}
++echo "\${name} host=\$(hostname) gpus=\${gpus} tp=\${tp} ib=${IB}"
++exec enroot start \\
++  --env CUDA_VISIBLE_DEVICES=\${gpus} \\
++  --env UCX_NET_DEVICES=${IB} \\
++  --env UCX_POSIX_USE_PROC_LINK=n \\
++  --env TRITON_CACHE_DIR=/tmp/sglang-\${name}/triton \\
++  --env TORCHINDUCTOR_CACHE_DIR=/tmp/sglang-\${name}/inductor \\
++  --env TMPDIR=/tmp \\
++  sglang python3 -m sglang.launch_server \\
++    --model-path ${MODEL} --served-model-name qwen --trust-remote-code \\
++    --context-length 8192 --tp-size \${tp} --mem-fraction-static 0.90 \\
++    --disaggregation-mode \${role} --disaggregation-transfer-backend nixl \\
++    "\$@" --host 0.0.0.0 --port \${port}
++EOF
++
++on_node() {
++  local host=$1; shift
++  ssh -o StrictHostKeyChecking=no -o BatchMode=yes "${host}" "export PBS_JOBID=${PBS_JOBID}; $*"
++}
++# The router does not exit promptly on SIGTERM, so never block on it.
++# [.] keeps the pattern from matching the remote shell running pkill.
++cleanup() {
++  set +e
++  kill "${PIDS[@]}" 2>/dev/null
++  local pat='sglang[.]launch_server|sglang_router[.]launch_router'
++  for h in "${HEAD}" "${TAIL}"; do
++    on_node "${h}" "pkill -u \$(id -u) -f '${pat}'; sleep 5; pkill -9 -u \$(id -u) -f '${pat}'"
++  done
++}
++trap cleanup EXIT
++
++for h in "${HEAD}" "${TAIL}"; do
++  n=$(on_node "${h}" "enroot start sglang nvidia-smi -L" | grep -c '^GPU ' || true)
++  echo "${h}: ${n} GPUs in container"
++  [ "${n}" = 8 ] || { echo "FATAL: expected 8 GPUs on ${h}"; exit 1; }
++done
++
++# Four workers loading 236 GB each straight from Lustre took 4.5-11 min.
++# Read the weights once per node with parallel sequential streams so the
++# workers load from the page cache.
++for h in "${HEAD}" "${TAIL}"; do
++  on_node "${h}" "s=\$(date +%s); find ${MODEL} -name '*.safetensors' | xargs -P 24 -I{} dd if={} of=/dev/null bs=16M status=none; echo \"\$(hostname) prewarm \$((\$(date +%s)-s))s\"" &
++done
++wait
++echo "prewarm done ${SECONDS}s"
++
++W="bash ${ART}/worker.sh"
++on_node "${HEAD}" "${W} prefill-0 30100 4 0,1,2,3 --disaggregation-bootstrap-port 9000" >"${ART}/prefill-0.log" 2>&1 & PIDS+=($!)
++on_node "${HEAD}" "${W} prefill-1 30101 4 4,5,6,7 --disaggregation-bootstrap-port 9001" >"${ART}/prefill-1.log" 2>&1 & PIDS+=($!)
++on_node "${TAIL}" "${W} decode-0 30200 4 0,1,2,3 --ep-size 4 --max-running-requests 256" >"${ART}/decode-0.log" 2>&1 & PIDS+=($!)
++on_node "${TAIL}" "${W} decode-1 30201 4 4,5,6,7 --ep-size 4 --max-running-requests 256" >"${ART}/decode-1.log" 2>&1 & PIDS+=($!)
++
++wait_http "http://${HEAD_IP}:30100/health"; echo "prefill-0 ready ${SECONDS}s"
++wait_http "http://${HEAD_IP}:30101/health"; echo "prefill-1 ready ${SECONDS}s"
++wait_http "http://${TAIL_IP}:30200/health"; echo "decode-0 ready ${SECONDS}s"
++wait_http "http://${TAIL_IP}:30201/health"; echo "decode-1 ready ${SECONDS}s"
++
++enroot start sglang python3 -m sglang_router.launch_router --pd-disaggregation \
++  --prefill "http://${HEAD_IP}:30100" 9000 \
++  --prefill "http://${HEAD_IP}:30101" 9001 \
++  --decode "http://${TAIL_IP}:30200" \
++  --decode "http://${TAIL_IP}:30201" \
++  --host 0.0.0.0 --port "${R_PORT}" \
++  >"${ART}/router.log" 2>&1 & PIDS+=($!)
++
++wait_http "http://${HEAD_IP}:${R_PORT}/health"
++echo "READY after ${SECONDS}s"
++
++# Official command, unmodified. The AIPerf image's entrypoint is `bash -c "$@"`,
++# so the whole command is one string; cd so artifacts land in ${ART}.
++enroot create --name aiperf "${AIPERF}"
++enroot start aiperf "cd ${ART} && N=${N} HOST=127.0.0.1:${R_PORT} MODEL=qwen bash ${ART}/official-aiperf.sh"
++find "${ART}" -name profile_export_aiperf.json | grep .
++echo "AIPERF ok ${SECONDS}s"
+diff --git a/3.2-aspire2p-scripts/README.md b/3.2-aspire2p-scripts/README.md
+new file mode 100644
+index 0000000..78ce857
+--- /dev/null
++++ b/3.2-aspire2p-scripts/README.md
+@@ -0,0 +1,20 @@
++# ASPIRE 2A+ reference scripts
++
++PBS job scripts for the steps in [3.2 Qwen3 Application Notes - ASPIRE 2A+.md](../3.2%20Qwen3%20Application%20Notes%20-%20ASPIRE%202A+.md). Like `3.1-firmus-scripts/`, they are worked examples, not requirements.
++
++| Script | Demonstrates | Firmus counterpart |
++|---|---|---|
++| `01-smoke-image.pbs` | Container starts, GPU visible, SGLang importable. | `01-smoke-image.sbatch` |
++| `02-smoke-serve.pbs` | A single non-disaggregated server answers `/health`. | `02-smoke-serve.sbatch` |
++| `03-smoke-serve-aiperf.pbs` | AIPerf completes two requests against a served instance. | `03-smoke-serve-aiperf.sbatch` |
++| `04-pd-minimal-2node.pbs` | 1 prefill + 1 decode + router across two nodes, one GPU each. | `04-pd-minimal-2node.sbatch` |
++| `09-pd-235b-fatp.pbs` | Qwen3-235B FP8 on 16 GPUs: 2 prefill TP=4 + 2 decode TP=4/EP=4, then the official AIPerf command at concurrency `N`. | `09-pd-235b-fatp-peak-bench.sbatch` |
++| `official-aiperf.sh` | The official AIPerf command from the Task Rules, called by `09`. | |
++
++Before submitting:
++
++- Replace `<project-id>` with your project.
++- Submit from the directory where you want the `.o` file and the run directory; `09` also expects `official-aiperf.sh` there: `qsub -v N=32 09-pd-235b-fatp.pbs`.
++- For `09`, generate the HTTPS proxy file in `~/.config/enroot/environ.d/` first (one line in any job script, see the notes), so the AIPerf container can fetch the tokenizer.
++
++Each script's PBS exit status is the verdict (0 = pass).
+diff --git a/3.2-aspire2p-scripts/official-aiperf.sh b/3.2-aspire2p-scripts/official-aiperf.sh
+new file mode 100755
+index 0000000..ec5ece6
+--- /dev/null
++++ b/3.2-aspire2p-scripts/official-aiperf.sh
+@@ -0,0 +1,39 @@
++#!/usr/bin/env bash
++# The official AIPerf command from "1. Qwen3 AI Task Rules.md", with the
++# concurrency, router address and served model name passed in:
++#   N=<concurrency> HOST=<router host:port> MODEL=<served model name> bash official-aiperf.sh
++# Do not change the aiperf parameters for the official scored re-run.
++set -euo pipefail
++
++: "${N:?team-declared concurrency}"
++: "${HOST:?gateway host:port}"
++: "${MODEL:?team /v1/models id}"
++
++exec aiperf profile \
++  --url "http://${HOST}" \
++  --endpoint-type chat \
++  --endpoint /v1/chat/completions \
++  --model "${MODEL}" \
++  --tokenizer Qwen/Qwen3-235B-A22B-Instruct-2507 \
++  --streaming \
++  -H 'Accept: text/event-stream' \
++  --concurrency "${N}" \
++  --workers-max "${N}" \
++  --api-key NOT_USED \
++  --warmup-duration 60 \
++  --benchmark-duration 120 \
++  --benchmark-grace-period 30 \
++  --synthetic-input-tokens-mean 4000 \
++  --synthetic-input-tokens-stddev 0 \
++  --output-tokens-mean 200 \
++  --output-tokens-stddev 0 \
++  --extra-inputs min_tokens:200 \
++  --extra-inputs max_tokens:200 \
++  --extra-inputs ignore_eos:true \
++  --extra-inputs temperature:0.0 \
++  --extra-inputs repetition_penalty:1.0 \
++  --num-dataset-entries 12800 \
++  --random-seed 2026 \
++  --cache-bust first_turn_prefix \
++  --goodput "time_to_first_token:3000 inter_token_latency:20" \
++  --ui simple
+diff --git a/README.md b/README.md
+index 68bec2a..8a4f958 100644
+--- a/README.md
++++ b/README.md
+@@ -67,7 +67,7 @@ Judges may also give extra Bonus points for Basic tuning they find especially so
+ This addendum replaces "60%" and "40%" in the Presentation Guidelines and Scoring of both task files. Each task is now **70%** judges (Basic 20 + Bonus 15) and **30%** performance and re-verification (15), out of 50 points per task.
+ 
+ - The performance part ranks the Basic submission on its task's metric (Qwen: good output token/s; OpenFOAM: 4-node Average wall-clock time per time step). Platforms are not compared with each other.
+-- Qwen: a re-run that does not clear `good_request_fraction ≥ 0.90`, or scores below the reference deployment (`reference-scripts/07`, in the Application Notes), is scored at the reference deployment's score.
++- Qwen: a re-run that does not clear `good_request_fraction ≥ 0.90`, or scores below the reference deployment (`3.1-firmus-scripts/07`, in the Application Notes), is scored at the reference deployment's score.
+ - One interview covers both tasks, as before.
+ 
+ ### R5. Work already done
