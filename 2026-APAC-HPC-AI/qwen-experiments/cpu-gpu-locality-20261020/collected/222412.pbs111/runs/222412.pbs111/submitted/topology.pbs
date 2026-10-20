@@ -1,0 +1,14 @@
+#!/bin/bash -l
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-static-locality
+#PBS -l select=1:ngpus=1:ncpus=14:mem=235gb
+#PBS -l walltime=00:03:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+sha256sum --check SHA256SUMS
+art="$PBS_O_WORKDIR/runs/$PBS_JOBID"
+mkdir -p "$art/submitted"
+cp collect-topology.py topology.pbs SHA256SUMS "$art/submitted/"
+python3 "$art/submitted/collect-topology.py" --out "$art/topology.json"

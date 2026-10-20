@@ -11,3 +11,7 @@ After terminal state, collect only this owned job directory and declared stdout,
 ## Terminal-capture handoff — 2026-10-20T14:07:37.124826+00:00
 
 The bounded read-only collect-terminal.py is prepared and has refused to seal the still-exiting E snapshot. This preserves the distinction between allocation state and accepted static evidence. No terminal topology result or affinity conclusion is claimed yet. The reverse-order serving pair is already submitted with definite receipts; see last-live-queue.txt for the dated actual states. No additional qsub or GPU spending was performed by this collector check.
+
+## Terminal evidence reviewed — 2026-10-20T14:44:36.465181+00:00
+
+[Complete review](REVIEW.md): exit 0 and sealed topology PASS. Allowed CPUs are on NUMA 0 while the allocated GPU locality is NUMA 1, with no intersecting CPUs. This one-GPU allocation does not establish full-serving bindings or a performance bottleneck. Inspect actual worker mappings in a later derived full-serving bundle before changing affinity. Reported walltime 78 s / 2.773333 SU is already reconciled.
