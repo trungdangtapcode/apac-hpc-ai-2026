@@ -1,8 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-## Fresh H100 control accepted — 2026-10-20T09:54:34.952862+00:00
+## Observed H100 chunk pair complete — 2026-10-20T10:06:31.204284+00:00
 
-222281 chunk 4096 passes full local gates at **2401.577649 good tokens/s**, joint 98.210736%, zero errors/cancellations, 12/12 long checks. Raw 21 TTFT and 6 ITL breaches, TTFT p99 3452.047 ms, ITL p99 19.072 ms. All 16 diagnostic traces and 16-GPU scored sampler mapping/coverage inspected; stop-profile 500 errors occur after scoring. New phase-bounded gauge reader marks inflight NOT_COLLECTED. **222282 chunk 8192 remains running** at the last scheduler query, no candidate score yet. [Full question/result/assessment/next-decision record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/RESULTS.md). Control estimated 484.124444 SU unposted; published Used 37474.701, balance 24989.299, In Doubt 1536; retain 3072 maxima, internal headroom 10453.299 under unchanged 51000 cap/13000 buffer. H200 five jobs Priority-pending; no new model peak or official accuracy. Earlier running-control snapshots below are historical.
+222281/222282 both fully pass at 2401.577649/2382.811874 good tokens/s: chunk 8192 is −0.7814%, TTFT mean +75.665 ms, ITL mean −0.230 ms. Keep 4096; no useful gain or unchanged repeat. Both have 16 rank traces, verified 16-GPU scored samples and explicit server-gauge/inflight limits. Corrected interpretation: chunk changes native prefill graph range too, while complete decode graphs remain unchanged; strict native derivation and five rejection fixtures pass, original rejection retained. [Full evidence/assessment/next hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/PAIR_REVIEW.md). Both charges reconcile: Used 38396.869, Balance 25603.131 SU, no In Doubt/maxima, internal headroom 12603.131 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; five H200 jobs still Priority-pending. Prepare supported prefill power_of_two versus fresh round_robin at fixed chunk 4096/N54, no new jobs at this checkpoint. Older live snapshots below are historical; official accuracy still unverified.
 
 ## Accepted local serving results
 
@@ -10,7 +10,7 @@
 
 **H100 highest individual: 222048 = 2433.019859**, N54 incumbent, only +0.088% over 221590; not an established new optimisation. Observed interval1/2 pair 222049/222050 passes at 2395.311/2406.802 (+0.480%). Later unobserved 222178/222179 passes 2420.816780/2419.693212 (+0.0464%, below 1% gate): keep default receive interval1 and close that setting. [H100 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md), [unobserved confirmation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0647/RESULTS.md).
 
-Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Official full-set >=99%-reference model accuracy remains unverified.** No new serving score in this continuation.
+Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Official full-set >=99%-reference model accuracy remains unverified.** New accepted fresh pair measurements are described above; no new serving peak.
 
 ## Live queues at this query
 
@@ -21,7 +21,9 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-**H100 222281 F/accepted control → 222282 R/candidate**, observed HPC-Ops chunk 4096/8192 N54 pair. Control 2401.577649 good tokens/s passes full local gates and is fully inspected beyond score; no candidate result yet. [Current analysis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/RESULTS.md).
+## Observed H100 chunk pair complete — 2026-10-20T10:06:31.204284+00:00
+
+222281/222282 both fully pass at 2401.577649/2382.811874 good tokens/s: chunk 8192 is −0.7814%, TTFT mean +75.665 ms, ITL mean −0.230 ms. Keep 4096; no useful gain or unchanged repeat. Both have 16 rank traces, verified 16-GPU scored samples and explicit server-gauge/inflight limits. Corrected interpretation: chunk changes native prefill graph range too, while complete decode graphs remain unchanged; strict native derivation and five rejection fixtures pass, original rejection retained. [Full evidence/assessment/next hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/PAIR_REVIEW.md). Both charges reconcile: Used 38396.869, Balance 25603.131 SU, no In Doubt/maxima, internal headroom 12603.131 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; five H200 jobs still Priority-pending. Prepare supported prefill power_of_two versus fresh round_robin at fixed chunk 4096/N54, no new jobs at this checkpoint. Older live snapshots below are historical; official accuracy still unverified.
 
 ## Newly completed kernel evidence
 
@@ -37,7 +39,7 @@ Keep FA3 decode, forced NCCL Simple, forced one-shot, PDL-off, flat phase infere
 
 ## Budget and execution policy
 
-Publication queried 09:49 UTC: Used 37474.701, Balance 24989.299, In Doubt 1536 SU. Micro 222279 charge reconciles; control estimated 484.124444 SU unposted. Retain control max 1536 plus candidate max 1536, total 3072 bound; internal headroom 10453.299 under **51000 cap/13000 buffer**. Snapshot source is retained in the linked result; refresh before later spending.
+Latest pair accounting: Used **38396.869 SU**, Balance **25603.131 SU**, no In Doubt or outstanding maximum reservation. Both final walltime charges reconcile. Internal headroom **12603.131 SU** under **51000 cap/13000 buffer**. [Published query timestamps and reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/pair-accounting.json). Refresh before new qsub; do not double-subtract prepayment.
 
 During active authorised work, review outputs and submit distinct supported hypotheses within fresh budget/queue checks. At most five active H200, three active PBS and one running PBS allocation. No blind duplicates, unchanged losses, numerical relaxation or automatic load/interval growth. VPN/SSH currently works; do not restart authentication unnecessarily. [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 

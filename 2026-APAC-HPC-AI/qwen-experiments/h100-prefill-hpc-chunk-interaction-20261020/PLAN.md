@@ -32,3 +32,7 @@ A >=1% goodput gain with all local gates and useful latency tails warrants an in
 Two serial PBS jobs, each two 8-H100 nodes/16 GPUs and at most 45 minutes, maximum 1536 SU each/3072 SU total. Submit control first, candidate afterany control; verify the dependency. No simultaneous allocation, cap three active PBS jobs. Fresh empty own queue and ledger under budget.lock; reconcile completed micro 222279 only when published Used delta matches its estimated allocated-walltime charge, otherwise retain its entire maximum reservation in addition to 3072. Stay below 51000 SU campaign cap and retain 13000 project buffer. Record definite receipts before/after each qsub; do not repeat uncertain submissions. Do not increase the budget or change scheduler policy.
 
 H200 24990/24928/24962/24964/24965 remain untouched and fill cap five. No official package edit, model weights copied, authentication restart, automatic background Codex or schedule.
+
+## Correction after actual runtime inspection
+
+The chunk flag is the only explicit worker change, but native prefill CUDA graph max/buckets derive from it and expand automatically. Earlier implications that all prefill graph fields stay unchanged are historical. Decode graph configuration stays identical. See GRAPH_CORRECTION.md for exact pinned-source validation and PAIR_REVIEW.md for the final negative result.

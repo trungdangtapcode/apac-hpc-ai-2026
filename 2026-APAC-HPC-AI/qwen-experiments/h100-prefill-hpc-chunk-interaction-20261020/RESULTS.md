@@ -1,3 +1,5 @@
+Latest review 2026-10-20T10:06:31.204284+00:00: both jobs fully accepted; chunk 8192 is -0.7814%, keep 4096. See [complete pair review](PAIR_REVIEW.md) and [derived-graph correction](GRAPH_CORRECTION.md). Earlier queued/running snapshots below are historical.
+
 # H100 HPC-Ops prefill chunk interaction: actual submissions
 
 Updated 2026-10-20T09:30:58.728352+00:00. No new model score is available. The dense-kernel search is closed at native defaults: **132-SM DeepGEMM remains**, with no Triton or per-shape SM patch deployed. All negative/mixed cases are retained. [240-case native budget screen](../deepgemm-sm-screen-20261020/RESULTS.md), [160-case boundary screen](../deepgemm-sm80-20261020/RESULTS.md), [160-case TP4 prefill comparison](../fp8-prefill-tp4-20261020/RESULTS.md).
