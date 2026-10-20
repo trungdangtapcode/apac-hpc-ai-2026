@@ -133,3 +133,18 @@ authorised work and capture/verify/commit/push small milestones. The dated
 coverage audit verifies retained written material, not every past chat message
 or external object byte on GitHub. This does not enable schedules or extra GPU
 spending.
+
+## Inspect beyond the contest score
+
+For each completed run, record what was collected, what was inspected, findings,
+limitations and the next hypothesis. Review tail latency/errors/concurrency,
+role-specific batch/queue/inflight and KV state, runtime/transport logs,
+available CPU/GPU diagnostics and cost evidence. Missing hardware telemetry
+must be marked not collected or not inspected, never zero or healthy.
+Use bounded matched hardware/server sampling and phase markers in future derived
+bundles after validating interfaces and monitoring overhead. Keep heavy profiles
+outside ranked scoring and preserve frozen submitted payloads. GPU utilization,
+KV token occupancy, sampled VRAM and kernel-time sums are different quantities;
+do not infer a causal bottleneck from a score or an aggregate alone.
+Read the 20 October observability report linked from CURRENT for actual coverage
+and the prepared, not yet deployed, profiler HTTP response correction.

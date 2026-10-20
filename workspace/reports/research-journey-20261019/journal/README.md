@@ -1,3 +1,5 @@
+Latest methodology review: [20 October observability, missing telemetry and profiler-control fix](entries/20261020-observability.md).
+
 # Read the complete retained research journey
 
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
