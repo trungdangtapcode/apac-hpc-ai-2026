@@ -5,7 +5,7 @@ R=Path(__file__).resolve().parents[1];O=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('wave',R/'serving-tuning-10/review-wave10.py');w=importlib.util.module_from_spec(s);s.loader.exec_module(w)
 statuses={row['JobID']:row for row in csv.DictReader((O/'slurm-accounting.psv').read_text().splitlines(),delimiter='|')}
 results={}
-for job,n in [('24913',60)]:
+for job,n in [('24913',60),('24914',62)]:
  run=R/'runs'/job;status=statuses[job]
  assert status['State']=='COMPLETED' and status['ExitCode']=='0:0'
  seal=run/'artifact-manifest.json'
@@ -23,7 +23,7 @@ for job,n in [('24913',60)]:
    assert args['speculative_algorithm']=='None'
    assert 'KV Cache is allocated. dtype: torch.bfloat16' in (run/(role+'.log')).read_text()
    if args['moe_runner_backend']=="'hpc_ops'":assert 'HPC_OPS_PREFLIGHT_PASSED' in (run/(role+'.log')).read_text()
-  refjob='24721' if job=='24912' else '24724'
+  refjob='24721' if job in {'24912','24914'} else '24724'
   refpath=R/('research-followup-20261019-0527' if refjob=='24721' else 'research-followup-20261019-0600')/(refjob+'-review.json')
   reference=json.loads(refpath.read_text())['point'];assert w.core.sha(R/'runs'/refjob/'artifact-manifest.json')==reference['seal_sha256']
   assert point['normalized_protocol']==reference['normalized_protocol']
