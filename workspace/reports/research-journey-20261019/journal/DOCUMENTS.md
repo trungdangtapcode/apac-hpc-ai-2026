@@ -2,7 +2,7 @@
 
 Generated from the captured manifest and verified against original source bytes, archive bytes and committed Git blobs. Read [the earlier overview](../REPORT.md) for the milestone explanation and [the job index](JOBS.md) for individual records.
 
-Audit base: `47fba3db64d7ac9b90792804c7fdf24efb29a08d`. **269 retained Markdown documents**. Dates and scheduler statements inside linked records are historical snapshots. Some original records retain their original Vietnamese text; this index does not rewrite those records.
+Audit base: `95bf732d78a09e02dd36a9fbe72c6fc2d564a7f4`. **277 retained Markdown documents**. Dates and scheduler statements inside linked records are historical snapshots. Some original records retain their original Vietnamese text; this index does not rewrite those records.
 
 A link does not certify a complete analysis, a passing measurement or full conversation preservation. Supporting package/OpenFOAM history is catalogued for preservation only; active research remains Qwen.
 
@@ -122,6 +122,10 @@ A link does not certify a complete analysis, a passing measurement or full conve
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H100_RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H100_RESULTS.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_PROFILE.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_PROFILE.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_RESULTS.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/RESULTS.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/inspection/24913.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/inspection/24913.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/inspection/24914.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/inspection/24914.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/runtime-source/README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/runtime-source/README.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-graph/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-graph/PLAN.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-graph/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-graph/RESULTS.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-pdl/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-collective-pdl/PLAN.md)
@@ -132,8 +136,12 @@ A link does not certify a complete analysis, a passing measurement or full conve
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-decode-attention/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-decode-attention/RESULTS.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h200-load/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h200-load/PLAN.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h200-load/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h200-load/RESULTS.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/PLAN.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/RESULTS.md)
+- [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/preparation-initial/README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/preparation-initial/README.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-public-slurm-2026-10-15/README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-public-slurm-2026-10-15/README.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-public-slurm-2026-10-15/draft-README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-public-slurm-2026-10-15/draft-README.md)
+- [2026-APAC-HPC-AI/qwen-experiments/resource-telemetry-20261020/README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/resource-telemetry-20261020/README.md)
 - [2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/OUTPUT_DIAGNOSTIC.md](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/OUTPUT_DIAGNOSTIC.md)
 - [2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/PLAN.md)
 - [2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/STANDALONE_ASSESSMENT.md](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-02/STANDALONE_ASSESSMENT.md)
