@@ -7,9 +7,11 @@ def module(name,path):
 m=module('candidate',P/'review-candidate-sweep.py');core=module('core',R/'serving-tuning/review-n54.py')
 base=P/'collected/220575.pbs111/20261016T054555388584Z';smoke=P/'collected/220562.pbs111/20261015T194718195272Z/runs/220562.pbs111/output-smoke.json'
 receipts=json.loads((O/'pbs-receipts.json').read_text());pilots={p['id']:p for p in json.loads((O/'pilots.json').read_text())}
-snapshots={r['job'].split('.')[0]:Path(json.loads((O/('collect-'+r['job'].split('.')[0]+'.json')).read_text())['destination']) for r in receipts}
+available=[r for r in receipts if (O/('collect-'+r['job'].split('.')[0]+'.json')).exists()]
+assert available, 'No collected terminal run to review'
+snapshots={r['job'].split('.')[0]:Path(json.loads((O/('collect-'+r['job'].split('.')[0]+'.json')).read_text())['destination']) for r in available}
 reference=Path(json.loads((R/'research-followup-20261020-h100-restored/collect-222049.json').read_text())['destination']);refjob='222049.pbs111';refseal=json.loads((reference/'evidence-sha256.json').read_text())
-for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in receipts]:
+for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in available]:
  job=number+'.pbs111';snapshot=snapshots[number];run=snapshot/'runs'/job
  try:
   gates=m.compare(snapshot,base,smoke,name);assert gates['terminal_seal_short_payload_pass'];assert gates['long_diagnostic']['state']=='PASSED'
@@ -49,9 +51,10 @@ for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in receipts]:
   result=dict(job=job,state='EVIDENCE_INVALID_OR_INCOMPLETE',reason=str(exc),accuracy_verified=False)
  (O/(job+'-review.json')).write_text(json.dumps(result,indent=2)+'\n');print(job,result['state'],result.get('point',{}),result.get('reason',''),flush=True)
 
-reviews={r['id']:json.loads((O/(r['job']+'-review.json')).read_text()) for r in receipts}
-ordered=[reviews[p['id']] for p in json.loads((O/'pilots.json').read_text())]
-if all(r['state']=='LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS' for r in ordered):
- control,candidate=[r['point'] for r in ordered]
- gain=100*(candidate['good_output_tokens_s']/control['good_output_tokens_s']-1)
- (O/'paired-comparison.json').write_text(json.dumps(dict(goodput_change_pct=gain,control=ordered[0]['job'],candidate=ordered[1]['job'],useful_single_pair=gain>=1,requires_independent_confirmation=True,accuracy_verified=False),indent=2)+'\n')
+if all((O/(r['job']+'-review.json')).exists() for r in receipts):
+ reviews={r['id']:json.loads((O/(r['job']+'-review.json')).read_text()) for r in receipts}
+ ordered=[reviews[p['id']] for p in json.loads((O/'pilots.json').read_text())]
+ if all(r['state']=='LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS' for r in ordered):
+  control,candidate=[r['point'] for r in ordered]
+  gain=100*(candidate['good_output_tokens_s']/control['good_output_tokens_s']-1)
+  (O/'paired-comparison.json').write_text(json.dumps(dict(goodput_change_pct=gain,control=ordered[0]['job'],candidate=ordered[1]['job'],useful_single_pair=gain>=1,requires_independent_confirmation=True,accuracy_verified=False),indent=2)+'\n')
