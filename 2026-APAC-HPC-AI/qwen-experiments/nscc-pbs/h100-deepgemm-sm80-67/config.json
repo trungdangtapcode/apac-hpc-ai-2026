@@ -1,0 +1,43 @@
+{
+  "experiment": "native-deepgemm-80-sm-tile-boundary",
+  "seed": 20261020,
+  "model_loaded": false,
+  "fp8_utils_sha256": "208134faa8f92a3606e9e1ddc102e2017268cfb4d1162cfa1f32cd2fcd42812b",
+  "batch_tokens": [
+    32,
+    48,
+    54,
+    60,
+    64
+  ],
+  "shapes": [
+    {
+      "name": "tp8-qkv",
+      "n": 1280,
+      "k": 4096
+    },
+    {
+      "name": "tp8-o-proj",
+      "n": 4096,
+      "k": 1024
+    }
+  ],
+  "operations_per_graph": 16,
+  "replays_per_sample": 10,
+  "samples": 9,
+  "python_budget_s": 450,
+  "max_relative_rmse": 0.05,
+  "max_between_backend_relative_rmse": 0.02,
+  "backends": [
+    "sms_132",
+    "sms_80"
+  ],
+  "accuracy_verified": false,
+  "shape_derivation": "Qwen hidden4096, 64 Q heads, 4 KV heads, head_dim128. TP8 uses 1024 Q channels and replicates one KV head per rank, yielding packed QKV 1280; row-parallel O projection has K1024 N4096.",
+  "sm_settings": [
+    132,
+    80
+  ],
+  "deepgemm_init_sha256": "b33e89deacdce241f01f5070d321918f5e5480e3e6d3af569678d4192db4f2a7",
+  "compile_utils_sha256": "6bcca60e4c358b1f9e78f9994021d802fe74b62f1cf1632e33b601bbae4c240b"
+}
