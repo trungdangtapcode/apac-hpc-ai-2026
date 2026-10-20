@@ -12,3 +12,7 @@ H100 was submitted only after both prior model jobs were terminal, their allocat
 Every receipt was persisted immediately; no retry or uncertainty. This standalone H200 micro has its authoritative receipt here rather than a model-run registry entry, so it cannot be mistaken for an accepted full serving run. Real scheduler counts still enforce the five-job cap.
 
 [Plan](PLAN.md) contains evidence, exact native helper paths, two projection shapes, M values, guards, timing/numeric limits and the >=5% representative signal required before a later full-model pair. The prior unobserved H100 receive2 check is closed at +0.0464%; default interval1 remains. Official accuracy is unverified; no numerical or workload shortcut, native hardware-guard bypass, package edit or background Codex.
+
+## Final queue check
+
+At 2026-10-20T07:09:11.533394+00:00, H100 222210 remains Q: Not Running: Job is requesting an exclusive node and node is in use. All five H200 jobs remain Priority-pending. No kernel timing or numerical result is available; preserve queue positions. Raw scheduler evidence is in pbs-final.txt, slurm-final.txt and final-live.json.

@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T07:08:09.091840+00:00. H100 interval2/control 222178/222179 both fully reviewed: +0.0464%, flat, close this setting. New native FP8 linear micro screens: H100 222210 Q at 07:05:56 UTC, H200 24983 Priority-pending along with four model jobs. No micro results yet. VPN/SSH work. Earlier running/held and budget snapshots below retain their dates and are historical.
+Updated 2026-10-20T07:08:09.091840+00:00. H100 interval2/control 222178/222179 both fully reviewed: +0.0464%, flat, close this setting. New native FP8 linear micro screens: H100 222210 Q at the final 2026-10-20T07:09:11.533394+00:00 check (exclusive node in use), H200 24983 Priority-pending along with four model jobs. No micro results yet. VPN/SSH work. Earlier running/held and budget snapshots below retain their dates and are historical.
 
 ## Reproduced local findings
 
