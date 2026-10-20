@@ -1,3 +1,7 @@
+# Completed routing pair — 2026-10-20T12:03:19.523895+00:00
+
+Round-robin 2396.201520 versus power-of-two 2279.626751 good output tokens/s, **-4.865%**. Both full local PASS; keep round-robin, no unchanged repeat. [Complete review, telemetry, corrections, costs and next decision](PAIR_REVIEW.md). Earlier pending snapshots below are historical.
+
 # Native prefill routing pair: submitted
 
 Updated 2026-10-20T10:13:13.049729+00:00. No routing result yet. Both new jobs retain HPC-Ops prefill/decode, chunk 4096 and N54; the main prefill router policy is the only candidate change.

@@ -1,3 +1,9 @@
+## Routing pair reviewed and H200 launcher repaired — 2026-10-20T12:03:19.523895+00:00
+
+H100 222302/222303 full local PASS at 2396.201520/2279.626751 good output tokens/s: power-of-two loses 4.865%; keep round-robin. TTFT rises 315.947 ms despite lower ITL; raw tails, exact native policy, all 16 traces and matched scored hardware/server samples inspected. [Full review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/router-queue-research-20261020/PAIR_REVIEW.md). Reviewer corrected the exact struct-like native enum; policy interval is five seconds, separate from earlier monitoring logs. Published Used 39307.091 SU, Balance 24692.909, In Doubt zero; charges reconcile, internal headroom 11692.909 before next spending.
+
+H200 micro 24990 failed exit 127 in 34 seconds because private HOME hid the script path; no kernel cases. Derived /work bind passes actual scheduler-shell path fixture; replacement **25020 submitted**, one node/eight GPUs/ten minutes. Four model queue positions retained. [Fix and preserved failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-homebind-fix-20261020/PLAN.md). Model peaks unchanged; official accuracy unverified. Next prepare the distinct H100 HPC-Ops/chunk2048 interaction, not a repeat of losing routing/8192 settings. No package, auth or background AI changes. Older queue/credit snapshots are historical.
+
 # Current APAC handoff — 20 October 2026
 
 ## Native prefill routing pair submitted — 2026-10-20T10:13:13.049729+00:00

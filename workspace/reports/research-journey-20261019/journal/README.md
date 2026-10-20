@@ -38,3 +38,5 @@ Use the other views when you need detail:
 This is a source-linked retrospective of preserved material, not a complete chat transcript or invented original entries. The audit verifies retained documents against a dated Git commit; a job reference alone does not establish a full review. New summaries are English; original historical records keep their original bytes and may retain Vietnamese text.
 
 Scheduler statements in the linked documents are dated. The initial 19 October documentation pass did not query queues or submit jobs; later entries explicitly record their own operations. Read the actual scheduler and current handoff when resuming research. Full organiser accuracy remains unverified; large external evidence still requires its separate off-host copy.
+
+- [20 October: H200 private HOME bind correction](entries/20261020-h200-homebind.md).

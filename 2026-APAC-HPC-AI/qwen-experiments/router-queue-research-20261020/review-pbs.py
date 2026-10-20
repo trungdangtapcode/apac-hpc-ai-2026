@@ -44,7 +44,8 @@ for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in available]:
    text=path.read_text()
    if 'Starting router on 0.0.0.0:8000' not in text:continue
    lines=[line for line in text.splitlines() if 'Starting router on 0.0.0.0:8000' in line]
-   assert len(lines)==1 and 'prefill_policy: Some('+enum+')' in lines[0] and 'decode_policy: None' in lines[0]
+   actual_policy = 'RoundRobin' if expected_policy=='round_robin' else 'PowerOfTwo { load_check_interval_secs: 5 }'
+   assert len(lines)==1 and 'prefill_policy: Some('+actual_policy+')' in lines[0] and 'decode_policy: None' in lines[0]
    preflights=re.findall(r'ROUTER_POLICY_PREFLIGHT_PASSED (\{.*?\})',text)
    assert len(preflights)==1
    preflight=json.loads(preflights[0]);assert preflight['prefill_policy']==expected_policy and preflight['version']=='0.3.2' and enum in preflight['native_mapping']
