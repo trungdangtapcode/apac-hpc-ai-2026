@@ -1,0 +1,94 @@
+{
+  "id": "P8-TP4_D8-TP8-EP8",
+  "prefill_gpus": 8,
+  "decode_gpus": 8,
+  "prefill_tp": 4,
+  "decode_tp": 8,
+  "decode_ep": 8,
+  "prefill_workers": 2,
+  "decode_workers": 1,
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "client_image": "/scratch/enroot-images/aiperf.sqsh",
+  "model": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "concurrency": [
+    58
+  ],
+  "sweep_warmup_s": 10,
+  "sweep_measure_s": 20,
+  "confirm_warmup_s": 60,
+  "confirm_measure_s": 120,
+  "grace_s": 30,
+  "memory_fraction": 0.9,
+  "decode_max_running_requests": 256,
+  "context_length": 8192,
+  "kv_dtype": "auto",
+  "transfer": "nixl",
+  "prefill_ep": 1,
+  "nccl_port_policy": "20000 + http_port - 30100 (outside ephemeral range)",
+  "nixl_on_demand": true,
+  "phase": "confirm",
+  "pair_timeout_s": 480,
+  "disaggregation_bootstrap_timeout_s": 600,
+  "disaggregation_waiting_timeout_s": 600,
+  "original_job": "22222",
+  "is_prefill_ep_variant": false,
+  "transport_patch": "hetero-tp-request-descriptors-v1",
+  "transport_patch_metadata": {
+    "name": "hetero-tp-request-descriptors-v1",
+    "original_sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601",
+    "patched_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "scope": "Only heterogeneous-TP KV descriptor preparation/transfer; equal-TP path, weights, precision, head mapping and notifications retained."
+  },
+  "experiment": "s17-dg8192-hpc-decode-profile-n58",
+  "control_job": "24724",
+  "decode_extra_flags": [
+    "--flashinfer-allreduce-fusion-backend",
+    "mnnvl",
+    "--decode-attention-backend",
+    "flashinfer",
+    "--moe-runner-backend",
+    "hpc_ops"
+  ],
+  "diagnostic_profile": true,
+  "purpose": "Full N58 repeat and separate diagnostic profile of the highest observed H200 interaction: DeepGEMM prefill, chunk 8192 and HPC-Ops decode. Obtain actual winning-platform kernels instead of inferring from H100.",
+  "protocol": "Full-duration, closed-loop 4000/200; stop load increase on failed SLA/error gate",
+  "prefill_extra_flags": [
+    "--chunked-prefill-size",
+    "8192",
+    "--moe-runner-backend",
+    "deep_gemm"
+  ],
+  "wave": 10,
+  "quality_status": "Research evidence only; organiser full-set accuracy unverified",
+  "standalone": true,
+  "prefill_chunk_size": 8192,
+  "source_experiment": "s16-dg8192-hpc-decode-repeat-n58",
+  "source_job": "24724",
+  "reference_jobs": [
+    "23325",
+    "23576"
+  ],
+  "fresh_control_job": null,
+  "router_extra_flags": [
+    "--prefill-policy",
+    "round_robin"
+  ],
+  "matched_concurrency": 58,
+  "quality_validation_required": true,
+  "decode_backend_override": [
+    "--flashinfer-allreduce-fusion-backend",
+    "mnnvl"
+  ],
+  "changed_factor": {
+    "kind": "winner_profile"
+  },
+  "accuracy_verified": false,
+  "long_context_diagnostic": true,
+  "replication_source_job": "24724",
+  "client_walltime_limit_s": 360,
+  "retry_interpretation": "Controlled followup after a completed passing measurement, not an automatic retry. Any whole-client timeout is a failed attempt; no unchanged retry.",
+  "control_experiment": "s16-dg8192-control-n58",
+  "manual_bounded_retry_limit": 0,
+  "prefill_environment": {},
+  "profile_position": "Separate post-score diagnostic; ranked protocol unchanged"
+}
