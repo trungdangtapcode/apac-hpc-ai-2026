@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-20T13:59:49.446440+00:00",
+  "updated_utc": "2026-10-20T14:04:10.358738+00:00",
   "project": "59010042",
   "commissioning_cap_su": 51000.0,
   "cap_interpretation": "Use project credit under the current user instruction; retain the existing13000SU conservative project reserve. Previous16384SU internal campaign cap is historical, not a BTC limit.",
@@ -10,15 +10,15 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 13000,
   "ledger": {
-    "as_of": "20/10/2026-21:40:01",
+    "as_of": "20/10/2026-22:00:02",
     "grant_su": 64000.0,
-    "used_su": 40272.495,
-    "balance_su": 22703.505,
-    "in_doubt_su": 1024.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/pre-submit.txt",
+    "used_su": 41235.624,
+    "balance_su": 22757.976,
+    "in_doubt_su": 6.4,
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/pbs-pre-submit.txt",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-20T13:53:36.736546+00:00",
-    "freshness_note": "Fresh project ledger; any posted prefetch charge reconciled exactly before small static probe. Outstanding maxima retained; Balance already excludes In Doubt."
+    "queried_utc": "2026-10-20T14:04:10.358708+00:00",
+    "freshness_note": "Posted older charges reconcile; retain all unposted maxima before reverse-order prefetch confirmation."
   },
   "jobs": [
     {
@@ -1518,8 +1518,8 @@
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
       "max_charge_su": 1024,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
       "planned_ns": [
         54
       ],
@@ -1528,7 +1528,7 @@
       "exit_status": 0,
       "estimated_charge_su": 531.3422222222222,
       "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
-      "last_checked_utc": "2026-10-20T13:53:36.736390+00:00"
+      "last_checked_utc": "2026-10-20T14:04:10.356189+00:00"
     },
     {
       "job_id": "222408.pbs111",
@@ -1537,14 +1537,14 @@
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
       "max_charge_su": 1024,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
       "planned_ns": [
         54
       ],
       "dependency_afterany": "222407.pbs111",
       "submitted_utc": "2026-10-20T13:26:41.534334+00:00",
-      "last_checked_utc": "2026-10-20T13:53:36.736407+00:00",
+      "last_checked_utc": "2026-10-20T14:04:10.356189+00:00",
       "exit_status": 0,
       "estimated_charge_su": 431.7866666666667,
       "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS"
@@ -1553,7 +1553,7 @@
       "job_id": "222412.pbs111",
       "bundle": "cpu-gpu-locality-20261020",
       "kind": "static_hardware_diagnostic",
-      "state": "H",
+      "state": "R",
       "requested_gpus": 1,
       "requested_walltime": "00:03:00",
       "max_charge_su": 6.4,
@@ -1561,7 +1561,37 @@
       "accounting_pending": true,
       "dependency_afterany": "222408.pbs111",
       "submitted_utc": "2026-10-20T13:53:36.909938+00:00",
-      "last_checked_utc": "2026-10-20T13:55:03.119475+00:00"
+      "last_checked_utc": "2026-10-20T14:04:10.356189+00:00"
+    },
+    {
+      "job_id": "222419.pbs111",
+      "bundle": "h100-prefetch-confirm-on-first-76",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "planned_ns": [
+        54
+      ],
+      "dependency_afterany": "222412.pbs111",
+      "submitted_utc": "2026-10-20T14:04:10.629246+00:00"
+    },
+    {
+      "job_id": "222420.pbs111",
+      "bundle": "h100-prefetch-confirm-off-second-77",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "planned_ns": [
+        54
+      ],
+      "dependency_afterany": "222419.pbs111",
+      "submitted_utc": "2026-10-20T14:04:10.790582+00:00"
     }
   ],
   "pending_reservations": [
@@ -2453,7 +2483,7 @@
     },
     {
       "purpose": "h100-startup-prefetch-off-control-74",
-      "state": "TERMINAL_PENDING_LEDGER",
+      "state": "RECONCILED_IN_LEDGER",
       "max_charge_su": 1024,
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
@@ -2461,18 +2491,21 @@
       "dependency_afterany": null,
       "job_id": "222407.pbs111",
       "submitted_utc": "2026-10-20T13:26:41.369549+00:00",
-      "last_checked_utc": "2026-10-20T13:51:04.547728+00:00"
+      "last_checked_utc": "2026-10-20T14:04:10.356189+00:00",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/pbs-pre-submit.txt"
     },
     {
       "purpose": "h100-startup-prefetch-on-candidate-75",
-      "state": "TERMINAL_PENDING_LEDGER",
+      "state": "RECONCILED_IN_LEDGER",
       "max_charge_su": 1024,
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
       "reserved_utc": "2026-10-20T13:26:41.196025+00:00",
       "dependency_afterany": "222407.pbs111",
       "job_id": "222408.pbs111",
-      "submitted_utc": "2026-10-20T13:26:41.534334+00:00"
+      "submitted_utc": "2026-10-20T13:26:41.534334+00:00",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/pbs-pre-submit.txt",
+      "last_checked_utc": "2026-10-20T14:04:10.356189+00:00"
     },
     {
       "purpose": "cpu-gpu-locality-20261020",
@@ -2483,16 +2516,40 @@
       "reserved_utc": "2026-10-20T13:53:36.736568+00:00",
       "job_id": "222412.pbs111",
       "submitted_utc": "2026-10-20T13:53:36.909938+00:00"
+    },
+    {
+      "purpose": "h100-prefetch-confirm-on-first-76",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 1024,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "reserved_utc": "2026-10-20T14:04:10.358731+00:00",
+      "dependency_afterany": "222412.pbs111",
+      "job_id": "222419.pbs111",
+      "submitted_utc": "2026-10-20T14:04:10.629246+00:00"
+    },
+    {
+      "purpose": "h100-prefetch-confirm-off-second-77",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 1024,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "reserved_utc": "2026-10-20T14:04:10.358735+00:00",
+      "dependency_afterany": "222419.pbs111",
+      "job_id": "222420.pbs111",
+      "submitted_utc": "2026-10-20T14:04:10.790582+00:00"
     }
   ],
   "active_pbs_jobs": [
-    "222412.pbs111"
+    "222412.pbs111",
+    "222419.pbs111",
+    "222420.pbs111"
   ],
-  "unallocated_commissioning_su": 8673.104999999998,
+  "unallocated_commissioning_su": 7709.975999999997,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh all own jobs and project credit. Under budget.lock, reserve the maximum charge and record each returned job ID. Keep used plus unaccounted charges and outstanding reservations within 51,000 SU, retaining a conservative 13,000 SU project reserve. These are planning bounds, not organiser limits. At most three active PBS GPU jobs in an afterany chain, with one running 16-GPU allocation. Retain uncertain reservations and do not retry an uncertain submission.",
-  "reconciliation_note": "First prefetch pair full local pass and startup signal; retain maxima until posting. Static probe active. Reverse-order repeat may be reserved only after a fresh ledger/queue reconciliation.",
+  "reconciliation_note": "Reserve at most 2048 SU for one serial reversed-order startup-prefetch confirmation pair. Unchanged budget caps; no overlap or uncertain retry.",
   "evidence": [
     "inspection/all-probe-accounting.txt",
     "inspection/wake-20261015-1542UTC/pbs-own-jobs.txt",
@@ -2551,7 +2608,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 8673.104999999998,
+  "campaign_headroom_after_reserved_su": 7709.975999999997,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",

@@ -1,3 +1,7 @@
+## Reverse confirmation submitted — 2026-10-20T14:06:36.113310+00:00
+
+222419→ 222420 is the reversed read/off pair after static probe 222412, max2048SU, exact serving/scoring retained. First pair full local PASS and18.737% lower scheduler-reported walltime with-0.659% goodput, different nodes/cache state; no causal or peak claim. Costs963.129SU reconcile, Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU, internal headroom 7709.976 SU after new reserve. Four H200 model positions remain Priority-pending. Read the concise CURRENT and linked full reports for units, gates and limits. Older snapshots below are historical.
+
 ## First prefetch cost signal accepted locally — 2026-10-20T13:59:49.446440+00:00
 
 H100 222407/222408 full local serving and startup gates PASS. Prefetch readiness 436 s versus 602 s, allocation 759 s versus 934 s (-18.737%, estimated 99.556 SU saving), goodput 2395.929777 versus 2411.827128 (-0.659%). Exact receipts, native runtime/output/tails, 16 diagnostic traces and scored hardware/server evidence inspected. Nodes differ and initial cache residency is unknown; one reverse-order confirmation is justified, not a new scoring winner. [Full review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/PAIR_REVIEW.md). Static locality probe 222412 is active at last query; model peaks unchanged, official accuracy unverified. Preserve both 1024 SU maxima plus 6.4 SU static probe until fresh ledger reconciliation; no new followup receipt yet. Earlier running/pending snapshots are historical.

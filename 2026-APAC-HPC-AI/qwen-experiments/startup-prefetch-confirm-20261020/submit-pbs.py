@@ -29,7 +29,7 @@ with (P/'budget.lock').open('a') as lock:
  reservations=[]
  for p in pilots:
   item=dict(purpose=p['id'],state='RESERVED_NOT_SUBMITTED',max_charge_su=p['max_su'],requested_gpus=16,requested_walltime='00:30:00',reserved_utc=now());reservations.append(item);b['pending_reservations'].append(item)
- b.update(active_pbs_jobs=active.copy(),updated_utc=now(),unallocated_commissioning_su=b['commissioning_cap_su']-used-outstanding-reserve,campaign_headroom_after_reserved_su=b['commissioning_cap_su']-used-outstanding-reserve,reconciliation_note='Reserve at most 2048 SU for one serial observed prefill round-robin/power-of-two pair. Unchanged budget caps; no overlap or uncertain retry.');save(P/'nscc-budget.json',b)
+ b.update(active_pbs_jobs=active.copy(),updated_utc=now(),unallocated_commissioning_su=b['commissioning_cap_su']-used-outstanding-reserve,campaign_headroom_after_reserved_su=b['commissioning_cap_su']-used-outstanding-reserve,reconciliation_note='Reserve at most 2048 SU for one serial reversed-order startup-prefetch confirmation pair. Unchanged budget caps; no overlap or uncertain retry.');save(P/'nscc-budget.json',b)
  records=[];previous='222412.pbs111'
  for p,reservation in zip(pilots,reservations):
   record=dict(id=p['id'],state='SUBMISSION_IN_PROGRESS',attempted_utc=now(),dependency_afterany=previous);records.append(record);save(receipt,records);reservation.update(state='SUBMISSION_IN_PROGRESS',dependency_afterany=previous);save(P/'nscc-budget.json',b)

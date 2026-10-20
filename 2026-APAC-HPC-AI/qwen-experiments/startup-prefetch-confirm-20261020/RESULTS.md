@@ -1,3 +1,11 @@
-# Prepared reversed-order confirmation
+# Reverse-order startup confirmation submitted
 
-No new job or measurement yet. [Controlled question, prospective gates, limits and budget](PLAN.md).
+The first accepted pair saves 18.737% scheduler-reported walltime (934→759 seconds), with goodput 2411.827128→2395.929777 (-0.659%). Model/runtime/protocol/output and sealed startup gates pass, but nodes differ and cache state is unmeasured; do not promote a cost guarantee from one comparison.
+
+New definite jobs: **222419.pbs111 read first → 222420.pbs111 off second**, after static probe 222412. The server confirms serial afterany dependencies. At the submission snapshot the static probe is running and both new model jobs are held; later static snapshots show exiting, not yet terminal-sealed. Each model allocation is 16 H100 / 30 minutes / maximum 1024 SU, combined maximum 2048 SU. The workers, full official scoring, precision, model, transport, output checks, matched samples and separate profiles remain identical to the accepted first pair. [Receipts](pbs-receipts.json), [server states and dependencies](pbs-post-submit.txt), [prospective thresholds](PLAN.md).
+
+The prospective confirmation gate requires at least 10% lower scheduler-reported walltime/SU and lower topology-script-to-ready time, no more than 2% lower goodput and all full local gates. Review order follows control/candidate roles regardless of launch order. If it fails, close or mark inconclusive; this is not an automatic repeated sweep. A passing repeat still cannot prove cold physical storage causality on unmatched nodes.
+
+The fresh ledger reconciles the preceding 963.129 SU charge exactly to the two walltime-derived costs within rounding. Published Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU at 22:00:02 server time. Retain the static probe maximum 6.4 SU and new 2048 SU reserve; internal headroom 7709.976 SU under the unchanged 51000 cap/13000 buffer. No prepaid deduction is counted twice. [Reconciliation](reconciliation.json), [raw pre-submit source](pbs-pre-submit.txt).
+
+Four H200 model jobs 24928/24962/24964/24965 remain Priority-pending in the fresh Slurm snapshot; positions are untouched. Accepted H200/H100 serving peaks remain 3022.034919/2433.019859 good output tokens/s as separate hardware series. Official full-set accuracy remains unverified. No submission package, image, benchmark rule, authentication or background AI change.
