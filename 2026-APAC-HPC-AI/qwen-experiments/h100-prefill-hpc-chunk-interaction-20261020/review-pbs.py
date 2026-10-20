@@ -5,6 +5,7 @@ R=Path(__file__).resolve().parents[1];O=Path(__file__).resolve().parent;P=R/'nsc
 def module(name,path):
  s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 m=module('candidate',P/'review-candidate-sweep.py');core=module('core',R/'serving-tuning/review-n54.py')
+graphs=module('derived_graphs',O/'check-derived-graphs.py')
 base=P/'collected/220575.pbs111/20261016T054555388584Z';smoke=P/'collected/220562.pbs111/20261015T194718195272Z/runs/220562.pbs111/output-smoke.json'
 receipts=json.loads((O/'pbs-receipts.json').read_text());pilots={p['id']:p for p in json.loads((O/'pilots.json').read_text())}
 available=[r for r in receipts if (O/('collect-'+r['job'].split('.')[0]+'.json')).exists()]
@@ -24,7 +25,10 @@ for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in available]:
    a,b=core.server_args(f),core.server_args(rf);text=f.read_text();assert a['tp_size']==str(tp) and a['ep_size']==str(ep);assert 'KV Cache is allocated. dtype: torch.bfloat16' in text;assert a['speculative_algorithm']=='None'
    delta={k:[b.get(k),a.get(k)] for k in a.keys()|b.keys() if a.get(k)!=b.get(k)};allowed={'random_seed'}
    candidate=pilots[name]['paired_role']=='candidate'
-   if candidate and role.startswith('prefill'):allowed.add('chunked_prefill_size')
+   if candidate and role.startswith('prefill'):
+    allowed.add('chunked_prefill_size')
+    graphs.check(b['cuda_graph_config'],a['cuda_graph_config'])
+    allowed.add('cuda_graph_config')
    assert a['enable_metrics']=='True' and a['scheduler_recv_interval']=='1'
    if role.startswith('prefill'):assert a['chunked_prefill_size']==('8192' if candidate else '4096')
    assert a['decode_attention_backend']==("'flashinfer'" if role=='decode-0' else 'None')

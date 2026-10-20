@@ -1,0 +1,9 @@
+# Native prefill graph derivation correction
+
+The first candidate review correctly rejected an unexpected resolved cuda_graph_config difference and did not publish a score. Retain 222282-original-rejection.json and original-rejection.stderr as analysis-history evidence; this was a reviewer limitation, not a GPU or numerical failure.
+
+The exact pinned ServerArgs source (lines4725–4754) derives prefill max_bs from chunked_prefill_size when no explicit override exists. Its native _generate_prefill_cuda_graph_batch_sizes method (line4990 onward) adds512-token buckets above4096. Actual candidate logs match exactly: prefill max_bs4096→8192 and the eight added native buckets4608..8192. Prefill backend remains breakable, compiler/options unchanged, and the complete decode graph configuration is identical.
+
+Correction: the one explicit CLI change is prefill chunk4096→8192, whose effect includes its naturally derived prefill capture range. Earlier descriptions implying every prefill graph field remained identical are historical and incomplete. Decode graphs remain unchanged. Interpret the result as the deployed chunk-setting effect, not isolated batching with capture range held fixed.
+
+The new AST-only checker executes the pinned pure-Python bucket generator and parses logged dataclass reprs without eval. It allows exactly these dependent prefill changes while rejecting decoder/backend/compiler/max/bucket mutations. No blanket cuda_graph_config exemption, model-data change, frozen payload edit or acceptance-limit relaxation is introduced. See derived-graph-fixtures.json, validate-derived-graphs.py and derived-graph-validation.json. The initial selective extraction used an already-created leaf directory and failed; the corrected extraction used a new child directory, without GPU use.
