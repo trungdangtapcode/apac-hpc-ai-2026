@@ -30,6 +30,10 @@ Static probe 222412 is one H100/three minutes/maximum 6.4 SU, no model loaded. I
 
 H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in the reverse confirmation folder. They test receive interval 2 / N60, exact N62 repeat and the observed DeepGEMM 8192 / HPC-Ops 8192 prefill pair. Keep positions and frozen payloads. H200 micro 25020 passes 256 cases but alternative providers lack a consistent useful signal; keep DeepGEMM. [Kernel evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-homebind-fix-20261020/REVIEW.md).
 
+## Reversed read-first candidate reviewed — 20 October, 15:18 UTC
+
+**222419** passes full local serving/startup/output gates at **2398.983183 good tokens/s**, **98.146923%** joint SLA, **438 s** topology-to-ready / **770 s** reported walltime / **438.044444 SU** estimate (unposted). Errors 0, long 12/12, diagnostic 357/357; sixteen traces and 25 scored hardware/server samples per role inspected. Known profile-stop HTTP 500 and missing per-thread CPU/inflight/memory-placement evidence remain. **222420 is still queued**, so the reversed pair is not accepted and no causal startup saving is claimed. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/222419_REVIEW.md).
+
 ## New worker placement capture — 20 October, 15:08 UTC
 
 **H200 25051** is submitted and verified Priority-pending, two nodes/16 GPUs/17 minutes. It adds bounded per-worker process/thread CPU masks and actual GPU UUID/PCI/NUMA matching before the official client, retaining N60 and all serving/benchmark/normal observer/profile bytes. No CPU binding change or measured improvement yet. All four older H200 jobs retain positions; five pending total. [Plan, validation and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md).
