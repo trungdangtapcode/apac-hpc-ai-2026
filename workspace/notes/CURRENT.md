@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T14:48:56.453856+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
+Updated 2026-10-20T15:08:47.381794+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
 
 ## Accepted serving results
 
@@ -29,6 +29,12 @@ Ready time decreases 27.575%, scheduler-reported walltime 18.737%, about 99.556 
 Static probe 222412 is one H100/three minutes/maximum 6.4 SU, no model loaded. Its allowed CPUs are entirely NUMA 0, while the allocated GPU locality is NUMA 1, with no intersection. This one-GPU allocation does not establish full-serving worker mappings, CPU saturation or a performance bottleneck. Collect actual worker affinity before changing binding. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/REVIEW.md). Its local post-submit plan-writer correction is preserved; no duplicate qsub occurred. [Record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/RESULTS.md).
 
 H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in the reverse confirmation folder. They test receive interval 2 / N60, exact N62 repeat and the observed DeepGEMM 8192 / HPC-Ops 8192 prefill pair. Keep positions and frozen payloads. H200 micro 25020 passes 256 cases but alternative providers lack a consistent useful signal; keep DeepGEMM. [Kernel evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-homebind-fix-20261020/REVIEW.md).
+
+## New worker placement capture — 20 October, 15:08 UTC
+
+**H200 25051** is submitted and verified Priority-pending, two nodes/16 GPUs/17 minutes. It adds bounded per-worker process/thread CPU masks and actual GPU UUID/PCI/NUMA matching before the official client, retaining N60 and all serving/benchmark/normal observer/profile bytes. No CPU binding change or measured improvement yet. All four older H200 jobs retain positions; five pending total. [Plan, validation and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md).
+
+PBS **222419 F/exit 0, 770 s**, **222420 Q** in the fresh read-only check. Raw result review is pending; no startup saving or score is accepted from exit status alone. Prior Q/H snapshots above are historical. Keep budget reservations until a fresh ledger reconciliation. EAGLE3 public header/source checks continue separately; no speculative GPU job is submitted.
 
 ## Budget and next decisions
 

@@ -1,0 +1,7 @@
+# H200 worker locality baseline submitted — 2026-10-20T15:08:47.381794+00:00
+
+Definite receipt **25051** submits frozen s22-worker-locality-n60, two nodes / 16 H200 / 17 minutes. It is pending for Priority in the post-submit snapshot; there is no locality or new score result yet. The account now has five pending jobs and the previous four positions are retained. [Payload hashes and receipt](slurm-receipt.json), [actual scheduler details](slurm-job.txt), [post-submit own queue](slurm-post-submit.txt), [question and evidence gates](PLAN.md), [CPU/derivation validation](validation.json).
+
+The only intervention is a bounded pre-score capture of owned worker process/thread masks and GPU UUID/PCI/NUMA locality. CPU binding and serving arguments are unchanged. N60 retains the full existing benchmark, output diagnostics, resource sampler and post-score profiles. This answers a previously uncollected placement question; it is not a claim of optimisation or CPU saturation. H100 probe 222412 is a motivation, not proof of H200 misbinding. No PBS reservation or spending increase, schedule or submission-package edit occurred.
+
+PBS read-only checkpoint at approximately 15:08 UTC: 222419 is terminal F/exit 0 with reported 770 seconds, and 222420 is Q. Exit 0 alone is not an accepted serving/startup measurement; raw collection and inspection are next. Their existing budget commitments remain until fresh accounting reconciliation. EAGLE3 source/header checks continue separately, without model/draft tensor downloads or GPU submission.
