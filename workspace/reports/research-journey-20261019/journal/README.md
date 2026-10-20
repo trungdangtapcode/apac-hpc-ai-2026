@@ -1,3 +1,5 @@
+Latest continuation: [native prefill routing from observed queue imbalance](entries/20261020-prefill-routing.md).
+
 Latest model continuation: [H100 HPC-Ops prefill/chunk interaction](entries/20261020-h100-hpc-prefill-chunk.md).
 
 Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).

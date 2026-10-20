@@ -1,8 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-## Observed H100 chunk pair complete — 2026-10-20T10:06:31.204284+00:00
+## Native prefill routing pair submitted — 2026-10-20T10:13:13.049729+00:00
 
-222281/222282 both fully pass at 2401.577649/2382.811874 good tokens/s: chunk 8192 is −0.7814%, TTFT mean +75.665 ms, ITL mean −0.230 ms. Keep 4096; no useful gain or unchanged repeat. Both have 16 rank traces, verified 16-GPU scored samples and explicit server-gauge/inflight limits. Corrected interpretation: chunk changes native prefill graph range too, while complete decode graphs remain unchanged; strict native derivation and five rejection fixtures pass, original rejection retained. [Full evidence/assessment/next hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/PAIR_REVIEW.md). Both charges reconcile: Used 38396.869, Balance 25603.131 SU, no In Doubt/maxima, internal headroom 12603.131 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; five H200 jobs still Priority-pending. Prepare supported prefill power_of_two versus fresh round_robin at fixed chunk 4096/N54, no new jobs at this checkpoint. Older live snapshots below are historical; official accuracy still unverified.
+H100 **222302 R → 222303 H**, verified serial round_robin/power_of_two at fixed HPC-Ops chunk 4096/N54 with matched observation, all worker/scoring/output/transport paths retained. Native CPU parser/Rust mapping validation and common runtime source/policy guards pass locally; no model result yet. [Full question, source evidence, bounded jobs, gates and review route](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/router-queue-research-20261020/RESULTS.md). Prior chunk pair fully accepted 2401.577649/2382.811874, -0.7814%; retain 4096 and corrected native prefill-graph interpretation. All previous costs reconcile; pre-submit Used 38396.869 SU, pair max 3072 reserved, internal headroom 9531.131 under unchanged 51000 cap/13000 buffer. H200 five jobs still Priority-pending, positions preserved. Model peaks unchanged, official accuracy unverified. No package, auth or background AI change. Earlier scheduler/credit snapshots below are historical.
 
 ## Accepted local serving results
 
@@ -21,9 +21,7 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-## Observed H100 chunk pair complete — 2026-10-20T10:06:31.204284+00:00
-
-222281/222282 both fully pass at 2401.577649/2382.811874 good tokens/s: chunk 8192 is −0.7814%, TTFT mean +75.665 ms, ITL mean −0.230 ms. Keep 4096; no useful gain or unchanged repeat. Both have 16 rank traces, verified 16-GPU scored samples and explicit server-gauge/inflight limits. Corrected interpretation: chunk changes native prefill graph range too, while complete decode graphs remain unchanged; strict native derivation and five rejection fixtures pass, original rejection retained. [Full evidence/assessment/next hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/PAIR_REVIEW.md). Both charges reconcile: Used 38396.869, Balance 25603.131 SU, no In Doubt/maxima, internal headroom 12603.131 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; five H200 jobs still Priority-pending. Prepare supported prefill power_of_two versus fresh round_robin at fixed chunk 4096/N54, no new jobs at this checkpoint. Older live snapshots below are historical; official accuracy still unverified.
+**H100 222302 R → 222303 H**, actual serial afterany pair: native prefill routing round_robin versus power_of_two, fixed chunk 4096/N54, common source/enum preflight and matched sampler. Worker/precision/topology/scoring/quality bytes retained. Prior chunk 8192 pair is fully accepted but -0.7814%, keep 4096; native prefill capture range derives from chunk while decode graphs remain fixed. [Evidence and next review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/router-queue-research-20261020/RESULTS.md).
 
 ## Newly completed kernel evidence
 
@@ -39,7 +37,7 @@ Keep FA3 decode, forced NCCL Simple, forced one-shot, PDL-off, flat phase infere
 
 ## Budget and execution policy
 
-Latest pair accounting: Used **38396.869 SU**, Balance **25603.131 SU**, no In Doubt or outstanding maximum reservation. Both final walltime charges reconcile. Internal headroom **12603.131 SU** under **51000 cap/13000 buffer**. [Published query timestamps and reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/pair-accounting.json). Refresh before new qsub; do not double-subtract prepayment.
+Pre-submit ledger queried 2026-10-20T10:10:36.854514+00:00: Used **38396.869 SU**, Balance **25603.131 SU**, In Doubt zero; all older charges reconciled. Reserve new routing pair **3072 SU** max, internal headroom **9531.131 SU** under **51000 cap/13000 buffer**. [Fresh source](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/router-queue-research-20261020/pbs-pre-submit.txt). Refresh before later spending; no duplicate prepaid deduction.
 
 During active authorised work, review outputs and submit distinct supported hypotheses within fresh budget/queue checks. At most five active H200, three active PBS and one running PBS allocation. No blind duplicates, unchanged losses, numerical relaxation or automatic load/interval growth. VPN/SSH currently works; do not restart authentication unnecessarily. [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
