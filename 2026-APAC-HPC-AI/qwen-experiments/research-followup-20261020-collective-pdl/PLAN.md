@@ -1,0 +1,11 @@
+# Test PDL independently on the retained AUTO strategy
+
+The corrected graph32 screen 222023 passes local checks and shows forced one-shot substantially slower at the relevant 32–64 shapes. Close that tested strategy option; no full-model one-shot patch is justified. The serving source calls the unified MNNVL fusion with `launch_with_pdl=True`. The pinned API exposes the same operation with PDL off, making this a distinct implementation question without changing the collective result, precision, shape or AUTO strategy.
+
+PDL means Programmatic Dependent Launch: an NVIDIA launch mechanism that can alter how dependent GPU kernels are scheduled. Its usefulness depends on the actual sequence, so do not assume it helps or hurts this service. Use the exact source-backed flag and verify outputs; do not change synchronisation barriers manually.
+
+One 8-H100/10-minute screen, maximum 170.667 SU. Compare PDL on/off at all six retained shapes, AUTO strategy, TP8/BF16/hidden 4096, sufficient workspace, 32 collectives per graph, 10 replays per sample, five samples and two reversed-order rounds. Preserve every rank's results, local numerical/input-integrity checks and separate 54-token traces. The microbenchmark measures back-to-back collectives, not the transformer compute/communication critical path or model tokens/s.
+
+Reconcile terminal pilots 222022/222023 only when their charges match the published Used increment; retain maximum reservations during lag. Keep the existing 51000-SU operating cap and 13000-SU buffer, at most three active PBS jobs and one running allocation. No weights are loaded, no model/source patch is deployed, and no authentication, slide or AI schedule is changed.
+
+If PDL off gives a useful consistent signal across relevant shapes/ranks and both orders, prepare a matched full-model candidate/control with unchanged workload and all output/latency/runtime gates. Otherwise close this setting and move to another demonstrated cost. Full-model gains require their own evidence and repetition; official accuracy remains separate. Source/API reference: [pinned first plan](../research-followup-20261020-collective/PLAN.md), [FlashInfer API](https://docs.flashinfer.ai/generated/flashinfer.comm.allreduce_fusion.html), accessed 20 October 2026.
