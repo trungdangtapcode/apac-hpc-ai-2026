@@ -1,0 +1,5 @@
+# Signed-zero ledger parser correction before any qsub
+
+Initial upload succeeded and both remote manifests match the frozen local payloads. The next locked credit read printed In Doubt as -0.000. The reused cost parser rejected that representation before any reservation, receipt or qsub. No job was submitted and this was not an uncertain scheduler outcome. The first stdout/stderr and ledger source are retained.
+
+The submit adapter now normalizes only this signed-zero table value without changing the retained raw source or budget arithmetic. A CPU fixture reproduces the rejection and passes the corrected zero-delta reconciliation. Both remote SHA256SUMS files and every payload file were rechecked against the exact local manifest digests. The explicit recovery path rechecks those existing uploads instead of replacing them; it refuses existing receipts, uncertain jobs or unmatched live reservations. A fresh locked queue/credit check still precedes any qsub. No frozen bundle or acceptance gate changed.

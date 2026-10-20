@@ -1,0 +1,10 @@
+{
+  "verified_utc": "2026-10-20T17:19:48.034885+00:00",
+  "manifest_sha256": {
+    "h100-cpu-envelope-legacy-n54-79": "f54c8d5e2063330076bb4016405143f58194356333a055440450dd38562d59b4",
+    "h100-cpu-envelope-balanced-n54-80": "819a332f1044289877e0a85f1815c256bf2c32a8c239a875fbd544455028d330"
+  },
+  "check_code": "import pathlib,json,hashlib,subprocess\nroot=pathlib.Path('/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015')\nexpected=json.loads('{\"h100-cpu-envelope-legacy-n54-79\": \"f54c8d5e2063330076bb4016405143f58194356333a055440450dd38562d59b4\", \"h100-cpu-envelope-balanced-n54-80\": \"819a332f1044289877e0a85f1815c256bf2c32a8c239a875fbd544455028d330\"}')\nfor name,digest in expected.items():\n p=root/name;assert hashlib.sha256((p/\"SHA256SUMS\").read_bytes()).hexdigest()==digest\n subprocess.run([\"sha256sum\",\"--check\",\"SHA256SUMS\"],cwd=p,check=True)\n",
+  "no_qsub_attempted_before_failure": true,
+  "initial_failure_stage": "reconcile() before reservations/receipt/qsub"
+}

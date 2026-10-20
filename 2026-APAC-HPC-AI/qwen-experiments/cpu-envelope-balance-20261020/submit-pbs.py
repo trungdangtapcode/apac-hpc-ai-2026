@@ -16,13 +16,19 @@ assert json.loads((O/'validation.json').read_text())['passed'];assert json.loads
 assert json.loads((R/'research-followup-20261020-h100-restored/222048.pbs111-review.json').read_text())['state']=='LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS'
 pilots=[p for p in json.loads((O/'pilots.json').read_text()) if p['platform']=='H100'];assert len(pilots)==2 and sum(p['max_su'] for p in pilots)==2048
 names=[p['id'] for p in pilots]
-with (O/'pbs-bundles.tar.gz').open('rb') as f:
- command='cd '+REMOTE+' && '+' && '.join('test ! -e '+shlex.quote(n) for n in names)+' && tar -xzf - && for name in '+' '.join(names)+'; do (cd "$name" && sha256sum --check SHA256SUMS) || exit; done'
- z=remote(command,f)
+if (O/'upload-resume-verified.json').exists():
+ proof=json.loads((O/'upload-resume-verified.json').read_text());assert proof['no_qsub_attempted_before_failure']
+ for p in pilots:assert proof['manifest_sha256'][p['id']]==__import__('hashlib').sha256((Path(p['bundle'])/'SHA256SUMS').read_bytes()).hexdigest()
+ z=remote('python3 -c '+shlex.quote(proof['check_code']))
+else:
+ with (O/'pbs-bundles.tar.gz').open('rb') as f:
+  command='cd '+REMOTE+' && '+' && '.join('test ! -e '+shlex.quote(n) for n in names)+' && tar -xzf - && for name in '+' '.join(names)+'; do (cd "$name" && sha256sum --check SHA256SUMS) || exit; done'
+  z=remote(command,f)
 (O/'pbs-upload.txt').write_bytes(z.stdout);(O/'pbs-upload.stderr').write_bytes(z.stderr);assert z.returncode==0,'Upload failed; no qsub'
 with (P/'budget.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX);b=json.loads((P/'nscc-budget.json').read_text());assert not b['uncertain_pbs_jobs']
- z=remote('qstat -u apacsc42; qstat -xf 222407.pbs111 222408.pbs111 222412.pbs111 222419.pbs111 222420.pbs111 222435.pbs111; myprojects');(O/'pbs-pre-submit.txt').write_bytes(z.stdout);(O/'pbs-pre-submit.stderr').write_bytes(z.stderr);assert z.returncode==0;s=z.stdout.decode();active=re.findall(r'^\s*(\d+\.pbs\d+)\s+',s,re.M);assert not active and len(active)+2<=3,'Unexpected active allocation; preserve queue and stop'
+ assert not any(x.get('purpose') in names and x['state'] not in {'RECONCILED_IN_LEDGER','CANCELLED','RELEASED'} for x in b['pending_reservations']),'Existing reservation without receipt: stop for reconciliation'
+ z=remote('qstat -u apacsc42; qstat -xf 222407.pbs111 222408.pbs111 222412.pbs111 222419.pbs111 222420.pbs111 222435.pbs111; myprojects');(O/'pbs-pre-submit.txt').write_bytes(z.stdout);(O/'pbs-pre-submit.stderr').write_bytes(z.stderr);assert z.returncode==0;s=re.sub(r'(?<![\d.])-0\.000(?=\s*\|)','0.000',z.stdout.decode());active=re.findall(r'^\s*(\d+\.pbs\d+)\s+',s,re.M);assert not active and len(active)+2<=3,'Unexpected active allocation; preserve queue and stop'
  proof=reconcile(b,s,now(),str(O/'pbs-pre-submit.txt'));save(O/'reconciliation.json',proof)
  m=re.search(r'\|\s*SU\s*\|\s*(-?[\d.]+)\s*\|\s*(-?[\d.]+)\s*\|\s*(-?[\d.]+)\s*\|\s*(-?[\d.]+)\s*\|',s);assert m;grant,used,balance,doubt=map(float,m.groups());assert abs(grant-used-balance-doubt)<.01;assert abs(used-b['ledger']['used_su'])<.01,'Unexplained ledger delta; reconcile before new spending'
 
