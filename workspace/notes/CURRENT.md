@@ -1,3 +1,7 @@
+## Ranking formula clarified — 2026-10-20T12:46:40.317494+00:00
+
+The user supplied a reply attributed to the organiser: read AIPerf Goodput (requests/s) from profile_export_aiperf.json and multiply by fixed 200 for good output tokens/s. Current checked summary/reviewer formulas already agree. This changes no measurement or ranking; latency eligibility and official model quality remain separate. [Source provenance, example and implementation check](official-goodput-clarification-20261020.md). Scheduler and credit snapshots below were not refreshed in this explanation-only turn.
+
 ## Smaller H100 prefill chunks submitted — 2026-10-20T12:06:14.504964+00:00
 
 **H100 222382 R → 222383 H**, verified afterany pair: fresh chunk 4096 control versus chunk 2048 at fixed both-phase HPC-Ops, round-robin routing and N54. All other execution/observation/output/transport paths match accepted 222302. Exact pinned graph generator and negative fixtures validate the expected smaller prefill graph range; actual runtime and performance remain unmeasured. [Plan, receipts, gates and next review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-hpc-smallchunk-20261020/PLAN.md).
