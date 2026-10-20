@@ -1,0 +1,40 @@
+[
+  {
+    "node": 0,
+    "gpu_indices": [],
+    "cpus": 4,
+    "command": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "150s",
+      "python3",
+      "/bundle/prefetch-weights.py",
+      "--mode",
+      "read",
+      "--model",
+      "/model",
+      "--out",
+      "/art/node.json"
+    ]
+  },
+  {
+    "node": 1,
+    "gpu_indices": [],
+    "cpus": 4,
+    "command": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "150s",
+      "python3",
+      "/bundle/prefetch-weights.py",
+      "--mode",
+      "read",
+      "--model",
+      "/model",
+      "--out",
+      "/art/node.json"
+    ]
+  }
+]
