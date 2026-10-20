@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T14:21:57.736435+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
+Updated 2026-10-20T14:48:56.453856+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
 
 ## Accepted serving results
 
@@ -35,6 +35,14 @@ H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in 
 Fresh ledger queried 2026-10-20T14:21:57.736435+00:00: grant 64000 SU, Used 41238.397 SU, Balance 22761.603 SU, In Doubt 0. Static probe 222412 finishes exit 0 with 78 s reported walltime; its 2.773333 SU estimate reconciles to the 2.773 SU published delta. Its raw topology evidence is now collected and reviewed separately; scheduler exit alone is not a topology assessment. Current model jobs 222419/222420 are Q/H, reserving 2048 SU maximum. Retain 13000 SU project buffer; available internal research headroom is 7713.603 SU under the 51000 SU cap. Balance already excludes In Doubt, so do not deduct it again. No new job or GPU spending for this balance-only question. [Source and arithmetic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/budget-checks/20261020-1421/review.json).
 
 Keep H100 4096/round-robin; close tested chunk 2048 (-26.133%), 8192 (-0.781%) and native power-of-two (-4.865%) branches. Keep validated attention/transport/provider choices. Use measured bottlenecks for the next distinct experiment. [Priorities](../reports/research-priorities-20261020/PLAN.md), [upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md), [full journal](../reports/research-journey-20261019/journal/README.md).
+
+## DeepInfer review and next distinct leads
+
+[Source-backed review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md) pins DeepInfer 774ce244 and the Nebius Qwen EAGLE3 draft ff0f0c09. Do not switch to DeepInfer: its listed model/hardware and released service components do not cover our Qwen/Hopper PD deployment. The pasted BF16 target / colocated replica recipes do not satisfy Basic rules. DeepGEMM and CPU/GPU overlap are already used. Historical attention-DP8/DeepEP trials 23780/23859 lost against contemporary MNNVL; do not reopen unchanged settings based on popularity.
+
+Two concrete leads remain: collect actual full-serving worker CPU/NUMA mapping after the sealed static probe, and finish CPU compatibility checks for lossless EAGLE3. The public draft is a real candidate for the original Qwen checkpoint, not validated for our FP8 target or patched heterogeneous-TP NIXL. Native source exposes draft KV/hidden-state paths but loader, metadata/geometry, kernels/graphs and greedy equality remain unresolved. No weights downloaded, runtime imported, engine installed or new GPU job submitted for this review. No speedup or official accuracy result is claimed.
+
+Read-only queues checked 2026-10-20T14:45:58Z: H200 24928/24962/24964/24965 Priority-pending; PBS 222419 Q and 222420 dependency-held H. Preserve positions. Credit remains the explicitly dated 14:21 ledger above; refresh before any additional PBS reservation. [Detailed hypotheses and stopping gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md).
 
 ## Persistent boundaries
 

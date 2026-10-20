@@ -1,5 +1,12 @@
 # Research priorities after the upstream review
 
+## Latest refinement — 2026-10-20T14:48:56.453856+00:00
+
+The [DeepInfer review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md) adds two bounded leads without changing the serving incumbent: verify worker CPU/GPU NUMA locality in the full allocation, and complete source/loader/transport preflight for a public lossless EAGLE3 draft of the exact Qwen original. Its use with the official FP8 target and patched TP4-to-TP8 PD path is still unverified. CPU-only source extraction/AST checks are supporting evidence, not runtime compatibility or token-equivalence gates. No new allocation is authorised merely by writing this plan; use the existing research budget, real queue caps and fresh checks before submission.
+
+Keep existing H200 repeats/prefill pair and PBS reverse startup pair queued. DeepGEMM and overlap scheduling are already active. Historical DP8/DeepEP measurements did not beat contemporary MNNVL, so do not restart unchanged trials. Do not port architecture-specific SWA replay, alter attention mathematics, truncate input or replace the target with BF16/colocated replicas. A later derived bundle may collect full-worker rank/UUID/mask mapping; change affinity only after that evidence. EAGLE3 requires correct draft loading, hidden-state/PD geometry, target verification of every token, greedy equality and a useful short load screen before a full matched scoring pair. Full stop conditions and source links are in the review. Earlier cost figures below are historical execution snapshots; CURRENT and dated ledger receipts govern current credit.
+
+
 ## Decision
 
 Keep the current serving architecture and change the priority of further work. The upstream update adds useful deployment/reference evidence; it does not change Qwen's scoring rules or supply a new implementation that should replace our measured stack. The current experiment remains the official FP8 target, plain PD disaggregation, HPC-Ops/MNNVL where validated and separately tuned concurrency on H100/H200. Do not restart a broad topology grid, switch engine/image blindly, or revive unchanged losing provider/routing/chunk settings.

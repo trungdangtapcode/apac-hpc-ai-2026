@@ -1,0 +1,33 @@
+{
+  "reviewed_utc": "2026-10-20T14:48:05.616837+00:00",
+  "scope": "CPU-only source and public metadata inspection; no imports of the runtime, no model/draft weights fetched, no GPU allocation.",
+  "deepinfer_commit": "774ce244b87cc0eb8d4b94ab9f5de2ab22049f01",
+  "draft_revision": "ff0f0c0999f6c86b21dfd2f5803eebc4ac712224",
+  "native_nixl_matches_frozen_patch_base": true,
+  "runtime_ast_parsed": [
+    "source/runtime/extracted/sgl-workspace/sglang/python/sglang/srt/disaggregation/decode.py",
+    "source/runtime/extracted/sgl-workspace/sglang/python/sglang/srt/disaggregation/prefill.py",
+    "source/runtime/extracted/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+    "source/runtime/extracted/sgl-workspace/sglang/python/sglang/srt/models/llama_eagle3.py",
+    "source/runtime/extracted/sgl-workspace/sglang/python/sglang/srt/speculative/eagle_worker_v2.py",
+    "source/runtime/argument-hooks/server_args.py",
+    "source/runtime/argument-hooks/speculative_hook.py",
+    "source/runtime/argument-hooks/pd_disaggregation_hook.py",
+    "source/runtime/argument-hooks/overrides.py"
+  ],
+  "observations": [
+    "Pinned argument hooks expose EAGLE3 and draft precision/revision options; overlap is enabled in current resolved worker logs.",
+    "Native NIXL has extra destination KV-region handling for decode-only speculation.",
+    "Prefill code writes draft hidden state and top-k metadata only when a draft result is present; decode restores these fields.",
+    "Native decode registers a separate draft KV pool when present. These paths do not establish EAGLE3 compatibility with the patched heterogeneous-TP path."
+  ],
+  "unresolved": [
+    "Draft LlamaForCausalLM configuration conversion and exact weight-key loader compatibility in this image.",
+    "Exact Qwen3MoE FP8 hidden-state capture/layer mapping and draft trained against original-target behaviour.",
+    "Prefill draft/hidden-state setup, metadata sizing, NIXL TP4-to-TP8 draft/target KV geometry and fallback behaviour.",
+    "Verification attention/kernel and CUDA graph support with HPC-Ops, MNNVL and the present overlap scheduler.",
+    "Output token equality under greedy verification and numerical batch-layout differences.",
+    "Acceptance length, draft/verification overhead, KV/VRAM headroom and joint SLA at N54/N62."
+  ],
+  "decision": "Candidate identified, runtime preflight incomplete; not GPU-ready and no speedup claimed."
+}

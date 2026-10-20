@@ -52,3 +52,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [20 October: static locality discovery before a binding change](entries/20261020-static-locality.md).
 
 - [20 October: reverse-order startup-prefetch confirmation](entries/20261020-prefetch-reverse-confirmation.md).
+
+- [20 October: DeepInfer assessment, existing losing branches and new locality/EAGLE3 gates](entries/20261020-deepinfer-review.md).
