@@ -1,3 +1,5 @@
+Latest continuation: [Closed polling check and native FP8 kernel screen](entries/20261020-recv-closed-fp8-screen.md).
+
 Latest continuation: [H100 access, recovered results and next controlled question](entries/20261020-h100-restored.md).
 
 Latest continuation: [Observer results and continued H200 research](entries/20261020-observer-results.md).
