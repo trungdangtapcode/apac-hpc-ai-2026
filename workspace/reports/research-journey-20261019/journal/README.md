@@ -1,3 +1,5 @@
+Latest model continuation: [H100 HPC-Ops prefill/chunk interaction](entries/20261020-h100-hpc-prefill-chunk.md).
+
 Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).
 
 Latest continuation: [Failed native-kernel import and controlled cache repair](entries/20261020-fp8-cache-repair.md).
