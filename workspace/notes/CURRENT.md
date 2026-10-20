@@ -1,8 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-## Native scheduler screen submitted — 2026-10-20T09:16:33.708071+00:00
+## Native scheduler result — 2026-10-20T09:20:20.459454+00:00
 
-TP4 prefill 222245 passes 160 full cases but default Triton loses all tested ranks/shapes/M. Retain DeepGEMM; no losing model pair. New distinct native DeepGEMM 132/120/96-SM budget screen **222277.pbs111 R**, eight GPUs/ten minutes/maximum 170.667 SU, six-case provider preflight then 240 full cases. No numerical or serving result yet. H200 all five still Priority-pending, positions preserved. Published Used 37402.168 SU with all old charges reconciled; new reserve 170.666667, internal headroom 13427.165333 under unchanged 51000 cap/13000 buffer. [Exact source-backed question, gates and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md). No model promotion, package edit, authentication restart or background AI. Earlier queue/credit snapshots below are historical.
+222277 fully passes 240 cases and six actual native traces. Neither 120 nor 96 SMs meets the declared 5% representative threshold: keep 132. SM 96 has a modest M54-only +2.73% QKV/+2.65% O-proj on 8/8 ranks but mixed other batches and M32 O-proj loss 5.99%. Not a serving improvement. [All settings, rank distributions, numerical gates and next geometric hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md). Estimated charge 37.262222 SU, ledger reconciled=False; retained maximum 170.666667 SU, internal headroom 13427.165333 under unchanged caps. Own PBS queue empty; five H200 jobs remain pending. Earlier running snapshots below are historical.
 
 ## Accepted local serving results
 
@@ -21,7 +21,9 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-**H100 222277.pbs111 R**: native DeepGEMM scheduler budget 132/120/96, one node/eight GPUs/ten minutes. Numerical/input/default-restoration/source/UUID guards and native SM-bearing traces must pass before interpreting 240 full cases. All prior micro jobs complete, no overlap. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md).
+## Native scheduler result — 2026-10-20T09:20:20.459454+00:00
+
+222277 fully passes 240 cases and six actual native traces. Neither 120 nor 96 SMs meets the declared 5% representative threshold: keep 132. SM 96 has a modest M54-only +2.73% QKV/+2.65% O-proj on 8/8 ranks but mixed other batches and M32 O-proj loss 5.99%. Not a serving improvement. [All settings, rank distributions, numerical gates and next geometric hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md). Estimated charge 37.262222 SU, ledger reconciled=False; retained maximum 170.666667 SU, internal headroom 13427.165333 under unchanged caps. Own PBS queue empty; five H200 jobs remain pending. Earlier running snapshots below are historical.
 
 ## Newly completed kernel evidence
 
