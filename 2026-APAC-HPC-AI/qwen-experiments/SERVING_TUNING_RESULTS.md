@@ -1,3 +1,7 @@
+## Closed H100 polling and queued native FP8 kernel screens — 2026-10-20T07:08:09.091840+00:00
+
+222178/222179 full local PASS at 2420.817/2419.693 good tokens/s, +0.0464%; default interval1 kept, branch closed. New isolated eight-GPU/ten-minute probes 222210 H100 and24983 H200 are queued, no timings or model score. H100 reserve170.667 SU, internal headroom13613.761 under unchanged caps; all old charges reconcile. Five H200 active. [Closed review](research-followup-20261020-0647/RESULTS.md), [new hypothesis, gates and receipts](fp8-linear-micro-20261020/RESULTS.md). Keep microseconds, goodput, numerical diagnostics and official accuracy distinct. No old job canceled or changed, package edit or background AI.
+
 ## H100 access, completed review and resumed research — 2026-10-20T06:22:50.124747+00:00
 
 222048/222049/222050 full local PASS at 2433.020/2395.311/2406.802 good tokens/s; observer/poll differences remain unestablished, raw ITL breaches 0/4/5. All separate profiles and dedicated observed hardware samples inspected. Three charges reconcile 1335.751 SU. New serial unobserved interval2/control 222178→222179 is R/H at 06:21:45 UTC, no result yet, max reserve 3072 SU and headroom 11619.806. [Complete review](research-followup-20261020-h100-restored/RESULTS.md), [new plan/receipts](research-followup-20261020-h100-recv-unobserved/RESULTS.md). VPN/SSH restored and left active; no official accuracy, package or background AI change. Prior snapshots remain dated.

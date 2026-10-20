@@ -2312,7 +2312,7 @@
       "id": "h100-hpc-n54-recv2-unobserved-60",
       "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-n54-recv2-unobserved-60",
       "job_id": "222178.pbs111",
-      "state": "Q",
+      "state": "F",
       "max_su": 1536,
       "minutes": 45,
       "ns": [
@@ -2352,13 +2352,26 @@
         "GPU"
       ],
       "accuracy_verified": false,
-      "result_state": "AWAITING_BENCHMARK"
+      "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
+      "measurements": [
+        {
+          "concurrency": 54,
+          "protocol_pass": true,
+          "phase_complete": true,
+          "latency_error_gate_pass": true,
+          "sla_fraction": 0.986156888595913,
+          "good_output_tokens_s": 2420.816780082095,
+          "ttft_avg_ms": 724.7096937686223,
+          "itl_avg_ms": 18.16686804521077
+        }
+      ],
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0647/222178.pbs111-review.json"
     },
     {
       "id": "h100-hpc-n54-recv1-unobserved-control-61",
       "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-n54-recv1-unobserved-control-61",
       "job_id": "222179.pbs111",
-      "state": "H",
+      "state": "F",
       "max_su": 1536,
       "minutes": 45,
       "ns": [
@@ -2398,11 +2411,47 @@
         "GPU"
       ],
       "accuracy_verified": false,
-      "result_state": "AWAITING_BENCHMARK"
+      "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS",
+      "measurements": [
+        {
+          "concurrency": 54,
+          "protocol_pass": true,
+          "phase_complete": true,
+          "latency_error_gate_pass": true,
+          "sla_fraction": 0.9861386138613861,
+          "good_output_tokens_s": 2419.6932121867567,
+          "ttft_avg_ms": 728.772116780858,
+          "itl_avg_ms": 18.149490400722787
+        }
+      ],
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0647/222179.pbs111-review.json"
+    },
+    {
+      "id": "h100-fp8-linear-micro-62",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-fp8-linear-micro-62",
+      "job_id": "222210.pbs111",
+      "state": "Q",
+      "kind": "isolated_microbenchmark",
+      "requested_gpus": 8,
+      "max_su": 170.66666666666666,
+      "minutes": 10,
+      "ns": [],
+      "uploaded": true,
+      "payload_sha256": {
+        "bench.py": "1af0eb41e04081c2fb3f7c9ecc903cbcb1b5a144dc2aa09a7e11a26059715edb",
+        "benchmark.pbs": "a5ceaa00e7438c6b11bdd19b89d59e512b52c8de9bf8baf76c5efcb858c0bd9c",
+        "config.json": "cc7c3acc753d831ba547d7f7331c0c0d808a1eb09a2e15477904bb4f2872c4d8",
+        "pbs-container.sh": "8c6e77fbd5dd993fc6094594491931e8f94c03c7f978283984b43bf5cbb8bfbc",
+        "pbs-exec.py": "9c469928eac82a9c8fdfdddace8e4d5facf826c0133229f174d6253f6bfa2472",
+        "run-micro.sh": "626af22d2486fb636334638dbac6df8af0dfad20335c81c169521a6e5276b7c5"
+      },
+      "model_loaded": false,
+      "result_state": "AWAITING_MICROBENCH_NOT_MODEL_SCORE",
+      "accuracy_verified": false
     }
   ],
   "gate": "Baseline220575 terminal,payloadverified,full60/120/30 atN32/34/36,baselineN32SLA100%0errors/cancel,short7/8onlyknownreverse. Three independent trials queued in afteranychain04\u219205\u219206 with1536SU each reserved beforeqsub. HigherloadN36failure is valid negative data,not missingmeasurement. Max3pending/running and1running16GPU; no furtherjob until budgets/ownqueue/resultsgatespermit. Accuracy stillunverified.",
-  "updated_utc": "2026-10-20T06:21:04.347180+00:00",
+  "updated_utc": "2026-10-20T07:08:09.091840+00:00",
   "current_job_state": "ONE_MICROBENCH_SUBMITTED",
   "latest_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-prefill-inference/pbs-post-submit.txt",
   "startup_pilots": [
@@ -2568,7 +2617,7 @@
     "changes_existing_submitted_payloads": false,
     "does_not_waive_runtime_quality_credit_gates": true
   },
-  "next_bounded_step": "Review observer overhead and equally observed interval-2 candidate with full gates, aligned telemetry and separate profiles. No blind interval/load growth; useful gains require controlled repeat.",
+  "next_bounded_step": "Review all eight ranks, exact source guard, numerical/input checks, representative shapes, graph timing and actual kernels before any full-model pair.",
   "user_continuation": "User explicitly repeats KEEP SUBMITTING when resources/budget/gates allow; do not misinterpret autopilotOFF as stopping manual GPUresearch.",
   "budget_amendment": "The previous 16,384 SU internal cap is historical. The user authorised continued use of project credit. Retain the existing 13,000 SU planning reserve; this is not an organiser requirement.",
   "last_status_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1755/pbs-status.txt"
