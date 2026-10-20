@@ -37,3 +37,7 @@ During active authorised work, review completions and submit the next distinct j
 [Start with the retained journal](../reports/research-journey-20261019/journal/README.md). The initial dated retrospective has 32 stages; the linked 20 October entry records each new question, hypothesis, control, job, result, assessment, correction and next decision. Coverage counts belong to the dated audit, not a claim that every chat statement survived.
 
 Capture, verify, commit and push each small coherent milestone promptly. GitHub contains the Git portion; large external evidence still needs separate off-host backup. Chat Vietnamese, artifacts English; Qwen only, HPC_Task empty. No slide/package promotion. Autopilot OFF: no background Codex, schedules or automatic chat notifications.
+
+## VPN duration clarification — 20 October 2026, 01:04 UTC
+
+Read-only inspection confirms the helper requests IKE 86400 seconds (24 hours), enables private persistence and runs under detached tmux. The client process had about 21 hours 3 minutes uptime; a fresh SSH command succeeded at 01:04:10 UTC. Requested lifetime is not the verified negotiated expiry; tmux, private state persistence and SSH ControlPersist are separate mechanisms. No current-session change, restart or authentication. [Duration, evidence and future configuration](../tutorial/19-vpn-session-lifetime.md). Queue and credit snapshots above are not refreshed by this VPN inspection.

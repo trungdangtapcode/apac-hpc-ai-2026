@@ -1,5 +1,8 @@
 # Rootless Check Point VPN on this login node
 
+Current duration clarification: [24-hour IKE proposal, observed uptime and configuration](../tutorial/19-vpn-session-lifetime.md), checked 20 October 2026. The launcher has authenticated successfully since the historical preparation notes below. No exact negotiated expiry is established by the configured value.
+
+
 Installed2026-10-15 without sudo. No Docker daemon is needed.
 
 Installed from the projects' GitHub releases and checked against their release

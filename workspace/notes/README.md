@@ -9,6 +9,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
 | Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
 | Latest continuation: runner confirmation, collective screens and attention pair | [20 October entry](../reports/research-journey-20261019/journal/entries/20261020-serving-and-collective.md) |
+| VPN duration, why it changed, and future configuration | [VPN session lifetime](../tutorial/19-vpn-session-lifetime.md) |
 | Historical questions and explanations | [Conversation handbook](../tutorial/14-so-tay-hoi-dap.md) |
 | Tutorials by topic | [Tutorial index](../tutorial/README.md) |
 | User requirements and decisions | [Decisions](DECISIONS.md) |

@@ -1,3 +1,7 @@
+## Current VPN duration explanation — 20 October 2026
+
+[VPN lifetime and how to change it](19-vpn-session-lifetime.md) distinguishes the 24-hour IKE proposal, measured client uptime, detached terminal, private recovery state and SSH persistence. At 01:04 UTC the process had about 21 hours uptime and SSH worked. No exact negotiated expiry or infinite renewal is claimed. Historical answers below keep their original dates and may describe earlier configurations.
+
 # Sổ tay hỏi–đáp từ cuộc trò chuyện
 
 Cập nhật: **15/10/2026**. Ghi lại kiến thức đã giải thích để tra cứu; các con số về job, queue, quota là **ảnh chụp tại thời điểm ghi**, không phải trạng thái trực tiếp.
