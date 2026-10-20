@@ -1,0 +1,39 @@
+{
+  "state": "CPU_HEADER_CONFIG_POINTER_CHECKS_PASS_GPU_INTEGRATION_UNVERIFIED",
+  "gpu_used": false,
+  "tensor_payload_downloaded": false,
+  "native_remap_keeps_published_llama_arch": true,
+  "derived_metadata_change": {
+    "architectures": [
+      "LlamaForCausalLMEagle3"
+    ]
+  },
+  "header_tensor_count": 15,
+  "pointer_cases": [
+    {
+      "case": "target-only",
+      "pointer_pairs": 188,
+      "passed": true
+    },
+    {
+      "case": "decode-only-draft",
+      "pointer_pairs": 188,
+      "passed": true
+    },
+    {
+      "case": "both-sides-draft",
+      "pointer_pairs": 190,
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Header metadata does not prove tensor bytes or a successful loader.",
+    "Pointer-list identity does not validate NIXL byte ranges, page strides or GPU transfers.",
+    "Both EAGLE3 phases need compatible draft state, KV and metadata; decode-only support is not inferred.",
+    "Draft state capture, attention verification, CUDA graphs and greedy equality need a GPU pilot."
+  ],
+  "source_sha256": {
+    "source/native/sgl-workspace/sglang/python/sglang/srt/configs/model_config.py": "1a7f83272fed7fae8efafde1b89d254a2e8f67fedd8e67b2d472d2dbd261c0d6",
+    "source/interfaces/sgl-workspace/sglang/python/sglang/srt/disaggregation/common/conn.py": "ba33d63c6920f87b55cf57f9224bb7d08af67e1476bd70b8e1a70067f33a29d7"
+  }
+}

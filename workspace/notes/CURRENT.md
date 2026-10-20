@@ -1,67 +1,46 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T15:08:47.381794+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
+Updated 2026-10-20T15:21:42.581358+00:00. Queue and budget observations have explicit times; earlier snapshots are historical.
 
 ## Accepted serving results
 
-- H200 highest individual: **24915 = 3022.034919 good output tokens/s**, N62, 98.726% joint SLA. Full local gates pass; exact independent repeat 24962 is still pending at this check. Repeated N60 results 24738/24913 are 2990.151/2989.175. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0218/RESULTS.md).
-- H100 highest individual: **222048 = 2433.019859 good output tokens/s**, N54. Observed controls commonly measure about 2396–2412; no new serving peak. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
-- Keep the platforms separate. **Official full-set accuracy at 99% of reference remains unverified**; local output checks are not that certification. Official metric is AIPerf Goodput × 200, with joint TTFT 3000 ms / ITL 20 ms and qualifying fraction >= 0.90. [Workload/source clarification](official-goodput-clarification-20261020.md).
+- H200 highest individual **24915: 3022.034919 good output tokens/s**, N62, 98.726% joint SLA. Exact independent repeat 24962 remains pending. Repeated N60 is about 2989–2990. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0218/RESULTS.md).
+- H100 highest individual **222048: 2433.019859 good output tokens/s**, N54. New read-first 222419 gives 2398.983183, not a new peak. [Incumbent review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
+- Keep platforms separate. **Official full-set accuracy at 99% of reference remains unverified.** Score is AIPerf Goodput × 200, with joint TTFT ≤ 3000 ms / average request ITL ≤ 20 ms and fraction ≥ 0.90 including errors. [Official workload](official-goodput-clarification-20261020.md).
 
-## Latest completed comparison: startup cost
+## Actual queues and new submissions
 
-Both 222407 off and 222408 read pass all local serving and sealed node-prefetch gates. The candidate reads 24 model shards / 236426193880 bytes on each node, taking 27.527/27.290 seconds. It changes no model computation or prefix-reuse benchmark setting.
+Read-only scheduler check **2026-10-20T15:21:42.581358+00:00**, [raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/final-queues.json):
 
-| Quantity | Off 222407 | Read 222408 |
-|---|---:|---:|
-| Topology-script start to workers-ready, seconds |602 |436 |
-| PBS resources_used.walltime, seconds |934 |759 |
-| Walltime-derived charge, SU |531.342222 |431.786667 |
-| Good output tokens/s |2411.827128 |2395.929777 |
-| Joint qualifying fraction |0.982850 |0.981445 |
+- H200 **24928 / 24962 / 24964 / 24965 / 25051** are all Priority-pending. Five active/pending positions: preserve them, no sixth job. Older jobs test receive interval 2, exact N62 repeat and the observed prefill backend pair.
+- PBS **222420 is R**, reported elapsed 7:19 at the check. It is the reversed prefetch off-control, not yet a terminal result. **222435 is H afterany 222420**. Keep the serial one-running allocation limit.
+- New H200 **25051**, two nodes / 16 GPUs / 17 minutes, gathers actual N60 worker locality before changing binding. [Receipt and plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md).
+- New H100 **222435**, two nodes / 16 GPUs / 30 minutes / maximum 1024 SU, gathers the corresponding N54 placement on the platform where the original static mismatch was measured. [Receipt and plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/RESULTS.md).
 
-Ready time decreases 27.575%, scheduler-reported walltime 18.737%, about 99.556 SU saving; goodput changes -0.659%. The readiness counter excludes earlier PBS prologue. Different nodes and unknown initial cache residency confound causality. All raw tails/runtime/output, sixteen traces per job and matched scored role/hardware evidence were inspected. Profile stop HTTP 500 after bounded post-score traces remains a known limitation. [Complete review and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/PAIR_REVIEW.md).
+Both new bundles retain model/benchmark/transport/normal resource sampler and profiler settings plus the original CPU bindings. The only new intervention is a bounded pre-score observer of owned process/thread CPU masks and namespace PID → GPU UUID/PCI/NUMA mapping. CPU fixtures and frozen-payload derivation checks pass; there is no actual worker mapping result or optimisation claim yet. Inspect full role/rank data before a separate controlled affinity candidate. Missing fields or ambiguous PIDs are incomplete evidence, not healthy placement. No scored per-thread CPU-demand or host memory-placement measurement is claimed.
 
-## Submitted next step and queues
+## Startup cost branch
 
-**PBS 222419 read first → 222420 off second**, afterany static probe 222412. Verified submission snapshot: probe R, pair H/H. The probe is now terminal F/exit 0; its sealed static topology has been collected and reviewed. Updated model states are Q/H in the balance check below. Each model job 16 H100 / 30 minutes / maximum 1024 SU. Reverse-order prospective gates: at least 10% lower walltime/SU, lower readiness time including prefetch, no more than 2% lower goodput and all full local gates. One confirmation only; if it fails, close or mark inconclusive. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/RESULTS.md).
+Original off/read **222407/222408** pass locally: topology-to-ready 602/436 s, PBS walltime 934/759 s, goodput 2411.827128/2395.929777. Initial cost signal is promising but different nodes/unknown cache residency confound causality. [Pair review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/PAIR_REVIEW.md).
 
-Static probe 222412 is one H100/three minutes/maximum 6.4 SU, no model loaded. Its allowed CPUs are entirely NUMA 0, while the allocated GPU locality is NUMA 1, with no intersection. This one-GPU allocation does not establish full-serving worker mappings, CPU saturation or a performance bottleneck. Collect actual worker affinity before changing binding. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/REVIEW.md). Its local post-submit plan-writer correction is preserved; no duplicate qsub occurred. [Record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/RESULTS.md).
+Reversed **read-first 222419** passes sealed serving/startup/runtime/output gates: **2398.983183 good tokens/s**, joint **98.146923%**, mean TTFT **737.915273 ms**, mean ITL **18.180412 ms**, errors/cancellations 0, long 12/12. Reads take 27.858/28.008 s, topology-to-ready **438 s**, PBS walltime **770 s**, estimated **438.044444 SU** unposted at the last ledger check. Sixteen rank traces, 357/357 post-score diagnostic requests and 25 scored resource/server samples per role / 16 UUIDs inspected. Known profile-stop HTTP 500 remains; inflight, scored per-thread CPU and memory placement are uncollected. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/222419_REVIEW.md).
 
-H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in the reverse confirmation folder. They test receive interval 2 / N60, exact N62 repeat and the observed DeepGEMM 8192 / HPC-Ops 8192 prefill pair. Keep positions and frozen payloads. H200 micro 25020 passes 256 cases but alternative providers lack a consistent useful signal; keep DeepGEMM. [Kernel evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-homebind-fix-20261020/REVIEW.md).
+Wait for **222420** before accepting the reverse confirmation: require at least 10% lower walltime/SU, lower readiness including reads, no more than 2% lower goodput and all local gates. If it fails, close or mark inconclusive; no automatic third prefetch repeat. Startup saving is not a new serving peak.
 
-## Reversed read-first candidate reviewed — 20 October, 15:18 UTC
+## Budget and reservations
 
-**222419** passes full local serving/startup/output gates at **2398.983183 good tokens/s**, **98.146923%** joint SLA, **438 s** topology-to-ready / **770 s** reported walltime / **438.044444 SU** estimate (unposted). Errors 0, long 12/12, diagnostic 357/357; sixteen traces and 25 scored hardware/server samples per role inspected. Known profile-stop HTTP 500 and missing per-thread CPU/inflight/memory-placement evidence remain. **222420 is still queued**, so the reversed pair is not accepted and no causal startup saving is claimed. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/222419_REVIEW.md).
+Last locked ledger query **2026-10-20T15:16:00.806345+00:00**, published balance timestamp 20/10/2026-23:00:02: grant **64000 SU**, Used **41238.397 SU**, Balance **21737.603 SU**, In Doubt **1024 SU**. Balance already excludes In Doubt. Terminal 222419 has not yet increased Used; retain its full maximum until uniquely reconciled. Outstanding maxima for 222419/222420/222435 total **3072 SU**. Internal research headroom **6689.603 SU**, unchanged **51000 SU cap / 13000 SU buffer**. [Fresh source and arithmetic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/RESULTS.md). Refresh and reconcile before any new PBS reservation; do not subtract prepayment twice.
 
-## New worker placement capture — 20 October, 15:08 UTC
+## EAGLE3 and next distinct hypotheses
 
-**H200 25051** is submitted and verified Priority-pending, two nodes/16 GPUs/17 minutes. It adds bounded per-worker process/thread CPU masks and actual GPU UUID/PCI/NUMA matching before the official client, retaining N60 and all serving/benchmark/normal observer/profile bytes. No CPU binding change or measured improvement yet. All four older H200 jobs retain positions; five pending total. [Plan, validation and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md).
+[DeepInfer assessment](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md): do not migrate this Qwen/Hopper PD stack to its currently listed DeepSeek/SM100 engine. DeepGEMM and scheduling overlap are already active; historical DP8/DeepEP trials lost to contemporary MNNVL, so do not repeat unchanged settings based on popularity. BF16 target / colocated replica recipes do not satisfy Basic rules.
 
-PBS **222419 F/exit 0, 770 s**, **222420 Q** in the fresh read-only check. Raw result review is pending; no startup saving or score is accepted from exit status alone. Prior Q/H snapshots above are historical. Keep budget reservations until a fresh ledger reconciliation. EAGLE3 public header/source checks continue separately; no speculative GPU job is submitted.
+[New EAGLE3 CPU preflight](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/REPORT.md) pins Nebius draft ff0f0c09 for the exact original Qwen. Public header-only requests read 1504 bytes, **15 tensor entries**; shapes match the native one-layer BF16 EAGLE3 structure. A draft-only architecture metadata adapter is prepared. Actual native pointer helper checks preserve 188/188/190 ordered pairs in the three limited fixtures. No tensor payload downloaded, full runtime imported or speculative GPU job submitted.
 
-## H100 worker capture submitted — 2026-10-20T15:16:53.686787+00:00
+Next stage verified pinned draft bytes outside Git, validate loader coverage and token-ID observation, then prepare a correctness-first H200 pilot when a slot becomes available. Both-phase hidden state/KV metadata, patched TP4→TP8 byte/page geometry, verification kernels/graphs, memory and **exact greedy token equality** remain runtime gates. Decoded text equality alone is weaker; acceptance length is not goodput. Do not change target FP8 math, relax verification or promise a speedup. Current queues remain occupied while these source questions are resolved.
 
-**222435.pbs111** is dependency-held after 222420, 16 H100 / 30 minutes / max 1024 SU. It retains N54, HPC-Ops/chunk4096, the official target/client and original PBS binding, adding only bounded pre-score worker process/thread/UUID/NUMA capture. No placement result or optimisation yet. [Plan and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/RESULTS.md). H200 25051 remains the independent platform capture; all five H200 jobs are Priority-pending.
+Keep H100 chunk4096/round-robin; close unchanged chunk2048 (-26.133%), chunk8192 (-0.781%) and native power-of-two (-4.865%) branches. H200 micro25020 passed 256 cases without a consistent alternative-provider win: keep DeepGEMM. Static H100222412 has sealed CPU NUMA0 versus GPU NUMA1 locality, 78 s / 2.773333 SU reconciled; it does not establish full-serving misbinding or CPU saturation. [Priorities](../reports/research-priorities-20261020/PLAN.md), [full journal](../reports/research-journey-20261019/journal/README.md).
 
-Latest locked ledger queried 2026-10-20T15:16:00.806345+00:00: Used 41238.397 SU / Balance 21737.603 SU / In Doubt 1024.000 SU. Outstanding maxima now 3072 SU, including unposted terminal 222419 and existing 222420; internal headroom **6689.603 SU**, same 51000 cap/13000 buffer. This supersedes the older balance snapshots below. Do not double-subtract In Doubt. [Fresh source](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/pbs-pre-submit.txt).
+## Persistent boundaries and preservation
 
-## Budget and next decisions
-
-Fresh ledger queried 2026-10-20T14:21:57.736435+00:00: grant 64000 SU, Used 41238.397 SU, Balance 22761.603 SU, In Doubt 0. Static probe 222412 finishes exit 0 with 78 s reported walltime; its 2.773333 SU estimate reconciles to the 2.773 SU published delta. Its raw topology evidence is now collected and reviewed separately; scheduler exit alone is not a topology assessment. Current model jobs 222419/222420 are Q/H, reserving 2048 SU maximum. Retain 13000 SU project buffer; available internal research headroom is 7713.603 SU under the 51000 SU cap. Balance already excludes In Doubt, so do not deduct it again. No new job or GPU spending for this balance-only question. [Source and arithmetic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/budget-checks/20261020-1421/review.json).
-
-Keep H100 4096/round-robin; close tested chunk 2048 (-26.133%), 8192 (-0.781%) and native power-of-two (-4.865%) branches. Keep validated attention/transport/provider choices. Use measured bottlenecks for the next distinct experiment. [Priorities](../reports/research-priorities-20261020/PLAN.md), [upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md), [full journal](../reports/research-journey-20261019/journal/README.md).
-
-## DeepInfer review and next distinct leads
-
-[Source-backed review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md) pins DeepInfer 774ce244 and the Nebius Qwen EAGLE3 draft ff0f0c09. Do not switch to DeepInfer: its listed model/hardware and released service components do not cover our Qwen/Hopper PD deployment. The pasted BF16 target / colocated replica recipes do not satisfy Basic rules. DeepGEMM and CPU/GPU overlap are already used. Historical attention-DP8/DeepEP trials 23780/23859 lost against contemporary MNNVL; do not reopen unchanged settings based on popularity.
-
-Two concrete leads remain: collect actual full-serving worker CPU/NUMA mapping after the sealed static probe, and finish CPU compatibility checks for lossless EAGLE3. The public draft is a real candidate for the original Qwen checkpoint, not validated for our FP8 target or patched heterogeneous-TP NIXL. Native source exposes draft KV/hidden-state paths but loader, metadata/geometry, kernels/graphs and greedy equality remain unresolved. No weights downloaded, runtime imported, engine installed or new GPU job submitted for this review. No speedup or official accuracy result is claimed.
-
-Read-only queues checked 2026-10-20T14:45:58Z: H200 24928/24962/24964/24965 Priority-pending; PBS 222419 Q and 222420 dependency-held H. Preserve positions. Credit remains the explicitly dated 14:21 ledger above; refresh before any additional PBS reservation. [Detailed hypotheses and stopping gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md).
-
-## Persistent boundaries
-
-English artifacts, Vietnamese chat; Qwen only, HPC_Task empty. No submission/package edit this checkpoint. Autopilot OFF: no background Codex, schedules or automatic chat-notification promises. Keep working VPN/SSH sessions; do not restart authentication unnecessarily. Never capture credentials or session state. Edit active sources once; explicitly capture/verify/commit/push each coherent safe milestone to the authorised private archive. Large external artifact bytes still need a separate off-host copy; Git pushes do not include them.
-
-Prior detailed snapshots remain [historical](history/20261020-before-prefetch-confirmation.md); raw evidence and failures are retained in the linked records.
+English artifacts, Vietnamese chat; Qwen only, HPC_Task empty. No submission/package edit. Autopilot OFF: no background Codex, schedules or automatic chat-notification promises. Keep working VPN/SSH sessions and never capture authentication/session material. Edit active sources once; capture, verify, commit and push small safe milestones. Large sibling artifact bytes still require a separate off-host copy; Git pushes contain manifests, not those bytes. [Earlier detailed handoff](history/20261020-before-worker-locality-handoff.md) is historical.

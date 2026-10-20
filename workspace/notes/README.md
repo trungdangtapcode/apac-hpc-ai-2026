@@ -12,6 +12,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
 | Per-run inspection beyond scores and remaining telemetry gaps | [Observability review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md) |
 | Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
+| EAGLE3 header checks, draft metadata adapter and remaining integration gates | [CPU preflight](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/REPORT.md) |
 | DeepInfer, what we already tested, and new locality/EAGLE3 leads | [Pinned review and preflight](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepinfer-review-20261020/REPORT.md) |
 | Current priorities and immediate experiment | [Research priorities](../reports/research-priorities-20261020/PLAN.md), [completed startup-cost pair](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/RESULTS.md), [reverse confirmation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/RESULTS.md), [static locality probe](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/RESULTS.md) |
 | VPN duration, why it changed, and future configuration | [VPN session lifetime](../tutorial/19-vpn-session-lifetime.md) |

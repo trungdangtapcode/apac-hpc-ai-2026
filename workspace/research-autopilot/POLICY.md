@@ -1,3 +1,7 @@
+## Current authorised research checkpoint — 2026-10-20T15:21:42.581358+00:00
+
+Read notes/CURRENT.md for actual queues and credit. New bounded worker-locality observations are H200 25051 and H100 222435 (afterany 222420, maximum 1024 SU); CPU binding is unchanged. H200 has five pending jobs; do not add a sixth. PBS 222420 is running and 222435 held at the latest check. Retain 3072 SU outstanding maxima and 6689.603 SU internal headroom from the dated locked ledger until unique reconciliation. No budget cap increase. EAGLE3 header/config/pointer checks are CPU-only; no speculative GPU result, tensor download or exact-token correctness claim. Actual worker locality, loader/PD integration and greedy equality are the next evidence gates. Autopilot remains OFF; no schedules or background Codex. Earlier execution snapshots below are historical, not current queue instructions.
+
 ## Reverse confirmation submitted — 2026-10-20T14:06:36.113310+00:00
 
 222419→ 222420 is the reversed read/off pair after static probe 222412, max2048SU, exact serving/scoring retained. First pair full local PASS and18.737% lower scheduler-reported walltime with-0.659% goodput, different nodes/cache state; no causal or peak claim. Costs963.129SU reconcile, Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU, internal headroom 7709.976 SU after new reserve. Four H200 model positions remain Priority-pending. Read the concise CURRENT and linked full reports for units, gates and limits. Older snapshots below are historical.
