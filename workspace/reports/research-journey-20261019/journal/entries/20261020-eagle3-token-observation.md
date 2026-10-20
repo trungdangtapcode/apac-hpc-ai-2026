@@ -1,0 +1,11 @@
+# EAGLE3 exact-token observation route — 20 October 2026
+
+**Question and prior evidence.** The pinned public draft is staged and its digest verified, but loading, PD integration and exact greedy equivalence are unverified. Decoded text equality is insufficient. We need a way to inspect actual generated IDs through the required gateway before spending on speculative load tests.
+
+**Change and control.** Native image source exposes nonstreaming chat token IDs. The PD response path preserves raw decode response bytes without logprobs, but its typed request schema is external and has not been verified to preserve the extension. Retained extraction receipts distinguish real files from a zero-file path guess; a public crate fetch failed DNS and provides no source evidence. [Detailed source findings and future procedure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/TOKEN_IDS.md).
+
+**Observation and validation.** A prepared four-request diagnostic retains actual prompt/output IDs, finish reasons, raw parsed responses and target manifest identity. Thirteen adversarial CPU fixtures pass, including text-identical/token-different responses, missing IDs, changed prompts, seed, platform or target identity, truncation and invalid IDs. These are synthetic diagnostic checks, not live model inference. No GPU job, SU reservation, token-equivalence result, load measurement or serving score was added for this step.
+
+**Assessment and next decision.** First validate extension support through an allocated gateway, establish target-only repeat stability, then compare the draft with identical inputs and unchanged FP8 target verification. Missing IDs or any mismatch blocks correctness acceptance. Real draft loader coverage, state/transport geometry, kernels/graphs and memory remain separate gates. The official full-set accuracy gap remains. Preserve current H200 queue positions; H100's independent controlled CPU-envelope pair is already submitted. No background Codex, schedule or running scored-job intervention.
+
+**Preservation.** Original preflight/staging indices remain unchanged. The token followup has its own source hashes and diagnostic rejection fixtures; weights and authentication material remain excluded. Capture and push this coherent checkpoint separately from queue/handoff maintenance.
