@@ -713,3 +713,8 @@ Full local review of 222048/222049/222050 passes at 2433.020/2395.311/2406.802 g
 ## Unobserved polling flat; native FP8 screening on both GPUs — 2026-10-20T07:08:09.091840+00:00
 
 222178/222179 both full PASS, 2420.817/2419.693 good tokens/s, +0.0464%; close H100 interval2, default remains 1. Both charges reconcile. Pinned source prunes M>=32 FlashInfer swapAB and native SM90 CUTLASS before expensive serving runs. Submitted isolated FP8 linear screens 222210 H100 and 24983 H200, eight GPUs/ten minutes, max H100 170.667 SU. Both queued, no results. Five H200 active, preserved old positions; one PBS pilot. [Complete reasoning](../reports/research-journey-20261019/journal/entries/20261020-recv-closed-fp8-screen.md). Official accuracy unverified, no slides or automation changed.
+
+
+## Native kernel import failed; cache-only repair submitted — 2026-10-20T07:42:45.154303+00:00
+
+H100 222210 fails before measurements on a missing FlashInfer writable workspace; eight rank errors and original payload preserved. Fix routes caches before imports, actual dependency AST fixture passes with HOME unchanged and numeric/timing body intact. New 222232 is running, eight cache preflights, no timing result yet; H200 24983 cancelled pending at zero runtime and replaced by 24988, preserving four model positions. Failed estimated 20.480 SU unposted; aggregate max reserve 341.333 SU and internal headroom 13443.095, caps unchanged. [Full reasoning](../reports/research-journey-20261019/journal/entries/20261020-fp8-cache-repair.md). No model score, official accuracy, package change or background AI.

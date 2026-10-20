@@ -1,3 +1,7 @@
+## Native kernel harness failure and bounded cache repair — 2026-10-20T07:42:45.154303+00:00
+
+H100 222210: exit 1 before measurements, eight identical FlashInfer read-only-cache errors. New cache-only 222232 R /24988 H200 pending, no kernel results yet. Old micro 24983 cancelled before runtime; four model jobs preserved. Failed estimated 20.480 SU unposted, max combined reserve 341.333 and headroom 13443.095, unchanged caps. [Failure](fp8-linear-micro-review-20261020/RESULTS.md), [repair validation/receipts](fp8-linear-cachefix-20261020/RESULTS.md). Experimental config and numerical/timing body unchanged; no successful kernel/model result or official quality claim.
+
 ## Closed H100 polling and queued native FP8 kernel screens — 2026-10-20T07:08:09.091840+00:00
 
 222178/222179 full local PASS at 2420.817/2419.693 good tokens/s, +0.0464%; default interval 1 kept, branch closed. New isolated eight-GPU/ten-minute probes 222210 H100 and 24983 H200 are queued, no timings or model score. H100 reserve 170.667 SU, internal headroom 13613.761 under unchanged caps; all old charges reconcile. Five H200 active. [Closed review](research-followup-20261020-0647/RESULTS.md), [new hypothesis, gates and receipts](fp8-linear-micro-20261020/RESULTS.md). Keep microseconds, goodput, numerical diagnostics and official accuracy distinct. No old job canceled or changed, package edit or background AI.

@@ -1,3 +1,5 @@
+Latest continuation: [Failed native-kernel import and controlled cache repair](entries/20261020-fp8-cache-repair.md).
+
 Latest continuation: [Closed polling check and native FP8 kernel screen](entries/20261020-recv-closed-fp8-screen.md).
 
 Latest continuation: [H100 access, recovered results and next controlled question](entries/20261020-h100-restored.md).
