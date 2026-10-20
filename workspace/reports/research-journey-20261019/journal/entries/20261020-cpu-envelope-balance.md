@@ -9,3 +9,7 @@
 ## Definite receipts — 2026-10-20T17:22:05.154436+00:00
 
 **222551 legacy → 222552 balanced**, verified serial dependency and recorded QWEN_CONTROL_JOB. [Submission and budget evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/RESULTS.md). Total maximum 2048 SU; internal headroom 6318.688 SU, no cap increase. Initial signed-zero parser failure occurred before reservation/qsub, was retained and fixed with a CPU fixture; uploaded frozen manifests were verified again before the actual submissions. No uncertain or duplicate job. Actual binding/score evidence is still pending; native locality and model/client remain fixed.
+
+## Live control interface checkpoint — 2026-10-20T17:29:26.672121+00:00
+
+222551 is running and 222552 remains held by its serial dependency. All three control prelaunch receipts identify actual CUDA UUIDs and apply the intended legacy masks with 32/32/64 distinct physical cores. This supports the runtime metadata/selection interfaces before model execution; it is not a terminal score, complete scheduler-thread capture or balanced candidate result. [Dated live snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/live-20261020T172926Z.json). H200 retains all five pending positions. Full scoring, actual worker mapping and candidate acceptance remain pending; no additional allocation or budget change at this checkpoint.
