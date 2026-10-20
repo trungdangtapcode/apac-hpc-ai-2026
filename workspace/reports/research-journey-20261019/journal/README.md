@@ -1,3 +1,5 @@
+Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).
+
 Latest continuation: [Failed native-kernel import and controlled cache repair](entries/20261020-fp8-cache-repair.md).
 
 Latest continuation: [Closed polling check and native FP8 kernel screen](entries/20261020-recv-closed-fp8-screen.md).

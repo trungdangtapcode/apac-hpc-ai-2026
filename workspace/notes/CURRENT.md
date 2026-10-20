@@ -1,8 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-## TP4 prefill screen closed — 2026-10-20T09:11:47.564445+00:00
+## Native scheduler screen submitted — 2026-10-20T09:16:33.708071+00:00
 
-H100 **222245** passes **160/160 full cases** and eight separate preflight cases. Native Triton loses every tested rank/shape/M; at M8192 QKV takes 57.55% longer and O projection 62.46% longer. Keep DeepGEMM, no full-model Triton pair or unchanged retry. [All raw evidence, units, paired distributions and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md). Full three-charge delta reconciles 166.116 SU: Used 37402.168, Balance 26597.832, In Doubt 0, outstanding 0, internal headroom 13597.832 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; all five H200 jobs still Priority-pending. No new serving peak or official accuracy. Older queued/running snapshots below are historical.
+TP4 prefill 222245 passes 160 full cases but default Triton loses all tested ranks/shapes/M. Retain DeepGEMM; no losing model pair. New distinct native DeepGEMM 132/120/96-SM budget screen **222277.pbs111 R**, eight GPUs/ten minutes/maximum 170.667 SU, six-case provider preflight then 240 full cases. No numerical or serving result yet. H200 all five still Priority-pending, positions preserved. Published Used 37402.168 SU with all old charges reconciled; new reserve 170.666667, internal headroom 13427.165333 under unchanged 51000 cap/13000 buffer. [Exact source-backed question, gates and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md). No model promotion, package edit, authentication restart or background AI. Earlier queue/credit snapshots below are historical.
 
 ## Accepted local serving results
 
@@ -21,9 +21,7 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-## TP4 prefill screen closed — 2026-10-20T09:11:47.564445+00:00
-
-H100 **222245** passes **160/160 full cases** and eight separate preflight cases. Native Triton loses every tested rank/shape/M; at M8192 QKV takes 57.55% longer and O projection 62.46% longer. Keep DeepGEMM, no full-model Triton pair or unchanged retry. [All raw evidence, units, paired distributions and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md). Full three-charge delta reconciles 166.116 SU: Used 37402.168, Balance 26597.832, In Doubt 0, outstanding 0, internal headroom 13597.832 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; all five H200 jobs still Priority-pending. No new serving peak or official accuracy. Older queued/running snapshots below are historical.
+**H100 222277.pbs111 R**: native DeepGEMM scheduler budget 132/120/96, one node/eight GPUs/ten minutes. Numerical/input/default-restoration/source/UUID guards and native SM-bearing traces must pass before interpreting 240 full cases. All prior micro jobs complete, no overlap. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/RESULTS.md).
 
 ## Newly completed kernel evidence
 
@@ -39,7 +37,7 @@ Keep FA3 decode, forced NCCL Simple, forced one-shot, PDL-off, flat phase infere
 
 ## Budget and execution policy
 
-Publication queried 2026-10-20T09:11:47.564445+00:00: grant 64000, Used 37402.168, Balance 26597.832, In Doubt 0 SU. All completed micro charges reconcile with the published delta, all maxima released. **Internal headroom 13597.832 SU**, unchanged **51000 cap/13000 buffer**. Own PBS queue empty. [Final proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/final-accounting.json). No double subtraction of prepaid credit.
+Publication queried 2026-10-20T09:15:33.122635+00:00: Used **37402.168 SU**, Balance **26597.832 SU**, In Doubt zero. All old charges reconcile; new 222277 max **170.666667 SU** reserved. Internal headroom **13427.165333 SU**, unchanged **51000 cap/13000 buffer**. [Fresh accounting](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm-screen-20261020/accounting-preflight.json). Never double-subtract prepaid credit.
 
 During active authorised work, review outputs and submit distinct supported hypotheses within fresh budget/queue checks. At most five active H200, three active PBS and one running PBS allocation. No blind duplicates, unchanged losses, numerical relaxation or automatic load/interval growth. VPN/SSH currently works; do not restart authentication unnecessarily. [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
