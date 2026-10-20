@@ -36,4 +36,4 @@ The official published source supporting the startup idea is [ASPIRE notes at 3d
 
 ## Definite execution checkpoint — 2026-10-20T13:28:06.162122+00:00
 
-The planned pair is now submitted:222407.pbs111 running,222408.pbs111 held by afterany222407. Both new allocations are30minutes/16H100/max1024SU, max2048SU combined; the full official scoring interval and workers are unchanged. Published credit was rechecked before reservation; internal headroom8679.505SU. No measured benefit yet. The future startup reader labels topology-script-to-ready separately from complete allocated walltime, because the readiness counter excludes earlier PBS prologue.
+The planned pair is now submitted: 222407.pbs111 running, 222408.pbs111 held by afterany 222407. Both new allocations are 30 minutes / 16 H100 / maximum 1024 SU, maximum 2048 SU combined; the full official scoring interval and workers are unchanged. Published credit was rechecked before reservation; internal headroom 8679.505 SU. No measured benefit yet. The future startup reader labels topology-script-to-ready separately from complete allocated walltime, because the readiness counter excludes earlier PBS prologue.
