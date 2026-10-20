@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T14:06:36.113310+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
+Updated 2026-10-20T14:21:57.736435+00:00. Scheduler and credit observations are dated below; do not treat older linked snapshots as live.
 
 ## Accepted serving results
 
@@ -24,7 +24,7 @@ Ready time decreases 27.575%, scheduler-reported walltime 18.737%, about 99.556 
 
 ## Submitted next step and queues
 
-**PBS 222419 read first → 222420 off second**, afterany static probe 222412. Verified submission snapshot: probe R, pair H/H. The probe later reports E (exiting); no terminal topology capture yet. Each model job 16 H100 / 30 minutes / maximum 1024 SU. Reverse-order prospective gates: at least 10% lower walltime/SU, lower readiness time including prefetch, no more than 2% lower goodput and all full local gates. One confirmation only; if it fails, close or mark inconclusive. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/RESULTS.md).
+**PBS 222419 read first → 222420 off second**, afterany static probe 222412. Verified submission snapshot: probe R, pair H/H. The probe is now terminal F/exit 0; no terminal topology capture yet. Updated model states are Q/H in the balance check below. Each model job 16 H100 / 30 minutes / maximum 1024 SU. Reverse-order prospective gates: at least 10% lower walltime/SU, lower readiness time including prefetch, no more than 2% lower goodput and all full local gates. One confirmation only; if it fails, close or mark inconclusive. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/RESULTS.md).
 
 Static probe 222412 is one H100/three minutes/maximum 6.4 SU, no model loaded. It collects hardware CPU/GPU/NUMA locality before a binding hypothesis; it does not measure CPU saturation or establish a performance bottleneck. Its local post-submit plan-writer correction is preserved; no duplicate qsub occurred. [Record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-gpu-locality-20261020/RESULTS.md).
 
@@ -32,7 +32,7 @@ H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in 
 
 ## Budget and next decisions
 
-Fresh pre-submit ledger at 22:00:02 server time: Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU. Both first-pair costs reconcile to 963.129 SU. Reserve static probe 6.4 SU plus new model pair 2048 SU; conservative internal headroom 7709.976 SU under 51000 cap/13000 project buffer. Reported Balance already excludes In Doubt; do not double count. Refresh before later spending. Caps remain five active H200, three active PBS, one running PBS allocation. No blind duplicate, unchanged loss, uncertain retry or budget increase. [Fresh source](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/pbs-pre-submit.txt).
+Fresh ledger queried 2026-10-20T14:21:57.736435+00:00: grant 64000 SU, Used 41238.397 SU, Balance 22761.603 SU, In Doubt 0. Static probe 222412 finishes exit 0 with 78 s reported walltime; its 2.773333 SU estimate reconciles to the 2.773 SU published delta. Its raw topology evidence remains to be collected/reviewed; scheduler exit is not a topology assessment. Current model jobs 222419/222420 are Q/H, reserving 2048 SU maximum. Retain 13000 SU project buffer; available internal research headroom is 7713.603 SU under the 51000 SU cap. Balance already excludes In Doubt, so do not deduct it again. No new job or GPU spending for this balance-only question. [Source and arithmetic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/budget-checks/20261020-1421/review.json).
 
 Keep H100 4096/round-robin; close tested chunk 2048 (-26.133%), 8192 (-0.781%) and native power-of-two (-4.865%) branches. Keep validated attention/transport/provider choices. Use measured bottlenecks for the next distinct experiment. [Priorities](../reports/research-priorities-20261020/PLAN.md), [upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md), [full journal](../reports/research-journey-20261019/journal/README.md).
 
