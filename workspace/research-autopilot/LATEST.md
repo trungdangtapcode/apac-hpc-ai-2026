@@ -1,3 +1,7 @@
+## H100 recovered results and reconciled credit — 2026-10-20T06:19:37.106639+00:00
+
+VPN/SSH restored. 222048/222049/222050 all full local PASS at 2433.020/2395.311/2406.802 good tokens/s; interval2 +0.480% against observed control, not established. Raw ITL breaches 0/4/5. All traces inspected, two observed jobs have verified hardware samples. Three charges reconcile 1335.751 SU; published Used 36308.194, Balance 27691.806, no In Doubt/reserve, internal headroom 14691.806. Own PBS queue empty; bounded unobserved interval2/control plan next, no new job at this checkpoint. [Complete evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md). No cap, official accuracy, slide or background AI change. Earlier snapshots remain historical.
+
 ## H100 access restored at explicit request — 2026-10-20T06:15:23.556274+00:00
 
 VPN and SSH work again; batch PBS/credit query succeeds on a2ap-login01. Own queue empty, 222048/222049/222050 terminal F. Published Used 36308.194 SU, Balance 27691.806, In Doubt zero, local reconciliation and artifact review pending. Only a dead pane was restarted and private recovery state preserved. Phone-side DUO and exact negotiated expiry are not established. No new GPU job, budget increase, package change or background Codex. [Access evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md). Earlier no-access snapshots below are historical.

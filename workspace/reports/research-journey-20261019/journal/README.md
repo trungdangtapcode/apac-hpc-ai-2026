@@ -1,3 +1,5 @@
+Latest continuation: [H100 access, recovered results and next controlled question](entries/20261020-h100-restored.md).
+
 Latest continuation: [Observer results and continued H200 research](entries/20261020-observer-results.md).
 
 Latest continuation: [N62 terminal review and requested presentation update](entries/20261020-n62-presentation.md).

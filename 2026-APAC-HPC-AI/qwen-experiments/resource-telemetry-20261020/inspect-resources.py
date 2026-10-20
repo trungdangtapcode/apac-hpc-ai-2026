@@ -25,10 +25,11 @@ def distribution(values):
                 p50=percentile(.5), p95=percentile(.95), maximum=values[-1])
 
 
-def inspect(run, concurrency):
+def inspect(run, concurrency, external_seal=None):
     root = run.parent.parent
-    seal = json.loads((run / 'artifact-manifest.json').read_text())
-    sealed = {row['path']: row['sha256'] for row in seal['files']}
+    seal_path = external_seal or run / 'artifact-manifest.json'
+    seal = json.loads(seal_path.read_text())
+    sealed = seal if external_seal else {row['path']: row['sha256'] for row in seal['files']}
     checked = {}
     def read(path):
         digest = sha(path)
@@ -46,6 +47,7 @@ def inspect(run, concurrency):
     finish = next(m for m in markers if m['event'] == 'benchmark_end' and m['detail'] == ['confirm', str(concurrency)])
     assert begin['utc_ns'] < start < end < finish['utc_ns']
     result = dict(job=run.name, phase=phase, orchestration_host=begin['host'],
+                  seal_path=str(seal_path), seal_sha256=sha(seal_path),
                   source_hashes=checked, roles={}, nodes={}, accuracy_verified=False,
                   alignment='Epoch nanoseconds from the explicit AIPerf phase manifest; no naive local-time conversion.',
                   limitations=[
@@ -138,9 +140,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('run', type=Path)
     parser.add_argument('--concurrency', type=int, required=True)
+    parser.add_argument('--seal', type=Path, help='PBS collection evidence-sha256.json mapping')
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
-    data = inspect(args.run, args.concurrency)
+    data = inspect(args.run, args.concurrency, args.seal)
     args.out.write_text(json.dumps(data, indent=2) + '\n')
     print(json.dumps(dict(job=data['job'], unique_gpus=data['unique_gpus'],
                          scored_samples={k: v['scored_samples'] for k, v in data['roles'].items()})))

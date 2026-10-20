@@ -1,12 +1,12 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T06:15:23.556274+00:00. At the owner’s explicit request, VPN and SSH access to H100 are restored; PBS/credit queries succeed on a2ap-login01. All three PBS observer/polling jobs 222048/222049/222050 are terminal F and the own active queue is empty. Fresh published Balance 27691.806 SU, Used 36308.194, In Doubt zero; charges/results are not yet reconciled/reviewed at this checkpoint. Previous “no live VPN” and queue/credit snapshots below are historical.
+Updated 2026-10-20T06:19:37.106639+00:00. VPN/SSH/PBS access is restored at the owner’s request. All three H100 observer/polling jobs are now collected and fully reviewed; all local gates pass. The own PBS queue is empty at this checkpoint. Published credit reconciles the three charges; old no-access, unreviewed-output and unreconciled-credit statements below are historical.
 
 ## Reproduced local findings
 
 **H200 highest individual: 24915 = 3022.035 good output tokens/s at N62**, joint success 98.726%, 1860/1884 qualifying, 24 TTFT breaches, zero ITL breaches/errors. Full local protocol/runtime/output PASS, **+4.537% vs fresh auto N62 24914 = 2890.878**; one treatment observation, not independently repeated. **N60 independently repeats 24738 = 2990.151 and 24913 = 2989.175**, only −0.033%, +5.295% vs fresh auto N60 control 24912. DeepGEMM prefill chunk8192 + HPC-Ops decode. N58 repeats across 24724/24737/24819. The former claim that 24915 had no accepted measurement is historical. [N62 review, tails, diagnostic and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0218/RESULTS.md). No automatic N64.
 
-**H100 highest individual remains 221590 = 2430.891.** Fresh FlashInfer control 222027 = 2420.945; decode FA3 222028 = 2401.284, both full local PASS. FA3 loses 0.812%, despite lower mean TTFT; mean ITL rises 0.773 ms. Keep FlashInfer decode for this H100 N54 setting; this is one matched pair, not a universal FA3 ranking. Prefill still uses FA3. Both have exactly **22 scored TTFT breaches**, zero request-mean ITL breaches/errors/cancellations. TTFT p99 3454.130/3472.798 ms. Separate N48 CPU/GPU traces all rank-checked; recorded-kernel interval coverage about 95–96% does not prove CPU starvation or causal wall fractions.
+**H100 highest individual is now 222048 = 2433.020**, unobserved N54 incumbent, only +0.088% above prior 221590 = 2430.891, not an established optimisation. Observed interval1 control 222049 = 2395.311; observed interval2 222050 = 2406.802 (+0.480%), all full local PASS. Single observer on/off delta −1.550% is not a causal overhead estimate. Raw TTFT breaches 20/21/21 and ITL breaches 0/4/5, with zero errors/cancellations. All three separate diagnostics have 16 rank-checked traces; actual resource samples for the two observed jobs verify UUIDs/coverage, with clock and efficiency limits. [Complete review and costs](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md). Native interval2 needs an unobserved matched check, no promotion yet. FlashInfer remains preferred to the earlier FA3 decode candidate; FA3 prefill remains unchanged.
 
 Keep platforms separate. Official full-set 99%-reference accuracy remains unverified; scheduler exit 0 alone never means accepted evidence.
 
@@ -16,7 +16,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 **24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. **24964/24965** are now submitted as a fresh observed DeepGEMM8192 versus HPC-Ops8192 prefill pair at fixed N60 with unchanged HPC-Ops decode. Both are pending, no result yet. [Hypothesis, exact control/change, thresholds and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Four active H200, below cap five.
 
-PBS 222048/222049 were complete and 222050 running at the earlier 02:17 snapshot, which is historical. Access is now restored at the owner’s explicit request; the prior no-live-session state is historical. All three jobs are terminal F and read-only artifacts are being recovered. Fresh published credit is above; local reservation reconciliation and result review are still pending. No new PBS submission/reservation.
+PBS **222048/222049/222050** are now terminal, collected, fully reviewed and charged/reconciled. VPN/SSH are restored; prior no-live-session snapshots are historical. A bounded unobserved interval2/control plan is being prepared, with no new PBS submission at this review checkpoint. Keep one running 16-GPU allocation, at most three active PBS and unchanged caps.
 
 ## Inspect beyond scores
 
@@ -28,7 +28,7 @@ The prepared profiler HTTP parsing fix is now deployed only through these new de
 
 ## Budget and execution
 
-Pre-submit published Used **34972.443 SU**, Balance **29027.557 SU**, In Doubt **0**. Four terminal charges reconcile **937.244 SU**; prior reserves released. New maximum outstanding reserve **4608 SU**, internal headroom **11419.557 SU**, unchanged **51000-SU cap / 13000-SU buffer**. The published source/as-of time is in nscc-budget.json. Balance already excludes prepayment when present; do not subtract it twice. Bounds are not expected actual charges.
+Fresh published Used **36308.194 SU**, Balance **27691.806 SU**, In Doubt **0**, as of 20/10/2026-14:00:02 SGT. Three terminal charges reconcile **1335.751 SU** and release all previous reservations. At this review checkpoint outstanding reserve **0 SU**, internal headroom **14691.806 SU**, unchanged **51000-SU cap / 13000-SU buffer**. A two-job followup would reserve at most 3072 SU only after fresh checks. Balance already excludes prepayment when present; do not subtract it twice.
 
 During active authorised work, review completions and submit the next distinct justified hypothesis when capacity/budget permit. No blind duplicates, unchanged losses, automatic interval/load growth or global stop because a branch loses. At most five active H200, three active PBS and one running PBS allocation. The owner explicitly authorised restoring H100 access this turn; the dead VPN pane and SSH authentication were restored, with private cache preserved. The 24-hour IKE request is not verified exact negotiated expiry; read [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
