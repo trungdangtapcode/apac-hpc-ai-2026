@@ -2,7 +2,7 @@
 
 Generated from the captured manifest and verified against original source bytes, archive bytes and committed Git blobs. Read [the earlier overview](../REPORT.md) for the milestone explanation and [the job index](JOBS.md) for individual records.
 
-Audit base: `5cec3b3c4203bb5c50bccd7b63e01a2f456275c0`. **260 retained Markdown documents**. Dates and scheduler statements inside linked records are historical snapshots. Some original records retain their original Vietnamese text; this index does not rewrite those records.
+Audit base: `47fba3db64d7ac9b90792804c7fdf24efb29a08d`. **269 retained Markdown documents**. Dates and scheduler statements inside linked records are historical snapshots. Some original records retain their original Vietnamese text; this index does not rewrite those records.
 
 A link does not certify a complete analysis, a passing measurement or full conversation preservation. Supporting package/OpenFOAM history is catalogued for preservation only; active research remains Qwen.
 
@@ -71,6 +71,14 @@ A link does not certify a complete analysis, a passing measurement or full conve
 - [2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/SOURCE_REVIEW.md](../../../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/SOURCE_REVIEW.md)
 - [2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/TOKEN_REVIEW.md](../../../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/eagle3-01/TOKEN_REVIEW.md)
 - [2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/pbs-task-logging-01/README.md](../../../../2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/research-next/pbs-task-logging-01/README.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24733.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24733.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24736.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24736.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24737.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24737.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24738.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24738.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24819.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24819.md)
+- [2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24912.md](../../../../2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/runs/24912.md)
+- [2026-APAC-HPC-AI/qwen-experiments/profile-http-fix-20261020/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/profile-http-fix-20261020/PLAN.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1755/PLAN.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1755/PLAN.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1830/RESULTS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1830/RESULTS.md)
 - [2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1945/STATUS.md](../../../../2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1945/STATUS.md)
@@ -282,5 +290,6 @@ A link does not certify a complete analysis, a passing measurement or full conve
 - [workspace/tutorial/12-vpn-nscc.md](../../../tutorial/12-vpn-nscc.md)
 - [workspace/tutorial/13-submit-pbs-nscc.md](../../../tutorial/13-submit-pbs-nscc.md)
 - [workspace/tutorial/14-so-tay-hoi-dap.md](../../../tutorial/14-so-tay-hoi-dap.md)
+- [workspace/tutorial/19-vpn-session-lifetime.md](../../../tutorial/19-vpn-session-lifetime.md)
 - [workspace/tutorial/README.md](../../../tutorial/README.md)
 

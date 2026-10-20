@@ -1,8 +1,8 @@
 # What the coverage audit establishes
 
-Audited at **2026-10-20T00:54:17.440920+00:00**, against committed archive HEAD `5cec3b3c4203bb5c50bccd7b63e01a2f456275c0`.
+Audited at **2026-10-20T01:26:03.803496+00:00**, against committed archive HEAD `47fba3db64d7ac9b90792804c7fdf24efb29a08d`.
 
-All **260** retained Markdown documents in the selected source trees match their captured SHA-256, archive copy and committed Git blob. All **203** indexed own research IDs occur in at least one of those documents. There are **127** dedicated Slurm job sections, including **127** with explicit purpose/observation/lesson fields.
+All **269** retained Markdown documents in the selected source trees match their captured SHA-256, archive copy and committed Git blob. All **203** indexed own research IDs occur in at least one of those documents. There are **127** dedicated Slurm job sections, including **127** with explicit purpose/observation/lesson fields.
 
 This verifies that retained written records are in Git, rather than only on the temporary source filesystem. It does not prove every historical chat statement was written down, every deleted edit survived, every job has a complete causal analysis, or every old result passed later quality gates. An ID mentioned in a plan is not a completed review. The job index deliberately preserves this distinction.
 
