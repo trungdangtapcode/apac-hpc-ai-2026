@@ -8,6 +8,12 @@ Updated 2026-10-20T17:02:42.431348+00:00. Queue and budget observations have exp
 - H100 highest individual **222048: 2433.019859 good output tokens/s**, N54. New read-first 222419 gives 2398.983183, not a new peak. [Incumbent review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
 - Keep platforms separate. **Official full-set accuracy at 99% of reference remains unverified.** Score is AIPerf Goodput × 200, with joint TTFT ≤ 3000 ms / average request ITL ≤ 20 ms and fraction ≥ 0.90 including errors. [Official workload](official-goodput-clarification-20261020.md).
 
+## CPU-envelope pair submitted — 2026-10-20T17:22:05.154436+00:00
+
+**222551.pbs111 legacy control → 222552.pbs111 balanced candidate**, verified serial afterany. The candidate bootstrap guard uses recorded QWEN_CONTROL_JOB=222551.pbs111 before loading weights. Each16 H100 /30 minutes /max1024 SU, total2048 SU. Same32/32/64 task CPU budgets, native locality and serving/client settings; redistribution is the sole treatment. No new score yet. [Receipts, preflight correction and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/RESULTS.md).
+
+Fresh locked Used42633.312 / Balance21366.688 / In Doubt0 SU. Outstanding maxima2048 SU, internal headroom **6318.688 SU**, same51000 cap/13000 buffer. Earlier no-outstanding/empty-PBS snapshots below are historical. Initial parser rejection was before qsub; signed-zero handling and reverified existing uploads allowed definite submissions without duplication. Keep all five H200 positions; no extra Slurm job.
+
 ## Latest worker finding and next controlled test
 
 H100 **222435** passes full local gates at **2413.341139 good tokens/s**, joint **98.416887%**, errors 0, long 12/12, diagnostic 355/355. Its sealed mapping covers all 16 GPU scheduler processes: thread masks are already NUMA-local. The outer CPU envelope is asymmetric: NUMA 1 groups share only **8 local CPU IDs**, versus **32** for prefill 0 and **56** for decode NUMA 0. This is not a measured CPU bottleneck. Keep native locality and compare an equal-size balanced task envelope with a new legacy control, using actual CUDA UUID/PCI identity and scheduler-allowed masks. [Complete review and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/REVIEW.md). No binding candidate receipt yet.
