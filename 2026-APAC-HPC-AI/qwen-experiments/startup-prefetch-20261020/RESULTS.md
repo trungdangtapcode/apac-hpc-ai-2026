@@ -1,3 +1,11 @@
+# Control accepted; candidate still running — 2026-10-20T13:51:04.547728+00:00
+
+## Prefetch control reviewed; candidate running — 2026-10-20T13:51:04.547728+00:00
+
+H100 222407 full local PASS at 2411.827128 good output tokens/s, 98.285% qualifying, zero errors. Topology-script-to-ready 602 s, allocation 934 s, estimated 531.342222 SU unposted. Native off receipts pass both nodes; all 16 diagnostic traces and matched scored hardware/server/tail evidence inspected. Candidate 222408 running; live read receipts complete in 27.527/27.290 s per node, no terminal saving claim. H200 24928/24962/24964/24965 still Priority-pending. [Control review and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/CONTROL_REVIEW.md). Published Used 40272.495 SU unchanged, Balance 22703.505 SU, In Doubt 1024 SU; retain both maximum reservations, internal headroom 8679.505 SU. Peaks unchanged, official accuracy unverified. Earlier scheduler/credit snapshots below are historical.
+
+Earlier snapshots below are historical.
+
 # Startup-cost pair submitted — 2026-10-20T13:28:06.162122+00:00
 
 ## Priorities updated and startup-cost pair submitted — 2026-10-20T13:28:06.162122+00:00
