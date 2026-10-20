@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T01:48:55.712530+00:00. Scheduler states below are dated actual 01:43 UTC post-submit checks. Credit publication has its own timestamp; refresh live state before a later status claim.
+Updated 2026-10-20T01:48:55.712530+00:00. Final scheduler refresh 2026-10-20T01:49:48.588916+00:00: H200 24915 running, 24926/24927/24928 pending; PBS 222048 R and 222049/222050 H. Earlier 01:43 post-submit statements below retain their dates. Credit publication has its own timestamp; refresh live state before a later status claim.
 
 ## Reproduced local findings
 
@@ -12,7 +12,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 ## Actual submitted work
 
-H200 **24915/24926/24927/24928** were **Resources-pending at 01:43:56 UTC**. 24915 is the preserved HPC-Ops N62 treatment/profile. New N60 group: 24926 observer off/default interval 1; 24927 observer on/interval 1 control; 24928 observer on/decode receive interval 2. Old 24914 completed and was fully reviewed. [Receipts and plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/RESULTS.md).
+H200 **24915/24926/24927/24928**: **24915 running; 24926/24927/24928 Resources-pending** at the final check above. All four were pending at 01:43. 24915 is the preserved HPC-Ops N62 treatment/profile. New N60 group: 24926 observer off/default interval 1; 24927 observer on/interval 1 control; 24928 observer on/decode receive interval 2. Old 24914 completed and was fully reviewed. [Receipts and plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/RESULTS.md).
 
 PBS **222048 → 222049 → 222050**, post-submit **R/H/H**: same off/on/interval-2 plan at N54, both-phase HPC-Ops/chunk4096. Only one 16-GPU PBS allocation runs at once. No new observer/polling score or confirmed telemetry coverage yet. Compare candidate with equally observed control; report observer overhead separately. Pinned native scheduler/receiver/skipper/env source hashes match both images and local selector tests pass. No token work, numerical or workload shortcut.
 

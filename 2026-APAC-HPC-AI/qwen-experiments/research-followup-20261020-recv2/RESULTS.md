@@ -18,3 +18,8 @@ At 01:43:56 UTC all three new H200 jobs and existing 24915 were Resources-pendin
 Observer-on jobs sample every five seconds, bounded by worker-parent/job lifetime and a hard duration. GPU UUID/role/coverage, hardware query support, server counters, scored-phase alignment and monitoring overhead must be inspected. Missing telemetry remains unknown. Heavy diagnostics follow scoring and use the prepared HTTP response fix. Controls/candidate retain the full workload, numerical settings, transport and output gates.
 
 [Plan and rationale](PLAN.md), [local validation](validation.json), [definite PBS receipts](pbs-receipts.json), [PBS dependencies/status](pbs-post-submit.txt), [Slurm receipts](slurm-receipts.json), [Slurm post-submit status](slurm-post-submit.txt), [exact payload hashes](pilots.json). Compare candidate with equally observed control and report off/on overhead separately; repeat a useful gain, close a loss, no automatic interval or load growth. Official accuracy is unverified.
+
+## Final queue refresh — 2026-10-20T01:49:48.588916+00:00
+
+H200 24915 is now **running**; 24926/24927/24928 remain Resources-pending. PBS 222048 is running, 222049/222050 remain dependency-held. This refresh changes the dated queue handoff only; no new completed measurement or credit query. [Retained states](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/final-live.json).
+

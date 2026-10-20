@@ -1,3 +1,7 @@
+## Final queue refresh — 2026-10-20T01:49:48.588916+00:00
+
+H200 24915 is now **running**; 24926/24927/24928 remain Resources-pending. PBS 222048 is running, 222049/222050 remain dependency-held. This refresh changes the dated queue handoff only; no new completed measurement or credit query. [Retained states](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/final-live.json).
+
 ## Reproduced N60 and observed polling submissions — 20 October 2026
 
 H200 24913 passes at 2989.175 good output tokens/s, independently repeating 24738 = 2990.151 and +5.295% above fresh auto control 24912. Auto N62 24914 passes at 2890.878; keep HPC-Ops N62 24915 position. H100 222027/222028 both pass at 2420.945/2401.284: FA3 lowers mean TTFT but loses 0.812% goodput and increases ITL, so retain FlashInfer. Raw scored failures are 22 TTFT breaches per run and zero ITL/error/cancel breaches; all rank CPU/GPU traces inspected, without claiming a large CPU bottleneck.
