@@ -9,7 +9,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
 | Per-run inspection beyond scores and remaining telemetry gaps | [Observability review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md) |
 | Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
-| Latest continuation: runner confirmation, collective screens and attention pair | [20 October entry](../reports/research-journey-20261019/journal/entries/20261020-serving-and-collective.md) |
+| Latest continuation: repeated N60 gain and observed receive-poll trials | [20 October continuation](../reports/research-journey-20261019/journal/entries/20261020-receive-polling.md) |
 | VPN duration, why it changed, and future configuration | [VPN session lifetime](../tutorial/19-vpn-session-lifetime.md) |
 | Historical questions and explanations | [Conversation handbook](../tutorial/14-so-tay-hoi-dap.md) |
 | Tutorials by topic | [Tutorial index](../tutorial/README.md) |

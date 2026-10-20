@@ -147,4 +147,6 @@ outside ranked scoring and preserve frozen submitted payloads. GPU utilization,
 KV token occupancy, sampled VRAM and kernel-time sums are different quantities;
 do not infer a causal bottleneck from a score or an aggregate alone.
 Read the 20 October observability report linked from CURRENT for actual coverage
-and the prepared, not yet deployed, profiler HTTP response correction.
+and its profiler HTTP response correction. The correction and resource collector
+are deployed only through later derived bundles; CURRENT records actual rollout
+and evidence limits. Never change already submitted payloads in place.

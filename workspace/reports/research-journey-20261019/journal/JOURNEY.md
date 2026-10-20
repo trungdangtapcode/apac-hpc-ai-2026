@@ -1,3 +1,5 @@
+Latest continuation: [N60 repeat, raw failure attribution and observed polling trials](entries/20261020-receive-polling.md).
+
 Latest methodology review: [20 October observability, missing telemetry and profiler-control fix](entries/20261020-observability.md).
 
 Latest continuation: [20 October 2026 — runner confirmation, collective screens and decode attention](entries/20261020-serving-and-collective.md). The 32-stage retrospective below retains its original dated scope.
