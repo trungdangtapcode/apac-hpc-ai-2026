@@ -38,3 +38,7 @@ Both charges sum to 910.222222 SU and reconcile to the published 910.222 SU delt
 ## Reproduction and evidence
 
 Read [PLAN.md](PLAN.md), definite [receipts](pbs-receipts.json), per-job `*-review.json`, `*-inspection.json`, `*-server-state.json`, `*-resources.json`, and collection pointers. The collected terminal snapshots preserve raw exports, frozen submitted payloads, profiles and evidence SHA-256 seals. The original reviewer rejection is retained. Git contains safe manifests and inline evidence; large external objects still need a separate off-host copy.
+
+## Additional inspected node and transport evidence
+
+Node-wide mean CPU busy percentages are 7.157/7.181 for control decode/prefill hosts and 7.069/7.236 for candidate. These are host aggregates, not per-worker thread saturation. Sampled available host memory remains about 1.96–2.00 billion KiB. Kernel-bypass RDMA traffic is not measured by IP interface byte counters, so zero sampled IB interface counters do not prove zero NIXL traffic. No whole-worker-log NIXL error-pattern or OOM match was found in this bounded scan; all three observed ASGI stacks per job occur in stop_profile_async after scoring. Worker-local load_balance_method warnings remain preserved and are not evidence that the main router override was ignored. Structured substring counts are in each `*-transport-log-review.json` and are not a universal log-health certificate.

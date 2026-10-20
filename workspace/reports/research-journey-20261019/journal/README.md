@@ -40,3 +40,5 @@ This is a source-linked retrospective of preserved material, not a complete chat
 Scheduler statements in the linked documents are dated. The initial 19 October documentation pass did not query queues or submit jobs; later entries explicitly record their own operations. Read the actual scheduler and current handoff when resuming research. Full organiser accuracy remains unverified; large external evidence still requires its separate off-host copy.
 
 - [20 October: H200 private HOME bind correction](entries/20261020-h200-homebind.md).
+
+- [20 October: smaller HPC-Ops prefill chunks on H100](entries/20261020-h100-smaller-chunks.md).
