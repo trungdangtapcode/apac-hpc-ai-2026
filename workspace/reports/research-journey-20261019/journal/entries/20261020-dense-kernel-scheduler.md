@@ -35,3 +35,8 @@ The new candidate 80 targets the logical 80-tile QKV boundary observed in those 
 Published Used **37439.430 SU**, Balance **26560.570 SU**, In Doubt **0.000 SU**, queried 2026-10-20T09:21:46.816377+00:00. Prior 222277 charge reconciles 37.262 SU and all older maxima are released. Reserve only the new maximum **170.666667 SU**; internal headroom **13389.903333 SU**, unchanged 51000 cap/13000 buffer. [Fresh accounting proof](accounting-preflight.json). No prepaid double subtraction or uncertain retry.
 
 H200 **24990/24928/24962/24964/24965** all remain Priority-pending, cap five. No cancellation or sixth job. H100 only 222279 is active. Model bests remain H200 3022.034919 and H100 2433.019859 good output tokens/s, with official full-set reference accuracy unverified. No model/SLA/quality claim, package change, authentication restart or background Codex. [Live H200](live-slurm.txt).
+
+## Scheduler family closed — 2026-10-20T09:26:13.430145+00:00
+
+222279 passes 160 full cases and actual 132/80 traces, but 80 fails the declared useful-consistency gate: M54 QKV+5.17% versus O-proj+2.40%, other batches mixed. Keep 132 and close tested 80/96/120 budgets without a model tweak. Estimated cost 35.271111 SU pending ledger, retain maximum. [Complete cases, paired ratios, native proof and next model interaction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm80-20261020/RESULTS.md). H100 own queue empty; H200 five jobs still Priority-pending. Next prepare the missing H100 HPC-Ops-prefill/chunk 8192 interaction against fresh 4096 at N54, not a repeat of the old auto-prefill 8192 loss. Serving peaks unchanged. Earlier running/queued snapshots below are historical.
+

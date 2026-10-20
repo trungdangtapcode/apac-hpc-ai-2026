@@ -1,8 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-## Geometry-supported 80-SM pilot submitted — 2026-10-20T09:23:02.323548+00:00
+## Scheduler family closed — 2026-10-20T09:26:13.430145+00:00
 
-H100 **222279.pbs111 R**, one 8-GPU/10-minute screen, fresh 132 versus 80 at the observed QKV tile boundary; no result yet. Prior 222277 passes 240 cases but 120/96 fail consistent 5% gates; keep 132. M54-only SM 96 gain about 2.7% is not a serving gain. H200 five jobs remain Priority-pending, positions preserved. All old charges reconcile; Used 37439.430 SU, new maximum reserve 170.666667, internal headroom 13389.903333 under unchanged 51000 cap/13000 buffer. [Plan, raw-source reasoning, numerical gates, cost and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm80-20261020/RESULTS.md). No model promotion, package edit, authentication restart or background AI. Earlier scheduler/credit snapshots below are historical.
+222279 passes 160 full cases and actual 132/80 traces, but 80 fails the declared useful-consistency gate: M54 QKV+5.17% versus O-proj+2.40%, other batches mixed. Keep 132 and close tested 80/96/120 budgets without a model tweak. Estimated cost 35.271111 SU pending ledger, retain maximum. [Complete cases, paired ratios, native proof and next model interaction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm80-20261020/RESULTS.md). H100 own queue empty; H200 five jobs still Priority-pending. Next prepare the missing H100 HPC-Ops-prefill/chunk 8192 interaction against fresh 4096 at N54, not a repeat of the old auto-prefill 8192 loss. Serving peaks unchanged. Earlier running/queued snapshots below are historical.
 
 ## Accepted local serving results
 
@@ -21,7 +21,9 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-**H100 222279.pbs111 R**: native DeepGEMM 132-versus 80 scheduler budget screen at the observed QKV tile boundary. Four provider-preflight cases then 160 full cases, all prior numerical/input/source/default-restoration/UUID and native-template checks. One 8-GPU/ten-minute allocation, no overlap. **222277 finished 240 cases**, but 120/96 fail the consistent 5% rule; keep 132. SM 96 M54-only gain about 2.7% does not justify a model change. [Evidence and next bounded question](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm80-20261020/RESULTS.md).
+## Scheduler family closed — 2026-10-20T09:26:13.430145+00:00
+
+222279 passes 160 full cases and actual 132/80 traces, but 80 fails the declared useful-consistency gate: M54 QKV+5.17% versus O-proj+2.40%, other batches mixed. Keep 132 and close tested 80/96/120 budgets without a model tweak. Estimated cost 35.271111 SU pending ledger, retain maximum. [Complete cases, paired ratios, native proof and next model interaction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/deepgemm-sm80-20261020/RESULTS.md). H100 own queue empty; H200 five jobs still Priority-pending. Next prepare the missing H100 HPC-Ops-prefill/chunk 8192 interaction against fresh 4096 at N54, not a repeat of the old auto-prefill 8192 loss. Serving peaks unchanged. Earlier running/queued snapshots below are historical.
 
 ## Newly completed kernel evidence
 

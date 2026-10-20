@@ -1,0 +1,72 @@
+{
+  "rank": 0,
+  "device": "NVIDIA H100 80GB HBM3",
+  "source_sha256": "208134faa8f92a3606e9e1ddc102e2017268cfb4d1162cfa1f32cd2fcd42812b",
+  "config_sha256": "642172ce4edef6d18266054f6c93d25faea4fc67209a069160b4ca79bde0e97a",
+  "torch_version": "2.11.0+cu130",
+  "model_loaded": false,
+  "cases": [
+    {
+      "role_shape": "tp8-qkv",
+      "m": 54,
+      "n": 1280,
+      "k": 4096,
+      "backend": "sms_132",
+      "relative_rmse": 0.025770341977477074,
+      "configured_sms": 132,
+      "samples_us": [
+        16.383999958634377
+      ],
+      "median_us": 16.383999958634377,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-qkv",
+      "m": 54,
+      "n": 1280,
+      "k": 4096,
+      "backend": "sms_80",
+      "relative_rmse": 0.025770341977477074,
+      "configured_sms": 80,
+      "samples_us": [
+        19.45599913597107
+      ],
+      "median_us": 19.45599913597107,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 54,
+      "n": 4096,
+      "k": 1024,
+      "backend": "sms_132",
+      "relative_rmse": 0.025712518021464348,
+      "configured_sms": 132,
+      "samples_us": [
+        18.880000337958336
+      ],
+      "median_us": 18.880000337958336,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 54,
+      "n": 4096,
+      "k": 1024,
+      "backend": "sms_80",
+      "relative_rmse": 0.025712518021464348,
+      "configured_sms": 80,
+      "samples_us": [
+        19.680000841617584
+      ],
+      "median_us": 19.680000841617584,
+      "vs_deepgemm_relative_rmse": 0.0
+    }
+  ],
+  "units": "microseconds per helper call, including activation quantisation",
+  "limitation": "Isolated synthetic matrix calls; not serving goodput, SLA or official model accuracy.",
+  "default_sms_restored": true,
+  "completed": true,
+  "input_integrity_passed": true,
+  "elapsed_s": 10.833927579005831
+}
