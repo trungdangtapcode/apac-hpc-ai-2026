@@ -1,0 +1,7 @@
+# Preserve profile-control HTTP status without requiring JSON
+
+The 24819 control log recorded three `Expecting value` JSON parser errors on start, although all 16 rank traces exist and are sealed. Worker logs subsequently report `/stop_profile` HTTP 500 with `Profiling is not in progress`. The start JSON parsing is a client instrumentation defect. Existing trace evidence remains usable with its recorded limitations; this does not prove every control call was clean or alter the scored performance.
+
+This derived H200 GPU-profile client changes only handling of successful control responses: record HTTP status, content type, response byte count and body kind, accepting empty/plain text without storing raw bodies. Generation responses still require JSON. Non-2xx control responses remain failures; the fix does not ignore HTTP 500 or assert that a profiler is active without trace evidence. No trace timing, traffic, phase order or model output parameter changes.
+
+The original frozen payloads and raw evidence are unchanged. This file is prepared for future derived bundles; it is not deployed into any queued or running job. CPU/GPU PBS clients require the same narrowly scoped response fix when a future bundle is derived, preserving their own activities, model paths and hashes. A local HTTP fixture validates empty 200, text 200, valid JSON, malformed generation JSON and HTTP 500 without GPU or external network access.
