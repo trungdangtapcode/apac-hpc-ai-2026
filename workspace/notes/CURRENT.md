@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T02:28:43.092358+00:00. Presentation evidence freeze: 2026-10-20T02:21:11 UTC. Actual scheduler read at 02:17 UTC: H200 24915 completed, 24926/24927/24928 pending; PBS 222048/222049 completed and 222050 running. The latter PBS outputs/charges are not reviewed in this presentation pass. Earlier scheduler/credit snapshots below retain their dates and are historical.
+Updated 2026-10-20T05:36:53.239569+00:00. H200 24926/24927 completed and fully reviewed; 24928/24962 pending at the 05:32–05:34 UTC check. VPN read-only check found no live session; PBS job status, outputs and credit are not refreshed in this continuation. Earlier queue/credit statements below retain their dates and are historical.
 
 ## Reproduced local findings
 
@@ -10,15 +10,17 @@ Updated 2026-10-20T02:28:43.092358+00:00. Presentation evidence freeze: 2026-10-
 
 Keep platforms separate. Official full-set 99%-reference accuracy remains unverified; scheduler exit 0 alone never means accepted evidence.
 
-## Actual submitted work
+## Actual submitted work and new review
 
-H200 **24915/24926/24927/24928**: **24915 completed and reviewed; 24926/24927/24928 Resources-pending** at the 02:17 check above. All four were pending at 01:43. 24915 is the preserved HPC-Ops N62 treatment/profile. New N60 group: 24926 observer off/default interval 1; 24927 observer on/interval 1 control; 24928 observer on/decode receive interval 2. Old 24914 completed and was fully reviewed. [Receipts and plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/RESULTS.md).
+**H200 24926 off / 24927 on pass** full local gates at **2991.709 / 2971.312 good output tokens/s**, N60. Single observed overhead −0.682%, not established statistically. Both have 22 TTFT breaches, zero ITL/error/cancel breaches. 24927's sampler verifies 16 disjoint GPU UUIDs, 24/24/25 phase samples and successful GPU/server queries. Decode activity mean 100%, prefill 96.5–96.6%; this is not peak compute/bandwidth efficiency or proof of the bottleneck. Deduplicate node counters; cross-node clock skew remains uncalibrated. Both post-score diagnostics have 16 sealed traces and successful traffic; start parsing is fixed, stop errors remain. [Full review and interpretation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0530/RESULTS.md).
 
-PBS **222048 → 222049 → 222050**, **C/C/R at 02:17 UTC**, with outputs and charges not reviewed this pass; the earlier post-submit R/H/H snapshot is historical: same off/on/interval-2 plan at N54, both-phase HPC-Ops/chunk4096. Only one 16-GPU PBS allocation runs at once. No new observer/polling score or confirmed telemetry coverage yet. Compare candidate with equally observed control; report observer overhead separately. Pinned native scheduler/receiver/skipper/env source hashes match both images and local selector tests pass. No token work, numerical or workload shortcut.
+**24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. A separate matched prefill-runner interaction plan is being prepared; it has no result.
+
+PBS 222048/222049 were complete and 222050 running at the earlier 02:17 snapshot, which is historical. No live VPN session now; the pane is dead, but cause/expiry is not established. No reauthentication attempted. PBS outputs and published credit still require review when access is restored. No new PBS submission/reservation.
 
 ## Inspect beyond scores
 
-The prior observability audit found missing uniform GPU/node sampling. **Collector is now implemented and deployed through the six new frozen pilots**, replacing the earlier “not implemented” status. Every five seconds per role: UUID/index, GPU/memory activity, VRAM MiB, W, degrees C, MHz/P-state, node CPU/memory/interface counters and whitelisted worker metrics. It is bounded by parent/job/hard duration; no background Codex. Actual support/coverage, UUID mapping, clock alignment, unsupported fields and off/on overhead remain to be inspected. Node counters must be deduplicated by host. [Collector and local checks](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/resource-telemetry-20261020/README.md).
+The prior observability audit found missing uniform GPU/node sampling. **Collector is now implemented and deployed through the six new frozen pilots**, replacing the earlier “not implemented” status. Every five seconds per role: UUID/index, GPU/memory activity, VRAM MiB, W, degrees C, MHz/P-state, node CPU/memory/interface counters and whitelisted worker metrics. It is bounded by parent/job/hard duration; no background Codex. Actual role/UUID mapping, phase coverage, field support and sampler status have now been inspected for 24927. Cross-node clock calibration and a replicated observer overhead estimate remain open. The other pilots retain their own review status. Node counters must be deduplicated by host. [Collector and local checks](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/resource-telemetry-20261020/README.md).
 
 Common phase markers and exact AIPerf phase manifests distinguish scoring from startup/warmup/checks/diagnostic work. Sparse old logs mix phases; KV token occupancy, allocated/sampled VRAM, GPU activity and summed kernel time differ. Do not infer a bottleneck from an aggregate. [Full new reasoning entry](../reports/research-journey-20261019/journal/entries/20261020-receive-polling.md).
 

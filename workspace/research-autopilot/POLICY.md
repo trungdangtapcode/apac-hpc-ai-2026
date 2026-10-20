@@ -1,3 +1,7 @@
+## Observer review and continued research — 2026-10-20T05:36:53.239569+00:00
+
+H200 24926/24927 pass full local gates at 2991.709/2971.312 good output tokens/s. The single on/off delta is −0.682%, not a significant overhead estimate. Actual resource samples verify 16 GPU UUIDs and phase coverage; GPU activity is not FLOPS/bandwidth utilization. N62 independent repeat 24962 is submitted; 24928 receive-2 retains its position. No live VPN session was found, so PBS results/credit remain unrefreshed, with no new authentication or spending. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0530/RESULTS.md). Earlier snapshots below are historical. Existing caps and autopilot-off policy remain.
+
 ## Presentation and N62 review — 20 October 2026
 
 H200 24915 now has a full local review PASS at 3022.035 good output tokens/s, N62, 98.726% joint SLA. This single treatment observation is +4.537% vs fresh auto N62; N60 remains independently reproduced at 2990.151/2989.175. Earlier “running/no result” snapshots below are historical. At the 02:17 UTC scheduler read, H200 24926/24927/24928 were pending and PBS 222048/222049 completed, 222050 running. PBS outputs/charges are not reviewed in this slide pass. No new GPU jobs or automation were launched.

@@ -1,3 +1,5 @@
+Latest continuation: [Observer results and continued H200 research](entries/20261020-observer-results.md).
+
 Latest continuation: [N62 terminal review and requested presentation update](entries/20261020-n62-presentation.md).
 
 Latest continuation: [N60 repeat, raw failure attribution and observed polling trials](entries/20261020-receive-polling.md).
