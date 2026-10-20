@@ -1,0 +1,9 @@
+# H100 access restored — 20 October 2026
+
+The owner explicitly requested access to H100 again. A read-only check found no live VPN process/namespace and a dead detached terminal. Only that dead pane was restarted; no healthy tunnel was interrupted and the existing private recovery cache was preserved. The client requested the previously supplied password. VPN connected, then SSH required its own password authentication because the old SSH master was absent. Entering the previously supplied credential restored SSH; a subsequent noninteractive command succeeded through the new master.
+
+Verified remote host: `a2ap-login01`. PBS query and project-credit commands work. All three own observer/polling jobs 222048, 222049 and 222050 are terminal F; the own active queue is empty. Raw terminal states and published credit are in pbs-status.txt. The fresh published Used is 36308.194 SU, Balance 27691.806 SU and In Doubt zero, as of 20/10/2026-14:00:02 SGT. The local budget ledger still requires reconciliation before any new submission. Scheduler success alone does not validate benchmark results.
+
+The launcher still requests IKE lifetime 86400 seconds and private recovery persistence; exact negotiated expiry has not been inspected. Client success does not prove the phone-side DUO factor or approval, which was not observed. The cause/time of the previous disconnection remains unestablished by this operation. No secrets, raw authentication log, session database or key material are recorded here or selected for Git capture.
+
+This checkpoint restores access and starts read-only result collection. It does not submit a new GPU job, spend additional credit, change a frozen experiment, publish to the organiser, modify slides or re-enable Codex autopilot. Continue research after reviewing returned protocol/runtime/output/resource evidence and reconciling charges within the existing caps.

@@ -698,3 +698,8 @@ Terminal H200 24915 passes all local review gates at 3022.035 good output tokens
 ## Scored observability validated and research continued — 2026-10-20T05:39:23.555756+00:00
 
 Two H200 observer pilots pass full gates at 2991.709/2971.312 good output tokens/s. First verified 16-GPU scored-phase hardware/server samples, with explicit activity/efficiency, host-deduplication and clock limits. Submitted exact N62 repeat 24962 and fixed N60/chunk8192 prefill-runner control/candidate 24964/24965; old receive2 24928 remains queued. Four Resources-pending, no new candidate result. PBS VPN has no live session; outputs/credit are unrefreshed and no authentication or SU spending occurs. [Complete journey entry](../reports/research-journey-20261019/journal/entries/20261020-observer-results.md).
+
+
+## H100 access restored — 2026-10-20T06:15:23.556274+00:00
+
+At the owner’s explicit request, restarted only the dead VPN pane, preserved private cache and restored VPN plus SSH authentication. Batch PBS/credit query succeeds on a2ap-login01; own queue empty and observer/polling jobs terminal. Published Balance 27691.806 SU, Used 36308.194 and In Doubt zero. Result collection begins; no new GPU submission or credit reconciliation in this access checkpoint. Phone-side DUO not observed, exact expiry unknown. [Operation and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md).

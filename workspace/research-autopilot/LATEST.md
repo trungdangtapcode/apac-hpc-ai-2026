@@ -1,3 +1,7 @@
+## H100 access restored at explicit request — 2026-10-20T06:15:23.556274+00:00
+
+VPN and SSH work again; batch PBS/credit query succeeds on a2ap-login01. Own queue empty, 222048/222049/222050 terminal F. Published Used 36308.194 SU, Balance 27691.806, In Doubt zero, local reconciliation and artifact review pending. Only a dead pane was restarted and private recovery state preserved. Phone-side DUO and exact negotiated expiry are not established. No new GPU job, budget increase, package change or background Codex. [Access evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md). Earlier no-access snapshots below are historical.
+
 ## New matched prefill pair submitted — 2026-10-20T05:39:23.555756+00:00
 
 24964 fresh observed DeepGEMM8192 control and 24965 observed HPC-prefill8192 candidate are submitted at fixed N60/HPC-Ops decode. Alongside preserved 24928 receive2 and 24962 N62 repeat, all four are Resources-pending at the 05:38 UTC check, below cap five. No new result. [Full plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Reviewed observer runs pass at 2991.709/2971.312, with inspected 16-GPU samples. No live VPN, fresh PBS score/credit, new PBS SU reservation, authentication restart, package change or background AI. Prior snapshots remain dated.

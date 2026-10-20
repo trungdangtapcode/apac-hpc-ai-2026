@@ -394,3 +394,8 @@ Submitted three matched off/on/receive-2 pilots per platform: H200 24926/24927/2
 
 Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconcile 937.244 SU. New maximum reserve 4608 SU, internal headroom 11419.557 SU under unchanged cap/buffer. Existing access reused, no authentication, background AI, slides or official accuracy claim. [Full result/insight/next-decision entry](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261020-receive-polling.md). Older states below retain their timestamps.
 
+
+
+## H100 reconnection authorisation — 2026-10-20T06:15:23.556274+00:00
+
+The owner explicitly requested H100 access again. This authorises the completed dead-pane VPN restart and SSH authentication, preserving existing private recovery state. VPN and SSH are verified working; no phone-side DUO assertion or exact negotiated expiry is made. The request does not alter research caps, authorize repeated future authentication attempts indefinitely, or re-enable background Codex. Credentials and authentication/session material remain outside notes and the archive. [Safe operation record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md).

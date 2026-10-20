@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T05:36:53.239569+00:00. H200 24926/24927 completed and fully reviewed; 24928/24962/24964/24965 Resources-pending at the 05:38 UTC check. VPN read-only check found no live session; PBS job status, outputs and credit are not refreshed in this continuation. Earlier queue/credit statements below retain their dates and are historical.
+Updated 2026-10-20T06:15:23.556274+00:00. At the owner’s explicit request, VPN and SSH access to H100 are restored; PBS/credit queries succeed on a2ap-login01. All three PBS observer/polling jobs 222048/222049/222050 are terminal F and the own active queue is empty. Fresh published Balance 27691.806 SU, Used 36308.194, In Doubt zero; charges/results are not yet reconciled/reviewed at this checkpoint. Previous “no live VPN” and queue/credit snapshots below are historical.
 
 ## Reproduced local findings
 
@@ -16,7 +16,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 **24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. **24964/24965** are now submitted as a fresh observed DeepGEMM8192 versus HPC-Ops8192 prefill pair at fixed N60 with unchanged HPC-Ops decode. Both are pending, no result yet. [Hypothesis, exact control/change, thresholds and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Four active H200, below cap five.
 
-PBS 222048/222049 were complete and 222050 running at the earlier 02:17 snapshot, which is historical. No live VPN session now; the pane is dead, but cause/expiry is not established. No reauthentication attempted. PBS outputs and published credit still require review when access is restored. No new PBS submission/reservation.
+PBS 222048/222049 were complete and 222050 running at the earlier 02:17 snapshot, which is historical. Access is now restored at the owner’s explicit request; the prior no-live-session state is historical. All three jobs are terminal F and read-only artifacts are being recovered. Fresh published credit is above; local reservation reconciliation and result review are still pending. No new PBS submission/reservation.
 
 ## Inspect beyond scores
 
@@ -30,7 +30,7 @@ The prepared profiler HTTP parsing fix is now deployed only through these new de
 
 Pre-submit published Used **34972.443 SU**, Balance **29027.557 SU**, In Doubt **0**. Four terminal charges reconcile **937.244 SU**; prior reserves released. New maximum outstanding reserve **4608 SU**, internal headroom **11419.557 SU**, unchanged **51000-SU cap / 13000-SU buffer**. The published source/as-of time is in nscc-budget.json. Balance already excludes prepayment when present; do not subtract it twice. Bounds are not expected actual charges.
 
-During active authorised work, review completions and submit the next distinct justified hypothesis when capacity/budget permit. No blind duplicates, unchanged losses, automatic interval/load growth or global stop because a branch loses. At most five active H200, three active PBS and one running PBS allocation. Existing VPN/SSH reused; no restart or authentication. The 24-hour IKE request is not verified exact negotiated expiry; read [VPN duration](../tutorial/19-vpn-session-lifetime.md).
+During active authorised work, review completions and submit the next distinct justified hypothesis when capacity/budget permit. No blind duplicates, unchanged losses, automatic interval/load growth or global stop because a branch loses. At most five active H200, three active PBS and one running PBS allocation. The owner explicitly authorised restoring H100 access this turn; the dead VPN pane and SSH authentication were restored, with private cache preserved. The 24-hour IKE request is not verified exact negotiated expiry; read [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
 Capture, verify, commit and push small milestones promptly. GitHub contains Git data; external large artifacts still need separate off-host backup. [Retained journey](../reports/research-journey-20261019/journal/README.md) and its dated audit are not a claim to recover every old chat statement. Chat Vietnamese, artifacts English; Qwen only, HPC_Task empty. The current explicit slide request authorises the 20 October presentation update and package reseal; AI job scripts remain unchanged. Autopilot OFF: no background Codex, replacement schedules or automatic chat notifications.
 
