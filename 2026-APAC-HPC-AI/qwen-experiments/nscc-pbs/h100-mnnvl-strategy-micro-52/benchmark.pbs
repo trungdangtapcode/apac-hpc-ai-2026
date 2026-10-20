@@ -1,0 +1,22 @@
+#!/bin/bash -l
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-mnnvl-micro52
+#PBS -l select=1:ngpus=8:mpiprocs=1
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+root=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015
+bundle=$root/h100-mnnvl-strategy-micro-52
+run=$root/runs/${PBS_JOBID:?}
+mkdir -p "$run/submitted" "$run/micro"
+cp "$bundle"/* "$run/submitted/"
+exec >"$run/job.log" 2>&1
+cd "$run/submitted"
+sha256sum --check SHA256SUMS
+hostname
+nvidia-smi
+image=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+exec bash "$run/submitted/pbs-container.sh" "$image" "$run:$run" 0 8 112 '{}' \
+  bash "$run/submitted/run-micro.sh" "$run/micro"
