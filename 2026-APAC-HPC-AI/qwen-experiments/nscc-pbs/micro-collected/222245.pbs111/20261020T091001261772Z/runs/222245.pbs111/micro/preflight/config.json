@@ -1,0 +1,35 @@
+{
+  "experiment": "unranked-one-rank-provider-preflight",
+  "seed": 20261020,
+  "model_loaded": false,
+  "fp8_utils_sha256": "208134faa8f92a3606e9e1ddc102e2017268cfb4d1162cfa1f32cd2fcd42812b",
+  "batch_tokens": [
+    54,
+    512
+  ],
+  "shapes": [
+    {
+      "name": "tp4-qkv",
+      "n": 2304,
+      "k": 4096
+    },
+    {
+      "name": "tp4-o-proj",
+      "n": 4096,
+      "k": 2048
+    }
+  ],
+  "operations_per_graph": 1,
+  "replays_per_sample": 1,
+  "samples": 1,
+  "python_budget_s": 170,
+  "max_relative_rmse": 0.05,
+  "max_between_backend_relative_rmse": 0.02,
+  "backends": [
+    "deep_gemm",
+    "triton"
+  ],
+  "accuracy_verified": false,
+  "shape_derivation": "Qwen hidden4096, 64 Q heads, 4 KV heads, head_dim128. TP4 packs 2048 Q channels plus one K/V head each, yielding N2304/K4096 QKV; row-parallel O projection N4096/K2048. M54 is diagnostic only; M512/2048/4096/8192 screen partial/full prefill chunks.",
+  "profile_m": 54
+}

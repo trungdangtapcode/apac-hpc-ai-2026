@@ -1,6 +1,8 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T08:01:59.878719+00:00. This is a dated handoff; refresh actual schedulers before claiming later state. Latest continuation: [TP4 prefill screen](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md).
+## TP4 prefill screen closed — 2026-10-20T09:11:47.564445+00:00
+
+H100 **222245** passes **160/160 full cases** and eight separate preflight cases. Native Triton loses every tested rank/shape/M; at M8192 QKV takes 57.55% longer and O projection 62.46% longer. Keep DeepGEMM, no full-model Triton pair or unchanged retry. [All raw evidence, units, paired distributions and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md). Full three-charge delta reconciles 166.116 SU: Used 37402.168, Balance 26597.832, In Doubt 0, outstanding 0, internal headroom 13597.832 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; all five H200 jobs still Priority-pending. No new serving peak or official accuracy. Older queued/running snapshots below are historical.
 
 ## Accepted local serving results
 
@@ -19,7 +21,9 @@ Keep H100/H200 separate. Scheduler exit 0 never means accepted measurement. **Of
 
 All five are **Priority-pending**, no model positions cancelled, no sixth job. [Fresh Slurm snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/live-slurm.txt). Original micro 24983 and cache-only 24988 were replaced only while pending, zero runtime; their frozen payloads and cancellation receipts are retained.
 
-**H100 222245.pbs111 Q**: new TP4 prefill linear helper screen at M512/2048/4096/8192 plus diagnostic M54, eight GPUs/ten minutes, no model loading. Separate one-rank/eight-case provider preflight precedes twenty full cases per GPU. Same native source/numerical/input/graph gates; full profiles at M8192. Predeclared >=5% representative improvement/consistency rule before any model pair. [Plan and evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md). Only one active PBS job, at most one running allocation.
+## TP4 prefill screen closed — 2026-10-20T09:11:47.564445+00:00
+
+H100 **222245** passes **160/160 full cases** and eight separate preflight cases. Native Triton loses every tested rank/shape/M; at M8192 QKV takes 57.55% longer and O projection 62.46% longer. Keep DeepGEMM, no full-model Triton pair or unchanged retry. [All raw evidence, units, paired distributions and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/RESULTS.md). Full three-charge delta reconciles 166.116 SU: Used 37402.168, Balance 26597.832, In Doubt 0, outstanding 0, internal headroom 13597.832 under unchanged 51000 cap/13000 buffer. Own PBS queue empty; all five H200 jobs still Priority-pending. No new serving peak or official accuracy. Older queued/running snapshots below are historical.
 
 ## Newly completed kernel evidence
 
@@ -35,7 +39,7 @@ Keep FA3 decode, forced NCCL Simple, forced one-shot, PDL-off, flat phase infere
 
 ## Budget and execution policy
 
-Publication queried 2026-10-20T08:00:09.090876+00:00: grant 64000, Used 37236.052, Balance 26593.281, In Doubt 170.667 SU. First failed 20.480 SU posted; second failed 21.617778 and passed 73.955556 remain unposted. Retain their maximum reservations plus new 222245 maximum: **512 SU total bound**, internal headroom **13251.948 SU** under **51000 cap/13000 buffer**. [Reconciliation proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/failed-accounting.json). Do not double-subtract prepayment; release only uniquely reconciled ledger deltas.
+Publication queried 2026-10-20T09:11:47.564445+00:00: grant 64000, Used 37402.168, Balance 26597.832, In Doubt 0 SU. All completed micro charges reconcile with the published delta, all maxima released. **Internal headroom 13597.832 SU**, unchanged **51000 cap/13000 buffer**. Own PBS queue empty. [Final proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-prefill-tp4-20261020/final-accounting.json). No double subtraction of prepaid credit.
 
 During active authorised work, review outputs and submit distinct supported hypotheses within fresh budget/queue checks. At most five active H200, three active PBS and one running PBS allocation. No blind duplicates, unchanged losses, numerical relaxation or automatic load/interval growth. VPN/SSH currently works; do not restart authentication unnecessarily. [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 
