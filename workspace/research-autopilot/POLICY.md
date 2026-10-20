@@ -1,3 +1,9 @@
+## Presentation and N62 review — 20 October 2026
+
+H200 24915 now has a full local review PASS at 3022.035 good output tokens/s, N62, 98.726% joint SLA. This single treatment observation is +4.537% vs fresh auto N62; N60 remains independently reproduced at 2990.151/2989.175. Earlier “running/no result” snapshots below are historical. At the 02:17 UTC scheduler read, H200 24926/24927/24928 were pending and PBS 222048/222049 completed, 222050 running. PBS outputs/charges are not reviewed in this slide pass. No new GPU jobs or automation were launched.
+
+The owner explicitly requested updating the presentation. The English 32-slide talk is replaced and its package resealed, preserving AI job scripts and empty HPC_Task. Full organiser accuracy remains unverified. [Current handoff](../notes/CURRENT.md), [new complete reasoning](../reports/research-journey-20261019/journal/entries/20261020-n62-presentation.md) and [presentation validation](../submission-review/research-update-2026-10-20/publication-validation.json). This authorisation is specific to the slide update; budgets and automation restrictions remain unchanged.
+
 ## Final queue refresh — 2026-10-20T01:49:48.588916+00:00
 
 H200 24915 is now **running**; 24926/24927/24928 remain Resources-pending. PBS 222048 is running, 222049/222050 remain dependency-held. This refresh changes the dated queue handoff only; no new completed measurement or credit query. [Retained states](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-recv2/final-live.json).

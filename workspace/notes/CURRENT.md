@@ -35,4 +35,4 @@ Capture, verify, commit and push small milestones promptly. GitHub contains Git 
 
 ## Presentation update
 
-The requested English 32-slide talk now includes the reviewed N62 result, repeated N60 gain, separate H100 frontier, FA3 tradeoff and resource-observer experiment design. [Build, frozen inputs and rendering limits](../submission-review/research-update-2026-10-20/README.md); [new reasoning entry](../reports/research-journey-20261019/journal/entries/20261020-n62-presentation.md). No official quality claim or research-script promotion.
+The requested English 32-slide talk has been published into the local submission package and its ZIP resealed. It includes the reviewed N62 result, repeated N60 gain, separate H100 frontier, FA3 tradeoff and resource-observer experiment design. [Build, frozen inputs and rendering limits](../submission-review/research-update-2026-10-20/README.md); [new reasoning entry](../reports/research-journey-20261019/journal/entries/20261020-n62-presentation.md). No official quality claim or research-script promotion. [Delivery and backup scope](presentation-update-20261020.md).

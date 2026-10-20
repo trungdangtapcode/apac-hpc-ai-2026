@@ -6,6 +6,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 
 | What do you need? | Where to read |
 |---|---|
+| Updated English presentation, PDF and presenter notes | [20 October delivery](presentation-update-20261020.md) |
 | Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
 | Per-run inspection beyond scores and remaining telemetry gaps | [Observability review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md) |
 | Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
