@@ -58,3 +58,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [20 October: actual model-worker locality before a binding intervention](entries/20261020-worker-locality-baseline.md).
 
 - [20 October: EAGLE3 draft header, metadata adapter and native pointer checks](entries/20261020-eagle3-preflight.md).
+
+- [20 October: equal-budget H100 CPU envelopes after actual locality evidence](entries/20261020-cpu-envelope-balance.md).

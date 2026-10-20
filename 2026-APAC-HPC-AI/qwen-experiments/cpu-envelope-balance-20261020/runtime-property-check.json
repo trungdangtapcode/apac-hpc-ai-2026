@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "unsquashfs",
+    "-processors",
+    "2",
+    "-no-xattrs",
+    "-no-progress",
+    "-d",
+    "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/runtime-types",
+    "/scratch/enroot-images/sglang-harbor.sqsh",
+    "usr/local/lib/python3.12/dist-packages/torch/_C/__init__.pyi",
+    "usr/local/lib/python3.12/site-packages/torch/_C/__init__.pyi"
+  ],
+  "returncode": 0,
+  "files": {
+    "runtime-types/usr/local/lib/python3.12/dist-packages/torch/_C/__init__.pyi": "class _CudaDeviceProperties:\n    name: str\n    major: _int\n    minor: _int\n    multi_processor_count: _int\n    total_memory: _int\n    is_integrated: _int\n    is_multi_gpu_board: _int\n    max_threads_per_multi_processor: _int\n    gcnArchName: str\n    warp_size: _int\n    uuid: str\n    L2_cache_size: _int\n    clock_rate: _int\n    memory_clock_rate: _int\n    memory_bus_width: _int\n    shared_memory_per_block: _int\n    shared_memory_per_multiprocessor: _int\n\n# Functions related to SDPA\nclass _SDPAParams:\n    query: Tensor\n    key: Tensor\n    value: Tensor\n    attn_mask: Tensor | None\n    dropout: _float\n    is_causal: _bool\n    enable_gqa: _bool\n    def __init__(\n        self,\n        query: Tensor,\n        key: Tensor,\n        value: Tensor,\n        attn_mask: Tensor | None,\n        dropout: _float,\n        is_causal: _bool,\n        enable_gqa: _bool,\n    ) -> None: ...\n\nclass _SDPBackend(Enum):\n    ERROR = -1\n    MATH = 0\n    FLASH_ATTENTION = 1\n    EFFICIENT_ATTENTION = 2\n    CUDNN_ATTENTION = 3\n    OVERRIDEABLE = 4\n\ndef _is_flash_attention_available() -> _bool: ...\ndef _can_use_cudnn_attention(params: _SDPAParams, debug: _bool) -> _bool: ...\ndef _can_use_flash_attention(params: _SDPAParams, debug: _bool) -> _bool: ...\ndef _can_use_mem_efficient_attention(params: _SDPAParams, debug: _bool) -> _bool: ...\n\n# Defined in torch/csrc/cuda/GdsFile.cpp\ndef _gds_register_buffer(t: Storage) -> None: ...\ndef _gds_deregister_buffer(t: Storage) -> None: ...\ndef _gds_register_handle(fd: _int) -> _int: ...\ndef _gds_deregister_handle(handle: _int) -> None: ...\ndef _gds_load_storage(handle: _int, s: Storage, offset: _int) -> None: ...\ndef _gds_save_storage(handle: _int, s: Storage, offset: _int) -> None: ...\n\n# Defined in torch/csrc/cuda/python_comm.cpp\ndef _broadcast(tensor: Tensor, devices: list[_int]) -> list[Tensor]: ...\ndef _broadcast_out(tensor: Tensor, out_tensors: list[Tensor]) -> list[Tensor]: ...\ndef _broadcast_coalesced(\n    tensors: list[Tensor],\n    devices: list[_int],\n    buffer_size: _int,\n) -> list[list[Tensor]]: ...\ndef _scatter(\n    tensor: Tensor,\n    devices: list[_int],\n    chunk_sizes: list[_int] | None,\n    dim: _int,\n    streams: list[Stream] | None,\n) -> list[Tensor]: ...\ndef _scatter_out(\n    tensor: Tensor,\n    out_tensors: list[Tensor],\n    dim: _int,\n    streams: list[Stream] | None,\n) -> list[Tensor]: ...\ndef _gather(\n    tensors: list[Tensor],\n "
+  },
+  "image_lscpu_exists": true
+}
