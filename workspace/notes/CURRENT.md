@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T07:42:45.154303+00:00. H100 original micro 222210 failed before measurements on a read-only FlashInfer cache path; all eight rank errors preserved. Derived cache-only retry 222232 is running and has eight cache preflight records, no kernel cases observed yet. H200 pending micro 24983 was cancelled before execution and replaced by 24988; four model jobs remain Priority-pending, total five active. Old no-result/queued snapshots below retain their dates and are historical.
+Updated 2026-10-20T07:50:39.487550+00:00. Both H100 kernel attempts failed setup before any completed timing case: 222210 FlashInfer import cache; 222232 TVM/TensorRT runtime home caches. Private-home v3 passes CPU argument/filesystem validation and is prepared, not yet submitted. H200 four model jobs and micro 24988 are Priority-pending. Prior running snapshots below are historical.
 
 ## Reproduced local findings
 

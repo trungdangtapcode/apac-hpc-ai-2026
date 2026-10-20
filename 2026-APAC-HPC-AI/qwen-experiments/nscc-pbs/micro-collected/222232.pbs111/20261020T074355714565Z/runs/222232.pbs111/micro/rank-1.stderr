@@ -1,0 +1,97 @@
+/usr/local/lib/python3.12/dist-packages/torchao/quantization/quant_api.py:1731: SyntaxWarning: invalid escape sequence '\.'
+  """Configuration class for applying different quantization configs to modules or parameters based on their fully qualified names (FQNs).
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry/ai-hpc/apacsc42/.cache/tvm-ffi/sgl_kernel_jit_per_token_group_quant_bf16_t_fp8_e4m3_t_128_false_true_true_false_true_flat_26c743ba42640964__arch_9.0a__tvmffi_0.1.11'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry/ai-hpc/apacsc42/.cache/tvm-ffi'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry/ai-hpc/apacsc42/.cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry/ai-hpc/apacsc42'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry/ai-hpc'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/users/industry'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/runs/222232.pbs111/submitted/bench.py", line 148, in <module>
+    main()
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/runs/222232.pbs111/submitted/bench.py", line 90, in main
+    output = run()
+             ^^^^^
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/runs/222232.pbs111/submitted/bench.py", line 88, in run
+    return func(x, weight, [128, 128], scale)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/layers/quantization/fp8_utils.py", line 1094, in triton_w8a8_block_fp8_linear
+    q_input, x_scale = per_token_group_quant_fp8(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/fp8_kernel.py", line 639, in sglang_per_token_group_quant_fp8
+    _run_per_token_group_quant_8bit_kernel(
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/fp8_kernel.py", line 589, in _run_per_token_group_quant_8bit_kernel
+    per_token_group_quant(
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/__init__.py", line 142, in per_token_group_quant
+    return get_kernel("quantization.per_token_group_quant", KernelBackend.JIT)(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/per_token_group_quant.py", line 213, in per_token_group_quant
+    _per_token_group_quant_custom_op(
+  File "/usr/local/lib/python3.12/dist-packages/torch/_ops.py", line 1269, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/per_token_group_quant.py", line 101, in _per_token_group_quant_custom_op
+    module = _jit_module(
+             ^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/jit/utils/common.py", line 38, in wrapper
+    result_map[key] = fn(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/per_token_group_quant.py", line 54, in _jit_module
+    return load_jit(
+           ^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/_dynamo/eval_frame.py", line 1263, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/kernels/jit/utils/compile.py", line 300, in load_jit
+    return load_inline(
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tvm_ffi/cpp/extension.py", line 1123, in load_inline
+    build_inline(
+  File "/usr/local/lib/python3.12/dist-packages/tvm_ffi/cpp/extension.py", line 949, in build_inline
+    build_dir.mkdir(parents=True, exist_ok=True)
+  File "/usr/lib/python3.12/pathlib.py", line 1317, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "/usr/lib/python3.12/pathlib.py", line 1317, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "/usr/lib/python3.12/pathlib.py", line 1317, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  [Previous line repeated 3 more times]
+  File "/usr/lib/python3.12/pathlib.py", line 1313, in mkdir
+    os.mkdir(self, mode)
+OSError: [Errno 30] Read-only file system: '/home/users'

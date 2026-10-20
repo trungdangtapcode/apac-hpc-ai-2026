@@ -17,3 +17,9 @@ Do not infer Triton/DeepGEMM performance from an import error. Preserve the fail
 The four H200 model jobs remain Priority-pending and untouched. The standalone H200 micro24983 is also pending; its harness has the same omitted explicit FlashInfer cache route. A pending-only replacement with a validated derived bundle can prevent a repeat setup failure, but cancellation is restricted to that isolated micro, never the four model queue positions. Record any cancellation and replacement IDs separately, and guard real queue counts under the shared lock.
 
 This is an environment repair, not a changed research hypothesis or relaxed numerical gate. GPU kernel execution still requires validation after the fix. No model, official accuracy, successful micro timing, VPN authentication, package change or background AI is claimed.
+
+## Second attempt: import repaired, runtime caches still blocked
+
+222232.pbs111 finished with exit 1 in 76 seconds, an estimated 21.617778 SU before ledger reconciliation. All eight ranks passed imports and exact source checks but completed zero cases. Six first entered DeepGEMM activation quantisation and failed TVM FFI build-directory creation under read-only home; the two rotated FlashInfer-first ranks aborted in native TensorRT directory creation. This is setup failure, not measured kernel loss. The earlier CPU fixture tested the actual FlashInfer workspace route only; its pass was insufficient to certify other native providers. [Structured review](222232-failure-review.json) and [sealed capture](collect-222232.json) retain every rank and raw log.
+
+Derived v3 uses the working full-model contract: an empty private writable home mount at the existing HOME path, with HOME unchanged. A separate one-rank, ten-case provider preflight must pass before the original eight-rank timing stage. No full-model change follows from these failed setup attempts.
