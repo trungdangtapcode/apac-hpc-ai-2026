@@ -9,3 +9,7 @@
 ## Definite receipt — 2026-10-20T15:08:47.381794+00:00
 
 H200 25051 submitted and verified Priority-pending: 16 GPUs / 17 minutes, no PBS SU. All four older positions retained, five total pending. [Receipt and evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md). No affinity result or new score yet. PBS 222419 is now F/exit 0 (770 s) awaiting raw review, and 222420 Q. Preserve pending cost reservations until reconciled; scheduler completion is not benchmark acceptance.
+
+## H100 derived capture prepared — 2026-10-20T15:15:11.497704+00:00
+
+The original mismatch was measured on H100, so prepare one real full-serving H100 mapping capture rather than assuming H200 placement transfers. [Exact plan and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/PLAN.md) freezes h100-worker-locality-n54-78 from off-control 77, retaining the ordinal PBS binding and all model/benchmark/diagnostic settings. Proposed serial dependency after 222420, 16 H100 / 30 minutes / maximum 1024 SU. Fresh balance planning retains the full unposted terminal reservation; internal headroom would be 6689.603 SU after this maximum. CPU observer and payload validation pass, not a GPU result or submission. A fresh locked reconciliation/cap check and definite qsub receipt are still required.
