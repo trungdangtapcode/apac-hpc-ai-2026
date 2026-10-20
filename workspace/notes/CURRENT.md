@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T06:19:37.106639+00:00. VPN/SSH/PBS access is restored at the owner’s request. All three H100 observer/polling jobs are now collected and fully reviewed; all local gates pass. The own PBS queue is empty at this checkpoint. Published credit reconciles the three charges; old no-access, unreviewed-output and unreconciled-credit statements below are historical.
+Updated 2026-10-20T06:22:50.124747+00:00. VPN/SSH/PBS access is restored at the owner’s request. All three H100 observer/polling jobs are now collected and fully reviewed; all local gates pass. New serial PBS jobs 222178/222179 are R/H at 06:21:45 UTC, with no result yet. Published credit reconciles the three preceding charges; old no-access, unreviewed-output and unreconciled-credit statements below are historical.
 
 ## Reproduced local findings
 
@@ -16,7 +16,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 **24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. **24964/24965** are now submitted as a fresh observed DeepGEMM8192 versus HPC-Ops8192 prefill pair at fixed N60 with unchanged HPC-Ops decode. Both are pending, no result yet. [Hypothesis, exact control/change, thresholds and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Four active H200, below cap five.
 
-PBS **222048/222049/222050** are now terminal, collected, fully reviewed and charged/reconciled. VPN/SSH are restored; prior no-live-session snapshots are historical. A bounded unobserved interval2/control plan is being prepared, with no new PBS submission at this review checkpoint. Keep one running 16-GPU allocation, at most three active PBS and unchanged caps.
+PBS **222048/222049/222050** are now terminal, collected, fully reviewed and charged/reconciled. VPN/SSH are restored; prior no-live-session snapshots are historical. A bounded unobserved interval2/control pair is now submitted: **222178.pbs111 R → 222179.pbs111 H** at 06:21:45 UTC, dependency verified, no result yet. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-recv-unobserved/RESULTS.md). Keep one running 16-GPU allocation, at most three active PBS and unchanged caps.
 
 ## Inspect beyond scores
 
@@ -28,7 +28,7 @@ The prepared profiler HTTP parsing fix is now deployed only through these new de
 
 ## Budget and execution
 
-Fresh published Used **36308.194 SU**, Balance **27691.806 SU**, In Doubt **0**, as of 20/10/2026-14:00:02 SGT. Three terminal charges reconcile **1335.751 SU** and release all previous reservations. At this review checkpoint outstanding reserve **0 SU**, internal headroom **14691.806 SU**, unchanged **51000-SU cap / 13000-SU buffer**. A two-job followup would reserve at most 3072 SU only after fresh checks. Balance already excludes prepayment when present; do not subtract it twice.
+Fresh published Used **36308.194 SU**, Balance **27691.806 SU**, In Doubt **0**, as of 20/10/2026-14:00:02 SGT. Three terminal charges reconcile **1335.751 SU** and release all previous reservations. The subsequent two-job followup reserves **3072 SU**, leaving internal headroom **11619.806 SU** under unchanged **51000-SU cap / 13000-SU buffer**, after fresh credit/queue checks. Balance already excludes prepayment when present; do not subtract it twice.
 
 During active authorised work, review completions and submit the next distinct justified hypothesis when capacity/budget permit. No blind duplicates, unchanged losses, automatic interval/load growth or global stop because a branch loses. At most five active H200, three active PBS and one running PBS allocation. The owner explicitly authorised restoring H100 access this turn; the dead VPN pane and SSH authentication were restored, with private cache preserved. The 24-hour IKE request is not verified exact negotiated expiry; read [VPN duration](../tutorial/19-vpn-session-lifetime.md).
 

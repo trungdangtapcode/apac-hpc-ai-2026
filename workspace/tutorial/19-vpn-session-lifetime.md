@@ -60,3 +60,7 @@ A tmux pane or tunnel interface alone is insufficient proof of end-to-end access
 - [Earlier retained diagnosis](../vpn-rootless/inspection/ike-lifetime-diagnosis.json): the old 8-hour default and the request change, with its original dated limitations.
 
 Earlier statements that the new launcher had not yet authenticated or that only SSH persistence was changed are historical snapshots. They must not override the inspected current helper or subsequent successful logins. This inspection does not change earlier research queues, scores or credit snapshots.
+
+## New connection on 20 October at 06:14 UTC
+
+The earlier 01:04 connection snapshot is historical. At the owner's explicit request, only the dead tmux VPN pane was restarted; private recovery state was preserved. The VPN client requested its password, and SSH separately requested a password because its old multiplexing master was absent. Both authenticated, and a fresh batch SSH command verified PBS access on a2ap-login01 at 06:14 UTC. Phone-side DUO approval was not observed, so client success does not establish which MFA factor ran. The launcher still requests 86400 seconds; exact negotiated expiry and the previous disconnect reason remain unverified. Leave this live connection running. [Safe access record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md). No password, session key/database or private log is included.

@@ -703,3 +703,8 @@ Two H200 observer pilots pass full gates at 2991.709/2971.312 good output tokens
 ## H100 access restored — 2026-10-20T06:15:23.556274+00:00
 
 At the owner’s explicit request, restarted only the dead VPN pane, preserved private cache and restored VPN plus SSH authentication. Batch PBS/credit query succeeds on a2ap-login01; own queue empty and observer/polling jobs terminal. Published Balance 27691.806 SU, Used 36308.194 and In Doubt zero. Result collection begins; no new GPU submission or credit reconciliation in this access checkpoint. Phone-side DUO not observed, exact expiry unknown. [Operation and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md).
+
+
+## H100 results recovered and serial continuation running — 2026-10-20T06:22:50.124747+00:00
+
+Full local review of 222048/222049/222050 passes at 2433.020/2395.311/2406.802 good tokens/s; request-mean ITL breaches 0/4/5 and exact tails retained. Three charges reconcile 1335.751 SU; highest individual H100 2433.020 is only a tiny variation above the incumbent. Verified all 48 separate rank traces and resource coverage in both observed runs. Submitted native unobserved interval2/control 222178→222179, R/H at 06:21:45 UTC, max reserve 3072 and internal headroom 11619.806. [Hypotheses, costs, limits and next decisions](../reports/research-journey-20261019/journal/entries/20261020-h100-restored.md). No official accuracy, slide, numerical or background AI change.
