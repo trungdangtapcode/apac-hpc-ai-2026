@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T15:21:42.581358+00:00. Queue and budget observations have explicit times; earlier snapshots are historical.
+Updated 2026-10-20T17:02:42.431348+00:00. Queue and budget observations have explicit times; earlier snapshots are historical.
 
 ## Accepted serving results
 
@@ -9,6 +9,8 @@ Updated 2026-10-20T15:21:42.581358+00:00. Queue and budget observations have exp
 - Keep platforms separate. **Official full-set accuracy at 99% of reference remains unverified.** Score is AIPerf Goodput × 200, with joint TTFT ≤ 3000 ms / average request ITL ≤ 20 ms and fraction ≥ 0.90 including errors. [Official workload](official-goodput-clarification-20261020.md).
 
 ## Actual queues and new submissions
+
+Fresh 17:01 UTC check: H200 retains all five Priority-pending positions. PBS **222435 is F/exit 0, 828 s**, awaiting its own terminal capture/review; 222420 has already completed and been reviewed below. Earlier running/held snapshots below are historical. No additional job since 25051/222435 yet.
 
 Read-only scheduler check **2026-10-20T15:21:42.581358+00:00**, [raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/final-queues.json):
 
@@ -25,7 +27,7 @@ Original off/read **222407/222408** pass locally: topology-to-ready 602/436 s, P
 
 Reversed **read-first 222419** passes sealed serving/startup/runtime/output gates: **2398.983183 good tokens/s**, joint **98.146923%**, mean TTFT **737.915273 ms**, mean ITL **18.180412 ms**, errors/cancellations 0, long 12/12. Reads take 27.858/28.008 s, topology-to-ready **438 s**, PBS walltime **770 s**, estimated **438.044444 SU** unposted at the last ledger check. Sixteen rank traces, 357/357 post-score diagnostic requests and 25 scored resource/server samples per role / 16 UUIDs inspected. Known profile-stop HTTP 500 remains; inflight, scored per-thread CPU and memory placement are uncollected. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/222419_REVIEW.md).
 
-Wait for **222420** before accepting the reverse confirmation: require at least 10% lower walltime/SU, lower readiness including reads, no more than 2% lower goodput and all local gates. If it fails, close or mark inconclusive; no automatic third prefetch repeat. Startup saving is not a new serving peak.
+Reversed off-control **222420** also passes full local gates at **2406.838816 good tokens/s**, 98.412698% joint SLA, 514 s topology-to-ready / 854 s reported walltime. Read-first saves **9.836066%** reported walltime/SU (84 s / 47.786667 SU), below the prospective **10%** gate; goodput changes -0.326388%. **Close this unchanged prefetch confirmation, no automatic third repeat or default promotion.** Both runtime/output/protocol and sixteen traces/resources per job were inspected; cache/node confounding remains. [Pair review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/PAIR_REVIEW.md). Startup savings are not a serving peak.
 
 ## Budget and reservations
 

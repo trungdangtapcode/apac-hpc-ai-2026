@@ -13,3 +13,7 @@ Four H200 model jobs 24928/24962/24964/24965 remain Priority-pending in the fres
 ## Read-first candidate reviewed — 2026-10-20T15:18:24.468144+00:00
 
 [222419 complete review](222419_REVIEW.md): full local serving/startup gates pass at 2398.983183 good output tokens/s, 98.146923% joint SLA, 438 s topology-to-ready and 770 s PBS walltime, estimated 438.044444 SU. Errors/cancellations 0, long 12/12, diagnostic 357/357, sixteen traces and scored resources inspected. Known profile-stop HTTP 500 retained. Off-control 222420 is still queued at this review, so pair acceptance and causal savings remain unproven. Keep its position and the prospective stopping gates. Terminal charge remains unposted; later locality reservation is separate.
+
+## Reverse comparison closed — 2026-10-20T17:01:40.559208+00:00
+
+[Full pair review](PAIR_REVIEW.md): both local serving/startup gates PASS, but84 s /47.786667 SU saving is9.836066%, below the prospective10% cost gate. Readiness438 vs514 s, goodput2398.983183 vs2406.838816 (-0.326388%). No default promotion or automatic third repeat. Candidate charge posted uniquely; terminal control maximum retained. Continue independent locality/EAGLE3 work.
