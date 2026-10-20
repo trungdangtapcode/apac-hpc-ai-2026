@@ -859,3 +859,9 @@ Theo Qwen3 AI Task Rules, General Rules→ClusterUsage, được chọn một tr
 ## So H100/H200 minh bạch — 2026-10-17 09:17 UTC
 
 BestH1002229.83,N50;mean2223.93. Chỉsođịnhlượngkhácplatformkhicùngconfig+cùngN. MatchedcomboN52chok1.1881nhưngchỉmộtanchor;estimateH200N50~2642.24chưakiểmchứng. Khôngnhân1.4băngthôngthànhgoodput. Job24272giữlạikiểmtra,ngưỡng2%quyướctrướckếtquảkhôngphảixácsuất95%. Report/ref/audit:[REPORT.md](../reports/cross-platform-20261017/REPORT.md).
+
+## Is FA3 bad, or does it not fit this test? — 20 October 2026
+
+FA3 means FlashAttention 3. In the current H100 N54 comparison it worked and passed local checks, but changing only decode from FlashInfer to FA3 lowered observed good output tokens/s from 2420.945 to 2401.284 (−0.812%). Mean TTFT improved from 713.199 to 594.276 ms, while mean ITL increased from 18.214 to 18.988 ms. For a 200-token answer, the many slower decode intervals outweighed the faster first token: mean request latency increased from 4337.853 to 4372.813 ms. Prefill was unchanged, so that TTFT difference is a pipeline observation, not proof FA3 made prefill faster.
+
+This is one matched pair, not a universal ranking or established effect across deployments. FA3 is still used for prefill. Backend performance depends on phase, shape/load, hardware and runtime integration; the precise kernel-level cause here is not established. Keep FlashInfer decode for the tested setting and revisit FA3 only with a distinct supported hypothesis. [Full scoped interpretation and evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/RESULTS.md), [SGLang backend guidance](https://docs.sglang.io/docs/advanced_features/attention_backend). No GPU job, scheduler/credit refresh or configuration change was made for this explanation.

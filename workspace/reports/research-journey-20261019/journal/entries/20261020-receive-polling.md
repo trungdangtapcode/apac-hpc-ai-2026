@@ -51,3 +51,7 @@ flowchart TD
     I --> J[Inspect full gates, telemetry alignment and limits]
     J --> K[Repeat useful gain or close loss, then select next hypothesis]
 ```
+
+## Later interpretation question: is FA3 bad?
+
+Clarified that the rejection is specific to the tested H100 N54 decode candidate, not all FA3 use. Prefill remains FA3. The candidate's 119-ms better mean first-token latency is outweighed by approximately 154 ms across subsequent token intervals, and actual mean end-to-end latency increases about 35 ms. A single −0.812% matched observation is not a universal or statistically established effect. No exact kernel-level cause has been proved; no unchanged retry or new GPU spend follows from this clarification. [Detailed arithmetic, evidence and primary reference](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/RESULTS.md).
