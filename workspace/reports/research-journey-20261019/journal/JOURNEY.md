@@ -1,3 +1,5 @@
+Latest continuation: [20 October 2026 — runner confirmation, collective screens and decode attention](entries/20261020-serving-and-collective.md). The 32-stage retrospective below retains its original dated scope.
+
 # The research journey: observations, decisions and improvements
 
 This is a retrospective reading guide to the **retained** Qwen research, from the first cluster experiments through the inference-mode submissions recorded on 19 October 2026. It was assembled from the existing plans, run notes and reviews; it is not a recreated verbatim conversation or an assertion that every original thought survived. H200 and H100 work proceeded in parallel, so the sections follow the decisions in each branch rather than inventing one universal execution timeline.

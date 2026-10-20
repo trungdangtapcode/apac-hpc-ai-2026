@@ -1,67 +1,40 @@
-## Language policy — 2026-10-17 10:10 UTC
+# Persistent APAC research notes
 
-The user clarified: **Vietnamese for chat only. English for the codebase and all work artifacts**, including code, comments, documentation, research plans, reports, notes, tutorials, and submission materials. This supersedes earlier permission to write tutorials or learning notes in Vietnamese. Use readable English with normal spacing and explain unfamiliar terms. Do not translate immutable raw logs or historical experiment evidence.
+Read [CURRENT.md](CURRENT.md) first when resuming APAC-HPC-AI2026 Qwen research. It is a dated handoff, not a replacement for the actual scheduler or project ledger.
 
-The current prefill experiment plan has been rewritten in English. Existing Vietnamese historical documents remain historical; this update does not claim they have all been translated.
+Use Vietnamese for chat only. All new code, documentation, notes, reports and submission materials are English. Historical raw records keep their original bytes and may retain Vietnamese text.
 
-# Bộ nhớ dự án: đọc từ đây
-
-Đây là điểm tra cứu lâu dài của cuộc trò chuyện APAC-HPC-AI2026. Các lượt Codex
-mới phải đọc file này và trạng thái hiện tại trước khi làm tiếp.
-
-| Cần tìm gì? | Nơi đọc |
+| What do you need? | Where to read |
 |---|---|
-| Trạng thái, các điều đã sửa, bước tiếp | [CURRENT.md](CURRENT.md) |
-| Kiến thức hỏi–đáp từ cuộc trò chuyện | [Sổ tay tổng hợp](../tutorial/14-so-tay-hoi-dap.md) |
-| Toàn bộ hướng dẫn theo chủ đề | [Mục lục tutorial](../tutorial/README.md) |
-| Yêu cầu và quyết định của người dùng | [DECISIONS.md](DECISIONS.md) |
-| Các mốc, kết quả và lỗi quan trọng | [TIMELINE.md](TIMELINE.md) |
-| Tiến độ tự chạy mới nhất | [LATEST.md](../research-autopilot/LATEST.md) |
-| Lịch sử từng lượt tự chạy | [HISTORY.md](../research-autopilot/HISTORY.md) |
-| Chính sách thực thi, budget và việc tiếp | [POLICY.md](../research-autopilot/POLICY.md) |
-| Sổ thí nghiệm, logs, phép đo | [RUNS.md](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RUNS.md) |
-| So sánh serving hiện có | [SERVING_TUNING_RESULTS.md](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md) |
-| Đối soát credit và khoản dự trù | [nscc-budget.json](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json) |
+| Current findings, corrections, queues and next steps | [Current handoff](CURRENT.md) |
+| Entire retained research reasoning and later entries | [Research journal](../reports/research-journey-20261019/journal/README.md) |
+| Latest continuation: runner confirmation, collective screens and attention pair | [20 October entry](../reports/research-journey-20261019/journal/entries/20261020-serving-and-collective.md) |
+| Historical questions and explanations | [Conversation handbook](../tutorial/14-so-tay-hoi-dap.md) |
+| Tutorials by topic | [Tutorial index](../tutorial/README.md) |
+| User requirements and decisions | [Decisions](DECISIONS.md) |
+| Important milestones and corrections | [Timeline](TIMELINE.md) |
+| Dated session reports | [Latest reports](../research-autopilot/LATEST.md), [history](../research-autopilot/HISTORY.md) |
+| Execution policy and budget rules | [Policy](../research-autopilot/POLICY.md) |
+| Experiment ledger | [RUNS.md](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RUNS.md) |
+| Serving comparisons | [Results](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md) |
+| Credit reconciliation and reservations | [Budget](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json) |
 
-## Cách giữ lịch sử đúng
+## Preserve the reasoning during the same turn
 
-- Có câu hỏi kiến thức: bổ sung câu trả lời dễ hiểu vào sổ tay, link bài chi tiết.
-- Có quyết định mới: cập nhật DECISIONS và POLICY nếu ảnh hưởng lượt tự chạy.
-- Có kết quả/lỗi: giữ artifact, ghi job ID, thời gian, môi trường và điều đã xác minh.
-- Có kết luận bị sửa: cập nhật CURRENT, nêu kết luận cũ đã sai/chưa đủ bằng chứng;
-  giữ mốc lịch sử thay vì tiếp tục dùng cả hai kết luận mâu thuẫn.
-- Khi báo trạng thái: kiểm tra scheduler/VPN thực; không chỉ đọc ghi chú.
-- Không lưu bí mật xác thực. Đây là bộ nhớ kiến thức và công việc, không phải
-  bản chép nguyên văn mọi tin nhắn hoặc bằng chứng đã nộp bài cho BTC.
+Record each new question, hypothesis, controlled change, job ID, observation with units, assessment, limits and next decision. Preserve raw failures and corrections. Use the [entry template](../reports/research-journey-20261019/journal/ENTRY_TEMPLATE.md). Correct the current handoff and mark superseded claims historical; do not erase their evidence. Never preserve passwords, OTPs, session material or other credentials.
 
-## Tiết kiệm quotaCodex
-CURRENT chỉgiữ trạng thái hiện tại,tối đa120dòng; lịch sử nằmriêng. Khôngđọctoàn
-bộHISTORY/archive mỗi wake; chỉtra phần liênquan. Khônglặp audit bấtbiến. Xem
-research-autopilot/usage-audit-20261016.json và usage-fix-validation.json.
+The initial 19 October retrospective has 32 source-linked stages. Current document/job counts belong to the [dated coverage audit](../reports/research-journey-20261019/journal/AUDIT.md). The audit checks retained source/archive/Git bytes; it does not certify that every old chat statement survived or every job has equally complete reasoning.
 
-## Trạng thái tự động
+Before submitting, review earlier outputs, runtime and output checks, costs and remaining uncertainty. Form a distinct hypothesis and control, check credit and real queues, then submit within the operating caps. Prefer useful information per SU; do not fill queues blindly or repeatedly test unchanged losses. A failed branch is not a global stop during active authorised research.
 
-Codex autopilot đã tắt theo yêu cầu người dùng 2026-10-16 13:42:29 UTC. Không tự bật lại.
-Chi tiết: [CURRENT.md](CURRENT.md). VPN và job GPU được giữ nguyên.
+## Execution and readable handoff
 
-## Chú ý trước khi gửi job
+Codex autopilot was disabled at the user's request on 16 October 2026 at 13:42:29 UTC. Do not enable background Codex or schedules. Existing jobs, the non-AI Slurm watcher and VPN may remain running. Fresh scheduled sessions would use file handoff, not this chat's context, and cannot promise automatic messages here.
 
-Research + output/log/quality/runtime/chi phí các lượt trước → giả thuyết và control → kiểm budget → submit. Ưu tiên thông tin hữu ích trên mỗi SU và thời gian; không lấp queue mù quáng. Chi tiết: [DECISIONS.md](DECISIONS.md).
+Keep CURRENT concise, with history in linked records. Read only relevant history, avoid repeating immutable audits, and use normal word spacing. Explain unfamiliar terms and keep technical evidence linked separately.
 
-## Cách viết ghi chú
+## Backup and illustrated journey
 
-Viết câu rõ ràng, đầy đủ khoảng trắng; giải thích thuật ngữ khi cần. Không nén tài liệu thành chuỗi từ viết dính hoặc quá nhiều viết tắt. Đưa chi tiết kỹ thuật vào phần riêng hoặc link nguồn.
+The authorised private repository is [apac-hpc-ai-research](https://github.com/trungdangtapcode/apac-hpc-ai-research). Edit in the active research/workspace trees, then explicitly capture, screen, verify, commit and push each small coherent milestone. [Publication and recovery coverage](../reports/github-publication-20261019/REPORT.md) explains the archive. GitHub contains the Git portion; external large artifacts still require a separate off-host copy. There is no automatic mirror.
 
-## Private GitHub publication
-
-The private repository is [apac-hpc-ai-research](https://github.com/trungdangtapcode/apac-hpc-ai-research). Read [publication, commit history and recovery coverage](../reports/github-publication-20261019/REPORT.md). GitHub contains the Git portion; large external objects still require their separate backup.
-
-## Research progression and next decisions
-
-[How Qwen serving reached 2938.628 good tokens/s](../reports/research-journey-20261019/REPORT.md) explains the measured trajectory, metrics and units, matched controls, failure lessons, current evidence limits and when to change research direction. Read it as a dated report; current scheduler state still needs checking.
-
-[Illustrated research journey](../reports/research-journey-20261019/diagram/README.md): GPU layout, six H200 stages, measured throughput trajectory, failed branches, separate H100 lane and future verification gates. SVG, PNG, PDF and editable source are retained with the dated evidence.
-
-## Complete retained research reasoning
-
-[Start with the complete research journal](../reports/research-journey-20261019/journal/README.md): 32 stages explaining the question, change, result, assessment and next decision, including failed branches and corrections. The dated coverage audit verifies 247 retained Markdown documents and indexes 194 own research jobs; 127 have dedicated purpose/observation/lesson sections. This is retained written history, not a guarantee that every historical chat statement survived.
+The [illustrated journey](../reports/research-journey-20261019/diagram/README.md) and [earlier 2938.628-good-token/s report](../reports/research-journey-20261019/REPORT.md) are dated records. Consult the current handoff and later journal entries for new peaks; do not present an older chart as live or mix H100 and H200 scores.
