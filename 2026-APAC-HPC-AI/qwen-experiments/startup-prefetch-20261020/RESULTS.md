@@ -1,3 +1,7 @@
+# First prefetch pair accepted locally — 2026-10-20T13:59:49.446440+00:00
+
+Both full local gates pass. Prefetch uses759s versus934s allocated walltime (-18.737%) with goodput2395.929777 versus2411.827128 (-0.659%). Different nodes and unknown initial cache state prevent a causal claim; one reverse-order confirmation is justified. [Full review](PAIR_REVIEW.md), [structured startup/cost comparison](startup-comparison.json). Older pending snapshots below are historical.
+
 # Control accepted; candidate still running — 2026-10-20T13:51:04.547728+00:00
 
 ## Prefetch control reviewed; candidate running — 2026-10-20T13:51:04.547728+00:00
