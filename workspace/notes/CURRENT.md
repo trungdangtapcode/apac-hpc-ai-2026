@@ -36,6 +36,12 @@ H200 **24928/24962/24964/24965** remain **Priority-pending**, fresh snapshot in 
 
 PBS **222419 F/exit 0, 770 s**, **222420 Q** in the fresh read-only check. Raw result review is pending; no startup saving or score is accepted from exit status alone. Prior Q/H snapshots above are historical. Keep budget reservations until a fresh ledger reconciliation. EAGLE3 public header/source checks continue separately; no speculative GPU job is submitted.
 
+## H100 worker capture submitted — 2026-10-20T15:16:53.686787+00:00
+
+**222435.pbs111** is dependency-held after 222420, 16 H100 / 30 minutes / max 1024 SU. It retains N54, HPC-Ops/chunk4096, the official target/client and original PBS binding, adding only bounded pre-score worker process/thread/UUID/NUMA capture. No placement result or optimisation yet. [Plan and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/RESULTS.md). H200 25051 remains the independent platform capture; all five H200 jobs are Priority-pending.
+
+Latest locked ledger queried 2026-10-20T15:16:00.806345+00:00: Used 41238.397 SU / Balance 21737.603 SU / In Doubt 1024.000 SU. Outstanding maxima now 3072 SU, including unposted terminal 222419 and existing 222420; internal headroom **6689.603 SU**, same 51000 cap/13000 buffer. This supersedes the older balance snapshots below. Do not double-subtract In Doubt. [Fresh source](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/pbs-pre-submit.txt).
+
 ## Budget and next decisions
 
 Fresh ledger queried 2026-10-20T14:21:57.736435+00:00: grant 64000 SU, Used 41238.397 SU, Balance 22761.603 SU, In Doubt 0. Static probe 222412 finishes exit 0 with 78 s reported walltime; its 2.773333 SU estimate reconciles to the 2.773 SU published delta. Its raw topology evidence is now collected and reviewed separately; scheduler exit alone is not a topology assessment. Current model jobs 222419/222420 are Q/H, reserving 2048 SU maximum. Retain 13000 SU project buffer; available internal research headroom is 7713.603 SU under the 51000 SU cap. Balance already excludes In Doubt, so do not deduct it again. No new job or GPU spending for this balance-only question. [Source and arithmetic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/budget-checks/20261020-1421/review.json).

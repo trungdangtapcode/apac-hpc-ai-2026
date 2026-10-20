@@ -1,0 +1,9 @@
+# H100 worker locality baseline submitted — 2026-10-20T15:16:53.686787+00:00
+
+Definite receipt **222435.pbs111**, frozen h100-worker-locality-n54-78, serial **afterany 222420.pbs111**. The post-submit qstat verifies dependency-held H. It requests two nodes / 16 H100 / 30 minutes, maximum **1024 SU**. No actual placement or score result yet. [Exact receipt](pbs-receipts.json), [held state and dependency](pbs-post-submit.txt), [payload/CPU validation](validation.json), [read scope, hypothesis and stopping gates](PLAN.md).
+
+The model/benchmark/transport and original CPU-binding wrapper remain unchanged. A bounded pre-score owned-worker capture adds actual process/thread masks and NVML PID/UUID/PCI/sysfs locality to decide whether an affinity intervention is warranted. Static H100 probe 222412 alone does not establish full-serving misbinding. H200 25051 gathers the corresponding platform evidence separately. No performance gain or official accuracy certification is claimed.
+
+Fresh locked queue/ledger check verified only existing 222420 active, then retained its position and added this serial allocation within the three-active/one-running cap. Used **41238.397 SU**, published Balance **21737.603 SU**, In Doubt **1024.000 SU**. The existing 222419 terminal charge is not yet posted; both prior maxima remain reserved. Total outstanding maximum **3072 SU**, internal headroom **6689.603 SU** under the unchanged 51000 SU cap and 13000 SU buffer. Balance already excludes In Doubt; it is not deducted again. [Source](pbs-pre-submit.txt), [unique reconciliation](reconciliation.json), [retained budget before reservation](budget-before.json).
+
+No uncertain or duplicate qsub occurred. No schedule, background AI, engine replacement, binding modification or submission-package edit. Frozen payloads and original queue positions are preserved. Submission receipts and reservation updates are backed up as a separate milestone from the prepared code.
