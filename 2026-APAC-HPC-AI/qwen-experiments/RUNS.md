@@ -1,3 +1,9 @@
+## Observer review and fixed-load prefill interaction — 2026-10-20T05:39:23.555756+00:00
+
+H200 24926/24927 both pass full local gates at 2991.709/2971.312 good output tokens/s (N60), a −0.682% single on/off delta. Each has 22 TTFT breaches and no ITL/error/cancel breaches. New resource inspection verifies stable/disjoint 16 GPU UUIDs and 24/24/25 scored-phase samples. GPU activity is not peak FLOPS or bandwidth; host counters are deduplicated and remote clock skew remains uncalibrated. Two separate diagnostics retain 16 traces each. [Full observer review](research-followup-20261020-0530/RESULTS.md).
+
+Submitted **24962** exact N62 repeat, plus **24964** fresh observed DeepGEMM8192/HPC-decode N60 control and **24965** observed HPC-prefill8192/HPC-decode candidate. Existing **24928** receive2 keeps its position. All four are Resources-pending at the retained 05:38 check; no new result yet. [New interaction plan and receipts](research-followup-20261020-prefill-interaction/RESULTS.md). H200 highest remains single 24915 = 3022.035; official quality unverified. No live VPN session, so no PBS output/credit refresh, authentication restart or new SU spending. Previous snapshots retain their dates.
+
 # Sổ các lần chạy Qwen
 
 Cập nhật UTC: 2026-10-18T19:24:16.398608+00:00

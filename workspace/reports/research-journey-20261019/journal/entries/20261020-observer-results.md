@@ -7,3 +7,7 @@ The new sampler is now verified on actual scored traffic: 16 disjoint GPU UUIDs,
 Submitted independent N62 repeat 24962 with byte-identical scored execution files. Keep pending receive-interval2 job 24928 for comparison with the observed control. Next distinct hypothesis is prefill HPC-Ops versus DeepGEMM at fixed chunk8192/N60 with unchanged HPC-Ops decode, motivated by actual phase telemetry and earlier phase-specific interaction evidence. A new matched control is required. No blind load/interval increase or retry of closed options.
 
 PBS cannot currently be queried because no live VPN session is found; the exact disconnect reason is not established. No new authentication or PBS spending, and no fresh H100 score/credit claim. The presentation remains a dated snapshot and is not modified by this research continuation. Official accuracy remains unverified. Autopilot stays off.
+
+## Subsequent submitted interaction pair
+
+The prefill hypothesis is now concrete and submitted: **24964** fresh observed DeepGEMM8192 control and **24965** observed HPC-Ops8192 prefill candidate, both N60/HPC-Ops decode. [Exact plan, previous cases, acceptance and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Both are Resources-pending at 05:38 UTC, alongside preserved 24928/24962. No result yet. Queue total four, below cap five; no PBS spending or package change. No larger chunks/load are inferred automatically; only a useful fully gated result warrants independent confirmation.

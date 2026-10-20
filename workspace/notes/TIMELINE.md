@@ -693,3 +693,8 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## N62 accepted and research talk refreshed — 20 October 2026
 
 Terminal H200 24915 passes all local review gates at 3022.035 good output tokens/s, +4.537% vs auto N62, with 1860/1884 qualifying requests. This is a single treatment observation; N60 is independently reproduced. Separate 16-rank diagnostic and missing continuous hardware telemetry are explicitly recorded. The owner requested the English presentation update. [Full reasoning and scope](../reports/research-journey-20261019/journal/entries/20261020-n62-presentation.md). No new GPU submission, PBS output review or official accuracy claim in this pass.
+
+
+## Scored observability validated and research continued — 2026-10-20T05:39:23.555756+00:00
+
+Two H200 observer pilots pass full gates at 2991.709/2971.312 good output tokens/s. First verified 16-GPU scored-phase hardware/server samples, with explicit activity/efficiency, host-deduplication and clock limits. Submitted exact N62 repeat 24962 and fixed N60/chunk8192 prefill-runner control/candidate 24964/24965; old receive2 24928 remains queued. Four Resources-pending, no new candidate result. PBS VPN has no live session; outputs/credit are unrefreshed and no authentication or SU spending occurs. [Complete journey entry](../reports/research-journey-20261019/journal/entries/20261020-observer-results.md).

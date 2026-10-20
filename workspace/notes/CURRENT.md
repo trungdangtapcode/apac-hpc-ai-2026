@@ -1,6 +1,6 @@
 # Current APAC handoff — 20 October 2026
 
-Updated 2026-10-20T05:36:53.239569+00:00. H200 24926/24927 completed and fully reviewed; 24928/24962 pending at the 05:32–05:34 UTC check. VPN read-only check found no live session; PBS job status, outputs and credit are not refreshed in this continuation. Earlier queue/credit statements below retain their dates and are historical.
+Updated 2026-10-20T05:36:53.239569+00:00. H200 24926/24927 completed and fully reviewed; 24928/24962/24964/24965 Resources-pending at the 05:38 UTC check. VPN read-only check found no live session; PBS job status, outputs and credit are not refreshed in this continuation. Earlier queue/credit statements below retain their dates and are historical.
 
 ## Reproduced local findings
 
@@ -14,7 +14,7 @@ Keep platforms separate. Official full-set 99%-reference accuracy remains unveri
 
 **H200 24926 off / 24927 on pass** full local gates at **2991.709 / 2971.312 good output tokens/s**, N60. Single observed overhead −0.682%, not established statistically. Both have 22 TTFT breaches, zero ITL/error/cancel breaches. 24927's sampler verifies 16 disjoint GPU UUIDs, 24/24/25 phase samples and successful GPU/server queries. Decode activity mean 100%, prefill 96.5–96.6%; this is not peak compute/bandwidth efficiency or proof of the bottleneck. Deduplicate node counters; cross-node clock skew remains uncalibrated. Both post-score diagnostics have 16 sealed traces and successful traffic; start parsing is fixed, stop errors remain. [Full review and interpretation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0530/RESULTS.md).
 
-**24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. A separate matched prefill-runner interaction plan is being prepared; it has no result.
+**24928** (observed receive2 N60) retains its queue position. **24962** (exact independent N62 repeat of 24915) is newly submitted. No accepted N62 repeat yet and no automatic N64. **24964/24965** are now submitted as a fresh observed DeepGEMM8192 versus HPC-Ops8192 prefill pair at fixed N60 with unchanged HPC-Ops decode. Both are pending, no result yet. [Hypothesis, exact control/change, thresholds and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Four active H200, below cap five.
 
 PBS 222048/222049 were complete and 222050 running at the earlier 02:17 snapshot, which is historical. No live VPN session now; the pane is dead, but cause/expiry is not established. No reauthentication attempted. PBS outputs and published credit still require review when access is restored. No new PBS submission/reservation.
 

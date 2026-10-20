@@ -1,3 +1,7 @@
+## New matched prefill pair submitted — 2026-10-20T05:39:23.555756+00:00
+
+24964 fresh observed DeepGEMM8192 control and 24965 observed HPC-prefill8192 candidate are submitted at fixed N60/HPC-Ops decode. Alongside preserved 24928 receive2 and 24962 N62 repeat, all four are Resources-pending at the 05:38 UTC check, below cap five. No new result. [Full plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-prefill-interaction/RESULTS.md). Reviewed observer runs pass at 2991.709/2971.312, with inspected 16-GPU samples. No live VPN, fresh PBS score/credit, new PBS SU reservation, authentication restart, package change or background AI. Prior snapshots remain dated.
+
 ## Observer review and continued research — 2026-10-20T05:36:53.239569+00:00
 
 H200 24926/24927 pass full local gates at 2991.709/2971.312 good output tokens/s. The single on/off delta is −0.682%, not a significant overhead estimate. Actual resource samples verify 16 GPU UUIDs and phase coverage; GPU activity is not FLOPS/bandwidth utilization. N62 independent repeat 24962 is submitted; 24928 receive-2 retains its position. No live VPN session was found, so PBS results/credit remain unrefreshed, with no new authentication or spending. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0530/RESULTS.md). Earlier snapshots below are historical. Existing caps and autopilot-off policy remain.
