@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-20T13:22:09.369531+00:00",
+  "updated_utc": "2026-10-20T13:26:41.196027+00:00",
   "project": "59010042",
   "commissioning_cap_su": 51000.0,
   "cap_interpretation": "Use project credit under the current user instruction; retain the existing13000SU conservative project reserve. Previous16384SU internal campaign cap is historical, not a BTC limit.",
@@ -10,15 +10,15 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 13000,
   "ledger": {
-    "as_of": "20/10/2026-21:00:02",
+    "as_of": "20/10/2026-21:20:07",
     "grant_su": 64000.0,
     "used_su": 40272.495,
     "balance_su": 23727.505,
     "in_doubt_su": 0.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-hpc-smallchunk-20261020/pbs-final-credit.txt",
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-20261020/pbs-pre-submit.txt",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-20T13:22:09.369531+00:00",
-    "freshness_note": "Both smaller-chunk jobs terminal; allocated-walltime charges reconcile to published delta within rounding."
+    "queried_utc": "2026-10-20T13:26:41.195983+00:00",
+    "freshness_note": "All prior charges reconciled; fresh empty queue and unchanged ledger before bounded node-prefetch pair."
   },
   "jobs": [
     {
@@ -1510,6 +1510,36 @@
       "exit_status": 0,
       "estimated_charge_su": 491.52,
       "result_state": "LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS"
+    },
+    {
+      "job_id": "222407.pbs111",
+      "bundle": "h100-startup-prefetch-off-control-74",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "planned_ns": [
+        54
+      ],
+      "dependency_afterany": null,
+      "submitted_utc": "2026-10-20T13:26:41.369549+00:00"
+    },
+    {
+      "job_id": "222408.pbs111",
+      "bundle": "h100-startup-prefetch-on-candidate-75",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "planned_ns": [
+        54
+      ],
+      "dependency_afterany": "222407.pbs111",
+      "submitted_utc": "2026-10-20T13:26:41.534334+00:00"
     }
   ],
   "pending_reservations": [
@@ -2398,14 +2428,39 @@
       "submitted_utc": "2026-10-20T12:05:21.095651+00:00",
       "last_checked_utc": "2026-10-20T13:22:09.369531+00:00",
       "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-hpc-smallchunk-20261020/pbs-final-credit.txt"
+    },
+    {
+      "purpose": "h100-startup-prefetch-off-control-74",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 1024,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "reserved_utc": "2026-10-20T13:26:41.196018+00:00",
+      "dependency_afterany": null,
+      "job_id": "222407.pbs111",
+      "submitted_utc": "2026-10-20T13:26:41.369549+00:00"
+    },
+    {
+      "purpose": "h100-startup-prefetch-on-candidate-75",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 1024,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "reserved_utc": "2026-10-20T13:26:41.196025+00:00",
+      "dependency_afterany": "222407.pbs111",
+      "job_id": "222408.pbs111",
+      "submitted_utc": "2026-10-20T13:26:41.534334+00:00"
     }
   ],
-  "active_pbs_jobs": [],
-  "unallocated_commissioning_su": 10727.504999999997,
+  "active_pbs_jobs": [
+    "222407.pbs111",
+    "222408.pbs111"
+  ],
+  "unallocated_commissioning_su": 8679.504999999997,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh all own jobs and project credit. Under budget.lock, reserve the maximum charge and record each returned job ID. Keep used plus unaccounted charges and outstanding reservations within 51,000 SU, retaining a conservative 13,000 SU project reserve. These are planning bounds, not organiser limits. At most three active PBS GPU jobs in an afterany chain, with one running 16-GPU allocation. Retain uncertain reservations and do not retry an uncertain submission.",
-  "reconciliation_note": "Keep H100 HPC-Ops chunk4096, close tested2048/8192 and native PowerOfTwo losses. Empty own queue at fresh query; no remaining unposted charge.",
+  "reconciliation_note": "Reserve at most 2048 SU for one serial observed prefill round-robin/power-of-two pair. Unchanged budget caps; no overlap or uncertain retry.",
   "evidence": [
     "inspection/all-probe-accounting.txt",
     "inspection/wake-20261015-1542UTC/pbs-own-jobs.txt",
@@ -2464,7 +2519,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 10727.504999999997,
+  "campaign_headroom_after_reserved_su": 8679.504999999997,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",

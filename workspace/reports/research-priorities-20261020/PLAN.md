@@ -33,3 +33,7 @@ The fresh published ledger is Used 40272.495 SU / Balance 23727.505 SU / In Doub
 - [Latest H200 native kernel screen](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-homebind-fix-20261020/REVIEW.md): actual /work repair and numerical/provider outcome, no new model goodput claim.
 
 The official published source supporting the startup idea is [ASPIRE notes at 3d05096](https://github.com/hpcac/2026-APAC-HPC-AI/blob/3d050964d1008b97fb6d0d7ec5160087cd6883d9/3.2%20Qwen3%20Application%20Notes%20-%20ASPIRE%202A%2B.md). Its observed loading times are not predictions for our image, allocation or cache state.
+
+## Definite execution checkpoint — 2026-10-20T13:28:06.162122+00:00
+
+The planned pair is now submitted:222407.pbs111 running,222408.pbs111 held by afterany222407. Both new allocations are30minutes/16H100/max1024SU, max2048SU combined; the full official scoring interval and workers are unchanged. Published credit was rechecked before reservation; internal headroom8679.505SU. No measured benefit yet. The future startup reader labels topology-script-to-ready separately from complete allocated walltime, because the readiness counter excludes earlier PBS prologue.

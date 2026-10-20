@@ -27,3 +27,7 @@ Two serial PBS jobs, each 16 H100 GPUs and at most 30 minutes, maximum 1024 SU e
 ## Reproduction and provenance
 
 Read pilots.json, validation.json, prefetch-validation.json, launch-fixtures.json and frozen SHA256SUMS. The bounded CPU fixtures exercise real read bytes and reject oversized models, escaping paths and excess threads; the actual PBS shim dry run checks both zero-GPU launch mappings. These fixtures do not establish GPU performance. Collect terminal jobs with nscc-pbs/collect-run.py, then review-pbs.py and the retained inspectors. The exact upstream source is pinned in upstream-review-20261020, especially the ASPIRE notes at 3d050964d1008b97fb6d0d7ec5160087cd6883d9. Keep native Enroot/image migration a separate future reproducibility experiment; it is not combined with this test.
+
+## Timing reader distinction
+
+The future review-startup.py requires full serving gates and two sealed matching-mode node receipts before accepting a cost observation. It reads the actual scheduler-declared stdout. Its ALL_WORKERS_READY counter is elapsed topology-script time, not the entire allocation-to-ready interval: earlier PBS prologue is excluded. Report that counter accurately alongside complete allocated walltime/SU, rather than inventing uncollected prologue timing. Initial cache residency remains unmeasured.
