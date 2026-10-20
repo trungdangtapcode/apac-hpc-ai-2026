@@ -1,0 +1,53 @@
+{
+  "checked_utc": "2026-10-20T12:48:56.069388+00:00",
+  "scope": "Targeted current H100 script and completed H100 222302 export; no claim to audit every historical job",
+  "benchmark_script": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-hpc-chunk4096-n54-control-72/benchmark.sh",
+  "benchmark_script_sha256": "0689abcea5a9f334c318dc8a58a809d3258a23e8ab47f2c1d4986e8aadf4844a",
+  "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/collected/222302.pbs111/20261020T115906394712Z/runs/222302.pbs111/confirm/n54/artifacts/profile_export_aiperf.json",
+  "export_sha256": "4591fdfb74192c34917408402ecd08421a53c9465f56cb63f8d00e8391dad248",
+  "phases": [
+    {
+      "name": "warmup",
+      "kind": "warmup",
+      "type": "concurrency",
+      "exclude_from_results": true,
+      "duration": 60.0,
+      "concurrency": 54
+    },
+    {
+      "name": "profiling",
+      "kind": "profiling",
+      "type": "concurrency",
+      "duration": 120.0,
+      "concurrency": 54,
+      "grace_period": 30.0
+    }
+  ],
+  "datasets": [
+    {
+      "name": "main",
+      "type": "synthetic",
+      "entries": 12800,
+      "random_seed": 2026,
+      "prompts": {
+        "isl": {
+          "mean": 4000.0,
+          "stddev": 0.0
+        },
+        "osl": {
+          "mean": 200.0,
+          "stddev": 0.0
+        },
+        "cache_bust": {
+          "target": "first_turn_prefix"
+        }
+      }
+    }
+  ],
+  "slos": {
+    "time_to_first_token": 3000.0,
+    "inter_token_latency": 20.0
+  },
+  "matches_supplied_clarification": true,
+  "frozen_payload_changed": false
+}

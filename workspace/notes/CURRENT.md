@@ -1,3 +1,7 @@
+## Workload clarification recorded — 2026-10-20T12:48:56.069388+00:00
+
+The supplied organiser reply specifies team-chosen closed-loop concurrency (no target request rate), fixed 4000/200 lengths, no prefix reuse, workload seed 2026, TTFT 3000 ms plus ITL 20 ms, and good_request_fraction >= 0.90. The current H100 benchmark script and completed sealed export 222302 match the checked settings; no frozen payload changed. The reply defines ITL, not an independent end-to-end latency threshold. [Explanation and targeted evidence](official-goodput-clarification-20261020.md#workload-and-latency-clarification-supplied-later-in-this-chat). Queue/credit snapshots below remain dated; none were refreshed in this explanation-only turn.
+
 ## Ranking formula clarified — 2026-10-20T12:46:40.317494+00:00
 
 The user supplied a reply attributed to the organiser: read AIPerf Goodput (requests/s) from profile_export_aiperf.json and multiply by fixed 200 for good output tokens/s. Current checked summary/reviewer formulas already agree. This changes no measurement or ranking; latency eligibility and official model quality remain separate. [Source provenance, example and implementation check](official-goodput-clarification-20261020.md). Scheduler and credit snapshots below were not refreshed in this explanation-only turn.
