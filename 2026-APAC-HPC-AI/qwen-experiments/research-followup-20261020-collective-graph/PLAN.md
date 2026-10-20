@@ -1,0 +1,11 @@
+# Refine the collective timing method before funding a model patch
+
+The first eight-H100 pilot 222022 passed all local numerical/input-integrity/completeness checks (288 points, 24 traces), but its single-collective graphs showed material order/rank variation even when AUTO and a forced setting select the identical algorithm. One-shot did not provide a useful positive signal at 54/64 tokens. [First measurement and assessment](../research-followup-20261020-collective/RESULTS.md). This does not justify a full 235B deployment or a clean kernel-only latency claim.
+
+Change the measurement method only: capture **32 identical collectives inside each CUDA graph** and time 10 replays per sample. Retain per-graph timing and divide by 32 for per-collective microseconds. Keep all six shapes, three strategies, two reversed-order rounds, five samples, eight ranks, hidden 4096, BF16, PDL, explicitly sufficient one-shot workspace, seeded reference checks and original-input checks. Separate 54-token traces remain diagnostic. This amortises CPU graph-launch cadence; back-to-back collectives still do not model computation/communication overlap in a real transformer.
+
+Use one 8-GPU, 10-minute allocation, maximum 170.667 additional SU, under unchanged caps/buffer. Reconcile pilot 222022's71-second estimated 20.196-SU charge only if the published Used delta matches; otherwise retain its maximum reserve too. Do not double subtract prepayment. No checkpoint weights, model patch, precision change, authentication, slides or AI schedule.
+
+Compare worst-rank median **per-collective** time across both ordering rounds. Same-algorithm controls must become stable enough to interpret the strategy differences. A persistent useful one-shot gain at relevant shapes permits preparing a model candidate/control with full runtime/output/latency gates; it is not a model speedup by itself. If the method remains noisy, report inconclusive rather than selecting a favourable point. If one-shot loses, close forcing at these shapes and keep the automatic strategy.
+
+The exact pinned API/workspace source and documentation remain in [the source-gated first plan](../research-followup-20261020-collective/PLAN.md). No NCCL symbol-name diagnosis is reopened. Every result and correction remains retained.
