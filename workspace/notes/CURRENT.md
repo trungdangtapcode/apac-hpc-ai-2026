@@ -8,6 +8,12 @@ Updated 2026-10-20T17:02:42.431348+00:00. Queue and budget observations have exp
 - H100 highest individual **222048: 2433.019859 good output tokens/s**, N54. New read-first 222419 gives 2398.983183, not a new peak. [Incumbent review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
 - Keep platforms separate. **Official full-set accuracy at 99% of reference remains unverified.** Score is AIPerf Goodput × 200, with joint TTFT ≤ 3000 ms / average request ITL ≤ 20 ms and fraction ≥ 0.90 including errors. [Official workload](official-goodput-clarification-20261020.md).
 
+## Latest worker finding and next controlled test
+
+H100 **222435** passes full local gates at **2413.341139 good tokens/s**, joint **98.416887%**, errors 0, long 12/12, diagnostic 355/355. Its sealed mapping covers all 16 GPU scheduler processes: thread masks are already NUMA-local. The outer CPU envelope is asymmetric: NUMA 1 groups share only **8 local CPU IDs**, versus **32** for prefill 0 and **56** for decode NUMA 0. This is not a measured CPU bottleneck. Keep native locality and compare an equal-size balanced task envelope with a new legacy control, using actual CUDA UUID/PCI identity and scheduler-allowed masks. [Complete review and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/REVIEW.md). No binding candidate receipt yet.
+
+Fresh locked ledger **2026-10-20T17:08:57.873458+00:00**: Used **42633.312 SU**, Balance **21366.688 SU**, In Doubt **0**, all prior terminal charges reconciled, no outstanding maxima. Internal headroom **8366.688 SU**, unchanged 51000 cap/13000 buffer. PBS own queue is empty at this check; prepare the justified controlled envelope pair and refresh under lock before submission. H200 retains all five pending positions. [Ledger reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/reconciliation-terminal.json). Earlier queue/budget snapshots below are historical.
+
 ## Actual queues and new submissions
 
 Fresh 17:01 UTC check: H200 retains all five Priority-pending positions. PBS **222435 is F/exit 0, 828 s**, awaiting its own terminal capture/review; 222420 has already completed and been reviewed below. Earlier running/held snapshots below are historical. No additional job since 25051/222435 yet.

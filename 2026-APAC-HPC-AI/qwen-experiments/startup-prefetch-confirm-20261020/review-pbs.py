@@ -66,8 +66,8 @@ for number,name,n in [(r['job'].split('.')[0],r['id'],54) for r in available]:
 
 if all((O/(r['job']+'-review.json')).exists() for r in receipts):
  reviews={r['id']:json.loads((O/(r['job']+'-review.json')).read_text()) for r in receipts}
- ordered=[reviews[p['id']] for role in ['control','candidate'] for p in json.loads((O/'pilots.json').read_text()) if p['paired_role']==role]
- if all(r['state']=='LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS' for r in ordered):
+ ordered=[reviews[p['id']] for role in ['control','candidate'] for p in json.loads((O/'pilots.json').read_text()) if p.get('paired_role')==role]
+ if len(ordered)==2 and all(r['state']=='LOCAL_PROTOCOL_SLA_OUTPUT_RUNTIME_PASS' for r in ordered):
   control,candidate=[r['point'] for r in ordered]
   gain=100*(candidate['good_output_tokens_s']/control['good_output_tokens_s']-1)
-  (O/'paired-comparison.json').write_text(json.dumps(dict(goodput_change_pct=gain,control=ordered[0]['job'],candidate=ordered[1]['job'],useful_single_pair=gain>=1,requires_independent_confirmation=True,accuracy_verified=False),indent=2)+'\n')
+  (O/'paired-serving-comparison.json').write_text(json.dumps(dict(goodput_change_pct=gain,control=ordered[0]['job'],candidate=ordered[1]['job'],useful_single_pair=gain>=1,requires_independent_confirmation=True,accuracy_verified=False),indent=2)+'\n')
