@@ -1,0 +1,145 @@
+{
+  "rank": 0,
+  "device": "NVIDIA H200",
+  "source_sha256": "208134faa8f92a3606e9e1ddc102e2017268cfb4d1162cfa1f32cd2fcd42812b",
+  "config_sha256": "ca553ed3fe51298bad27c4a65330dff9ffb28864ec47f81a950024be44505106",
+  "torch_version": "2.11.0+cu130",
+  "model_loaded": false,
+  "cases": [
+    {
+      "role_shape": "tp8-qkv",
+      "m": 16,
+      "n": 1280,
+      "k": 4096,
+      "backend": "deep_gemm",
+      "relative_rmse": 0.02543027140200138,
+      "samples_us": [
+        15.647999942302704
+      ],
+      "median_us": 15.647999942302704,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-qkv",
+      "m": 16,
+      "n": 1280,
+      "k": 4096,
+      "backend": "triton",
+      "relative_rmse": 0.02543027140200138,
+      "samples_us": [
+        22.87999913096428
+      ],
+      "median_us": 22.87999913096428,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-qkv",
+      "m": 16,
+      "n": 1280,
+      "k": 4096,
+      "backend": "flashinfer_deepgemm",
+      "relative_rmse": 0.02543027140200138,
+      "samples_us": [
+        14.688000082969666
+      ],
+      "median_us": 14.688000082969666,
+      "vs_deepgemm_relative_rmse": 1.3747776961281488e-07
+    },
+    {
+      "role_shape": "tp8-qkv",
+      "m": 54,
+      "n": 1280,
+      "k": 4096,
+      "backend": "deep_gemm",
+      "relative_rmse": 0.02572326362133026,
+      "samples_us": [
+        14.015999622642994
+      ],
+      "median_us": 14.015999622642994,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-qkv",
+      "m": 54,
+      "n": 1280,
+      "k": 4096,
+      "backend": "triton",
+      "relative_rmse": 0.025723200291395187,
+      "samples_us": [
+        25.79200081527233
+      ],
+      "median_us": 25.79200081527233,
+      "vs_deepgemm_relative_rmse": 3.874011599691585e-05
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 16,
+      "n": 4096,
+      "k": 1024,
+      "backend": "deep_gemm",
+      "relative_rmse": 0.025585677474737167,
+      "samples_us": [
+        17.08799973130226
+      ],
+      "median_us": 17.08799973130226,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 16,
+      "n": 4096,
+      "k": 1024,
+      "backend": "triton",
+      "relative_rmse": 0.025585677474737167,
+      "samples_us": [
+        17.72800087928772
+      ],
+      "median_us": 17.72800087928772,
+      "vs_deepgemm_relative_rmse": 2.74027274826949e-06
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 16,
+      "n": 4096,
+      "k": 1024,
+      "backend": "flashinfer_deepgemm",
+      "relative_rmse": 0.025585675612092018,
+      "samples_us": [
+        17.59999990463257
+      ],
+      "median_us": 17.59999990463257,
+      "vs_deepgemm_relative_rmse": 6.004422061778314e-07
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 54,
+      "n": 4096,
+      "k": 1024,
+      "backend": "deep_gemm",
+      "relative_rmse": 0.02555326372385025,
+      "samples_us": [
+        17.023999243974686
+      ],
+      "median_us": 17.023999243974686,
+      "vs_deepgemm_relative_rmse": 0.0
+    },
+    {
+      "role_shape": "tp8-o-proj",
+      "m": 54,
+      "n": 4096,
+      "k": 1024,
+      "backend": "triton",
+      "relative_rmse": 0.025553245097398758,
+      "samples_us": [
+        17.535999417304993
+      ],
+      "median_us": 17.535999417304993,
+      "vs_deepgemm_relative_rmse": 1.1611845366132911e-05
+    }
+  ],
+  "units": "microseconds per helper call, including activation quantisation",
+  "limitation": "Isolated synthetic matrix calls; not serving goodput, SLA or official model accuracy.",
+  "completed": true,
+  "input_integrity_passed": true,
+  "elapsed_s": 77.7103443457745
+}

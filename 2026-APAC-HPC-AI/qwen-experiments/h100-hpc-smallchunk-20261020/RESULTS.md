@@ -1,3 +1,7 @@
+# Smaller H100 chunks reviewed — 2026-10-20T13:22:09.369531+00:00
+
+4096 control2396.779396 versus2048 candidate1770.433299 good output tokens/s; both local PASS, candidate loses26.1328%. Retain4096 and close this unchanged branch. [Full inspection and next decision](PAIR_REVIEW.md). Earlier submission snapshots below are historical.
+
 # Smaller H100 prefill chunk pair submitted
 
 ## Smaller H100 prefill chunks submitted — 2026-10-20T12:06:14.504964+00:00
