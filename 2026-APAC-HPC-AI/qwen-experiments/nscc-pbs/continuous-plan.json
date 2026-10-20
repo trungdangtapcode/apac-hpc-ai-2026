@@ -1962,11 +1962,33 @@
         "GPU"
       ],
       "result_state": "AWAITING_BENCHMARK"
+    },
+    {
+      "id": "h100-mnnvl-strategy-micro-52",
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/h100-mnnvl-strategy-micro-52",
+      "job_id": "222022.pbs111",
+      "state": "Q",
+      "kind": "isolated_microbenchmark",
+      "max_su": 170.66666666666666,
+      "minutes": 10,
+      "requested_gpus": 8,
+      "ns": [],
+      "uploaded": true,
+      "payload_sha256": {
+        "bench.py": "42fe84e7f9844a9237e7cde86bb57e8e97510a1bd1d91a7a13a5b711d3cf24af",
+        "benchmark.pbs": "902e897f0235d44aace80e827e13d87947f067dde64d4edde0de74e2336eb3b1",
+        "config.json": "730e2206eb91174fecded45ea9aa15901c657870bfa87a1cc6999cd5f1564352",
+        "pbs-container.sh": "8c6e77fbd5dd993fc6094594491931e8f94c03c7f978283984b43bf5cbb8bfbc",
+        "pbs-exec.py": "9c469928eac82a9c8fdfdddace8e4d5facf826c0133229f174d6253f6bfa2472",
+        "run-micro.sh": "04f644da964a2bee668fb895ae1315eeddfa39218c7282edf4da90f6dbc3ec26"
+      },
+      "accuracy_verified": false,
+      "result_state": "AWAITING_MICROBENCH_NOT_MODEL_SCORE"
     }
   ],
   "gate": "Baseline220575 terminal,payloadverified,full60/120/30 atN32/34/36,baselineN32SLA100%0errors/cancel,short7/8onlyknownreverse. Three independent trials queued in afteranychain04\u219205\u219206 with1536SU each reserved beforeqsub. HigherloadN36failure is valid negative data,not missingmeasurement. Max3pending/running and1running16GPU; no furtherjob until budgets/ownqueue/resultsgatespermit. Accuracy stillunverified.",
-  "updated_utc": "2026-10-19T18:00:11.710346+00:00",
-  "current_job_state": "THREE_SERIAL_PBS_PENDING",
+  "updated_utc": "2026-10-20T00:36:24.966771+00:00",
+  "current_job_state": "ONE_MICROBENCH_SUBMITTED",
   "latest_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-prefill-inference/pbs-post-submit.txt",
   "startup_pilots": [
     {
@@ -2093,9 +2115,7 @@
   "max_running_gpu_jobs": 1,
   "queue_policy": "At most3pending/running PBS jobs, strict afterany dependency chain;16GPU maximum simultaneously. User requested multiple submissions16Oct05:49UTC.",
   "chain_jobs": [
-    "221923.pbs111",
-    "221924.pbs111",
-    "221966.pbs111"
+    "222022.pbs111"
   ],
   "candidate_sweep_review": {
     "script": "review-candidate-sweep.py",
@@ -2112,7 +2132,7 @@
     "rank_level_backend_proof": false,
     "promotion_authorized": false
   },
-  "last_confirmed_current_job": "221923.pbs111",
+  "last_confirmed_current_job": "222022.pbs111",
   "historical_recovered_points": {
     "job": "220720.pbs111",
     "capture_utc": "2026-10-16T06:26:32Z",
@@ -2133,7 +2153,7 @@
     "changes_existing_submitted_payloads": false,
     "does_not_waive_runtime_quality_credit_gates": true
   },
-  "next_bounded_step": "Review control 221923, decode-only candidate 221924 and prefill-only candidate 221966 as they complete. Compare each candidate against the shared control with full context/runtime/output/latency gates. No combined-mode claim without evidence; repeat useful gains before promotion. NCCL symbol ambiguity is resolved from existing tuning logs; do not spend a job to re-explain names. Prepare a distinct source-supported communication or MoE hypothesis if these phase tests plateau, preserving caps and credit.",
+  "next_bounded_step": "Review all eight ranks, shape/strategy/numerical/input-integrity/captured timing and trace evidence of the isolated collective pilot. It is not model goodput. Prepare full-model patch/control only on a useful signal; close unchanged flat inference-mode trials.",
   "user_continuation": "User explicitly repeats KEEP SUBMITTING when resources/budget/gates allow; do not misinterpret autopilotOFF as stopping manual GPUresearch.",
   "budget_amendment": "The previous 16,384 SU internal cap is historical. The user authorised continued use of project credit. Retain the existing 13,000 SU planning reserve; this is not an organiser requirement.",
   "last_status_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1755/pbs-status.txt"

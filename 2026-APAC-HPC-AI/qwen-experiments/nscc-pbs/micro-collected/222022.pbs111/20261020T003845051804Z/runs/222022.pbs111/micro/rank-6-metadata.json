@@ -1,0 +1,46 @@
+{
+  "kind": "isolated_kernel_microbenchmark_not_model_goodput",
+  "rank": 6,
+  "world_size": 8,
+  "gpu": "NVIDIA H100 80GB HBM3",
+  "torch": "2.11.0+cu130",
+  "flashinfer": "0.6.15.post1",
+  "workspace_buffer_bytes": 178956288,
+  "config": {
+    "experiment": "h100-mnnvl-strategy-micro-52",
+    "kind": "isolated_collective_microbenchmark",
+    "gpu_count": 8,
+    "hidden_size": 4096,
+    "token_counts": [
+      8,
+      16,
+      32,
+      48,
+      54,
+      64
+    ],
+    "dtype": "bfloat16",
+    "rms_eps": 1e-06,
+    "strategies": [
+      "auto",
+      "oneshot",
+      "twoshot"
+    ],
+    "precision_change": false,
+    "model_loaded": false,
+    "scored_model_goodput": false,
+    "graph_replays_per_sample": 20,
+    "samples_per_point": 5,
+    "repetitions": 2,
+    "force_oneshot_workspace_capacity": true,
+    "runtime_source_sha256": {
+      "/usr/local/lib/python3.12/dist-packages/flashinfer/comm/allreduce.py": "de15b8180927d91a85dd57e77b1eb1ffc075146bf10c4adfde8c7a4af41d86cc",
+      "/usr/local/lib/python3.12/dist-packages/flashinfer/comm/trtllm_mnnvl_ar.py": "ffb6da22f36e9030069e6a79def96985c3ae54aee1c21bcdd61490b8d4596b3a"
+    },
+    "numerical_tolerance": {
+      "atol": 0.02,
+      "rtol": 0.02,
+      "scope": "Local BF16 kernel sanity only, not model accuracy or bitwise equivalence"
+    }
+  }
+}
