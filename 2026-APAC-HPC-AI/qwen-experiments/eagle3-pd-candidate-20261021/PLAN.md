@@ -1,6 +1,6 @@
 # Conditional full-target EAGLE3 integration candidate
 
-No receipt, reservation or candidate inference exists at this preparation checkpoint. The real target-only reference 222752 must first finish, be sealed and reviewed: complete actual output IDs, exact A/B stability, correct target/source/worker settings, no fatal runtime/transport failures and the available locality/resource evidence. An exit status or passed token JSON alone is insufficient.
+No receipt, reservation or candidate inference exists at this preparation checkpoint. Historical proposed reference 222752 failed its tokenizer diagnostic and is not eligible. A separately repaired real target-only reference must first finish, be sealed and reviewed: complete actual output IDs, exact A/B stability, correct target/source/worker settings, no fatal runtime/transport failures and the available locality/resource evidence. An exit status or passed token JSON alone is insufficient.
 
 The separate native loader 222750 establishes correct consumption of all public draft floating tensors and native hot-token mapping, leaving the actual target embedding and production runtime untested. If the reference is usable, derive its frozen bundle, preserve the official FP8 target/tokenizer and request-scoped transport patch, and change only serving to enable EAGLE3 on both prefill and decode. Use the digest-verified public draft-only architecture adapter; no target-file modifications or training.
 

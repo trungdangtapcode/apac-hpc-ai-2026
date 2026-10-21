@@ -1,6 +1,7 @@
 """Derive an immutable candidate only after sealed, reviewed real reference PASS."""
 from pathlib import Path
 import ast
+import argparse
 import hashlib
 import json
 import shutil
@@ -8,9 +9,12 @@ import subprocess
 import tarfile
 
 O=Path(__file__).resolve().parent
-C=O.parent/'eagle3-integration-20261021'
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--reference-dir',type=Path,required=True);args=parser.parse_args()
+C=args.reference_dir.resolve()
+assert C.parent==O.parent, 'Use an owned sibling experiment reference'
 review=json.loads((C/'REFERENCE_REVIEW.json').read_text())
-assert review['reference_usable'] and review['job']=='222752.pbs111'
+reference_job=json.loads((C/'pbs-receipt.json').read_text())['job']
+assert review['reference_usable'] and review['job']==reference_job
 collection=json.loads((C/'collection.json').read_text())
 assert collection['state']=='TOKEN_REFERENCE_PASS_AWAITING_RUNTIME_REVIEW'
 assert hashlib.sha256((C/'collection.json').read_bytes()).hexdigest()==review['collection_sha256']
@@ -63,7 +67,7 @@ print('PINNED_DRAFT_VERIFIED',digest.hexdigest(),flush=True)
 ''')
 p=O/'benchmark.pbs';p.write_text(p.read_text().replace('ap42-eagle3-token-control','ap42-eagle3-pd-candidate').replace(C.name,O.name).replace('00:20:00','00:30:00'))
 p=O/'topology-job.sh';p.write_text(p.read_text().replace('deadline=${2:-1050}','deadline=${2:-1650}').replace('1200-SECONDS-40','1800-SECONDS-40'))
-config=json.loads((O/'config.json').read_text());config.update(experiment=O.name,source_bundle=C.name,source_job='222752.pbs111',purpose='Real EAGLE3 PD exact IDs against sealed target-only reference',paired_role='speculative correctness candidate',walltime_minutes=30,speculative_algorithm='EAGLE3',speculative_num_steps=2,speculative_eagle_topk=1,speculative_num_draft_tokens=3,draft_quantization=None,speculative_draft_attention_backend='flashinfer',reference_identity_sha256=reference['target_identity_sha256'],capacity_limit='Decode explicit 256; native speculative unspecified prefill default may resolve 48; correctness N1 only, not a matched throughput pair')
+config=json.loads((O/'config.json').read_text());config.update(experiment=O.name,source_bundle=C.name,source_job=reference_job,purpose='Real EAGLE3 PD exact IDs against sealed target-only reference',paired_role='speculative correctness candidate',walltime_minutes=30,speculative_algorithm='EAGLE3',speculative_num_steps=2,speculative_eagle_topk=1,speculative_num_draft_tokens=3,draft_quantization=None,speculative_draft_attention_backend='flashinfer',reference_identity_sha256=reference['target_identity_sha256'],capacity_limit='Decode explicit 256; native speculative unspecified prefill default may resolve 48; correctness N1 only, not a matched throughput pair')
 (O/'config.json').write_text(json.dumps(config,indent=2)+'\n')
 s=(C/'submit-pbs.py').read_text().replace("assert json.loads((O / 'validation.json').read_text())['passed']", "assert json.loads((O / 'validation.json').read_text())['passed']\nassert json.loads((O / 'reference-prerequisite.json').read_text())['reference_usable']")
 s=s.replace("'222750.pbs111']","'222750.pbs111','222752.pbs111']").replace("{'222750.pbs111'}","{'222752.pbs111'}").replace("dependency = '222750.pbs111'","dependency = '222752.pbs111'").replace('16 * 128 * 20 / 60','16 * 128 * 30 / 60').replace("'00:20:00'","'00:30:00'").replace('minutes=20','minutes=30').replace('target_token_reference_gate','speculative_pd_correctness_gate').replace('16-H100/20-minute real target-only token reference gate','16-H100/30-minute real EAGLE3 PD correctness gate').replace('draft_model_instantiated=False','draft_model_instantiated=True')
