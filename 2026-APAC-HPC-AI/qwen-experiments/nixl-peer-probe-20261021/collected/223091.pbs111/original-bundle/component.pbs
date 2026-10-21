@@ -1,0 +1,38 @@
+#!/bin/bash -l
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-nixl-peer
+#PBS -l select=2:ngpus=1:ncpus=14:mem=235gb:mpiprocs=1
+#PBS -l place=scatter
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+sha256sum --check SHA256SUMS
+art="$PBS_O_WORKDIR/runs/$PBS_JOBID"
+exchange="$PBS_O_WORKDIR/runtime-peer-state/$PBS_JOBID"
+[[ ! -e "$art" && ! -e "$exchange" ]]
+mkdir -p "$art/submitted" "$exchange"
+chmod 700 "$exchange"
+mapfile -t files < <(awk '{print $2}' SHA256SUMS)
+cp -- "${files[@]}" SHA256SUMS "$art/submitted/"
+awk '!seen[$0]++' "$PBS_NODEFILE" > "$art/allocated-nodes.txt"
+[[ $(wc -l < "$art/allocated-nodes.txt") -eq 2 ]]
+pids=()
+cleanup() {
+  for pid in "${pids[@]}"; do kill "$pid" 2>/dev/null || :; done
+}
+trap cleanup EXIT
+for rank in 0 1; do
+  timeout --signal=TERM --kill-after=10s 540s pbsdsh -n "$rank" -- \
+    /bin/bash -l "$art/submitted/node-entry.sh" "$rank" "$art/submitted" "$art" "$exchange" \
+    > "$art/rank${rank}-task.log" 2>&1 &
+  pids+=("$!")
+done
+remote_status=0
+for pid in "${pids[@]}"; do wait "$pid" || remote_status=1; done
+printf '%s\n' "$remote_status" > "$art/outer-step-status.txt"
+# A successful pbsdsh return does not prove remote success. Check both actual
+# rank artifacts with this stdlib-only semantic path on the allocated head.
+python3 "$art/submitted/probe.py" --check --art "$art" > "$art/head-result-check.json"
+echo 'NIXL_PEER_SEMANTIC_COMPLETE'
