@@ -112,3 +112,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: actual descriptor pass and native registration/aux hypothesis](entries/20261021-nixl-descriptor-pass.md).
 
 - [21 October: short N64 gain and fresh full matched pair](entries/20261021-h200-full-load-plan.md).
+
+- [21 October: full matched load receipts 25365 and 25366](entries/20261021-h200-full-load-receipt.md).
