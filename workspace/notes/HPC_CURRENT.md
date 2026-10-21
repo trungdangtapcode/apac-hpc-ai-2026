@@ -83,3 +83,7 @@ existing batch authentication succeeds for the CPU endpoint. No password/OTP
 was attempted; no proof of CPU project eligibility or qsub acceptance yet.
 Do not call this a VPN failure or a proven account denial. [Read-only probes
 and explanation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
+
+At 2026-10-21T12:11:16Z a fresh existing-session SSH probe succeeds on
+a2ap-login01. The VPN path and AI SSH remain usable; this does not establish
+CPU SSH authentication. No VPN login, DUO trigger or session reset was made.
