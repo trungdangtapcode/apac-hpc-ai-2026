@@ -1,0 +1,9 @@
+# One H200 routing candidate queued
+
+Definite job **25283**, submitted **2026-10-21T15:00:16.626083+00:00**. Dependency **afterok:24964** is verified in Slurm. One allocation, **16 H200 / two nodes / at most 17 minutes**, no PBS SU. The dated 18:48 UTC snapshot retains five pending jobs; the new one is dependency-held, while the four old positions are preserved. [Receipt](slurm-receipts.json), [fresh queue](live-20261021-1848.txt).
+
+The sealed 24928 receive-interval trial passes full local protocol/output/SLA gates but gains only 0.410411% over observed control. Close that unchanged polling branch. This separately frozen routing candidate derives from queued fresh RR control 24964 and changes only --prefill-policy round_robin to power_of_two; workers, N60, raw protocol, numeric formats, observer, NIXL and diagnostics stay byte-identical. [Plan](PLAN.md), [exact validation](validation.json), [prior run review](../research-review-24928-20261021/REVIEW.md).
+
+Sparse actual measurement samples show unequal prefill queue peaks; that motivates a test but does not establish a routing bottleneck. The prior H100 power_of_two loss is explicit counterevidence. Root chooses one bounded H200-specific trial using the existing fresh control, with at least 1% canonical goodput gain plus valid joint SLA, errors, output and tails before any independent confirmation. No measured gain, promotion or official accuracy claim exists. Earlier preference to await all pending branches is retained in the prior review; this queue decision is explicit, not an automatic interval/routing sweep.
+
+The active-source submission script and payload were reviewed before use. Current notes, queue registry, job status and prepared-pilot registry are captured with this actual receipt. Preserve frozen old payloads and queue positions. No schedule or background Codex is enabled.
