@@ -1,9 +1,11 @@
 # Conditional EAGLE3 matched-capacity screen
 
-This prepares the next comparison while all five H200 slots are occupied and
-PBS access is unavailable. It is not a submitted bundle, GPU reservation or
-permission to bypass the full 222780 integration review. The retained H200 N62
-submission and accepted serving peaks remain unchanged.
+Updated 21 October after the reviewed full-PD readiness result and separate
+Bash-dispatch repair. H100 223055 is submitted and awaiting full native output
+review; PBS access is working in the dated receipt. This contract is neither
+a submitted screen nor a GPU reservation. All five H200 slots remain occupied.
+The previous unavailable-access snapshot and 222780-only gate are historical.
+Keep the measured H200 N62 submission and both hardware-series peaks unchanged.
 
 ## Question and controlled change
 
@@ -26,7 +28,11 @@ that the previous 48 limit was reached or caused a bottleneck.
 The candidate additionally loads the unchanged pinned public EAGLE3 draft,
 explicit bfloat16/unquant, steps 2, topk 1, three draft-token slots and native
 verification. No output approximation, changed target weights or layer/expert
-work. Keep requested graph controls common; inspect the actual algorithm-specific
+work. Set native --cuda-graph-backend-prefill disabled on BOTH control and candidate.
+223053 demonstrates full-topology eager-prefill readiness after the earlier
+rank-divergent graph capture, but it fails later at warmup dispatch. The control
+therefore shares this prefill policy; an auto-graph target-only run would add a
+second treatment factor. Keep decode graph controls common; inspect the actual algorithm-specific
 resolved graphs separately. Equal flags do not establish identical graph coverage,
 KV capacity or memory use; draft state and verification are part of the treatment.
 Do not force unsupported graphs merely to make two log strings look equal.
@@ -49,12 +55,19 @@ inspect both stages. Raw job records and submitted payloads were not changed.
 
 ## Before any load traffic
 
-First collect terminal 222780 and review actual graph/state/transport/dtype,
-memory and exact real IDs against the sealed reference. If it fails, select a
-concrete supported repair or close the branch; this contract is not a retry.
-Only a useful passing integration permits preparing separately frozen screen
-payloads. Both require fresh lock-protected budget/own queue reconciliation,
-unchanged cap/buffer, definite receipts and verified serial allocation.
+222780 is sealed as a prefill-readiness failure. The isolated 223005 probe and
+full 223053 now establish uniform eager-prefill readiness. Full 223053 still
+fails before pair warmup because external timeout cannot invoke the PBS srun
+shell function; it provides no actual-ID equivalence or heterogeneous transfer
+proof. Separately frozen 223055 repairs only dispatch after six actual-shim CPU
+fixtures. Collect and review that run before preparing any screen. A failure
+requires a concrete supported repair or branch closure, not a load test.
+
+Only a useful passing integration permits separately frozen screen payloads.
+Both require fresh lock-protected GPU budget/own queue reconciliation,
+unchanged cap/buffer, definite receipts and verified serial allocation. Preserve
+all maxima until unique posted reconciliation. Do not use the CPU project's
+ledger or connect to the other track to satisfy the GPU submission gate.
 
 In each derived screen, run audit-capacity.py against actual owned role logs
 before the benchmark. It requires explicit matching ServerArgs plus final
@@ -88,3 +101,20 @@ Determine economical walltime from actual full repair startup, not a one-layer
 fixture or a failed startup. No new SU is reserved by this plan. A hypothetical
 two-job 30-minute ceiling would be 2048 SU, not a current charge or allocation;
 fresh ledger and useful information per SU still govern whether it is warranted.
+
+## Cost and comparability after the startup repair
+
+223053 reaches all workers/router in 490 seconds and exits at 507 seconds
+because warmup was not launched. This supplies a startup observation, not a
+complete pair/score runtime estimate. Before choosing screen walltime, use the
+completed repaired run's actual warmup, client-container and diagnostic costs,
+and allow observed variance; keep allocation ceilings economically justified.
+Do not assume that a 30-minute correctness ceiling is required for each later
+short screen. No spending is authorized merely by this estimate.
+
+The target-only control must also have explicit BF16 dtype, eager-prefill flag,
+64/256 per-role request capacities, the same collection overhead, fixed input
+and output distribution, seed, cold prefixes and duration. Algorithm-specific
+graph coverage and KV capacity may still differ and must be reported. The old
+N1/cached exact-reference diagnostic remains a semantic reference only. It is
+not the matched throughput control or a new hardware-normalized estimate.
