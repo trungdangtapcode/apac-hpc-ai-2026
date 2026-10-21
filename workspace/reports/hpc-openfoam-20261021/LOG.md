@@ -294,3 +294,14 @@ bandwidth proof. Estimated cost0.186667SU is not individually posted billing;
 retain maxima under the CPU lock. Supported reset repair passes; historical
 compile-stop cause is still unknown. Next fresh official N128 full-case prep,
 separate from old unverified processor trees and within the 100-SU CPU plan.
+
+## CPU full-case preparation receipt — 2026-10-21T14:13:03.137368+00:00
+
+After the accepted native timing gate, freeze official hierarchical N128 (16 4 2)
+case text and a bounded identity/preparation job. It also replays native Iris
+control expansion before mesh I/O. Hash-verify a fresh root, check CPU project,
+empty own CPU queue and combined PBS cap under the CPU lock, reserve8SU before
+qsub. Exactly one receipt25904959.pbs101 at14:10:12.031377UTC:32CPUs/96GB/
+serial1/zeroGPU/max900s. Total conservative maxima10.666667SU. No AI mutation.
+Terminal history already shows F/exit1 after16s; retain evidence and inspect
+before any repair. A definite submit is not a prepared split or CPU score.
