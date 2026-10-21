@@ -1,0 +1,81 @@
+#!/bin/bash
+# Official CPU case: complete initialization and 40-step one-node baseline.
+#PBS -N tu-cpu-h128foam
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=excl
+#PBS -l walltime=00:35:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+PREP_ROOT=/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-basic-h128-headerfix-20261021T141522Z
+ART="$PREP_ROOT/artifacts/hierarchical-N128-h1642"
+SOLVE="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$SOLVE"
+mkdir -p "$SOLVE/logFiles"
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+export FI_VERBS_PREFER_XRC=0
+{
+  date -u
+  hostname
+  module list 2>&1
+  lscpu
+  printf 'WM_PROJECT_VERSION=%s WM_PRECISION_OPTION=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION"
+} > "$SOLVE/environment.log"
+python3 - "$ROOT" "$ART" <<'PY'
+from pathlib import Path
+import sys,json,hashlib
+root,art=map(Path,sys.argv[1:]);ready=json.loads((art/'CUT_READY.json').read_text())
+assert ready['ranks']==128 and ready['method']=='hierarchical' and ready['factors']==[16,4,2]
+assert ready['total_cells']==65334765
+assert sorted(x.name for x in art.glob('processor*') if x.is_dir())==sorted('processor'+str(i) for i in range(128))
+for relative,digest in json.loads((root/'accepted-case-sha256.json').read_text()).items():
+ assert hashlib.sha256((art/relative).read_bytes()).hexdigest()==digest,relative
+PY
+mpirun -np 128 bash -c 'printf "rank=%s host=%s " "${PMI_RANK:-unknown}" "$(hostname)"; awk "/Cpus_allowed_list|Mems_allowed_list/" /proc/self/status' > "$SOLVE/rank-placement.log" 2>&1
+phase() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$1" | tee -a "$SOLVE/phases.log"; }
+run_stage() {
+  local name=$1
+  shift
+  phase "$name"
+  /usr/bin/time -v timeout --signal=TERM --kill-after=15s 1800s mpirun -np 128 "$@" > "$SOLVE/logFiles/$name.log" 2>&1
+  python3 - "$SOLVE/logFiles/$name.log" <<'PY'
+from pathlib import Path
+import re,sys
+s=Path(sys.argv[1]).read_text()
+assert re.search(r'^End\s*$',s,re.M) and 'FOAM FATAL' not in s
+assert 'died from signal' not in s and 'OPENFOAM=2512' in s and 'scalar=64' in s
+assert re.search(r'^nProcs\s*:\s*128\s*$',s,re.M)
+PY
+}
+cd "$ART"
+run_stage renumberMesh renumberMesh -constant -overwrite -parallel
+run_stage potentialFoam potentialFoam -initialiseUBCs -parallel
+run_stage applyBoundaryLayer applyBoundaryLayer -ybl 0.0450244 -parallel
+printf 'ranks=128\nmethod=hierarchical\nfactors=(16 4 2)\ninit_job=%s\n' "$PBS_JOBID" > "$SOLVE/INITIALIZATION_READY"
+cp -a "$ART/system" "$SOLVE/system"
+ln -s "$ART/constant" "$SOLVE/constant"
+for p in "$ART"/processor*; do ln -s "$p" "$SOLVE/$(basename "$p")"; done
+cd "$SOLVE"
+foamDictionary system/controlDict -entry startFrom -set startTime > logFiles/control-set.stdout 2> logFiles/control-set.stderr
+foamDictionary system/controlDict -entry endTime -set 40 >> logFiles/control-set.stdout 2>> logFiles/control-set.stderr
+run_stage simpleFoam simpleFoam -parallel
+python3 - <<'PY'
+from pathlib import Path
+import re,json,math
+s=Path('logFiles/simpleFoam.log').read_text()
+steps=[int(v) for v in re.findall(r'^Time = (\d+)\s*$',s,re.M)]
+assert steps==list(range(1,41))
+average=float(re.search(r'Average wall-clock time per time step\s*=\s*([\deE.+-]+)',s)[1]);assert math.isfinite(average) and average>0
+coeff=Path('postProcessing/forceCoeffsAll/0/coefficient.dat')
+rows=[list(map(float,line.split())) for line in coeff.read_text().splitlines() if line.strip() and not line.startswith('#')]
+assert [int(row[0]) for row in rows]==steps and all(math.isfinite(v) for row in rows for v in row)
+Path('semantic-result.json').write_text(json.dumps({'passed':True,'steps':40,'average_seconds_step':average,'final_Cd_dimensionless':rows[-1][1],'scope':'One-node CPU baseline; four-node scored run not performed'},indent=2)+'\n')
+PY
+phase PASS
