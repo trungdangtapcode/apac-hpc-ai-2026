@@ -87,3 +87,11 @@ and explanation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access
 At 2026-10-21T12:11:16Z a fresh existing-session SSH probe succeeds on
 a2ap-login01. The VPN path and AI SSH remain usable; this does not establish
 CPU SSH authentication. No VPN login, DUO trigger or session reset was made.
+
+At 2026-10-21T12:13:44Z the existing ASPIRE-2A+ SSH still returns a2ap-login01.
+A separate VPN-namespace probe resolves aspire2p.nscc.sg to 10.103.72.200 and
+receives its SSH banner. CPU hostname lookup fails locally, but the previously
+resolved CPU IP 10.103.72.110 reaches authentication and a password-free batch
+attempt is denied. Do not reverse these observations or claim CPU password
+login passed. A reused authenticated connection and a fresh login are different
+tests; neither this result nor shared VPN establishes identical host permission.

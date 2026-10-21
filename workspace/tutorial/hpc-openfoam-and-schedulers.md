@@ -72,3 +72,18 @@ VPN, but password-free SSH has no usable authentication there. This is not a
 failed DUO login and does not establish that the user's password is invalid.
 After CPU SSH login, check myprojects and the module/queue before qsub.
 [Actual dated probes](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
+
+### Why one SSH hostname may work while another fails on the same VPN
+
+Each hostname resolves to its own address and SSH service. The VPN may provide
+routes to both, but DNS, per-system account permission and the available SSH
+authentication can still differ. A cached SSH connection can execute commands
+without performing a fresh password login. Therefore compare the same type of
+test before concluding that two hosts accept different passwords.
+
+Read the actual error: Could not resolve hostname is DNS; Connection timed out
+means the connection did not complete and does not prove a bad password;
+Permission denied means the offered authentication was not accepted. A
+BatchMode probe with no password cannot verify whether that password works.
+On our 21 October probe, existing H100 SSH works, the CPU IP reaches SSH, CPU
+hostname DNS fails in the VPN namespace, and CPU password login remains untested.
