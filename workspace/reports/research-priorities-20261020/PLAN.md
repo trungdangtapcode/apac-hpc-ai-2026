@@ -1,5 +1,11 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T03:48:12.009783+00:00
+
+The equal-budget CPU-envelope pair proves the intended worker mapping but gains only 0.289035%, below its 1% useful-gain gate. Close that exact policy without an unchanged repeat or promotion. The distinct EAGLE3 component branch found that the native chat gateway filters token-ID extensions; /generate with logprobs preserves the synthetic IDs, but native imports then hit read-only HOME. Job 222729 is running the same component scripts with isolated writable caches, one H100 / four minutes / max 8.533334 SU. [Full current handoff](../../notes/CURRENT.md) and [derived gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/PLAN.md).
+
+No target model or draft class has been loaded by these components. Review actual terminal evidence before preparing full PD integration and exact greedy output checks. Preserve all five H200 positions; they remain pending for Resources. Credit headroom is 7407.790333 SU after conservative maxima at the latest locked reservation; refresh before more spending. Earlier execution snapshots below are historical, not current submission instructions. No background AI or budget increase.
+
 ## Latest execution refinement — 2026-10-20T17:29:26.672121+00:00
 
 Actual H100 worker mapping in 222435 shows native NUMA-local scheduler threads, but an asymmetric outer CPU envelope. The justified followup is now submitted: **222551 legacy control → 222552 balanced candidate**, with equal 32/32/64 CPU budgets, common UUID-aware metadata checks and unchanged serving/scoring settings. The control is running; the candidate is serially held at the dated queue check. Require actual intended mappings, full local gates and at least 1% goodput gain before an independent repeat. Do not disable native locality or call CPU saturation established. [Plan and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/RESULTS.md).

@@ -39,3 +39,7 @@ Prepare a new frozen payload that keeps both diagnostic Python scripts byte-iden
 ## /generate job sealed and reviewed — 2026-10-21T03:47:36.167470+00:00
 
 222722 is sealed F / exit 1, 89 seconds / estimated 3.164444 SU before posted reconciliation. Actual native /generate forwarding and synthetic input/output logprob IDs pass. The subsequent native imports fail because HOME is read-only; native registry/tensor gates are not reached and no model inference occurs. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/REVIEW.md). Preserve the initial nonterminal collection output and original payload. The concrete private-cache repair is already separately submitted as 222729; its result remains independent.
+
+## Dated handoff — 2026-10-21T03:48:12.009783+00:00
+
+222729 is running with 12 seconds reported walltime at the read-only check; no component result yet. H200's five preserved positions are pending for Resources. CURRENT now separates accepted serving peaks, the closed CPU pair, both failed component stages and the current repair. Credit snapshots and all missing real integration/accuracy gates remain explicit. [Current handoff](../../../../notes/CURRENT.md).
