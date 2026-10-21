@@ -6,7 +6,10 @@ The first goal is one reproducible Basic result, not a large parameter sweep.
 Another person supports AI. Preserve their jobs/payloads and coordinate any
 shared-account expenditure before a reservation. This plan does not authorise
 new service units or convert the AI project's remaining balance into an HPC
-allocation. No experiments below have been submitted.
+allocation. The toy gate has passed. The first 65M serial decomposition is now job
+2293752; see the dated [live handoff](../../notes/HPC_CURRENT.md) and
+[bounded baseline plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/PLAN.md).
+Older access/pre-submit wording below is historical planning.
 
 ## Stage 0: establish the actual practice and contest environments
 

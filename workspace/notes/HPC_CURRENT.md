@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21 after the verified Iris toy run. The owner authorised HPC
+Updated 2026-10-21T11:39:42.821636+00:00 after the first full-mesh decomposition submission. The owner authorised HPC
 research and said another person supports AI. Preserve their serving payloads,
 jobs and budget controls. English artifacts, Vietnamese chat; autopilot off.
 
@@ -55,9 +55,24 @@ measurements, not ours. Exact case 84c262431117f5c921db8335e368a12d0e9fa3f0
 is recovered from openfoam/community/hpc: 42 text files with Git blob and SHA256
 provenance; 12 Basic text preparations pass static checks, not solver runs.
 
-Next inspect the actual Iris 65M prep/solver scripts, input identity and memory/
-scratch needs before one bounded complete Basic practice chain. Preserve each
-new decomposition in its own directory and all mandatory initialization. Iris
-is practice; scored 1/2/4-node runs belong to Gadi or CPU ASPIRE-2A. Our existing
-ASPIRE-2A+ AI account does not establish access to either CPU contest project.
-No full 65M job has been submitted at this checkpoint.
+## Active full-mesh practice
+
+**2293752** accepted at 11:38:43 UTC; latest retained read shows RUNNING on
+iris031, one node / 56 allocated CPUs / one serial process, maximum 15 minutes.
+It only performs decomposePar and restore0Dir on the actual 65,334,765-cell
+mesh. No solver result or Cd exists yet. [Plan, frozen scripts, input review
+and actual receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/STATUS.md).
+
+All 39 common retained case files match the pinned upstream bytes; two extra
+root property copies match constant/. Shared mesh cell count/precision header
+and file sizes are checked, not its full content hash. Scratch reports 16 TiB
+available and no hard user quota. The whole planned split chain is at most
+75 node-minutes, only one active Iris practice allocation at a time. Billed
+Iris SU is unknown; no national CPU/GPU reservation is used.
+
+Next collect terminal 2293752 evidence and require clean logs, exactly 56
+processor directories and the correct total cells before 03.2-init (56 MPI,
+maximum 20 minutes). Review all mandatory stages before 04-simpleFoam (40
+steps, maximum 40 minutes). Keep each new split in its own artifact tree.
+Iris is practice; scored 1/2/4-node runs belong to Gadi or CPU ASPIRE-2A.
+Our existing ASPIRE-2A+ AI account does not establish CPU contest access.

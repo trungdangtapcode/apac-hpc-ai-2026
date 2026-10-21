@@ -93,3 +93,40 @@ After verified kit hashes, successful login-only binary inspection and a fresh e
 ## First native Iris toy review — 2026-10-21T11:30:34.133595+00:00
 
 Job 2293751 is COMPLETED/exit 0:0, 30 seconds, 56 CPUs/one iris031 node, four MPI ranks. Download and seal only 26 text evidence artifacts, not processor meshes or authentication. All ten stage logs, both split identities, native v2512/scalar64 and ten contiguous solver steps pass. Retain timing-confidence warnings; tiny toy averages are not a 65M score, a causal speedup or Cd validation. Hardware telemetry and billed SU are uncollected. This establishes working interactive access, successful Slurm allocation and the native MPI/solver smoke gate. Continue next with actual 65M input/script inspection before a bounded practice chain; no new full case or national/GPU reservation is made in this question checkpoint.
+
+## First full-mesh baseline submission — 2026-10-21T11:39:42.821636+00:00
+
+**Question and evidence.** The owner requested progress. Toy 2293751 passes
+native MPI/solver startup for hierarchical and Scotch. Iris has an empty shared
+account queue and idle practice nodes. Inspect the actual three N56 kit scripts,
+shared text case, binary mesh header, disk/quota and partition before allocating.
+All 39 common retained text files exactly match pinned case 84c2624; two redundant
+root property copies match constant/. The mesh header declares 65,334,765 cells;
+a full content hash is not collected. The filesystem reports 16 TiB free, no
+hard user quota and 180000 MB advertised memory/node. Other-platform serial
+RSS is an estimate, not measured Iris use.
+
+**Hypothesis/control/change.** Establish whether the full required Basic chain
+works on Iris with the unchanged hierarchical (7 4 2), xyz, 56-rank example.
+This is a validity baseline, not a performance optimization. Freeze cut/init/
+solver payloads and the complete retained shared text before submit. Prioritize
+one serial cut, then review before init, then review before 40-step solver.
+One active Iris allocation; full planned maximum 75 node-minutes (70 physical
+CPU-hours if all stages allocate 56 CPUs), no invented SU conversion and no
+national CPU/GPU spending. Keep HPC_Task empty.
+
+**Submission and observations.** Job 2293752 accepted at 11:38:43.233405 UTC;
+subsequent retained scheduler read is RUNNING on iris031, one node, 56 allocated
+CPUs and one serial task. Maximum 900 seconds for decomposition/restore only.
+No completed 65M stage, solver Average (seconds/step) or Cd is claimed. An initial
+hash guard used an unset local orchestration value and failed before sbatch;
+corrected explicit SHA256 passes and only one successful submission exists.
+A mistaken head on binary owner printed bounded binary bytes; metadata capture
+uses a bounded binary read instead. Neither observation changes solver inputs.
+
+**Assessment and next decision.** Inspect terminal accounting, decomposePar End,
+exact 56 processors, total cells, method/factors and restore output before init.
+Then review renumberMesh/potentialFoam/applyBoundaryLayer before the 40-step solve.
+Retain all failures. CPU/NUMA/network telemetry and billed Iris SU are uncollected.
+Iris timings will remain practice, not Gadi/ASPIRE contest scores. Details and
+raw receipt: iris-65m-20261021/PLAN.md, input-review.json, cut-submission.json.
