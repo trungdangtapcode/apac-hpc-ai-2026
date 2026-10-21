@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T05:03:27.169907+00:00. Queue observations are from **2026-10-21T04:58:33.945996+00:00**, not a future live guarantee. [Earlier component handoff](history/20261021-before-real-token-control.md) is historical.
+Updated 2026-10-21T05:19:22.495781+00:00. Queue observations are from **2026-10-21T05:19:22.495781+00:00**, not a future live guarantee. [Earlier component handoff](history/20261021-before-real-token-control.md) is historical.
 
 ## Retained serving results
 
@@ -15,9 +15,10 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 
 ## Actual submitted work
 
-- H200 **24928 / 24962 / 24964 / 24965 / 25051** are PD / Priority. Preserve all five; no sixth. They cover recv2, the N62 repeat, observed prefill backend pair and H200 worker locality.
-- H100 **222752.pbs111 is now F / exit 0 but the reference FAILED**: BatchEncoding input IDs cannot serialize and no result artifact exists. Actual 662 seconds / estimated 376.604444 SU. The preceding dated receipt requested **16 H100 / at most 20 minutes / maximum 682.666667 SU**. It runs the real target-only PD token reference, not EAGLE3 inference or ranked AIPerf. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md), [raw queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/live-receipt.json).
-- All five smaller EAGLE3 component/load jobs are terminal and reviewed below. No completed full-model speculative job exists.
+- H200 **24928 / 24962 / 24964 / 24965 / 25051** remain PD / Priority; preserve all five, no sixth. They cover recv2, N62 repeat, observed prefill backend pair and H200 worker locality.
+- H100 **222761.pbs111 is R** at the dated check: **16 H100 / at most 20 minutes / max 682.666667 SU**. This is the repaired real target-only complete-ID/repeat-stability control, not speculative inference or ranked AIPerf. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md), [snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/live-receipt.json).
+- **222752 is sealed FAILED** despite PBS exit 0: BatchEncoding input IDs cannot serialize and no reference result exists. Actual 662 s / estimated 376.604444 SU. Both P/D warmups work; locality and startup telemetry are inspected. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/REVIEW.md).
+- **222759 is sealed tokenizer/corpus PASS**, actual Transformers 5.12.1 returns plain lists with explicit return_dict=False; complete valid JSON lengths **22/21/22/4000**. No model weights/inference or GPU operations. [Actual runtime review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-tokenizer-corpus-20261021/REVIEW.md).
 
 ## EAGLE3 progress and exact remaining gates
 
@@ -33,13 +34,13 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 
 Public draft nebius/EAGLE3-Qwen3-235B-A22B-Instruct-2507, revision ff0f0c0999f6c86b21dfd2f5803eebc4ac712224, remains outside Git on both sites. Full digest bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86, 1145943008 bytes. Draft-only architecture adapter changes no official target file. No training here.
 
-222752 keeps baseline 222551 worker and transport bytes. Through actual /generate, it checks three generic short prompts and one exact 4000-token generic prompt twice, with 200 outputs each. Require all actual output IDs, including first token, and exact target-a/target-b stability. Diagnostic logprobs and ignore_eos stay outside ranking. [Prospective protocol and stopping rules](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/PLAN.md), [updated token-route status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/TOKEN_ROUTE.md).
+222761.pbs111 keeps baseline 222551 worker/transport bytes, freezes 222759's verified exact corpus and removes tokenizer API calls from the expensive client. Through actual /generate it requires all 200 actual output IDs including first token, expected input counts/finish and exact two-pass equality. The head script independently revalidates a passed artifact after the task, because 222752 proves scheduler exit alone is insufficient. Logprobs/ignore_eos stay outside ranking. [Protocol and semantic gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/PLAN.md).
 
-222752 is collected and reviewed; see [failure and telemetry](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/REVIEW.md). Actual-runtime tokenizer/corpus gate **222759** is now submitted: one H100/four minutes/max 8.533334 SU, CPU-only operations. Nine normalization fixtures pass; actual runtime result pending. Conditional full repair freezes its corpus and adds independent semantic artifact checks before any repeat. No speculative candidate is eligible. A passing JSON alone needs runtime review. Failure blocks the speculative comparison and calls for a concrete derived repair. Success permits preparing a separately frozen EAGLE3 target/draft integration with explicit capacity, real embedding sharing, feature layers, TP4/TP8 KV/state, verification kernels/graphs, memory and exact same prompt/output IDs. Only a valid useful short load warrants full scoring. No draft inference or speedup is claimed yet.
+Next collect 222761.pbs111 only after owned terminal F using its collect-terminal.py; inspect sealed payload, actual client result, runtime/transport/locality/resource evidence. Do not promote a JSON or exit code without review. Failure requires a concrete derived repair. Success permits a separately frozen speculative candidate with the exact reference corpus/target identity, real embedding sharing, feature layers, TP4/TP8 KV/state, kernels/graphs and memory checks. The conditional candidate preparer requires an explicitly reviewed sibling reference directory; it has not been executed/frozen or submitted. Only a useful valid short load warrants full scoring. No full-target speculative inference or speedup yet.
 
 ## Budget
 
-Locked 2026-10-21T05:14:01.950230+00:00 ledger: Used **43586.876**, Balance **19730.457**, In Doubt **682.667 SU**. 222749/222750 charges reconcile. 222752 estimated 376.604444 SU is unposted; retain its full 682.666667 maximum plus new 222759 maximum 8.533334. Conservative internal headroom **6721.924000 SU**, unchanged **51000 cap / 13000 buffer**. [Current receipt and reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-tokenizer-corpus-20261021/RESULTS.md). Refresh and uniquely reconcile before spending; Balance already excludes In Doubt.
+Locked 2026-10-21T05:17:31.323410+00:00 ledger: Used **43586.876**, Balance **19730.457**, In Doubt **682.667 SU**. Retain outstanding maxima [{"job": "222752.pbs111", "max_su": 682.6666666666666}, {"job": "222759.pbs111", "max_su": 8.533333333333333}, {"job": "222761.pbs111", "max_su": 682.6666666666666}] until uniquely reconciled. Conservative internal headroom **6039.257333 SU**, unchanged **51000 cap / 13000 buffer**. [Current receipt/reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md). Refresh under lock before spending; Balance already excludes In Doubt. Estimated actual terminal costs do not release maxima by themselves.
 
 The previous handoff miscopied 03:46 Balance/In Doubt; its raw response was 20416.324 / 8.533 SU, not zero doubt. Corrected in the journal and current records. No extra spending follows from that correction.
 

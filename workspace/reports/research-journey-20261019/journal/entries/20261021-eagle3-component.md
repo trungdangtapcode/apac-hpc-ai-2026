@@ -101,3 +101,9 @@ A conditional [full-reference repair preparer](/home/apacsc42/2026-APAC-HPC-AI/q
 ## Actual-runtime corpus PASS — 2026-10-21T05:16:42.547267+00:00
 
 222759 sealed F / exit 0, 58 seconds / estimated 2.062222 SU. Actual Transformers 5.12.1/Qwen2Tokenizer with explicit return_dict=False yields plain lists; complete valid corpus lengths 22/21/22/4000 serializes. Source and official small-file digests retained, no target load/inference or GPU operations. [Full review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-tokenizer-corpus-20261021/REVIEW.md). The specific API/serialization repair now passes in the actual image. Freeze its corpus into the full target-only repair and add an independent head-script semantic gate; actual reference and speculation remain unverified.
+
+## Frozen-corpus real reference repair submitted — 2026-10-21T05:19:22.495781+00:00
+
+**222761.pbs111**, state R: 16 H100/20 minutes/max 682.666667 SU. [Exact control/changes/gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/PLAN.md), [receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md). Actual passed 222759 corpus is frozen; no AutoTokenizer in the expensive client. Independent head-script guard revalidates every response/case/finish and exact A/B equality, rejecting failed/missing artifacts even if the task launcher returns zero. Worker/transport bytes unchanged; six observation fixtures and semantic failure fixtures pass. No new actual reference, speculative inference or score at receipt.
+
+Fresh locked ledger Used 43586.876, Balance 19730.457, In Doubt 682.667 SU; retain outstanding maxima, headroom 6039.257333 SU. Own queue empty before qsub; no uncertain retry or cap/buffer increase. H200's five positions remain Priority pending. Review sealed actual client/runtime/transport/locality/resource evidence before the next candidate.

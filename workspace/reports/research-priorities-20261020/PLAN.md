@@ -1,5 +1,11 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T05:19:22.495781+00:00
+
+Real target reference 222752 fails its client tokenizer serialization despite scheduler exit zero; do not call it an accepted reference. Sealed actual-image corpus gate 222759 passes and validates exact integer lists. New **222761.pbs111 (R)** freezes that corpus, removes AutoTokenizer from the full client and adds independent semantic artifact validation, with unchanged target serving/transport. [Repair, receipt and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md). No complete real-ID reference, speculative inference or throughput gain yet.
+
+Actual native draft loading 222750 passes within its single-rank scope. Keep the next speculative candidate conditional on a sealed reviewed repaired reference, then real target/draft compatibility/exact IDs and useful short load before scoring. Internal headroom 6039.257333 SU after conservative maxima, unchanged cap/buffer. Preserve five H200 positions; no background AI. Earlier execution snapshots below are historical.
+
 ## Current refinement — 2026-10-21T05:03:27.169907+00:00
 
 222749 passes actual native registry/tensor/mapping gates; 222750 constructs the real native draft class and loads all 13 floating tensors into 10 exact non-shared parameters. The absent target-shared embedding is explicitly excluded and no forward executed. These checks do not establish production speculative inference. Earlier failed chat, cache and identity diagnostics are sealed and reviewed, not erased.
