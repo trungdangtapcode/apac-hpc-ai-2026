@@ -1,0 +1,41 @@
+--- parent/topology-job.sh
++++ derived/topology-job.sh
+@@ -2,6 +2,8 @@
+ set -euo pipefail
+ ROOT=$SLURM_SUBMIT_DIR
+ BUNDLE=$QWEN_BUNDLE
++source "$BUNDLE/phase-budget.sh"
++RUN_DEADLINE=$(( $(date +%s)+1800-40 ))
+ ART=$ROOT/runs/$SLURM_JOB_ID
+ export QWEN_ARTDIR="$ART"
+ SGLANG=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+@@ -71,7 +73,7 @@
+ done <"$BUNDLE/placement.tsv"
+ wait_http() {
+   # Workers share one absolute startup deadline; do not renew per endpoint.
+-  local url=$1 deadline=${2:-1650}
++  local url=$1 deadline=${2:-1200}
+   while ! curl -sf --max-time 2 -o /dev/null "$url"; do
+     for pid in "${pids[@]}"; do
+       if ! kill -0 "$pid" 2>/dev/null; then
+@@ -90,7 +92,10 @@
+ pids+=("$!")
+ wait_http "http://${IPS[0]}:8000/health" "$((SECONDS+120))"
+ echo "ALL_WORKERS_READY after ${SECONDS}s"
+-srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
++pair_remaining=$(qwen_pair_timeout "$RUN_DEADLINE" "$(date +%s)") || {
++  echo 'FATAL: insufficient token-check reserve before pair warmup' >&2; exit 1;
++}
++timeout --signal=TERM --kill-after=10s "${pair_remaining}s" srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
+   --container-image="$SGLANG" --container-mounts="$(mounts pair-warmup)" \
+   env QWEN_PAIR_TIMEOUT="${QWEN_PAIR_TIMEOUT:-360}" QWEN_PAIR_PARALLELISM="${QWEN_PAIR_PARALLELISM:-8}" \
+     python3 "$BUNDLE/warm-topology.py" "${IPS[0]}" "$ART" >"$ART/pair-warmup.log" 2>&1
+@@ -99,7 +104,7 @@
+   >"$ART/worker-locality-request.log" 2>&1
+ echo "WORKER_LOCALITY_CAPTURE_DONE after ${SECONDS}s"
+ # Keep time for Slurm step cleanup; skip confirmation explicitly if too little remains.
+-deadline=$(($(date +%s)+1800-SECONDS-40))
++deadline=$RUN_DEADLINE
+ srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
+   --container-image="$SGLANG" --container-mounts="$(mounts token-client)" \
+   env QWEN_SWEEP_NS="${QWEN_SWEEP_NS:-16 32 40 48}" QWEN_TUNE_NS="${QWEN_TUNE_NS:-48}" QWEN_DIAGNOSTIC_PROFILE="${QWEN_DIAGNOSTIC_PROFILE:-0}" QWEN_BUNDLE="$BUNDLE" \

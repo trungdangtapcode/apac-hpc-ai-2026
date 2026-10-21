@@ -1,0 +1,11 @@
+--- parent/worker.sh
++++ derived/worker.sh
+@@ -39,7 +39,7 @@
+ assert hasattr(hpc, 'fuse_moe_blockwise'), 'Missing HPC-Ops FP8 kernel'
+ print('HPC_OPS_PREFLIGHT_PASSED', torch.cuda.get_device_name(), flush=True)
+ HPCCHECK
+-  extra=(--chunked-prefill-size 4096 --weight-loader-prefetch-checkpoints --moe-runner-backend hpc_ops)
++  extra=(--chunked-prefill-size 4096 --weight-loader-prefetch-checkpoints --moe-runner-backend hpc_ops --cuda-graph-backend-prefill disabled)
+ else
+   python3 - <<'HPCCHECK'
+ import torch, hpc
