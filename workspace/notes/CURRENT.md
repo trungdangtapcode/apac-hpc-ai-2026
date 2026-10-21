@@ -16,7 +16,7 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 ## Actual submitted work
 
 - H200 **24928 / 24962 / 24964 / 24965 / 25051** are PD / Priority. Preserve all five; no sixth. They cover recv2, the N62 repeat, observed prefill backend pair and H200 worker locality.
-- H100 **222752.pbs111 is R** at the dated observation: **16 H100 / at most 20 minutes / maximum 682.666667 SU**. It runs the real target-only PD token reference, not EAGLE3 inference or ranked AIPerf. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md), [raw queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/live-receipt.json).
+- H100 **222752.pbs111 is now F / exit 0 but the reference FAILED**: BatchEncoding input IDs cannot serialize and no result artifact exists. Actual 662 seconds / estimated 376.604444 SU. The preceding dated receipt requested **16 H100 / at most 20 minutes / maximum 682.666667 SU**. It runs the real target-only PD token reference, not EAGLE3 inference or ranked AIPerf. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md), [raw queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/live-receipt.json).
 - All five smaller EAGLE3 component/load jobs are terminal and reviewed below. No completed full-model speculative job exists.
 
 ## EAGLE3 progress and exact remaining gates
@@ -35,7 +35,7 @@ Public draft nebius/EAGLE3-Qwen3-235B-A22B-Instruct-2507, revision ff0f0c0999f6c
 
 222752 keeps baseline 222551 worker and transport bytes. Through actual /generate, it checks three generic short prompts and one exact 4000-token generic prompt twice, with 200 outputs each. Require all actual output IDs, including first token, and exact target-a/target-b stability. Diagnostic logprobs and ignore_eos stay outside ranking. [Prospective protocol and stopping rules](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/PLAN.md), [updated token-route status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/TOKEN_ROUTE.md).
 
-Next collect 222752 only after owned terminal F using its collect-terminal.py, verify sealed payload/raw evidence, and inspect actual runtime/transport/resource/locality logs. A passing JSON alone needs runtime review. Failure blocks the speculative comparison and calls for a concrete derived repair. Success permits preparing a separately frozen EAGLE3 target/draft integration with explicit capacity, real embedding sharing, feature layers, TP4/TP8 KV/state, verification kernels/graphs, memory and exact same prompt/output IDs. Only a valid useful short load warrants full scoring. No draft inference or speedup is claimed yet.
+222752 is collected and reviewed; see [failure and telemetry](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/REVIEW.md). Next use a small actual-runtime tokenizer/corpus gate before any full target-only repair. No speculative candidate is eligible. A passing JSON alone needs runtime review. Failure blocks the speculative comparison and calls for a concrete derived repair. Success permits preparing a separately frozen EAGLE3 target/draft integration with explicit capacity, real embedding sharing, feature layers, TP4/TP8 KV/state, verification kernels/graphs, memory and exact same prompt/output IDs. Only a valid useful short load warrants full scoring. No draft inference or speedup is claimed yet.
 
 ## Budget
 

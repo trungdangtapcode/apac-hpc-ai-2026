@@ -9,3 +9,7 @@ This job must establish actual complete output IDs and target-a/target-b greedy 
 ## Nonterminal startup inspection — 2026-10-21T05:05:17.553900+00:00
 
 PBS remains R. Actual task-*.log files carry worker output; the outer prefill/decode logs are empty redirect holders, not evidence of stalled workers. Decode reaches ready at site time 13:04:36 (UTC+8); its startup reports weight load 105.35 s, decode graph capture 106.81 s and tokenizer end-to-end 263.51 s. Both prefills have completed checkpoint loading and DeepGEMM warmup and are progressing through CUDA graph capture. This is a partial log sample, not a terminal health/resource acceptance or serving result. The client result is absent at this observation. [Retained bounded snapshot](live-startup.json).
+
+## Terminal reference FAILED — 2026-10-21T05:12:34.122483+00:00
+
+PBS F / exit 0, 662 seconds / estimated 376.604444 SU. No actual reference: BatchEncoding input IDs fail request and result JSON serialization. [Full review including telemetry, warmup paths, limits and next cheaper gate](REVIEW.md). Do not promote exit zero or submit the conditional speculative candidate.
