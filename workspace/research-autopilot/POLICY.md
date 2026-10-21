@@ -51,3 +51,15 @@ Use existing VPN/SSH without exposing or capturing authentication/session materi
 Edit active sources once in 2026-APAC-HPC-AI or workspace. The sibling apac-hpc-ai-research repository is an explicit archive, not a third development tree. At each small coherent checkpoint, capture only relevant safe paths, scan, verify, review staged paths, commit with a descriptive conventional subject and actual date, push to the existing private origin and verify live origin/main equals HEAD. Do not accumulate unrelated milestones or create empty commits. Preserve original provenance/history; never rerun the initial snapshot builder over the existing repo.
 
 Retain external-object manifests and hashes. A Git push does not upload sibling artifact bytes; they still need separate off-host backup. End each work turn with a safe checkpoint or name exactly what remains uncaptured/unpushed. Keep CURRENT under 120 lines and POLICY under 100, with historical material linked separately. No automatic sync or background AI service is enabled.
+
+## CPU project verified on 21 October
+
+ASPIRE-2A CPU login is now authenticated and project 59000042 is distinct from
+AI/H100 project 59010042. See notes/HPC_CURRENT.md and the native timing probe
+plan. CPU-only work uses its own budget lock/ledger and actual 1 SU/core-hour
+rate; do not apply GPU rates or spend/change the AI ledger on this worker's
+behalf. The first CPU baseline wave has a planning ceiling of 100 SU, initially
+only an eight-CPU/10-minute native timing probe (maximum 1.333333 SU). Reserve
+before qsub under the CPU lock; check published project/queue, normalization
+and combined own PBS cap. At most one active CPU allocation in this wave.
+No cap/grant increase, automatic schedule or background Codex is authorized.
