@@ -85,3 +85,7 @@ The precise answer remains: SSH authentication to the provided endpoint works, b
 ## Interactive gateway correction and practice preparation — 2026-10-21T11:25:54.739129+00:00
 
 The owner supplied the organiser email: interactive login auto-jumps to Iris. Forced-TTY SSH without a remote command now verifies the real login01 hostname, scheduler clients, 32 Iris nodes and current APAC kit. Earlier remote-command SSH stayed on the gateway. The earlier inference that a next-hop credential was missing was premature. Authentication and scheduler submission are separate. Preserve gateway observations but mark their interpretation historical. Copy only the kit into a unique team work root; login binary inspection passes. Plan one unchanged toy job, one whole 56-CPU Iris node/four MPI ranks/maximum five minutes, no national CPU/GPU reservation. The toy is not the 65M score. [Exact route and gates](IRIS_ACCESS.md).
+
+## First Iris submit receipt — 2026-10-21T11:27:45.117130+00:00
+
+After verified kit hashes, successful login-only binary inspection and a fresh empty account queue/31 idle nodes, submit only the unchanged organiser toy gate. Slurm returns 2293751 and confirms RUNNING on iris031 with 56 allocated CPUs, four MPI ranks, maximum 300 seconds. This proves the account can submit and receive compute allocation. It is not completion, 65M equivalence or a contest score. No blind retry, group-tree edit, unrelated account job or national CPU/GPU spending reservation is involved. The next decision waits for the owned terminal result and actual toy logs.
