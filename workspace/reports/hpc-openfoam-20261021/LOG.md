@@ -271,3 +271,13 @@ returns 25904765.pbs101 at 13:58:21.582798 UTC: same eight CPUs/four MPI/24 GB/
 zero GPU/max600s, changed reset guard and job label only. A definite receipt
 is not native compilation or solver success. Next collect the terminal gate;
 no full-case submission, AI budget mutation or uncertain retry.
+
+## Explicit conversation ownership — 2026-10-21T14:03:36.403934+00:00
+
+The owner reaffirms two chats, GPU and HPC; this conversation owns HPC. Inspect
+only local title/metadata, without importing another transcript. Exact GPU/HPC
+labels are not exposed by the inspected local index, so do not claim a verified
+UI mapping. Record owner-assigned roles, source/handoff routes and distinct
+CPU/GPU project ledgers in SESSION_OWNERSHIP.md and shared AGENTS.md. Preserve
+other-track work; a read-only queue/access check is not an instruction to run
+GPU research. No Codex restart, fork, background schedule or auth-state capture.

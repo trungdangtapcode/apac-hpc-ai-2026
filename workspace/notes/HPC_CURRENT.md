@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T12:02:15.622475+00:00 after the reviewed 65M decomposition. The owner authorised HPC
+Updated 2026-10-21T14:03:36.403934+00:00. This is the HPC/OpenFOAM conversation; GPU/Qwen is owned by the separate GPU chat.
 research and said another person supports AI. Preserve their serving payloads,
 jobs and budget controls. English artifacts, Vietnamese chat; autopilot off.
 
@@ -106,3 +106,7 @@ It reuses the separate CPU master via the live VPN, using 10.103.72.110 with
 HostKeyAlias=aspire2a.nscc.sg while local DNS remains unresolved. Keep all
 private SSH/VPN state out of captures. The old gateway/batch/DNS observations
 remain retained in the linked access report and raw safe probe JSON.
+
+Owner reaffirmed the separate HPC/GPU chats on 21 October. Read
+[session ownership](SESSION_OWNERSHIP.md); this worker stays on OpenFOAM/CPU
+and preserves the GPU worker's jobs, payloads, measurements and budget.

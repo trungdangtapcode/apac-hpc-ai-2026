@@ -20,10 +20,14 @@ tutorials or learning notes in Vietnamese.
 
 On 21 October the owner explicitly authorised HPC/OpenFOAM research and said
 another person supports AI. This supersedes the earlier Qwen-only research
-scope. This chat should focus on HPC research without changing AI serving
-payloads, jobs or measurements on the other worker's behalf. Preserve existing
-AI queues and coordinate any future shared-project spending through the budget
-lock. Keep HPC_Task submission folders empty until actual reviewed HPC work is
+scope. The owner has two separate Codex chats: HPC and GPU. Determine the
+current chat's role from the owner's explicit assignment or verified title;
+never inherit a different role from shared notes or a copied conversation.
+The HPC chat owns OpenFOAM and CPU experiments; the GPU chat owns Qwen serving
+and GPU experiments. Read workspace/notes/SESSION_OWNERSHIP.md for their routes.
+Neither chat changes the other chat's payloads, jobs, measurements or dedicated
+budget ledger. Preserve existing queues and coordinate genuinely shared
+spending through the appropriate budget lock. Keep HPC_Task submission folders empty until actual reviewed HPC work is
 ready for an authorised package update; never invent HPC results. Research
 access checks do not authorise increasing any budget or starting schedules.
 Do not change submission materials unless relevant/authorized.
@@ -166,3 +170,41 @@ Read the 20 October observability report linked from CURRENT for actual coverage
 and its profiler HTTP response correction. The correction and resource collector
 are deployed only through later derived bundles; CURRENT records actual rollout
 and evidence limits. Never change already submitted payloads in place.
+
+
+
+# Multi-Agent Development Policy
+
+## General principles
+- Follow the user's request and repository-specific AGENTS.md instructions.
+- Prefer correct, maintainable solutions over maximizing agent count.
+- Avoid unnecessary context consumption, duplicate work, and excessive tool calls.
+
+## Root agent responsibilities
+- When acting as the root agent, lead planning, architecture, delegation, integration, and final review.
+- For substantial tasks with independent subtasks, proactively delegate bounded work to subagents.
+- Prefer gpt-6-luna for clear, routine tasks when supported by the runtime.
+- Reserve the main reasoning model for ambiguous decisions, complex debugging, architecture, and integration.
+- Do not spawn subagents for trivial or tightly coupled tasks.
+- Do not spawn agents merely to reach a configured concurrency limit.
+
+## Parallel execution
+- Run independent exploration, implementation, testing, and review tasks concurrently when beneficial.
+- Give each subagent a clear scope, expected output, and completion criteria.
+- For code changes, assign non-overlapping file ownership or use isolated worktrees.
+- Never overwrite or revert another agent's changes.
+- Share concise findings and file references rather than unnecessary raw logs.
+- Avoid repeating work already delegated.
+
+## Subagent responsibilities
+- If acting as a subagent, focus on the assigned task rather than becoming the root coordinator.
+- Delegate further only when explicitly authorized and when the benefit outweighs the overhead.
+- Coordinate shared-file changes with the parent agent.
+- Report completed work, changed files, tests, blockers, and remaining risks.
+
+## Integration and verification
+- The root agent reviews delegated changes and resolves integration issues.
+- Run relevant targeted tests and checks before declaring completion.
+- Report unresolved errors, assumptions, and verification gaps.
+- Optimize for total task quality, latency, and resource usage rather than agent count.
+  

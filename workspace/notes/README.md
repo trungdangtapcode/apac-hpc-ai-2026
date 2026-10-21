@@ -2,6 +2,10 @@
 
 Read [CURRENT.md](CURRENT.md) first when resuming APAC-HPC-AI2026 research. The owner shifted this chat to HPC/OpenFOAM research on 21 October; another person supports AI. Use [HPC_CURRENT.md](HPC_CURRENT.md) for the HPC handoff. It is a dated handoff, not a replacement for the actual scheduler or project ledger.
 
+The owner has separate **HPC** and **GPU** Codex chats. Follow the explicit
+chat assignment and [session ownership](SESSION_OWNERSHIP.md); shared Qwen
+history must not redirect the HPC worker or vice versa.
+
 Use Vietnamese for chat only. All new code, documentation, notes, reports and submission materials are English. Historical raw records keep their original bytes and may retain Vietnamese text.
 
 | What do you need? | Where to read |
