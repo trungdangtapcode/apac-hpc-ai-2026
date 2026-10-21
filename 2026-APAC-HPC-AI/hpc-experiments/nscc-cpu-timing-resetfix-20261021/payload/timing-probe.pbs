@@ -1,0 +1,73 @@
+#!/bin/bash
+# Native tutorial diagnostic only; no contest case or score.
+#PBS -N tu-cpu-time2
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=8:mpiprocs=4:mem=24gb:ngpus=0
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+CASE="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$CASE"
+mkdir -p "$ROOT/runs" "$CASE"
+# Conditional sourcing allows the reset helper's expected empty grep result.
+# A nonzero final reset status or missing required runtime still fails this job.
+if . /app/apps/resetmodule; then
+  echo 'Programming environment reset returned success'
+else
+  echo 'Programming environment reset failed' >&2
+  exit 1
+fi
+module load openfoam/2512
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+# Keep the one documented MPICH reliability choice; this is not a speed claim.
+export FI_VERBS_PREFER_XRC=0
+{
+  date -u
+  hostname
+  module list 2>&1
+  printf 'WM_PROJECT_VERSION=%s WM_PRECISION_OPTION=%s WM_OPTIONS=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION" "$WM_OPTIONS"
+  command -v simpleFoam g++ mpirun
+  g++ --version | head -1
+  lscpu
+} > "$CASE/environment.log"
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+cp -a "$FOAM_TUTORIALS/incompressible/simpleFoam/pitzDaily/." "$CASE/"
+cp "$ROOT/FOwallClockTimeStatistics" "$CASE/system/"
+cd "$CASE"
+python3 - <<'PY'
+from pathlib import Path
+import re
+p=Path('system/controlDict');text=p.read_text()
+text,n=re.subn(r'functions\s*\{.*?\}', 'functions\n{\n    #include "FOwallClockTimeStatistics"\n}', text, count=1, flags=re.S)
+assert n==1
+text,n=re.subn(r'(?m)^endTime\s+[^;]+;', 'endTime 5;', text);assert n==1
+p.write_text(text)
+Path('system/decomposeParDict').write_text('FoamFile\n{ version 2.0; format ascii; class dictionary; object decomposeParDict; }\nnumberOfSubdomains 4;\nmethod scotch;\n')
+PY
+mkdir -p logFiles
+phase() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$1" | tee -a phases.log; }
+phase blockMesh
+/usr/bin/time -v timeout 60s blockMesh > logFiles/blockMesh.log 2>&1
+phase decomposePar
+/usr/bin/time -v timeout 60s decomposePar > logFiles/decomposePar.log 2>&1
+phase simpleFoam_native_coded_timing
+/usr/bin/time -v timeout --signal=TERM --kill-after=15s 300s mpirun -np 4 simpleFoam -parallel > logFiles/simpleFoam.log 2>&1
+phase solver_finished
+python3 - <<'PY'
+from pathlib import Path
+import re,json
+p=Path('logFiles/simpleFoam.log');t=p.read_text()
+assert 'OPENFOAM=2512' in t and 'scalar=64' in t
+assert re.search(r'^End\s*$',t,re.M) and 'FOAM FATAL' not in t
+assert 'died from signal' not in t
+assert re.search(r'^nProcs\s*:\s*4\s*$',t,re.M)
+steps=[int(v) for v in re.findall(r'^Time = (\d+)\s*$',t,re.M)]
+assert steps==list(range(1,6)),steps
+assert 'Average wall-clock time per time step' in t
+Path('semantic-result.json').write_text(json.dumps({'diagnostic':'Native PitzDaily with unchanged official timing function','passed':True,'steps':steps,'contest_score':None},indent=2)+'\n')
+PY
+phase PASS
