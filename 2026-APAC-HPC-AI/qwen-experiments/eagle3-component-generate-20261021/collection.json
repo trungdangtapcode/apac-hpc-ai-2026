@@ -1,0 +1,151 @@
+{
+  "job": "222722.pbs111",
+  "terminal": true,
+  "exit_status": 1,
+  "destination": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/collected/222722.pbs111",
+  "payload_hashes_passed": true,
+  "model_loaded": false,
+  "performance_measured": false,
+  "scope": "Native gateway with synthetic workers plus draft metadata/tensor checks; no target inference or PD transfer",
+  "gateway": {
+    "scope": "Actual native gateway, synthetic workers only; no model or KV transfer",
+    "command": [
+      "python3",
+      "-m",
+      "sglang_router.launch_router",
+      "--pd-disaggregation",
+      "--prefill-policy",
+      "round_robin",
+      "--prefill",
+      "http://127.0.0.1:38347",
+      "19999",
+      "--decode",
+      "http://127.0.0.1:44711",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "54691",
+      "--disable-health-check",
+      "--disable-circuit-breaker",
+      "--worker-startup-timeout-secs",
+      "30"
+    ],
+    "passed": true,
+    "received": [
+      {
+        "role": "prefill",
+        "path": "/generate",
+        "body": {
+          "model": null,
+          "input_ids": [
+            1,
+            2
+          ],
+          "sampling_params": {
+            "temperature": 0.0,
+            "max_new_tokens": 2
+          },
+          "return_logprob": true,
+          "logprob_start_len": 0,
+          "return_text_in_logprobs": false,
+          "stream": false,
+          "log_metrics": true,
+          "return_hidden_states": false,
+          "background": false,
+          "no_logs": false,
+          "return_bytes": false,
+          "return_entropy": false,
+          "bootstrap_host": "127.0.0.1",
+          "bootstrap_port": 19999,
+          "bootstrap_room": 4061878115205069049
+        }
+      },
+      {
+        "role": "decode",
+        "path": "/generate",
+        "body": {
+          "model": null,
+          "input_ids": [
+            1,
+            2
+          ],
+          "sampling_params": {
+            "temperature": 0.0,
+            "max_new_tokens": 2
+          },
+          "return_logprob": true,
+          "logprob_start_len": 0,
+          "return_text_in_logprobs": false,
+          "stream": false,
+          "log_metrics": true,
+          "return_hidden_states": false,
+          "background": false,
+          "no_logs": false,
+          "return_bytes": false,
+          "return_entropy": false,
+          "bootstrap_host": "127.0.0.1",
+          "bootstrap_port": 19999,
+          "bootstrap_room": 4061878115205069049
+        }
+      }
+    ],
+    "response": {
+      "text": "SYNTHETIC_ECHO",
+      "meta_info": {
+        "finish_reason": {
+          "type": "stop"
+        },
+        "completion_tokens": 2,
+        "prompt_tokens": 2,
+        "input_token_logprobs": [
+          [
+            -0.1,
+            1,
+            null
+          ],
+          [
+            -0.2,
+            2,
+            null
+          ]
+        ],
+        "output_token_logprobs": [
+          [
+            -0.3,
+            3,
+            null
+          ],
+          [
+            -0.4,
+            4,
+            null
+          ]
+        ]
+      }
+    },
+    "request_fields_forwarded": true,
+    "merged_input_ids": [
+      1,
+      2
+    ],
+    "output_ids": [
+      3,
+      4
+    ],
+    "response_ids_preserved": true
+  },
+  "component": {
+    "created_utc": "2026-10-21T03:42:18.098466+00:00",
+    "job": "222722.pbs111",
+    "passed": false,
+    "target_weights_loaded": false,
+    "draft_model_instantiated": false,
+    "inference_executed": false,
+    "pd_transfer_tested": false,
+    "failure": {
+      "type": "OSError",
+      "message": "[Errno 30] Read-only file system: '/home/users'"
+    }
+  },
+  "state": "COMPONENT_FAILED_REVIEW_REQUIRED"
+}

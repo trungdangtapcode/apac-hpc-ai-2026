@@ -1,0 +1,9 @@
+# Native /generate token IDs survive; component imports need writable HOME
+
+**222722.pbs111** is terminal F / exit 1 after **89 allocated seconds**, estimated **3.164444 SU** before posted-ledger reconciliation. The submitted payload checksums and sealed artifact hashes pass. [Complete terminal evidence](collection.json).
+
+The actual hash-guarded native router forwards /generate with return_logprob and input_ids to both synthetic workers. The returned input logprob IDs merge as [1, 2], and decode output logprob IDs [3, 4] remain intact. This resolves the gateway schema issue for that unranked observation route, without a native serving patch or change to the official streaming chat benchmark. These IDs are synthetic markers, not generated model output, proof of complete real output-ID coverage, greedy equivalence or model accuracy.
+
+The next stage stops during imports of the real SGLang model configuration/loader. FlashInfer tries to create its workspace below an unmapped read-only HOME (/home/users). The failure is recorded as OSError; no native draft architecture resolution, tensor integrity check, draft model construction, target load, GPU inference or PD transfer was completed. Missing stages remain unverified, not passed or zero-cost.
+
+The derived 222729 payload explicitly sets writable HOME/XDG/HF/Torch/CUDA caches inside the existing allocation-private /tmp bind and creates them before imports. Both diagnostic Python scripts are byte-identical. This repairs a concrete environment failure instead of changing acceptance, test data or model math. Its success is not established by this earlier-job review. All artifacts and the failed payload are retained; first nonterminal collection output is preserved separately. No background AI, authentication or submission edit.

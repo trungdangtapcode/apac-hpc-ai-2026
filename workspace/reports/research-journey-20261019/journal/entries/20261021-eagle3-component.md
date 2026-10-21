@@ -35,3 +35,7 @@ Prepare a new frozen payload that keeps both diagnostic Python scripts byte-iden
 ## Writable-cache repair receipt — 2026-10-21T03:46:50.645252+00:00
 
 **222729.pbs111**, initial state R, one H100 / four minutes / max 8.533334 SU. The predecessor was F and the own queue empty before submission; no dependency was needed. Fresh locked credit reconciles the first component charge, Used 43575.143 / Balance 20416.324 / In Doubt zero. Retain the second terminal maximum and new maximum, internal headroom 7407.790333 SU. [Actual receipt and scope](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/RESULTS.md). The repair has not yet passed; no real model output or performance claim.
+
+## /generate job sealed and reviewed — 2026-10-21T03:47:36.167470+00:00
+
+222722 is sealed F / exit 1, 89 seconds / estimated 3.164444 SU before posted reconciliation. Actual native /generate forwarding and synthetic input/output logprob IDs pass. The subsequent native imports fail because HOME is read-only; native registry/tensor gates are not reached and no model inference occurs. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/REVIEW.md). Preserve the initial nonterminal collection output and original payload. The concrete private-cache repair is already separately submitted as 222729; its result remains independent.

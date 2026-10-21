@@ -1,3 +1,7 @@
+# Terminal review — 2026-10-21T03:47:36.167470+00:00
+
+**222722 F / exit 1**, 89 seconds / estimated 3.164444 SU. Native /generate synthetic gateway forwarding passes; the following component imports fail at read-only HOME, before native config/tensor checks. [Complete assessment and repair provenance](REVIEW.md). The submission snapshot below is historical.
+
 # Derived component gate submitted — 2026-10-21T03:42:14.595996+00:00
 
 Definite **222722.pbs111**, initial state **R**. One H100 / four minutes / maximum 8.533334 SU. [Receipt](pbs-receipt.json), [scheduler state](post-submit.txt), [exact derived route and limits](PLAN.md). No model result, numerical pass or performance claim yet.
