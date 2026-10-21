@@ -64,3 +64,7 @@ Earlier statements that the new launcher had not yet authenticated or that only 
 ## New connection on 20 October at 06:14 UTC
 
 The earlier 01:04 connection snapshot is historical. At the owner's explicit request, only the dead tmux VPN pane was restarted; private recovery state was preserved. The VPN client requested its password, and SSH separately requested a password because its old multiplexing master was absent. Both authenticated, and a fresh batch SSH command verified PBS access on a2ap-login01 at 06:14 UTC. Phone-side DUO approval was not observed, so client success does not establish which MFA factor ran. The launcher still requests 86400 seconds; exact negotiated expiry and the previous disconnect reason remain unverified. Leave this live connection running. [Safe access record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/ACCESS.md). No password, session key/database or private log is included.
+
+## Owner-authorised restoration on 21 October
+
+[Fresh access record](../notes/vpn-restored-20261021.md): the old pane was dead; only that pane was respawned and private recovery state preserved. Both VPN and SSH authenticated again. Fresh batch SSH reached a2ap-login01 at 09:56:56 UTC. This is a new session, not proof of automatic renewal or the previous negotiated lifetime. No exact expiry or phone-side DUO action was observed. Keep this live connection running.

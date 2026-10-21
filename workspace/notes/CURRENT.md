@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T09:46:58.182280+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
+Updated 2026-10-21T10:03:04.265266+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
 
 ## Retained serving results
 
@@ -14,7 +14,7 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 ## Actual submitted work
 
 - H200 **24928 / 24962 / 24964 / 24965 / 25051** are PD / Priority at 2026-10-21T09:44:32.900086+00:00; earlier Resources reason is historical. Preserve all five, no sixth: recv2, N62 repeat, observed prefill backend pair and worker locality.
-- H100 **222780.pbs111 current state is unavailable**: last known R in the earlier 06:02:49 UTC snapshot; no live VPN session at the latest collection attempt. It is the separately derived explicit-BF16 native EAGLE3 PD correctness repair, **16 H100 / at most 30 minutes / max 1024 SU**. [Receipt and raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md). No full repair output/graph/transport or performance result yet.
+- H100 **222780.pbs111 is sealed F/exit1**, 1661 s / estimated 944.924444 SU. VPN and SSH restored at owner request; fresh batch succeeded 09:56:56 UTC. [Access](vpn-restored-20261021.md), [failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/REVIEW.md). Earlier unavailable state is historical: last known R in the earlier 06:02:49 UTC snapshot; no live VPN session at the latest collection attempt. It is the separately derived explicit-BF16 native EAGLE3 PD correctness repair, **16 H100 / at most 30 minutes / max 1024 SU**. [Receipt and raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md). Decode target/draft graphs and readiness pass; prefills stall at divergent local-memory graph decisions. No output IDs, complete PD equivalence or performance result.
 - PBS own queue was empty before submission; no dependency, overlap or uncertain retry. No background Codex/schedule is enabled.
 
 ## EAGLE3 journey: accepted evidence and failures
@@ -27,7 +27,7 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 | 222761 | Sealed real target reference: 1600 actual output IDs, four exact A/B pairs including long4000 | Usable exact reference; cached repeat/N1 timings are not throughput |
 | 222763 | Full native candidate fails before readiness at draft input RMSNorm graph; target KV BF16/draft KV FP16 | 408 s / estimated 232.106667 SU; no request, output-equivalence or score |
 | 222769 | Native auto FP16/shared BF16 mismatch reproduces; explicit BF16/unquant eager and graph norm pass | 157 s / estimated 5.582222 SU; real target embedding alias in one-rank layer fixture, not full PD |
-| 222780.pbs111 | Explicit BF16/unquant full repair submitted | Await actual native graphs/state/transport/output evidence |
+| 222780.pbs111 | Decode graphs/readiness pass; TP3 enters draft prefill capture while TP0/1/2 skip below 4 GiB; readiness timeout | Preserve failed integration, no score. Probe uniform prefill-graph disable before another full PD allocation |
 
 [Reviewed real reference](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/REVIEW.md), [native PD failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/REVIEW.md), [verified dtype mechanism](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-dtype-probe-20261021/REVIEW.md), [complete journal](../reports/research-journey-20261019/journal/README.md). Preserve raw payloads, failures and seals.
 
@@ -37,15 +37,15 @@ The public draft is nebius/EAGLE3-Qwen3-235B-A22B-Instruct-2507 at ff0f0c0999f6c
 
 ## Next decision
 
-The full submission is updated and validated: primary H200 N62 from 24915, 264 component checks, 32 English slides, raw control/repeat logs and ZIP checksums. Portable GPU replay and official accuracy remain unverified. [Delivery](submission-update-20261021.md). No new GPU reservation; five H200 slots occupied and PBS access unavailable. Preserve VPN/auth; no replacement login or DUO was started.
+The full submission is updated and validated: primary H200 N62 from 24915, 264 component checks, 32 English slides, raw control/repeat logs and ZIP checksums. Portable GPU replay and official accuracy remain unverified. [Delivery](submission-update-20261021.md). No new GPU reservation; five H200 slots occupied. PBS access is now restored at the owner’s explicit request; keep the live VPN/SSH running.
 
-Collect 222780.pbs111 only after owned terminal F with its collect-terminal.py. Inspect semantic artifact, actual native precision/loading/embedding/auxiliary state, TP4-to-TP8 KV transfer, all verification/draft graphs, memory and exact actual IDs against 222761. A layer fixture does not waive full integration. Inspect runtime/transport errors and phase-aligned hardware/server/locality evidence; missing fields remain missing. Use inspect-speculative-metadata.py on the collection: acceptance length includes bonus and is tokens per verification forward, not tokens/s or speedup. No direct full-PD pointer-identity instrumentation exists; distinguish native source and fixture proof from full runtime proof.
+222780 is collected and reviewed. Source-supported next hypothesis: disable prefill graphs uniformly to avoid observed rank-divergent initialization. First validate a single TP4 prefill rather than blindly repeat 16 GPUs. No proven blocked collective without a hang trace. Keep BF16/unquant and native eager computation; do not change target weights/verification or relax exact IDs. Full PD correctness still precedes any load screen.
 
 If valid and useful, prepare a fresh equally observed/capacity-controlled short N54 pair before full scoring. The [new capacity contract](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-screen-contract-20261021/PLAN.md) explicitly sets prefill 64 / decode 256 on both sides and checks early arguments plus final scheduler capacity. Four native branch cases and eleven adversarial log fixtures pass; no GPU screen or reservation. 222761 logs None then scheduler 4096; failed 222763 logs 48 with no final scheduler receipt. These are different initialization stages, not new throughput results. [Prospective screen](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/SCREEN_PLAN.md): 20/40/30, zero errors, joint fraction≥0.90 and at least 3% short goodput gain before a full official 60/120/30 pair. It is not submitted/reserved. Prefill speculative default 48 differs from baseline 4096; do not call N1 correctness matched throughput. Failure requires a concrete supported repair or branch closure, not a blind scoring run.
 
 ## Budget and scope
 
-Locked pre-submit 2026-10-21T06:01:09.427656+00:00 ledger: Used **44625.453**, Balance **19366.014**, In Doubt **8.533 SU**. Failed 222763 charge 232.107 SU reconciles. Retain unposted 222769 maximum 8.533334 SU plus 222780.pbs111 maximum 1024 SU. Conservative internal headroom **5342.013667 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/reconciliation.json). Refresh under lock before spending; Balance already excludes In Doubt. Estimated terminal costs do not release maxima alone.
+Locked pre-submit 2026-10-21T06:01:09.427656+00:00 ledger: Used **44625.453**, Balance **19366.014**, In Doubt **8.533 SU**. Failed 222763 charge 232.107 SU reconciles. At that old snapshot retain unposted 222769 maximum 8.533334 SU plus 222780.pbs111 maximum 1024 SU. Conservative internal headroom **5342.013667 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/reconciliation.json). Refresh under lock before spending; Balance already excludes In Doubt. Estimated terminal costs do not release maxima alone.
 
 CPU envelope gains 0.289035%, below 1% gate; reverse prefetch saves 9.836066%, below 10% gate. Both exact methods stay closed unchanged, as do losing chunk/routing/DP8/DeepEP repeats. Keep native NUMA and retained backends. [Priorities](../reports/research-priorities-20261020/PLAN.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
 

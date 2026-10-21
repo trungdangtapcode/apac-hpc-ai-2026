@@ -1,0 +1,12 @@
+from pathlib import Path
+import json,re,hashlib,collections,datetime
+R=Path('/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments');O=R/'eagle3-pd-bf16-20261021';D=O/'collected/222780.pbs111';run=D/'runs/222780.pbs111';review={'job':'222780.pbs111','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit_status':1,'terminal_walltime_s':1661,'estimated_allocated_charge_su':1661*16*128/3600,'actual_charge_posting_not_yet_reconciled':True,'ranked_performance_measured':False,'output_ids_observed':False,'roles':{},'telemetry':{}}
+for role in ['prefill-0','prefill-1','decode-0']:
+ p,=run.glob('task-'+role+'-*.log');lines=p.read_text(errors='replace').splitlines();patterns=['Capture target verify CUDA graph end','Capture draft decode CUDA graph end','Capture draft extend CUDA graph end','Capture draft prefill CUDA graph begin','Disabling auto-selected prefill CUDA graph','NIXL KVManager initialized','The server is fired up and ready to roll!']
+ events=[dict(line=i+1,text=l[:1200]) for i,l in enumerate(lines) if any(s in l for s in patterns)]
+ review['roles'][role]=dict(log=str(p),sha256=hashlib.sha256(p.read_bytes()).hexdigest(),events=events,ready=any('The server is fired up and ready to roll!' in l for l in lines),fatal_exception_lines=[dict(line=i+1,text=l[:800]) for i,l in enumerate(lines) if len(l)<2000 and re.search('Traceback|RuntimeError:|OutOfMemoryError:|Mismatched Tensor',l)])
+ for p in (run/'resource-telemetry').glob(role+'-*.jsonl'):
+  rows=[json.loads(l) for l in p.open()];samples=[x for x in rows if x['kind']=='sample'];gpus=[g for s in samples for g in s.get('gpus',[])];states=collections.Counter(str(s.get('server_metrics_status')) for s in samples)
+  review['telemetry'][role]=dict(samples=len(samples),uuid_count=len({g['uuid'] for g in gpus}),vram_min_mib=min(float(g['memory.used']) for g in gpus),vram_max_mib=max(float(g['memory.used']) for g in gpus),gpu_activity_max_percent=max(float(g['utilization.gpu']) for g in gpus),gpu_activity_last_percent=[float(g['utilization.gpu']) for g in samples[-1]['gpus']],server_metrics_status=dict(states),node_cpu_ram_network='Raw node counters collected; not converted to per-worker saturation or rates in this review',scope='Startup and stalled wait, no scored traffic; per-role UUID ownership still requires complete locality review')
+(O/'failure-inspection.json').write_text(json.dumps(review,indent=2)+'\n')
+print(json.dumps({k:v for k,v in review.items() if k not in ['roles','telemetry']},indent=2))
