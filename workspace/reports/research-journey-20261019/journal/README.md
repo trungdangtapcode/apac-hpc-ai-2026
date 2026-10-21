@@ -106,3 +106,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: actual KV descriptor hypothesis and CPU preflight](entries/20261021-nixl-descriptor-plan.md).
 
 - [21 October: two-H100 descriptor gate receipt 223097](entries/20261021-nixl-descriptor-receipt.md).
+
+- [21 October: semantic warmup receipts and independent head gate](entries/20261021-pair-warmup-semantic.md).
