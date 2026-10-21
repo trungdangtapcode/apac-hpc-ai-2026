@@ -1,6 +1,6 @@
 # APAC Qwen execution policy
 
-Updated 2026-10-20T17:29:26.672121+00:00. This compact policy supersedes old execution snapshots, preserved in [the historical policy](../notes/history/20261020T172926Z-before-compact-POLICY.md). The owner instructions in AGENTS.md remain authoritative.
+Updated 2026-10-21T05:03:27.169907+00:00. This compact policy supersedes old execution snapshots, preserved in [the historical policy](../notes/history/20261020T172926Z-before-compact-POLICY.md). The owner instructions in AGENTS.md remain authoritative.
 
 ## Read and preserve context
 
@@ -22,7 +22,7 @@ Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is *
 
 Latest completed H100 pair: 222551/222552, full local gates and actual mappings PASS but only +0.289035% goodput, below the prospective 1% gate. Close without an unchanged repeat or default promotion. At the locked 21 October 03:21:52 UTC reconciliation: Used 43571.410 SU, Balance 20428.590 SU, In Doubt zero, no outstanding maxima and internal headroom 7428.590 SU. Refresh before spending; these are dated values.
 
-222721 is terminal exit 1: the native gateway filters chat token-ID extensions, before tensor checks. 222722 proves /generate synthetic forwarding but native imports fail on read-only HOME. Derived 222729 is submitted with isolated writable HOME/cache and unchanged diagnostic scripts, one H100 / four minutes / max 8.533334 SU. The first charge reconciles; retain 222722/222729 maxima, conservative headroom 7407.790333 SU at reservation. No target inference or ranked score. 222729 is now terminal: imports pass, direct UUID/name assertion fails before actual values are retained. New 222749 records raw values and requires full canonical UUID agreement with independent nvidia-smi; one H100/four minutes, max 8.533334 SU. Previous charges reconcile; locked Used 43580.583 SU and internal headroom 7410.883667 SU at reservation. Review terminal evidence and refresh credit before further spending. A component PASS does not waive real draft loading, both-phase PD transfer or exact greedy equality. Current H200 positions remain 24928/24962/24964/24965/25051, all pending at the latest check; no sixth job. No budget increase.
+222721/222722/222729 are retained failed components; 222749 passes native registry/tensors/mapping and 222750 proves actual single-rank native draft construction plus exact non-shared weight coverage. No inference with the missing target-shared embedding. New **222752** is a real target-only PD complete-token-ID/repeat-stability control: 16 H100 / 20 minutes / max 682.666667 SU, initially running. Locked Used 43580.583 SU, conservative headroom 6719.683667 SU after all maxima. No full-target speculative job, new score or budget increase. Inspect terminal runtime/transport/resource evidence before a separately frozen speculative comparison. Preserve five H200 Priority-pending positions; no sixth.
 
 ## Measurement and acceptance
 
@@ -40,7 +40,7 @@ Keep native NUMA binding. H100 222435 shows actual scheduler locality with an as
 
 Close unchanged reverse startup-prefetch confirmation: 9.836066% walltime/SU saving misses its prospective 10% gate. Do not automatically repeat or promote it. Keep H100 chunk 4096 and round-robin; unchanged 2048/8192/power-of-two trials lost. Historical DP8/DeepEP did not beat its contemporary MNNVL control.
 
-EAGLE3 remains a correctness branch. Sealed 222749 passes actual native registry, finite tensors and vocabulary mapping, with exact allocated UUID agreement. New 222750 tests real native class construction and complete exact non-shared parameter loading; one H100/four minutes/max 8.533334 SU. No forward with the missing target-shared embedding, no score. Public draft bytes/digest are staged outside Git. Native token-ID support is inspected, but gateway forwarding and real draft loading/PD integration remain unverified. First establish target-only repeat stability and exact actual token IDs, then correct draft loading/state/transport/kernels/memory and long-context checks. Only a useful valid short screen merits full scoring. No full-model speculative GPU job exists yet; do not weaken target verification or infer speedup from acceptance length.
+EAGLE3 component and actual single-rank loading gates pass, with limits in CURRENT and sealed reviews. The old chat token-extension route is proven unsupported by the actual gateway. Synthetic /generate ID preservation passes; actual full-target completeness and repeat stability await 222752. No direct worker bypass or retokenized-text substitute. Only a valid real reference permits a separately frozen target/draft integration, exact greedy comparison and useful short load before full scoring. No inference with an uninitialized shared embedding, target-verification relaxation or acceptance-length-to-throughput inference.
 
 ## Access, backup and handoff
 

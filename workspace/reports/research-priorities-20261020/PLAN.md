@@ -1,6 +1,14 @@
 # Research priorities after the upstream review
 
-## Current refinement — 2026-10-21T03:48:12.009783+00:00
+## Current refinement — 2026-10-21T05:03:27.169907+00:00
+
+222749 passes actual native registry/tensor/mapping gates; 222750 constructs the real native draft class and loads all 13 floating tensors into 10 exact non-shared parameters. The absent target-shared embedding is explicitly excluded and no forward executed. These checks do not establish production speculative inference. Earlier failed chat, cache and identity diagnostics are sealed and reviewed, not erased.
+
+**222752 is submitted/running at the latest dated snapshot**: retained real target-only PD on 16 H100s, maximum 20 minutes / 682.666667 SU. Validate complete actual output IDs and two identical greedy passes through /generate before a separately frozen speculative comparison. Baseline worker/transport bytes are unchanged; this diagnostic replaces the client only and has no ranked score. The old chat-extension helper is proven unsupported by actual gateway evidence. [Current protocol, controls and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/PLAN.md), [receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md), [full current handoff](../../notes/CURRENT.md).
+
+Conservative budget headroom is 6719.683667 SU after all outstanding maxima, unchanged cap/buffer. Preserve five H200 Priority-pending jobs. CPU envelope and reverse-prefetch methods missed their useful-gain gates and remain closed unchanged. Next inspect the real reference, then exact target/draft correctness, useful short load and only then full matched scoring. No current speculative speedup, organiser accuracy certification, background AI or budget increase. Earlier execution snapshots below are historical.
+
+## Historical refinement — 2026-10-21T03:48:12.009783+00:00
 
 The equal-budget CPU-envelope pair proves the intended worker mapping but gains only 0.289035%, below its 1% useful-gain gate. Close that exact policy without an unchanged repeat or promotion. The distinct EAGLE3 component branch found that the native chat gateway filters token-ID extensions; /generate with logprobs preserves the synthetic IDs, but native imports then hit read-only HOME. Job 222729 is running the same component scripts with isolated writable caches, one H100 / four minutes / max 8.533334 SU. [Full current handoff](../../notes/CURRENT.md) and [derived gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/PLAN.md).
 

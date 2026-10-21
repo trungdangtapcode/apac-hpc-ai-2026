@@ -1,54 +1,50 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T04:47:23.678871+00:00. Scheduler and credit observations below have explicit dates. [Earlier handoff](history/20261021-before-component-handoff.md) is historical.
+Updated 2026-10-21T05:03:27.169907+00:00. Queue observations are from **2026-10-21T04:58:33.945996+00:00**, not a future live guarantee. [Earlier component handoff](history/20261021-before-real-token-control.md) is historical.
 
 ## Retained serving results
 
 | Platform | Highest individual accepted job | Good output tokens/s | Status |
 |---|---|---:|---|
-| H200 | 24915 | 3022.034919 | N62, 98.726% joint SLA; exact independent repeat 24962 still pending |
-| H100 | 222048 | 2433.019859 | N54, unobserved incumbent; no new useful gain in the CPU pair |
+| H200 | 24915 | 3022.034919 | N62, 98.726% joint SLA; exact independent repeat 24962 pending |
+| H100 | 222048 | 2433.019859 | N54, unobserved incumbent; no new throughput result this turn |
 
-Repeated H200 N60 is about 2989–2990. Keep H100/H200 series separate. These are local accepted results, not proof of global optimality or organiser full-set accuracy. [H200 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0218/RESULTS.md), [H100 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
+Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local results, not global optimality or organiser accuracy. [H200 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0218/RESULTS.md), [H100 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md).
 
-**Official accuracy at 99% of reference remains unverified.** Rank by exported AIPerf goodput × 200, fixed 4000/200 tokens, seed 2026 and cold prefixes. Require joint TTFT ≤ 3000 ms / request-mean ITL ≤ 20 ms and good fraction ≥ 0.90 including errors. [Workload and units](official-goodput-clarification-20261020.md).
+**Official accuracy ≥99% of reference remains unverified.** Rank by exported AIPerf goodput ×200, fixed 4000/200, seed 2026, cold prefixes. Joint TTFT ≤3000 ms and request-mean ITL ≤20 ms; good fraction ≥0.90 including errors. [Workload and units](official-goodput-clarification-20261020.md).
 
-## Actual queues at 2026-10-21T04:47:23.678871+00:00
+## Actual submitted work
 
-- H200 **24928 / 24962 / 24964 / 24965 / 25051** remain pending for Priority. Preserve all five positions; no sixth job. They cover receive interval 2, the N62 repeat, the observed prefill backend pair and actual H200 worker locality.
-- H100 **222729.pbs111 is terminal F / exit 1**, one GPU, actual walltime 64 seconds / estimated 2.275556 SU. Gateway and imports pass; device identity assertion fails before raw values are recorded. It is a component gate, not a full model benchmark. [Own queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/live-final.json).
-- Earlier H100 222551/222552 and 222721/222722 are completed; exit status alone is not a performance/quality PASS. Their reviewed outcomes follow.
+- H200 **24928 / 24962 / 24964 / 24965 / 25051** are PD / Priority. Preserve all five; no sixth. They cover recv2, the N62 repeat, observed prefill backend pair and H200 worker locality.
+- H100 **222752.pbs111 is R** at the dated observation: **16 H100 / at most 20 minutes / maximum 682.666667 SU**. It runs the real target-only PD token reference, not EAGLE3 inference or ranked AIPerf. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md), [raw queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/live-receipt.json).
+- All five smaller EAGLE3 component/load jobs are terminal and reviewed below. No completed full-model speculative job exists.
 
-## CPU-envelope branch closed
+## EAGLE3 progress and exact remaining gates
 
-**222551 legacy → 222552 balanced** passes sealed local protocol/SLA/runtime/output-comparison gates and proves the intended masks on all 16 GPU schedulers. Same 32/32/64 CPU/core budgets, unchanged serving/benchmark and native NUMA locality. Goodput **2407.544052 → 2414.502691**, only **+0.289035%**, below the prospective **1%** useful-gain gate. **Close this exact policy, no unchanged repeat or default promotion.** [Complete result, mapping, tails, hardware and cost review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/PAIR_REVIEW.md).
-
-The same baseline short mismatch persists; long checks are 12/12, scored request errors zero, and 16 post-score rank traces per job are inspected. Native profile-stop HTTP 500 remains. Sampled decode GPU activity is near 100%, not a causal bottleneck proof; scored per-thread demand, memory placement and inflight remain uncollected. H200 mapping job 25051 has not run; do not transfer the H100 result numerically.
-
-## EAGLE3 component progress
-
-| Job | Actual observation | Interpretation |
+| Job | Actual observation | Assessment |
 |---|---|---|
-| 222721 | F / exit 1, 105 s: actual chat gateway drops token-ID extensions | Unsupported diagnostic route; config/tensor stages not reached; no model load |
-| 222722 | F / exit 1, 89 s: native /generate forwarding and synthetic logprob IDs pass; imports fail at read-only HOME | Gateway capability is verified only with synthetic workers; native config/tensors still unverified |
-| 222729 | F / exit 1, 64 s: gateway and imports pass, UUID/name assertion fails | Raw identity values missing; derive strict canonical comparison plus independent device lookup |
+| 222721 | F / exit 1, 105 s: actual chat gateway filters token-ID extensions | Close that diagnostic route; later stages not reached |
+| 222722 | F / exit 1, 89 s: synthetic /generate IDs preserved, imports fail on read-only HOME | Route capability only; repair private cache |
+| 222729 | F / exit 1, 64 s: imports now pass, direct UUID/name assertion fails without raw values | Preserve failure; cannot infer its cause from that log alone |
+| 222749 | F / exit 0, 78 s: complete UUID identity, real registry, finite tensors and mapping pass | Raw values prove GPU- representation difference; no class constructed |
+| 222750 | F / exit 0, 99 s: actual native class constructs and loads all 13 float tensors | All 10 non-shared parameters and hot-token map match exactly; no forward |
 
-[First failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-20261021/REVIEW.md), [second review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/REVIEW.md), [current exact repair and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/PLAN.md), [receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/RESULTS.md).
+[222729 failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/REVIEW.md), [222749 complete component review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-uuid-20261021/REVIEW.md), [222750 native loading and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-loader-20261021/REVIEW.md). Raw submitted payloads and evidence seals are preserved. The only missing draft parameter is the actual target-shared embedding; no substitute embedding or inference used. Single-rank loading is not TP4/TP8 runtime compatibility. Peak diagnostic allocations are not serving overhead/utilization.
 
-The public draft ff0f0c09 is staged and digest-verified on both sites, outside Git. Its size is 1145943008 bytes and SHA256 bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86. Only recovery metadata is captured. The draft-only architecture adapter changes no official target file. Synthetic gateway IDs are never counted as model output; the official AIPerf streaming chat command remains unchanged.
+Public draft nebius/EAGLE3-Qwen3-235B-A22B-Instruct-2507, revision ff0f0c0999f6c86b21dfd2f5803eebc4ac712224, remains outside Git on both sites. Full digest bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86, 1145943008 bytes. Draft-only architecture adapter changes no official target file. No training here.
 
-222729 is reviewed in [the terminal report](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/REVIEW.md). 222749 is now sealed component PASS: the raw full UUIDs agree, with Torch omitting GPU-. Native registry, 13 finite BF16 tensors and 64000 unique mapped IDs pass. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-uuid-20261021/REVIEW.md). No model is instantiated or inference executed. 222750 is sealed native construction/load PASS: 13 floating tensors consumed, all 10 non-shared parameters match exactly. The sole absent target-shared embedding is not used for inference. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-loader-20261021/REVIEW.md). Next validate real target-only complete output IDs and repeat stability before speculative comparison. A complete component PASS only permits preparing the next bounded integration stage: real draft class/parameter loading, feature layers, TP4-to-TP8 state/KV transfer, kernels/graphs, memory and stable target-only versus speculative actual token IDs. A real response must expose every output ID, including its first token; text equality is insufficient. Only a valid useful unranked load screen warrants a full scoring pair. No full-target speculative GPU job exists yet; keep native verification intact. Preserve all failures and repair derived payloads rather than mutating submitted files.
+222752 keeps baseline 222551 worker and transport bytes. Through actual /generate, it checks three generic short prompts and one exact 4000-token generic prompt twice, with 200 outputs each. Require all actual output IDs, including first token, and exact target-a/target-b stability. Diagnostic logprobs and ignore_eos stay outside ranking. [Prospective protocol and stopping rules](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/PLAN.md), [updated token-route status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/TOKEN_ROUTE.md).
 
-## Credit and reservations
+Next collect 222752 only after owned terminal F using its collect-terminal.py, verify sealed payload/raw evidence, and inspect actual runtime/transport/resource/locality logs. A passing JSON alone needs runtime review. Failure blocks the speculative comparison and calls for a concrete derived repair. Success permits preparing a separately frozen EAGLE3 target/draft integration with explicit capacity, real embedding sharing, feature layers, TP4/TP8 KV/state, verification kernels/graphs, memory and exact same prompt/output IDs. Only a valid useful short load warrants full scoring. No draft inference or speedup is claimed yet.
 
-Fresh locked 2026-10-21T04:51:00.212783+00:00 ledger: Used **43580.583 SU**, Balance **20419.417 SU**, In Doubt **0.000 SU**. **222750.pbs111** tests actual native draft construction and exact non-shared parameter coverage: one H100 / four minutes / max 8.533334 SU. Retain 222749's unposted maximum plus this maximum; conservative internal headroom **7402.350333 SU**, unchanged **51000 cap / 13000 buffer**. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-loader-20261021/RESULTS.md). No inference or performance result. Refresh and uniquely reconcile before spending; Balance excludes In Doubt.
+## Budget
 
-The submission adapter now parses only the independent qstat -u response, avoiding wrapped historical argument lines. Its initial false-positive guard failed before reservation/qsub and is preserved. Upload resumption required reverified manifests and proof of no uncertain submission. No duplicate allocation occurred.
+Locked pre-submit 2026-10-21T04:57:40.859253+00:00 ledger: Used **43580.583**, Balance **20419.417**, In Doubt **0.000 SU**. Retain 222749 and 222750 unposted full maxima plus 222752 maximum; conservative internal headroom **6719.683667 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/reconciliation.json). The first three component charges are posted; the later two estimated charges are 2.773333 and 3.520000 SU. Retain maxima until uniquely reconciled; Balance already excludes In Doubt. Refresh under budget.lock before spending.
 
-## Other decisions and boundaries
+The previous handoff miscopied 03:46 Balance/In Doubt; its raw response was 20416.324 / 8.533 SU, not zero doubt. Corrected in the journal and current records. No extra spending follows from that correction.
 
-Close unchanged startup-prefetch confirmation: reverse pair saved 9.836066% allocated walltime/SU, below its 10% prospective gate; no automatic third repeat or default promotion. [Pair review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/startup-prefetch-confirm-20261020/PAIR_REVIEW.md). Keep H100 chunk 4096/round-robin, native MNNVL and validated compute backends. Unchanged losing chunk/routing/DP8/DeepEP branches stay closed. [Priorities](../reports/research-priorities-20261020/PLAN.md), [journal](../reports/research-journey-20261019/journal/README.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
+## Closed branches and boundaries
 
-[Competition registration clarification](contest-scoring-and-tracks-20261020.md) preserves conflicting recruitment/current-rule wording; original accepted entry and AI-only specialist eligibility remain unverified. Qwen-only work scope and empty HPC_Task do not establish an exemption. The owner authorised committing the clarification on 21 October; the earlier no-commit restriction is historical.
+CPU envelope 222551→222552 passes full local gates/mapping but gains **0.289035%**, below its prospective 1% gate: close unchanged, no repeat/promotion. Reverse startup-prefetch confirmation saves **9.836066%**, below its 10% gate: same decision. Keep H100 chunk4096/round-robin/native NUMA/MNNVL/backends; unchanged chunk/routing/DP8/DeepEP losers stay closed. [CPU review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/PAIR_REVIEW.md), [priorities](../reports/research-priorities-20261020/PLAN.md), [journal](../reports/research-journey-20261019/journal/README.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
 
-English artifacts, Vietnamese chat. Qwen only; HPC_Task empty. No package/slide edit. **Autopilot OFF**: no background Codex, schedules or automatic chat notifications. Preserve VPN/SSH and exclude credentials/session state. Capture, verify, commit and push small safe milestones. External sibling artifact bytes still require off-host backup; Git pushes contain their manifests, not those bytes. [Execution policy](../research-autopilot/POLICY.md).
+English artifacts, Vietnamese chat. Qwen only; HPC_Task empty; no slide/package changes. **Autopilot OFF**: no background Codex, schedules or automatic original-chat notifications. Preserve VPN/SSH; exclude all authentication/session state. Capture, verify, commit/push small safe milestones. Git pushes include external-object manifests, not sibling object bytes; separate off-host backup remains needed. [Policy](../research-autopilot/POLICY.md).
