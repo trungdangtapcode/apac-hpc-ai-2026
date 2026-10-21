@@ -1,0 +1,9 @@
+# Explicit BF16 native PD repair receipt
+
+**222780.pbs111**, submitted 2026-10-21T06:01:09.427656+00:00, state **R** at 2026-10-21T06:02:49.404410+00:00. **16 H100 / at most 30 minutes / maximum 1024 SU**, no dependency after fresh empty own queue. Actual norm fixture **222769** is sealed PASS: auto draft FP16 conflicts with real BF16 target embedding; explicit BF16/unquant passes native eager and graph replay. [Fixture review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-dtype-probe-20261021/REVIEW.md).
+
+This separately frozen full repair adds only **--dtype bfloat16** and **--speculative-draft-model-quantization unquant** to both roles. The actual fixture proves the target remains BF16 activations with FP8 quantization in both modes. No target weight/config conversion. Native target/draft inference, TP4/TP8 transport, remaining graphs/memory and exact output IDs still need this allocation. The accepted real reference stays 222761; all client/semantic/transport bytes and nine rejection fixtures remain unchanged. [Prospective gates](PLAN.md).
+
+Locked pre-submit ledger: Used **44625.453**, Balance **19366.014**, In Doubt **8.533 SU**. 222763 charge **232.107 SU** reconciles. Retain unposted 222769 maximum plus the new 1024 SU maximum; internal headroom **5342.013667 SU**, unchanged 51000 cap/13000 buffer. [Reconciliation](reconciliation.json). Snapshot outstanding maxima: [{"job": "222769.pbs111", "max_su": 8.533333333333333}, {"job": "222780.pbs111", "max_su": 1024.0}]. No double subtraction of In Doubt or early release of maxima.
+
+No full repair result or throughput/accuracy claim at receipt. Preserve all five H200 Priority-pending positions. This is a concrete dtype repair supported by the cheaper fixture, not an unchanged retry, scoring job or background series.
