@@ -1,0 +1,70 @@
+#!/bin/bash
+# CPU mesh identity and serial Basic preparation only; no solver score.
+#PBS -N tu-cpu-numa128
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=32:mpiprocs=1:mem=96gb:ngpus=0
+#PBS -l walltime=00:15:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+ART="$ROOT/artifacts/scotch-N128-numa8x16"
+test ! -e "$ART"
+mkdir -p "$ROOT/artifacts"
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+export FI_VERBS_PREFER_XRC=0
+cd "$ROOT"
+# Compare native semantic expansion after the organiser Iris script's two edits.
+cp -a iris-control-check iris-control-replay
+cd iris-control-replay
+foamDictionary system/controlDict -entry startFrom -set startTime > /dev/null
+foamDictionary system/controlDict -entry endTime -set 40 > /dev/null
+foamDictionary system/controlDict -expand > expected-expanded.dict
+foamDictionary actual-controlDict -expand > actual-expanded.dict
+python3 - <<'PY_CHECK'
+from pathlib import Path
+import difflib
+expected=Path('expected-expanded.dict').read_text()
+actual=Path('actual-expanded.dict').read_text()
+x='// "system/controlDict"';y='// "actual-controlDict"'
+assert expected.count(x)==actual.count(y)==1
+expected=expected.replace(x,'// "CONTROL_INPUT"')
+actual=actual.replace(y,'// "CONTROL_INPUT"')
+Path('../iris-control-semantic.diff').write_text(''.join(difflib.unified_diff(expected.splitlines(True),actual.splitlines(True))))
+assert expected==actual,'Native control entries differ beyond the generated filename comment'
+PY_CHECK
+printf 'PASS\n' > "$ROOT/iris-control-semantic.PASS"
+cd "$ROOT"
+python3 verify-mesh.py
+cp -a case "$ART"
+ln -s /scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh "$ART/constant/polyMesh"
+cd "$ART"
+mkdir -p logFiles
+{
+  date -u
+  hostname
+  module list 2>&1
+  printf 'WM_PROJECT_VERSION=%s WM_PRECISION_OPTION=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION"
+} > logFiles/environment.log
+/usr/bin/time -v timeout --signal=TERM --kill-after=15s 660s decomposePar -constant > logFiles/decomposePar.log 2>&1
+. "$WM_PROJECT_DIR/bin/tools/RunFunctions"
+restore0Dir -processor > logFiles/restore0Dir.log 2>&1
+python3 - <<'PY'
+from pathlib import Path
+import re,json
+p=Path.cwd();t=(p/'logFiles/decomposePar.log').read_text()
+assert re.search(r'^End\s*$',t,re.M) and 'FOAM FATAL' not in t
+assert 'OPENFOAM=2512' in t and 'scalar=64' in t
+assert 'scotch [128]' in t
+assert sorted(x.name for x in p.glob('processor*') if x.is_dir())==sorted('processor'+str(i) for i in range(128))
+cells=[int(v) for v in re.findall(r'^    Number of cells\s*=\s*(\d+)',t,re.M)]
+assert len(cells)==128 and sum(cells)==65334765
+assert all(all((p/('processor'+str(i))/'0'/n).is_file() for n in ['U','p','k','omega','nut','nuTilda']) for i in range(128))
+(p/'CUT_READY.json').write_text(json.dumps({'ranks':128,'method':'scotch','domains':[8,16],'domainWeights':[1,0.1],'total_cells':sum(cells),'scope':'decomposePar and restore0Dir only; mandatory parallel initialization still required'},indent=2)+'\n')
+PY
+printf 'CPU_N128_CUT_PASS\n'
