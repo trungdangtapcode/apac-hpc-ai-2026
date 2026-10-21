@@ -38,3 +38,5 @@ runtime limit has not begun. There is no reliable start-time estimate yet.
 ## Completed baseline update
 
 25905114 finished exit 0 after 728 seconds; its earlier pending snapshot is historical. Queue wait was about 13 min 5 s. Native solver alone reports 643 seconds; whole allocation includes setup and initialization. Estimated base charge 25.884444 SU is not an individually reported invoice.
+
+25907236 native Scotch mesh verification + serial cut/restore: 6 min 11 s execution, 15-minute requested maximum, estimated 3.297778 SU. It is preparation, not solver performance.

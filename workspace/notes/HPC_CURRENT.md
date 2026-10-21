@@ -93,3 +93,7 @@ CURRENT.md -> AI_CURRENT.md or HPC_CURRENT.md, with the explicit AGENTS map.
 25907236.pbs101 accepted at 2026-10-21T18:58:25.195600+00:00. Fresh native default Scotch N128, serial decomposition on 32 allocated CPUs, 96 GB, zero GPUs, maximum 15 minutes / 8 SU. Root: `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-scotch128-20261021T185820Z`. Read PLAN.md for hypothesis, control, gates and conditional same-node pair. No candidate performance result yet. Submission intent, queue/accounting checks, exact deployment hashes and receipt are retained. No retry or budget increase.
 
 Conservative consumed ceiling 29 SU plus this 8-SU outstanding reservation commits 37 / 100 SU. The conditional 29-minute pair would bring the maximum to 98.866667 SU, only after preparation passes and a fresh locked budget/queue check. Separate GPU queue inspected read-only: one own running job at submission; untouched.
+
+## Scotch preparation reviewed
+
+25907236: F / exit 0, 371 seconds, full native N128 cut/restore/mesh gates pass. Maximum processor faces 42,141 vs hierarchical 131,252; more cell imbalance and neighbors mean no speed claim yet. 768 initialized control field hashes are retained for immutable reuse. Next the frozen same-node H→S 40-step pair, maximum 61.866667 SU, bringing conservative planning commitment to 98.866667 / 100 SU including the terminal prep maximum retained pending reconciliation. No AI changes. [Review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-scotch128-20261021/STATUS.md).
