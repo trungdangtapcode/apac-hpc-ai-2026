@@ -26,6 +26,7 @@ for name in files:shutil.copy2(C/name,O/name)
 (O/'target-reference.json').write_text(json.dumps(reference,indent=2)+'\n')
 shutil.copy2(C/'REFERENCE_REVIEW.json',O/'reference-prerequisite.json')
 shutil.copy2(C/'native-load-prerequisite.json',O/'native-load-prerequisite.json')
+shutil.copy2(C/'corpus-prerequisite.json',O/'corpus-prerequisite.json')
 shutil.copy2(C/'asset-preflight-code.json',O/'asset-preflight-code.json')
 shutil.copy2(C/'asset-contract.json',O/'asset-contract.json')
 p=O/'token-control.py';s=p.read_text();s=s.replace("platform='H100', scope='Real target-only PD /generate observation and repeat stability; no ranked score or organiser accuracy'", "platform='H100', scope='Real EAGLE3 PD exact-ID comparison against sealed target reference; no ranked score or organiser accuracy'")
@@ -47,8 +48,8 @@ s=s.replace("        result['passed']=True", """        reference_comparisons=[]
         assert len(reference_comparisons)==4 and all(c['exact_reference_ids_and_finish_equal'] for c in reference_comparisons), 'EAGLE3 differs from sealed target reference'
         result['passed']=True""")
 p.write_text(s)
-guard=(O/'check-token-result.py').read_text().replace("'target-a'","'draft-a'").replace("'target-b'","'draft-b'")
-guard+="\nreference=json.loads((O/'target-reference.json').read_text())\nfor a,b in zip(reference['stages']['target-a'],r['stages']['draft-a'],strict=True):\n assert a['request']==b['request'] and a['observed']==b['observed']\n"
+guard=(O/'check-token-result.py').read_text().replace("'target-a'","'draft-a'").replace("'target-b'","'draft-b'").replace(',strict=True','').replace('REAL_TOKEN_REFERENCE_GATE_PASSED','SPECULATIVE_LOCAL_PAIR_GATE_PASSED')
+guard+="\nreference=json.loads((O/'target-reference.json').read_text())\nassert r['target_identity_sha256']==reference['target_identity_sha256'] and r['platform']==reference['platform']\nfor a,b in zip(reference['stages']['target-a'],r['stages']['draft-a']):\n assert a['request']==b['request'] and a['observed']==b['observed']\n"
 (O/'check-token-result.py').write_text(guard)
 # Add only native speculation flags before the unchanged target server invocation.
 p=O/'worker.sh';s=p.read_text();needle='exec python3 -m sglang.launch_server \\\n';assert s.count(needle)==1
@@ -70,12 +71,13 @@ assert {k for k in a.keys()|b.keys() if a.get(k)!=b.get(k)}=={'architectures'}
 assert a['architectures']==['LlamaForCausalLMEagle3']
 print('PINNED_DRAFT_VERIFIED',digest.hexdigest(),flush=True)
 ''')
-p=O/'benchmark.pbs';p.write_text(p.read_text().replace('ap42-eagle3-token-control','ap42-eagle3-pd-candidate').replace(C.name,O.name).replace('00:20:00','00:30:00'))
+p=O/'benchmark.pbs';pbs=p.read_text().replace(C.name,O.name).replace('00:20:00','00:30:00');pbs=re.sub(r'^#PBS -N .*$', '#PBS -N ap42-eagle3-pd-candidate', pbs, flags=re.M);p.write_text(pbs)
 p=O/'topology-job.sh';p.write_text(p.read_text().replace('deadline=${2:-1050}','deadline=${2:-1650}').replace('1200-SECONDS-40','1800-SECONDS-40'))
 config=json.loads((O/'config.json').read_text());config.update(experiment=O.name,source_bundle=C.name,source_job=reference_job,purpose='Real EAGLE3 PD exact IDs against sealed target-only reference',paired_role='speculative correctness candidate',walltime_minutes=30,speculative_algorithm='EAGLE3',speculative_num_steps=2,speculative_eagle_topk=1,speculative_num_draft_tokens=3,draft_quantization=None,speculative_draft_attention_backend='flashinfer',reference_identity_sha256=reference['target_identity_sha256'],capacity_limit='Decode explicit 256; native speculative unspecified prefill default may resolve 48; correctness N1 only, not a matched throughput pair')
 (O/'config.json').write_text(json.dumps(config,indent=2)+'\n')
 s=(C/'submit-pbs.py').read_text().replace("assert json.loads((O / 'validation.json').read_text())['passed']", "assert json.loads((O / 'validation.json').read_text())['passed']\nassert json.loads((O / 'reference-prerequisite.json').read_text())['reference_usable']")
 s=s.replace("'222750.pbs111']","'222750.pbs111','222752.pbs111']").replace("{'222750.pbs111'}","{'222752.pbs111'}").replace("dependency = '222750.pbs111'","dependency = '222752.pbs111'").replace('16 * 128 * 20 / 60','16 * 128 * 30 / 60').replace("'00:20:00'","'00:30:00'").replace('minutes=20','minutes=30').replace('target_token_reference_gate','speculative_pd_correctness_gate').replace('16-H100/20-minute real target-only token reference gate','16-H100/30-minute real EAGLE3 PD correctness gate').replace('draft_model_instantiated=False','draft_model_instantiated=True')
+s=s.replace('AWAITING_COMPONENT_CHECK','AWAITING_SPECULATIVE_CORRECTNESS').replace('Review actual target-only full output IDs and repeat stability before preparing separately frozen speculative comparison; no ranked benchmark.','Review native speculative runtime and exact output IDs against the accepted reference; no ranked benchmark.')
 # The chosen repaired reference's own receipt is the only allowed active predecessor.
 s=s.replace("'222752.pbs111',", "'222752.pbs111',"+repr(reference_job)+",")
 s=re.sub(r"set\(active\) <= \{[^}]*\}", "set(active) <= {"+repr(reference_job)+"}", s)
@@ -91,5 +93,5 @@ assert (O/'token-control.py').read_text().count("reference['cases']")==1
 (O/'SHA256SUMS').write_text(''.join(hashlib.sha256((O/n).read_bytes()).hexdigest()+'  '+n+'\n' for n in files))
 with tarfile.open(O/'payload.tar.gz','w:gz') as t:
  for n in files+['SHA256SUMS']:t.add(O/n,arcname=O.name+'/'+n)
-(O/'validation.json').write_text(json.dumps(dict(passed=True,scope='Syntax, reference prerequisite and unchanged native transport; actual EAGLE3 PD inference/IDs still unverified',reference_job='222752.pbs111',scored_benchmark=False,max_su=1024),indent=2)+'\n')
+(O/'validation.json').write_text(json.dumps(dict(passed=True,scope='Syntax, reference prerequisite and unchanged native transport; actual EAGLE3 PD inference/IDs still unverified',reference_job=reference_job,scored_benchmark=False,max_su=1024),indent=2)+'\n')
 print('Frozen',O.name,'with',len(files),'runtime files; not submitted')
