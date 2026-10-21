@@ -369,13 +369,33 @@ is separate from the already retained HPC run evidence.
 ## CPU preparation accepted and duration explanation — 2026-10-21T14:33:21.810477+00:00
 
 The owner asks progress and minutes per job. Fresh history shows 25905006
-F/exit0, 187 seconds, versus 900 seconds requested; queue wait about223 seconds.
-Seal162 selected text files and independently review hashes, native DP/build,
-128 partitions and total65,334,765 cells, full official archive/member identity,
-unchanged dictionaries and field gates. All pass. MaxRSS30.3228GiB, cput155s,
-CPUpercent71 are coarse accounting; no hardware bandwidth/locality inference.
-Estimated base1.662222SU is not separately posted charging; retain the maximum.
+F/exit0, 187 seconds, versus 900 seconds requested; queue wait about 223 seconds.
+Seal 162 selected text files and independently review hashes, native DP/build,
+128 partitions and total 65,334,765 cells, full official archive/member identity,
+unchanged dictionaries and field gates. All pass. MaxRSS 30.3228 GiB, CPU time 155 s,
+CPUpercent 71 are coarse accounting; no hardware bandwidth/locality inference.
+Estimated base 1.662222 SU is not separately posted charging; retain the maximum.
 Explain actual runtime, requested cap and queue separately in JOB_DURATIONS.md.
-Iris solver took925s and the full split chain1189s; no direct site speedup is
+Iris solver took 925 s and the full split chain 1189 s; no direct site speedup is
 claimed. Next independently freeze a 128-rank full init+40-step solve capped at
-35 minutes within the existing100-SU envelope. No GPU research or AI mutation.
+35 minutes within the existing 100-SU envelope. No GPU research or AI mutation.
+
+## Full CPU baseline admission and backup recovery — 2026-10-21T14:38:48.997415+00:00
+
+Accepted preparation justifies a fresh native N128 full initialization and
+40-step solver, keeping fixedIter, schemes, precision and function objects.
+Freeze the source and validate syntax. Check the CPU ledger/project, empty
+own CPU queue and combined PBS cap under the dedicated lock. Reserve maximum
+74.666667 SU; retained whole-wave maxima are 93.333334 SU below 100 SU. One
+qsub returns 25905114.pbs101 at 14:35:53.856665 UTC. The 14:37:48 UTC snapshot
+is Q in qdev: one exclusive node, 128 CPUs/ranks, 440 GB, zero GPU, maximum
+2100 seconds. No complete CPU result or site speedup is claimed.
+
+Two concurrent shared Git operations interrupt the earlier review/plan backup:
+first an index lock, then the staged-path scope assertion. Captures are safe;
+inspect all pending paths and recover the two already verified captures as
+separate path-scoped commits, preserving other staged work and existing history.
+Both are pushed before closing this checkpoint. Adopt serialized selected-path
+HPC checkpoints; never delete another process's Git lock or sweep mixed work.
+The definite job receipt and current budget are retained even though the backup
+recovery completed after submission. No scheduling retry or data loss occurs.

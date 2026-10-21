@@ -42,14 +42,17 @@ queue. Full official archive MD5/SHA256 and eight unpacked member hashes,
 native v2512/DP, exact 128 partitions/65,334,765 cells and initial fields pass.
 Batch MaxRSS 30.3228 GiB; estimated base charge 1.662222 SU is not posted billing.
 [Review and sealed evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
-Next freeze and reserve the one-node/128-MPI mandatory initialization plus
-40-step solver, maximum 35 minutes. No CPU solver result yet.
+**25905114.pbs101** accepted 14:35:53 UTC; retained 14:37:48 UTC snapshot is
+Q in qdev. One exclusive CPU node/128 MPI/440 GB/no GPU, maximum 35 minutes,
+all mandatory parallel initialization followed by 40 solver steps. Source,
+receipt, placement/phase plan and reservation are retained. No CPU solver
+result yet. [Active job](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-solve-h128-20261021/STATUS.md).
 [Measured versus requested job durations](../reports/hpc-openfoam-20261021/JOB_DURATIONS.md).
 
 Parent CPU lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/
-cpu-budget.lock and cpu-budget.json. Conservative retained maxima 18.666667 SU;
-future conditional 128-CPU/35-minute full init+solve maximum 74.666667 SU keeps the
-whole wave under 100 SU. That later job is not yet submitted/reserved. No AI
+cpu-budget.lock and cpu-budget.json. Conservative retained maxima now total 93.333334 SU, including the active
+74.666667-SU solver reservation, below the 100-SU first-wave ceiling. All
+preceding maxima remain retained until posted charge reconciliation. No AI
 budget or serving changes. Keep posted billing distinct from estimates and
 never subtract prepaid In Doubt twice.
 

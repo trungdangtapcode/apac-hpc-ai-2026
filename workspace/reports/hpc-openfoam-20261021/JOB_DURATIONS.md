@@ -12,7 +12,7 @@ time every job must consume. A job can finish earlier or be killed at its limit.
 | Iris complete split chain | 19 min 49 s | Sum of caps: 75 min | Execution only; excludes gaps and queue |
 | ASPIRE CPU 25904765: tiny native timing gate | 1 min 24 s | 10 min | Compiler/runtime diagnostic, no score |
 | ASPIRE CPU 25905006: mesh identity + cut/restore | 3 min 7 s | 15 min | Fresh N128 case; no solver yet |
-| Next ASPIRE CPU full init + 40-step solver | Not measured yet | 35 min | Conditional promotion after reviewed prep |
+| ASPIRE CPU 25905114: full init + 40-step solver | Queued; not measured yet | 35 min | Submitted after reviewed preparation |
 
 25905006 waited about 3 min 43 s before starting. That single queue delay does
 not predict later jobs; queued jobs can wait much longer. Time until a result
