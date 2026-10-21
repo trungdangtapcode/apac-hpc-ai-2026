@@ -4,7 +4,7 @@ Updated 2026-10-21T10:10:46.543956+00:00. Earlier execution snapshots remain his
 
 ## Read and preserve context
 
-Read notes/README.md, notes/CURRENT.md and the relevant plan before work. Treat scheduler/budget snapshots as dated; query actual state when needed. Use concise Vietnamese for chat and English for all new work artifacts. Qwen track only; keep HPC_Task empty. Do not edit frozen submitted payloads or unrelated submission materials.
+Read notes/README.md, notes/CURRENT.md and the relevant plan before work. Treat scheduler/budget snapshots as dated; query actual state when needed. Use concise Vietnamese for chat and English for all new work artifacts. HPC/OpenFOAM research was also authorised on 21 October; this chat focuses on it while another person supports AI. Preserve AI jobs/payloads and budget controls. Keep HPC_Task empty until actual reviewed HPC deliverables are ready. Do not edit frozen submitted payloads or unrelated submission materials.
 
 Record each reviewable milestone in the linked research journal: question, prior evidence, hypothesis, control/change, exact job/bundle IDs, observations with units, assessment/limits, correction and next decision. Preserve raw failures and losing branches. Do not invent historical reasoning or measurements. Do not repeatedly audit unchanged sealed runs without a new concern.
 

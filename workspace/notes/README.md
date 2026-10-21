@@ -1,6 +1,6 @@
 # Persistent APAC research notes
 
-Read [CURRENT.md](CURRENT.md) first when resuming APAC-HPC-AI2026 Qwen research. It is a dated handoff, not a replacement for the actual scheduler or project ledger.
+Read [CURRENT.md](CURRENT.md) first when resuming APAC-HPC-AI2026 research. The owner shifted this chat to HPC/OpenFOAM research on 21 October; another person supports AI. Use [HPC_CURRENT.md](HPC_CURRENT.md) for the HPC handoff. It is a dated handoff, not a replacement for the actual scheduler or project ledger.
 
 Use Vietnamese for chat only. All new code, documentation, notes, reports and submission materials are English. Historical raw records keep their original bytes and may retain Vietnamese text.
 

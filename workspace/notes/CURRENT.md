@@ -2,6 +2,10 @@
 
 Updated 2026-10-21T10:10:46.543956+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
 
+## Owner steering: HPC research
+
+On 21 October the owner requested HPC/OpenFOAM research and said another person supports AI. This chat now follows [HPC_CURRENT.md](HPC_CURRENT.md). Earlier Qwen-only scope is superseded for research; preserve existing AI work and shared budget controls.
+
 ## Retained serving results
 
 | Platform | Highest individual accepted job | Good output tokens/s | Status |
@@ -53,4 +57,4 @@ CPU envelope gains 0.289035%, below 1% gate; reverse prefetch saves 9.836066%, b
 
 Public README R2/R5 requires Basic results for both Qwen and OpenFOAM. Our delivered package updates Qwen only; empty HPC_Task is owner scope, not an organiser exemption. [Clarification](contest-scoring-and-tracks-20261020.md).
 
-English artifacts, Vietnamese chat. Qwen only; HPC_Task empty. The owner authorised a full submission update on 21 October; the previous no-edit restriction is superseded. **Autopilot OFF**: no background Codex, schedules or automatic chat notification. Preserve VPN/authentication and exclude session/credential state. Explicit safe small capture/commit/push checkpoints; Git carries external-object manifests, not sibling artifact bytes (separate off-host backup still needed). [Policy](../research-autopilot/POLICY.md).
+English artifacts, Vietnamese chat. HPC research is now authorised; another person supports AI. HPC_Task remains empty until real reviewed HPC deliverables are ready. The owner authorised a full submission update on 21 October; the previous no-edit restriction is superseded. **Autopilot OFF**: no background Codex, schedules or automatic chat notification. Preserve VPN/authentication and exclude session/credential state. Explicit safe small capture/commit/push checkpoints; Git carries external-object manifests, not sibling artifact bytes (separate off-host backup still needed). [Policy](../research-autopilot/POLICY.md).

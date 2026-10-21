@@ -16,8 +16,17 @@ historical. Preserve raw run artifacts. Never present a dated snapshot as live.
 Use concise Vietnamese for chat only. Use English for the codebase and all work
 artifacts, including code comments, documentation, research plans, reports, notes,
 tutorials, and submission materials. This supersedes earlier permission to write
-tutorials or learning notes in Vietnamese. Qwen track only; keep HPC_Task folders
-empty. Do not change submission materials unless relevant/authorized.
+tutorials or learning notes in Vietnamese.
+
+On 21 October the owner explicitly authorised HPC/OpenFOAM research and said
+another person supports AI. This supersedes the earlier Qwen-only research
+scope. This chat should focus on HPC research without changing AI serving
+payloads, jobs or measurements on the other worker's behalf. Preserve existing
+AI queues and coordinate any future shared-project spending through the budget
+lock. Keep HPC_Task submission folders empty until actual reviewed HPC work is
+ready for an authorised package update; never invent HPC results. Research
+access checks do not authorise increasing any budget or starting schedules.
+Do not change submission materials unless relevant/authorized.
 
 Scheduled Codex runs are fresh sessions using file handoff, not forks of the
 user's chat. Keep POLICY.md, CURRENT.md and reports consistent. They cannot send
