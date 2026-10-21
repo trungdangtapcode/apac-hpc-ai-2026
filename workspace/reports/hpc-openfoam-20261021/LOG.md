@@ -592,3 +592,16 @@ Queue correction: actual normal routing includes q1–q6; qdev caps each job at 
 ## 21 October: preserve and fix a local deployment size limit
 
 The first three-case N256 deployment exceeded the OS per-argument size limit (errno 7) before SSH started. No remote process, qsub or budget reservation occurred; no cluster job or SU was lost. Replaced embedded base64/hash arguments with a tar stream over SSH stdin, retaining safe-path checks, refusal of existing roots and returned exact hash verification. This is a local transport fix; frozen native case/job payload is unchanged. Exact failure and fix live in nscc-cpu-three-cuts256-20261021/deployment-attempt1.json and deploy-submit.py.
+
+## 2026-10-21T19:59:32.087973+00:00: queue three distinct two-node cuts behind native parent gates
+
+
+**25907772.pbs101: H**, dependency hold `afterok:25907753.pbs101`, verified from PBS at 2026-10-21T19:58:35.319652+00:00. This is the intentional dependency wait, not a solver hang. Parent **25907753 is R**. PBS also records the matching beforeok relationship on the parent. Only one own CPU allocation can run along this chain. No manual release or duplicate submit.
+
+This serial job prepares **hierarchical (16 8 2), default Scotch, and node-aware Scotch (2 128), synthetic weights 10:1** for 256 ranks / two nodes / official 80-step endpoint. It does not run a solver or claim a score. Native pinned case generation, full mesh identity, exact partition/field/source checks and reciprocal graph evidence are retained. Maximum 45 min on 32 allocated CPUs, serial task, 96 GB, zero GPUs = **24 SU**. See PLAN.md for the full hypothesis and acceptance gates.
+
+The first local deployment failed with errno 7 before any SSH/qsub/reservation. Fixed by streaming the bundle over SSH stdin; returned deployed hashes exactly match all expected inputs. That failed local attempt is preserved. The actual submission occurred once at 2026-10-21T19:57:49.064727+00:00, root `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-three-cuts256-20261021T195743Z`.
+
+At locked checks, one CPU parent plus one exiting AI job occupied two combined slots. This follower is the third, respecting combined PBS cap three and preserving AI. Conservative consumed ceiling **85 SU**, retained parent maximum **61.866667 SU**, follower **24 SU** = **170.866667 / 1,000 SU** planning commitment. This is not actual charged usage; terminal resource estimates are **83.417778 SU** before running work. Original 100-SU wave remains historical, expanded by the owner's explicit instruction.
+
+Next collect/review the parent and then the three cuts. Prepare a full two-node hierarchical/default-Scotch baseline, while retaining one combined slot for active AI work where possible. Node-aware promotion requires actual graph evidence. Multi-node normal requests can route outside qdev; the qdev 128-core per-job cap is not a cluster-wide limit. No background Codex/schedules or AI payload changes.

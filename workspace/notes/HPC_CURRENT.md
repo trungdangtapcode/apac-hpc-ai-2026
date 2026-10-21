@@ -1,60 +1,46 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T19:41:37.780529+00:00. This handoff belongs to the HPC session; GPU/Qwen belongs to the separate GPU chat. Follow [session ownership](SESSION_OWNERSHIP.md). Vietnamese chat only, English artifacts, no schedules or background Codex. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
+Updated 2026-10-21T19:59:32.087973+00:00. This is the HPC session. GPU/Qwen belongs to the separate GPU worker; shared filesystem does not change roles. English artifacts, Vietnamese chat. No background Codex, schedules, or promised automatic chat messages. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
 
-## Current result and next decision
+## Live pipeline at last check
 
-**25907325.pbs101: F / exit 0**, same-node H→S pair, 128 ranks, 40 steps each. Hierarchical **14.7872238123 s/step**, Scotch **14.6402329083 s/step**: observed **0.994% reduction**, not a confirmed win. Scotch step 9 was **21.120703 s**, and the native timer asks for at least 50 samples while there are 39. All fixed-work/output/exit and unchanged-zero-field gates pass. Whole allocation **1373 s / 22 min 53 s**, estimated **48.817778 SU**. One-node screen only, no four-node score. [Full inspection and decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/RESULTS.md).
+| Job | State | Work | Maximum reserved SU |
+|---|---|---|---:|
+| 25907753.pbs101 | R | One-node 40+40-step default versus NUMA Scotch pair, 128 ranks, 440 GB | 61.866667 |
+| 25907772.pbs101 | H: afterok parent | Three serial two-node / N256 decompositions, 32 allocated CPUs, 96 GB | 24 |
 
-**25907688: F / exit 0**, 385 s, all native prep and preregistered NUMA graph gates pass. Cross-group interfaces **332,157 vs 371,658** (−10.6283%), total faces +1.3423%, maximum cell excess 1.0055%. No solver gain claimed. [Result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/RESULTS.md). Next full matched default-versus-NUMA solve.
+Parent runs on x1001c7s5b1n0. Follower's Hold_Types=d is intentional: PBS dependency proof matches afterok/beforeok. Preserve queue position and frozen payloads. One own CPU allocation active at a time, combined own PBS cap three including AI. CPU dependency jobs are ordinary batch work, not background Codex. Read actual scheduler state before reporting live status.
 
-Owner explicitly requested expanded research/submissions after SU clarification. New bounded **1,000-SU cumulative CPU ceiling**, 85 SU conservatively consumed, zero outstanding at reconciliation. The old 100-SU first wave is historical. [Continuation plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/PLAN.md). Keep one active CPU allocation, combined own PBS cap three; chain justified followers with dependencies, no AI changes or background Codex.
+- [Full solver pair and reviewer](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-scotch-numa-pair128-20261021/STATUS.md). Validate physical cores/NUMA grouping, all numerical work, timers, Cd, tails, zero-field hashes and terminal resource accounting. Its legacy CPU_HS_PAIR_PASS marker does not define methods; accepted role hashes define default/NUMA Scotch.
+- [Three N256 cuts and dependency proof](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-three-cuts256-20261021/STATUS.md). Hierarchical (16 8 2), default Scotch, node-aware Scotch (2 128), synthetic weights 10:1. Next inspect all partition/graph gates and prepare matched two-node H/S 80-step timing. Do not assume one-node gains scale.
 
-## Accepted CPU baseline and new partition evidence
+## Accepted evidence
 
-- **25905114: F / exit 0**, hierarchical (16 4 2), 128 ranks, x1001c2s5b1n0. Full mandatory initialization plus 40 steps. **14.9219814004 s/step**, p95 **15.074989 s/step**, Cd **0.4389323284**. Whole allocation **728 s / 12 min 8 s**, MaxRSS 121.7611 GiB, estimated 25.884444 SU. All source/native/work/output gates reviewed. [Baseline](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-solve-h128-20261021/STATUS.md).
-- **25907236: F / exit 0**, native Scotch N128 preparation, **371 s / 6 min 11 s**, MaxRSS 31.9063 GiB, estimated 3.297778 SU. Complete official archive/member hashes and 65,334,765 cells verified. Maximum interface faces **42,141 vs 131,252** for hierarchical, with more neighbors and cell imbalance. No candidate solver speed claim yet. **768 control zero-time field hashes** sealed on compute. [Partition review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-scotch128-20261021/STATUS.md).
-- CPU baseline placement lines interleaved; all ranks/core masks were seen but no reliable per-rank map. Pair derives an atomic JSON record per diagnostic rank. Neither establishes solver runtime migration, NUMA page placement or a bandwidth/cache/MPI bottleneck. Hardware counters and power were not collected.
+- **25905114**: first native ASPIRE CPU hierarchical baseline, full init + 40 steps, **14.9219814004 s/step**, Cd **0.4389323284**, 728 s allocation, estimated 25.884444 SU. All fixed-work/output gates pass.
+- **25907325**: matched H→S pair on one node, H **14.7872238123**, S **14.6402329083 s/step**, observed **0.994% saving**, not stable proof. S step 9 = **21.120703 s**, native sample confidence warning (50 needed vs 39). Cd H **0.4389323284**, S **0.4359888360**; both native work/output/hash gates pass. **1373 s**, estimated 48.817778 SU. [Detailed inspection](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/RESULTS.md).
+- **25907688**: NUMA tree (8 16) prep passes all preregistered graph filters. Cross-group faces **332,157 vs 371,658** (−10.6283%), total faces **1,570,175 vs 1,549,377** (+1.3423%), cell max excess 1.0055%, max neighbors 32 vs 35. **385 s**, estimated 3.422222 SU. No NUMA solver gain yet. [Native result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/RESULTS.md).
+- **2293754 Iris practice**: 56 MPI/40 steps, 21.9653538363 s/step, Cd 0.4405543814, full chain passes. Practice only, no score. First CPU diagnostics and all failures remain linked in the log.
 
-## Budget and queue rules
+These are one-node results, not the scored four-node/150-step result. Atomic diagnostic rank maps establish pre-solve core affinity and grouping, not actual NUMA page residency, solve-time migration, measured MPI waits/traffic or a bottleneck. Hardware counters, bandwidth and power were not collected. Keep all outliers in native Average.
 
-CPU-only project **59000042**, separate from AI **59010042**. All seven recorded allocations terminal; estimates total **79.995556 SU**. Stale project amount report still shows Used 250.033 / Balance 29749.967 / In Doubt zero, delta **27.879 SU**; no individual posted charge is known. Locked reconciliation conservatively uses **81 SU consumed**, all eight allocations terminal, current conservative consumed **85 SU** and outstanding zero under the expanded **1,000-SU cumulative ceiling**. Timestamp/refresh limitations remain in the ledger evidence.
+## Current CPU budget
 
-One own CPU allocation active at a time, combined own PBS jobs at most three. Check CPU queue and inspect AI only read-only for combined capacity. Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Schema 2 checks consumed + retained outstanding + new maximum. Preserve queue positions and original requested maxima as provenance. No grant/cap increase, blind duplicates, AI changes or schedules.
+Owner explicitly requested expanded research/submissions after learning balances are separate. New bounded **1,000-SU cumulative CPU ceiling**; original 100-SU first wave is historical, preserved in ledger ceiling_history. [Expanded plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/PLAN.md).
 
-## Verified access
+All first eight allocations terminal: estimates **83.417778 SU**, conservative consumed **85 SU**. Outstanding maxima **85.866667 SU**, total commitment **170.866667 / 1,000 SU**. These are planning commitments, not posted charges. CPU project **59000042**, grant 30,000 SU, is separate from AI **59010042**. Stale project usage display still reports Used250.033/Balance29749.967/InDoubt0; do not call that current actual wave usage. Individual posted billing and refresh chronology remain unresolved. [SU explanation](hpc-ai-service-units.md).
 
-Use **hpc-experiments/tools/nscc-cpu-ssh.sh** to reuse the authenticated CPU SSH master through the existing VPN. It uses verified CPU IP 10.103.72.110 with HostKeyAlias aspire2a.nscc.sg because namespace DNS fails. Login asp2a-login-nscc02. Run commands with bash -lc for modules/PBS. No new DUO or VPN reset needed at last successful check. Private state stays outside Git; preserve GPU access. CPU Python is 3.6.
+Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Always check consumed + retained maxima + new request against current ceiling, fresh project rate/balance and combined own PBS jobs. Use tools/reconcile_cpu_budget.py only with all recorded jobs terminal/own queue empty. Preserve original requested maxima and raw failures; no blind retries or prepaid double subtraction. No AI ledger changes.
 
-Iris helper **hpc-experiments/tools/iris-interactive.sh** requires forced TTY with no remote command; gateway auto-jumps only interactively. Iris work root /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121. Do not touch other shared-account work or run optimized solver on login CPUs. **2293754** completed practice: 56 ranks / 40 steps, **21.9653538363 s/step**, Cd 0.4405543814. All stages pass; practice only, no score. [Iris evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/STATUS.md).
+## Access and queue correction
 
-## History, rules and backup
+Reuse **hpc-experiments/tools/nscc-cpu-ssh.sh**, authenticated CPU master through existing VPN, CPU IP10.103.72.110 with HostKeyAlias aspire2a.nscc.sg. Namespace CPU DNS failed previously. CPU login asp2a-login-nscc02, Python3.6; bash -lc restores PBS/modules. Do not reset VPN/AI master or capture authentication state.
 
-[Full research reasoning and failures](../reports/hpc-openfoam-20261021/LOG.md), [plan](../reports/hpc-openfoam-20261021/PLAN.md), [rules](../reports/hpc-openfoam-20261021/RULES.md), [actual vs requested durations](../reports/hpc-openfoam-20261021/JOB_DURATIONS.md). Final scored performance requires four nodes / 150 steps; current results are one-node screening.
+**normal is a routing queue. qdev max per job is128 cores and aggregate256.** Larger 256/512-core normal requests can route elsewhere, e.g.q5 max2048. Earlier qdev-only inference was too broad. Actual larger-job route/access remains to verify. [Verified safe queue snapshot and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/QUEUE_POLICY.md).
 
-Preserve resetmodule failure 25904725, successful native timing gate 25904765, false filename-comment rejection 25904959 and successful derived mesh preparation 25905006. Ten historical October 9–10 attempts are sealed but are not accepted Basic solves. All numerical work remains fixed.
+Iris helper requires forced TTY and no remote command so gateway auto-jumps to login01. Work root /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121. Do not touch other shared-account work or run optimized solvers on login CPUs.
 
-Checkpoint selected safe paths via /tmp/apac-hpc-checkpoint.py, serialized shared Git lock and path-scoped commit. Capture/verify/commit/push small milestones; do not include other worker changes. Existing archive and history stay intact. External artifact objects are not uploaded by Git. Routing uses CODEX_THREAD_ID and threads.name; old title-column lookup was incomplete. Shared CURRENT.md does not change track ownership.
+## Research history and backups
 
-## Historical queue checkpoint 2026-10-21T19:08:21.262668+00:00
+[Full reasoning, attempts and corrections](../reports/hpc-openfoam-20261021/LOG.md), [rules](../reports/hpc-openfoam-20261021/RULES.md), [durations](../reports/hpc-openfoam-20261021/JOB_DURATIONS.md). Iris timing/source replay, resetmodule failure, metadata-comment false rejection, all ten older CPU attempts and local errno7 transport failure remain preserved. No HPC result is invented for submission materials.
 
-Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.
-
-## Historical NUMA preparation hypothesis
-
-Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep; terminal pair review and locked reconciliation passed before 25907688 submission. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).
-
-HPC versus AI service units: [separate project balances](hpc-ai-service-units.md). CPU project 59000042 and AI project 59010042 do not share these balances; 100 SU is the initial HPC planning ceiling, not the 30,000-SU grant.
-
-## Full NUMA solver comparison submitted
-
-
-**25907753.pbs101: R** at 2026-10-21T19:54:02.909127+00:00. Accepted 2026-10-21T19:52:53.014595+00:00; one exclusive CPU node / 128 ranks / 440 GB / no GPU, max 29 min / **61.866667 SU**. Native default Scotch control and fresh NUMA tree candidate each run 40 steps after mandatory candidate initialization. Physical-core and NUMA grouping guards run outside solver timing. Keep zero-field/source hashes, all fixed numerical work, native timers, force outputs and resource/phase evidence. See PLAN.md.
-
-Fresh CPU own queue was empty, read-only combined PBS capacity and project balance passed, durable intent/reservation and exactly one qsub retained. Expanded cumulative ceiling **1,000 SU**, conservative consumed **85 SU**, new reservation **61.866667 SU**, total **146.866667 SU**. Old 100-SU first-wave ceiling remains historical. No AI changes or background Codex.
-
-Native graph filter passed in 25907688; still no NUMA solver gain. One ordered pair does not establish a stable win. The wrapper preserves the inherited CPU_HS_PAIR_PASS marker for compatibility; exact role input hashes identify **default Scotch vs NUMA Scotch**, not hierarchical vs Scotch. No frozen payload is changed after submission.
-
-Next prepare validated 256-rank inputs as an afterok follower while this pair runs, if combined cap permits. A failed parent blocks that follower; keep one CPU allocation active at a time.
-
-Queue policy correction: qdev per-job max 128 does not block all multi-node work through normal. Normal can route 256/512 cores to other queues, e.g. q5 max 2048. Actual larger-job eligibility/routing remains to verify on submission. [Queue snapshot and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/QUEUE_POLICY.md).
+Edit active sources once; selected safe capture/verify/commit/push via /tmp/apac-hpc-checkpoint.py uses serialized shared Git lock and path-scoped commit. Never sweep GPU worker changes or rebuild the archive. External artifact objects are not uploaded by Git. End each milestone with backup; preserve the existing audit trail and actual commit dates.

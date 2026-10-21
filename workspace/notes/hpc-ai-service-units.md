@@ -14,3 +14,7 @@ The **100-SU first-wave ceiling** in the HPC plan is a research spending limit f
 Firmus H200 is another cluster with its own Slurm access and resource limits; it is not either of these two NSCC CPU/AI project balances. This note does not authorize changes to AI work or imply unlimited cluster use.
 
 Evidence: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.json and its dated reconciliation/pre-submit reports; the separate AI project ID is preserved in the session handoff and existing GPU budget records. Keep credentials and authentication state out of these notes.
+
+## Later owner-directed expansion
+
+After this clarification the owner explicitly requested substantially more HPC research/submissions. The CPU continuation now uses a bounded cumulative 1,000-SU planning ceiling, including the original first wave. The original 100-SU description above is historical for that first phase. Separate project balances and all queue/budget/AI-preservation rules remain. See hpc-experiments/cpu-continuation-20261021/PLAN.md and the CPU ledger ceiling_history.
