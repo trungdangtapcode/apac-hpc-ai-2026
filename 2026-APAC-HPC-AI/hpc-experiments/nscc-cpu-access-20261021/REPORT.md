@@ -1,4 +1,37 @@
-# Can the DUO-connected server run the HPC task?
+# ASPIRE-2A CPU access is now authenticated
+
+At 2026-10-21T13:40 UTC a normal interactive password SSH login succeeds on
+asp2a-login-nscc02 through the existing VPN. No VPN reconnect or new DUO
+request is needed. The prior password-free batch denial below is historical;
+it never tested the supplied password. The newly authenticated CPU connection
+also passes a subsequent password-free command through its separate SSH master.
+No credential or session bytes are retained in research.
+
+The CPU account is apacsc42, project **59000042**, titled APAC HPC-AI Competition
+2026 2A 42. The project's displayed ledger is dated 21 October 16:57:58 site
+time: Grant 30000 SU, Used 222.154 SU, Balance 29777.846 SU, In Doubt 0 SU.
+This is a dated server report, not instantaneous accounting. Its reported CPU
+rate is 1 SU/core-hour. It is separate from the AI/H100 project 59010042.
+The own CPU queue is empty; normal routes to CPU and GPU queues, the official
+openfoam/2512 module exists, and the official shared mesh archive is readable.
+No CPU qsub acceptance or result is claimed solely from login/module visibility.
+
+Scratch quota reports 100 TB and 200 million inodes, usage about 17.01 GB;
+home about 2.63 GB of 50 GB. Existing CPU research from October 9–10 is found
+under scratch/apac2026/hpc. Preserve and inspect it before new spending; it
+contains failed/incomplete work and is not automatically a valid Basic baseline.
+A collector initially used Python's capture_output argument on the site's
+Python 3.6 and stopped. Replacing it with PIPE/universal_newlines succeeds;
+this collector error did not execute or fail a solver.
+
+The reusable helper is tools/nscc-cpu-ssh.sh. Its CPU address workaround uses
+the original host-key alias and the existing private operational known-hosts
+file. Its connection state remains outside the archive. The DNS issue in the
+current VPN namespace and all earlier probes are retained below for provenance.
+
+---
+
+## Historical pre-authentication investigation
 
 Checked on 21 October 2026. DUO authenticates the VPN connection; it does not
 select a compute cluster or grant a CPU project. The existing authenticated

@@ -77,25 +77,23 @@ uncollected; no national CPU/GPU project reservation.
 Iris is practice; scored 1/2/4-node runs belong to Gadi or CPU ASPIRE-2A.
 Our existing ASPIRE-2A+ AI account does not establish CPU contest access.
 
-## NSCC CPU access check — 2026-10-21T12:01:27.523376+00:00
+## NSCC CPU access: authenticated
 
-The existing DUO/VPN session and ASPIRE-2A+ SSH work. Live a2ap-login01 normal
-routes only to aiq1/aiq2. Official HPC requires ASPIRE-2A CPU or Gadi, not the
-H100 hosts. The distinct CPU endpoint aspire2a.nscc.sg resolves to 10.103.72.110;
-SSH handshake succeeds from the current VPN namespace using that IP, but no
-existing batch authentication succeeds for the CPU endpoint. No password/OTP
-was attempted; no proof of CPU project eligibility or qsub acceptance yet.
-Do not call this a VPN failure or a proven account denial. [Read-only probes
-and explanation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
+At 13:40 UTC an interactive password SSH login succeeds on asp2a-login-nscc02
+through the existing VPN, without reauthentication or new DUO. A later reused
+CPU SSH command succeeds. Prior password-free batch denials were not tests of
+the password and are historical; do not claim the account is blocked.
 
-At 2026-10-21T12:11:16Z a fresh existing-session SSH probe succeeds on
-a2ap-login01. The VPN path and AI SSH remain usable; this does not establish
-CPU SSH authentication. No VPN login, DUO trigger or session reset was made.
+CPU project **59000042** has a dated server ledger Grant 30000 / Used 222.154 /
+Balance 29777.846 / In Doubt 0 SU, at reported 1 SU/core-hour. It is separate
+from AI/H100 project 59010042; do not modify the AI ledger or payloads. Own CPU
+queue is empty, openfoam/2512 exists and the official shared mesh is readable.
+No CPU job or result yet. Read existing October 9–10 CPU artifacts in
+scratch/apac2026/hpc before preparing a new baseline. [Proof and historical
+correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
 
-At 2026-10-21T12:13:44Z the existing ASPIRE-2A+ SSH still returns a2ap-login01.
-A separate VPN-namespace probe resolves aspire2p.nscc.sg to 10.103.72.200 and
-receives its SSH banner. CPU hostname lookup fails locally, but the previously
-resolved CPU IP 10.103.72.110 reaches authentication and a password-free batch
-attempt is denied. Do not reverse these observations or claim CPU password
-login passed. A reused authenticated connection and a fresh login are different
-tests; neither this result nor shared VPN establishes identical host permission.
+Helper: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/tools/nscc-cpu-ssh.sh.
+It reuses the separate CPU master via the live VPN, using 10.103.72.110 with
+HostKeyAlias=aspire2a.nscc.sg while local DNS remains unresolved. Keep all
+private SSH/VPN state out of captures. The old gateway/batch/DNS observations
+remain retained in the linked access report and raw safe probe JSON.

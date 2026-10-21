@@ -87,3 +87,13 @@ Permission denied means the offered authentication was not accepted. A
 BatchMode probe with no password cannot verify whether that password works.
 On our 21 October probe, existing H100 SSH works, the CPU IP reaches SSH, CPU
 hostname DNS fails in the VPN namespace, and CPU password login remains untested.
+
+### Update: CPU password login succeeds on 21 October
+
+The earlier no-password BatchMode denial is historical. An actual interactive
+SSH password login now reaches asp2a-login-nscc02 through the same existing
+VPN, without another DUO prompt. The subsequent CPU master connection works.
+CPU project 59000042 is separate from H100 project 59010042; check balance and
+reserve resources in the correct project before qsub. The CPU ledger exposes
+30000 SU grant and 1 SU/core-hour. Local DNS still needs the documented address
+workaround; it was never proof that the CPU password/account was invalid.

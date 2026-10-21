@@ -204,3 +204,18 @@ mandatory preparation intact and stores solve controls/logs in a fresh job
 folder. No new split, mathematical change or national project expenditure.
 Next inspect output/Cd/step timing and resource accounting; no completed result
 or comparison is claimed at this definite receipt checkpoint.
+
+## CPU password authentication resolves access — 2026-10-21T13:48:43.788755+00:00
+
+The owner says continue. Use the existing VPN, offer the previously supplied
+credential only to the interactive CPU SSH password prompt, and reach
+asp2a-login-nscc02. No VPN restart/DUO trigger or credential capture. This
+corrects the unresolved batch-authentication account: no password had been
+tried there. A separate CPU master also passes hostname/date. Read-only CPU
+checks verify project 59000042 (dated 30000/222.154/29777.846/0 SU ledger),
+1 SU/core-hour, empty own queue, normal routing, v2512 module and readable
+shared mesh. CPU scratch contains October 9–10 research; preserve its safe
+text before more credit. Initial collector uses unsupported capture_output
+on Python 3.6; correct to PIPE/universal_newlines, no solver affected. Future
+CPU reservations use their own lock/ledger and remain separate from AI project
+59010042. No qsub acceptance or CPU result follows from this access checkpoint.
