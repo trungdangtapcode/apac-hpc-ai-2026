@@ -3350,55 +3350,60 @@
     {
       "id": "eagle3-reference-corpusfix-20261021",
       "job_id": "222761.pbs111",
-      "state": "R",
+      "state": "F",
       "kind": "target_token_reference_gate",
       "requested_gpus": 16,
       "minutes": 20,
       "max_su": 682.6666666666666,
       "target_inference": true,
       "dependency_afterany": "",
-      "result_state": "AWAITING_REAL_TOKEN_REFERENCE",
-      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md"
+      "result_state": "REAL_TOKEN_REFERENCE_REVIEW_PASS",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/REVIEW.md",
+      "reference_usable": true,
+      "scored_benchmark": false
     },
     {
       "id": "eagle3-pd-candidate-20261021",
       "job_id": "222763.pbs111",
-      "state": "Q",
+      "state": "F",
       "kind": "speculative_pd_correctness_gate",
       "requested_gpus": 16,
       "minutes": 30,
       "max_su": 1024.0,
       "target_inference": true,
       "dependency_afterany": "",
-      "result_state": "AWAITING_SPECULATIVE_CORRECTNESS"
+      "result_state": "NATIVE_DRAFT_GRAPH_DTYPE_FAILED",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/REVIEW.md"
     },
     {
       "id": "eagle3-dtype-probe-20261021",
       "job_id": "222769.pbs111",
-      "state": "Q",
+      "state": "F",
       "kind": "draft_dtype_norm_gate",
       "requested_gpus": 1,
       "minutes": 4,
       "max_su": 8.533333333333333,
       "target_inference": false,
       "dependency_afterany": "",
-      "result_state": "AWAITING_COMPONENT_CHECK"
+      "result_state": "DTYPE_NORM_PASS_FULL_PD_UNVERIFIED",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-dtype-probe-20261021/REVIEW.md"
     },
     {
       "id": "eagle3-pd-bf16-20261021",
       "job_id": "222780.pbs111",
-      "state": "Q",
+      "state": "R",
       "kind": "speculative_pd_correctness_gate",
       "requested_gpus": 16,
       "minutes": 30,
       "max_su": 1024.0,
       "target_inference": true,
       "dependency_afterany": "",
-      "result_state": "AWAITING_SPECULATIVE_CORRECTNESS"
+      "result_state": "AWAITING_EXPLICIT_BF16_PD_CORRECTNESS",
+      "review": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md"
     }
   ],
   "gate": "Baseline220575 terminal,payloadverified,full60/120/30 atN32/34/36,baselineN32SLA100%0errors/cancel,short7/8onlyknownreverse. Three independent trials queued in afteranychain04\u219205\u219206 with1536SU each reserved beforeqsub. HigherloadN36failure is valid negative data,not missingmeasurement. Max3pending/running and1running16GPU; no furtherjob until budgets/ownqueue/resultsgatespermit. Accuracy stillunverified.",
-  "updated_utc": "2026-10-21T06:01:09.434697+00:00",
+  "updated_utc": "2026-10-21T06:04:30.385561+00:00",
   "current_job_state": "ONE_MICROBENCH_SUBMITTED",
   "latest_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-prefill-inference/pbs-post-submit.txt",
   "startup_pilots": [
@@ -3564,7 +3569,7 @@
     "changes_existing_submitted_payloads": false,
     "does_not_waive_runtime_quality_credit_gates": true
   },
-  "next_bounded_step": "Review native speculative runtime and exact output IDs against the accepted reference; no ranked benchmark.",
+  "next_bounded_step": "Collect owned terminal 222780.pbs111; inspect actual native BF16/unquant state, all graphs/TP transfer/memory and exact actual IDs against reviewed222761. No matched load/full score until valid integration, no budget increase.",
   "user_continuation": "User explicitly repeats KEEP SUBMITTING when resources/budget/gates allow; do not misinterpret autopilotOFF as stopping manual GPUresearch.",
   "budget_amendment": "The previous 16,384 SU internal cap is historical. The user authorised continued use of project credit. Retain the existing 13,000 SU planning reserve; this is not an organiser requirement.",
   "last_status_evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1755/pbs-status.txt"

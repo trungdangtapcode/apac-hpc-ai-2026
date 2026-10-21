@@ -1,5 +1,11 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T06:04:30.385561+00:00
+
+Real reference 222761 passes all 1600 actual IDs and four exact A/B pairs with runtime/telemetry limits retained. Native EAGLE3 PD 222763 fails a concrete dtype mismatch before readiness. Actual one-GPU fixture 222769 reproduces auto FP16 draft versus BF16 target embedding and validates explicit BF16/unquant eager/graph norm while target remains FP8/BF16.
+
+**222780.pbs111 is submitted/R**, a separately frozen full PD repair adding only those two flags with unchanged target/reference/transport/client gates. [Repair and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md). Require real full state/graphs/transport/exact IDs before the prospective matched short screen, then only valid useful load warrants full scoring. No speedup/accuracy claim yet. Preserve five H200 Priority-pending jobs. Conservative internal headroom 5342.013667 SU after maxima, unchanged cap/buffer. Earlier snapshots below are historical; no background AI or extra automatic series.
+
 ## Current refinement — 2026-10-21T05:45:58.044033+00:00
 
 Reviewed 222761 is usable real reference: all 1600 IDs, four exact A/B pairs; cache-reuse and sparse N1 telemetry limits are explicit. **222763 is submitted/running**, first native full-target EAGLE3 PD correctness candidate, 16 H100/30 minutes/max 1024 SU. [Exact flags, controls, receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/RESULTS.md). No speculative equivalence, speedup or ranked score yet. Preserve five H200 Resources-pending jobs.

@@ -15,3 +15,7 @@ The new token-control.py requests native /generate using actual target-tokenizer
 ## Accepted real route — 222761 / 21 October 2026
 
 The frozen-corpus repair 222761 is sealed and reviewed: all 1600 output IDs are present and all four paired cases agree exactly, including long4000. The actual gateway /generate route is now verified for these real diagnostic requests. Second-pass prefix reuse limits timing claims. Native speculative candidate 222763 separately tests exact IDs and real PD runtime; no candidate result or ranked speedup yet.
+
+## Native PD dtype branch
+
+222763 fails before readiness, so it provides no speculative ID comparison. Actual layer fixture 222769 reproduces auto FP16 draft versus shared BF16 target embedding, and explicit BF16/unquant fixes the native norm eager/graph test. Separately derived full repair 222780.pbs111 is submitted; all real output-equivalence/TP/transport/graph/memory gates still apply. Accepted reference 222761 remains unchanged.

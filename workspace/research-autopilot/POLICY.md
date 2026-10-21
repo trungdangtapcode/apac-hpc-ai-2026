@@ -1,6 +1,6 @@
 # APAC Qwen execution policy
 
-Updated 2026-10-21T05:03:27.169907+00:00. This compact policy supersedes old execution snapshots, preserved in [the historical policy](../notes/history/20261020T172926Z-before-compact-POLICY.md). The owner instructions in AGENTS.md remain authoritative.
+Updated 2026-10-21T06:04:30.385561+00:00. Earlier execution snapshots remain historical; CURRENT links actual recent evidence. Owner AGENTS.md instructions are authoritative.
 
 ## Read and preserve context
 
@@ -22,7 +22,7 @@ Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is *
 
 Latest completed H100 pair: 222551/222552, full local gates and actual mappings PASS but only +0.289035% goodput, below the prospective 1% gate. Close without an unchanged repeat or default promotion. At the locked 21 October 03:21:52 UTC reconciliation: Used 43571.410 SU, Balance 20428.590 SU, In Doubt zero, no outstanding maxima and internal headroom 7428.590 SU. Refresh before spending; these are dated values.
 
-222749 native registry/tensors and 222750 native single-rank weight loading pass. Failed 222752 is preserved; actual-image corpus 222759 and full real reference 222761 pass. New **222763** is running native EAGLE3 on both phases: 16 H100/30 minutes/max 1024 SU. Used 43965.542 SU, conservative headroom 5327.791333 SU after retained maxima at reservation. Inspect sealed actual runtime/precision/state/transport/graphs/memory and exact IDs before any load screen; no new score or organiser accuracy. Preserve five H200 Resources-pending positions. No budget increase.
+Reviewed real reference 222761 passes exact IDs and runtime within N1/cached-repeat limits. Native full PD 222763 fails draft RMSNorm dtype before readiness; no score. Cheap 222769 reproduces auto FP16 draft versus real BF16 target embedding and validates explicit BF16/unquant native eager/graph norm. New **222780.pbs111** is R at 2026-10-21T06:02:49.404410+00:00: 16 H100/30 minutes/max 1024 SU. Used 44625.453 SU, conservative headroom 5342.013667 SU after maxima at reservation. Preserve five H200 Priority-pending jobs, same cap/buffer and no background AI.
 
 ## Measurement and acceptance
 
@@ -40,7 +40,7 @@ Keep native NUMA binding. H100 222435 shows actual scheduler locality with an as
 
 Close unchanged reverse startup-prefetch confirmation: 9.836066% walltime/SU saving misses its prospective 10% gate. Do not automatically repeat or promote it. Keep H100 chunk 4096 and round-robin; unchanged 2048/8192/power-of-two trials lost. Historical DP8/DeepEP did not beat its contemporary MNNVL control.
 
-EAGLE3 single-rank loading and reviewed real target-only reference 222761 pass within their scopes. The chat token-extension route is unsupported; actual /generate now supplies all 1600 IDs with exact four-case A/B stability. Repeated cache reuse means timing is not a cold-cache score. Native PD candidate 222763 is submitted, no result yet. Require semantic actual IDs and runtime review, not scheduler exit alone. Per-response acceptance length includes bonus tokens and is not throughput. Only a useful valid matched short screen permits full scoring. A proposed 3% short goodput gain gate is prospective, not a reservation or official ranking rule. No direct-worker/text-retokenization substitute, altered target verification or background AI.
+EAGLE3 serialized BF16 weights do not imply BF16 runtime under auto: config lacks dtype, native draft resolves FP16, causing the reproduced BF16 shared-embedding/norm mismatch. Explicit BF16/unquant preserves the target's existing BF16 activations/FP8 quantization and fixes the native layer fixture; full repair 222780.pbs111 remains unverified. Require semantic actual IDs and full runtime review after terminal sealing, not exit status or fixture success alone. Acceptance length includes bonus, not throughput. Only a useful valid matched short screen (prospective 3% gain gate) permits full official scoring. No target-weight/verification changes, worker bypass, text-retokenization substitute or background AI.
 
 ## Access, backup and handoff
 
