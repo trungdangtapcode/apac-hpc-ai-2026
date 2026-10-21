@@ -71,7 +71,7 @@ wait_http() {
 while read -r name url bootstrap; do wait_http "$url/health"; echo "READY $name after ${SECONDS}s"; done <"$ART/endpoints.tsv"
 srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
   --container-image="$SGLANG" --container-mounts="$(mounts router)" \
-  python3 -m sglang_router.launch_router --pd-disaggregation "${router_args[@]}" \
+  python3 -m sglang_router.launch_router --pd-disaggregation --prefill-policy round_robin "${router_args[@]}" \
     --host 0.0.0.0 --port 8000 --prometheus-port 29000 >"$ART/router.log" 2>&1 &
 pids+=("$!")
 wait_http "http://${IPS[0]}:8000/health"
@@ -83,9 +83,11 @@ srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
   --container-image="$SGLANG" --container-mounts="$(mounts pair-warmup)" \
   env QWEN_PAIR_TIMEOUT=480 QWEN_PAIR_PARALLELISM=8 python3 "$TASK_SCRIPTS/warm-topology.py" "${IPS[0]}" "$ART" >"$ART/pair-warmup.log" 2>&1
 echo "ALL_PAIRS_WARM after ${SECONDS}s"
-# No parameter sweep in the declared job: run N48 once with the locked command.
+# No parameter sweep in the declared job: run N62 once with the locked command.
 srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
   --container-image="$AIPERF" --container-mounts="$(mounts aiperf)" \
   bash "$TASK_SCRIPTS/official-benchmark.sh" "${IPS[0]}:8000" "$ART" "$TASK_SCRIPTS"
 python3 "$TASK_SCRIPTS/summarize.py" "$ART" >"$ART/summary.json"
 echo "OFFICIAL_COMMAND_COMPLETE after ${SECONDS}s at $(date -Iseconds)"
+
+python3 "$TASK_SCRIPTS/score-gate.py" "$ART" "$TRIPLEU_CONCURRENCY" >"$ART/performance-gate.json"

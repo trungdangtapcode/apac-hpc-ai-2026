@@ -6,7 +6,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 
 | What do you need? | Where to read |
 |---|---|
-| Updated English presentation, PDF and presenter notes | [20 October delivery](presentation-update-20261020.md) |
+| Complete submission, deployment, measured logs, slides and PDF | [21 October full delivery](submission-update-20261021.md) |
 | Latest checked public repository update | [Pinned upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md) |
 | Competition points, registration wording and specialist prizes | [Scoring and tracks](contest-scoring-and-tracks-20261020.md) |
 | Official workload, ranking formula and units | [Closed-loop workload and Goodput × 200](official-goodput-clarification-20261020.md) |

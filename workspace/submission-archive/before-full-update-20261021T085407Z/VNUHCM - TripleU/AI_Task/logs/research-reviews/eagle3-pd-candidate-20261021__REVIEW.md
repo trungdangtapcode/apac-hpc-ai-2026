@@ -1,0 +1,15 @@
+# First native EAGLE3 PD candidate fails before readiness
+
+222763.pbs111 is sealed F / exit 1, **408 seconds**, estimated **232.106667 SU**, reviewed 2026-10-21T05:49:28.124067+00:00. Frozen payload checks pass. No candidate requests, actual output comparison or performance score exists.
+
+All eight decode ranks report native draft loading (LlamaForCausalLMEagle3). During draft CUDA-graph capture, llama_eagle3.py forward calls input_layernorm(embeds); FlashInfer RMSNorm raises **Mismatched Tensor on argument #1, expected dtype=bfloat16**. Decode then terminates. Its target KV is BF16, draft KV is FP16. Prefill workers are still warming target GEMM/graphs when cleanup occurs; do not claim they finished draft loading or PD state transfer.
+
+The public draft checkpoint contains BF16 tensors but its configuration has **no dtype field**. Native ModelConfig.from_server_args uses the common ServerArgs dtype; this payload left dtype=auto. The actual FP16 draft KV plus inspected auto-dtype path support a concrete hypothesis: auto chooses FP16 draft parameters, then native EAGLE3 shares the BF16 target embedding, causing the input RMSNorm weight dtype mismatch. The failing log does not directly print that weight tensor; verify it in a cheap actual-native fixture before another full startup. Earlier explicit-BF16 single-rank loader success did not test this auto-dtype/shared-embedding path.
+
+Correction: speculative draft quantization is not universally independent by default. The inspected ServerArgs handler inherits the target's explicit quantization when the draft option is unset and recognises **unquant** as a draft opt-out. Here target CLI quantization is unset/auto-detected, but future repair should verify resolved values and explicitly preserve an unquantized BF16 draft rather than assume them. Do not change the FP8 target checkpoint or its existing BF16 activation dtype.
+
+Beyond-score review: **57/57/55** hardware samples for prefill-0/prefill-1/decode cover all16 distinct GPU UUIDs. Startup sampled VRAM and narrow runtime error/KV lines are retained in [failure-inspection.json](failure-inspection.json). No server200 samples, complete scheduler/thread mapping, client phase, latency/acceptance statistics, heavy profiles or per-thread demand/memory-placement evidence was collected. Launch CPU masks are not a finished locality capture, utilization is not a causal bottleneck proof, and missing values are not healthy/zero.
+
+Next run one bounded actual-image dtype/shared-embedding/RMSNorm fixture: compare auto and explicit BF16 native configs, use the unchanged official target's real BF16 embedding tensor, reproduce the auto mismatch, and require native BF16 eager/CUDA-graph norm success. This is a synthetic layer fixture, not target/draft inference or greedy acceptance. Only that concrete PASS justifies a separately derived full PD repair with explicit BF16 and unquant draft, unchanged target/transport/reference and strict output gates. No unchanged retry, scoring run or global research stop.
+
+[Collection](collection.json), [raw hashes](collected/222763.pbs111/evidence-sha256.json). Original payload stays frozen.

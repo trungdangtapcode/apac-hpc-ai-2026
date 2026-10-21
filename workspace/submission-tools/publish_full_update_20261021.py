@@ -44,7 +44,7 @@ now=datetime.datetime.now(datetime.timezone.utc)
 report=dict(checked_utc=now.isoformat(),passed=True,slides=32,main_slides=24,appendix_slides=8,distinct_backgrounds=32,source_hashes_checked=len(data['sources']),english_slides_and_notes=True,native_gradients=True,script_primary='H200 N62, derived from reviewed 24915',portable_gpu_replay=False,official_accuracy_verified=False,render_method='PDF/previews share drawing coordinates; not an Office render',organiser_upload_performed=False)
 write(L/'presentation-validation.json',report);write(L/'presentation-backgrounds.json',dict(slides=bgs))
 # Attribution is unchanged because all 32 source photographs and the theme are retained.
-(O/'PRESENTER_NOTES.md').write_text('# Presenter notes — 21 October 2026\n\n'+'\n\n'.join('## Slide {}: {}\n\n{}'.format(i+1,slide.shapes[0].text if slide.shapes[0].has_text_frame else 'Research talk',notes[i]) for i,slide in enumerate(prs.slides)))
+(O/'PRESENTER_NOTES.md').write_text('# Presenter notes — 21 October 2026\n\n'+'\n\n'.join('## Slide {}: {}\n\n{}'.format(i+1,json.loads((O/'slide-content.json').read_text())[i]['title'],notes[i]) for i,slide in enumerate(prs.slides)))
 files=[p for p in sorted(T.rglob('*')) if p.is_file() and p not in [L/'FILE_MANIFEST.json',L/'SHA256SUMS']]
 write(L/'FILE_MANIFEST.json',dict(created_utc=now.isoformat(),paths_relative_to_team_directory=True,files=[dict(path=str(p.relative_to(T)),bytes=p.stat().st_size,sha256=sha(p)) for p in files]))
 files=[p for p in sorted(T.rglob('*')) if p.is_file() and p!=L/'SHA256SUMS']

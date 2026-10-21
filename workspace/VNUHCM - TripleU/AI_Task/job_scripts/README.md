@@ -1,70 +1,63 @@
-# TripleU — APAC HPC-AI 2026 Qwen Basic submission
+# TripleU Qwen Basic deployment
 
-## Declared configuration
+The declared point is **N62 on two 8-GPU H200 nodes**. Two TP4/EP1 prefill
+workers on the first node feed one TP8/EP8 decode worker on the second.
+Prefill uses DeepGEMM and chunk8192. Decode uses HPC-Ops, FlashInfer attention,
+MNNVL collectives and dense CUDA graph sizes 1–64. Routing is round-robin.
+The official published FP8 target, BF16 KV and request-scoped NIXL patch are
+retained. There is no speculative decoding in this submission.
 
-**P8-TP4_D8-TP8-EP8, concurrency 48, 16 H200 GPUs.** Node 0 has two prefill
-workers (4 GPUs each, TP4/EP1). Node 1 has one decode worker (8 GPUs,
-TP8/EP8). Every benchmark request uses the PD gateway. Published FP8 weights,
-BF16 KV, no speculative decoding, no model or expert/layer changes.
+## Reconstruct and run
 
-The NIXL patch is enabled in the primary script. It changes heterogeneous-TP
-KV descriptor preparation to operate on request pages instead of the whole
-pool; byte geometry, head mapping and notifications are retained. The text
-diff is `nixl.patch`, the mounted source is `nixl-conn.py`, and both original
-and patched hashes are in `patch-metadata.json`. The worker verifies the
-mounted source hash before launching SGLang. The patch passed 720 CPU
-byte-range comparisons and served the measured GPU run.
+Reuse the organiser images and official FP8 checkpoint specified, with hashes
+and versions, in environment.json. No image rebuild is required. setup.sh
+checks image sizes and model metadata; --verify-images also hashes the images.
+The included text nixl.patch and full nixl-conn.py are mounted read-only into
+each worker. Its hash is checked before serving. The patch preserves KV byte
+geometry and computation while preparing only the request's transfer pages.
+The pinned public tokenizer cache is included; model weights are not included.
 
-## Rebuild the serving environment
-
-Use the exact organiser-provided SGLang/Pyxis image and AIPerf image recorded
-in `environment.json`, and the official published
-`Qwen3-235B-A22B-Instruct-2507-FP8` checkpoint. The defaults use the organiser
-shared `/scratch` paths. No model weights or image binaries are bundled.
-No image rebuild is necessary: the script mounts the included `nixl-conn.py`
-read-only at the image's SGLang NIXL module path for prefill/decode workers.
-The original image and checkpoint stay unchanged. The pinned offline
-tokenizer cache is included.
-
-Required host tools: Slurm, Pyxis/enroot, Python 3, curl and sha256sum.
-Worker containers use SGLang 0.5.17, router 0.3.2 and NIXL 1.3.2;
-the client image uses AIPerf 0.12.0. External image/model paths can be
-overridden using `TRIPLEU_SGLANG_IMAGE`, `TRIPLEU_AIPERF_IMAGE` and
-`TRIPLEU_MODEL_PATH`; the staged files must match the recorded environment.
+Required host tools: Slurm with Pyxis/enroot, Python 3, curl and sha256sum.
+The organiser SGLang image must include the recorded HPC-Ops kernels.
+TRIPLEU_SGLANG_IMAGE, TRIPLEU_AIPERF_IMAGE and TRIPLEU_MODEL_PATH can relocate
+the exact same external objects. Paths and scripts do not depend on a team
+account. Place the package on storage shared by both allocated nodes.
 
 ```bash
 cd 'VNUHCM - TripleU/AI_Task/job_scripts'
 bash setup.sh --check
-# Optional full SHA256 check of the two external images:
+# Optional full image digest check:
 bash setup.sh --verify-images
 sbatch submit.sbatch
 ```
 
-Submit from this directory, or pass its absolute path with `sbatch --chdir`.
-No team account or home directory is hardcoded. The single 17-minute job
-allocates two nodes and 16 GPUs, deploys the three workers and gateway,
-initializes the two P/D paths using separate setup prompts, then invokes
-the exact official closed-loop AIPerf command **once at N48**. There is no
-sweep in this entry point. Official timings remain 60/120/30; input/output
-lengths remain 4000/200, seed 2026 and both original SLA thresholds.
+Submit from this directory, or use sbatch --chdir with its absolute path.
+The single job allocates all 16 GPUs for at most 17 minutes, deploys all workers
+and the gateway, warms each transfer path with separate setup prompts, and
+runs the official AIPerf command once at N62. It retains closed-loop 4000/200,
+seed 2026, cold-prefix cache busting, 60s warmup / 120s scoring / 30s grace,
+and the original TTFT 3000 ms / request-mean ITL 20 ms goodput thresholds.
+The exported goodput in requests/s multiplied by 200 is the score in good
+output tokens/s; the joint good fraction must be at least 0.90.
 
-Slurm output is in `../logs/slurm/`; replay outputs are in
-`../logs/reruns/<job>/official/n48/`. Source worker/placement/setup geometry
-match measured job 22415; only submission paths and one-point client
-orchestration are made portable.
+Output: ../logs/slurm/<job>.out/.err and ../logs/reruns/<job>/official/n62/.
+performance-gate.json independently rejects missing/incomplete/error/SLA-failed
+artifacts even when a client or scheduler reports exit 0. It reads existing
+exports and requests after the unchanged client command; it does not modify
+benchmark traffic or recalculate goodput from a guessed window duration.
 
-## Evidence and status
+## Evidence and limits
 
-Job **22415**, N48 long run: **1912.299955 good output tokens/s**,
-**97.440132% SLA**, **1180/1211** good requests, zero errors/cancellations.
-This is local evidence, not an official organiser score. The packaged
-portable orchestration has static and mock validation; its own GPU replay
-status is recorded in `../logs/replay-status.json`.
-The organiser full-set accuracy check and official re-verification are
-not yet available. No quality pass is claimed.
+Reviewed source job 24915: 3022.034919 good output tokens/s, 1860/1884 good
+requests (98.726115%), zero errors/cancellations. This is one local N62
+observation. Its independent repeat 24962 was still pending at packaging.
+N60 independently repeated at 2990.150791 and 2989.174711; see the retained raw
+exports and results table for exact values. All platform comparisons remain
+separate. The portable entry point is statically checked and exercised with
+mock orchestration and replayed artifacts; it has no separate GPU replay yet.
 
-Rule source (verified at commit 3d050964d1008b97fb6d0d7ec5160087cd6883d9):
-https://github.com/hpcac/2026-APAC-HPC-AI/blob/3d050964d1008b97fb6d0d7ec5160087cd6883d9/1.%20Qwen3%20AI%20Task%20Rules.md
-Submission Guidelines require build instructions, one deploy-and-benchmark
-Slurm/PBS script, and slides. Q1 permits serving patches that preserve
-the model computation; the text patch is supplied for judge review.
+The organiser full-set accuracy check (at least 99% of reference) remains
+unverified. Small output checks and SLA acceptance do not certify it.
+See ../logs/README.md for measured evidence, review scope and reproduction status.
+
+Rules: https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/1.%20Qwen3%20AI%20Task%20Rules.md

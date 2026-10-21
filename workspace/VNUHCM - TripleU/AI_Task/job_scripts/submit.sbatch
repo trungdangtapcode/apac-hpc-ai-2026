@@ -13,6 +13,6 @@ set -euo pipefail
 TASK_SCRIPTS=${SLURM_SUBMIT_DIR:?Submit this script through Slurm}
 cd "$TASK_SCRIPTS"
 sha256sum --check SHA256SUMS
-export TRIPLEU_CONCURRENCY=48
+export TRIPLEU_CONCURRENCY=62
 export QWEN_NIXL_PATCH_SHA256=912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f
 exec bash "$TASK_SCRIPTS/deploy-and-benchmark.sh"

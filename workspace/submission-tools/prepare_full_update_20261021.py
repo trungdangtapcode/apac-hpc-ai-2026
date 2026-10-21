@@ -33,6 +33,7 @@ config.update(declared_concurrency=62, diagnostic_profile=False, long_context_di
               tier='Basic', speculative_decoding=False, measured_evidence_job='24915',
               benchmark_warmup_s=60, benchmark_measure_s=120, benchmark_grace_s=30,
               packaging_note='One-point portable replay. No research sweep, output suite or post-score profiler in the primary job.')
+config = {key: config[key] for key in ['id', 'prefill_gpus', 'decode_gpus', 'prefill_tp', 'decode_tp', 'decode_ep', 'prefill_ep', 'prefill_workers', 'decode_workers', 'image', 'client_image', 'model', 'concurrency', 'memory_fraction', 'decode_max_running_requests', 'context_length', 'kv_dtype', 'transfer', 'nccl_port_policy', 'nixl_on_demand', 'transport_patch', 'transport_patch_metadata', 'decode_extra_flags', 'prefill_extra_flags', 'router_extra_flags', 'prefill_chunk_size', 'declared_concurrency', 'diagnostic_profile', 'long_context_diagnostic', 'tier', 'speculative_decoding', 'measured_evidence_job', 'benchmark_warmup_s', 'benchmark_measure_s', 'benchmark_grace_s', 'packaging_note'] if key in config}
 write(S / 'config.json', config)
 environment = json.loads((S / 'environment.json').read_text())
 environment['rules_snapshot_commit'] = 'b4df52907f5bbb9152ef6ae902c925fc79d54417'

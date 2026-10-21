@@ -68,3 +68,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: actual balanced CPU envelopes, sub-threshold gain and next component gate](entries/20261021-cpu-envelope-result.md).
 
 - [21 October: small EAGLE3 native component and gateway gate](entries/20261021-eagle3-component.md).
+
+- [21 October: complete N62 submission, measured evidence and semantic replay gate](entries/20261021-complete-submission.md).

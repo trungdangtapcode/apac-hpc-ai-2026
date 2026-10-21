@@ -3,7 +3,7 @@ set -euo pipefail
 HOST=$1
 ART=$2
 TASK_SCRIPTS=$3
-N=${TRIPLEU_CONCURRENCY:-48}
+N=${TRIPLEU_CONCURRENCY:-62}
 MODEL=qwen
 RUN="$ART/official/n${N}"
 mkdir -p "$RUN"

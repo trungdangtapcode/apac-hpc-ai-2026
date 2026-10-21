@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T06:04:30.385561+00:00. Latest owned scheduler snapshot: **2026-10-21T06:02:49.404410+00:00**. [Earlier native-PD handoff](history/20261021-before-native-bf16-repair.md) is historical; query real state on resume.
+Updated 2026-10-21T08:52:58.052317+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
 
 ## Retained serving results
 
@@ -13,8 +13,8 @@ Repeated H200 N60 is about 2989–2990. Keep platforms separate. These are local
 
 ## Actual submitted work
 
-- H200 **24928 / 24962 / 24964 / 24965 / 25051** remain PD / Priority at the latest query. Preserve all five, no sixth: recv2, N62 repeat, observed prefill backend pair and worker locality.
-- H100 **222780.pbs111 is R**: separately derived explicit-BF16 native EAGLE3 PD correctness repair, **16 H100 / at most 30 minutes / max 1024 SU**. [Receipt and raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md). No full repair output/graph/transport or performance result yet.
+- H200 **24928 / 24962 / 24964 / 24965 / 25051** are PD / Resources in the 21 October 08:50:37 UTC snapshot. Preserve all five, no sixth: recv2, N62 repeat, observed prefill backend pair and worker locality.
+- H100 **222780.pbs111 current state is unavailable**: last known R in the earlier 06:02:49 UTC snapshot; no live VPN session at the latest collection attempt. It is the separately derived explicit-BF16 native EAGLE3 PD correctness repair, **16 H100 / at most 30 minutes / max 1024 SU**. [Receipt and raw snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/RESULTS.md). No full repair output/graph/transport or performance result yet.
 - PBS own queue was empty before submission; no dependency, overlap or uncertain retry. No background Codex/schedule is enabled.
 
 ## EAGLE3 journey: accepted evidence and failures
@@ -36,6 +36,8 @@ The public draft is nebius/EAGLE3-Qwen3-235B-A22B-Instruct-2507 at ff0f0c0999f6c
 222780.pbs111 adds only **--dtype bfloat16** and **--speculative-draft-model-quantization unquant** to both roles. Official FP8 target files, accepted 222761 corpus/reference, native verification, client/semantic/transport bytes and nine guard fixtures stay unchanged. [Exact repair/gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-bf16-20261021/PLAN.md). This is not a target precision conversion or unchanged retry.
 
 ## Next decision
+
+The full submission is updated and validated: primary H200 N62 from 24915, 264 component checks, 32 English slides, raw control/repeat logs and ZIP checksums. Portable GPU replay and official accuracy remain unverified. [Delivery](submission-update-20261021.md). No new GPU reservation; five H200 slots occupied and PBS access unavailable. Preserve VPN/auth; no replacement login or DUO was started.
 
 Collect 222780.pbs111 only after owned terminal F with its collect-terminal.py. Inspect semantic artifact, actual native precision/loading/embedding/auxiliary state, TP4-to-TP8 KV transfer, all verification/draft graphs, memory and exact actual IDs against 222761. A layer fixture does not waive full integration. Inspect runtime/transport errors and phase-aligned hardware/server/locality evidence; missing fields remain missing. Use inspect-speculative-metadata.py on the collection: acceptance length includes bonus and is tokens per verification forward, not tokens/s or speedup. No direct full-PD pointer-identity instrumentation exists; distinguish native source and fixture proof from full runtime proof.
 

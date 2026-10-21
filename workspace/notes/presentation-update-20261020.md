@@ -19,3 +19,5 @@ PowerPoint SHA256: `1743bab239856b57410d05075fdd2c7cfc07ada90612cfa4501d782a953e
 Package SHA256: `4a40555d049fa1ac1f309e400ce6c3d14438ad029940d4b514ec9d6426350b0e`.
 
 Previous package backup: `/home/apacsc42/workspace/submission-archive/before-research-deck-20261020T022740Z`.
+
+This dated presentation-only delivery is superseded by the [21 October complete package update](submission-update-20261021.md), including a new primary N62 deployment and later H100/EAGLE3 findings. Preserve this entry as history.
