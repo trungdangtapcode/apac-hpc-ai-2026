@@ -10,4 +10,4 @@ Locked credit: Used **43586.876**, Balance **19730.457**, In Doubt **682.667 SU*
 
 ## Sealed real reference PASS — 2026-10-21T05:36:48.579177+00:00
 
-F/exit0, 752 seconds/estimated427.804444 SU. All1600 actual IDs present; four paired cases match exactly. Runtime/transport/locality and phase-aligned sparse telemetry reviewed. Cache reuse limits timing claims. [Full review](REVIEW.md). Eligible only as this exact diagnostic reference, not a ranked score or organiser accuracy.
+F/exit0, 752 seconds / estimated 427.804444 SU. All 1600 actual IDs present; four paired cases match exactly. Runtime/transport/locality and phase-aligned sparse telemetry reviewed. Cache reuse limits timing claims. [Full review](REVIEW.md). Eligible only as this exact diagnostic reference, not a ranked score or organiser accuracy.
