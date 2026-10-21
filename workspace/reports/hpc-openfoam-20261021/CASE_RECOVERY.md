@@ -1,5 +1,7 @@
 # Exact case recovered and Basic text preparation checked
 
+**Access update:** [Interactive login now reaches the actual Iris cluster](IRIS_ACCESS.md). Earlier gateway-only observations below are historical; they did not establish a submission restriction.
+
 On the next owner status checkpoint, the source-access investigation found the
 migrated official committee project at
 https://gitlab.com/openfoam/community/hpc (public project 83806040). The old

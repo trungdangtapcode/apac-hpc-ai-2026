@@ -1,5 +1,7 @@
 # Technical evidence and limits
 
+**Access update:** [Interactive login now reaches the actual Iris cluster](IRIS_ACCESS.md). Earlier gateway-only observations below are historical; they did not establish a submission restriction.
+
 ## Source identity
 
 The official contest repository main resolved on 21 October to

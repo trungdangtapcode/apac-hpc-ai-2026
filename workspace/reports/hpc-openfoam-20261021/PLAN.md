@@ -1,5 +1,7 @@
 # A bounded HPC research plan
 
+**Access update:** [Interactive login now reaches the actual Iris cluster](IRIS_ACCESS.md). Earlier gateway-only observations below are historical; they did not establish a submission restriction.
+
 The first goal is one reproducible Basic result, not a large parameter sweep.
 Another person supports AI. Preserve their jobs/payloads and coordinate any
 shared-account expenditure before a reservation. This plan does not authorise

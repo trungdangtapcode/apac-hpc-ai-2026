@@ -1,5 +1,7 @@
 # OpenFOAM HPC task: what to do and where to start
 
+**Access update:** [Interactive login now reaches the actual Iris cluster](IRIS_ACCESS.md). Earlier gateway-only observations below are historical; they did not establish a submission restriction.
+
 The HPC task is a CPU simulation of air flowing around a car. The supplied
 DrivAer case contains **65,334,765 mesh cells**. Each cell carries numerical
 quantities such as velocity and pressure. OpenFOAM exchanges values across

@@ -1,0 +1,90 @@
+[2026-10-21T04:22:55-07:00] user=rdmaworkshop30 host=login01.hpcadvisorycouncil.com
++ foamEtcFile -help-full
+
+Usage: foamEtcFile [OPTION] fileName [-- args]
+       foamEtcFile [OPTION] [-list|-list-test] [fileName]
+
+options:
+  -all (-a)         Return all files (otherwise stop after the first match)
+  -list (-l)        List directories or files to be checked
+  -list-test        List (existing) directories or files to be checked
+  -mode=MODE        Any combination of u(user), g(group), o(other)
+  -csh              Produce 'source FILE' output for a csh eval
+  -sh               Produce '. FILE' output for a sh eval
+  -csh-verbose      As per -csh, with additional verbosity
+  -sh-verbose       As per -sh,  with additional verbosity
+  -config           Add config directory prefix for shell type:
+                        with -csh* for a config.csh/ prefix
+                        with -sh*  for a config.sh/ prefix
+  -etc=[DIR]        set/unset FOAM_CONFIG_ETC for alternative etc directory
+  -show-api         Print META-INFO api value and exit
+  -show-patch       Print META-INFO patch value and exit
+  -show-build       Print META-INFO build value and exit
+  -with-api=NUM     Specify alternative api value to search with
+  -quiet (-q)       Suppress all normal output
+  -silent (-s)      Suppress stderr, except -csh-verbose, -sh-verbose output
+  -version | --version  Print version (same as -show-api)
+  -help             Display short help and exit
+  -help-full        Display full help and exit
+
+Locate user/group/other file as per '#includeEtc'
+Do not group single character options.
+
+Equivalent options:
+  |  -mode=MODE     | -mode MODE  | -m MODE
+  |  -prefix=DIR    [obsolete 1812]
+  |  -version=VER   [obsolete 1812]
+
+Environment
+    FOAM_CONFIG_ETC  : []
+    FOAM_CONFIG_MODE : o
+    WM_PROJECT_SITE  : [PROJECT/site]
+
+Exit status
+    0  when the file is found. Print resolved path to stdout.
+    1  for miscellaneous errors.
+    2  when the file is not found.
++ foamEtcFile -show-api
+2512
++ foamEtcFile -show-patch
+0
++ foamEtcFile -show-build
+_87ed40d256-20251219
++ foamEtcFile -list
+/global/exafs/groups/rdmaworkshop/2026hpcai-openfoam/builds/iris-gcc11-hpcx250-opt/OpenFOAM-v2512/etc
++ wmake -build-info -help
+
+Usage: wmake-build-info [OPTION]
+       wmake-build-info [-update] -filter FILE
+options:
+  -cmp, -check  Compare make and meta information (exit 0 for no changes)
+  -diff         Display differences between make and meta information
+                (exit code 0 for no changes)
+  -dry-run      In combination with -update
+  -filter FILE  Filter @API@, @BUILD@ tags in file with make information
+  -no-git       Disable use of git for obtaining information
+  -remove       Remove meta-info build information and exit
+  -update       Update meta-info from make information
+  -query        Report make-info and meta-info
+  -query-make   Report make-info values (api, branch, build)
+  -query-meta   Report meta-info values (api, branch, build)
+  -show-api     Print api value from wmake/rules, or meta-info and exit
+  -show-patch   Print patch value from meta-info and exit
+  -help         Print the usage
+
+Query/manage status of {api,branch,build} information.
+Default without any arguments is the same as '-query-make'.
+
++ wmake -build-info -query
+make
+    api = 2512
+    patch = 0
+    branch = 
+    build = 
+meta
+    api = 2512
+    patch = 0
+    branch = 
+    build = _87ed40d256-20251219
++ set +x
+01-binaries: PASS

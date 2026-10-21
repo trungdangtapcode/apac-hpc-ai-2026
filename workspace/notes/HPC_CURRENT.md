@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T11:02:23.528287+00:00. The owner explicitly requested research into the HPC task
+Updated 2026-10-21T11:25:54.739129+00:00. The owner explicitly requested research into the HPC task
 and said another person supports AI. Earlier Qwen-only research scope is
 superseded for this work. Existing AI jobs, payloads, submission and spending
 rules are preserved; do not operate that worker's queue on their behalf.
@@ -15,9 +15,9 @@ Read-only access confirms our existing helper reaches aspire2p.nscc.sg,
 a2ap-login01, PBS pbs111 (ASPIRE-2A+ AI). It shows no matching openfoam/2512
 module, no simpleFoam executable and no readable mesh at the documented CPU
 path. This does not establish whether the separate ASPIRE-2A CPU service is
-available to the same user/project. The owner confirmed having Iris or Gadi and supplied an SSH endpoint. Key permissions were corrected to 0600; login succeeds as rdmaworkshop30 on djau.10042008.xyz. Both ordinary and login shells return instance-20210305-2210, with no scheduler in PATH or expected Iris kit. Its local relay alias iris refers to itself. The actual next hop/compute service is still unconfirmed; clarification was requested. Do not use other users' relay account entries. No AI reauthentication, credential capture or DUO was triggered. The separately supplied key was used for the owner-authorised endpoint only; no key bytes are read or retained. Existing VPN/SSH remain running.
+available to the same user/project. The owner confirmed having Iris or Gadi and supplied an SSH endpoint. Key permissions were corrected to 0600; login succeeds as rdmaworkshop30 on djau.10042008.xyz. Both ordinary and login shells return instance-20210305-2210, with no scheduler in PATH or expected Iris kit. Its local relay alias iris refers to itself. Historical interpretation: actual Iris access was not yet established; this is corrected by the interactive-login result below. Do not use other users' relay account entries. No AI reauthentication, credential capture or DUO was triggered. The separately supplied key was used for the owner-authorised endpoint only; no key bytes are read or retained. Existing VPN/SSH remain running.
 
-The exact committee case commit 84c262431117f5c921db8335e368a12d0e9fa3f0 is now recovered from the correct migrated namespace openfoam/community/hpc: 42 text files, verified Git blobs and SHA256. Twelve Basic text-preparation combinations pass static checks; none is a numerical benchmark. [Recovery](../reports/hpc-openfoam-20261021/CASE_RECOVERY.md). A fresh 10:58:07 UTC endpoint check still finds no scheduler/kit; actual CPU routing remains unresolved.
+The exact committee case commit 84c262431117f5c921db8335e368a12d0e9fa3f0 is now recovered from the correct migrated namespace openfoam/community/hpc: 42 text files, verified Git blobs and SHA256. Twelve Basic text-preparation combinations pass static checks; none is a numerical benchmark. [Recovery](../reports/hpc-openfoam-20261021/CASE_RECOVERY.md). A fresh 10:58:07 UTC endpoint check still finds no scheduler/kit; that earlier routing limitation is resolved by an interactive login below.
 
 No HPC job, mesh download, large install, spending reservation or organiser
 submission has occurred. HPC_Task remains empty pending actual evidence.
@@ -25,3 +25,7 @@ Autopilot remains off. Keep English artifacts and Vietnamese chat. Capture,
 verify, commit and push small safe milestones to the existing archive.
 
 At 2026-10-21T11:08:18.606822+00:00, the owner requested an MCP route check. The active callable-tool/resource/template catalogs expose no Iris/HPC/SSH execution route; the standard local configuration lists no MCP server names. This does not prove a connector is absent elsewhere. SSH to the supplied endpoint works; actual Iris compute access remains unestablished. No additional credentials or connection request was made.
+
+## Iris access resolved
+
+The organiser email supplied by the owner explains that an interactive login auto-jumps to Iris. Forced-TTY SSH with no remote command now reaches login01.hpcadvisorycouncil.com. Fresh 11:21:05 UTC confirms sbatch/srun/sinfo, the 32-node/56-CPU Iris partition and the documented kit. Earlier gateway-only checks bypassed the interactive jump; they did not prove a denied submit permission or an outage. [Access and bounded toy plan](../reports/hpc-openfoam-20261021/IRIS_ACCESS.md), [SSH/scheduler explanation](../tutorial/hpc-openfoam-and-schedulers.md). A private work root was created, kit synced, login-only binary inspection passes. Toy job not yet submitted at this preparation checkpoint. No national-supercomputer/GPU reservation.
