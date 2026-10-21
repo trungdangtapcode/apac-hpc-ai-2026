@@ -39,3 +39,7 @@ No new native execution or improvement is claimed by this static review.
 ## Boundary-graph evidence gate
 
 The preparation allocation will read each processor boundary on all three trees and retain each file SHA256 plus reciprocal face-count checks. Count unique undirected interfaces and interfaces crossing logical groups rank//16, maximum rank faces/neighbors, and the explicit synthetic 10:1 objective. Default and hierarchical totals must match the earlier native decomposition logs during terminal review. Report logical groups; only a later matching rank-placement probe makes their physical NUMA interpretation applicable to that solve. No bandwidth or solve-time estimate follows from a smaller graph objective.
+
+## Preregistered graph filter, before candidate execution
+
+Promote only if cross-group faces drop by at least 10%, synthetic 10:1 objective decreases, maximum cells remain within 3% of the mean, total interfaces rise at most 15%, and worst-rank faces rise at most 50% versus default Scotch. These are conservative research-triage thresholds chosen before candidate execution, not official accuracy gates or predictions of solver gain. Failing the filter closes this unchanged candidate, even if the native prep passes. Passing still requires an affordable independent numerical/timing screen.
