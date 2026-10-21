@@ -9,3 +9,7 @@ Scotch preparation 25907236 passes full review before this submission. The candi
 This is a first ordered H→S pair. Report cache/order and single-pair limitations, all tails and Cd, including a losing result. No four-node/150-step score or repeated improvement is claimed. See PLAN.md and PRE_SUBMIT_REVIEW.md. Do not modify the submitted payload or resubmit unchanged.
 
 Remote root: `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-method-pair128-20261021T190634Z`.
+
+## Queue checkpoint 2026-10-21T19:08:21.262668+00:00
+
+Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.

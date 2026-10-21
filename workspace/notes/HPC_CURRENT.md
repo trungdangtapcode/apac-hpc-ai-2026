@@ -33,3 +33,7 @@ Iris helper **hpc-experiments/tools/iris-interactive.sh** requires forced TTY wi
 Preserve resetmodule failure 25904725, successful native timing gate 25904765, false filename-comment rejection 25904959 and successful derived mesh preparation 25905006. Ten historical October 9–10 attempts are sealed but are not accepted Basic solves. All numerical work remains fixed.
 
 Checkpoint selected safe paths via /tmp/apac-hpc-checkpoint.py, serialized shared Git lock and path-scoped commit. Capture/verify/commit/push small milestones; do not include other worker changes. Existing archive and history stay intact. External artifact objects are not uploaded by Git. Routing uses CODEX_THREAD_ID and threads.name; old title-column lookup was incomplete. Shared CURRENT.md does not change track ownership.
+
+## Queue checkpoint 2026-10-21T19:08:21.262668+00:00
+
+Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.
