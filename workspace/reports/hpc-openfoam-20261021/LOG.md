@@ -176,3 +176,20 @@ potentialFoam and applyBoundaryLayer with the official flags. No numerical
 controls or shared source change. Preserve receipt before waiting for GPU-free
 CPU work. Next inspect all mandatory logs, terminal exit and split READY stamp;
 no solver performance/Cd or completed initialization is established yet.
+
+## Mandatory initialization accepted — 2026-10-21T13:44:35.070969+00:00
+
+On continue, reconnect through the documented interactive Iris jump; the prior
+local PTY no longer exists. 2293753 is COMPLETED/0:0, 103 s, 56 CPUs/MPI on
+iris031. Seal 40 safe text artifacts. Review native build/double precision,
+all official command flags, clean End/no fatal, predecessor identity, exact
+READY and invariant dictionaries. All pass. Stage clocks: renumber 9 s,
+potential 71 s, boundary-layer 8 s. Batch MaxRSS 85.692703 GiB and TotalCPU
+01:29:32 are accounting observations, not per-rank memory bandwidth/locality.
+Default CuthillMcKee band/profile reductions and potential initialization
+errors remain diagnostics, not performance gain or final Cd. Full binary
+fields/mesh hashes, hardware counters and billed SU remain uncollected.
+Next submit the frozen one-node/56-rank/40-step solver, maximum 40 minutes,
+using the unchanged prepared tree and fresh solver job directory. No change to
+AI work, source math, mesh, function objects or national allocation follows
+from Iris practice. Preserve separate reviewed-init and submission checkpoints.

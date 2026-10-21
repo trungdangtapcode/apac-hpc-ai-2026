@@ -39,3 +39,22 @@ init-submission.json. No simpleFoam job or extra national CPU/GPU reservation.
 Review clean terminal status, renumberMesh, potentialFoam, applyBoundaryLayer
 and READY identity before submitting the 40-step solver. No completed init
 or new numerical/performance result is claimed at this checkpoint.
+
+## Mandatory initialization reviewed
+
+2293753 is COMPLETED / exit 0:0 in 103 seconds, one iris031 node/56 MPI ranks.
+Sealed native logs show every required flag and clean End for renumberMesh,
+potentialFoam and applyBoundaryLayer; wall clocks are 9/71/8 seconds. READY
+and immutable dictionaries agree with the accepted N56 hierarchical (7 4 2)
+split. Scheduler batch MaxRSS is 85.6927 GiB; TotalCPU is 01:29:32. No CPU
+bandwidth/NUMA/network profile or billed SU is collected. Potential continuity
+error is 0.00023976694199 and interpolated velocity error 0.00009469633924;
+these are initialization diagnostics, not final simpleFoam convergence or Cd.
+Default renumbering reduces printed matrix band 1,151,806 to 44,025, and
+profile 1,297,348,083,601 to 755,856,599,687. This is the mandatory default
+operation, not an invented optimization or measured solver speedup.
+
+All complete-chain preparation gates now pass; promote to the unchanged
+40-step solver payload. Reproduce the review with python3 review-init.py.
+The long gap between jobs was time without an active Codex turn; no background
+agent was enabled. No solver result yet at this review checkpoint.
