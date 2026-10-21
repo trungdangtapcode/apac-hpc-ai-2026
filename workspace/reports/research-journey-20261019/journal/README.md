@@ -100,3 +100,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: real base NIXL pass, original-bundle recovery and limits](entries/20261021-nixl-peer-pass.md).
 
 - [21 October: exact H200 N62 reproduction and observed load-frontier decision](entries/20261021-h200-n62-reproduced.md).
+
+- [21 October: partition-ceiling correction and matched H200 short-load receipt](entries/20261021-h200-n64-short-receipt.md).

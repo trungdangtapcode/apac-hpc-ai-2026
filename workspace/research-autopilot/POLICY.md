@@ -16,6 +16,8 @@ During authorised work, review completed results, inspect beyond the score, iden
 
 GPU computation belongs on allocated compute nodes. CPU staging uses at most four threads. Preserve Priority-pending positions; do not cancel merely to requeue. At most **five own active/pending H200 jobs**, counting watcher and untracked jobs; do not duplicate the watcher. At most **three active/pending PBS jobs** with verified serial dependencies and **one running own 16-GPU PBS allocation**.
 
+Latest GPU execution correction (21 October): hpcai MaxTime is 17 minutes. The zero-runtime invalid 22-minute request 25338 was cancelled; fresh 25339 checks the live partition and runs an unranked short matched N62/N64 screen within 17 minutes. Full independent N62 repeats 3022.034919/3023.072304 agree descriptively; no official accuracy or short-score promotion. NIXL 223091 base-peer pass is on a different node pair and does not clear full EAGLE3. See AI_CURRENT for receipts, costs and remaining gaps.
+
 ## PBS budget and submission safety
 
 Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is **51000 SU**, retaining **13000 SU** project buffer. Do not increase it implicitly. Use nscc-budget.json and its budget lock; check the fresh published ledger, own job states and outstanding maxima before qsub. Balance already excludes In Doubt prepayment; never subtract it twice. Reserve maximum charge first, record each definite ID immediately and retain uncertain outcomes until resolved. Never blindly repeat an uncertain qsub.
