@@ -29,9 +29,16 @@ receipt = O / 'pbs-receipt.json'
 assert not receipt.exists(), 'Existing attempt: never repeat uncertain qsub'
 assert json.loads((O / 'validation.json').read_text())['passed']
 assert json.loads((O / 'staged-draft.json').read_text())['bytes'] == 1145943008
-with (O / 'payload.tar.gz').open('rb') as source:
-    upload = remote('cd ' + REMOTE + ' && test ! -e ' + O.name +
-                    ' && tar -xzf - && cd ' + O.name + ' && sha256sum --check SHA256SUMS', source)
+if (O / 'upload-resume-verified.json').exists():
+    import hashlib
+    proof = json.loads((O / 'upload-resume-verified.json').read_text())
+    assert proof['no_qsub_attempted_before_failure'] and proof['no_reservation_created']
+    assert hashlib.sha256((O / 'SHA256SUMS').read_bytes()).hexdigest() == proof['manifest_sha256']
+    upload = remote('python3 -c ' + shlex.quote(proof['check_code']))
+else:
+    with (O / 'payload.tar.gz').open('rb') as source:
+        upload = remote('cd ' + REMOTE + ' && test ! -e ' + O.name +
+                        ' && tar -xzf - && cd ' + O.name + ' && sha256sum --check SHA256SUMS', source)
 (O / 'upload.stdout').write_bytes(upload.stdout)
 (O / 'upload.stderr').write_bytes(upload.stderr)
 assert upload.returncode == 0, 'No qsub after failed upload'
@@ -41,13 +48,18 @@ with (P / 'budget.lock').open('a') as lock:
     assert not budget['uncertain_pbs_jobs']
     excluded = {'RECONCILED_IN_LEDGER', 'CANCELLED', 'RELEASED'}
     assert not any(row.get('purpose') == O.name and row['state'] not in excluded for row in budget['pending_reservations'])
-    code = "import subprocess\nfor args in [['qstat','-u','apacsc42'],['qstat','-xf','222407.pbs111','222408.pbs111','222551.pbs111','222552.pbs111'],['myprojects']]:\n r=subprocess.run(args,capture_output=True,text=True);print(r.stdout,end='');print(r.stderr,end='');assert r.returncode==0\n"
+    code = "import subprocess,json\nrows=[]\nfor args in [['qstat','-u','apacsc42'],['qstat','-xf','222407.pbs111','222408.pbs111','222551.pbs111','222552.pbs111'],['myprojects']]:\n r=subprocess.run(args,capture_output=True,text=True);rows.append(dict(argv=args,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr))\nprint(json.dumps(rows))\n"
     result = remote('python3 -c ' + shlex.quote(code))
-    (O / 'pre-submit.txt').write_bytes(result.stdout)
+    (O / 'pre-submit-commands.json').write_bytes(result.stdout)
     (O / 'pre-submit.stderr').write_bytes(result.stderr)
     assert result.returncode == 0
-    text = re.sub(r'(?<![\d.])-0\.000(?=\s*\|)', '0.000', result.stdout.decode())
-    active = re.findall(r'^\s*(\d+\.pbs\d+)\s+', text, re.M)
+    commands = json.loads(result.stdout)
+    assert all(row['returncode'] == 0 for row in commands)
+    queue_text = commands[0]['stdout']
+    text = '\n'.join(row['stdout'] for row in commands)
+    (O / 'pre-submit.txt').write_text(text)
+    text = re.sub(r'(?<![\d.])-0\.000(?=\s*\|)', '0.000', text)
+    active = re.findall(r'^\s*(\d+\.pbs\d+)\s+', queue_text, re.M)
     assert not active, 'Require empty own PBS queue for this standalone component allocation'
     proof = costs.reconcile(budget, text, now(), str(O / 'pre-submit.txt'))
     save(O / 'reconciliation.json', proof)

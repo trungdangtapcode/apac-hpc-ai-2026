@@ -1,0 +1,6 @@
+{
+  "no_qsub_attempted_before_failure": true,
+  "no_reservation_created": true,
+  "manifest_sha256": "b82bdc28faec3514049fcb924562e48d4506b01e439a679b4e7938efdc08bd28",
+  "check_code": "from pathlib import Path\nimport hashlib,subprocess,json\np=Path('/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-component-20261021')\nassert hashlib.sha256((p/'SHA256SUMS').read_bytes()).hexdigest()=='b82bdc28faec3514049fcb924562e48d4506b01e439a679b4e7938efdc08bd28'\nr=subprocess.run(['sha256sum','--check','SHA256SUMS'],cwd=p,capture_output=True,text=True);assert r.returncode==0\nprint(json.dumps(dict(manifest_sha256='b82bdc28faec3514049fcb924562e48d4506b01e439a679b4e7938efdc08bd28',payload_checks_pass=True)))\n"
+}
