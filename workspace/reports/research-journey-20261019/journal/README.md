@@ -86,3 +86,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: full PD eager-prefill repair receipt and bounded GPU reservation](entries/20261021-full-pd-eager-prefill-submission.md).
 
 - [21 October: full native readiness passes but warmup shell dispatch fails](entries/20261021-full-pd-launcher-failure.md).
+
+- [21 October: CPU-validated Bash dispatch repair and conservative reservation](entries/20261021-bash-dispatch-repair-submission.md).
