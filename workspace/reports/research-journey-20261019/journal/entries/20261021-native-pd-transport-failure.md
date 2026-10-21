@@ -1,0 +1,13 @@
+# 21 October — actual native PD request exposes transport and warmup-gate failures
+
+**Question and prior evidence.** Does the CPU-validated Bash dispatch repair let the native EAGLE3 topology produce exact target tokens after all-role readiness? 223053 could not launch warmup; R3 keeps all numerical controls fixed and repairs only dispatch.
+
+**Observation and failure.** 223055 is F/exit1 after 734 seconds, estimated 417.564444 SU. [Complete sealed review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/REVIEW.md) verifies BF16 KV/all 16 NIXL ranks, graphs and startup. Actual pair warmup launches, but first requests fail NIXL_ERR_REMOTE_DISCONNECT. Later diagnostic requests fail missing remote-agent metadata. Preserve error ordering; do not call the later symptom the initial cause. Zero completed response rows or actual-ID equivalence; no score or official accuracy result.
+
+**Corrected interpretation.** The head prints ALL_PAIRS_WARM despite a remote warmup traceback; the PBS chain masks remote status. Local mocked status fixtures did not verify real remote propagation. Native readiness and this marker are insufficient. The independent final token checker correctly rejects HTTP500. Future bundles must require an explicit valid per-pair result artifact before warmup success, rather than relying on shell return or marker.
+
+**Broader inspection.** 123/122/121 diagnostic samples cover disjoint four/four/eight GPU UUID sets; sampled VRAM maxima 75214/75214/78334 MiB per device. Actual rank/thread/GPU locality mapping completes for all roles without affinity changes. CPU/RAM/network counters are retained but not converted into demand. These are startup/failed diagnostic samples, not ranked utilization, latency or goodput. Missing performance observations stay unknown.
+
+**Budget and decision.** Fresh AI ledger Used 45922.128 SU, Balance 17053.872 SU, In Doubt 1024 SU. Unique posted 288.427-SU delta releases parent 223053 maximum; failed 223055 retains max1024 until unique posting. Conservative headroom4053.872 SU under unchanged51000 cap/13000 reserve. Own GPU queue empty. Do not retry full model unchanged: add semantic warmup receipt on CPU and investigate initial transfer with a supported cheap NIXL gate or close the branch. H20024928 has completed and a separate review will select a justified use for its free queue slot. Keep hardware-series scores separate.
+
+**Preservation.** Retain frozen payload, actual request failure, remote task traceback, false head marker, runtime/telemetry/locality and reconciliation. Small explicit capture/verification/commit/push; no other track actions, changed budgets or background Codex.

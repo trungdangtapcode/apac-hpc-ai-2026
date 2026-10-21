@@ -1,0 +1,53 @@
+TASK_LOG_START utc=2026-10-21T14:45:47Z host=a2ap-dgx019 pid=3453613 log=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/runs/223055.pbs111/task-aux-node0.qXGJVGTB.log
+PRIVATE_TMP=/raid/pbs.223055.pbs111/ap42-qwen.S21tAwoD
+INFO:    squashfs image was compressed with lzo, if it failed to run, please contact image's author
+INFO:    squashfs image was compressed with lzo, if it failed to run, please contact image's author
+INFO:    Mounting image with FUSE.
+WARNING: squashfuse mount failed, falling back to extraction: failed to load image: invalid SIF magic
+INFO:    Converting SIF file to temporary sandbox...
+Traceback (most recent call last):
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-pd-eager-prefill-r3-20261021/warm-topology.py", line 43, in warm
+    with urllib.request.urlopen(request, timeout=int(os.environ.get('QWEN_PAIR_TIMEOUT','360'))) as r:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-pd-eager-prefill-r3-20261021/warm-topology.py", line 68, in <module>
+    list(pool.map(warm, pairs))
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-pd-eager-prefill-r3-20261021/warm-topology.py", line 53, in warm
+    raise RuntimeError(f'Pair {i} HTTP {error.code}: {detail[:500]}') from error
+RuntimeError: Pair 0 HTTP 500: {"error":{"type":"Internal Server Error","code":"prefill_internal_error","message":"Prefill server error (500 Internal Server Error): {\"object\":\"error\",\"message\":\"Prefill transfer failed for request rank=0 req.rid='51c4c00fd4f14f30be05fe6983e84583' req.bootstrap_room=8889458620800229955 with exception NIXL_ERR_REMOTE_DISCONNECT\",\"type\":\"500\",\"param\":null,\"code\":500}"}}
+INFO:    Cleaning up image...
