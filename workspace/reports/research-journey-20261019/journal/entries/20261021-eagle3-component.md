@@ -21,3 +21,7 @@ Close the unsupported chat-extension observation route without changing frozen p
 ## Derived /generate gate prepared — 2026-10-21T03:40:19.769742+00:00
 
 The failed chat-extension route is replaced only in a new frozen component payload. Native /generate with return_logprob/input_ids must preserve both dispatched input lists, merge input-logprob IDs and retain decode output-logprob IDs. Native source supports that route, but actual binary behavior remains untested. The draft config/tensor checker is byte-identical; a single container invocation reduces repeated image extraction. [Exact new plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/PLAN.md). One H100 / four minutes / maximum 8.533334 SU; fresh locked credit includes the preceding terminal job before a new reservation. No real model inference or ranked command change. No receipt at preparation.
+
+## Derived receipt — 2026-10-21T03:42:14.595996+00:00
+
+**222722.pbs111**, initial state R; one H100 / four minutes / max 8.533334 SU. The owned queue was empty. Previous 222721 is terminal F/exit 1 with estimated 3.733333 SU unposted, so both maximum reservations remain; conservative headroom is 7411.523333 SU. [Receipt and accounting](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/RESULTS.md). No new component/model/throughput result at this checkpoint. Review actual evidence before the next bounded integration step.
