@@ -1,0 +1,290 @@
+{
+  "created_utc": "2026-10-21T04:52:10.063788+00:00",
+  "job": "222750.pbs111",
+  "passed": true,
+  "draft_model_instantiated": true,
+  "target_weights_loaded": false,
+  "inference_executed": false,
+  "pd_transfer_tested": false,
+  "shared_target_embedding_validated": false,
+  "stage": "draft_load_pass_integration_unverified",
+  "parameters": {
+    "model.embed_tokens.weight": {
+      "shape": [
+        151936,
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.fc.weight": {
+      "shape": [
+        4096,
+        12288
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.self_attn.qkv_proj.weight": {
+      "shape": [
+        9216,
+        8192
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.self_attn.o_proj.weight": {
+      "shape": [
+        4096,
+        8192
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.mlp.gate_up_proj.weight": {
+      "shape": [
+        24576,
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.mlp.down_proj.weight": {
+      "shape": [
+        4096,
+        12288
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.input_layernorm.weight": {
+      "shape": [
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.post_attention_layernorm.weight": {
+      "shape": [
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.layers.0.hidden_norm.weight": {
+      "shape": [
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "model.norm.weight": {
+      "shape": [
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    },
+    "lm_head.weight": {
+      "shape": [
+        64000,
+        4096
+      ],
+      "dtype": "torch.bfloat16",
+      "device": "cuda:0"
+    }
+  },
+  "native_loader_calls": [
+    {
+      "source": "fc.weight",
+      "parameter": "model.fc.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.hidden_norm.weight",
+      "parameter": "model.layers.0.hidden_norm.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.input_layernorm.weight",
+      "parameter": "model.layers.0.input_layernorm.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.mlp.down_proj.weight",
+      "parameter": "model.layers.0.mlp.down_proj.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.mlp.gate_proj.weight",
+      "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+      "shard": [
+        0
+      ]
+    },
+    {
+      "source": "layers.0.mlp.up_proj.weight",
+      "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+      "shard": [
+        1
+      ]
+    },
+    {
+      "source": "layers.0.post_attention_layernorm.weight",
+      "parameter": "model.layers.0.post_attention_layernorm.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.self_attn.k_proj.weight",
+      "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+      "shard": [
+        "k"
+      ]
+    },
+    {
+      "source": "layers.0.self_attn.o_proj.weight",
+      "parameter": "model.layers.0.self_attn.o_proj.weight",
+      "shard": []
+    },
+    {
+      "source": "layers.0.self_attn.q_proj.weight",
+      "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+      "shard": [
+        "q"
+      ]
+    },
+    {
+      "source": "layers.0.self_attn.v_proj.weight",
+      "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+      "shard": [
+        "v"
+      ]
+    },
+    {
+      "source": "lm_head.weight",
+      "parameter": "lm_head.weight",
+      "shard": []
+    },
+    {
+      "source": "norm.weight",
+      "parameter": "model.norm.weight",
+      "shard": []
+    }
+  ],
+  "parameter_comparisons": [
+    {
+      "parameter": "lm_head.weight",
+      "sources": [
+        "lm_head.weight"
+      ],
+      "shape": [
+        64000,
+        4096
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.fc.weight",
+      "sources": [
+        "fc.weight"
+      ],
+      "shape": [
+        4096,
+        12288
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.hidden_norm.weight",
+      "sources": [
+        "layers.0.hidden_norm.weight"
+      ],
+      "shape": [
+        4096
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.input_layernorm.weight",
+      "sources": [
+        "layers.0.input_layernorm.weight"
+      ],
+      "shape": [
+        4096
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.mlp.down_proj.weight",
+      "sources": [
+        "layers.0.mlp.down_proj.weight"
+      ],
+      "shape": [
+        4096,
+        12288
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+      "sources": [
+        "layers.0.mlp.gate_proj.weight",
+        "layers.0.mlp.up_proj.weight"
+      ],
+      "shape": [
+        24576,
+        4096
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.post_attention_layernorm.weight",
+      "sources": [
+        "layers.0.post_attention_layernorm.weight"
+      ],
+      "shape": [
+        4096
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.self_attn.o_proj.weight",
+      "sources": [
+        "layers.0.self_attn.o_proj.weight"
+      ],
+      "shape": [
+        4096,
+        8192
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+      "sources": [
+        "layers.0.self_attn.q_proj.weight",
+        "layers.0.self_attn.k_proj.weight",
+        "layers.0.self_attn.v_proj.weight"
+      ],
+      "shape": [
+        9216,
+        8192
+      ],
+      "exact_equal": true
+    },
+    {
+      "parameter": "model.norm.weight",
+      "sources": [
+        "norm.weight"
+      ],
+      "shape": [
+        4096
+      ],
+      "exact_equal": true
+    }
+  ],
+  "hot_token_mapping_exact": true,
+  "shared_embedding_excluded_reason": "Runtime must share the actual target embedding; not present in draft checkpoint. Never run forward with this allocation.",
+  "peak_allocated_vram_bytes": 2902492672,
+  "attention_forward_tested": false,
+  "tp4_tp8_tested": false
+}
