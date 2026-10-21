@@ -110,3 +110,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: semantic warmup receipts and independent head gate](entries/20261021-pair-warmup-semantic.md).
 
 - [21 October: actual descriptor pass and native registration/aux hypothesis](entries/20261021-nixl-descriptor-pass.md).
+
+- [21 October: short N64 gain and fresh full matched pair](entries/20261021-h200-full-load-plan.md).
