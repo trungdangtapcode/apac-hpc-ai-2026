@@ -49,4 +49,6 @@ Locked pre-submit 2026-10-21T06:01:09.427656+00:00 ledger: Used **44625.453**, B
 
 CPU envelope gains 0.289035%, below 1% gate; reverse prefetch saves 9.836066%, below 10% gate. Both exact methods stay closed unchanged, as do losing chunk/routing/DP8/DeepEP repeats. Keep native NUMA and retained backends. [Priorities](../reports/research-priorities-20261020/PLAN.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
 
+Public README R2/R5 requires Basic results for both Qwen and OpenFOAM. Our delivered package updates Qwen only; empty HPC_Task is owner scope, not an organiser exemption. [Clarification](contest-scoring-and-tracks-20261020.md).
+
 English artifacts, Vietnamese chat. Qwen only; HPC_Task empty. The owner authorised a full submission update on 21 October; the previous no-edit restriction is superseded. **Autopilot OFF**: no background Codex, schedules or automatic chat notification. Preserve VPN/authentication and exclude session/credential state. Explicit safe small capture/commit/push checkpoints; Git carries external-object manifests, not sibling artifact bytes (separate off-host backup still needed). [Policy](../research-autopilot/POLICY.md).

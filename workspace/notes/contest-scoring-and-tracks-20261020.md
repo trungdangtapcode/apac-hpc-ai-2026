@@ -73,3 +73,30 @@ The owner-requested no-commit restriction continues. This observation file and l
 ## Preservation authorised — 2026-10-21T02:11:16.205433+00:00
 
 On 21 October the owner explicitly requested a commit, then asked to record the findings. That later instruction supersedes the earlier no-commit restriction for this registration clarification. The dated 20 October no-commit accounts above remain historical. This checkpoint captures the existing local corrections, the value-free form observation, source references and journal entry using the actual current date. It does not re-fetch the form, resolve the eligibility conflict or claim new organiser confirmation. No messages, job submissions, queue/budget refresh, submission edits or authentication changes accompany this documentation checkpoint.
+
+## Mandatory HPC clarification — 2026-10-21T09:55:09.406614+00:00
+
+The owner asked directly whether HPC is compulsory after the Qwen package update.
+A fresh web read of the official public README still explicitly requires a
+Basic result for each task in R2 and repeats that requirement in R5:
+https://github.com/hpcac/2026-APAC-HPC-AI/blob/main/README.md#r2-three-tiers
+https://github.com/hpcac/2026-APAC-HPC-AI/blob/main/README.md#r5-work-already-done
+
+The direct answer under the published rules is yes: Basic Qwen and Basic
+OpenFOAM are both required. Bonus work is optional. The previously recorded
+track-choice recruitment wording does not itself establish an exemption for
+this team. No accepted proposal or organiser confirmation granting an AI-only
+exception has been supplied. AI Special Prize eligibility for an AI-only
+package remains unresolved.
+
+Correction to how the delivered package should be described: the 21 October
+update is a complete update of our Qwen materials, not a claim of a complete
+two-task competition submission. HPC_Task is empty because of the owner's
+explicit Qwen-only working scope, not because the organisers waived HPC. Do
+not infer that a missing HPC entry merely loses 50 points or is accepted for
+specialist awards. The official Need To Know page could not be fetched by the
+web tool in this recheck; no new claim about its contents is made from that
+failed request. Existing historical source observations remain dated.
+
+This is a documentation clarification only. No submission material, GPU job,
+budget reservation, authentication or background automation is changed.
