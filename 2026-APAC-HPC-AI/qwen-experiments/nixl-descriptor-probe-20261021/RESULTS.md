@@ -18,3 +18,7 @@ Read [PLAN.md](PLAN.md) for hypothesis, source identity, byte gates and limits;
 review. No output equivalence, throughput or accuracy result is claimed. Collect
 and review both rank artifacts and actual logs after terminal state before a
 full-model decision.
+
+## Terminal review
+
+Superseding the running snapshot: **223097 is F/exit0**, 199 seconds, all 24 actual descriptor writes and independently recomputed GPU byte hashes pass. Estimated allocation charge 14.151111 SU; posted reconciliation is pending, so retain the maximum reservation. [Sealed analysis, telemetry correction and next decision](REVIEW.md).

@@ -2268,3 +2268,7 @@ Submitted three matched off/on/receive-2 pilots per platform: H200 24926/24927/2
 
 Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconcile 937.244 SU. New maximum reserve 4608 SU, internal headroom 11419.557 SU under unchanged cap/buffer. Existing access reused, no authentication, background AI, slides or official accuracy claim. [Full result/insight/next-decision entry](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261020-receive-polling.md). Older states below retain their timestamps.
 
+
+## Actual small KV descriptor gate — 2026-10-21T20:01:48.672327+00:00
+
+223097.pbs111 passes all24 native descriptor writes and independent GPU byte checks,199 seconds / estimated14.151111 SU; posted credit reconciliation is pending. No inference or new score. [Full result, observability correction and next registration/aux hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Preserve raw evidence and the five pending H200 positions.
