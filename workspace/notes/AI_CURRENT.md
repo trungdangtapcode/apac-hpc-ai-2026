@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-21T19:44:59.960278+00:00. [21 October submission](submission-update-20261021.md) retains the same measured H200 N62 deployment; new independent repeat is reviewed below. All scheduler statements are dated.
+Updated 2026-10-21T19:53:35.773650+00:00. [21 October submission](submission-update-20261021.md) retains the same measured H200 N62 deployment; new independent repeat is reviewed below. All scheduler statements are dated.
 
 ## Session ownership
 
@@ -58,7 +58,7 @@ If valid and useful, prepare a fresh equally observed/capacity-controlled short 
 
 ## Budget and scope
 
-Fresh locked terminal review 2026-10-21T19:32:04.774264+00:00: Used **46367.710**, Balance **17632.290**, In Doubt **0.000 SU**. Unique posted 28.018-SU delta reconciles 223091, releasing its 42.666667-SU maximum. No outstanding AI GPU maximum. Internal headroom **4632.290 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-peer-probe-20261021/terminal-reconciliation.json). Own GPU PBS queue empty; source-supported next cheap descriptor test remains unreserved. No HPC CPU access or ledger change.
+Fresh locked terminal review 2026-10-21T19:32:04.774264+00:00: Used **46367.710**, Balance **17632.290**, In Doubt **0.000 SU**. Unique posted 28.018-SU delta reconciles 223091, releasing its 42.666667-SU maximum. No outstanding AI GPU maximum. Internal headroom **4632.290 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-peer-probe-20261021/terminal-reconciliation.json). Own GPU PBS queue empty; The source-pinned descriptor probe is CPU-validated and frozen, still unreserved until its fresh locked check. [Prospective plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/PLAN.md). No HPC CPU access or ledger change.
 
 CPU envelope gains 0.289035%, below 1% gate; reverse prefetch saves 9.836066%, below 10% gate. Both exact methods stay closed unchanged, as do losing chunk/routing/DP8/DeepEP repeats. Keep native NUMA and retained backends. [Priorities](../reports/research-priorities-20261020/PLAN.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
 
