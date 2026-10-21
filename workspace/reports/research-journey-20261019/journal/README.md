@@ -98,3 +98,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: two-GPU real NIXL peer/VRAM gate and conservative receipt](entries/20261021-nixl-peer-probe.md).
 
 - [21 October: real base NIXL pass, original-bundle recovery and limits](entries/20261021-nixl-peer-pass.md).
+
+- [21 October: exact H200 N62 reproduction and observed load-frontier decision](entries/20261021-h200-n62-reproduced.md).

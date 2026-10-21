@@ -1,0 +1,17 @@
+# Independent H200 N62 result reproduces the serving peak
+
+Job **24962**, COMPLETED/0:0, **684 seconds**, passes the sealed full local protocol/SLA/output review. Canonical AIPerf goodput times 200 is **3023.072304 good output tokens/s**. There are **1885 requests**, **1861 joint-good**, **98.726790%** joint success, **zero errors/cancellations**. TTFT mean/p95 is **1022.258/1188.701 ms**; request-mean ITL mean/p95 is **14.966596/15.132395 ms**. [Machine review](REVIEW.json), [replay](review.py), [terminal run seal](../runs/24962/artifact-manifest.json).
+
+The exact independent source 24915 scores **3022.034919**, so the new individual maximum differs by only **0.034327%**. The two-run mean is **3022.553611 good output tokens/s**. Both runs have 24 requests outside the joint SLA; the newer run completes one extra scored/good request. This reproduces the operating point descriptively. It is not a new configuration improvement or statistical proof from two observations.
+
+All scored execution files match source 24915 byte-for-byte except job/config provenance. Raw full 60/120/30, closed-loop 4000/200, seed 2026/cold prefixes and normalized input protocol match. Resolved role ServerArgs differ only in randomized process seeds. Workers use two TP4/EP1 DeepGEMM/chunk8192 prefills and one TP8/EP8 HPC-Ops decode, dense decode graph sizes 1..64, MNNVL, FlashInfer, native BF16 KV and the frozen NIXL patch. The hpc name denotes the decode backend here; it must not be read as both phases using HPC-Ops.
+
+Short smoke passes **7/8**, with no new failure versus its reference gate. Long retrieval passes 12/12 with zero errors. These diagnostics do not prove the organiser's >=99% reference accuracy, which remains unverified. H100's 2433.019859 result stays in a separate hardware series.
+
+## Observation and limits
+
+This frozen independent repeat deliberately retains the source's observer-off execution: no scored resource sampler, no phase-marker file and no scored CPU/GPU/queue/KV hardware series. Missing telemetry is not zero or healthy. It has 16 post-score GPU traces. Each role's separate stop_profile returns HTTP500 with the explicit message that profiling is no longer in progress; those post-score tracebacks are retained. The first reviewer incorrectly rejected any traceback regardless of phase; it now classifies only this recognized diagnostic stop error, while rejecting NIXL/OOM patterns and preserving per-request zero-error gates. Neither profiler-stop success nor complete scored hardware coverage is claimed. The old profile-controller response parser also remains unchanged as required by this exact repeat; later derived bundles use its validated parser repair.
+
+## Next controlled question
+
+N62 now has two closely agreeing accepted observations with considerable mean/p95 ITL margin below 20 ms. The current decode graph set ends at 64, making N64 a source-supported next load boundary before any unsupported higher batch assumption. Prepare one fresh observed deployment running N62 then N64, both with identical bounded telemetry and full official-shaped traffic. Share model startup to save allocation time, stop load increase if the control fails, and retain complete outputs. Compare N64 to its fresh observed N62, not directly to this observer-off score. Predeclare >=1% useful goodput gain and all SLA/error/output/tail gates before confirmation. No N64 result or global optimum is implied.
