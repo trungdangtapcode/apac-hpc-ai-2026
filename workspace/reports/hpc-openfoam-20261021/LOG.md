@@ -305,3 +305,16 @@ qsub. Exactly one receipt25904959.pbs101 at14:10:12.031377UTC:32CPUs/96GB/
 serial1/zeroGPU/max900s. Total conservative maxima10.666667SU. No AI mutation.
 Terminal history already shows F/exit1 after16s; retain evidence and inspect
 before any repair. A definite submit is not a prepared split or CPU score.
+
+## Native control comparison correction — 2026-10-21T14:14:00.577900+00:00
+
+25904959 F/exit 1 after 16 seconds, 32 CPUs, stops before mesh work. Seal 113
+text files including both native expanded dictionaries. Their only diff is
+one generated header filename comment. Normalize exactly those known header
+strings (each appears once); all remaining expanded bytes are identical.
+This proves the intended Iris control semantics after startFrom/endTime edits,
+while the CPU validator's whole-file diff was overstrict. Do not hide the failed
+scheduler state or call it full CPU preparation. Estimated base 0.142222 SU is
+not posted billing; retain 8 SU maximum. Derive only header normalization;
+retain every other gate. Future conditional init+solve uses 35 minutes at128
+cores (74.666667 SU) to keep all conservative maxima under the100-SU plan.
