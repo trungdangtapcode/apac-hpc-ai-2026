@@ -62,3 +62,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [20 October: equal-budget H100 CPU envelopes after actual locality evidence](entries/20261020-cpu-envelope-balance.md).
 
 - [20 October: EAGLE3 actual token-ID observation and gateway capability gate](entries/20261020-eagle3-token-observation.md).
+
+- [21 October: registration wording, scope correction and authorised preservation](entries/20261021-registration-clarification.md).

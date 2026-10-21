@@ -45,9 +45,11 @@ The first adapter attempt rejected signed negative zero before reservation or qs
 
 [New token diagnostic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/TOKEN_IDS.md) uses actual nonstreaming chat token IDs. Native worker support is inspected, but gateway request-schema forwarding remains unverified. Thirteen adversarial CPU fixtures pass; no live model call, SGLang draft load, speculative GPU job or SU reservation occurred. First establish gateway support and stable target-only repeats, then require exact prompt/output IDs and finish reasons with the draft. Loader coverage, both-phase state/TP4-to-TP8 transport, kernels/graphs, memory and long-context correctness remain runtime gates. Only a useful valid short screen justifies a full matched scoring pair.
 
-## Competition scope clarification — 20 October 2026
+## Competition scope clarification — observations from 20 October
 
-[Current scoring and track requirements](contest-scoring-and-tracks-20261020.md): public rules require a Basic result for **both** AI and HPC, each worth up to 50 points (judges 20 Basic + 15 Bonus, performance/re-verification 15). AI/HPC specialist prizes are listed separately from the main awards. Our Qwen-only work scope and empty HPC_Task do not establish an organiser exemption. Exact performance-to-points conversion and specialist eligibility for a one-task submission remain unconfirmed. This is a rules-only review; the queues and budget above were not refreshed by it.
+[Scoring and registration evidence](contest-scoring-and-tracks-20261020.md): the pinned README requires Basic results for both tasks, with 50 points each; NCI recruitment invites track choice, while the inspected current form has no track selection control. Original registration/acceptance and one-task specialist eligibility remain unverified. Do not infer an exemption or invalid registration from this conflict. Qwen-only work scope and empty HPC_Task are unchanged.
+
+On 21 October the owner authorised committing these previously local notes. The earlier no-commit restriction is historical. This checkpoint preserves the corrections and form observation; it adds no fresh queue/budget observations or organiser confirmation.
 
 ## Direction and persistent boundaries
 
