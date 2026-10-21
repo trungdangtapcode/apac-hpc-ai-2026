@@ -1,9 +1,5 @@
-# Native NUMA partition screen submitted
+# Partition screen passed
 
-**25907688.pbs101: R** at 2026-10-21T19:40:48.044548+00:00, qdev, x1001c0s3b0n0. Fresh native default Scotch tree with domains (8 16), domainWeights (1 0.1), normalized synthetic weights 10:1. One allocated CPU node, 32 CPUs, one serial task, 96 GB, zero GPUs; maximum 15 minutes / **8 SU**. No candidate solver speed or physical latency ratio is claimed.
+25907688: F / exit 0. Native preparation and all preregistered graph filters pass. Cross-group faces decrease 10.6283%, total interfaces increase 1.3423%. No solver result yet. [Full review](RESULTS.md).
 
-The preceding same-node pair **25907325** passes all numerical/work gates: H 14.787224 vs S 14.640233 s/step, observed 0.994% saving, not stable proof because S has a 21.120703-second outlier and native confidence warning. Current candidate is a distinct graph-locality hypothesis justified by verified groups of sixteen diagnostic ranks per NUMA CPU set and actual processor-neighbor graphs.
-
-Before qsub, the CPU lock protects fresh own-queue/project checks, read-only combined PBS capacity, the 100-SU ceiling, durable intent and full reservation. All seven preceding CPU jobs are terminal; **79.995556 SU** estimated terminal usage is conservatively rounded plus buffer to **81 SU consumed**. New 8-SU maximum brings commitment to **89 / 100 SU**, leaving 11 SU unreserved. Project report refresh remains stale; do not equate its 27.879-SU delta with actual wave spending or claim per-job posted charges. No cap increase, AI changes or schedules.
-
-Next collect sealed terminal text with tools/collect_cpu_probe.py, then run review.py. Inspect native archive/member identities, all 128 partitions/65,334,765 cells, restored fields, reciprocal neighbor graphs and preregistered filter. Read PLAN.md and GRAPH_REVIEW.md. A passing native prep can still fail the graph filter; neither is a solver result. Do not automatically promote or submit an underfunded solve. Preserve this payload/root and failures. Root: `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-numa-scotch128-20261021T194034Z`.
+Original 100-SU wave: terminal estimates 83.417778 SU, conservative 85 SU consumed. Owner subsequently requested expanded research and submissions; cumulative bounded continuation ceiling is now 1,000 SU under the same CPU lock and queue/active caps.
