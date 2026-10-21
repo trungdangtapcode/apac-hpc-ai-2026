@@ -9,7 +9,7 @@
     "in_doubt_SU": 0
   },
   "baseline_wave_planning_ceiling_SU": 100,
-  "reserved_max_SU": 93.33333333333334,
+  "reserved_max_SU": 29,
   "jobs": [
     {
       "id": "25904725.pbs101",
@@ -48,11 +48,29 @@
     },
     {
       "id": "25905114.pbs101",
-      "state": "Q_QUEUE_OVERALL_CPU_LIMIT",
+      "state": "F_EXIT_0_ONE_NODE_BASELINE_PASS",
       "maximum_SU": 74.66666666666667,
       "branch": "N128_hierarchical_init_and_solve",
-      "observed_utc": "2026-10-21T14:48:23.781917+00:00"
+      "observed_utc": "2026-10-21T14:48:23.781917+00:00",
+      "elapsed_seconds": 728,
+      "estimated_actual_SU": 25.884444444444444,
+      "posted_charge_reconciled": false
     }
   ],
-  "note": "CPU-only ledger; no AI budget changes. Probe and future stages need locked fresh checks and separate submission receipts."
+  "note": "CPU-only ledger; no AI budget changes. Probe and future stages need locked fresh checks and separate submission receipts.",
+  "schema": 2,
+  "updated_utc": "2026-10-21T18:56:35.354784+00:00",
+  "consumed_ceiling_SU": 29,
+  "outstanding_reserved_max_SU": 0,
+  "planning_committed_SU": 29,
+  "reservation_semantics": "reserved_max_SU is total conservative consumed plus outstanding commitment, NOT cumulative historical requested maxima. Always enforce consumed_ceiling_SU + outstanding_reserved_max_SU + new maximum <=100.",
+  "latest_project_snapshot": {
+    "observed_utc": "2026-10-21T18:56:35.354784+00:00",
+    "used_SU": 250.033,
+    "balance_SU": 29749.967,
+    "in_doubt_SU": 0,
+    "site_timestamp": "21/10/2026-22:31:12",
+    "timestamp_limitation": "Not consistent with solver chronology; amount delta agrees with all terminal allocation estimates within 0.001 SU."
+  },
+  "reconciliation_note": "All five CPU jobs terminal, own queue empty. Historical maxima retired by terminal resource accounting and amount-level agreement. 29 SU ceiling includes 1.120 SU above 27.880 estimate; not exact individual billed charges."
 }

@@ -414,3 +414,27 @@ and reservation; the queue is not empty and the one-active-CPU cap prevents
 another independent allocation. No blind retry, spending increase, alternate
 queue request or GPU-track mutation. Retain exact safe reason/configuration
 JSON and dated handoff; collect native logs when the actual job becomes terminal.
+
+## 2026-10-21T18:56:35.354784+00:00: first accepted ASPIRE CPU baseline and accounting
+
+
+Job **25905114.pbs101** finished F / exit 0 on x1001c2s5b1n0, with 128 MPI ranks, native OpenFOAM v2512 and double precision. All three mandatory initialization stages and 40 fixed-work simpleFoam steps pass the retained reviewer. This is a one-node baseline, not the four-node/150-step contest score.
+
+| Quantity | Observed value |
+|---|---:|
+| Native Average, 39 measured steps | 14.9219814004 s/step |
+| Median / p95 | 14.920225 / 15.074989 s/step |
+| Final Cd | 0.4389323284, dimensionless |
+| Whole allocation | 728 s = 12 min 8 s |
+| Batch maximum RSS | 121.7611 GiB |
+| Estimated base allocation charge | 25.884444 SU |
+
+Renumber, potential, boundary and solver native clocks were 9, 49, 5 and 643 seconds respectively. All 40 steps used fixed iterations U=15, p=12, omega/k=8. Eight omega bounding messages are retained; no timing confidence warning. Review includes every stage's End/exit, source identities, architecture, steps, native timer data, force output and accounting. `review.py` reproduces `review.json`; raw text is sealed under collected/25905114.pbs101.
+
+Aggregate CPU time is 25:01:24, 96.673% of allocated core-seconds. This does not identify a bandwidth, MPI, cache or NUMA bottleneck. GNU time wraps the PALS launcher; its 0% CPU must not be interpreted as solver inactivity. The placement probe saw all ranks and CPU masks 0–127 but interleaved lines prevent reconstructing per-rank mapping. NUMA masks are permissions, not page placement. Hardware counters, bandwidth, power and page locality were not collected. A derived probe should emit one atomic record per rank outside solver timing.
+
+The public one-node hierarchical value is 14.668759 s/step; our single run is about 1.726% slower. This is not a matched comparison or proof of a cause. Native Scotch is the next distinct hypothesis: test graph partitioning while retaining fixed physics and numerical work. A same-node H→S pair reduces host differences, with order/cache/repetition limits reported explicitly.
+
+CPU accounting now reports Used 250.033 SU, an amount delta of 27.879 SU from 222.154. All five terminal allocation estimates sum to 27.880 SU. The site's displayed timestamp is chronologically inconsistent and detailed usage is incomplete: no exact individual posted charge is claimed. Conservative consumed planning ceiling is 29 SU, with no outstanding CPU jobs. This retires historical requested maxima without raising the unchanged 100-SU wave ceiling. Future submission guards must include consumed plus outstanding plus new maximum.
+
+The earlier queue snapshots below are historical. The job started at 14:48:58 UTC, after about 13 minutes 5 seconds queued, and finished after 728 seconds. No queue resubmission occurred.

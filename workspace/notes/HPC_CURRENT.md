@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T14:48:23.781917+00:00. **This is the HPC chat.** GPU/Qwen is owned by the separate
+Updated 2026-10-21T18:56:35.354784+00:00. **This is the HPC chat.** GPU/Qwen is owned by the separate
 GPU chat. Read [session ownership](SESSION_OWNERSHIP.md). Preserve its jobs,
 payloads, measurements and ledger; do not switch tracks from shared history.
 English artifacts, Vietnamese chat, autopilot off. Keep HPC_Task empty until
@@ -42,22 +42,25 @@ queue. Full official archive MD5/SHA256 and eight unpacked member hashes,
 native v2512/DP, exact 128 partitions/65,334,765 cells and initial fields pass.
 Batch MaxRSS 30.3228 GiB; estimated base charge 1.662222 SU is not posted billing.
 [Review and sealed evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
-**25905114.pbs101** remains Q in qdev at 14:48:23 UTC. PBS says it would
-exceed the queue's overall ncpus limit: 256-core cap, 148 assigned, only 108
-free under that cap, while this job requires 128. Wait for at least 20 assigned
-cores to be released; no solver has started. Preserve its queue position.
-Submitted at 14:35:53 UTC; the requested 35 minutes excludes queue waiting. One exclusive CPU node/128 MPI/440 GB/no GPU, maximum 35 minutes,
-all mandatory parallel initialization followed by 40 solver steps. Source,
-receipt, placement/phase plan and reservation are retained. No CPU solver
-result yet. [Active job](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-solve-h128-20261021/STATUS.md).
+**25905114.pbs101: F / exit 0**, 728 s (12 min 8 s), x1001c2s5b1n0,
+128 MPI, full mandatory initialization and 40 fixed-work solver steps.
+Average **14.9219814004 s/step**, p95 **15.074989 s/step**, final Cd
+**0.4389323284**. All reviewed native gates pass; one-node baseline only,
+not a four-node score. MaxRSS 121.7611 GiB; estimated allocation 25.884444 SU.
+No measured optimization gain yet. Placement probe interleaves; no hardware
+counter or actual NUMA page-placement telemetry. Next native Scotch N128 and
+a same-node method pair. [Review and evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-solve-h128-20261021/STATUS.md).
 [Measured versus requested job durations](../reports/hpc-openfoam-20261021/JOB_DURATIONS.md).
 
 Parent CPU lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/
-cpu-budget.lock and cpu-budget.json. Conservative retained maxima now total 93.333334 SU, including the active
-74.666667-SU solver reservation, below the 100-SU first-wave ceiling. All
-preceding maxima remain retained until posted charge reconciliation. No AI
-budget or serving changes. Keep posted billing distinct from estimates and
-never subtract prepaid In Doubt twice.
+cpu-budget.lock and cpu-budget.json. All five jobs are terminal and the CPU queue is empty at the review checkpoint.
+Reported project Used 250.033 / Balance 29749.967 / In Doubt 0 SU. Delta
+27.879 SU agrees with terminal allocation estimates 27.880 SU, but the site
+report timestamp is inconsistent and individual posted charges are not known.
+Conservative consumed planning ceiling is 29 SU, outstanding zero; unchanged
+wave cap 100 SU. Schema 2 guards consumed + outstanding + new reservations.
+Historical requested maxima are retired, preserved in each job's provenance.
+No AI ledger or payload changes.
 
 ## Completed gates and preserved failures
 
@@ -76,7 +79,7 @@ corrections and decisions. [Plan](../reports/hpc-openfoam-20261021/PLAN.md) and
 [rules](../reports/hpc-openfoam-20261021/RULES.md) retain the pinned references.
 Target 1/2/4 CPU nodes on ASPIRE-2A (or verified Gadi project), with 40/80/150
 steps; final scored performance is the four-node Average, not Iris walltime.
-Next obtain a complete CPU baseline before a matched method/runtime comparison.
+Next compare native Scotch with the accepted hierarchical baseline on the same node.
 
 Session-name verification at 2026-10-21T14:20:23.198933+00:00: read-only threads.name lookup matches
 this environment's CODEX_THREAD_ID to the HPC conversation, and the GPU name
