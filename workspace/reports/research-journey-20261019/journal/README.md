@@ -90,3 +90,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: CPU-validated Bash dispatch repair and conservative reservation](entries/20261021-bash-dispatch-repair-submission.md).
 
 - [21 October: native PD transport failure and false warmup-marker correction](entries/20261021-native-pd-transport-failure.md).
+
+- [21 October: H200 recv2 full result, telemetry window correction and branch decision](entries/20261021-h200-recv2-result.md).

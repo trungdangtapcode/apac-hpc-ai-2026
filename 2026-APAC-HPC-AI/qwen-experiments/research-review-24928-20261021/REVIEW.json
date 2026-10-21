@@ -1,0 +1,1836 @@
+{
+  "actual_configuration": {
+    "config_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/config.json",
+    "decode_flags": [
+      "--flashinfer-allreduce-fusion-backend",
+      "mnnvl",
+      "--decode-attention-backend",
+      "flashinfer",
+      "--moe-runner-backend",
+      "hpc_ops",
+      "--scheduler-recv-interval",
+      "2"
+    ],
+    "experiment": "s19-hpc-n60-recv2",
+    "hardware": "H200; 2 prefill workers TP4 each (8 GPUs), 1 decode worker TP8 (8 GPUs); N60",
+    "native_worker_evidence": {
+      "decode_command": "--scheduler-recv-interval 2; graph batch sizes 1..64; MNNVL fusion; FlashInfer attention; HPC-Ops MoE",
+      "prefill_command": "--chunked-prefill-size 8192 --moe-runner-backend deep_gemm",
+      "router_command": "--prefill-policy round_robin",
+      "topology_contains_round_robin": true,
+      "worker_contains_scheduler_recv_2": true,
+      "worker_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/worker.sh"
+    },
+    "prefill_flags": [
+      "--chunked-prefill-size",
+      "8192",
+      "--moe-runner-backend",
+      "deep_gemm"
+    ],
+    "router_flags": [
+      "--prefill-policy",
+      "round_robin"
+    ],
+    "unchanged_numerical_work": "Only decode scheduler receive interval was changed against 24927. Same checkpoint/precision/KV, native kernels/backends, NIXL patch, graph shapes, router policy, workload and quality checks."
+  },
+  "comparisons": {
+    "24927_observed_vs_24926_off_percent": -0.6817680597099085,
+    "24928_vs_observed_interval1_24927_percent": 0.410410733491573,
+    "24928_vs_observer_off_interval1_24926_percent": -0.2741553755128967,
+    "interpretation": "Single-run descriptive comparisons; not replicated causal estimates."
+  },
+  "control_match": {
+    "comparison_limits": "24927 is a matched observer-on interval-1 control; 24926 is a separate observer-off interval-1 run. Raw environmental/run-order differences remain.",
+    "output_smoke_failed_cases_equal_24927": [
+      "reverse"
+    ],
+    "protocol_config_equal_after_artifact_path_and_url_normalization": true,
+    "resolved_server_args_differences_vs_24927": {
+      "decode-0": {
+        "random_seed": [
+          "557319946",
+          "161866652"
+        ],
+        "scheduler_recv_interval": [
+          "1",
+          "2"
+        ]
+      },
+      "prefill-0": {
+        "random_seed": [
+          "275909777",
+          "960878998"
+        ]
+      },
+      "prefill-1": {
+        "random_seed": [
+          "740824694",
+          "459301519"
+        ]
+      }
+    },
+    "submitted_payload_file_differences_vs_24927": [
+      "SHA256SUMS",
+      "config.json",
+      "job.sbatch",
+      "worker.sh"
+    ]
+  },
+  "generated_by": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-24928-20261021/inspect.py",
+  "metric_definition": "Canonical local score is AIPerf exported goodput (requests/s) multiplied by fixed 200 output tokens; not raw throughput.",
+  "output_checks": {
+    "failed_case": [
+      "reverse"
+    ],
+    "long_context_passed": 12,
+    "long_context_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/long-context-check.json",
+    "long_context_total": 12,
+    "matched_control_note": "Same reverse case also fails on 24927; local sanity only.",
+    "quality_limit": "Neither hand-written test set proves full model accuracy or formal PD equivalence.",
+    "smoke_passed": 7,
+    "smoke_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/output-smoke.json",
+    "smoke_total": 8
+  },
+  "profile_coverage": {
+    "log_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile.log",
+    "profile_request_count": 423,
+    "profile_start_controls": [
+      {
+        "body_kind": "text",
+        "content_type": "",
+        "http_status": 200,
+        "response_bytes": 17
+      },
+      {
+        "body_kind": "text",
+        "content_type": "",
+        "http_status": 200,
+        "response_bytes": 17
+      },
+      {
+        "body_kind": "text",
+        "content_type": "",
+        "http_status": 200,
+        "response_bytes": 17
+      }
+    ],
+    "profile_stop_errors": [
+      "HTTP Error 500: Internal Server Error",
+      "HTTP Error 500: Internal Server Error",
+      "HTTP Error 500: Internal Server Error"
+    ],
+    "scope": "Post-score diagnostic, GPU activities only; not ranked and no CPU traces.",
+    "trace_file_count": 16,
+    "trace_paths": [
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-0-EP-0.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-1-EP-1.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-2-EP-2.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-3-EP-3.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-4-EP-4.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-5-EP-5.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-6-EP-6.trace.json.gz",
+      "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-7-EP-7.trace.json.gz",
+      "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-0.trace.json.gz",
+      "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-1.trace.json.gz",
+      "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-2.trace.json.gz",
+      "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-3.trace.json.gz",
+      "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-0.trace.json.gz",
+      "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-1.trace.json.gz",
+      "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-2.trace.json.gz",
+      "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-3.trace.json.gz"
+    ]
+  },
+  "protocol_and_gates": {
+    "fixed_workload": "closed-loop synthetic 4000 input / 200 output tokens, seed 2026, cold first-turn cache prefix; N60; confirm 60 s warm-up + 120 s measurement + 30 s grace",
+    "joint_sla_thresholds": {
+      "TTFT_ms_max": 3000,
+      "good_request_fraction_min": 0.9,
+      "request_mean_ITL_ms_max": 20
+    },
+    "official_accuracy": "Unverified; local output checks are not organiser accuracy.",
+    "scored_gate": "AIPerf summary says SLA pass; all requests drained; 0 errors and 0 cancellations.",
+    "timeout_note": "AIPerf fixed-duration client reports timeout_triggered=true at planned termination; this is not treated as an error because raw phase shows all requests completed and no cancellation/error."
+  },
+  "provenance": {
+    "hash_policy": "Hash retained paths in place; this review copies no run payloads or large raw artifacts.",
+    "runs_24928_artifact_manifest": "Missing run-level artifact-manifest.json; retain this caveat and do not claim a complete run seal.",
+    "sealed_files": [
+      {
+        "bytes": 3119,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/config.json",
+        "sha256": "8319aa0450fcd6d18c2f1d21590d91ce714cbb8d305ffd42d606002629dce02f"
+      },
+      {
+        "bytes": 571,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/summary.json",
+        "sha256": "a5abbd76b3200b2ee19c66396ee2e446f35ab81b9e06b801bbf7f19d5d0b3a12"
+      },
+      {
+        "bytes": 1403,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/SHA256SUMS",
+        "sha256": "d502b3f24f5e1197ccf08c8b08995f99c8708f4167ab4b878676e5a108f84155"
+      },
+      {
+        "bytes": 39255,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/confirm/n60/artifacts/profile_export_aiperf.json",
+        "sha256": "f44ab5c2ca49b20ca80933579220ff9363ea01c6c96c3930408dcde8282f659f"
+      },
+      {
+        "bytes": 1045,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/confirm/n60/artifacts/phase_manifest.json",
+        "sha256": "402fb486dec62eb566960db1d1368bf5f3cb75c28b86d493427a1e74c019b116"
+      },
+      {
+        "bytes": 47946,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/confirm/n60/client.log",
+        "sha256": "7b60c656ad0b66e682248582232051e9e1ae72647350c6676fced361381ebfc1"
+      },
+      {
+        "bytes": 1403,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/SHA256SUMS",
+        "sha256": "d502b3f24f5e1197ccf08c8b08995f99c8708f4167ab4b878676e5a108f84155"
+      },
+      {
+        "bytes": 4989,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/benchmark.sh",
+        "sha256": "c15334e482aa3b1860e247ba522d3cba200d7bb4bb60268a3f487c7b26187212"
+      },
+      {
+        "bytes": 3119,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/config.json",
+        "sha256": "8319aa0450fcd6d18c2f1d21590d91ce714cbb8d305ffd42d606002629dce02f"
+      },
+      {
+        "bytes": 701,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/job.sbatch",
+        "sha256": "d82000b80bead94605e394d545d02a1ca500de2ddd3e85f0640482738c09987f"
+      },
+      {
+        "bytes": 2358,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/long-context-check.py",
+        "sha256": "f45d700560ef1b3df7c76a2613180aeffcdb693490eb857ce7cbcf6acac81403"
+      },
+      {
+        "bytes": 122181,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/nixl-conn.py",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "bytes": 197,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/nixl-geometry-test.json",
+        "sha256": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608"
+      },
+      {
+        "bytes": 13791,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/nixl-ondemand.patch",
+        "sha256": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8"
+      },
+      {
+        "bytes": 374,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/nixl-patch-metadata.json",
+        "sha256": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27"
+      },
+      {
+        "bytes": 2585,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/output-smoke.py",
+        "sha256": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0"
+      },
+      {
+        "bytes": 577,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/phase-marker.py",
+        "sha256": "9cbcec00ccdebb8497efa04b881e42cfc7c32036d705ef83c7d1dd394a027250"
+      },
+      {
+        "bytes": 71,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/placement.tsv",
+        "sha256": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb"
+      },
+      {
+        "bytes": 5013,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/profile-serving.py",
+        "sha256": "0ff2c1ba7c58cd47715ff386e69400aecca9a1dd6cdb846a29c5d8b73af90b3a"
+      },
+      {
+        "bytes": 6138,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/resource-sampler.py",
+        "sha256": "31bbdb4340ecd3ec71a0a2906aadd378616b5ac0adf76e7e03adec823f532cfd"
+      },
+      {
+        "bytes": 1939,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/summarize.py",
+        "sha256": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c"
+      },
+      {
+        "bytes": 4223,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/topology-job.sh",
+        "sha256": "3ed5b8d049b437ffac4c9d939174c9aa51d8f6d9ffb25f18fba07d479916f56b"
+      },
+      {
+        "bytes": 3436,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/warm-topology.py",
+        "sha256": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d"
+      },
+      {
+        "bytes": 2654,
+        "job": "24926",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/submitted/worker.sh",
+        "sha256": "98da01d68b6c1e31e265d5dd9ec1b3ee3574800ddac53d9479149ee50afa20d4"
+      },
+      {
+        "bytes": 3099,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/config.json",
+        "sha256": "67da4d991aff42fb371bb0bad4a34de48f0d9901422ec7fef4f1740bae7dd686"
+      },
+      {
+        "bytes": 564,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/summary.json",
+        "sha256": "021b0218a479bf0acbe7102ac06414140865c147034171a8c898b7242a4241f8"
+      },
+      {
+        "bytes": 1403,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/SHA256SUMS",
+        "sha256": "c02ef9763d6730315300832d48de480b5fc0a27ea212fc2bcdb6d0924e730393"
+      },
+      {
+        "bytes": 39214,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/confirm/n60/artifacts/profile_export_aiperf.json",
+        "sha256": "db13d3ad85b1a4451632f1e713d74a46a4ad44476b8786a5288298fe230653f5"
+      },
+      {
+        "bytes": 1045,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/confirm/n60/artifacts/phase_manifest.json",
+        "sha256": "aa957bd0264b83979989e4ba0a5707d2d8319b85b86dd128a7681f7c392c5e26"
+      },
+      {
+        "bytes": 51558,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/confirm/n60/client.log",
+        "sha256": "ce886f05d9c34bc69b49ad54f4f6563427459da642e5701a7e548f35308ab1dc"
+      },
+      {
+        "bytes": 1403,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/SHA256SUMS",
+        "sha256": "c02ef9763d6730315300832d48de480b5fc0a27ea212fc2bcdb6d0924e730393"
+      },
+      {
+        "bytes": 4989,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/benchmark.sh",
+        "sha256": "c15334e482aa3b1860e247ba522d3cba200d7bb4bb60268a3f487c7b26187212"
+      },
+      {
+        "bytes": 3099,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/config.json",
+        "sha256": "67da4d991aff42fb371bb0bad4a34de48f0d9901422ec7fef4f1740bae7dd686"
+      },
+      {
+        "bytes": 699,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/job.sbatch",
+        "sha256": "20fd934853ac6258bb83698271b4748d04e23b794020b33355ad10f13f909624"
+      },
+      {
+        "bytes": 2358,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/long-context-check.py",
+        "sha256": "f45d700560ef1b3df7c76a2613180aeffcdb693490eb857ce7cbcf6acac81403"
+      },
+      {
+        "bytes": 122181,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/nixl-conn.py",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "bytes": 197,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/nixl-geometry-test.json",
+        "sha256": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608"
+      },
+      {
+        "bytes": 13791,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/nixl-ondemand.patch",
+        "sha256": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8"
+      },
+      {
+        "bytes": 374,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/nixl-patch-metadata.json",
+        "sha256": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27"
+      },
+      {
+        "bytes": 2585,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/output-smoke.py",
+        "sha256": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0"
+      },
+      {
+        "bytes": 577,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/phase-marker.py",
+        "sha256": "9cbcec00ccdebb8497efa04b881e42cfc7c32036d705ef83c7d1dd394a027250"
+      },
+      {
+        "bytes": 71,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/placement.tsv",
+        "sha256": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb"
+      },
+      {
+        "bytes": 5013,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/profile-serving.py",
+        "sha256": "0ff2c1ba7c58cd47715ff386e69400aecca9a1dd6cdb846a29c5d8b73af90b3a"
+      },
+      {
+        "bytes": 6138,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/resource-sampler.py",
+        "sha256": "31bbdb4340ecd3ec71a0a2906aadd378616b5ac0adf76e7e03adec823f532cfd"
+      },
+      {
+        "bytes": 1939,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/summarize.py",
+        "sha256": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c"
+      },
+      {
+        "bytes": 4223,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/topology-job.sh",
+        "sha256": "3ed5b8d049b437ffac4c9d939174c9aa51d8f6d9ffb25f18fba07d479916f56b"
+      },
+      {
+        "bytes": 3436,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/warm-topology.py",
+        "sha256": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d"
+      },
+      {
+        "bytes": 2654,
+        "job": "24927",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/submitted/worker.sh",
+        "sha256": "98da01d68b6c1e31e265d5dd9ec1b3ee3574800ddac53d9479149ee50afa20d4"
+      },
+      {
+        "bytes": 14532,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/artifact-manifest.json",
+        "sha256": "e3c4000b894b92097b98b34faefb558734d5801ef85c588e8b2df41c5b98a090"
+      },
+      {
+        "bytes": 4989,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/benchmark.sh",
+        "sha256": "c15334e482aa3b1860e247ba522d3cba200d7bb4bb60268a3f487c7b26187212"
+      },
+      {
+        "bytes": 52,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/client-versions.txt",
+        "sha256": "2079138cf34c2ab4ab9173fc256d2315baadbe431fb46bdf3b213e79c824ff0b"
+      },
+      {
+        "bytes": 3116,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/config.json",
+        "sha256": "cf40fb2c875c2c0e8f600d2b5e63429be5c58edba29d6d1619aaf625881b012d"
+      },
+      {
+        "bytes": 227995065,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/inputs.json",
+        "sha256": "51c49804d6bbb941ff87546b78d123c0a3670d08ee9add2ffcf557a4c528a5c1"
+      },
+      {
+        "bytes": 24958,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/logs/aiperf.log",
+        "sha256": "d8446ab1a8e8c8dd3fe40eabcdf805e9ebd09162f49f0098442d05c636900563"
+      },
+      {
+        "bytes": 1045,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phase_manifest.json",
+        "sha256": "a0eaf521cac0696deaa433b5ec3675af9581f94866cde3e3b24b88c1e2dfde60"
+      },
+      {
+        "bytes": 5670,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phases/profiling/profile_export_aiperf.csv",
+        "sha256": "b5f0555b9b91a7fd3a4dc4a348ed47b3d3796ee062c98a8b3e976c66f7832422"
+      },
+      {
+        "bytes": 20482,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phases/profiling/profile_export_aiperf.json",
+        "sha256": "559e89f8c298c360764c90fde7f322fdd9cd2ac6b8c8be66aaeba5765020bf23"
+      },
+      {
+        "bytes": 5688,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phases/warmup/profile_export_aiperf.csv",
+        "sha256": "5ec65fd2a4bf058e34ca0a076a941916648fcc4338f21c254e17e739756da762"
+      },
+      {
+        "bytes": 20534,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phases/warmup/profile_export_aiperf.json",
+        "sha256": "d14f05853d59058f9cbe0be590731bffb9e269c95c5789bb2ff91e409851c09d"
+      },
+      {
+        "bytes": 12912485,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/profile_export.jsonl",
+        "sha256": "1002776fa20739bb54fd235a9bac90e413ff6fed814f6ec6e464a868e622b8ed"
+      },
+      {
+        "bytes": 5782,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/profile_export_aiperf.csv",
+        "sha256": "1371b8e21480e4e68b0b07169de335064e19e52a967e28eb6d8573b2078cd06b"
+      },
+      {
+        "bytes": 39471,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/profile_export_aiperf.json",
+        "sha256": "2c6b55cfe55cce3bd3bc45030512ea718e9da3bd2d350530816a64c1fd7ed8e3"
+      },
+      {
+        "bytes": 10387,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/profile_export_console.txt",
+        "sha256": "f6bf058df8452a289b76a7612cdb2b0ad04a633231dbef3f2af360bf7e9fee9c"
+      },
+      {
+        "bytes": 47637,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/client.log",
+        "sha256": "f1203a922aeeb9514a5ecf97d511c74a88e5b58efc714a70c52b679b9d7525bd"
+      },
+      {
+        "bytes": 1400,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/connection-warmup.log",
+        "sha256": "3b392d92e89afa26d6d394c37aa29c7f2467295d3149e98c9aff6e7d18c5854f"
+      },
+      {
+        "bytes": 488127,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/decode-0.log",
+        "sha256": "52db149f1bcd9b987090ac9af85a6edc7d1efa1582cdbabc8a28f023bcff6577"
+      },
+      {
+        "bytes": 1909510,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-0-EP-0.trace.json.gz",
+        "sha256": "35c78d8ed217fb2e781a0b87cabce2d68c80e41764404d56bf29c37ccecc8973"
+      },
+      {
+        "bytes": 1910921,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-1-EP-1.trace.json.gz",
+        "sha256": "ed7c50f4107539261b580802a6a247a81a6d5a786ff67638902acb0053f4e7df"
+      },
+      {
+        "bytes": 1910331,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-2-EP-2.trace.json.gz",
+        "sha256": "461a3d4f0426fb48e61383ab2f3db50607b385e45b268e23eb0b9c0ba2abb5de"
+      },
+      {
+        "bytes": 1912619,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-3-EP-3.trace.json.gz",
+        "sha256": "f166b388ad1b5a27ffb29219bf7444649dc6acb7a6933242a4ddbeb6a9963b41"
+      },
+      {
+        "bytes": 1910275,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-4-EP-4.trace.json.gz",
+        "sha256": "9e1f5c6ecb7119f1420749d4406c2301393036c34a14f8553d7af23bf0ce5143"
+      },
+      {
+        "bytes": 1912044,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-5-EP-5.trace.json.gz",
+        "sha256": "114756afc188975276c01da414a5eeb7a8055edecafe66d5b90428f401ccd847"
+      },
+      {
+        "bytes": 1899412,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-6-EP-6.trace.json.gz",
+        "sha256": "ba8c2bb1496666c3714ec395d735c8749dc174973a48d42baf97b59ec7ecb9e1"
+      },
+      {
+        "bytes": 1909855,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-7-EP-7.trace.json.gz",
+        "sha256": "8f4cfd2afc7afe1a7957575ae02a9eaacabd21ca5ce1088e972f553a153fe1d8"
+      },
+      {
+        "bytes": 993048,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-0.trace.json.gz",
+        "sha256": "38830ca882cdf9a77408413484ba3795910b54fba2c860d6f4fd39403de25631"
+      },
+      {
+        "bytes": 990086,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-1.trace.json.gz",
+        "sha256": "2bc58cd18daf39a2c194bcf445ed3f29dbfa28739f304a0bd02c7b12422ceabe"
+      },
+      {
+        "bytes": 993318,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-2.trace.json.gz",
+        "sha256": "d9b611213e6ea3e2e757a3c3ff05f02fa7c8fe9132f0b24790ab58aa5dfa38eb"
+      },
+      {
+        "bytes": 993381,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-3.trace.json.gz",
+        "sha256": "7f91f413f533043c9df7c596a96e20ffcb65e80c84dcbcbaebd7b3a802ed5bde"
+      },
+      {
+        "bytes": 991089,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-0.trace.json.gz",
+        "sha256": "a535b2a1759eb229b0ac49f074a291d84fbaff70785bfa6e7dcb1897cd93f586"
+      },
+      {
+        "bytes": 990623,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-1.trace.json.gz",
+        "sha256": "235fd4c615460a0696286949ae0925fc31c97394a2016c36853660d9aba7800b"
+      },
+      {
+        "bytes": 990657,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-2.trace.json.gz",
+        "sha256": "a41f9b6decc98cbc14c533b51392c4bf85334ced62d727d21be6b07d35abf5ec"
+      },
+      {
+        "bytes": 990694,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-3.trace.json.gz",
+        "sha256": "da017722a8211b61ec200da581114ba25fa6f8388a0a5d86d5aa0f9d628d4e50"
+      },
+      {
+        "bytes": 1776,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/profile-control.json",
+        "sha256": "0d3e1aadb3014763d824ced8b1bd5344756f5ec9037178728c10070c485889cf"
+      },
+      {
+        "bytes": 361,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/protocol.json",
+        "sha256": "9b3fefd985bbfc404f7f4f68d2c214ca9f439aa58f0ec1a761183ded0a4f9d68"
+      },
+      {
+        "bytes": 790603,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile/requests.json",
+        "sha256": "f82e04f104379eb9ce894cfbc030eec529b3ed8ff554faeee8ee6acfe06fdbfc"
+      },
+      {
+        "bytes": 1573,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/diagnostic-profile.log",
+        "sha256": "d58d7bb17d9bb88a8518c4fb61f621afee2c55f781bb1f226827cd7594470a42"
+      },
+      {
+        "bytes": 122,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/endpoints.tsv",
+        "sha256": "25b3f774fc13fa820906311b74e5854541c23638e6b0334d38eaaf205af5879c"
+      },
+      {
+        "bytes": 342407,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/long-context-check.json",
+        "sha256": "24335f85612ea548154a410edd0e8ede3eecd66631a112c5921960b63827a0ae"
+      },
+      {
+        "bytes": 280,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/long-context-check.log",
+        "sha256": "b7ba6ac03d02687f08cd685aa25f7d6211cfcb15ade250905738364a42370fa5"
+      },
+      {
+        "bytes": 8550,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/output-smoke.json",
+        "sha256": "2efa6014352c57e7e4818c2be32b45153ba575a79a7f81bc893eca0091ca65f2"
+      },
+      {
+        "bytes": 117,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/output-smoke.log",
+        "sha256": "3cebce3d6749e598544409bdeb2616d3b1d3f2c5ce8d80db0e616918b6000c0b"
+      },
+      {
+        "bytes": 9534,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/pair-warmup/router-prefill-0-decode-0.log",
+        "sha256": "23218b929707cdfdcf9d037416abe313ca0c0501c7829b9bf614ccc3ef74d00e"
+      },
+      {
+        "bytes": 9534,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/pair-warmup/router-prefill-1-decode-0.log",
+        "sha256": "1c00c277ad5693552b0e03d3ba0a321c18c8e73f75ed77987340eaeb63e6657a"
+      },
+      {
+        "bytes": 84,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/pair-warmup.log",
+        "sha256": "bd1dab2252bd6f486189cb234ab8ebe428659041d02751ff9ccf6f0b3bd94ce2"
+      },
+      {
+        "bytes": 416,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/phase-markers.jsonl",
+        "sha256": "1716e74d64f00c91c6823e46be71c95300f50b8302dfb5fb7096687522ea5c5a"
+      },
+      {
+        "bytes": 474689,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/prefill-0.log",
+        "sha256": "a7692448a56fd05b32507bf4d1eff576ff7627556d38e0b6544b0581fea9aacf"
+      },
+      {
+        "bytes": 482063,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/prefill-1.log",
+        "sha256": "698ffa44fee5a22bab3c6f8017905cf3cf5d6c6066bf0e7de0836040a938acc3"
+      },
+      {
+        "bytes": 522167,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/decode-0-g4.jsonl",
+        "sha256": "9e81f62cf488d2d66ee493963b9516eab3fd1b8f419081e332a2caeb7d628062"
+      },
+      {
+        "bytes": 0,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/decode-0-sampler.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 321491,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/prefill-0-g1.jsonl",
+        "sha256": "02aa4ad5029658e6af429c5ac9f7d6a98f84874feffbb65fbdf008a7a0aec290"
+      },
+      {
+        "bytes": 0,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/prefill-0-sampler.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 321520,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/prefill-1-g1.jsonl",
+        "sha256": "47a49b98400b1d0a85da3eccb2805d3072e769af74307988c23e1060bd388cf4"
+      },
+      {
+        "bytes": 0,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/resource-telemetry/prefill-1-sampler.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 2748374,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/router.log",
+        "sha256": "2302105e7338a219c05164a873d1c50825d2f5929e65d7c1193fb5c49c53e04d"
+      },
+      {
+        "bytes": 1403,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/SHA256SUMS",
+        "sha256": "7f22a4129544c4f0b31c3475e16dffbd5dcd67e93cb2cfb423f81887645de52f"
+      },
+      {
+        "bytes": 4989,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/benchmark.sh",
+        "sha256": "c15334e482aa3b1860e247ba522d3cba200d7bb4bb60268a3f487c7b26187212"
+      },
+      {
+        "bytes": 3116,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/config.json",
+        "sha256": "cf40fb2c875c2c0e8f600d2b5e63429be5c58edba29d6d1619aaf625881b012d"
+      },
+      {
+        "bytes": 687,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/job.sbatch",
+        "sha256": "f42f8f92198d06274fc704fe35b350fa7b93ef726a0b5f498bc8d486d4ee5d16"
+      },
+      {
+        "bytes": 2358,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/long-context-check.py",
+        "sha256": "f45d700560ef1b3df7c76a2613180aeffcdb693490eb857ce7cbcf6acac81403"
+      },
+      {
+        "bytes": 122181,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/nixl-conn.py",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "bytes": 197,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/nixl-geometry-test.json",
+        "sha256": "9f326642493d44134a644dca347dc72fb829dee2800700a0eb58f7d68096e608"
+      },
+      {
+        "bytes": 13791,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/nixl-ondemand.patch",
+        "sha256": "43c35f6ac6d81a2dfe2a479618328a4f7c50beb68490d7e8ae762f188a77d1a8"
+      },
+      {
+        "bytes": 374,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/nixl-patch-metadata.json",
+        "sha256": "647744a4adb49cc307d147cf88c362f27674a545541295861a08ae0fbeb06d27"
+      },
+      {
+        "bytes": 2585,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/output-smoke.py",
+        "sha256": "39d0679427b13e8bafef55a2ba0c96c98298e0914322987cd27a01cf432c12f0"
+      },
+      {
+        "bytes": 577,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/phase-marker.py",
+        "sha256": "9cbcec00ccdebb8497efa04b881e42cfc7c32036d705ef83c7d1dd394a027250"
+      },
+      {
+        "bytes": 71,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/placement.tsv",
+        "sha256": "6ce06d164ceafead4e09c9a021ed3825e5146afe5f6db1af5332c9a046661bcb"
+      },
+      {
+        "bytes": 5013,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/profile-serving.py",
+        "sha256": "0ff2c1ba7c58cd47715ff386e69400aecca9a1dd6cdb846a29c5d8b73af90b3a"
+      },
+      {
+        "bytes": 6138,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/resource-sampler.py",
+        "sha256": "31bbdb4340ecd3ec71a0a2906aadd378616b5ac0adf76e7e03adec823f532cfd"
+      },
+      {
+        "bytes": 1939,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/summarize.py",
+        "sha256": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c"
+      },
+      {
+        "bytes": 4223,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/topology-job.sh",
+        "sha256": "3ed5b8d049b437ffac4c9d939174c9aa51d8f6d9ffb25f18fba07d479916f56b"
+      },
+      {
+        "bytes": 3436,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/warm-topology.py",
+        "sha256": "421abc16e83bee44c6134d1010ffb27ce0eda5742fce08a78d242fe620a8cb1d"
+      },
+      {
+        "bytes": 2682,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/submitted/worker.sh",
+        "sha256": "5de3c26c6f1d2d78108415a5b95b09305e2042cef8ece9184f5b72e289bc9f5c"
+      },
+      {
+        "bytes": 1939,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/summarize.py",
+        "sha256": "a33e22ccd9f229c0a9b3b1d1dde2e11447a3af16c83ad6d4d5fcdaa493576f5c"
+      },
+      {
+        "bytes": 572,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/summary.json",
+        "sha256": "3e18f8b49b478d5e666227212cbb71c042a2be94ba122a11b215db71dadeed04"
+      },
+      {
+        "bytes": 23,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/tokenizer-preflight.log",
+        "sha256": "03c470d25a3cd420b0728b4865dacf9d027292770346fe8be71f6aa2d0ca3124"
+      },
+      {
+        "bytes": 2682,
+        "job": "24928",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/worker.sh",
+        "sha256": "5de3c26c6f1d2d78108415a5b95b09305e2042cef8ece9184f5b72e289bc9f5c"
+      },
+      {
+        "bytes": 14532,
+        "job": "24928",
+        "kind": "derived run seal",
+        "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/artifact-manifest.json",
+        "sha256": "e3c4000b894b92097b98b34faefb558734d5801ef85c588e8b2df41c5b98a090"
+      }
+    ]
+  },
+  "raw_workload_gates": {
+    "24926": {
+      "configured_workload_validated": true,
+      "good_requests_from_raw_jsonl": 1840,
+      "joint_good_fraction_recomputed": 0.9881847475832438,
+      "phase_counts_from_raw_jsonl": {
+        "profiling": 1862,
+        "warmup": 931
+      },
+      "zero_error_and_cancellation_gate": true
+    },
+    "24927": {
+      "configured_workload_validated": true,
+      "good_requests_from_raw_jsonl": 1829,
+      "joint_good_fraction_recomputed": 0.9881145326850351,
+      "phase_counts_from_raw_jsonl": {
+        "profiling": 1851,
+        "warmup": 928
+      },
+      "zero_error_and_cancellation_gate": true
+    },
+    "24928": {
+      "configured_workload_validated": true,
+      "good_requests_from_raw_jsonl": 1837,
+      "joint_good_fraction_recomputed": 0.9881656804733728,
+      "phase_counts_from_raw_jsonl": {
+        "profiling": 1859,
+        "warmup": 927
+      },
+      "zero_error_and_cancellation_gate": true
+    }
+  },
+  "resource_observability": {
+    "roles": {
+      "decode-0-g4.jsonl": {
+        "gpu_uuid_count": 8,
+        "gpu_uuids": [
+          "GPU-1b420577-b96a-0c5b-861a-0b9827f50edb",
+          "GPU-24328ed5-f737-90bc-b77d-6aa81580038d",
+          "GPU-41acf189-a964-edfe-f34e-f3367ea95891",
+          "GPU-60d94661-1b30-2134-30f5-3033e0e37a7e",
+          "GPU-67695c27-0cd6-6242-11ba-6ae4d8cbc4ed",
+          "GPU-acc0f19f-9f9a-4b0e-0b2e-b5af98ad1d62",
+          "GPU-ba78cf90-19bb-9f3b-6f66-84546ef62efc",
+          "GPU-bc814ba6-bfcf-1689-4e99-41287382e9c9"
+        ],
+        "raw_samples_excluding_metadata": 121,
+        "windows": {
+          "aiperf_scored_phase_including_grace_drain": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 134334.0,
+                "mean": 134262.25,
+                "n": 200
+              },
+              "power.draw": {
+                "max": 479.65,
+                "mean": 465.57515,
+                "n": 200
+              },
+              "utilization.gpu": {
+                "max": 100.0,
+                "mean": 97.635,
+                "n": 200
+              },
+              "utilization.memory": {
+                "max": 47.0,
+                "mean": 43.195,
+                "n": 200
+              }
+            },
+            "sample_count": 25,
+            "server_http_status_counts": {
+              "200": 25
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 25
+              },
+              "inter_token_latency_seconds_count": {
+                "max": 554414.0,
+                "mean": 373182.08,
+                "samples": 25
+              },
+              "inter_token_latency_seconds_sum": {
+                "max": 8993.714114957023,
+                "mean": 6050.491042052396,
+                "samples": 25
+              },
+              "num_queue_reqs": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 25
+              },
+              "num_running_reqs": {
+                "max": 53.0,
+                "mean": 47.96,
+                "samples": 25
+              },
+              "num_used_tokens": {
+                "max": 245154.0,
+                "mean": 232931.44,
+                "samples": 25
+              },
+              "time_to_first_token_seconds_count": {
+                "max": 2786.0,
+                "mean": 955.24,
+                "samples": 50
+              },
+              "time_to_first_token_seconds_sum": {
+                "max": 1977.0299284150824,
+                "mean": 709.826794323437,
+                "samples": 50
+              },
+              "token_usage": {
+                "max": 0.11,
+                "mean": 0.1056,
+                "samples": 25
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593504988404785,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "configured_120s_measurement_send_interval": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 134334.0,
+                "mean": 134262.25,
+                "n": 192
+              },
+              "power.draw": {
+                "max": 479.65,
+                "mean": 470.10822916666666,
+                "n": 192
+              },
+              "utilization.gpu": {
+                "max": 100.0,
+                "mean": 100.0,
+                "n": 192
+              },
+              "utilization.memory": {
+                "max": 47.0,
+                "mean": 44.604166666666664,
+                "n": 192
+              }
+            },
+            "sample_count": 24,
+            "server_http_status_counts": {
+              "200": 24
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 24
+              },
+              "inter_token_latency_seconds_count": {
+                "max": 542263.0,
+                "mean": 365630.75,
+                "samples": 24
+              },
+              "inter_token_latency_seconds_sum": {
+                "max": 8804.720575836487,
+                "mean": 5927.856747348036,
+                "samples": 24
+              },
+              "num_queue_reqs": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 24
+              },
+              "num_running_reqs": {
+                "max": 53.0,
+                "mean": 49.958333333333336,
+                "samples": 24
+              },
+              "num_used_tokens": {
+                "max": 245154.0,
+                "mean": 242636.91666666666,
+                "samples": 24
+              },
+              "time_to_first_token_seconds_count": {
+                "max": 2750.0,
+                "mean": 936.7708333333334,
+                "samples": 48
+              },
+              "time_to_first_token_seconds_sum": {
+                "max": 1954.8798138899729,
+                "mean": 698.0727300949899,
+                "samples": 48
+              },
+              "token_usage": {
+                "max": 0.11,
+                "mean": 0.11,
+                "samples": 24
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593501844724312,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "full_client_interval_including_warmup_and_scored_phase": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 134334.0,
+                "mean": 134031.6590909091,
+                "n": 352
+              },
+              "power.draw": {
+                "max": 479.65,
+                "mean": 421.3767613636362,
+                "n": 352
+              },
+              "utilization.gpu": {
+                "max": 100.0,
+                "mean": 85.01988636363636,
+                "n": 352
+              },
+              "utilization.memory": {
+                "max": 47.0,
+                "mean": 37.44886363636363,
+                "n": 352
+              }
+            },
+            "sample_count": 44,
+            "server_http_status_counts": {
+              "200": 44
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 44
+              },
+              "inter_token_latency_seconds_count": {
+                "max": 554414.0,
+                "mean": 276492.2105263158,
+                "samples": 38
+              },
+              "inter_token_latency_seconds_sum": {
+                "max": 8993.714114957023,
+                "mean": 4482.140813502311,
+                "samples": 38
+              },
+              "num_queue_reqs": {
+                "max": 0.0,
+                "mean": 0.0,
+                "samples": 44
+              },
+              "num_running_reqs": {
+                "max": 54.0,
+                "mean": 41.43181818181818,
+                "samples": 44
+              },
+              "num_used_tokens": {
+                "max": 245523.0,
+                "mean": 201933.47727272726,
+                "samples": 44
+              },
+              "time_to_first_token_seconds_count": {
+                "max": 2786.0,
+                "mean": 660.8170731707318,
+                "samples": 82
+              },
+              "time_to_first_token_seconds_sum": {
+                "max": 1977.0299284150824,
+                "mean": 498.9371053591064,
+                "samples": 82
+              },
+              "token_usage": {
+                "max": 0.11,
+                "mean": 0.0918181818181818,
+                "samples": 44
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593508558375354,
+            "window_start_utc_ns": 1792593288658369785
+          }
+        }
+      },
+      "prefill-0-g1.jsonl": {
+        "gpu_uuid_count": 4,
+        "gpu_uuids": [
+          "GPU-2f69f949-296d-654f-c334-7014e8586a1e",
+          "GPU-309eb8b2-836c-10cc-819c-f17aadf8f9f8",
+          "GPU-c295f81a-26b6-1f8d-7b94-ce31bcb59f84",
+          "GPU-e6ed95f0-0e8f-f804-f205-aea9c25f1ac3"
+        ],
+        "raw_samples_excluding_metadata": 118,
+        "windows": {
+          "aiperf_scored_phase_including_grace_drain": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133478.0,
+                "mean": 133334.0,
+                "n": 96
+              },
+              "power.draw": {
+                "max": 694.35,
+                "mean": 677.4441666666664,
+                "n": 96
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 96.9375,
+                "n": 96
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 50.916666666666664,
+                "n": 96
+              }
+            },
+            "sample_count": 24,
+            "server_http_status_counts": {
+              "200": 24
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.00100150225338007,
+                "mean": 0.0007924829456255034,
+                "samples": 24
+              },
+              "num_queue_reqs": {
+                "max": 3.0,
+                "mean": 0.125,
+                "samples": 24
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 1.8333333333333333,
+                "samples": 24
+              },
+              "num_used_tokens": {
+                "max": 27094.0,
+                "mean": 21594.291666666668,
+                "samples": 24
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.017500000000000005,
+                "samples": 24
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593504988404785,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "configured_120s_measurement_send_interval": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133478.0,
+                "mean": 133334.0,
+                "n": 96
+              },
+              "power.draw": {
+                "max": 694.35,
+                "mean": 677.4441666666664,
+                "n": 96
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 96.9375,
+                "n": 96
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 50.916666666666664,
+                "n": 96
+              }
+            },
+            "sample_count": 24,
+            "server_http_status_counts": {
+              "200": 24
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.00100150225338007,
+                "mean": 0.0007924829456255034,
+                "samples": 24
+              },
+              "num_queue_reqs": {
+                "max": 3.0,
+                "mean": 0.125,
+                "samples": 24
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 1.8333333333333333,
+                "samples": 24
+              },
+              "num_used_tokens": {
+                "max": 27094.0,
+                "mean": 21594.291666666668,
+                "samples": 24
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.017500000000000005,
+                "samples": 24
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593501844724312,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "full_client_interval_including_warmup_and_scored_phase": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133478.0,
+                "mean": 133322.77272727274,
+                "n": 176
+              },
+              "power.draw": {
+                "max": 694.35,
+                "mean": 575.2271022727274,
+                "n": 176
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 78.98295454545455,
+                "n": 176
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 41.43181818181818,
+                "n": 176
+              }
+            },
+            "sample_count": 44,
+            "server_http_status_counts": {
+              "200": 44
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.3888888888888889,
+                "mean": 0.027704634686144067,
+                "samples": 44
+              },
+              "num_queue_reqs": {
+                "max": 12.0,
+                "mean": 0.3409090909090909,
+                "samples": 44
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 1.4545454545454546,
+                "samples": 44
+              },
+              "num_used_tokens": {
+                "max": 27094.0,
+                "mean": 16989.136363636364,
+                "samples": 44
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.013863636363636371,
+                "samples": 44
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593508558375354,
+            "window_start_utc_ns": 1792593288658369785
+          }
+        }
+      },
+      "prefill-1-g1.jsonl": {
+        "gpu_uuid_count": 4,
+        "gpu_uuids": [
+          "GPU-51c4a066-a47b-13f0-dd20-f99835f53077",
+          "GPU-c2400d2f-339f-7e31-8b2c-738ca1afe858",
+          "GPU-d9c437ee-d425-32bc-d1b2-41f6c77673b2",
+          "GPU-e1bd4c6e-5dd8-6830-4144-c6aa15c1b308"
+        ],
+        "raw_samples_excluding_metadata": 118,
+        "windows": {
+          "aiperf_scored_phase_including_grace_drain": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133476.0,
+                "mean": 133332.0,
+                "n": 100
+              },
+              "power.draw": {
+                "max": 698.81,
+                "mean": 671.7852999999997,
+                "n": 100
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 93.65,
+                "n": 100
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 49.22,
+                "n": 100
+              }
+            },
+            "sample_count": 25,
+            "server_http_status_counts": {
+              "200": 25
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.00100150225338007,
+                "mean": 0.0008397226237013485,
+                "samples": 25
+              },
+              "num_queue_reqs": {
+                "max": 22.0,
+                "mean": 0.88,
+                "samples": 25
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 1.96,
+                "samples": 25
+              },
+              "num_used_tokens": {
+                "max": 24573.0,
+                "mean": 22234.48,
+                "samples": 25
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.017600000000000005,
+                "samples": 25
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593504988404785,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "configured_120s_measurement_send_interval": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133476.0,
+                "mean": 133332.0,
+                "n": 96
+              },
+              "power.draw": {
+                "max": 698.81,
+                "mean": 687.7368749999996,
+                "n": 96
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 97.55208333333333,
+                "n": 96
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 51.270833333333336,
+                "n": 96
+              }
+            },
+            "sample_count": 24,
+            "server_http_status_counts": {
+              "200": 24
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.00100150225338007,
+                "mean": 0.0008381979633677563,
+                "samples": 24
+              },
+              "num_queue_reqs": {
+                "max": 22.0,
+                "mean": 0.9166666666666666,
+                "samples": 24
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 2.0416666666666665,
+                "samples": 24
+              },
+              "num_used_tokens": {
+                "max": 24573.0,
+                "mean": 23160.916666666668,
+                "samples": 24
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.018333333333333337,
+                "samples": 24
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593501844724312,
+            "window_start_utc_ns": 1792593381844724312
+          },
+          "full_client_interval_including_warmup_and_scored_phase": {
+            "gpu_metrics_pooled_over_gpu_samples": {
+              "memory.used": {
+                "max": 133476.0,
+                "mean": 133321.31818181818,
+                "n": 176
+              },
+              "power.draw": {
+                "max": 698.81,
+                "mean": 590.6842613636362,
+                "n": 176
+              },
+              "utilization.gpu": {
+                "max": 99.0,
+                "mean": 79.72727272727273,
+                "n": 176
+              },
+              "utilization.memory": {
+                "max": 53.0,
+                "mean": 41.91477272727273,
+                "n": 176
+              }
+            },
+            "sample_count": 44,
+            "server_http_status_counts": {
+              "200": 44
+            },
+            "sglang_sampled_gauges": {
+              "cache_hit_rate": {
+                "max": 0.3888888888888889,
+                "mean": 0.027723395793702577,
+                "samples": 44
+              },
+              "num_queue_reqs": {
+                "max": 22.0,
+                "mean": 0.5454545454545454,
+                "samples": 44
+              },
+              "num_running_reqs": {
+                "max": 3.0,
+                "mean": 1.6136363636363635,
+                "samples": 44
+              },
+              "num_used_tokens": {
+                "max": 27291.0,
+                "mean": 18230.727272727272,
+                "samples": 44
+              },
+              "token_usage": {
+                "max": 0.02,
+                "mean": 0.013863636363636368,
+                "samples": 44
+              }
+            },
+            "window_end_utc_ns_exclusive": 1792593508558375354,
+            "window_start_utc_ns": 1792593288658369785
+          }
+        }
+      }
+    },
+    "window_definitions": {
+      "aiperf_scored_phase_including_grace_drain": "phase_manifest start_ns through end_ns; includes up to the grace drain and is wider than the configured send interval.",
+      "configured_120s_measurement_send_interval": "phase_manifest start_ns through start_ns + configured profiling duration (120 s); exact fixed-duration measurement/send window.",
+      "full_client_interval_including_warmup_and_scored_phase": "Top-level phase markers; not scored-only."
+    }
+  },
+  "review_id": "h200-24928-recv2-review-20261021",
+  "scores": {
+    "24926": {
+      "aiperf_export_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/confirm/n60/artifacts/profile_export_aiperf.json",
+      "aiperf_goodput_requests_s": 14.95854332302464,
+      "cancelled_requests": 0,
+      "canonical_good_output_tokens_s_goodput_times_200": 2991.708664604928,
+      "concurrency": 60,
+      "errors": 0,
+      "good_request_fraction": 0.9881847475832438,
+      "good_requests_derived": 1840,
+      "itl_avg_ms": 14.935130278178505,
+      "itl_max_ms": 16.48298966834171,
+      "itl_p95_ms": 15.502419375879397,
+      "itl_p99_ms": 15.605167423266332,
+      "job": "24926",
+      "phase_manifest": {
+        "phases": [
+          {
+            "end_ns": 1792463234271673598,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/warmup/profile_export_aiperf.csv",
+            "metrics_json": "phases/warmup/profile_export_aiperf.json",
+            "phase_index": 0,
+            "phase_kind": "warmup",
+            "phase_name": "warmup",
+            "profiling_index": null,
+            "start_ns": 1792463171252662577,
+            "successful_request_count": 931,
+            "total_request_count": 931,
+            "was_cancelled": false
+          },
+          {
+            "end_ns": 1792463357285052709,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/profiling/profile_export_aiperf.csv",
+            "metrics_json": "phases/profiling/profile_export_aiperf.json",
+            "phase_index": 1,
+            "phase_kind": "profiling",
+            "phase_name": "profiling",
+            "profiling_index": 0,
+            "start_ns": 1792463234278422968,
+            "successful_request_count": 1862,
+            "total_request_count": 1862,
+            "was_cancelled": false
+          }
+        ],
+        "schema_version": 1
+      },
+      "phase_manifest_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/confirm/n60/artifacts/phase_manifest.json",
+      "raw_output_tokens_s": 3027.454705361091,
+      "requests": 1862.0,
+      "sla_pass_at_90_percent_gate": true,
+      "summary_good_request_fraction": 0.9881847475832438,
+      "summary_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24926/summary.json",
+      "ttft_avg_ms": 944.9908604468313,
+      "ttft_max_ms": 4507.712576,
+      "ttft_p95_ms": 1267.5006078499996,
+      "ttft_p99_ms": 3224.99604879
+    },
+    "24927": {
+      "aiperf_export_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/confirm/n60/artifacts/profile_export_aiperf.json",
+      "aiperf_goodput_requests_s": 14.856560752450388,
+      "cancelled_requests": 0,
+      "canonical_good_output_tokens_s_goodput_times_200": 2971.312150490078,
+      "concurrency": 60,
+      "errors": 0,
+      "good_request_fraction": 0.9881145326850351,
+      "good_requests_derived": 1829,
+      "itl_avg_ms": 14.9047577746041,
+      "itl_max_ms": 16.95937276884422,
+      "itl_p95_ms": 15.497510158291457,
+      "itl_p99_ms": 16.050104198492463,
+      "job": "24927",
+      "phase_manifest": {
+        "phases": [
+          {
+            "end_ns": 1792464632729365649,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/warmup/profile_export_aiperf.csv",
+            "metrics_json": "phases/warmup/profile_export_aiperf.json",
+            "phase_index": 0,
+            "phase_kind": "warmup",
+            "phase_name": "warmup",
+            "profiling_index": null,
+            "start_ns": 1792464569558409703,
+            "successful_request_count": 928,
+            "total_request_count": 928,
+            "was_cancelled": false
+          },
+          {
+            "end_ns": 1792464755855275961,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/profiling/profile_export_aiperf.csv",
+            "metrics_json": "phases/profiling/profile_export_aiperf.json",
+            "phase_index": 1,
+            "phase_kind": "profiling",
+            "phase_name": "profiling",
+            "profiling_index": 0,
+            "start_ns": 1792464632744683242,
+            "successful_request_count": 1851,
+            "total_request_count": 1851,
+            "was_cancelled": false
+          }
+        ],
+        "schema_version": 1
+      },
+      "phase_manifest_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/confirm/n60/artifacts/phase_manifest.json",
+      "raw_output_tokens_s": 3007.0198820744254,
+      "requests": 1851.0,
+      "sla_pass_at_90_percent_gate": true,
+      "summary_good_request_fraction": 0.9881145326850351,
+      "summary_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24927/summary.json",
+      "ttft_avg_ms": 975.8683128811454,
+      "ttft_max_ms": 4520.586119,
+      "ttft_p95_ms": 1344.8618735,
+      "ttft_p99_ms": 3364.5380364999996
+    },
+    "24928": {
+      "aiperf_export_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/profile_export_aiperf.json",
+      "aiperf_goodput_requests_s": 14.91753367240614,
+      "cancelled_requests": 0,
+      "canonical_good_output_tokens_s_goodput_times_200": 2983.5067344812282,
+      "concurrency": 60,
+      "errors": 0,
+      "good_request_fraction": 0.9881656804733728,
+      "good_requests_derived": 1837,
+      "itl_avg_ms": 14.922023826117151,
+      "itl_max_ms": 17.111895376884423,
+      "itl_p95_ms": 15.482799915075375,
+      "itl_p99_ms": 15.657017756683416,
+      "job": "24928",
+      "phase_manifest": {
+        "phases": [
+          {
+            "end_ns": 1792593381832566965,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/warmup/profile_export_aiperf.csv",
+            "metrics_json": "phases/warmup/profile_export_aiperf.json",
+            "phase_index": 0,
+            "phase_kind": "warmup",
+            "phase_name": "warmup",
+            "profiling_index": null,
+            "start_ns": 1792593318508845516,
+            "successful_request_count": 927,
+            "total_request_count": 927,
+            "was_cancelled": false
+          },
+          {
+            "end_ns": 1792593504988404785,
+            "error_request_count": 0,
+            "error_summary": [],
+            "metrics_csv": "phases/profiling/profile_export_aiperf.csv",
+            "metrics_json": "phases/profiling/profile_export_aiperf.json",
+            "phase_index": 1,
+            "phase_kind": "profiling",
+            "phase_name": "profiling",
+            "profiling_index": 0,
+            "start_ns": 1792593381844724312,
+            "successful_request_count": 1859,
+            "total_request_count": 1859,
+            "was_cancelled": false
+          }
+        ],
+        "schema_version": 1
+      },
+      "phase_manifest_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/confirm/n60/artifacts/phase_manifest.json",
+      "raw_output_tokens_s": 3019.204871674422,
+      "requests": 1859.0,
+      "sla_pass_at_90_percent_gate": true,
+      "summary_good_request_fraction": 0.9881656804733728,
+      "summary_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24928/summary.json",
+      "ttft_avg_ms": 957.2471127955889,
+      "ttft_max_ms": 4514.045484,
+      "ttft_p95_ms": 1195.1166672999998,
+      "ttft_p99_ms": 3231.1814046599998
+    }
+  },
+  "state": "LOCAL_PROTOCOL_SLA_OUTPUT_PASS",
+  "telemetry_window_correction": "Outer phase-marker span includes warmup and grace drain; separate phase-manifest and exact configured 120-second measurement windows are explicitly recorded. This correction changes only the review interpretation, not raw run artifacts or the terminal seal.",
+  "validation_gates": {
+    "accuracy_verified": false,
+    "core_point": {
+      "concurrency": 60,
+      "job": "24928",
+      "metrics": {
+        "good_tokens_s": 2983.5067344812282,
+        "itl_ms": 14.922023826117151,
+        "phases": [
+          {
+            "elapsed_s": 63.323721449,
+            "kind": "warmup",
+            "requests": 927
+          },
+          {
+            "elapsed_s": 123.143680473,
+            "kind": "profiling",
+            "requests": 1859
+          }
+        ],
+        "sla_fraction": 0.9881656804733728,
+        "sla_pass": true,
+        "ttft_ms": 957.2471127955889
+      },
+      "resolved_server_args_roles": [
+        "decode-0",
+        "prefill-0",
+        "prefill-1"
+      ],
+      "seal_sha256": "e3c4000b894b92097b98b34faefb558734d5801ef85c588e8b2df41c5b98a090",
+      "sealed_files": 77,
+      "short_output_comparison": {
+        "accuracy_verified": false,
+        "baseline": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/23146/output-diagnostic.jsonl",
+        "baseline_sha256": "19acdf51da0824d670b32c63f729cbe4a4082d0b5f83df336552eb8a40b9c106",
+        "candidate_passed": 7,
+        "candidate_total": 8,
+        "known_baseline_failed_cases": [
+          "reverse"
+        ],
+        "new_failed_cases": [],
+        "policy": "research-baseline-v1",
+        "reason": "No newly failed cases versus the independent baseline",
+        "research_eligible": true,
+        "scope": "Eight-case non-regression diagnostic, not organiser accuracy"
+      }
+    },
+    "helper_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/review-wave10.py",
+    "long_context_gate": {
+      "accuracy_verified": false,
+      "errors": 0,
+      "failed_cases": [],
+      "input_tokens": [
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3839,
+        3842,
+        3842
+      ],
+      "passed": 12,
+      "state": "PASSED",
+      "total": 12
+    },
+    "scheduler_refreshed_by_this_review": false,
+    "state": "LOCAL_PROTOCOL_SLA_OUTPUT_PASS",
+    "submission_authorized": false
+  }
+}
