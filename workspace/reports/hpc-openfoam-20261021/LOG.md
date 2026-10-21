@@ -318,3 +318,16 @@ scheduler state or call it full CPU preparation. Estimated base 0.142222 SU is
 not posted billing; retain 8 SU maximum. Derive only header normalization;
 retain every other gate. Future conditional init+solve uses 35 minutes at128
 cores (74.666667 SU) to keep all conservative maxima under the100-SU plan.
+
+## Corrected CPU preparation receipt — 2026-10-21T14:16:41.461114+00:00
+
+Separately back up the precise metadata comparison repair, deploy fresh root
+and verify every payload hash. Under the CPU lock refresh balance/CPU queue
+and read-only combined PBS capacity, retain prior maxima and reserve 8 SU.
+One qsub returns 25905006.pbs101 at 14:15:25.657039 UTC. Same 32 CPUs, 96 GB,
+one serial process, zero GPUs and maximum 900 s; target decomposition remains
+128 ranks. Combined retained maxima 18.666667 SU, plus conditional later
+128-CPU/35-minute solve 74.666667 SU gives 93.333334 SU below the 100-SU plan.
+No AI work or budget changes. Next inspect actual mesh identity and prep
+outputs; submission alone is not a CPU baseline. The full initialization
+chain is still required after a valid cut.
