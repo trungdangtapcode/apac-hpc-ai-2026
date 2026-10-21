@@ -219,3 +219,19 @@ text before more credit. Initial collector uses unsupported capture_output
 on Python 3.6; correct to PIPE/universal_newlines, no solver affected. Future
 CPU reservations use their own lock/ledger and remain separate from AI project
 59010042. No qsub acceptance or CPU result follows from this access checkpoint.
+
+## Recovered historical CPU failures — 2026-10-21T13:50:37.728604+00:00
+
+Before new CPU spending, discover the account's existing October 9–10 work
+under scratch/apac2026/hpc. Seal 500 safe text files and compare numerical
+settings against the pinned case. Ten run directories are not accepted Basic
+measurements: no retained completed simpleFoam Average/End, and earlier
+fixedIter files contain unsupported twoStageGaussSeidel. Later official run
+25740797 reaches all prep stages but its zero-step solver log ends at native
+timing-function compilation. No terminal accounting/compiler stderr proves
+why; do not invent timeout/OOM or compiler failure. Original author and
+reasoning are unknown. Preserve every branch. The old wrapper also ignores
+nonzero native exits after End, so do not reuse it. Next test the unchanged
+mandatory coded timing function on a tiny native tutorial within a small CPU
+reservation, then prepare a fresh Basic case only if valid. Full raw text and
+machine-readable per-run assessment: nscc-cpu-history-20261021.

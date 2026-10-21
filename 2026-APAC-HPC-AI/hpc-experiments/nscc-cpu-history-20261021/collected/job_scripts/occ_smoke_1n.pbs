@@ -1,0 +1,12 @@
+#!/bin/bash
+# Preflight only; this 3-step job is not a scored competition result.
+#PBS -N tripleu-occ-smoke
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb
+#PBS -l place=excl
+#PBS -l walltime=00:20:00
+#PBS -j oe
+
+export NODES=1 NPROCS=128 END_TIME=3 DECOMP_METHOD=scotch HIER_SHAPE="16 4 2"
+bash "$HOME/scratch/apac2026/hpc/job_scripts/run_occ_common.sh"
