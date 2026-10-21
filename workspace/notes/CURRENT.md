@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T03:48:12.009783+00:00. Scheduler and credit observations below have explicit dates. [Earlier handoff](history/20261021-before-component-handoff.md) is historical.
+Updated 2026-10-21T04:47:23.678871+00:00. Scheduler and credit observations below have explicit dates. [Earlier handoff](history/20261021-before-component-handoff.md) is historical.
 
 ## Retained serving results
 
@@ -13,9 +13,9 @@ Repeated H200 N60 is about 2989–2990. Keep H100/H200 series separate. These ar
 
 **Official accuracy at 99% of reference remains unverified.** Rank by exported AIPerf goodput × 200, fixed 4000/200 tokens, seed 2026 and cold prefixes. Require joint TTFT ≤ 3000 ms / request-mean ITL ≤ 20 ms and good fraction ≥ 0.90 including errors. [Workload and units](official-goodput-clarification-20261020.md).
 
-## Actual queues at 2026-10-21T03:48:12.009783+00:00
+## Actual queues at 2026-10-21T04:47:23.678871+00:00
 
-- H200 **24928 / 24962 / 24964 / 24965 / 25051** remain pending for Resources. Preserve all five positions; no sixth job. They cover receive interval 2, the N62 repeat, the observed prefill backend pair and actual H200 worker locality.
+- H200 **24928 / 24962 / 24964 / 24965 / 25051** remain pending for Priority. Preserve all five positions; no sixth job. They cover receive interval 2, the N62 repeat, the observed prefill backend pair and actual H200 worker locality.
 - H100 **222729.pbs111 is terminal F / exit 1**, one GPU, actual walltime 64 seconds / estimated 2.275556 SU. Gateway and imports pass; device identity assertion fails before raw values are recorded. It is a component gate, not a full model benchmark. [Own queue snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/live-final.json).
 - Earlier H100 222551/222552 and 222721/222722 are completed; exit status alone is not a performance/quality PASS. Their reviewed outcomes follow.
 
@@ -37,11 +37,11 @@ The same baseline short mismatch persists; long checks are 12/12, scored request
 
 The public draft ff0f0c09 is staged and digest-verified on both sites, outside Git. Its size is 1145943008 bytes and SHA256 bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86. Only recovery metadata is captured. The draft-only architecture adapter changes no official target file. Synthetic gateway IDs are never counted as model output; the official AIPerf streaming chat command remains unchanged.
 
-222729 is reviewed in [the terminal report](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/REVIEW.md). Next repair diagnostic identity validation without assuming formatting is the cause. A complete component PASS only permits preparing the next bounded integration stage: real draft class/parameter loading, feature layers, TP4-to-TP8 state/KV transfer, kernels/graphs, memory and stable target-only versus speculative actual token IDs. A real response must expose every output ID, including its first token; text equality is insufficient. Only a valid useful unranked load screen warrants a full scoring pair. No full-target speculative GPU job exists yet; keep native verification intact. Preserve all failures and repair derived payloads rather than mutating submitted files.
+222729 is reviewed in [the terminal report](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/REVIEW.md). Strict diagnostic identity repair is submitted as 222749; do not assume formatting is the cause before its raw evidence. A complete component PASS only permits preparing the next bounded integration stage: real draft class/parameter loading, feature layers, TP4-to-TP8 state/KV transfer, kernels/graphs, memory and stable target-only versus speculative actual token IDs. A real response must expose every output ID, including its first token; text equality is insufficient. Only a valid useful unranked load screen warrants a full scoring pair. No full-target speculative GPU job exists yet; keep native verification intact. Preserve all failures and repair derived payloads rather than mutating submitted files.
 
 ## Credit and reservations
 
-Fresh locked pre-submit ledger for 222729: Used **43575.143 SU**, Balance **20416.324 SU**, In Doubt **8.533 SU**. The CPU pair's 938.098 SU and first component's 3.733 SU reconcile. The second component's estimated 3.164444 SU is unposted; retain its full maximum plus 222729's maximum, total **17.066667 SU**. Conservative internal headroom is **7407.790333 SU**, unchanged **51000 cap / 13000 buffer**. [Structured queue/accounting/ledger and proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/reconciliation.json). Correction: the preceding handoff incorrectly transcribed Balance/In Doubt; the raw pre-submit response is authoritative. Refresh and uniquely reconcile before further spending; Balance already excludes In Doubt.
+Fresh locked 2026-10-21T04:46:42.173024+00:00 ledger: Used **43580.583 SU**, Balance **20419.417 SU**, In Doubt **0.000 SU**. 222722/222729 charges uniquely reconcile to 5.440 SU. New strict GPU identity component **222749.pbs111** is submitted, one H100 / four minutes / maximum 8.533334 SU; conservative internal headroom **7410.883667 SU** under unchanged **51000 cap / 13000 buffer**. No target inference or performance claim. [Receipt and scope](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-uuid-20261021/RESULTS.md). The earlier Balance/In Doubt transcription was corrected against raw evidence; refresh ledger before further spending.
 
 The submission adapter now parses only the independent qstat -u response, avoiding wrapped historical argument lines. Its initial false-positive guard failed before reservation/qsub and is preserved. Upload resumption required reverified manifests and proof of no uncertain submission. No duplicate allocation occurred.
 
