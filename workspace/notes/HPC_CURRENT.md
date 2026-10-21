@@ -67,7 +67,10 @@ No solver result or Cd exists yet. **2293753: COMPLETED / exit 0:0**, 103
 seconds on iris031/56 ranks. All three native initialization logs, flags,
 56-processor identity, READY and unchanged dictionaries pass the sealed
 review. Batch MaxRSS 85.6927 GiB; mandatory stage clocks 9/71/8 seconds.
-Promote to frozen 04-simpleFoam (40 steps, maximum 40 minutes). Keep at most one active
+**2293754** accepted 13:45:14 UTC and its retained queue shows RUNNING on
+iris031: frozen 04-simpleFoam, 56 MPI/40 steps/maximum 40 minutes. Collect
+terminal solver log, coefficient.dat, step timing, invariants and accounting
+before claiming a result. Keep at most one active
 Iris practice allocation. Full mesh content hash and billed Iris SU remain
 uncollected; no national CPU/GPU project reservation.
 

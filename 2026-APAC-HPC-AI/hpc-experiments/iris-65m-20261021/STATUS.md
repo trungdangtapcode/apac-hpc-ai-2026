@@ -58,3 +58,10 @@ All complete-chain preparation gates now pass; promote to the unchanged
 40-step solver payload. Reproduce the review with python3 review-init.py.
 The long gap between jobs was time without an active Codex turn; no background
 agent was enabled. No solver result yet at this review checkpoint.
+
+## First full solver submitted
+
+2293754 accepted 2026-10-21T13:45:14.589077+00:00; retained queue shows RUNNING
+on iris031. One node/56 MPI/40 steps, maximum 2400 seconds, unchanged organiser
+04 payload and accepted prepared split. Receipt is solver40-submission.json.
+No solver completion, Cd or score is established at submission time.

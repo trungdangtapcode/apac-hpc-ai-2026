@@ -193,3 +193,14 @@ Next submit the frozen one-node/56-rank/40-step solver, maximum 40 minutes,
 using the unchanged prepared tree and fresh solver job directory. No change to
 AI work, source math, mesh, function objects or national allocation follows
 from Iris practice. Preserve separate reviewed-init and submission checkpoints.
+
+## First full Iris solver allocation — 2026-10-21T13:46:39.429175+00:00
+
+After separately backing up accepted init evidence, confirm frozen 04 hash,
+READY, clean terminal predecessor 2293753 and all three logs, plus empty shared
+account queue. Submit exactly once: 2293754 accepted 13:45:14.589077 UTC, then
+RUNNING on iris031, one node/56 MPI/40 steps, maximum 2400 seconds. This keeps
+mandatory preparation intact and stores solve controls/logs in a fresh job
+folder. No new split, mathematical change or national project expenditure.
+Next inspect output/Cd/step timing and resource accounting; no completed result
+or comparison is claimed at this definite receipt checkpoint.
