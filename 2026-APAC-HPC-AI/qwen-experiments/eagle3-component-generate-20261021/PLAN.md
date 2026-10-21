@@ -1,0 +1,11 @@
+# Derived /generate diagnostic after the filtered chat extension
+
+Job 222721 proves that the actual pinned chat request schema drops return_token_ids and return_prompt_token_ids. It stops before native config/tensor checks. Preserve that failed payload. This derived component gate changes the unranked observation route to **/generate with return_logprob and explicit input_ids**. The official streaming /v1/chat/completions benchmark is unchanged, and no worker endpoint is bypassed.
+
+The real native PD gateway runs with two explicit synthetic workers. Require both dispatched input-ID arrays and logprob flags, a correctly merged input-logprob ID sequence [1, 2], and unchanged decode output-logprob IDs [3, 4]. Native source merge_logprobs_in_json appends only input-logprob arrays, preserving decode output metadata. The synthetic checks do not prove that real model responses include every output ID; that later gate must match actual output counts and stable greedy references.
+
+If forwarding passes, run the exact unchanged native ModelConfig/registry and pinned real-tensor/token-map checks from the preceding payload. No draft class construction, target weights, model inference, PD KV transfer, official accuracy or serving performance is tested. Use one container invocation for all steps to avoid repeated Singularity image extraction. Request one H100 for four minutes, maximum 8.533334 SU.
+
+CPU validation covers syntax, exact unchanged component bytes, audited source routes and frozen payload checksums. Real image compatibility remains unverified until terminal capture. Refuse unchanged retries, stop on a failed component and preserve every missing gate honestly. Only a complete component PASS justifies preparing bounded full-target/PD integration.
+
+Use the corrected submission adapter: separate qstat -u output from historical argument lines, include 222721 in fresh cost reconciliation, reserve under budget.lock and record a definite receipt. Preserve all five H200 queue positions, existing spend cap and buffer. Back up preparation and actual submission separately. Public draft bytes stay in the excluded cache; capture only recovery metadata. No background AI, schedule, authentication, submission edit or organiser communication.
