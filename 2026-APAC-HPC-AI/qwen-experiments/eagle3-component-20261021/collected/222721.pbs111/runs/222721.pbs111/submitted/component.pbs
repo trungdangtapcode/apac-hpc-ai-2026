@@ -1,0 +1,25 @@
+#!/bin/bash -l
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-eagle3-components
+#PBS -l select=1:ngpus=1:ncpus=14:mem=235gb
+#PBS -l walltime=00:04:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+sha256sum --check SHA256SUMS
+art="$PBS_O_WORKDIR/runs/$PBS_JOBID"
+mkdir -p "$art/submitted"
+cp component.py gateway-echo.py router-preflight.py expected-sources.json component.pbs SHA256SUMS "$art/submitted/"
+module load singularity/4.1.5
+image=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+draft=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09
+[[ ${CUDA_VISIBLE_DEVICES:-} == GPU-* && ${CUDA_VISIBLE_DEVICES:-} != *,* ]]
+private_tmp=$(mktemp -d "${TMPDIR:-/tmp}/ap42-eagle3.XXXXXXXX")
+run_container() {
+  timeout --signal=TERM --kill-after=10s 180s singularity exec --nv --cleanenv --no-home     --bind "/scratch:/scratch,$PBS_O_WORKDIR:$PBS_O_WORKDIR,$private_tmp:/tmp" "$image" /usr/bin/env     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin     LD_LIBRARY_PATH=/.singularity.d/libs:/usr/local/nvidia/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib64:/usr/local/lib     CUDA_VISIBLE_DEVICES="$CUDA_VISIBLE_DEVICES" PBS_JOBID="$PBS_JOBID"     OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 TOKIO_WORKER_THREADS=1 RAYON_NUM_THREADS=1     HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 "$@"
+}
+# Validate the exact installed gateway binary before synthetic routing.
+run_container python3 "$art/submitted/router-preflight.py" round_robin >"$art/router-preflight.log" 2>&1
+run_container python3 "$art/submitted/gateway-echo.py" --out "$art/gateway" >"$art/gateway.log" 2>&1
+run_container python3 "$art/submitted/component.py" --draft "$draft" --out "$art/component.json" >"$art/component.log" 2>&1

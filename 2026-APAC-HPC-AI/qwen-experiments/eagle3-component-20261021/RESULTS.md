@@ -1,3 +1,7 @@
+# Terminal component failure — 2026-10-21T03:38:33.846787+00:00
+
+**222721 F / exit 1**, 105 seconds / estimated 3.733333 SU. The actual native router removes the requested chat token-ID extensions from both dispatched bodies. The probe stops correctly before native config/tensor checks or any model loading. [Raw evidence, interpretation and distinct followup](REVIEW.md). The earlier submission snapshot below is historical.
+
 # EAGLE3 component gate submitted — 2026-10-21T03:35:44.712906+00:00
 
 Definite job **222721.pbs111**, scheduler state **R** at the post-submit check. One H100 / four minutes / maximum 8.533334 SU. [Receipt](pbs-receipt.json), [raw scheduler state](post-submit.txt), [plan and limits](PLAN.md). No target weights are loaded, no draft model is constructed and no model output/performance result exists at this checkpoint.

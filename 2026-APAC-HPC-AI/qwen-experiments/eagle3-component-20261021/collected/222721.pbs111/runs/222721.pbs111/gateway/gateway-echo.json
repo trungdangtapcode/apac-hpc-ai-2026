@@ -1,0 +1,104 @@
+{
+  "scope": "Actual native gateway, synthetic workers only; no model or KV transfer",
+  "command": [
+    "python3",
+    "-m",
+    "sglang_router.launch_router",
+    "--pd-disaggregation",
+    "--prefill-policy",
+    "round_robin",
+    "--prefill",
+    "http://127.0.0.1:33467",
+    "19999",
+    "--decode",
+    "http://127.0.0.1:44905",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "38769",
+    "--disable-health-check",
+    "--disable-circuit-breaker",
+    "--worker-startup-timeout-secs",
+    "30"
+  ],
+  "passed": false,
+  "received": [
+    {
+      "role": "prefill",
+      "path": "/v1/chat/completions",
+      "body": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Synthetic gateway field probe"
+          }
+        ],
+        "model": "qwen",
+        "logprobs": false,
+        "max_completion_tokens": 2,
+        "stream": false,
+        "temperature": 0.0,
+        "no_stop_trim": false,
+        "ignore_eos": false,
+        "continue_final_message": false,
+        "skip_special_tokens": true,
+        "separate_reasoning": true,
+        "stream_reasoning": true,
+        "return_hidden_states": false,
+        "bootstrap_host": "127.0.0.1",
+        "bootstrap_port": 19999,
+        "bootstrap_room": 1836173467201919450
+      }
+    },
+    {
+      "role": "decode",
+      "path": "/v1/chat/completions",
+      "body": {
+        "messages": [
+          {
+            "role": "user",
+            "content": "Synthetic gateway field probe"
+          }
+        ],
+        "model": "qwen",
+        "logprobs": false,
+        "max_completion_tokens": 2,
+        "stream": false,
+        "temperature": 0.0,
+        "no_stop_trim": false,
+        "ignore_eos": false,
+        "continue_final_message": false,
+        "skip_special_tokens": true,
+        "separate_reasoning": true,
+        "stream_reasoning": true,
+        "return_hidden_states": false,
+        "bootstrap_host": "127.0.0.1",
+        "bootstrap_port": 19999,
+        "bootstrap_room": 1836173467201919450
+      }
+    }
+  ],
+  "response": {
+    "id": "synthetic-echo",
+    "object": "chat.completion",
+    "created": 0,
+    "model": "qwen",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "SYNTHETIC_ECHO"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 2,
+      "completion_tokens": 2,
+      "total_tokens": 4
+    }
+  },
+  "request_fields_forwarded": false,
+  "response_ids_preserved": false
+}

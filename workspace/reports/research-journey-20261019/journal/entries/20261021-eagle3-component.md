@@ -11,3 +11,9 @@
 ## Definite submission — 2026-10-21T03:35:44.712906+00:00
 
 **222721.pbs111**, initial state R, one H100 / four minutes / maximum 8.533334 SU. Fresh empty own queue and ledger were checked under lock; reservation leaves 7420.056667 SU internal headroom. The first adapter attempt was definitively pre-qsub/pre-reservation and misparsed a wrapped historical argument. Corrected structured command outputs and a verified immutable upload allow safe continuation without uncertain retries. Source payload and acceptance gates are unchanged. No component measurement yet. Preserve and push this receipt separately, then inspect actual terminal logs.
+
+## Actual component failure — 2026-10-21T03:38:33.846787+00:00
+
+222721 is F / exit 1, 105 seconds / estimated 3.733333 SU before posted-ledger reconciliation. Sealed evidence and exact native binary guards show that the router drops both requested chat token-ID extensions before forwarding to prefill/decode. HTTP 200 does not make the failed diagnostic pass. The synthetic workers deliberately omit IDs when the flags disappear; native config/tensor gates were not reached, and no model was loaded. [Full review and next bounded hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-20261021/REVIEW.md).
+
+Close the unsupported chat-extension observation route without changing frozen payloads. Prepare a distinct /generate+return_logprob synthetic route probe using explicit input IDs, merged input-logprob IDs and preserved decode output-logprob IDs, then native config/tensor checks. Keep the official scored endpoint/command unchanged. Use one container invocation in the derived wrapper to reduce repeated extraction; require fresh locked credit/reservation. No real greedy equality, speculative speedup or full accuracy claim.
