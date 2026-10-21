@@ -1,12 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T19:40:11.178495+00:00. This handoff belongs to the HPC session; GPU/Qwen belongs to the separate GPU chat. Follow [session ownership](SESSION_OWNERSHIP.md). Vietnamese chat only, English artifacts, no schedules or background Codex. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
+Updated 2026-10-21T19:41:37.780529+00:00. This handoff belongs to the HPC session; GPU/Qwen belongs to the separate GPU chat. Follow [session ownership](SESSION_OWNERSHIP.md). Vietnamese chat only, English artifacts, no schedules or background Codex. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
 
 ## Current result and next decision
 
 **25907325.pbs101: F / exit 0**, same-node H→S pair, 128 ranks, 40 steps each. Hierarchical **14.7872238123 s/step**, Scotch **14.6402329083 s/step**: observed **0.994% reduction**, not a confirmed win. Scotch step 9 was **21.120703 s**, and the native timer asks for at least 50 samples while there are 39. All fixed-work/output/exit and unchanged-zero-field gates pass. Whole allocation **1373 s / 22 min 53 s**, estimated **48.817778 SU**. One-node screen only, no four-node score. [Full inspection and decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/RESULTS.md).
 
-Next native NUMA-aware Scotch prep, already frozen and graph-parser validated on 256 actual boundary files. Must check fresh queue/balance and reserve its full 8-SU maximum under CPU lock before submission. No active CPU job at reconciliation. A full reverse-order pair cannot fit the remaining first-wave maximum; no cap increase.
+**Active: 25907688.pbs101: R** at 2026-10-21T19:40:48.044548+00:00, x1001c0s3b0n0, native NUMA-aware Scotch prep. Domains (8 16), synthetic 10:1 weights; 32 allocated CPUs / serial1 / 96 GB / no GPU / max 15 min / 8 SU. Fresh split plus complete mesh and processor-boundary graph gates, no solver claim. [Receipt and next steps](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/STATUS.md). Next collect terminal evidence and run its review.py; apply preregistered graph filter. One CPU allocation active, no blind retries or underfunded solver promotion.
 
 ## Accepted CPU baseline and new partition evidence
 
@@ -16,7 +16,7 @@ Next native NUMA-aware Scotch prep, already frozen and graph-parser validated on
 
 ## Budget and queue rules
 
-CPU-only project **59000042**, separate from AI **59010042**. All seven recorded allocations terminal; estimates total **79.995556 SU**. Stale project amount report still shows Used 250.033 / Balance 29749.967 / In Doubt zero, delta **27.879 SU**; no individual posted charge is known. Locked reconciliation conservatively uses **81 SU consumed**, outstanding zero, leaving **19 / 100 SU** before the next reservation. Timestamp/refresh limitations remain in the ledger evidence.
+CPU-only project **59000042**, separate from AI **59010042**. All seven recorded allocations terminal; estimates total **79.995556 SU**. Stale project amount report still shows Used 250.033 / Balance 29749.967 / In Doubt zero, delta **27.879 SU**; no individual posted charge is known. Locked reconciliation conservatively uses **81 SU consumed**, new outstanding prep maximum **8 SU**, total planning commitment **89 / 100 SU**, leaving **11 SU** unreserved. Timestamp/refresh limitations remain in the ledger evidence.
 
 One own CPU allocation active at a time, combined own PBS jobs at most three. Check CPU queue and inspect AI only read-only for combined capacity. Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Schema 2 checks consumed + retained outstanding + new maximum. Preserve queue positions and original requested maxima as provenance. No grant/cap increase, blind duplicates, AI changes or schedules.
 
@@ -38,6 +38,6 @@ Checkpoint selected safe paths via /tmp/apac-hpc-checkpoint.py, serialized share
 
 Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.
 
-## Prepared next hypothesis, not submitted
+## Native NUMA hypothesis now running
 
-Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep, contingent on terminal pair review and locked reconciliation within 100 SU. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).
+Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep; terminal pair review and locked reconciliation passed before 25907688 submission. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).
