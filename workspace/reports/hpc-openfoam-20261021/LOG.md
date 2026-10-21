@@ -365,3 +365,17 @@ transcripts. CURRENT is a shared routing index and AI_CURRENT is the GPU-owned
 handoff. Correct the shared ownership note to assign by role, not declare every
 reader HPC; keep all GPU sources/queues/ledger untouched. Selected safe backup
 is separate from the already retained HPC run evidence.
+
+## CPU preparation accepted and duration explanation — 2026-10-21T14:33:21.810477+00:00
+
+The owner asks progress and minutes per job. Fresh history shows 25905006
+F/exit0, 187 seconds, versus 900 seconds requested; queue wait about223 seconds.
+Seal162 selected text files and independently review hashes, native DP/build,
+128 partitions and total65,334,765 cells, full official archive/member identity,
+unchanged dictionaries and field gates. All pass. MaxRSS30.3228GiB, cput155s,
+CPUpercent71 are coarse accounting; no hardware bandwidth/locality inference.
+Estimated base1.662222SU is not separately posted charging; retain the maximum.
+Explain actual runtime, requested cap and queue separately in JOB_DURATIONS.md.
+Iris solver took925s and the full split chain1189s; no direct site speedup is
+claimed. Next independently freeze a 128-rank full init+40-step solve capped at
+35 minutes within the existing100-SU envelope. No GPU research or AI mutation.

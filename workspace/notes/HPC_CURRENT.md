@@ -37,13 +37,14 @@ In Doubt 0 SU at 1 SU/core-hour; refresh before spending. Native openfoam/2512,
 CPU normal routing and the official shared mesh are verified. The first CPU
 wave has a 100-SU planning ceiling and at most one active CPU allocation.
 
-**25905006.pbs101** accepted 14:15:25 UTC; retained 14:16:41 UTC snapshot is
-**Q in qdev**. Fresh hierarchical N128 (16 4 2) mesh identity/cut/restore only:
-32 CPUs/96 GB/one serial process/no GPU/maximum 15 minutes/maximum 8 SU. Native header
-comparison is precisely repaired; all official mesh/work checks remain.
-[Payload and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
-No CPU prepared split or scored solver result yet. Do not blindly resubmit a
-queued job. Collect terminal result and every semantic gate before promotion.
+**25905006.pbs101: F / exit0**, 187 s (3 min 7 s), after about 3 min 43 s in
+queue. Full official archive MD5/SHA256 and eight unpacked member hashes,
+native v2512/DP, exact 128 partitions/65,334,765 cells and initial fields pass.
+Batch MaxRSS 30.3228 GiB; estimated base charge 1.662222 SU is not posted billing.
+[Review and sealed evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
+Next freeze and reserve the one-node/128-MPI mandatory initialization plus
+40-step solver, maximum 35 minutes. No CPU solver result yet.
+[Measured versus requested job durations](../reports/hpc-openfoam-20261021/JOB_DURATIONS.md).
 
 Parent CPU lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/
 cpu-budget.lock and cpu-budget.json. Conservative retained maxima 18.666667 SU;
