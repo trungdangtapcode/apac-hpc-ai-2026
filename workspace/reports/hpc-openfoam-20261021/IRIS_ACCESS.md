@@ -66,3 +66,7 @@ that. Preserve actual job receipt, scheduler exit, stage logs, split identity
 and solver End markers. No throughput improvement or contest result follows.
 Only after this gate should a bounded 65M practice preparation be considered.
 No NSCC/Gadi project, AI allocation or GPU job is involved in this practice gate.
+
+## Observed terminal result
+
+Job 2293751 is now COMPLETED/exit 0:0 in 30 seconds on iris031. Actual allocation is 56 CPUs, one node, with four MPI ranks. Both ten-step toy methods and sealed stage/split/hash checks pass. The timer warns of insufficient samples for its confidence target; no useful speedup, 65M Cd proof or official score is claimed. See the retained review under hpc-experiments/iris-practice-20261021.

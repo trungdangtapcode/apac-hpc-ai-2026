@@ -28,6 +28,13 @@ ready for an authorised package update; never invent HPC results. Research
 access checks do not authorise increasing any budget or starting schedules.
 Do not change submission materials unless relevant/authorized.
 
+Iris access correction (21 October): the supplied Iris SSH gateway auto-jumps
+to login01 only for an interactive login. Use a forced TTY with no remote
+command, then issue commands after the Iris prompt. A one-command SSH call
+executes on the gateway VM and cannot establish Iris scheduler availability.
+Read notes/HPC_CURRENT.md and its verified access helper before repeating
+connection troubleshooting; do not request replacement credentials for this.
+
 Scheduled Codex runs are fresh sessions using file handoff, not forks of the
 user's chat. Keep POLICY.md, CURRENT.md and reports consistent. They cannot send
 messages into the original chat. Do not promise automatic chat notification.

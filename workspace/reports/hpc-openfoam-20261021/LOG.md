@@ -89,3 +89,7 @@ The owner supplied the organiser email: interactive login auto-jumps to Iris. Fo
 ## First Iris submit receipt — 2026-10-21T11:27:45.117130+00:00
 
 After verified kit hashes, successful login-only binary inspection and a fresh empty account queue/31 idle nodes, submit only the unchanged organiser toy gate. Slurm returns 2293751 and confirms RUNNING on iris031 with 56 allocated CPUs, four MPI ranks, maximum 300 seconds. This proves the account can submit and receive compute allocation. It is not completion, 65M equivalence or a contest score. No blind retry, group-tree edit, unrelated account job or national CPU/GPU spending reservation is involved. The next decision waits for the owned terminal result and actual toy logs.
+
+## First native Iris toy review — 2026-10-21T11:30:34.133595+00:00
+
+Job 2293751 is COMPLETED/exit 0:0, 30 seconds, 56 CPUs/one iris031 node, four MPI ranks. Download and seal only 26 text evidence artifacts, not processor meshes or authentication. All ten stage logs, both split identities, native v2512/scalar64 and ten contiguous solver steps pass. Retain timing-confidence warnings; tiny toy averages are not a 65M score, a causal speedup or Cd validation. Hardware telemetry and billed SU are uncollected. This establishes working interactive access, successful Slurm allocation and the native MPI/solver smoke gate. Continue next with actual 65M input/script inspection before a bounded practice chain; no new full case or national/GPU reservation is made in this question checkpoint.

@@ -1,0 +1,66 @@
+[2026-10-21T04:26:31-07:00] job=2293751 WORK=/global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121 ranks=4
+
+Usage: simpleFoam [OPTIONS]
+Options:
+  -case <dir>       Case directory (instead of current directory)
+  -decomposeParDict <file>
+                    Alternative decomposePar dictionary file
+  -dry-run          Check case set-up only using a single time step
+  -dry-run-write    Check case set-up and write only using a single time step
+  -parallel         Run in parallel
+  -postProcess      Execute functionObjects only
+  -doc              Display documentation in browser
+  -help             Display short help and exit
+  -help-full        Display full help and exit
+
+Steady-state solver for incompressible, turbulent flows.
+
+Using: OpenFOAM-v2512 (2512) - visit www.openfoam.com
+Build: _87ed40d256-20251219
+Arch:  LSB;label=32;scalar=64
+
+
+Usage: foamHasLibrary [OPTIONS] [<lib...>]
+Options:
+  -detail           Additional detail
+  -or               Success if any of the libraries can be loaded
+                    (does not short-circuit)
+  -verbose          Additional verbosity (can be used multiple times)
+  -doc              Display documentation in browser
+  -help             Display short help and exit
+  -help-compat      Display compatibility options and exit
+  -help-full        Display full help and exit
+
+Test if given libraries can be loaded
+
+Using: OpenFOAM-v2512 (2512) - visit www.openfoam.com
+Build: _87ed40d256-20251219
+Arch:  LSB;label=32;scalar=64
+
+nCores              4;
+decompositionMethod hierarchical;
+nHierarchical       (4 1 1);
+processor0
+processor1
+processor2
+processor3
+nCores              4;
+decompositionMethod scotch;
+nHierarchical       (4 1 1);
+processor0
+processor1
+processor2
+processor3
+hierarchical ClockTime = 9 s
+    Average wall-clock time per time step = 0.0040733436
+scotch ClockTime = 8 s
+    Average wall-clock time per time step = 0.0038958421
+--- /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121/runs/2293751/hierarchical/SPLIT ---
+method=hierarchical
+nCores=4
+nHierarchical=(4 1 1)
+--- /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121/runs/2293751/scotch/SPLIT ---
+method=scotch
+nCores=4
+nHierarchical=unused
+02-toy-stages: PASS
