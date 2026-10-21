@@ -23,3 +23,5 @@ No HPC job, mesh download, large install, spending reservation or organiser
 submission has occurred. HPC_Task remains empty pending actual evidence.
 Autopilot remains off. Keep English artifacts and Vietnamese chat. Capture,
 verify, commit and push small safe milestones to the existing archive.
+
+At 2026-10-21T11:08:18.606822+00:00, the owner requested an MCP route check. The active callable-tool/resource/template catalogs expose no Iris/HPC/SSH execution route; the standard local configuration lists no MCP server names. This does not prove a connector is absent elsewhere. SSH to the supplied endpoint works; actual Iris compute access remains unestablished. No additional credentials or connection request was made.
