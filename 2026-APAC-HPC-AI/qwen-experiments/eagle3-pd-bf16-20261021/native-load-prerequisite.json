@@ -1,0 +1,613 @@
+{
+  "job": "222750.pbs111",
+  "terminal": true,
+  "exit_status": 0,
+  "destination": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-loader-20261021/collected/222750.pbs111",
+  "payload_hashes_passed": true,
+  "target_model_loaded": false,
+  "performance_measured": false,
+  "scope": "Native gateway with synthetic workers plus draft metadata/tensor checks; no target inference or PD transfer",
+  "gateway": {
+    "scope": "Actual native gateway, synthetic workers only; no model or KV transfer",
+    "command": [
+      "python3",
+      "-m",
+      "sglang_router.launch_router",
+      "--pd-disaggregation",
+      "--prefill-policy",
+      "round_robin",
+      "--prefill",
+      "http://127.0.0.1:33305",
+      "19999",
+      "--decode",
+      "http://127.0.0.1:33545",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "48635",
+      "--disable-health-check",
+      "--disable-circuit-breaker",
+      "--worker-startup-timeout-secs",
+      "30"
+    ],
+    "passed": true,
+    "received": [
+      {
+        "role": "prefill",
+        "path": "/generate",
+        "body": {
+          "model": null,
+          "input_ids": [
+            1,
+            2
+          ],
+          "sampling_params": {
+            "temperature": 0.0,
+            "max_new_tokens": 2
+          },
+          "return_logprob": true,
+          "logprob_start_len": 0,
+          "return_text_in_logprobs": false,
+          "stream": false,
+          "log_metrics": true,
+          "return_hidden_states": false,
+          "background": false,
+          "no_logs": false,
+          "return_bytes": false,
+          "return_entropy": false,
+          "bootstrap_host": "127.0.0.1",
+          "bootstrap_port": 19999,
+          "bootstrap_room": 1641739011611741653
+        }
+      },
+      {
+        "role": "decode",
+        "path": "/generate",
+        "body": {
+          "model": null,
+          "input_ids": [
+            1,
+            2
+          ],
+          "sampling_params": {
+            "temperature": 0.0,
+            "max_new_tokens": 2
+          },
+          "return_logprob": true,
+          "logprob_start_len": 0,
+          "return_text_in_logprobs": false,
+          "stream": false,
+          "log_metrics": true,
+          "return_hidden_states": false,
+          "background": false,
+          "no_logs": false,
+          "return_bytes": false,
+          "return_entropy": false,
+          "bootstrap_host": "127.0.0.1",
+          "bootstrap_port": 19999,
+          "bootstrap_room": 1641739011611741653
+        }
+      }
+    ],
+    "response": {
+      "text": "SYNTHETIC_ECHO",
+      "meta_info": {
+        "finish_reason": {
+          "type": "stop"
+        },
+        "completion_tokens": 2,
+        "prompt_tokens": 2,
+        "input_token_logprobs": [
+          [
+            -0.1,
+            1,
+            null
+          ],
+          [
+            -0.2,
+            2,
+            null
+          ]
+        ],
+        "output_token_logprobs": [
+          [
+            -0.3,
+            3,
+            null
+          ],
+          [
+            -0.4,
+            4,
+            null
+          ]
+        ]
+      }
+    },
+    "request_fields_forwarded": true,
+    "merged_input_ids": [
+      1,
+      2
+    ],
+    "output_ids": [
+      3,
+      4
+    ],
+    "response_ids_preserved": true
+  },
+  "component": {
+    "created_utc": "2026-10-21T04:51:43.516584+00:00",
+    "job": "222750.pbs111",
+    "passed": true,
+    "target_weights_loaded": false,
+    "draft_model_instantiated": false,
+    "inference_executed": false,
+    "pd_transfer_tested": false,
+    "gpu": {
+      "allocated_uuid": "GPU-eed14ddb-7e9b-df97-75e6-d0d564b6b106",
+      "torch_uuid": "eed14ddb-7e9b-df97-75e6-d0d564b6b106",
+      "torch_uuid_type": "_CUuuid",
+      "name": "NVIDIA H100 80GB HBM3",
+      "capability": [
+        9,
+        0
+      ],
+      "nvidia_smi": {
+        "returncode": 0,
+        "stdout": "GPU-eed14ddb-7e9b-df97-75e6-d0d564b6b106, NVIDIA H100 80GB HBM3\n",
+        "stderr": ""
+      },
+      "canonical_uuid": "eed14ddb-7e9b-df97-75e6-d0d564b6b106"
+    },
+    "native_source_hashes": {
+      "/sgl-workspace/sglang/python/sglang/srt/configs/model_config.py": "1a7f83272fed7fae8efafde1b89d254a2e8f67fedd8e67b2d472d2dbd261c0d6",
+      "/sgl-workspace/sglang/python/sglang/srt/models/llama_eagle3.py": "16ab0259f7823174688e0461827aecdc51edeb7693eb720c9a0f7cab3bdcc8cb",
+      "/sgl-workspace/sglang/python/sglang/srt/server_args.py": "79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f",
+      "/sgl-workspace/sglang/python/sglang/srt/model_loader/utils.py": "7713a704a427a2c37b6051e60bc2d63fdb48eb0fcdccd38e8da5202f3ba39406",
+      "/sgl-workspace/sglang/python/sglang/srt/runtime_context.py": "d257c381d2d05b90b16d3e3ece41d65c3c4dcd5dcd22028a4cb3bd9b322784ab",
+      "/sgl-workspace/sglang/python/sglang/srt/distributed/__init__.py": "8c539ccadfb01403cc05401ff739196a535096dfb8aea993ea908a073d44e2aa",
+      "/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py": "49e8810c5e63ec2f154b543ce694aa58822d149d26cee4b259e966b42a7b6cbe",
+      "/sgl-workspace/sglang/python/sglang/srt/layers/dp_attention.py": "ff51e463898af18948351346f5b57f200e807a5a6b6b0d7e653e7fbf11bb52aa",
+      "/sgl-workspace/sglang/python/sglang/srt/layers/logits_processor.py": "cf3f0f71ff54870362698ebf2b67ced9d668ee59bfc9e0e97510f6f99a4aa016",
+      "/sgl-workspace/sglang/python/sglang/srt/layers/vocab_parallel_embedding.py": "f2169ba006a436434cc793a462c3b12a1cd8594266e2e2ce322386a7e18b812b",
+      "/sgl-workspace/sglang/python/sglang/srt/models/llama.py": "843bc5f356490ca5d09703bbf35be32c1681187183dcf20101ecb45049f26ec6"
+    },
+    "native_config": {
+      "architecture": "LlamaForCausalLMEagle3",
+      "module": "sglang.srt.models.llama_eagle3",
+      "dtype": "torch.bfloat16",
+      "quantization": null
+    },
+    "draft_sha256": "bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86",
+    "tensors": [
+      {
+        "name": "d2t",
+        "shape": [
+          64000
+        ],
+        "dtype": "torch.int32",
+        "minimum": 0,
+        "maximum": 87646,
+        "target_id_range": [
+          0,
+          151645
+        ]
+      },
+      {
+        "name": "fc.weight",
+        "shape": [
+          4096,
+          12288
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.hidden_norm.weight",
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.input_layernorm.weight",
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.mlp.down_proj.weight",
+        "shape": [
+          4096,
+          12288
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.mlp.gate_proj.weight",
+        "shape": [
+          12288,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.mlp.up_proj.weight",
+        "shape": [
+          12288,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.post_attention_layernorm.weight",
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.self_attn.k_proj.weight",
+        "shape": [
+          512,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.self_attn.o_proj.weight",
+        "shape": [
+          4096,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.self_attn.q_proj.weight",
+        "shape": [
+          8192,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "layers.0.self_attn.v_proj.weight",
+        "shape": [
+          512,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "lm_head.weight",
+        "shape": [
+          64000,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "norm.weight",
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "all_finite_on_allocated_gpu": true
+      },
+      {
+        "name": "t2d",
+        "shape": [
+          151936
+        ],
+        "dtype": "torch.int32",
+        "minimum": 0,
+        "maximum": 1,
+        "native_loader_usage": "Ignored by inspected native load_weights; no inverse-map convention assumed"
+      }
+    ],
+    "peak_validation_vram_bytes": 1835008000
+  },
+  "loader": {
+    "created_utc": "2026-10-21T04:52:10.063788+00:00",
+    "job": "222750.pbs111",
+    "passed": true,
+    "draft_model_instantiated": true,
+    "target_weights_loaded": false,
+    "inference_executed": false,
+    "pd_transfer_tested": false,
+    "shared_target_embedding_validated": false,
+    "stage": "draft_load_pass_integration_unverified",
+    "parameters": {
+      "model.embed_tokens.weight": {
+        "shape": [
+          151936,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.fc.weight": {
+        "shape": [
+          4096,
+          12288
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.self_attn.qkv_proj.weight": {
+        "shape": [
+          9216,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.self_attn.o_proj.weight": {
+        "shape": [
+          4096,
+          8192
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.mlp.gate_up_proj.weight": {
+        "shape": [
+          24576,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.mlp.down_proj.weight": {
+        "shape": [
+          4096,
+          12288
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.input_layernorm.weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.post_attention_layernorm.weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.layers.0.hidden_norm.weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "model.norm.weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      },
+      "lm_head.weight": {
+        "shape": [
+          64000,
+          4096
+        ],
+        "dtype": "torch.bfloat16",
+        "device": "cuda:0"
+      }
+    },
+    "native_loader_calls": [
+      {
+        "source": "fc.weight",
+        "parameter": "model.fc.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.hidden_norm.weight",
+        "parameter": "model.layers.0.hidden_norm.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.input_layernorm.weight",
+        "parameter": "model.layers.0.input_layernorm.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.mlp.down_proj.weight",
+        "parameter": "model.layers.0.mlp.down_proj.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.mlp.gate_proj.weight",
+        "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+        "shard": [
+          0
+        ]
+      },
+      {
+        "source": "layers.0.mlp.up_proj.weight",
+        "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+        "shard": [
+          1
+        ]
+      },
+      {
+        "source": "layers.0.post_attention_layernorm.weight",
+        "parameter": "model.layers.0.post_attention_layernorm.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.self_attn.k_proj.weight",
+        "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+        "shard": [
+          "k"
+        ]
+      },
+      {
+        "source": "layers.0.self_attn.o_proj.weight",
+        "parameter": "model.layers.0.self_attn.o_proj.weight",
+        "shard": []
+      },
+      {
+        "source": "layers.0.self_attn.q_proj.weight",
+        "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+        "shard": [
+          "q"
+        ]
+      },
+      {
+        "source": "layers.0.self_attn.v_proj.weight",
+        "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+        "shard": [
+          "v"
+        ]
+      },
+      {
+        "source": "lm_head.weight",
+        "parameter": "lm_head.weight",
+        "shard": []
+      },
+      {
+        "source": "norm.weight",
+        "parameter": "model.norm.weight",
+        "shard": []
+      }
+    ],
+    "parameter_comparisons": [
+      {
+        "parameter": "lm_head.weight",
+        "sources": [
+          "lm_head.weight"
+        ],
+        "shape": [
+          64000,
+          4096
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.fc.weight",
+        "sources": [
+          "fc.weight"
+        ],
+        "shape": [
+          4096,
+          12288
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.hidden_norm.weight",
+        "sources": [
+          "layers.0.hidden_norm.weight"
+        ],
+        "shape": [
+          4096
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.input_layernorm.weight",
+        "sources": [
+          "layers.0.input_layernorm.weight"
+        ],
+        "shape": [
+          4096
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.mlp.down_proj.weight",
+        "sources": [
+          "layers.0.mlp.down_proj.weight"
+        ],
+        "shape": [
+          4096,
+          12288
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.mlp.gate_up_proj.weight",
+        "sources": [
+          "layers.0.mlp.gate_proj.weight",
+          "layers.0.mlp.up_proj.weight"
+        ],
+        "shape": [
+          24576,
+          4096
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.post_attention_layernorm.weight",
+        "sources": [
+          "layers.0.post_attention_layernorm.weight"
+        ],
+        "shape": [
+          4096
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.self_attn.o_proj.weight",
+        "sources": [
+          "layers.0.self_attn.o_proj.weight"
+        ],
+        "shape": [
+          4096,
+          8192
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.layers.0.self_attn.qkv_proj.weight",
+        "sources": [
+          "layers.0.self_attn.q_proj.weight",
+          "layers.0.self_attn.k_proj.weight",
+          "layers.0.self_attn.v_proj.weight"
+        ],
+        "shape": [
+          9216,
+          8192
+        ],
+        "exact_equal": true
+      },
+      {
+        "parameter": "model.norm.weight",
+        "sources": [
+          "norm.weight"
+        ],
+        "shape": [
+          4096
+        ],
+        "exact_equal": true
+      }
+    ],
+    "hot_token_mapping_exact": true,
+    "shared_embedding_excluded_reason": "Runtime must share the actual target embedding; not present in draft checkpoint. Never run forward with this allocation.",
+    "peak_allocated_vram_bytes": 2902492672,
+    "attention_forward_tested": false,
+    "tp4_tp8_tested": false
+  },
+  "draft_model_instantiated": true,
+  "state": "DRAFT_LOAD_PASS_FULL_INTEGRATION_UNVERIFIED"
+}
