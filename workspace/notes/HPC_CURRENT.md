@@ -41,3 +41,5 @@ Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on 
 ## Native NUMA hypothesis now running
 
 Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep; terminal pair review and locked reconciliation passed before 25907688 submission. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).
+
+HPC versus AI service units: [separate project balances](hpc-ai-service-units.md). CPU project 59000042 and AI project 59010042 do not share these balances; 100 SU is the initial HPC planning ceiling, not the 30,000-SU grant.

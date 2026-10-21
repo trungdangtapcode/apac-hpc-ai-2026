@@ -16,7 +16,8 @@ with (base/'cpu-budget.lock').open('a') as lock:
   requested=v['Resource_List'];assert int(requested['ngpus'])==0 and float(requested['queue_charge_rate'])==1
   elapsed=seconds(v['resources_used']['walltime']);charge=int(requested['ncpus'])*elapsed/3600;assert charge>=0;total+=charge
   safe[job]={k:v[k] for k in ['job_state','Exit_status','resources_used','Resource_List','project']}
-  next(x for x in d['jobs'] if x['id']==job).update(elapsed_seconds=elapsed,estimated_actual_SU=charge,reservation_note='Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit.',posted_charge_reconciled=False)
+  entry=next(x for x in d['jobs'] if x['id']==job)
+  entry.update(state=entry['state'] if entry['state'].startswith('F_') else 'F_EXIT_'+str(v['Exit_status'])+'_TERMINAL',scheduler_state='F',scheduler_exit_status=v['Exit_status'],elapsed_seconds=elapsed,estimated_actual_SU=charge,reservation_note='Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit.',posted_charge_reconciled=False)
  report=remote('myprojects -p 59000042');lines=[x for x in report.splitlines() if x.startswith('| SU')];assert len(lines)==1
  grant,used,balance,indoubt=[float(x.strip()) for x in lines[0].split('|')[2:-1]];assert grant==30000 and balance>=0 and indoubt==0,'Retain reservations if prepaid/unknown activity remains'
  delta=used-d['published_snapshot']['used_SU'];assert delta>=0
