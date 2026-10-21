@@ -130,3 +130,20 @@ Then review renumberMesh/potentialFoam/applyBoundaryLayer before the 40-step sol
 Retain all failures. CPU/NUMA/network telemetry and billed Iris SU are uncollected.
 Iris timings will remain practice, not Gadi/ASPIRE contest scores. Details and
 raw receipt: iris-65m-20261021/PLAN.md, input-review.json, cut-submission.json.
+
+## DUO-connected CPU-cluster feasibility — 2026-10-21T12:01:27.523376+00:00
+
+The owner asked whether the DUO-connected server can also submit the CPU task.
+Separate VPN authentication, SSH cluster identity, PBS project permission and
+contest hardware eligibility. Read-only existing SSH identifies a2ap-login01;
+normal routes to aiq1/aiq2, no listed OpenFOAM module and no readable published
+CPU mesh path. The official task names ASPIRE-2A standard EPYC 7713 nodes or
+Gadi normalsr. Resolve the separate CPU hostname via the live AI login, then
+reach its SSH handshake through the current VPN by IP. BatchMode has no usable
+CPU SSH authentication; no password/OTP is attempted and no DUO session is
+replaced. An AI-login-to-CPU socket probe times out, while the VPN-client route
+works; a local hostname attempt fails DNS. These are different connection paths,
+not proof that the CPU cluster or the VPN is down. Next establish CPU SSH and
+check its actual project/queue before spending. No benchmark, qsub acceptance
+or CPU project balance is claimed. Preserve exact safe probe JSON and official
+references in nscc-cpu-access-20261021; no AI budget files or jobs changed.

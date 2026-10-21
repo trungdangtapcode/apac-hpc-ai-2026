@@ -76,3 +76,14 @@ maximum 20 minutes). Review all mandatory stages before 04-simpleFoam (40
 steps, maximum 40 minutes). Keep each new split in its own artifact tree.
 Iris is practice; scored 1/2/4-node runs belong to Gadi or CPU ASPIRE-2A.
 Our existing ASPIRE-2A+ AI account does not establish CPU contest access.
+
+## NSCC CPU access check — 2026-10-21T12:01:27.523376+00:00
+
+The existing DUO/VPN session and ASPIRE-2A+ SSH work. Live a2ap-login01 normal
+routes only to aiq1/aiq2. Official HPC requires ASPIRE-2A CPU or Gadi, not the
+H100 hosts. The distinct CPU endpoint aspire2a.nscc.sg resolves to 10.103.72.110;
+SSH handshake succeeds from the current VPN namespace using that IP, but no
+existing batch authentication succeeds for the CPU endpoint. No password/OTP
+was attempted; no proof of CPU project eligibility or qsub acceptance yet.
+Do not call this a VPN failure or a proven account denial. [Read-only probes
+and explanation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).

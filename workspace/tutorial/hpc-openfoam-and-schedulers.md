@@ -52,3 +52,23 @@ Sources: [HPCAC Iris scheduler guide](https://hpcadvisorycouncil.atlassian.net/w
 [APAC ASPIRE-2A application notes](https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/4.3%20OpenFOAM%20Application%20Notes%20-%20ASPIRE-2A.md).
 The ISC page is used only for Iris access/scheduler context; APAC v2512 rules
 and the current APAC kit govern the actual task.
+
+## DUO, ASPIRE-2A and ASPIRE-2A+ are different layers
+
+DUO is the second authentication factor for the VPN. The VPN provides a network
+path; SSH logs into a particular cluster, and PBS checks that cluster's project
+and queue when submitting a job. A working VPN does not automatically log SSH
+into every NSCC machine.
+
+Our existing H100 login is aspire2p.nscc.sg, ASPIRE-2A+. The contest CPU login
+is aspire2a.nscc.sg, ASPIRE-2A. The HPC task uses the latter's standard AMD
+EPYC 7713 CPU nodes, or Gadi normalsr. Both NSCC systems use PBS, but sharing
+scheduler software does not make their nodes, projects or authenticated SSH
+sessions interchangeable. A CPU program on a GPU node is still using that
+GPU-cluster allocation, not the required standard CPU-node platform.
+
+The 21 October read-only probe reaches the CPU endpoint through the existing
+VPN, but password-free SSH has no usable authentication there. This is not a
+failed DUO login and does not establish that the user's password is invalid.
+After CPU SSH login, check myprojects and the module/queue before qsub.
+[Actual dated probes](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
