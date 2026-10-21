@@ -147,3 +147,20 @@ not proof that the CPU cluster or the VPN is down. Next establish CPU SSH and
 check its actual project/queue before spending. No benchmark, qsub acceptance
 or CPU project balance is claimed. Preserve exact safe probe JSON and official
 references in nscc-cpu-access-20261021; no AI budget files or jobs changed.
+
+## Reviewed full-mesh decomposition — 2026-10-21T12:02:15.622475+00:00
+
+Collect and seal 36 safe text artifacts for 2293752, no processor meshes or
+session material. Terminal accounting is COMPLETED/0:0, 161 s, 56 allocated
+CPUs on iris031, one serial process; MaxRSS 30.528442 GiB, TotalCPU 157.720 s.
+Require native v2512/scalar64, End, exact 56 processors, all expected initial
+fields, total 65,334,765 cells and frozen dictionary equality. These gates pass.
+Cells vary only 1,166,692–1,166,694. Worst partition interface faces 93,343,
+max neighbors 14, sum of per-rank interfaces 2,653,432 equals twice the global
+1,326,716-cut summary. The initial parser included that summary as a 57th
+partition and correctly stopped; fix the parser to distinguish indented rank
+records from the global summary, preserving this correction. No solver gain,
+Cd or network bottleneck follows. Next use the frozen mandatory init script
+on this verified split; one node/56 ranks/maximum 20 minutes. Hardware locality/
+bandwidth counters and billed SU remain uncollected. Keep evidence and reviewer
+in iris-65m-20261021 before submitting another allocation.

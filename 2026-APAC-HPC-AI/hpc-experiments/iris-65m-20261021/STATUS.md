@@ -1,23 +1,30 @@
-# First 65M Iris baseline: submitted
+# First 65M Iris baseline: decomposition passed
 
-Job **2293752** was accepted at 2026-10-21T11:38:43.233405+00:00.
-The immediate scheduler response was PENDING, then the retained collection
-shows RUNNING on iris031, one node / 56 allocated CPUs / one serial process.
-This is the decomposition and restore0Dir stage, maximum 15 minutes. It has
-not yet been accepted as a completed stage or a solver result.
+Job **2293752: COMPLETED / exit 0:0**, 161 seconds on iris031, one whole
+56-CPU node, one serial task. All sealed evidence hashes pass. The native
+v2512/scalar64 decomposePar log ends cleanly; exactly 56 processor directories
+and 65,334,765 total cells are verified. All six expected initial fields are
+present for every processor. fvSolution.fixedIter, controlDict.noWrite and
+method coefficients match the frozen inputs; only the planned rank/factors
+change. Both stage output markers and empty batch stderr pass.
 
-The unchanged payload hash matches the reviewed source. The submit receipt,
-empty pre-submit queue and subsequent queue/accounting/job responses are in
-cut-submission.json. Scheduler output timestamps use the site's local timezone;
-the Python receipt and collection clocks explicitly use UTC. Preserve both.
+Per-rank cells range 1,166,692–1,166,694; cell max/mean excess is 0.000151527%.
+Worst partition has 93,343 interface faces and maximum neighbor count is 14.
+The sum of per-rank interface faces, 2,653,432, counts both sides of 1,326,716
+unique cuts. One node does not establish off-node traffic or communication cost.
+The first parser rejected 57 face entries because it included the global summary;
+review-cut.py now explicitly separates per-rank and global records and checks
+their factor of two. That rejection was a review correction, not a failed job.
 
-A pre-submit guard attempt mistakenly compared the hash with an unset local
-orchestration value and stopped before sbatch. No job was created by that
-attempt and no case was modified. The corrected guard uses the explicit
-frozen SHA256 and the only successful submission returns 2293752. Never retry
-an uncertain submit without checking the retained receipt and actual queue.
+Scheduler batch MaxRSS is 32,011,392 KiB (30.5284 GiB); TotalCPU is 157.720 s.
+These are available accounting measurements, not a memory-bandwidth, NUMA or
+hardware-counter profile. Billed Iris SU remains unknown. No solver Average
+(seconds/step), Cd or complete initialization is established yet.
 
-Next inspect terminal accounting and decomposePar/restore0Dir logs, the full
-56-processor set and total cell count before init. No dependent allocation is
-submitted yet. No benchmark Average or Cd exists for this 65M attempt.
-Iris SU billing and CPU/NUMA/network hardware telemetry are not collected.
+Next run the already frozen 03.2-init script: one node, 56 ranks, maximum
+20 minutes, all three mandatory stages. Review it before 40-step simpleFoam.
+No national/GPU allocation or submission artifact is changed.
+
+Reproduce the evidence review with python3 review-cut.py. The initial failed
+pre-submit hash guard and binary-header inspection mistake are historical in
+PLAN.md and the research journal; neither produced an extra job.
