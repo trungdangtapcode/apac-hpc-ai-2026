@@ -60,7 +60,8 @@ with (P / 'budget.lock').open('a') as lock:
     (O / 'pre-submit.txt').write_text(text)
     text = re.sub(r'(?<![\d.])-0\.000(?=\s*\|)', '0.000', text)
     active = re.findall(r'^\s*(\d+\.pbs\d+)\s+', queue_text, re.M)
-    assert not active, 'Require empty own PBS queue for this standalone component allocation'
+    assert set(active) <= {'222722.pbs111'} and len(active) + 1 <= 3, 'Only the known predecessor may remain active'
+    dependency = '222722.pbs111' if active else ''
     proof = costs.reconcile(budget, text, now(), str(O / 'pre-submit.txt'))
     save(O / 'reconciliation.json', proof)
     outstanding = sum(row['max_charge_su'] for row in budget['pending_reservations'] if row['state'] not in excluded)
@@ -80,12 +81,12 @@ with (P / 'budget.lock').open('a') as lock:
     save(P / 'nscc-budget.json', budget)
     record = dict(state='SUBMISSION_IN_PROGRESS', attempted_utc=now(), bundle=O.name,
                   kind='component_correctness_gate', requested_gpus=1, minutes=4,
-                  max_su=reserve, target_inference=False, draft_model_instantiated=False)
+                  max_su=reserve, target_inference=False, draft_model_instantiated=False, dependency_afterany=dependency)
     save(receipt, record)
     row['state'] = 'SUBMISSION_IN_PROGRESS'
     save(P / 'nscc-budget.json', budget)
     try:
-        result = remote('cd ' + REMOTE + '/' + O.name + ' && sha256sum --check SHA256SUMS >/dev/null && qsub component.pbs')
+        result = remote('cd ' + REMOTE + '/' + O.name + ' && sha256sum --check SHA256SUMS >/dev/null && qsub ' + ('-W depend=afterany:' + dependency + ' ' if dependency else '') + 'component.pbs')
     except Exception:
         record['state'] = row['state'] = 'SUBMISSION_UNCERTAIN'
         budget['uncertain_pbs_jobs'].append(O.name)
@@ -106,12 +107,13 @@ with (P / 'budget.lock').open('a') as lock:
                               state='SUBMITTED', requested_gpus=1, requested_walltime='00:04:00',
                               max_charge_su=reserve, included_in_ledger_used=False, accounting_pending=True,
                               submitted_utc=record['submitted_utc']))
-    budget['active_pbs_jobs'] = [job]
+    budget['jobs'][-1]['dependency_afterany'] = dependency
+    budget['active_pbs_jobs'] = active + [job]
     save(receipt, record); save(P / 'nscc-budget.json', budget)
     plan = json.loads((P / 'continuous-plan.json').read_text())
     assert not any(pilot['id'] == O.name for pilot in plan['pilots'])
     plan['pilots'].append(dict(id=O.name, job_id=job, state='Q', kind='component_correctness_gate',
-                               requested_gpus=1, minutes=4, max_su=reserve, target_inference=False,
+                               requested_gpus=1, minutes=4, max_su=reserve, target_inference=False, dependency_afterany=dependency,
                                result_state='AWAITING_COMPONENT_CHECK'))
     plan.update(updated_utc=now(), next_bounded_step='Review actual gateway extension forwarding, native draft configuration and tensor/token-map integrity. This does not prove model loading, PD transfer or greedy equivalence; prepare full integration only after the component gates pass.')
     save(P / 'continuous-plan.json', plan)
@@ -119,4 +121,6 @@ with (P / 'budget.lock').open('a') as lock:
     (O / 'post-submit.txt').write_bytes(state.stdout)
     (O / 'post-submit.stderr').write_bytes(state.stderr)
     assert state.returncode == 0
+    if dependency:
+        assert 'afterany:' + dependency in re.sub(r'\n\t', '', state.stdout.decode())
     print(job, 'maximum', reserve, 'SU; internal headroom', budget['campaign_headroom_after_reserved_su'])
