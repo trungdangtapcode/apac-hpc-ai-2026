@@ -575,3 +575,16 @@ Cross-group faces fall **10.6283%**, while total faces rise **1.3423%**. All fiv
 Decision: proceed to a same-node 40-step default-Scotch versus NUMA-Scotch pair, complete mandatory candidate initialization, verified physical placement, unchanged numerical work and sealed zero fields. Preserve the native Average including outliers. The preceding H→S pair's observed 0.994% saving remains unconfirmed. A partition benefit must survive a solve and a reverse-order repeat before promotion.
 
 All eight recorded allocations are terminal; core-hour estimates total **83.417778 SU**. Conservative consumed ceiling is **85 SU**, no reservations. The stale project amount delta is not actual current wave spending. The original 100-SU wave could not afford a full pair. The owner then explicitly requested much more research/submission based on the separate large HPC grant. A new bounded continuation raises the **cumulative CPU research ceiling to 1,000 SU**, still far below the 30,000-SU project grant. Keep actual spending/reservations under the CPU lock, one active CPU allocation, combined own PBS cap three, no AI changes or background Codex. This is a new owner-directed phase; preserve original 100-SU provenance.
+
+## 2026-10-21T19:54:02.939903+00:00: full NUMA solve pair submitted and queue-scope correction
+
+
+**25907753.pbs101: R** at 2026-10-21T19:54:02.909127+00:00. Accepted 2026-10-21T19:52:53.014595+00:00; one exclusive CPU node / 128 ranks / 440 GB / no GPU, max 29 min / **61.866667 SU**. Native default Scotch control and fresh NUMA tree candidate each run 40 steps after mandatory candidate initialization. Physical-core and NUMA grouping guards run outside solver timing. Keep zero-field/source hashes, all fixed numerical work, native timers, force outputs and resource/phase evidence. See PLAN.md.
+
+Fresh CPU own queue was empty, read-only combined PBS capacity and project balance passed, durable intent/reservation and exactly one qsub retained. Expanded cumulative ceiling **1,000 SU**, conservative consumed **85 SU**, new reservation **61.866667 SU**, total **146.866667 SU**. Old 100-SU first-wave ceiling remains historical. No AI changes or background Codex.
+
+Native graph filter passed in 25907688; still no NUMA solver gain. One ordered pair does not establish a stable win. The wrapper preserves the inherited CPU_HS_PAIR_PASS marker for compatibility; exact role input hashes identify **default Scotch vs NUMA Scotch**, not hierarchical vs Scotch. No frozen payload is changed after submission.
+
+Next prepare validated 256-rank inputs as an afterok follower while this pair runs, if combined cap permits. A failed parent blocks that follower; keep one CPU allocation active at a time.
+
+Queue correction: actual normal routing includes q1–q6; qdev caps each job at 128 CPU as well as 256 aggregate. Larger 256/512-core normal requests can route elsewhere (q5 max 2048). Earlier qdev-only inference did not establish a cluster-wide restriction. Retain snapshot and cpu-continuation-20261021/QUEUE_POLICY.md; inspect actual multi-node routing on submission.

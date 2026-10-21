@@ -45,3 +45,16 @@ Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on 
 Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep; terminal pair review and locked reconciliation passed before 25907688 submission. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).
 
 HPC versus AI service units: [separate project balances](hpc-ai-service-units.md). CPU project 59000042 and AI project 59010042 do not share these balances; 100 SU is the initial HPC planning ceiling, not the 30,000-SU grant.
+
+## Full NUMA solver comparison submitted
+
+
+**25907753.pbs101: R** at 2026-10-21T19:54:02.909127+00:00. Accepted 2026-10-21T19:52:53.014595+00:00; one exclusive CPU node / 128 ranks / 440 GB / no GPU, max 29 min / **61.866667 SU**. Native default Scotch control and fresh NUMA tree candidate each run 40 steps after mandatory candidate initialization. Physical-core and NUMA grouping guards run outside solver timing. Keep zero-field/source hashes, all fixed numerical work, native timers, force outputs and resource/phase evidence. See PLAN.md.
+
+Fresh CPU own queue was empty, read-only combined PBS capacity and project balance passed, durable intent/reservation and exactly one qsub retained. Expanded cumulative ceiling **1,000 SU**, conservative consumed **85 SU**, new reservation **61.866667 SU**, total **146.866667 SU**. Old 100-SU first-wave ceiling remains historical. No AI changes or background Codex.
+
+Native graph filter passed in 25907688; still no NUMA solver gain. One ordered pair does not establish a stable win. The wrapper preserves the inherited CPU_HS_PAIR_PASS marker for compatibility; exact role input hashes identify **default Scotch vs NUMA Scotch**, not hierarchical vs Scotch. No frozen payload is changed after submission.
+
+Next prepare validated 256-rank inputs as an afterok follower while this pair runs, if combined cap permits. A failed parent blocks that follower; keep one CPU allocation active at a time.
+
+Queue policy correction: qdev per-job max 128 does not block all multi-node work through normal. Normal can route 256/512 cores to other queues, e.g. q5 max 2048. Actual larger-job eligibility/routing remains to verify on submission. [Queue snapshot and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/QUEUE_POLICY.md).
