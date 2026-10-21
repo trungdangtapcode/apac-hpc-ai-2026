@@ -18,19 +18,29 @@ artifacts, including code comments, documentation, research plans, reports, note
 tutorials, and submission materials. This supersedes earlier permission to write
 tutorials or learning notes in Vietnamese.
 
-On 21 October the owner explicitly authorised HPC/OpenFOAM research and said
-another person supports AI. This supersedes the earlier Qwen-only research
-scope. The owner has two separate Codex chats: HPC and GPU. Determine the
-current chat's role from the owner's explicit assignment or verified title;
-never inherit a different role from shared notes or a copied conversation.
-The HPC chat owns OpenFOAM and CPU experiments; the GPU chat owns Qwen serving
-and GPU experiments. Read workspace/notes/SESSION_OWNERSHIP.md for their routes.
-Neither chat changes the other chat's payloads, jobs, measurements or dedicated
-budget ledger. Preserve existing queues and coordinate genuinely shared
-spending through the appropriate budget lock. Keep HPC_Task submission folders empty until actual reviewed HPC work is
-ready for an authorised package update; never invent HPC results. Research
-access checks do not authorise increasing any budget or starting schedules.
-Do not change submission materials unless relevant/authorized.
+Track ownership is session-specific. The owner explicitly corrected this on
+21 October after a shared instruction caused the GPU chat to select HPC:
+
+- GPU / AI / Qwen: session `01a15dd3-3094-7712-a991-8ce55b15cbfe`, named
+  `Nghiên cứu 2026-APAC-HPC-AI, commit, GPU`. Read notes/AI_CURRENT.md.
+- HPC / OpenFOAM: session `01a1508d-26b0-7dd0-9dc1-f217ce0aff40`, named
+  `Nghiên cứu 2026-APAC-HPC-AI, commit, HPC`. Read notes/HPC_CURRENT.md.
+
+Resolve the current session from CODEX_THREAD_ID and its local session metadata;
+never infer ownership from the most recently edited shared note or from the
+shared workspace name. CURRENT.md is a shared routing index, not a declaration
+that both chats own the same track. Preserve each worker's track-specific
+handoff and do not modify the other track's payloads, queues, measurements or
+budget ledger on its behalf. Shared-project spending and Git captures still
+require their respective locks and reviewed explicit selections. The HPC CPU
+project is distinct from the AI GPU project. Earlier blanket statements that
+"this chat handles HPC" or "another person supports AI" are historical and do
+not override this explicit session mapping.
+
+Keep HPC_Task submission folders unchanged until the HPC worker has actual
+reviewed work ready for an authorised package update; never invent HPC results.
+Research access checks do not authorise increasing any budget or starting
+schedules. Do not change submission materials unless relevant/authorised.
 
 Iris access correction (21 October): the supplied Iris SSH gateway auto-jumps
 to login01 only for an interactive login. Use a forced TTY with no remote

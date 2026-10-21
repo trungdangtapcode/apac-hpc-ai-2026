@@ -1,10 +1,11 @@
 # Persistent APAC research notes
 
-Read [CURRENT.md](CURRENT.md) first when resuming APAC-HPC-AI2026 research. The owner shifted this chat to HPC/OpenFOAM research on 21 October; another person supports AI. Use [HPC_CURRENT.md](HPC_CURRENT.md) for the HPC handoff. It is a dated handoff, not a replacement for the actual scheduler or project ledger.
-
-The owner has separate **HPC** and **GPU** Codex chats. Follow the explicit
-chat assignment and [session ownership](SESSION_OWNERSHIP.md); shared Qwen
-history must not redirect the HPC worker or vice versa.
+Read [CURRENT.md](CURRENT.md) first to identify the current chat's track. GPU/AI
+uses [AI_CURRENT.md](AI_CURRENT.md); the separate HPC chat uses
+[HPC_CURRENT.md](HPC_CURRENT.md). The owner explicitly confirmed these are two
+different sessions on 21 October. Shared files and the latest writer do not
+change ownership. Handoffs are dated; query the relevant real scheduler when
+needed. Preserve the other track's jobs, payloads, measurements and budget.
 
 Use Vietnamese for chat only. All new code, documentation, notes, reports and submission materials are English. Historical raw records keep their original bytes and may retain Vietnamese text.
 
