@@ -88,7 +88,13 @@ CPU project **59000042** has a dated server ledger Grant 30000 / Used 222.154 /
 Balance 29777.846 / In Doubt 0 SU, at reported 1 SU/core-hour. It is separate
 from AI/H100 project 59010042; do not modify the AI ledger or payloads. Own CPU
 queue is empty, openfoam/2512 exists and the official shared mesh is readable.
-No CPU job or result yet. Read existing October 9–10 CPU artifacts in
+CPU **25904725.pbs101** is accepted at 13:53:14 UTC: native coded-timing
+PitzDaily diagnostic, 8 CPUs/4 MPI/24 GB/no GPU/maximum 10 minutes and
+1.333333 SU reserved under the separate CPU lock. First query already says
+finished; collect historical accounting/logs before calling it a pass.
+The first baseline wave planning ceiling is 100 SU; only the probe is reserved.
+[Probe and budget](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-timing-probe-20261021/STATUS.md).
+Read existing October 9–10 CPU artifacts in
 scratch/apac2026/hpc before preparing a new baseline. [Proof and historical
 correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
 

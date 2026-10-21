@@ -235,3 +235,15 @@ nonzero native exits after End, so do not reuse it. Next test the unchanged
 mandatory coded timing function on a tiny native tutorial within a small CPU
 reservation, then prepare a fresh Basic case only if valid. Full raw text and
 machine-readable per-run assessment: nscc-cpu-history-20261021.
+
+## First CPU submission receipt — 2026-10-21T13:55:08.870052+00:00
+
+Freeze the native timing probe and hash-verify deployment in a new CPU scratch
+root. Under the distinct CPU budget lock, refresh project report, verify empty
+CPU queue and count the existing AI queue read-only against the combined cap.
+Reserve maximum 1.333333 SU within the first 100-SU CPU planning envelope and
+retain a pre-submit intent before qsub. Exactly one submission returns
+25904725.pbs101 at 13:53:14.713064 UTC. Eight CPUs/four MPI/24 GB/zero GPU,
+maximum 600 seconds. The first later qstat says already finished; collect -x
+history and logs. This is actual CPU submission acceptance, not runtime success
+or a contest score. No AI spend/job changes, guessed billing or blind retries.
