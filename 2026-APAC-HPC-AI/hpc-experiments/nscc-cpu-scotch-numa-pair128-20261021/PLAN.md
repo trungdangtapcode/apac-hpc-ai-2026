@@ -1,0 +1,11 @@
+# Same-node default Scotch versus NUMA-aware Scotch
+
+The accepted NUMA partition job 25907688 reduces logical cross-group faces by 10.6283%, with only 1.3423% more total interfaces, max cell excess 1.0055%, and all preregistered filters passed. This warrants a full numerical and timing screen; it does not prove a NUMA bottleneck or gain.
+
+Control: native default Scotch initialized and solved by 25907325, immutable zero-time fields checked against its accepted candidate-after manifest. Candidate: fresh native Scotch domains (8 16), weights (1 0.1), full mandatory initialization once. Both use native v2512, scalar64, 128 ranks and 40 fixed-work steps with all original function objects and physics. Same exclusive node, fresh outputs, order default then NUMA. Independent hashes cover source dictionaries/initial inputs; zero fields checked before/after solves.
+
+Before initializing, 128 atomic diagnostic rank records must verify one distinct physical core per rank, eight distinct NUMA sets in blocks of sixteen, one host, no SMT core sharing. Read physical package/core IDs and NUMA symlinks from sysfs. This verifies the partition's grouping applicability; it does not measure page residency or solve-time migration. Unexpected grouping fails before expensive initialization. No hardware latency interpretation of synthetic weights 10:1.
+
+Maximum 29 minutes, 128 allocated CPUs, 440 GB, no GPU = **61.866667 SU**. Reserve under the expanded owner-requested cumulative 1,000-SU ceiling, 85 SU conservatively consumed at branch opening. Own CPU queue initially empty, combined own PBS cap three, one CPU allocation active at a time. No blind duplicate or changes to frozen payloads. Review the result before a reverse-order confirmation; close a clear losing branch. Keep native averages including outliers, Cd, numerical work, phase timings, placement and resource evidence. One ordered pair is not a four-node score or repeated proof.
+
+If queued followers are justified, use afterok dependencies to preserve one active allocation and avoid idle submission gaps. A failed parent blocks them. No AI changes, background Codex or schedules. Full case provenance and native NUMA source inference remain in the preparation branch.
