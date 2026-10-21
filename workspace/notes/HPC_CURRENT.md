@@ -63,9 +63,10 @@ all six initial fields, immutable dictionaries, clean native logs and sealed
 hashes. Batch MaxRSS 30.5284 GiB, TotalCPU 157.720 seconds. Max interface faces
 93,343, 1,326,716 unique cut faces; no off-node traffic inference on one node.
 [Review and evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/STATUS.md).
-No solver result or Cd exists yet. Next promote the reviewed split to the frozen
-03.2-init (56 ranks, maximum 20 minutes), then inspect all mandatory stages
-before 04-simpleFoam (40 steps, maximum 40 minutes). Keep at most one active
+No solver result or Cd exists yet. **2293753** accepted at 12:02:36 UTC and
+shows RUNNING on iris031 in its retained snapshot: frozen 03.2-init, one node,
+56 ranks, maximum 20 minutes. Collect and inspect all three mandatory stages
+and READY before 04-simpleFoam (40 steps, maximum 40 minutes). Keep at most one active
 Iris practice allocation. Full mesh content hash and billed Iris SU remain
 uncollected; no national CPU/GPU project reservation.
 

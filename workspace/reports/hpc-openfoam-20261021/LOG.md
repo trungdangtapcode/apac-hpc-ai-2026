@@ -164,3 +164,15 @@ Cd or network bottleneck follows. Next use the frozen mandatory init script
 on this verified split; one node/56 ranks/maximum 20 minutes. Hardware locality/
 bandwidth counters and billed SU remain uncollected. Keep evidence and reviewer
 in iris-65m-20261021 before submitting another allocation.
+
+## Promotion to mandatory initialization — 2026-10-21T12:03:14.876130+00:00
+
+After the sealed 2293752 review and its separate safe backup, recheck the
+native cut log, exact processor set/cells, terminal predecessor, frozen init
+hash, absent READY/receipt and empty account queue. Submit 03.2-init exactly
+once: 2293753 accepted 12:02:36.204357 UTC; subsequent response is RUNNING on
+iris031, one node/56 MPI/maximum 1200 seconds. This runs renumberMesh,
+potentialFoam and applyBoundaryLayer with the official flags. No numerical
+controls or shared source change. Preserve receipt before waiting for GPU-free
+CPU work. Next inspect all mandatory logs, terminal exit and split READY stamp;
+no solver performance/Cd or completed initialization is established yet.

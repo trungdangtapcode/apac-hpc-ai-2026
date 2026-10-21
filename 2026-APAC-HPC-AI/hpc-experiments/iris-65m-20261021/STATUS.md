@@ -28,3 +28,14 @@ No national/GPU allocation or submission artifact is changed.
 Reproduce the evidence review with python3 review-cut.py. The initial failed
 pre-submit hash guard and binary-header inspection mistake are historical in
 PLAN.md and the research journal; neither produced an extra job.
+
+## Mandatory initialization submitted
+
+2293753 accepted at 2026-10-21T12:02:36.204357+00:00; retained queue shows
+RUNNING on iris031. One whole node, 56 MPI ranks, maximum 1200 seconds.
+The frozen script and completed predecessor are checked before sbatch; the
+shared-account queue was empty. Receipt and live job fields are retained in
+init-submission.json. No simpleFoam job or extra national CPU/GPU reservation.
+Review clean terminal status, renumberMesh, potentialFoam, applyBoundaryLayer
+and READY identity before submitting the 40-step solver. No completed init
+or new numerical/performance result is claimed at this checkpoint.
