@@ -281,3 +281,16 @@ UI mapping. Record owner-assigned roles, source/handoff routes and distinct
 CPU/GPU project ledgers in SESSION_OWNERSHIP.md and shared AGENTS.md. Preserve
 other-track work; a read-only queue/access check is not an instruction to run
 GPU research. No Codex restart, fork, background schedule or auth-state capture.
+
+## Native CPU timing gate accepted — 2026-10-21T14:05:47.616213+00:00
+
+25904765.pbs101 F/exit0 in 84 s, 8 CPUs/4 MPI/no GPU. Seal 28 selected text
+artifacts and the native compiled timing-library hash/size; no runtime binary
+copied. Verify frozen payload/official function hashes, actual compile/load,
+v2512/DP on EPYC 7713, five contiguous steps, End, Average and semantic PASS.
+All pass. Retain toy 0.01407 s/step and sample-size warning as diagnostic only.
+PBS mem800844KiB/cput117s/CPUpercent45 are coarse accounting, no hardware locality/
+bandwidth proof. Estimated cost0.186667SU is not individually posted billing;
+retain maxima under the CPU lock. Supported reset repair passes; historical
+compile-stop cause is still unknown. Next fresh official N128 full-case prep,
+separate from old unverified processor trees and within the 100-SU CPU plan.

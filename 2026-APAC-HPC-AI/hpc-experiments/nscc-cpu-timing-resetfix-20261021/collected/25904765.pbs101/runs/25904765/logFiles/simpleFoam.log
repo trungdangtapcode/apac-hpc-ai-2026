@@ -1,0 +1,184 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2512                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _87ed40d256-20251219 OPENFOAM=2512 version=v2512
+Arch   : "LSB;label=32;scalar=64"
+Exec   : /var/run/palsd/577e315b-f5d9-43dd-9d93-0cc490d63cfe/files/simpleFoam -parallel
+Date   : Oct 21 2026
+Time   : 21:59:12
+Host   : x1001c1s7b1n1
+PID    : 1851424
+I/O    : uncollated
+Case   : /scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765
+nProcs : 4
+Hosts  :
+(
+    (x1001c1s7b1n1 4)
+)
+Pstream initialized with:
+    node communication : off [type=host] (4 ranks, 1 nodes)
+    topology controls  : none
+    consensus exchange : 0 (tuning: 0)
+    exchange algorithm : 0
+    commsType          : nonBlocking
+    polling iterations : 0
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+memory pool : not available
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+
+SIMPLE: convergence criteria
+    field p	 tolerance 0.01
+    field U	 tolerance 0.001
+    field "(k|epsilon|omega|f|v2)"	 tolerance 0.001
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model kEpsilon
+RAS
+{
+    RASModel        kEpsilon;
+    turbulence      on;
+    printCoeffs     on;
+    Cmu             0.09;
+    C1              1.44;
+    C2              1.92;
+    C3              0;
+    sigmak          1;
+    sigmaEps        1.3;
+    twoLayerTreatment false;
+    ReyStar         200;
+    ReyFactor       0.05;
+}
+
+No MRF models present
+
+No finite volume options present
+
+Starting time loop
+
+Using dynamicCode for functionObject wallClockTimeStatistics at line 39 in "/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/system/controlDict/functions/wallClockTimeStatistics"
+Could not load "/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/dynamicCode/platforms/linux64GccDPInt32Opt/lib/libwallClockTimeStatistics_6e8d888ad28997c1bc9eebd1c08a1a15774516a4.so"
+/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/dynamicCode/platforms/linux64GccDPInt32Opt/lib/libwallClockTimeStatistics_6e8d888ad28997c1bc9eebd1c08a1a15774516a4.so: cannot open shared object file: No such file or directory
+Creating new library in "dynamicCode/wallClockTimeStatistics/platforms/linux64GccDPInt32Opt/lib/libwallClockTimeStatistics_6e8d888ad28997c1bc9eebd1c08a1a15774516a4.so"
+Invoking wmake libso /scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/dynamicCode/wallClockTimeStatistics
+wmake libso /scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/dynamicCode/wallClockTimeStatistics
+    ln: ./lnInclude
+    dep: functionObjectTemplate.C
+    Ctoo: functionObjectTemplate.C
+    link: /scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/dynamicCode/wallClockTimeStatistics/../platforms/linux64GccDPInt32Opt/lib/libwallClockTimeStatistics_6e8d888ad28997c1bc9eebd1c08a1a15774516a4.so
+Time = 1
+
+smoothSolver:  Solving for Ux, Initial residual = 1, Final residual = 0.0538101, No Iterations 1
+smoothSolver:  Solving for Uy, Initial residual = 1, Final residual = 0.030925, No Iterations 2
+GAMG:  Solving for p, Initial residual = 1, Final residual = 0.0793709, No Iterations 17
+time step continuity errors : sum local = 1.38882, global = 0.213657, cumulative = 0.213657
+smoothSolver:  Solving for epsilon, Initial residual = 0.202712, Final residual = 0.0108885, No Iterations 3
+bounding epsilon, min: -1.67033 max: 1080.25 average: 48.5271
+smoothSolver:  Solving for k, Initial residual = 1, Final residual = 0.0548383, No Iterations 3
+bounding k, min: -0.228807 max: 9.03938 average: 0.48422
+ExecutionTime = 0.11 s  ClockTime = 35 s
+
+Time = 2
+
+smoothSolver:  Solving for Ux, Initial residual = 0.437476, Final residual = 0.0326715, No Iterations 5
+smoothSolver:  Solving for Uy, Initial residual = 0.287682, Final residual = 0.0266177, No Iterations 4
+GAMG:  Solving for p, Initial residual = 0.0527142, Final residual = 0.00501187, No Iterations 16
+time step continuity errors : sum local = 4.75802, global = 0.170876, cumulative = 0.384533
+smoothSolver:  Solving for epsilon, Initial residual = 0.149105, Final residual = 0.00897022, No Iterations 3
+bounding epsilon, min: -205.568 max: 32893.9 average: 110.604
+smoothSolver:  Solving for k, Initial residual = 0.389326, Final residual = 0.0330796, No Iterations 3
+ExecutionTime = 0.13 s  ClockTime = 35 s
+
+Wall-clock time elapsed during the current time step = 0.0205623 s
+
+Time = 3
+
+smoothSolver:  Solving for Ux, Initial residual = 0.12021, Final residual = 0.0112506, No Iterations 4
+smoothSolver:  Solving for Uy, Initial residual = 0.204056, Final residual = 0.0170812, No Iterations 4
+GAMG:  Solving for p, Initial residual = 0.148721, Final residual = 0.0133009, No Iterations 6
+time step continuity errors : sum local = 3.63385, global = 0.324263, cumulative = 0.708795
+smoothSolver:  Solving for epsilon, Initial residual = 0.0729674, Final residual = 0.00443969, No Iterations 2
+bounding epsilon, min: -100.836 max: 49925.3 average: 133.292
+smoothSolver:  Solving for k, Initial residual = 0.174785, Final residual = 0.0123857, No Iterations 3
+ExecutionTime = 0.14 s  ClockTime = 35 s
+
+Wall-clock time elapsed during the current time step = 0.0138922 s
+
+Time = 4
+
+smoothSolver:  Solving for Ux, Initial residual = 0.068972, Final residual = 0.00465025, No Iterations 5
+smoothSolver:  Solving for Uy, Initial residual = 0.0988977, Final residual = 0.00838533, No Iterations 4
+GAMG:  Solving for p, Initial residual = 0.115951, Final residual = 0.0115437, No Iterations 7
+time step continuity errors : sum local = 2.18891, global = -0.199933, cumulative = 0.508862
+smoothSolver:  Solving for epsilon, Initial residual = 0.0828395, Final residual = 0.00473512, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 0.116427, Final residual = 0.00928681, No Iterations 3
+ExecutionTime = 0.16 s  ClockTime = 35 s
+
+Wall-clock time elapsed during the current time step = 0.0128595 s
+
+Time = 5
+
+smoothSolver:  Solving for Ux, Initial residual = 0.058796, Final residual = 0.00425795, No Iterations 5
+smoothSolver:  Solving for Uy, Initial residual = 0.0891403, Final residual = 0.00864882, No Iterations 4
+GAMG:  Solving for p, Initial residual = 0.118049, Final residual = 0.00849107, No Iterations 4
+time step continuity errors : sum local = 1.04, global = 0.0902324, cumulative = 0.599094
+smoothSolver:  Solving for epsilon, Initial residual = 0.0527452, Final residual = 0.00411664, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 0.0864281, Final residual = 0.0079623, No Iterations 3
+ExecutionTime = 0.16 s  ClockTime = 35 s
+
+Wall-clock time elapsed during the current time step = 0.008966 s
+
+Statistics:
+    Number of measured time steps = 4
+    Average wall-clock time per time step = 0.01407
+    Standard deviation of wall-clock time per time step = 0.00417427
+    Minimum number of measured time steps for 2% error at 95% confidence level = 845
+
+--> FOAM Warning : 
+    From virtual bool Foam::wallClockTimeStatisticsFunctionObject::end()
+    in file /scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-timing-resetfix-20261021T135818Z/runs/25904765/system/controlDict/functions/wallClockTimeStatistics at line 175
+    Number of time steps of the current run is smaller than the calculated one by the statistical analysis. Consider to raise endTime in controlDict.
+
+End
+
+Finalising parallel run
+	Command being timed: "timeout --signal=TERM --kill-after=15s 300s mpirun -np 4 simpleFoam -parallel"
+	User time (seconds): 0.00
+	System time (seconds): 0.03
+	Percent of CPU this job got: 0%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:50.12
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 9528
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1322
+	Voluntary context switches: 474
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 1616
+	File system outputs: 32
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

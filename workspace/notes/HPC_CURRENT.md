@@ -1,8 +1,8 @@
 # Current HPC/OpenFOAM handoff
 
 Updated 2026-10-21T14:03:36.403934+00:00. This is the HPC/OpenFOAM conversation; GPU/Qwen is owned by the separate GPU chat.
-research and said another person supports AI. Preserve their serving payloads,
-jobs and budget controls. English artifacts, Vietnamese chat; autopilot off.
+Preserve the separate GPU worker's payloads, jobs and budget. English artifacts,
+Vietnamese chat; autopilot off.
 
 ## Actual access: resolved
 
@@ -93,8 +93,12 @@ PitzDaily diagnostic, 8 CPUs/4 MPI/24 GB/no GPU/maximum 10 minutes and
 1.333333 SU reserved under the separate CPU lock. Review is F/exit 1 after 2 seconds, before native solver startup: the site's
 resetmodule empty grep triggers caller errexit/pipefail. Derived guarded-reset
 probe **25904765.pbs101** accepted 13:58:21 UTC, same 8 CPUs/4 MPI/24 GB/no GPU,
-maximum 10 minutes/1.333333 SU. Combined retained maxima 2.666667 SU; actual
-posted first charge not reconciled. Collect runtime logs before full DrivAer.
+maximum 10 minutes/1.333333 SU. **25904765: F/exit 0**, native diagnostic accepted after sealed-log review:
+v2512/DP, actual unchanged timing-library compilation, all five toy steps,
+End and semantic output pass. 84 s, estimated 0.186667 SU; 0.01407 s/step is
+toy-only with sample warning, not contest speed. Combined retained maxima
+2.666667 SU; posted charges not reconciled. Proceed to a fresh pinned full-case
+CPU preparation within the existing wave envelope.
 The first baseline wave planning ceiling is 100 SU; only the probe is reserved.
 [Probe and budget](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-timing-probe-20261021/STATUS.md).
 Read existing October 9–10 CPU artifacts in
