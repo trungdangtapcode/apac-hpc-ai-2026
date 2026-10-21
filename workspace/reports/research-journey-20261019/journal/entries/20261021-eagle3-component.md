@@ -145,3 +145,9 @@ Used 44393.346, Balance 18582.654, In Doubt 1024.000 SU; retain unposted 222763 
 ## Conditional full BF16 repair prepared
 
 A separate eagle3-pd-bf16-20261021 preparer refuses derivation before a sealed passing 222769 norm fixture with reproduced auto mismatch and exact BF16 graph replay. It preserves the accepted 222761 reference, all serving/transport/client checks and adds only explicit BF16 plus supported draft-unquant flags. No full repair receipt/reservation exists. The small probe's latest owned query shows R/substate 41, no session/resource counters or job-body artifact yet; this does not prove fixture progress or the cause of launch delay. Preserve its receipt and maximum; do not duplicate an uncertain/active probe. [Actual launch snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-dtype-probe-20261021/launch-state.txt).
+
+## Native dtype mechanism verified — 2026-10-21T06:00:15.649406+00:00
+
+222769 sealed F/exit0, 157 seconds/estimated 5.582222 SU. Native target stays BF16/FP8 in auto and explicit modes; draft auto is FP16. Exact real target embedding alias returns BF16, native norm weight FP16 and the same FlashInfer failure reproduces. Explicit BF16/unquant aligns all dtypes and passes finite native eager/CUDA-graph output with bit-identical replay. [Probe, source/provenance, transient launch and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-dtype-probe-20261021/REVIEW.md). Peak fixture allocation 4949346304 bytes is not serving overhead/utilization.
+
+The layer hypothesis passes. Prepare a new full PD repair with only the two explicit flags, unchanged FP8 target/reference/transport/output gates, then refresh queue/credit before submission. Full attention/TP4-to-TP8 state/graphs/output equality and useful performance remain unverified; no gate waiver or score claim.

@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-10-21T05:57:00.569226+00:00",
+  "job": "222769.pbs111",
+  "passed": true,
+  "full_target_loaded": false,
+  "target_embedding_loaded": true,
+  "attention_or_target_inference": false,
+  "modes": [
+    {
+      "mode": "auto",
+      "target_dtype": "torch.bfloat16",
+      "target_quantization": "fp8",
+      "draft_dtype": "torch.float16",
+      "draft_quantization": null,
+      "embedding_output_dtype": "torch.bfloat16",
+      "norm_weight_dtype": "torch.float16",
+      "embedding_alias_exact": true,
+      "native_norm_passed": false,
+      "error": {
+        "type": "ValueError",
+        "message": "Mismatched Tensor on argument #1 when calling: `__call__(mX: Tensor([n0, 4096], bfloat16), mW: Tensor([4096], bfloat16), mY: Tensor([n0, 4096], bfloat16), M: int64, eps: float32)`, expected dtype=bfloat16"
+      }
+    },
+    {
+      "mode": "bfloat16",
+      "target_dtype": "torch.bfloat16",
+      "target_quantization": "fp8",
+      "draft_dtype": "torch.bfloat16",
+      "draft_quantization": null,
+      "embedding_output_dtype": "torch.bfloat16",
+      "norm_weight_dtype": "torch.bfloat16",
+      "embedding_alias_exact": true,
+      "native_norm_passed": true,
+      "cuda_graph_replay_exact": true,
+      "finite_output": true
+    }
+  ],
+  "stage": "dtype_norm_fixture_pass_full_pd_unverified",
+  "embedding": {
+    "shard": "model-00001-of-00024.safetensors",
+    "shape": [
+      151936,
+      4096
+    ],
+    "dtype": "torch.bfloat16",
+    "staged_shard_sha256": "b84f30f1914682a6f15e144cae333e309bd777da10202592e565c0d675ec2b76",
+    "limit": "Reuses full verified staging digest with fresh shard size; does not rehash entire large shard"
+  },
+  "auto_mismatch_reproduced": true,
+  "peak_fixture_vram_bytes": 4949346304
+}
