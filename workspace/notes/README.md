@@ -6,6 +6,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 
 | What do you need? | Where to read |
 |---|---|
+| HPC task explanation, rules, baselines and experiment plan | [HPC research](../reports/hpc-openfoam-20261021/README.md) |
 | Complete submission, deployment, measured logs, slides and PDF | [21 October full delivery](submission-update-20261021.md) |
 | Latest checked public repository update | [Pinned upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md) |
 | Competition points, registration wording and specialist prizes | [Scoring and tracks](contest-scoring-and-tracks-20261020.md) |
