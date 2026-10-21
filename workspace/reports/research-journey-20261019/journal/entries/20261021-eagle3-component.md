@@ -25,3 +25,9 @@ The failed chat-extension route is replaced only in a new frozen component paylo
 ## Derived receipt — 2026-10-21T03:42:14.595996+00:00
 
 **222722.pbs111**, initial state R; one H100 / four minutes / max 8.533334 SU. The owned queue was empty. Previous 222721 is terminal F/exit 1 with estimated 3.733333 SU unposted, so both maximum reservations remain; conservative headroom is 7411.523333 SU. [Receipt and accounting](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-generate-20261021/RESULTS.md). No new component/model/throughput result at this checkpoint. Review actual evidence before the next bounded integration step.
+
+## /generate forwarding works; private cache repair prepared — 2026-10-21T03:44:37.641629+00:00
+
+The live 222722 artifact records a passing actual native /generate synthetic gateway check: both input-ID requests and logprob flags survive, merged input IDs are [1, 2] and decode output IDs [3, 4] are preserved. These are synthetic markers, not generated model tokens. The subsequent component import fails before native ModelConfig/tensor checks because FlashInfer tries to create a workspace beneath read-only /home/users. At this preparation check PBS is E with Exit_status 1, reported walltime 89 seconds; terminal sealing and cost reconciliation still follow.
+
+Prepare a new frozen payload that keeps both diagnostic Python scripts byte-identical and sets HOME/cache explicitly to directories in the private /tmp bind. [Concrete environmental repair and unchanged gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/PLAN.md). One H100 / four minutes / max 8.533334 SU, no target inference or accuracy/speedup claim. Do not submit until the preceding allocation is gone and a fresh locked queue/ledger check succeeds. No receipt at preparation; no relaxation or blind unchanged retry.

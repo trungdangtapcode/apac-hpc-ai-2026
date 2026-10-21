@@ -1,0 +1,9 @@
+# Writable private cache for the native component gate
+
+222722 confirms actual /generate input/logprob forwarding and response ID preservation with explicit synthetic workers. Its native metadata/tensor stage then stops during SGLang imports: FlashInfer attempts to create a workspace under the unmapped read-only HOME (/home/users). No draft model or target inference occurred. Preserve the submitted payload and its partial success/failure separately.
+
+This derived payload changes only the writable HOME and cache environment, explicitly passed through the existing clean container invocation. HOME, XDG cache, Hugging Face metadata cache, Torch extensions and CUDA cache use the allocation's private /tmp bind. The entrypoint creates those directories before imports. Gateway and native component scripts are byte-identical to 222722, source guards and acceptance gates stay unchanged, and there is still one container invocation. Model weights remain in the pinned excluded public cache.
+
+Request one H100 / four minutes / maximum 8.533334 SU. Repeat the native synthetic gateway gate, then actual native draft config/registry and 15 tensor/token-map integrity checks. This is a concrete environmental repair, not an unchanged retry, relaxed gate, model load, PD transfer, inference or performance result. Stop on failure; preserve raw logs and missing checks.
+
+Before qsub, use the corrected structured own-queue query and include both earlier terminal component jobs in unique posted-cost reconciliation. Reserve conservatively under the same budget lock/caps. Preparation, receipt and terminal review are separate safe checkpoints. The official scored command and serving payloads remain unchanged; no background AI, schedules, authentication or submission edit.
