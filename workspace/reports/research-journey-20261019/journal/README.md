@@ -80,3 +80,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: owner-authorised HPC research, public baseline analysis and access handoff](../../hpc-openfoam-20261021/LOG.md).
 
 - [21 October: verify GPU/HPC session identity and separate shared handoffs](entries/20261021-session-track-routing.md).
+
+- [21 October: reviewed native TP4 eager-prefill readiness pass](entries/20261021-prefill-readiness-pass.md).
