@@ -399,3 +399,18 @@ Both are pushed before closing this checkpoint. Adopt serialized selected-path
 HPC checkpoints; never delete another process's Git lock or sweep mixed work.
 The definite job receipt and current budget are retained even though the backup
 recovery completed after submission. No scheduling retry or data loss occurs.
+
+## Pending solver: actual queue restriction — 2026-10-21T14:48:23.781917+00:00
+
+At the owner's status checkpoint, query actual CPU PBS history/state and the
+scheduler comment plus qdev configuration. 25905114 remains Q; no native solver
+has started and no new result exists. PBS explicitly reports the queue-wide
+ncpus limit. qdev max_run_res is 256 cores across all users; 148 are assigned,
+leaving 108 versus the requested 128. At least 20 assigned cores must be
+released to fit this particular cap. Five queue jobs are running; do not infer
+their completion times or claim an ETA. Approximately 12 min 30 s queue delay
+is distinct from the prospective 35-minute execution cap. Preserve position
+and reservation; the queue is not empty and the one-active-CPU cap prevents
+another independent allocation. No blind retry, spending increase, alternate
+queue request or GPU-track mutation. Retain exact safe reason/configuration
+JSON and dated handoff; collect native logs when the actual job becomes terminal.

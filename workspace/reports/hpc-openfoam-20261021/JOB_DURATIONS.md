@@ -27,3 +27,10 @@ cost separate from the solver Average in seconds per CFD step.
 GPU/Qwen benchmark durations belong to the separate GPU conversation. This
 report covers only this HPC worker's CPU jobs. Raw execution accounting and
 per-run reviews live in hpc-experiments and the HPC_CURRENT handoff.
+
+## Current solver queue wait, 14:48 UTC
+
+25905114 is still queued about 12 min 30 s after submission. PBS explicitly
+blocks it on the qdev overall 256-core limit: 148 cores assigned leaves 108,
+but the request needs 128. This is not solver execution and the 35-minute
+runtime limit has not begun. There is no reliable start-time estimate yet.

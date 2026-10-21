@@ -22,3 +22,19 @@ Both captures had already screened/verified their files. Recover them as two
 path-scoped commits, preserving other staged work; both are now pushed. No
 source, raw evidence or scheduler receipt was lost. Future HPC checkpoints use
 one serialized capture/stage/commit/push scope with selected-path commits.
+
+## Live queue inspection — 2026-10-21T14:48:23.781917+00:00
+
+25905114 remains Q in qdev. PBS explicitly reports: Not Running: would exceed
+overall limit on resource ncpus in queue qdev. The queue allows 256 active CPU
+cores across all users and currently assigns 148, leaving 108; this job needs
+128. At least 20 assigned cores must be released before this request can fit
+that limit. This is a scheduler capacity restriction, not a running solver hang.
+No execution start or new numerical/performance result exists at this check.
+
+About 12 minutes 30 seconds has elapsed since submission. The 35-minute
+walltime applies after the job starts and does not bound queue waiting. Preserve
+the pending position; no unchanged resubmit or resource/queue/budget change is
+made. One own CPU allocation remains the wave cap and its maximum reservation
+stays retained. The full current safe scheduler reason/capacity is preserved
+in queue-inspection-20261021T1448Z.json; dated snapshots are not live monitors.

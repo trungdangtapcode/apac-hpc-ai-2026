@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T14:18:22.145997+00:00. **This is the HPC chat.** GPU/Qwen is owned by the separate
+Updated 2026-10-21T14:48:23.781917+00:00. **This is the HPC chat.** GPU/Qwen is owned by the separate
 GPU chat. Read [session ownership](SESSION_OWNERSHIP.md). Preserve its jobs,
 payloads, measurements and ledger; do not switch tracks from shared history.
 English artifacts, Vietnamese chat, autopilot off. Keep HPC_Task empty until
@@ -42,8 +42,11 @@ queue. Full official archive MD5/SHA256 and eight unpacked member hashes,
 native v2512/DP, exact 128 partitions/65,334,765 cells and initial fields pass.
 Batch MaxRSS 30.3228 GiB; estimated base charge 1.662222 SU is not posted billing.
 [Review and sealed evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
-**25905114.pbs101** accepted 14:35:53 UTC; retained 14:37:48 UTC snapshot is
-Q in qdev. One exclusive CPU node/128 MPI/440 GB/no GPU, maximum 35 minutes,
+**25905114.pbs101** remains Q in qdev at 14:48:23 UTC. PBS says it would
+exceed the queue's overall ncpus limit: 256-core cap, 148 assigned, only 108
+free under that cap, while this job requires 128. Wait for at least 20 assigned
+cores to be released; no solver has started. Preserve its queue position.
+Submitted at 14:35:53 UTC; the requested 35 minutes excludes queue waiting. One exclusive CPU node/128 MPI/440 GB/no GPU, maximum 35 minutes,
 all mandatory parallel initialization followed by 40 solver steps. Source,
 receipt, placement/phase plan and reservation are retained. No CPU solver
 result yet. [Active job](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-solve-h128-20261021/STATUS.md).
