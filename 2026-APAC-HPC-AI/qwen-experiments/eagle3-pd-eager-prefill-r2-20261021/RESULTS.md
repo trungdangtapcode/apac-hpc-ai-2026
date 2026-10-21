@@ -11,3 +11,5 @@ The definite receipt reserves 16 H100 for at most 30 minutes, **1024 SU maximum*
 Own GPU queue was empty before submission. The submitter retains one conservative external CPU slot allowance under the other worker's documented one-job cap; it does not connect to or assert live state of the HPC cluster. The abandoned first preparation was never uploaded, reserved or submitted. Revision 2 removes its unnecessary cross-track query dependency and makes configuration metadata match runtime flags.
 
 Next: seal terminal artifacts, verify payload hashes, all-role runtime/transport and resource coverage, and the actual 1600 output IDs. Full-PD success is required before a separately funded matched-capacity N54 short screen. No speedup, complete output equivalence, official accuracy or global optimality is claimed. H200 and H100 scores remain separate. The five H200 queue positions are preserved; see [snapshot](h200-queue.txt).
+
+Terminal update: **F/exit127**, 507 seconds; all roles and router ready, then warmup launcher failed before execution. See [complete failure review](REVIEW.md). Earlier R observations are historical.

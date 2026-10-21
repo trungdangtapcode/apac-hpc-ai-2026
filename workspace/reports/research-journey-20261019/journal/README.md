@@ -84,3 +84,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: reviewed native TP4 eager-prefill readiness pass](entries/20261021-prefill-readiness-pass.md).
 
 - [21 October: full PD eager-prefill repair receipt and bounded GPU reservation](entries/20261021-full-pd-eager-prefill-submission.md).
+
+- [21 October: full native readiness passes but warmup shell dispatch fails](entries/20261021-full-pd-launcher-failure.md).

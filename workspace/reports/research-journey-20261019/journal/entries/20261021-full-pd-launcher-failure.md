@@ -1,0 +1,11 @@
+# 21 October — native full-PD readiness passes, launcher regression blocks output
+
+**Question and control.** Job 223053 tests uniform eager prefill using the frozen BF16/unquant EAGLE3 candidate and exact 1600-ID reference. Numerical target/decode controls are unchanged from 222780.
+
+**Evidence and result.** [Sealed review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r2-20261021/REVIEW.md) verifies payload/raw hashes, all 16 NIXL ranks and BF16 KV pairs, both TP4 prefills ready, and complete decode draft decode/extend graph captures. Router plus workers ready at 490 seconds. The next external timeout invocation cannot find executable srun: the PBS adapter supplies an exported function. Exit 127 after 507 seconds, estimated allocated cost 288.426667 SU; no warmup, user token IDs, output equivalence or score. This failure is not a completed valid measurement.
+
+**Inspection and limits.** Startup samples cover four/four/eight devices with disjoint UUIDs. Status counts, sampled VRAM/activity and timing are in the review JSON. CPU/RAM/network counters are retained but not converted into demand; post-warmup actual rank/thread mapping was not reached. No scored latency, concurrency or utilization result exists. Readiness cannot prove heterogeneous transfer or exact outputs. The inspector was corrected to handle both HTTP-response and earlier error-status records instead of assuming one status field; missing fields remain explicit.
+
+**Assessment and next hypothesis.** Uniform eager prefill resolves the observed startup problem in this full topology. The added orchestration timeout introduced a separate dispatch error. Wrap the exported srun in child Bash under the same timeout, verify actual shim argv, nonzero status and timeout/process behavior on CPU, then consider one fresh locked-budget allocation. Do not modify submitted R2 bytes or relax token gates. H200/H100 records remain unchanged.
+
+**Correction and preservation.** Earlier R status is historical. The component pass never implied full-PD validity. Preserve the failed run, orchestration error and sealed raw evidence with a small capture/verification/commit/push checkpoint. Official accuracy is unverified; no background work is enabled.
