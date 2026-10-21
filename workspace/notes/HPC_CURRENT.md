@@ -4,7 +4,7 @@ Updated 2026-10-21T19:07:46.983112+00:00. This handoff belongs to the HPC sessio
 
 ## Active experiment
 
-**25907325.pbs101: Q** at 2026-10-21T19:06:52.767507+00:00, qdev, ASPIRE-2A CPU project **59000042**. One exclusive CPU node / 128 MPI / 440 GB / no GPU, maximum **29 minutes after starting**. Candidate mandatory initialization, then hierarchical and default Scotch 40-step solves on the same node. Queue waiting is separate.
+**25907325.pbs101: R** at 2026-10-21T19:30:56.727969+00:00, qdev, ASPIRE-2A CPU project **59000042**. One exclusive CPU node / 128 MPI / 440 GB / no GPU, maximum **29 minutes after starting**. Candidate mandatory initialization, then hierarchical and default Scotch 40-step solves on the same node. Queue waiting is separate. Started 19:14:45 UTC on x1001c0s1b0n0; control finished provisionally at 14.7872238123 s/step, Cd unchanged. Scotch is still running; no final pair result.
 
 [Exact plan, receipt, gates and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/STATUS.md). Next collect and review terminal evidence using tools/collect_cpu_probe.py and the experiment review.py. Never overwrite collected terminal evidence. Inspect both averages/tails/Cd, fixed iterations, errors, phase costs, placement and unchanged zero-time fields. One ordered pair is not repeated proof or a four-node score. Do not modify submitted payloads or rerun unchanged.
 
@@ -37,3 +37,7 @@ Checkpoint selected safe paths via /tmp/apac-hpc-checkpoint.py, serialized share
 ## Queue checkpoint 2026-10-21T19:08:21.262668+00:00
 
 Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.
+
+## Prepared next hypothesis, not submitted
+
+Native NUMA-aware Scotch N128: domains (8 16), weights (1 0.1), using verified diagnostic rank groups. Fresh split only, max 8 SU serial prep, contingent on terminal pair review and locked reconciliation within 100 SU. Includes reciprocal boundary-graph cross-group counts and hashes; no physical latency or speed claim. [Plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md).

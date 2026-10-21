@@ -35,3 +35,7 @@ A cut-only result is a cheap hypothesis filter, not a speed estimate. Close or r
 - [Exact primary source](https://gitlab.com/openfoam/core/openfoam/-/blob/87ed40d256d22ea38fcc648dfc82a22162427b18/src/parallel/decompose/scotchDecomp/scotchDecomp.C).
 
 No new native execution or improvement is claimed by this static review.
+
+## Boundary-graph evidence gate
+
+The preparation allocation will read each processor boundary on all three trees and retain each file SHA256 plus reciprocal face-count checks. Count unique undirected interfaces and interfaces crossing logical groups rank//16, maximum rank faces/neighbors, and the explicit synthetic 10:1 objective. Default and hierarchical totals must match the earlier native decomposition logs during terminal review. Report logical groups; only a later matching rank-placement probe makes their physical NUMA interpretation applicable to that solve. No bandwidth or solve-time estimate follows from a smaller graph objective.

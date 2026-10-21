@@ -67,4 +67,6 @@ assert len(cells)==128 and sum(cells)==65334765
 assert all(all((p/('processor'+str(i))/'0'/n).is_file() for n in ['U','p','k','omega','nut','nuTilda']) for i in range(128))
 (p/'CUT_READY.json').write_text(json.dumps({'ranks':128,'method':'scotch','domains':[8,16],'domainWeights':[1,0.1],'total_cells':sum(cells),'scope':'decomposePar and restore0Dir only; mandatory parallel initialization still required'},indent=2)+'\n')
 PY
+cd "$ROOT"
+python3 interface-graph.py
 printf 'CPU_N128_CUT_PASS\n'

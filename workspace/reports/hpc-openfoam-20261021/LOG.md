@@ -477,3 +477,11 @@ Scotch preparation 25907236 passes full review before this submission. The candi
 This is a first ordered H→S pair. Report cache/order and single-pair limitations, all tails and Cd, including a losing result. No four-node/150-step score or repeated improvement is claimed. See PLAN.md and PRE_SUBMIT_REVIEW.md. Do not modify the submitted payload or resubmit unchanged.
 
 Remote root: `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-method-pair128-20261021T190634Z`.
+
+## 2026-10-21: derive a NUMA-aware native partition hypothesis while the pair runs
+
+Prior evidence: baseline 25905114 passes at 14.921981 s/step; default Scotch 25907236 has fewer faces but more neighbors/cell imbalance. Pair 25907325 is running and its control is provisionally 14.787224 s/step, with unchanged Cd. No final candidate result yet. Atomic diagnostic ranks map CPU=rank 0–127 to eight NUMA sets in blocks of sixteen. This verifies a logical grouping, not actual memory page residence or a runtime bottleneck.
+
+Pinned native v2512 source selects SCOTCH_archTleaf for domains/domainWeights when processorWeights is absent. Derived fresh candidate adds only scotchCoeffs domains (8 16), domainWeights (1 0.1), normalized integer costs 10:1. These weights are a synthetic contrast, not measured hardware ratios. No socket tier is claimed because the retained summary does not individually map CPUs to sockets. Static syntax/input gates pass; library execution is unmeasured.
+
+Next, only after terminal pair review and locked cost reconciliation, submit an at-most-8-SU serial prep if it fits the unchanged 100-SU wave. Its allocated compute stage will inspect reciprocal processor-neighbor face graphs on hierarchical, default Scotch and candidate trees, preserving boundary hashes and logical cross-group cuts. A smaller graph cut is a cheap filter, not a speedup. Review imbalance/fan-out/setup cost and close a losing branch. A later solver needs its own affordable reservation and matching placement; no active payload or AI job was changed. Exact hypothesis, source reference, mapping and scripts: hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md.
