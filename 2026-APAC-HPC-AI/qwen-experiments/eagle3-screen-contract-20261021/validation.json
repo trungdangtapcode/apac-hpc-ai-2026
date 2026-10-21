@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "native_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-preflight-20261020/source/pilot-interfaces/sgl-workspace/sglang/python/sglang/srt/arg_groups/speculative_hook.py",
+  "native_source_sha256": "6ffb0b4066e92257ac88c03627df28f7e226fef25eae63a5d2771a74f656bac1",
+  "native_function": "_handle_eagle_family",
+  "native_branch_line": 540,
+  "native_branch_cases": [
+    {
+      "requested": null,
+      "resolved": 48
+    },
+    {
+      "requested": 64,
+      "resolved": 64
+    },
+    {
+      "requested": 256,
+      "resolved": 256
+    },
+    {
+      "requested": 4096,
+      "resolved": 4096
+    }
+  ],
+  "adversarial_fixture_cases": [
+    "control_explicit_capacity_pass",
+    "candidate_explicit_capacity_pass",
+    "native_spec_default_rejected",
+    "target_default_rejected",
+    "changed_tp_rejected",
+    "auto_dtype_rejected",
+    "spec_disabled_rejected",
+    "missing_role_rejected",
+    "conflicting_logs_rejected",
+    "missing_final_scheduler_rejected",
+    "different_final_scheduler_rejected"
+  ],
+  "historical_resolved_values": {
+    "222761": {
+      "server_args": {
+        "prefill-0": {
+          "max_running_requests": null,
+          "tp_size": 4,
+          "ep_size": 1,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 4096,
+          "speculative_algorithm": null
+        },
+        "prefill-1": {
+          "max_running_requests": null,
+          "tp_size": 4,
+          "ep_size": 1,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 4096,
+          "speculative_algorithm": null
+        },
+        "decode-0": {
+          "max_running_requests": 256,
+          "tp_size": 8,
+          "ep_size": 8,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 8192,
+          "speculative_algorithm": null
+        }
+      },
+      "final_scheduler": {
+        "prefill-0": [
+          4096
+        ],
+        "prefill-1": [
+          4096
+        ],
+        "decode-0": [
+          256
+        ]
+      }
+    },
+    "222763": {
+      "server_args": {
+        "prefill-0": {
+          "max_running_requests": 48,
+          "tp_size": 4,
+          "ep_size": 1,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 4096,
+          "speculative_algorithm": "EAGLE3"
+        },
+        "prefill-1": {
+          "max_running_requests": 48,
+          "tp_size": 4,
+          "ep_size": 1,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 4096,
+          "speculative_algorithm": "EAGLE3"
+        },
+        "decode-0": {
+          "max_running_requests": 256,
+          "tp_size": 8,
+          "ep_size": 8,
+          "dtype": "auto",
+          "mem_fraction_static": 0.9,
+          "chunked_prefill_size": 8192,
+          "speculative_algorithm": "EAGLE3"
+        }
+      },
+      "final_scheduler": {
+        "prefill-0": [],
+        "prefill-1": [],
+        "decode-0": []
+      }
+    }
+  },
+  "scope": "Isolated exact native AST branch plus synthetic log fixtures and sealed historical log parsing; no full ServerArgs initialization, model loading or GPU execution"
+}

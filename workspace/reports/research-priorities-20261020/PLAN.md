@@ -1,5 +1,9 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T09:44:32.900086+00:00
+
+All five H200 jobs are pending/Priority; PBS cannot be queried because the existing VPN wrapper finds no live session. Preserve positions, outstanding maxima and authentication state. The [conditional matched-capacity contract](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-screen-contract-20261021/PLAN.md) now specifies prefill 64 / decode 256 on both H100 sides and checks early ServerArgs plus final scheduler receipts. Four exact native-branch cases and eleven adversarial log fixtures pass on CPU; historical 222761 shows None then final 4096, while failed 222763 shows 48 with no final scheduler receipts. No screen payload, GPU measurement or reservation is implied. Full 222780 review still comes first. The whole N62 submission was updated separately on this date; do not promote this unmeasured contract into it. Earlier state snapshots below are historical.
+
 ## Current refinement — 2026-10-21T06:04:30.385561+00:00
 
 Real reference 222761 passes all 1600 actual IDs and four exact A/B pairs with runtime/telemetry limits retained. Native EAGLE3 PD 222763 fails a concrete dtype mismatch before readiness. Actual one-GPU fixture 222769 reproduces auto FP16 draft versus BF16 target embedding and validates explicit BF16/unquant eager/graph norm while target remains FP8/BF16.
