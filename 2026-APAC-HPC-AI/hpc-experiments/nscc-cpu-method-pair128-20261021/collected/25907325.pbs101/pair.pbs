@@ -1,0 +1,78 @@
+#!/bin/bash
+# Same-allocation CPU method screen; fixed physics, solver work and native runtime.
+#PBS -N tu-cpu-HS128
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=excl
+#PBS -l walltime=00:29:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$RUN"
+mkdir -p "$RUN"
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+export FI_VERBS_PREFER_XRC=0
+cd "$ROOT"
+python3 verify-inputs.py
+CONTROL=$(python3 -c 'import json;print(json.load(open("inputs.json"))["control"])')
+CANDIDATE=$(python3 -c 'import json;print(json.load(open("inputs.json"))["candidate"])')
+CONTROL_SEAL=$(python3 -c 'import json;print(json.load(open("inputs.json"))["control_field_manifest"])')
+{ date -u; hostname; module list 2>&1; lscpu; } > "$RUN/environment.log"
+mpirun -np 128 python3 "$ROOT/rank-probe.py" > "$RUN/rank-placement.jsonl" 2> "$RUN/rank-placement.stderr"
+python3 - "$RUN/rank-placement.jsonl" <<'PY_RANK'
+import json,sys
+rows=[json.loads(x) for x in open(sys.argv[1]) if x.strip()]
+assert sorted(x['rank'] for x in rows)==list(range(128))
+assert len(set(x['host'] for x in rows))==1
+assert all(len(x['affinity'])==1 for x in rows)
+assert len(set(x['affinity'][0] for x in rows))==128
+PY_RANK
+phase() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$1" | tee -a "$RUN/phases.log"; }
+run_stage() {
+ local label=$1
+ local log=$2
+ shift 2
+ phase "$label"
+ /usr/bin/time -v timeout --signal=TERM --kill-after=15s 1050s mpirun -np 128 "$@" > "$log" 2>&1
+ python3 - "$log" <<'PY_LOG'
+from pathlib import Path
+import sys,re
+s=Path(sys.argv[1]).read_text()
+assert re.search(r'^End\s*$',s,re.M) and 'FOAM FATAL' not in s and 'died from signal' not in s
+assert 'OPENFOAM=2512' in s and 'scalar=64' in s
+assert re.search(r'^nProcs\s*:\s*128\s*$',s,re.M)
+PY_LOG
+}
+phase control_field_verification
+python3 field-seal.py "$CONTROL" "$RUN/control-before.json" "$CONTROL_SEAL"
+# Complete initialization once for the newly decomposed candidate only.
+cd "$CANDIDATE"
+mkdir -p "$RUN/candidate-init"
+run_stage S_renumber "$RUN/candidate-init/renumberMesh.log" renumberMesh -constant -overwrite -parallel
+run_stage S_potential "$RUN/candidate-init/potentialFoam.log" potentialFoam -initialiseUBCs -parallel
+run_stage S_boundary "$RUN/candidate-init/applyBoundaryLayer.log" applyBoundaryLayer -ybl 0.0450244 -parallel
+python3 "$ROOT/field-seal.py" "$CANDIDATE" "$RUN/candidate-before.json"
+for role in control candidate; do
+ if [ "$role" = control ]; then ART=$CONTROL; else ART=$CANDIDATE; fi
+ DEST="$RUN/$role"
+ mkdir -p "$DEST/logFiles"
+ cp -a "$ART/system" "$DEST/system"
+ ln -s "$ART/constant" "$DEST/constant"
+ for p in "$ART"/processor*; do ln -s "$p" "$DEST/$(basename "$p")"; done
+ cd "$DEST"
+ foamDictionary system/controlDict -entry startFrom -set startTime > logFiles/control-set.stdout 2> logFiles/control-set.stderr
+ foamDictionary system/controlDict -entry endTime -set 40 >> logFiles/control-set.stdout 2>> logFiles/control-set.stderr
+ run_stage "${role}_simpleFoam" "$DEST/logFiles/simpleFoam.log" simpleFoam -parallel
+ python3 "$ROOT/validate-solve.py" "$DEST"
+ phase "${role}_field_verification"
+ python3 "$ROOT/field-seal.py" "$ART" "$RUN/${role}-after.json" "$RUN/${role}-before.json"
+done
+phase pair_complete
+printf 'CPU_HS_PAIR_PASS\n'

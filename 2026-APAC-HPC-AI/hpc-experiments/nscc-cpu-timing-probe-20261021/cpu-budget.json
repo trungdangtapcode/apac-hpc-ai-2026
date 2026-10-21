@@ -9,7 +9,7 @@
     "in_doubt_SU": 0
   },
   "baseline_wave_planning_ceiling_SU": 100,
-  "reserved_max_SU": 98.86666666666667,
+  "reserved_max_SU": 81,
   "jobs": [
     {
       "id": "25904725.pbs101",
@@ -17,7 +17,8 @@
       "maximum_SU": 1.3333333333333333,
       "elapsed_seconds": 2,
       "estimated_actual_SU": 0.0044444444444444444,
-      "posted_charge_reconciled": false
+      "posted_charge_reconciled": false,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25904765.pbs101",
@@ -26,7 +27,8 @@
       "branch": "resetfix",
       "elapsed_seconds": 84,
       "estimated_actual_SU": 0.18666666666666668,
-      "posted_charge_reconciled": false
+      "posted_charge_reconciled": false,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25904959.pbs101",
@@ -35,7 +37,8 @@
       "branch": "N128_hierarchical_prep",
       "elapsed_seconds": 16,
       "estimated_actual_SU": 0.14222222222222222,
-      "posted_charge_reconciled": false
+      "posted_charge_reconciled": false,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25905006.pbs101",
@@ -44,7 +47,8 @@
       "branch": "N128_hierarchical_headerfix",
       "elapsed_seconds": 187,
       "estimated_actual_SU": 1.6622222222222223,
-      "posted_charge_reconciled": false
+      "posted_charge_reconciled": false,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25905114.pbs101",
@@ -54,7 +58,8 @@
       "observed_utc": "2026-10-21T14:48:23.781917+00:00",
       "elapsed_seconds": 728,
       "estimated_actual_SU": 25.884444444444444,
-      "posted_charge_reconciled": false
+      "posted_charge_reconciled": false,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25907236.pbs101",
@@ -66,7 +71,7 @@
       "elapsed_seconds": 371,
       "estimated_actual_SU": 3.2977777777777777,
       "posted_charge_reconciled": false,
-      "reservation_note": "Retain 8-SU maximum until reconciliation, although CPU job is terminal."
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit."
     },
     {
       "id": "25907325.pbs101",
@@ -74,23 +79,27 @@
       "root": "/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-method-pair128-20261021T190634Z",
       "maximum_SU": 61.86666666666667,
       "branch": "N128_same_node_H_then_S_pair",
-      "observed_utc": "2026-10-21T19:06:38.631193+00:00"
+      "observed_utc": "2026-10-21T19:06:38.631193+00:00",
+      "elapsed_seconds": 1373,
+      "estimated_actual_SU": 48.81777777777778,
+      "reservation_note": "Terminal resource-based maximum retired during locked reconciliation; original maximum retained for audit.",
+      "posted_charge_reconciled": false
     }
   ],
   "note": "CPU-only ledger; no AI budget changes. Probe and future stages need locked fresh checks and separate submission receipts.",
   "schema": 2,
-  "updated_utc": "2026-10-21T18:56:35.354784+00:00",
-  "consumed_ceiling_SU": 29,
-  "outstanding_reserved_max_SU": 69.86666666666667,
-  "planning_committed_SU": 98.86666666666667,
+  "updated_utc": "2026-10-21T19:38:25.696495+00:00",
+  "consumed_ceiling_SU": 81,
+  "outstanding_reserved_max_SU": 0,
+  "planning_committed_SU": 81,
   "reservation_semantics": "reserved_max_SU is total conservative consumed plus outstanding commitment, NOT cumulative historical requested maxima. Always enforce consumed_ceiling_SU + outstanding_reserved_max_SU + new maximum <=100.",
   "latest_project_snapshot": {
-    "observed_utc": "2026-10-21T18:56:35.354784+00:00",
+    "observed_utc": "2026-10-21T19:38:25.696495+00:00",
     "used_SU": 250.033,
     "balance_SU": 29749.967,
-    "in_doubt_SU": 0,
-    "site_timestamp": "21/10/2026-22:31:12",
-    "timestamp_limitation": "Not consistent with solver chronology; amount delta agrees with all terminal allocation estimates within 0.001 SU."
+    "in_doubt_SU": 0.0,
+    "site_timestamp_limitation": "See retained raw report; timestamp/refresh chronology unresolved"
   },
-  "reconciliation_note": "All five CPU jobs terminal, own queue empty. Historical maxima retired by terminal resource accounting and amount-level agreement. 29 SU ceiling includes 1.120 SU above 27.880 estimate; not exact individual billed charges."
+  "reconciliation_note": "All recorded CPU jobs terminal; own queue empty and report In Doubt zero. Requested maxima retired with actual terminal resources plus one SU rounding buffer; not individual posted billing.",
+  "last_reconciliation": "nscc-cpu-timing-probe-20261021/reconciliation-20261021T193825Z.json"
 }

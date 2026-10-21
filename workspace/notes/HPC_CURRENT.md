@@ -1,12 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T19:07:46.983112+00:00. This handoff belongs to the HPC session; GPU/Qwen belongs to the separate GPU chat. Follow [session ownership](SESSION_OWNERSHIP.md). Vietnamese chat only, English artifacts, no schedules or background Codex. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
+Updated 2026-10-21T19:40:11.178495+00:00. This handoff belongs to the HPC session; GPU/Qwen belongs to the separate GPU chat. Follow [session ownership](SESSION_OWNERSHIP.md). Vietnamese chat only, English artifacts, no schedules or background Codex. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
 
-## Active experiment
+## Current result and next decision
 
-**25907325.pbs101: R** at 2026-10-21T19:30:56.727969+00:00, qdev, ASPIRE-2A CPU project **59000042**. One exclusive CPU node / 128 MPI / 440 GB / no GPU, maximum **29 minutes after starting**. Candidate mandatory initialization, then hierarchical and default Scotch 40-step solves on the same node. Queue waiting is separate. Started 19:14:45 UTC on x1001c0s1b0n0; control finished provisionally at 14.7872238123 s/step, Cd unchanged. Scotch is still running; no final pair result.
+**25907325.pbs101: F / exit 0**, same-node H→S pair, 128 ranks, 40 steps each. Hierarchical **14.7872238123 s/step**, Scotch **14.6402329083 s/step**: observed **0.994% reduction**, not a confirmed win. Scotch step 9 was **21.120703 s**, and the native timer asks for at least 50 samples while there are 39. All fixed-work/output/exit and unchanged-zero-field gates pass. Whole allocation **1373 s / 22 min 53 s**, estimated **48.817778 SU**. One-node screen only, no four-node score. [Full inspection and decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/RESULTS.md).
 
-[Exact plan, receipt, gates and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/STATUS.md). Next collect and review terminal evidence using tools/collect_cpu_probe.py and the experiment review.py. Never overwrite collected terminal evidence. Inspect both averages/tails/Cd, fixed iterations, errors, phase costs, placement and unchanged zero-time fields. One ordered pair is not repeated proof or a four-node score. Do not modify submitted payloads or rerun unchanged.
+Next native NUMA-aware Scotch prep, already frozen and graph-parser validated on 256 actual boundary files. Must check fresh queue/balance and reserve its full 8-SU maximum under CPU lock before submission. No active CPU job at reconciliation. A full reverse-order pair cannot fit the remaining first-wave maximum; no cap increase.
 
 ## Accepted CPU baseline and new partition evidence
 
@@ -16,9 +16,9 @@ Updated 2026-10-21T19:07:46.983112+00:00. This handoff belongs to the HPC sessio
 
 ## Budget and queue rules
 
-CPU-only project **59000042** is separate from AI **59010042**. Latest amount report Used **250.033**, Balance **29749.967**, In Doubt **0 SU**. Site report timestamp is inconsistent; individual charges are not known. First five terminal allocations estimate **27.880 SU**, consistent with amount delta **27.879 SU**; conservative consumed ceiling **29 SU**. Scotch prep's terminal 8-SU maximum remains retained pending reconciliation.
+CPU-only project **59000042**, separate from AI **59010042**. All seven recorded allocations terminal; estimates total **79.995556 SU**. Stale project amount report still shows Used 250.033 / Balance 29749.967 / In Doubt zero, delta **27.879 SU**; no individual posted charge is known. Locked reconciliation conservatively uses **81 SU consumed**, outstanding zero, leaving **19 / 100 SU** before the next reservation. Timestamp/refresh limitations remain in the ledger evidence.
 
-Current total planning commitment **98.866667 / 100 SU** includes the active pair maximum **61.866667 SU**. Do not raise the cap or infer spend authority from the 30,000-SU grant. One own CPU allocation active at a time; combined own PBS jobs at most three. Check the actual CPU queue and inspect AI only read-only for combined capacity. Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Schema 2 enforces consumed ceiling + outstanding retained reservations + new maximum. Preserve pending positions; no blind duplicate/retry. Reconcile actual terminal usage before planning further work; further repetitions may not fit this wave.
+One own CPU allocation active at a time, combined own PBS jobs at most three. Check CPU queue and inspect AI only read-only for combined capacity. Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Schema 2 checks consumed + retained outstanding + new maximum. Preserve queue positions and original requested maxima as provenance. No grant/cap increase, blind duplicates, AI changes or schedules.
 
 ## Verified access
 
@@ -34,7 +34,7 @@ Preserve resetmodule failure 25904725, successful native timing gate 25904765, f
 
 Checkpoint selected safe paths via /tmp/apac-hpc-checkpoint.py, serialized shared Git lock and path-scoped commit. Capture/verify/commit/push small milestones; do not include other worker changes. Existing archive and history stay intact. External artifact objects are not uploaded by Git. Routing uses CODEX_THREAD_ID and threads.name; old title-column lookup was incomplete. Shared CURRENT.md does not change track ownership.
 
-## Queue checkpoint 2026-10-21T19:08:21.262668+00:00
+## Historical queue checkpoint 2026-10-21T19:08:21.262668+00:00
 
 Job 25907325.pbs101: Q. PBS comment: Not Running: would exceed overall limit on resource ncpus in queue qdev. This is scheduler capacity, not a running solver hang. Preserve queue position, allocation and reservation; no unchanged resubmit. The requested 29-minute walltime begins after start, not at submission.
 

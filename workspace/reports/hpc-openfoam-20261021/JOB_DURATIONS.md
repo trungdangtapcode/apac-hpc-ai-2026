@@ -40,3 +40,5 @@ runtime limit has not begun. There is no reliable start-time estimate yet.
 25905114 finished exit 0 after 728 seconds; its earlier pending snapshot is historical. Queue wait was about 13 min 5 s. Native solver alone reports 643 seconds; whole allocation includes setup and initialization. Estimated base charge 25.884444 SU is not an individually reported invoice.
 
 25907236 native Scotch mesh verification + serial cut/restore: 6 min 11 s execution, 15-minute requested maximum, estimated 3.297778 SU. It is preparation, not solver performance.
+
+25907325 same-node H→S 40+40-step method pair: **22 min 53 s** allocation, requested 29 min, estimated **48.817778 SU**. Native solver clocks H 621 s / S 616 s; preparation and all guards are additional. Both exit 0; observed 0.994% step-average reduction is limited by one ordered pair and a candidate outlier.
