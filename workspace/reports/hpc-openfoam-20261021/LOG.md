@@ -247,3 +247,16 @@ retain a pre-submit intent before qsub. Exactly one submission returns
 maximum 600 seconds. The first later qstat says already finished; collect -x
 history and logs. This is actual CPU submission acceptance, not runtime success
 or a contest score. No AI spend/job changes, guessed billing or blind retries.
+
+## CPU environment gate failure reviewed — 2026-10-21T13:56:39.579439+00:00
+
+25904725.pbs101 is F/exit 1, 2 s, 8 CPUs/zero GPUs. Seal submitted source,
+output and selected history; no native solver or compiled timing library was
+executed. Actual site resetmodule uses loadedmods=$(module list | grep -vi
+Modulefiles) after purge. Under strict errexit/pipefail, the expected empty
+grep result exits the sourced script before defaults reload. Output matches
+that boundary. This is a reproducible shell setup mechanism, not proof of a
+compiler or model failure. Derive guarded conditional sourcing and validate
+modules/runtime; keep native case/timing/flags fixed. Estimated base charge
+0.004444 SU is not individually posted billing; retain the 1.333333-SU maximum
+until ledger reconciliation. No new full-case allocation or AI change.
