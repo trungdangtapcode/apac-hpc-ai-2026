@@ -67,6 +67,8 @@ for role in control candidate; do
  ln -s "$ART/constant" "$DEST/constant"
  for p in "$ART"/processor*; do ln -s "$p" "$DEST/$(basename "$p")"; done
  cd "$DEST"
+ foamDictionary system/controlDict -entry startFrom -set startTime > logFiles/control-set.stdout 2> logFiles/control-set.stderr
+ foamDictionary system/controlDict -entry endTime -set 40 >> logFiles/control-set.stdout 2>> logFiles/control-set.stderr
  run_stage "${role}_simpleFoam" "$DEST/logFiles/simpleFoam.log" simpleFoam -parallel
  python3 "$ROOT/validate-solve.py" "$DEST"
  phase "${role}_field_verification"

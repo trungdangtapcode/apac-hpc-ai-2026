@@ -11,6 +11,14 @@ allocation. The toy gate has passed. The first 65M serial decomposition is now j
 [bounded baseline plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/PLAN.md).
 Older access/pre-submit wording below is historical planning.
 
+## Current milestone, 21 October
+
+Iris practice is complete: 2293754 passes the complete chain at 21.965354 s/step. ASPIRE-2A CPU access, project 59000042, native v2512/DP and full mesh archive/member hashes are verified. First native CPU baseline 25905114 passes initialization plus 40 steps: hierarchical (16 4 2), 128 ranks, 14.9219814004 s/step, Cd 0.4389323284, 728 seconds allocation. No four-node score or measured speedup yet.
+
+First wave stays capped at 100 SU, one CPU allocation active at a time. Five terminal allocations estimate 27.880 SU, consistent with the reported amount delta 27.879 SU; retain a conservative 29-SU consumed ceiling. Individual posted charges and the inconsistent site report timestamp remain limitations.
+
+Native default Scotch preparation 25907236 is now running, maximum 8 SU. The next frozen screen compares hierarchical then Scotch on the same exclusive node, maximum 61.866667 SU, conditional on reviewed preparation. This keeps planning commitment at most 98.866667 SU. Review cell balance/interfaces/neighbors and all acceptance gates before comparison. Source: hpc-experiments/nscc-cpu-scotch128-20261021 and nscc-cpu-method-pair128-20261021. The pair verifies unchanged initial fields and atomic placement records; one ordered pair still has cache/order/repetition limits. Detailed stage descriptions below retain their original planning context; gateway and baseline-pending wording is historical, not current access or job status.
+
 ## Stage 0: establish the actual practice and contest environments
 
 Resolve the supplied endpoint's next hop, if any. It currently logs into an
