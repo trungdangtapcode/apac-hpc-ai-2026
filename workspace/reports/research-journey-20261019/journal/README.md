@@ -64,3 +64,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [20 October: EAGLE3 actual token-ID observation and gateway capability gate](entries/20261020-eagle3-token-observation.md).
 
 - [21 October: registration wording, scope correction and authorised preservation](entries/20261021-registration-clarification.md).
+
+- [21 October: actual balanced CPU envelopes, sub-threshold gain and next component gate](entries/20261021-cpu-envelope-result.md).

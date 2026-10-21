@@ -1,3 +1,7 @@
+# Terminal decision — 2026-10-21T03:24:42.830408+00:00
+
+Both local serving/runtime/output gates pass. The actual balanced worker masks are verified, but goodput improves only **0.289035%**, below the prospective **1%** gate. **Close this exact policy, no unchanged repeat or default promotion.** [Full measurement, mapping, tails, profiles, limitations and cost review](PAIR_REVIEW.md). Both costs reconcile; current internal headroom is 7428.590 SU before any new reservation. The submission snapshot below is historical.
+
 # Equal-budget CPU envelope pair submitted — 2026-10-20T17:22:05.154436+00:00
 
 Definite receipts: **222551.pbs111 legacy control → 222552.pbs111 balanced candidate**, verified serial afterany. The candidate receives QWEN_CONTROL_JOB=222551.pbs111 and its bootstrap guard checks the predecessor before loading weights. Each requests 16 H100 / 30 minutes / maximum 1024 SU; total 2048 SU. [Receipts and qsub variables](pbs-receipts.json), [actual scheduler dependency](pbs-post-submit.txt), [plan and gates](PLAN.md), [frozen payload and CPU validation](validation.json).
