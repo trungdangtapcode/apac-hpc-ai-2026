@@ -7,3 +7,7 @@ The actual-image 222759 corpus gate passes; its exact 22/21/22/4000-token intege
 Locked credit: Used **43586.876**, Balance **19730.457**, In Doubt **682.667 SU**. Outstanding full maxima: [{"job": "222752.pbs111", "max_su": 682.6666666666666}, {"job": "222759.pbs111", "max_su": 8.533333333333333}, {"job": "222761.pbs111", "max_su": 682.6666666666666}]. Conservative internal headroom **6039.257333 SU** under unchanged 51000 cap/13000 buffer. [Reconciliation](reconciliation.json). Do not release unposted maxima or subtract In Doubt twice. [Dated scheduler evidence](live-receipt.json).
 
 222752 remains a failed reference despite PBS exit zero and is preserved separately. This job has no ranked AIPerf or EAGLE3 performance claim; a speculative candidate still requires a complete sealed reviewed real reference.
+
+## Sealed real reference PASS — 2026-10-21T05:36:48.579177+00:00
+
+F/exit0, 752 seconds/estimated427.804444 SU. All1600 actual IDs present; four paired cases match exactly. Runtime/transport/locality and phase-aligned sparse telemetry reviewed. Cache reuse limits timing claims. [Full review](REVIEW.md). Eligible only as this exact diagnostic reference, not a ranked score or organiser accuracy.
