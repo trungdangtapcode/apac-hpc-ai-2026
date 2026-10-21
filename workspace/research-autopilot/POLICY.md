@@ -22,7 +22,7 @@ Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is *
 
 Latest completed H100 pair: 222551/222552, full local gates and actual mappings PASS but only +0.289035% goodput, below the prospective 1% gate. Close without an unchanged repeat or default promotion. At the locked 21 October 03:21:52 UTC reconciliation: Used 43571.410 SU, Balance 20428.590 SU, In Doubt zero, no outstanding maxima and internal headroom 7428.590 SU. Refresh before spending; these are dated values.
 
-The next prepared component gate uses one H100 / four minutes / maximum 8.533334 SU, with no full target inference or ranked score. Require fresh locked queue/credit checks, definite receipt and separate capture. A component PASS does not waive real draft loading, both-phase PD transfer or exact greedy equality. Current H200 positions remain 24928/24962/24964/24965/25051, all pending at the latest check; no sixth job. No budget increase.
+Component job 222721 is submitted: one H100 / four minutes / maximum 8.533334 SU, leaving conservative headroom 7420.056667 SU at reservation. It performs no full target inference or ranked score. Review its actual terminal evidence and refresh credit before further spending. A component PASS does not waive real draft loading, both-phase PD transfer or exact greedy equality. Current H200 positions remain 24928/24962/24964/24965/25051, all pending at the latest check; no sixth job. No budget increase.
 
 ## Measurement and acceptance
 
