@@ -485,3 +485,20 @@ Prior evidence: baseline 25905114 passes at 14.921981 s/step; default Scotch 259
 Pinned native v2512 source selects SCOTCH_archTleaf for domains/domainWeights when processorWeights is absent. Derived fresh candidate adds only scotchCoeffs domains (8 16), domainWeights (1 0.1), normalized integer costs 10:1. These weights are a synthetic contrast, not measured hardware ratios. No socket tier is claimed because the retained summary does not individually map CPUs to sockets. Static syntax/input gates pass; library execution is unmeasured.
 
 Next, only after terminal pair review and locked cost reconciliation, submit an at-most-8-SU serial prep if it fits the unchanged 100-SU wave. Its allocated compute stage will inspect reciprocal processor-neighbor face graphs on hierarchical, default Scotch and candidate trees, preserving boundary hashes and logical cross-group cuts. A smaller graph cut is a cheap filter, not a speedup. Review imbalance/fan-out/setup cost and close a losing branch. A later solver needs its own affordable reservation and matching placement; no active payload or AI job was changed. Exact hypothesis, source reference, mapping and scripts: hpc-experiments/nscc-cpu-numa-scotch128-20261021/PLAN.md.
+
+## 2026-10-21T19:33:23.239113+00:00: validate cross-group graph analysis on actual boundaries
+
+
+Read-only metadata collection retained 256 small ASCII processor-boundary files from the accepted initialized hierarchical and default Scotch trees. No field arrays or binary mesh were copied. Local bounded analysis checked every reciprocal neighbor edge, retained SHA256 for each boundary file and reproduced both native decomposePar totals exactly. See boundary-metadata.tar.gz, collection provenance and graph-parser-validation.json. This validates the real parser before a paid candidate prep allocation.
+
+| Unique interface faces | Hierarchical | Default Scotch |
+|---|---:|---:|
+| All neighbor edges | 2,109,346 | 1,549,377 |
+| Across logical rank groups of 16 | 1,203,493 | 371,658 |
+| Within a group | 905,853 | 1,177,719 |
+| Maximum processor faces | 131,252 | 42,141 |
+| Maximum processor neighbors | 16 | 35 |
+
+The separate current allocation's atomic diagnostic rank map matches these logical groups to eight NUMA CPU sets. These are interface face counts, not actual communication volume, wait time, memory traffic or page locality. A later allocation must recheck placement. Default Scotch already reduces cross-group faces; this may leave less benefit for an explicit tree. That is a reason to use an inexpensive graph screen before spending on another solver.
+
+Decision: retain the native (8 16) tree hypothesis with synthetic weights 10:1, compare all graph quantities and cell imbalance, and only promote a non-dominated result. The active H→S pair is still running; its final result and locked budget reconciliation gate any new submission. No allocation or budget increase is performed by this analysis. No numerical score is claimed.
