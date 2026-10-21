@@ -1,5 +1,11 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T05:45:58.044033+00:00
+
+Reviewed 222761 is usable real reference: all 1600 IDs, four exact A/B pairs; cache-reuse and sparse N1 telemetry limits are explicit. **222763 is submitted/running**, first native full-target EAGLE3 PD correctness candidate, 16 H100/30 minutes/max 1024 SU. [Exact flags, controls, receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/RESULTS.md). No speculative equivalence, speedup or ranked score yet. Preserve five H200 Resources-pending jobs.
+
+Review actual native state/embedding/heterogeneous transport/graphs/memory and exact IDs before the [prospective short screen](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/SCREEN_PLAN.md). That screen would require fresh matched capacity/observability and at least 3% short goodput gain with SLA/errors valid before full scoring; it is neither submitted nor reserved. Acceptance length is not speedup. Conservative internal headroom 5327.791333 SU at the locked reservation, unchanged cap/buffer. Earlier snapshots below are historical.
+
 ## Current refinement — 2026-10-21T05:19:22.495781+00:00
 
 Real target reference 222752 fails its client tokenizer serialization despite scheduler exit zero; do not call it an accepted reference. Sealed actual-image corpus gate 222759 passes and validates exact integer lists. New **222761.pbs111 (R)** freezes that corpus, removes AutoTokenizer from the full client and adds independent semantic artifact validation, with unchanged target serving/transport. [Repair, receipt and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-reference-corpusfix-20261021/RESULTS.md). No complete real-ID reference, speculative inference or throughput gain yet.

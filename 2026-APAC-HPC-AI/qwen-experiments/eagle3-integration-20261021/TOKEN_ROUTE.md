@@ -11,3 +11,7 @@ The new token-control.py requests native /generate using actual target-tokenizer
 ## Actual reference failure and repaired successor
 
 222752 did not establish real IDs: the installed tokenizer returned BatchEncoding and diagnostic/final JSON serialization failed, although PBS reported exit zero. It is sealed and failed, not an eligible reference. The smaller actual-image tokenizer gate 222759 passes with explicit return_dict=False plus Mapping normalization and plain-ID validation. Its frozen corpus is used by the separately derived 222761.pbs111 real target-only repair, which also requires a semantic result artifact in the head script. Actual complete outputs and stability remain pending; the original scored protocol is unchanged.
+
+## Accepted real route — 222761 / 21 October 2026
+
+The frozen-corpus repair 222761 is sealed and reviewed: all 1600 output IDs are present and all four paired cases agree exactly, including long4000. The actual gateway /generate route is now verified for these real diagnostic requests. Second-pass prefix reuse limits timing claims. Native speculative candidate 222763 separately tests exact IDs and real PD runtime; no candidate result or ranked speedup yet.
