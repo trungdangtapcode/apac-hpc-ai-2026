@@ -17,7 +17,7 @@ Use a read-only login check first. Existing AI VPN/SSH sessions stay running.
 
 Copy the Iris kit into our own work area when genuinely accessible. Read its
 README and ladder instructions. Retain the original case and exact Allrun.
-The external case repository could not be fetched here: original endpoints
+Historical first-pass limitation, now resolved in [case recovery](CASE_RECOVERY.md): the external case repository initially could not be fetched here: original endpoints
 failed and the attempted relocated committee project returned a sign-in page.
 Do not treat HTML as downloaded source. The retained public reference dictionaries
 are useful evidence but are not a complete runnable case.

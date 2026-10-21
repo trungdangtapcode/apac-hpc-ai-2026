@@ -123,6 +123,8 @@ machine iris, but this name alone does not prove access to Iris compute nodes.
 The owner was asked for any next-hop instructions. Other users' Gadi aliases
 were not used. Existing AI access/jobs remain unchanged.
 
+The exact source case is now recovered and 12 Basic text preparations pass static checks; see [case recovery](CASE_RECOVERY.md). This is not a numerical run.
+
 Read the [experiment plan](PLAN.md), [allowed-change table](RULES.md) and
 [technical evidence](EVIDENCE.md). The first milestone is a valid full-chain
 practice baseline; only then a small, evidence-driven contest-machine campaign.

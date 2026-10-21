@@ -71,3 +71,7 @@ before the derived analysis and plan. This milestone retains English readable
 reports, native-source provenance, analysis code/results, candidate definitions
 and access limitations in a second small checkpoint. Git and live origin are
 verified; no sensitive SSH material is captured.
+
+## Source recovery and preparation checkpoint — 2026-10-21T11:02:23.528287+00:00
+
+The owner asked for progress. Rechecking the supplied endpoint confirms the earlier scheduler/kit limitation. An independent source search finds the correct migrated official namespace openfoam/community/hpc, exact commit 84c262431117f5c921db8335e368a12d0e9fa3f0. Recover 42 text files with Git blob/SHA256/mode provenance; no mesh. A new helper derives only allowed Basic text settings; 12 temporary platform/node/method combinations and overwrite rejection pass, with invariant inputs and Allrun syntax checked. No solver, Cd, CPU job or new performance claim follows. The old full-case access failure is now historical; the real compute-service route remains unresolved. [Details](CASE_RECOVERY.md).

@@ -21,7 +21,7 @@ The source manifest preserves both observations. No OpenFOAM code is modified.
 
 [Native source manifest](../../../2026-APAC-HPC-AI/hpc-experiments/source-review-20261021/manifest.json)
 
-The original committee case URLs failed through the web tool. Attempts at a
+Historical first-pass limitation, resolved by [exact case recovery](CASE_RECOVERY.md): the original committee case URLs failed through the web tool. Attempts at a
 GitLab relocated committee namespace redirect to a sign-in page. The full case,
 Allrun, fvSchemes and fvSolution.fixedIter have therefore not been independently
 retrieved in this turn. The public reference dictionaries are not a substitute
