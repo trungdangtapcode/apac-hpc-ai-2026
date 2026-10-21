@@ -1,116 +1,72 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T14:03:36.403934+00:00. This is the HPC/OpenFOAM conversation; GPU/Qwen is owned by the separate GPU chat.
-Preserve the separate GPU worker's payloads, jobs and budget. English artifacts,
-Vietnamese chat; autopilot off.
+Updated 2026-10-21T14:18:22.145997+00:00. **This is the HPC chat.** GPU/Qwen is owned by the separate
+GPU chat. Read [session ownership](SESSION_OWNERSHIP.md). Preserve its jobs,
+payloads, measurements and ledger; do not switch tracks from shared history.
+English artifacts, Vietnamese chat, autopilot off. Keep HPC_Task empty until
+actual reviewed deliverables support an authorised package update.
 
-## Actual access: resolved
+## Iris: full practice chain completed
 
-Use an **interactive** SSH login to the supplied Iris gateway, with no remote
-command. Its login shell automatically jumps into the cluster. Earlier remote
-SSH commands ran on the gateway VM and missed that jump; the inference of a
-missing next-hop account was premature. The organiser email supplied by the
-owner resolved this. Do not ask again for a replacement endpoint merely because
-a one-command SSH call has no scheduler. [Access and correction](../reports/hpc-openfoam-20261021/IRIS_ACCESS.md).
+Job **2293754: COMPLETED / exit 0:0**, hierarchical (7 4 2), iris031,
+56 MPI ranks/40 steps. Average **21.9653538363 s/step**, p95 **22.541902 s**;
+final Cd **0.4405543814** (dimensionless). Cut 2293752 and mandatory init
+2293753 pass. All native/source/step/output gates, exact control expansion
+and raw seals are reviewed. This is Iris practice, no contest score or matched
+speedup. [Result, complete limits and reviewer](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/STATUS.md).
 
-The verified cluster is login01.hpcadvisorycouncil.com, account rdmaworkshop30.
-It has sbatch/srun/sinfo and the documented APAC kit. At 11:21:05 UTC Iris was
-up with 32 nodes, 56 CPUs and 180000 MB advertised per node; 31 were idle in the
-following allocation-state read. These are dated snapshots. Keep shared keys,
-SSH caches and authentication material outside research/Git. Other relay
-accounts are not used; existing AI VPN/SSH remain untouched.
+Iris access requires forced-TTY SSH with no remote command; its gateway jumps
+to login01 only for interactive login. Never run the optimized solver on login
+CPUs. Helper: hpc-experiments/tools/iris-interactive.sh. Work root:
+/global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121.
+All source scripts/processor trees stay frozen. Do not touch shared-account
+other work. Full Iris mesh content hash and billed SU are not collected.
 
-Helper: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/tools/iris-interactive.sh.
-Work root: /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121.
-Kit copied only into that unique work root, not edited in the shared group tree.
-Login-only native binary inspection passes. Never execute the Iris-optimized
-solver ELFs on login CPUs: the kit documents SIGILL there; use Slurm compute.
+## ASPIRE-2A CPU: access and active baseline preparation
 
-## Actual first practice result
+Interactive password SSH succeeds on asp2a-login-nscc02 through the existing
+VPN without new DUO. CPU master reuse works. Earlier no-password batch denials
+never tested the password and are historical. Local CPU hostname DNS fails;
+the verified 10.103.72.110 route uses HostKeyAlias=aspire2a.nscc.sg. Keep all
+private SSH/VPN state outside Git. Helper: hpc-experiments/tools/nscc-cpu-ssh.sh.
+[Access proof and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
 
-**2293751: COMPLETED / exit 0:0**, 30 seconds on iris031. One whole 56-CPU node,
-four MPI ranks, requested maximum five minutes. The unchanged organiser
-02-toy-stages.sbatch passes hierarchical and scotch in separate directories.
-The reviewed ten stage logs, split identities, native v2512/scalar64, contiguous
-10-step solver logs and sealed payload/evidence hashes pass. Both timing
-confidence warnings remain retained. This is **toy motorBike**, not 65M DrivAer,
-not Cd proof and not a contest score. Hardware telemetry was not collected.
-[Review and sealed evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-practice-20261021/review.json).
+CPU project **59000042** is distinct from H100 project **59010042**. The dated
+CPU server ledger shows Grant 30000 / Used 222.154 / Balance 29777.846 /
+In Doubt 0 SU at 1 SU/core-hour; refresh before spending. Native openfoam/2512,
+CPU normal routing and the official shared mesh are verified. The first CPU
+wave has a 100-SU planning ceiling and at most one active CPU allocation.
 
-Iris allocation is separate from NSCC/Gadi CPU/GPU accounts. No national project
-reservation or GPU job was made. The prior statement that no HPC job existed
-is historical: this first toy allocation is now complete. HPC_Task submission
-folders remain empty because there is no scored 65M result yet.
+**25905006.pbs101** accepted 14:15:25 UTC; retained 14:16:41 UTC snapshot is
+**Q in qdev**. Fresh hierarchical N128 (16 4 2) mesh identity/cut/restore only:
+32 CPUs/96 GB/one serial process/no GPU/maximum 15 minutes/maximum 8 SU. Native header
+comparison is precisely repaired; all official mesh/work checks remain.
+[Payload and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/STATUS.md).
+No CPU prepared split or scored solver result yet. Do not blindly resubmit a
+queued job. Collect terminal result and every semantic gate before promotion.
 
-## Retained research and next decision
+Parent CPU lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/
+cpu-budget.lock and cpu-budget.json. Conservative retained maxima 18.666667 SU;
+future conditional 128-CPU/35-minute full init+solve maximum 74.666667 SU keeps the
+whole wave under 100 SU. That later job is not yet submitted/reserved. No AI
+budget or serving changes. Keep posted billing distinct from estimates and
+never subtract prepaid In Doubt twice.
 
-[Research report](../reports/hpc-openfoam-20261021/README.md),
-[plan](../reports/hpc-openfoam-20261021/PLAN.md),
-[rules](../reports/hpc-openfoam-20261021/RULES.md),
-[SSH/scheduler tutorial](../tutorial/hpc-openfoam-and-schedulers.md).
+## Completed gates and preserved failures
 
-Official contest revision b4df52907f5bbb9152ef6ae902c925fc79d54417 is retained
-with 177 public reference files; 21 independently parsed runs remain organiser
-measurements, not ours. Exact case 84c262431117f5c921db8335e368a12d0e9fa3f0
-is recovered from openfoam/community/hpc: 42 text files with Git blob and SHA256
-provenance; 12 Basic text preparations pass static checks, not solver runs.
+- 25904725: F/exit1 after 2 s, module-reset shell boundary before solver; preserved.
+- 25904765: F/exit0 after 84 s, native coded timing function compiles and all five
+  toy steps pass on EPYC 7713/v2512/DP. Diagnostic only, no contest score.
+- 25904959: F/exit1 after 16 s, comparison rejects one generated filename comment
+  before mesh work. Exact normalization proves Iris control equivalence;
+  derived 25905006 retains all other gates.
+- Ten historical October 9–10 CPU run directories were discovered and sealed;
+  none is accepted as a completed Basic baseline. Earlier templates alter
+  fixedIter; later zero-step compiler-stop cause is not proven. Preserve them.
 
-## Active full-mesh practice
-
-**2293752: COMPLETED / exit 0:0**, 161 seconds, iris031, one node / 56 allocated
-CPUs / one serial task. Reviewed exact 56 processors, total 65,334,765 cells,
-all six initial fields, immutable dictionaries, clean native logs and sealed
-hashes. Batch MaxRSS 30.5284 GiB, TotalCPU 157.720 seconds. Max interface faces
-93,343, 1,326,716 unique cut faces; no off-node traffic inference on one node.
-[Review and evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/STATUS.md).
-No solver result or Cd exists yet. **2293753: COMPLETED / exit 0:0**, 103
-seconds on iris031/56 ranks. All three native initialization logs, flags,
-56-processor identity, READY and unchanged dictionaries pass the sealed
-review. Batch MaxRSS 85.6927 GiB; mandatory stage clocks 9/71/8 seconds.
-**2293754** accepted 13:45:14 UTC and its retained queue shows RUNNING on
-iris031: frozen 04-simpleFoam, 56 MPI/40 steps/maximum 40 minutes. Collect
-terminal solver log, coefficient.dat, step timing, invariants and accounting
-before claiming a result. Keep at most one active
-Iris practice allocation. Full mesh content hash and billed Iris SU remain
-uncollected; no national CPU/GPU project reservation.
-
-Iris is practice; scored 1/2/4-node runs belong to Gadi or CPU ASPIRE-2A.
-Our existing ASPIRE-2A+ AI account does not establish CPU contest access.
-
-## NSCC CPU access: authenticated
-
-At 13:40 UTC an interactive password SSH login succeeds on asp2a-login-nscc02
-through the existing VPN, without reauthentication or new DUO. A later reused
-CPU SSH command succeeds. Prior password-free batch denials were not tests of
-the password and are historical; do not claim the account is blocked.
-
-CPU project **59000042** has a dated server ledger Grant 30000 / Used 222.154 /
-Balance 29777.846 / In Doubt 0 SU, at reported 1 SU/core-hour. It is separate
-from AI/H100 project 59010042; do not modify the AI ledger or payloads. Own CPU
-queue is empty, openfoam/2512 exists and the official shared mesh is readable.
-CPU **25904725.pbs101** is accepted at 13:53:14 UTC: native coded-timing
-PitzDaily diagnostic, 8 CPUs/4 MPI/24 GB/no GPU/maximum 10 minutes and
-1.333333 SU reserved under the separate CPU lock. Review is F/exit 1 after 2 seconds, before native solver startup: the site's
-resetmodule empty grep triggers caller errexit/pipefail. Derived guarded-reset
-probe **25904765.pbs101** accepted 13:58:21 UTC, same 8 CPUs/4 MPI/24 GB/no GPU,
-maximum 10 minutes/1.333333 SU. **25904765: F/exit 0**, native diagnostic accepted after sealed-log review:
-v2512/DP, actual unchanged timing-library compilation, all five toy steps,
-End and semantic output pass. 84 s, estimated 0.186667 SU; 0.01407 s/step is
-toy-only with sample warning, not contest speed. Combined retained maxima
-2.666667 SU; posted charges not reconciled. Proceed to a fresh pinned full-case
-CPU preparation within the existing wave envelope.
-The first baseline wave planning ceiling is 100 SU; only the probe is reserved.
-[Probe and budget](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-timing-probe-20261021/STATUS.md).
-Read existing October 9–10 CPU artifacts in
-scratch/apac2026/hpc before preparing a new baseline. [Proof and historical
-correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-access-20261021/REPORT.md).
-
-Helper: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/tools/nscc-cpu-ssh.sh.
-It reuses the separate CPU master via the live VPN, using 10.103.72.110 with
-HostKeyAlias=aspire2a.nscc.sg while local DNS remains unresolved. Keep all
-private SSH/VPN state out of captures. The old gateway/batch/DNS observations
-remain retained in the linked access report and raw safe probe JSON.
-
-Owner reaffirmed the separate HPC/GPU chats on 21 October. Read
-[session ownership](SESSION_OWNERSHIP.md); this worker stays on OpenFOAM/CPU
-and preserves the GPU worker's jobs, payloads, measurements and budget.
+The [research log](../reports/hpc-openfoam-20261021/LOG.md) records full reasoning,
+corrections and decisions. [Plan](../reports/hpc-openfoam-20261021/PLAN.md) and
+[rules](../reports/hpc-openfoam-20261021/RULES.md) retain the pinned references.
+Target 1/2/4 CPU nodes on ASPIRE-2A (or verified Gadi project), with 40/80/150
+steps; final scored performance is the four-node Average, not Iris walltime.
+Next obtain a complete CPU baseline before a matched method/runtime comparison.

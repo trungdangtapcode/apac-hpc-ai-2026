@@ -303,7 +303,7 @@ control expansion before mesh I/O. Hash-verify a fresh root, check CPU project,
 empty own CPU queue and combined PBS cap under the CPU lock, reserve8SU before
 qsub. Exactly one receipt25904959.pbs101 at14:10:12.031377UTC:32CPUs/96GB/
 serial1/zeroGPU/max900s. Total conservative maxima10.666667SU. No AI mutation.
-Terminal history already shows F/exit1 after16s; retain evidence and inspect
+Terminal history already shows F/exit1 after 16 s; retain evidence and inspect
 before any repair. A definite submit is not a prepared split or CPU score.
 
 ## Native control comparison correction — 2026-10-21T14:14:00.577900+00:00
@@ -331,3 +331,25 @@ one serial process, zero GPUs and maximum 900 s; target decomposition remains
 No AI work or budget changes. Next inspect actual mesh identity and prep
 outputs; submission alone is not a CPU baseline. The full initialization
 chain is still required after a valid cut.
+
+## First full Iris practice baseline reviewed — 2026-10-21T14:18:22.145997+00:00
+
+2293754 COMPLETED/0:0 in 925 s on iris031, 56 MPI ranks and 40 contiguous
+steps, preceded by accepted cut/init 2293752/2293753. Seal 54 text artifacts;
+independently verify mean and all 39 timing rows against native logs. Average
+21.9653538363 s/step, median 21.965798 s, p95 22.541902 s, final Cd 0.4405543814.
+Every step uses 15 iterations for each U component, 12 for p and 8 for omega/k.
+Retain seven omega bounding messages; no fatal or sample-size warning. Batch
+MaxRSS 133.3636 GiB and TotalCPU 14:11:24 are accounting, not hardware counters.
+Iris full mesh content identity and billed SU are uncollected. Iris is practice,
+not the scored four-node CPU site and not a measured optimization speedup.
+
+Native CPU dictionary replay proves all expanded control bytes match except
+one generated filename comment. All coded bodies and other system files match.
+Initially reject nonempty stderr; it is exactly the two native assignment
+echoes, so permit only those entries. A first large PTY transfer truncates and
+fails base64 decoding before extraction; successful bounded chunks match the
+full remote archive SHA256. Preserve these validation corrections without
+changing raw solver data. Next prioritize the submitted ASPIRE CPU baseline
+25905006 over another Iris timing sweep. No GPU research, AI changes or
+submission-package edits. Full reasoning/evidence in iris-65m-20261021.

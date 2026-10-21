@@ -1,67 +1,59 @@
-# First 65M Iris baseline: decomposition passed
+# First full 65M Iris practice baseline
 
-Job **2293752: COMPLETED / exit 0:0**, 161 seconds on iris031, one whole
-56-CPU node, one serial task. All sealed evidence hashes pass. The native
-v2512/scalar64 decomposePar log ends cleanly; exactly 56 processor directories
-and 65,334,765 total cells are verified. All six expected initial fields are
-present for every processor. fvSolution.fixedIter, controlDict.noWrite and
-method coefficients match the frozen inputs; only the planned rank/factors
-change. Both stage output markers and empty batch stderr pass.
+**2293754: COMPLETED / exit 0:0.** Hierarchical (7 4 2), one Iris node
+iris031, 56 MPI ranks, 40 solver steps. Full preparation is retained under
+2293752 (cut/restore) and 2293753 (renumber/potential/boundary layer).
 
-Per-rank cells range 1,166,692–1,166,694; cell max/mean excess is 0.000151527%.
-Worst partition has 93,343 interface faces and maximum neighbor count is 14.
-The sum of per-rank interface faces, 2,653,432, counts both sides of 1,326,716
-unique cuts. One node does not establish off-node traffic or communication cost.
-The first parser rejected 57 face entries because it included the global summary;
-review-cut.py now explicitly separates per-rank and global records and checks
-their factor of two. That rejection was a review correction, not a failed job.
+| Quantity | Observed value | Meaning |
+|---|---:|---|
+| Solver Average | 21.9653538363 s/step | Mean of measured steps 2–40; lower is faster |
+| Median / p95 step time | 21.965798 / 22.541902 s | Distribution across the 39 measured steps |
+| Min / max step time | 21.109065 / 23.846916 s | All slow steps retained |
+| Final Cd | 0.4405543814 | Dimensionless drag coefficient at step 40 |
+| Solver job elapsed | 925 s | Whole allocation, distinct from solver Average |
+| Complete split-chain elapsed | 1189 node-seconds | Cut + init + solve; excludes time between jobs |
+| Scheduler batch MaxRSS | 133.3636 GiB | Reported batch memory, not bandwidth or per-rank RSS |
 
-Scheduler batch MaxRSS is 32,011,392 KiB (30.5284 GiB); TotalCPU is 157.720 s.
-These are available accounting measurements, not a memory-bandwidth, NUMA or
-hardware-counter profile. Billed Iris SU remains unknown. No solver Average
-(seconds/step), Cd or complete initialization is established yet.
+This is **practice on Iris**, not the scored Gadi/ASPIRE-2A four-node result.
+There is no matched comparator or speedup yet. The final Cd is near the rule's
+approximate 40-step value (~0.43); Basic has no universal ±0.5% gate. Forty
+steps are the requested endpoint, not proof of a fully converged aerodynamic
+solution. Keep all original physics and numerical controls.
 
-Next run the already frozen 03.2-init script: one node, 56 ranks, maximum
-20 minutes, all three mandatory stages. Review it before 40-step simpleFoam.
-No national/GPU allocation or submission artifact is changed.
+## What was actually checked
 
-Reproduce the evidence review with python3 review-cut.py. The initial failed
-pre-submit hash guard and binary-header inspection mistake are historical in
-PLAN.md and the research journal; neither produced an extra job.
+Seal 54 text artifacts plus both preceding preparation collections. Confirm
+payload/receipt hashes, terminal exit, v2512/scalar64, exact prepared processor
+links, all 40 contiguous steps and 40 coefficient rows. Independently recompute
+all 39 measured step times: mean agrees with the printed Average, and the
+native wallClockTime.dat agrees with the log. Every step uses Ux/Uy/Uz 15,
+p 12, omega/k 8 iterations. Retain seven native omega bounding messages;
+no fatal error or timing-confidence warning appears. No CPU/NUMA/bandwidth/
+network hardware counter or billed Iris SU is collected.
 
-## Mandatory initialization submitted
+The organiser solver script uses foamDictionary -set, which expands includes.
+Native v2512 replay on allocated ASPIRE-2A CPUs produces otherwise byte-identical
+expected/actual expanded dictionaries after normalizing only one generated
+filename comment. Exact coded-function bodies and every other retained system
+file match. The CPU comparison job 25904959 failed on that comment before mesh
+work; preserve that failure, not a fictitious successful CPU preparation.
 
-2293753 accepted at 2026-10-21T12:02:36.204357+00:00; retained queue shows
-RUNNING on iris031. One whole node, 56 MPI ranks, maximum 1200 seconds.
-The frozen script and completed predecessor are checked before sbatch; the
-shared-account queue was empty. Receipt and live job fields are retained in
-init-submission.json. No simpleFoam job or extra national CPU/GPU reservation.
-Review clean terminal status, renumberMesh, potentialFoam, applyBoundaryLayer
-and READY identity before submitting the 40-step solver. No completed init
-or new numerical/performance result is claimed at this checkpoint.
+The first review expected empty stderr; actual stderr contains exactly the
+two foamDictionary assignment echoes (startFrom startTime; endTime 40;).
+The corrected reviewer permits only those exact entries. A first large PTY
+base64 transfer was truncated and rejected before extraction. The successful
+bounded chunk transfer matches the full remote archive SHA256. Neither review
+correction changes the computation or hides a native error.
 
-## Mandatory initialization reviewed
+Run python3 review-solver.py to reproduce the checks. It links the frozen
+CPU native expansion evidence. Complete result is solver-review.json; raw
+artifacts remain under collected/2293754. Submission HPC_Task remains empty.
 
-2293753 is COMPLETED / exit 0:0 in 103 seconds, one iris031 node/56 MPI ranks.
-Sealed native logs show every required flag and clean End for renumberMesh,
-potentialFoam and applyBoundaryLayer; wall clocks are 9/71/8 seconds. READY
-and immutable dictionaries agree with the accepted N56 hierarchical (7 4 2)
-split. Scheduler batch MaxRSS is 85.6927 GiB; TotalCPU is 01:29:32. No CPU
-bandwidth/NUMA/network profile or billed SU is collected. Potential continuity
-error is 0.00023976694199 and interpolated velocity error 0.00009469633924;
-these are initialization diagnostics, not final simpleFoam convergence or Cd.
-Default renumbering reduces printed matrix band 1,151,806 to 44,025, and
-profile 1,297,348,083,601 to 755,856,599,687. This is the mandatory default
-operation, not an invented optimization or measured solver speedup.
+## Next decision
 
-All complete-chain preparation gates now pass; promote to the unchanged
-40-step solver payload. Reproduce the review with python3 review-init.py.
-The long gap between jobs was time without an active Codex turn; no background
-agent was enabled. No solver result yet at this review checkpoint.
-
-## First full solver submitted
-
-2293754 accepted 2026-10-21T13:45:14.589077+00:00; retained queue shows RUNNING
-on iris031. One node/56 MPI/40 steps, maximum 2400 seconds, unchanged organiser
-04 payload and accepted prepared split. Receipt is solver40-submission.json.
-No solver completion, Cd or score is established at submission time.
+The Iris validity ladder has served its purpose. Prioritize the separate
+ASPIRE-2A CPU baseline on required contest hardware before another Iris timing
+sweep. CPU 25905006 is submitted for fresh N128 mesh identity and cut/restore;
+review it before native parallel initialization and 40-step solve. Later compare
+hierarchical/Scotch on matched target hardware, with independent repetitions
+before any speedup claim. Do not pool Iris timings with CPU-site measurements.
