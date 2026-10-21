@@ -353,3 +353,15 @@ full remote archive SHA256. Preserve these validation corrections without
 changing raw solver data. Next prioritize the submitted ASPIRE CPU baseline
 25905006 over another Iris timing sweep. No GPU research, AI changes or
 submission-package edits. Full reasoning/evidence in iris-65m-20261021.
+
+## Named-session verification corrected — 2026-10-21T14:20:23.198933+00:00
+
+The GPU worker publishes the separate named-session routing map without
+changing this worker's results. Recheck only local threads.name metadata:
+current CODEX_THREAD_ID matches the HPC name; GPU is a different conversation.
+The earlier lookup used database title and exact short names, so its failure
+to expose labels was a lookup limitation, now historical. Do not import other
+transcripts. CURRENT is a shared routing index and AI_CURRENT is the GPU-owned
+handoff. Correct the shared ownership note to assign by role, not declare every
+reader HPC; keep all GPU sources/queues/ledger untouched. Selected safe backup
+is separate from the already retained HPC run evidence.

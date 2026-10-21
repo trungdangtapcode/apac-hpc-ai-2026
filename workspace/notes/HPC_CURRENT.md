@@ -70,3 +70,9 @@ corrections and decisions. [Plan](../reports/hpc-openfoam-20261021/PLAN.md) and
 Target 1/2/4 CPU nodes on ASPIRE-2A (or verified Gadi project), with 40/80/150
 steps; final scored performance is the four-node Average, not Iris walltime.
 Next obtain a complete CPU baseline before a matched method/runtime comparison.
+
+Session-name verification at 2026-10-21T14:20:23.198933+00:00: read-only threads.name lookup matches
+this environment's CODEX_THREAD_ID to the HPC conversation, and the GPU name
+to another conversation. The earlier title-column/short-name lookup missed
+renamed sessions; that limitation is historical. Shared routing now uses
+CURRENT.md -> AI_CURRENT.md or HPC_CURRENT.md, with the explicit AGENTS map.
