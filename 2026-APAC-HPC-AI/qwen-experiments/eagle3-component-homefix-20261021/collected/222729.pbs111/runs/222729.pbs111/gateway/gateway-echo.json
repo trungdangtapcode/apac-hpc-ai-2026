@@ -1,0 +1,127 @@
+{
+  "scope": "Actual native gateway, synthetic workers only; no model or KV transfer",
+  "command": [
+    "python3",
+    "-m",
+    "sglang_router.launch_router",
+    "--pd-disaggregation",
+    "--prefill-policy",
+    "round_robin",
+    "--prefill",
+    "http://127.0.0.1:44943",
+    "19999",
+    "--decode",
+    "http://127.0.0.1:40123",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "37597",
+    "--disable-health-check",
+    "--disable-circuit-breaker",
+    "--worker-startup-timeout-secs",
+    "30"
+  ],
+  "passed": true,
+  "received": [
+    {
+      "role": "prefill",
+      "path": "/generate",
+      "body": {
+        "model": null,
+        "input_ids": [
+          1,
+          2
+        ],
+        "sampling_params": {
+          "temperature": 0.0,
+          "max_new_tokens": 2
+        },
+        "return_logprob": true,
+        "logprob_start_len": 0,
+        "return_text_in_logprobs": false,
+        "stream": false,
+        "log_metrics": true,
+        "return_hidden_states": false,
+        "background": false,
+        "no_logs": false,
+        "return_bytes": false,
+        "return_entropy": false,
+        "bootstrap_host": "127.0.0.1",
+        "bootstrap_port": 19999,
+        "bootstrap_room": 5753781534100068504
+      }
+    },
+    {
+      "role": "decode",
+      "path": "/generate",
+      "body": {
+        "model": null,
+        "input_ids": [
+          1,
+          2
+        ],
+        "sampling_params": {
+          "temperature": 0.0,
+          "max_new_tokens": 2
+        },
+        "return_logprob": true,
+        "logprob_start_len": 0,
+        "return_text_in_logprobs": false,
+        "stream": false,
+        "log_metrics": true,
+        "return_hidden_states": false,
+        "background": false,
+        "no_logs": false,
+        "return_bytes": false,
+        "return_entropy": false,
+        "bootstrap_host": "127.0.0.1",
+        "bootstrap_port": 19999,
+        "bootstrap_room": 5753781534100068504
+      }
+    }
+  ],
+  "response": {
+    "text": "SYNTHETIC_ECHO",
+    "meta_info": {
+      "finish_reason": {
+        "type": "stop"
+      },
+      "completion_tokens": 2,
+      "prompt_tokens": 2,
+      "input_token_logprobs": [
+        [
+          -0.1,
+          1,
+          null
+        ],
+        [
+          -0.2,
+          2,
+          null
+        ]
+      ],
+      "output_token_logprobs": [
+        [
+          -0.3,
+          3,
+          null
+        ],
+        [
+          -0.4,
+          4,
+          null
+        ]
+      ]
+    }
+  },
+  "request_fields_forwarded": true,
+  "merged_input_ids": [
+    1,
+    2
+  ],
+  "output_ids": [
+    3,
+    4
+  ],
+  "response_ids_preserved": true
+}

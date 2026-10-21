@@ -43,3 +43,9 @@ Prepare a new frozen payload that keeps both diagnostic Python scripts byte-iden
 ## Dated handoff — 2026-10-21T03:48:12.009783+00:00
 
 222729 is running with 12 seconds reported walltime at the read-only check; no component result yet. H200's five preserved positions are pending for Resources. CURRENT now separates accepted serving peaks, the closed CPU pair, both failed component stages and the current repair. Credit snapshots and all missing real integration/accuracy gates remain explicit. [Current handoff](../../../../notes/CURRENT.md).
+
+## Identity diagnostic failure reviewed — 2026-10-21T04:45:42.238481+00:00
+
+222729 is sealed F / exit 1, 64 seconds / estimated 2.275556 SU. Native /generate and imports pass; direct Torch UUID string/name assertion fails before actual values are recorded. This cannot yet distinguish a prefix-format mismatch from another identity problem. No native config, tensor, model inference or performance result. [Full evidence and next strict comparison hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-homefix-20261021/REVIEW.md). Prepare canonical complete UUID equality plus independent allocated nvidia-smi lookup in a derived frozen payload; retain isolation checks and all native gates.
+
+Correction to the earlier receipt paragraph and CURRENT: the raw 03:46 response records Used 43575.143 / Balance 20416.324 / In Doubt 8.533 SU. The previous zero-doubt transcription was wrong; headroom already conservatively retained maxima. Fresh locked reconciliation remains mandatory before another reservation. H200 five jobs are still pending, now Priority at this turn's query; preserve positions.
