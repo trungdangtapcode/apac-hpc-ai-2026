@@ -260,3 +260,14 @@ compiler or model failure. Derive guarded conditional sourcing and validate
 modules/runtime; keep native case/timing/flags fixed. Estimated base charge
 0.004444 SU is not individually posted billing; retain the 1.333333-SU maximum
 until ledger reconciliation. No new full-case allocation or AI change.
+
+## Guarded-reset probe receipt — 2026-10-21T13:59:19.042495+00:00
+
+Back up the source-supported reset repair separately; hash-verify new root.
+Under the existing CPU budget lock, refresh project/CPU queue, verify combined
+own PBS cap via a read-only AI queue query and retain the old maximum. Reserve
+another 1.333333 SU (combined 2.666667) before qsub. Exactly one submission
+returns 25904765.pbs101 at 13:58:21.582798 UTC: same eight CPUs/four MPI/24 GB/
+zero GPU/max600s, changed reset guard and job label only. A definite receipt
+is not native compilation or solver success. Next collect the terminal gate;
+no full-case submission, AI budget mutation or uncertain retry.
