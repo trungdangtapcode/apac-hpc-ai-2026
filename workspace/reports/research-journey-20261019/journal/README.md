@@ -74,3 +74,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: match early and final EAGLE3 screen capacity before spending](entries/20261021-eagle3-matched-capacity.md).
 
 - [21 October: authorised VPN/SSH restoration and sealed prefill graph timeout](entries/20261021-vpn-restored-pd-timeout.md).
+
+- [21 October: one-TP4 uniform graph-disable readiness probe and cost receipt](entries/20261021-prefill-graph-probe.md).

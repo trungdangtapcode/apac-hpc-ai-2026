@@ -1,6 +1,6 @@
 # APAC Qwen execution policy
 
-Updated 2026-10-21T09:46:58.182280+00:00. Earlier execution snapshots remain historical; CURRENT links actual recent evidence. Owner AGENTS.md instructions are authoritative.
+Updated 2026-10-21T10:10:46.543956+00:00. Earlier execution snapshots remain historical; CURRENT links actual recent evidence. Owner AGENTS.md instructions are authoritative.
 
 ## Read and preserve context
 
@@ -23,6 +23,8 @@ Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is *
 Latest completed H100 pair: 222551/222552, full local gates and actual mappings PASS but only +0.289035% goodput, below the prospective 1% gate. Close without an unchanged repeat or default promotion. At the locked 21 October 03:21:52 UTC reconciliation: Used 43571.410 SU, Balance 20428.590 SU, In Doubt zero, no outstanding maxima and internal headroom 7428.590 SU. Refresh before spending; these are dated values.
 
 Reviewed real reference 222761 passes exact IDs and runtime within N1/cached-repeat limits. Native full PD 222763 fails draft RMSNorm dtype before readiness; no score. Cheap 222769 reproduces auto FP16 draft versus real BF16 target embedding and validates explicit BF16/unquant native eager/graph norm. New **222780.pbs111** is R at 2026-10-21T06:02:49.404410+00:00: 16 H100/30 minutes/max 1024 SU. Used 44625.453 SU, conservative headroom 5342.013667 SU after maxima at reservation. This is a historical running/ledger snapshot. Latest access finds no live VPN session; current PBS state and charge remain unavailable. Preserve all five pending H200 positions, same cap/buffer and no background AI.
+
+Latest owner-authorised login restored VPN/SSH at 09:56 UTC. 222780 is sealed F/exit1 after prefill rank-divergent graph decisions; decode graphs/readiness pass. New single-TP4 probe 223005 is Q at submission, 4 H100/20 minutes/max 170.666667 SU, no serving traffic. Used 45575.959, posted 222769/222780 reconciled; headroom 5253.374333 SU after new maximum. Keep healthy VPN/SSH. [Actual receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-prefill-graph-gate-20261021/RESULTS.md). Earlier snapshots above are historical.
 
 ## Measurement and acceptance
 

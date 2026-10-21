@@ -1,5 +1,9 @@
 # Research priorities after the upstream review
 
+## Current refinement — 2026-10-21T10:10:46.543956+00:00
+
+Owner-authorised VPN/SSH restored. Full repair 222780 fixes decode normalization/graphs/readiness but fails prefill initialization: local 4-GiB auto graph decisions diverge across TP ranks. Sealed review retains no request result or score. A source-proven, uniformly disabled prefill-graph readiness probe 223005 is now submitted on one TP4 worker: 4 H100/20 minutes/max 170.666667 SU. This tests native initialization before another 16-GPU PD repair. Fresh ledger reconciles 222769/222780 and leaves 5253.374333 SU headroom after the probe maximum. [Current result and gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-prefill-graph-gate-20261021/RESULTS.md). No throughput/accuracy claim or submission promotion; preserve five H200 positions. Earlier snapshots below are historical.
+
 ## Current refinement — 2026-10-21T09:44:32.900086+00:00
 
 All five H200 jobs are pending/Priority; PBS cannot be queried because the existing VPN wrapper finds no live session. Preserve positions, outstanding maxima and authentication state. The [conditional matched-capacity contract](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-screen-contract-20261021/PLAN.md) now specifies prefill 64 / decode 256 on both H100 sides and checks early ServerArgs plus final scheduler receipts. Four exact native-branch cases and eleven adversarial log fixtures pass on CPU; historical 222761 shows None then final 4096, while failed 222763 shows 48 with no final scheduler receipts. No screen payload, GPU measurement or reservation is implied. Full 222780 review still comes first. The whole N62 submission was updated separately on this date; do not promote this unmeasured contract into it. Earlier state snapshots below are historical.
