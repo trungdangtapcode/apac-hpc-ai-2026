@@ -20,9 +20,9 @@ GPU computation belongs on allocated compute nodes. CPU staging uses at most fou
 
 Project grant 64000 SU; rate 128 SU per GPU-hour. The existing internal cap is **51000 SU**, retaining **13000 SU** project buffer. Do not increase it implicitly. Use nscc-budget.json and its budget lock; check the fresh published ledger, own job states and outstanding maxima before qsub. Balance already excludes In Doubt prepayment; never subtract it twice. Reserve maximum charge first, record each definite ID immediately and retain uncertain outcomes until resolved. Never blindly repeat an uncertain qsub.
 
-Current dated commitment: **222551 → 222552**, legacy/balanced equal-budget CPU-envelope pair, each 16 H100 / 30 minutes / maximum 1024 SU. At the approximately 17:20 UTC locked check: Used 42633.312 SU, Balance 21366.688 SU, In Doubt zero, outstanding maxima 2048 SU and internal headroom 6318.688 SU. Refresh before new spending; these are not live credit values. Previous terminal charges are reconciled. Candidate checks the predecessor before model loading. Full details are in CURRENT and the pair receipts.
+Latest completed H100 pair: 222551/222552, full local gates and actual mappings PASS but only +0.289035% goodput, below the prospective 1% gate. Close without an unchanged repeat or default promotion. At the locked 21 October 03:21:52 UTC reconciliation: Used 43571.410 SU, Balance 20428.590 SU, In Doubt zero, no outstanding maxima and internal headroom 7428.590 SU. Refresh before spending; these are dated values.
 
-Current H200 positions: **24928, 24962, 24964, 24965, 25051**, all pending at the latest check. No sixth job. This policy does not authorise spending beyond the existing research budget.
+The next prepared component gate uses one H100 / four minutes / maximum 8.533334 SU, with no full target inference or ranked score. Require fresh locked queue/credit checks, definite receipt and separate capture. A component PASS does not waive real draft loading, both-phase PD transfer or exact greedy equality. Current H200 positions remain 24928/24962/24964/24965/25051, all pending at the latest check; no sixth job. No budget increase.
 
 ## Measurement and acceptance
 
@@ -36,11 +36,11 @@ For terminal runs inspect raw tail latency, errors and concurrency; role-specifi
 
 ## Current branch decisions
 
-Keep native NUMA binding. H100 222435 shows actual scheduler locality with an asymmetric outer CPU envelope, not measured CPU saturation. The new pair changes only distribution of the same 32/32/64 CPU budget and requires complete intended mappings plus at least 1% goodput benefit before a repeat.
+Keep native NUMA binding. H100 222435 shows actual scheduler locality with an asymmetric outer CPU envelope, not measured CPU saturation. The completed pair verifies the intended same-budget change but misses its 1% gain gate; keep the previous default and close this exact policy.
 
 Close unchanged reverse startup-prefetch confirmation: 9.836066% walltime/SU saving misses its prospective 10% gate. Do not automatically repeat or promote it. Keep H100 chunk 4096 and round-robin; unchanged 2048/8192/power-of-two trials lost. Historical DP8/DeepEP did not beat its contemporary MNNVL control.
 
-EAGLE3 remains a prepared correctness branch. Public draft bytes/digest are staged outside Git. Native token-ID support is inspected, but gateway forwarding and real draft loading/PD integration remain unverified. First establish target-only repeat stability and exact actual token IDs, then correct draft loading/state/transport/kernels/memory and long-context checks. Only a useful valid short screen merits full scoring. No speculative GPU job exists yet; do not weaken target verification or infer speedup from acceptance length.
+EAGLE3 remains a prepared correctness branch. Public draft bytes/digest are staged outside Git. Native token-ID support is inspected, but gateway forwarding and real draft loading/PD integration remain unverified. First establish target-only repeat stability and exact actual token IDs, then correct draft loading/state/transport/kernels/memory and long-context checks. Only a useful valid short screen merits full scoring. No full-model speculative GPU job exists yet; do not weaken target verification or infer speedup from acceptance length.
 
 ## Access, backup and handoff
 

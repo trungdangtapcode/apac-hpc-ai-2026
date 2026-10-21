@@ -1,0 +1,9 @@
+# Small allocated EAGLE3 component gate — 2026-10-21T03:32:47.139280+00:00
+
+**Question and prior evidence.** The CPU-envelope pair is valid but below its useful-gain gate, while H200's five positions remain pending. A verified public EAGLE3 draft exists, but actual native config resolution, tensor/token-map values and gateway extension forwarding are untested. Discovering such basic failures should not consume a full 16-GPU model startup.
+
+**Prepared change.** One H100 for four minutes, maximum 8.533334 SU. The actual pinned gateway routes to explicit synthetic workers so the recorded request/response IDs test forwarding, not model output. If that passes, native ModelConfig/registry must resolve the architecture adapter with BF16/no quantization; the pinned real tensors must be finite and the native vocabulary mapping valid. All GPU tensor work stays inside the allocation. [Plan, exact boundaries and stopping rules](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-20261021/PLAN.md).
+
+**Validation and limits.** CPU syntax/source/manifest checks pass. The public draft was staged directly from the pinned source into an excluded ASPIRE cache and its complete digest verified, in 10.750 seconds without GPU use. Model weights are not captured. A zero-file router-source guess and its corrected extraction are retained. No real target or draft class is instantiated; no forward pass, PD transfer, greedy equality or performance claim. A component PASS only justifies preparing the next bounded integration stage.
+
+**Execution and next decision.** No receipt at this preparation checkpoint. Fresh locked queue/credit checks and reservation are required before qsub. Caps and budget remain unchanged; reserve at most 8.533334 SU from the dated 7428.590 SU headroom. Record submission separately and review terminal evidence before further GPU spending. No background Codex, schedule, authentication or submission-material change.

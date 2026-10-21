@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-20T17:29:26.672121+00:00. Queue observations are dated snapshots; refresh schedulers before acting. Historical snapshots are preserved in [the previous handoff](history/20261020T172926Z-before-compact-CURRENT.md).
+Updated 2026-10-21T03:32:47.139280+00:00. Queue observations are dated snapshots; refresh schedulers before acting. Historical snapshots are preserved in [the previous handoff](history/20261020T172926Z-before-compact-CURRENT.md).
 
 ## Accepted serving results
 
@@ -13,19 +13,13 @@ Keep platform series separate. Repeated H200 N60 is about 2989–2990. See [H200
 
 **Official full-set accuracy at 99% of reference remains unverified.** Score is AIPerf goodput in requests/s × 200, with joint TTFT ≤ 3000 ms / request-mean ITL ≤ 20 ms and qualifying fraction ≥ 0.90 including errors. Use fixed 4000/200 tokens, seed 2026, cold prefixes and closed-loop team-selected concurrency. [Official workload and units](official-goodput-clarification-20261020.md).
 
-## Actual queues at 2026-10-20T17:29:26.672121+00:00
+## Latest queue and completed CPU pair
 
-- H200 **24928, 24962, 24964, 24965 and 25051** are Priority-pending. Preserve all five positions; no sixth job. They test receive interval 2, exact N62 repeat, the observed prefill backend pair and actual worker locality.
-- H100 **222551.pbs111 is running**, reported elapsed eight minutes; **222552.pbs111 is held afterany 222551**. This is the new legacy/balanced CPU-envelope pair, not an EAGLE3 run. Maximum one own running PBS allocation.
-- All three live control prelaunch receipts exist and apply legacy CPU budgets of 32, 32 and 64 distinct physical cores, with actual CUDA UUID mapping. This validates the helper's initial runtime interfaces, not scored behavior, full worker masks or candidate success. [Snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/live-20261020T172926Z.json).
+At the 21 October continuation check, H200 24928/24962/24964/24965/25051 remain Priority-pending. Preserve all five positions; no sixth job. PBS has no active owned jobs. **222551 and 222552 are terminal F / exit 0**, with sealed local protocol/SLA/runtime/output-comparison PASS, 12/12 long checks, 16 diagnostic rank traces each and complete actual 4/4/8 GPU scheduler mappings.
 
-## Current CPU hypothesis and completed observations
+Legacy **2407.544052** versus balanced **2414.502691 good tokens/s** is only **+0.289035%**, below the prospective 1% gate. The actual scheduler CPU masks change as intended: prefill 1 grows from 56–63 to 56–87; decode changes from 56/8 to 32/32 local CPU IDs across its NUMA groups, with the same total CPU/core budgets. **Close this exact policy without an unchanged repeat or default promotion.** Native NUMA locality stays enabled. Mean TTFT improves but ITL and p99 TTFT worsen slightly; scored request errors are zero. The same baseline short mismatch persists, and profile-stop HTTP 500 remains. This does not establish CPU saturation or official model accuracy. [Full review and raw evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/PAIR_REVIEW.md).
 
-[H100 222435](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-h100-20261020/REVIEW.md) passes full local gates at **2413.341139 good tokens/s**, joint **98.416887%**, zero errors, long checks 12/12 and diagnostic requests 355/355. All 16 actual GPU scheduler processes are already NUMA-local. The outer envelope is asymmetric: NUMA 1 GPU groups share only **8 local CPU IDs**, versus 32 for prefill 0 and 56 for decode NUMA 0. This is not evidence of CPU saturation; scored per-thread demand and memory placement were not collected.
-
-[222551 → 222552](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/RESULTS.md) keeps native SGLang locality, model, transport, kernels, N54 and official benchmark unchanged. Both run identical metadata checks; only the same 32/32/64 CPU budget distribution changes. The candidate uses actual GPU UUID/PCI/NUMA identity and verifies the predecessor before loading weights. Require full local gates, complete intended worker mapping, equal core budgets and at least 1% goodput gain for a useful provisional pair. Only a valid useful gain warrants independent confirmation. No new candidate score exists yet.
-
-H200 **25051** gathers the analogous pre-score worker mapping while retaining existing binding. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/worker-locality-baseline-20261020/RESULTS.md). Do not assume H100 mapping or a future gain transfers to H200.
+Next prepared step: **one H100 / four minutes / at most 8.533334 SU** for an EAGLE3 component gate. Test actual native gateway forwarding with clearly synthetic workers, then native draft config/registry resolution and real tensor/token-map integrity. No target weights, draft model construction, PD transfer, inference or ranked score. The pinned public draft is verified in the excluded ASPIRE cache. [Prepared payload and stopping gates](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-component-20261021/PLAN.md). No receipt exists at this preparation checkpoint; require fresh locked checks before qsub.
 
 ## Closed startup-cost branch
 
@@ -33,9 +27,7 @@ Original off/read 222407/222408 suggested 18.737% lower allocated walltime. Reve
 
 ## Budget snapshot and commitments
 
-Locked pre-submit ledger at approximately **17:20 UTC**: Used **42633.312 SU**, Balance **21366.688 SU**, In Doubt **0 SU**. Published Balance already excludes In Doubt; never subtract it twice. New 222551/222552 maxima total **2048 SU**, leaving conservative internal headroom **6318.688 SU** under the unchanged **51000 SU cap / 13000 SU project buffer**. Each requests 16 H100 for 30 minutes, at most 1024 SU. Refresh and reconcile under the budget lock before another reservation. [Source and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/RESULTS.md).
-
-The first adapter attempt rejected signed negative zero before reservation or qsub. The correction retained the failure, verified existing upload hashes and made definite submissions without duplication. [Correction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/PRE_SUBMIT_CORRECTION.md).
+Locked terminal reconciliation at **2026-10-21T03:21:52 UTC**: Used **43571.410 SU**, Balance **20428.590 SU**, In Doubt **0 SU**. Both CPU jobs uniquely reconcile **938.098 SU** posted cost; no outstanding maxima. Internal headroom is **7428.590 SU**, unchanged **51000 SU cap / 13000 SU project buffer**. [Accounting proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/cpu-envelope-balance-20261020/reconciliation-terminal.json). A later component reservation would reduce this headroom; refresh before submission. Balance already excludes In Doubt, so never subtract it twice.
 
 ## EAGLE3: staged and prepared, not measured
 
