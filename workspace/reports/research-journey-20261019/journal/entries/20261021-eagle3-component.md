@@ -79,3 +79,9 @@ Question: does the actual retained full Qwen PD deployment expose every output t
 **222752.pbs111**, initial R, 16 H100 / at most 20 minutes / maximum 682.666667 SU. [Plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/PLAN.md), [receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/RESULTS.md). Fresh locked queue empty and asset checks pass. Used 43580.583, Balance 20419.417, In Doubt 0.000 SU; conservative headroom 6719.683667 SU after all outstanding maxima. Large target hashes reuse retained complete verified official staging evidence, with fresh sizes/small-file hashes rather than a new 236 GB pass.
 
 No new goodput, speculative inference or accuracy claim. Only a valid actual reference permits a separately frozen speculative comparison, then useful short load before full scoring. Resource/locality collection stays on, heavy profiling off, diagnostic phase markers separate from scored work. H200 five positions remain Priority pending; preserve them.
+
+## Real reference startup inspected — 2026-10-21T05:05:17.553900+00:00
+
+222752 remains running; actual task logs show decode ready and both prefills advancing CUDA graph capture. Empty outer worker logs are redirect holders, not proof of a hang. [Raw bounded startup snapshot](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-integration-20261021/live-startup.json). No token reference or new score yet.
+
+A [conditional candidate plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-candidate-20261021/PLAN.md) records the exact supported native flags, both-role state/embedding/TP/graph gates and the default capacity reset observed in the native load job. No candidate receipt or reservation. Require a sealed reviewed real reference first; do not infer a mandatory overlap disable from unrelated modes, or throughput from acceptance length.
