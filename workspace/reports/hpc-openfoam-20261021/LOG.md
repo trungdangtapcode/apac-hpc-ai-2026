@@ -438,3 +438,12 @@ The public one-node hierarchical value is 14.668759 s/step; our single run is ab
 CPU accounting now reports Used 250.033 SU, an amount delta of 27.879 SU from 222.154. All five terminal allocation estimates sum to 27.880 SU. The site's displayed timestamp is chronologically inconsistent and detailed usage is incomplete: no exact individual posted charge is claimed. Conservative consumed planning ceiling is 29 SU, with no outstanding CPU jobs. This retires historical requested maxima without raising the unchanged 100-SU wave ceiling. Future submission guards must include consumed plus outstanding plus new maximum.
 
 The earlier queue snapshots below are historical. The job started at 14:48:58 UTC, after about 13 minutes 5 seconds queued, and finished after 728 seconds. No queue resubmission occurred.
+
+## 2026-10-21T18:58:51.708284+00:00: controlled native Scotch followup
+
+
+25907236.pbs101 accepted at 2026-10-21T18:58:25.195600+00:00. Fresh native default Scotch N128, serial decomposition on 32 allocated CPUs, 96 GB, zero GPUs, maximum 15 minutes / 8 SU. Root: `/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-scotch128-20261021T185820Z`. Read PLAN.md for hypothesis, control, gates and conditional same-node pair. No candidate performance result yet. Submission intent, queue/accounting checks, exact deployment hashes and receipt are retained. No retry or budget increase.
+
+Conservative consumed ceiling 29 SU plus this 8-SU outstanding reservation commits 37 / 100 SU. The conditional 29-minute pair would bring the maximum to 98.866667 SU, only after preparation passes and a fresh locked budget/queue check. Separate GPU queue inspected read-only: one own running job at submission; untouched.
+
+Only decompositionMethod changes from the accepted case. The graph-cut hypothesis, observed one-node reference advantage and four-node counterexample are retained in the experiment PLAN. Exact numerical inputs remain byte-checked. Whole-mesh and control-zero-field hashing occurs only on allocated compute CPUs. A terminal prep job alone is not a passing solve or score.
