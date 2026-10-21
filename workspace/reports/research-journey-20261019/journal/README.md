@@ -94,3 +94,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: H200 recv2 full result, telemetry window correction and branch decision](entries/20261021-h200-recv2-result.md).
 
 - [21 October: controlled H200 routing receipt and queue decision](entries/20261021-h200-routing-receipt.md).
+
+- [21 October: two-GPU real NIXL peer/VRAM gate and conservative receipt](entries/20261021-nixl-peer-probe.md).
