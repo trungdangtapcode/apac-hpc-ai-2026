@@ -1,3 +1,5 @@
+Historical plan — superseded before GPU execution. The 22-minute request 25338 exceeded the actual 17-minute partition ceiling and was cancelled pending at zero runtime. See RESULTS.md. Preserve the original prospective text below; the next separately named bundle uses a short matched screen and validates the live partition limit.
+
 # Observed H200 N62 to N64 load frontier
 
 The exact independent N62 repeat 24962 passes full local gates at 3023.072304
