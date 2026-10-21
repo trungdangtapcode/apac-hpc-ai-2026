@@ -15,17 +15,26 @@ root='/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-three-cuts256-'+d
 buf=io.BytesIO()
 with tarfile.open(fileobj=buf,mode='w:gz') as t:
  for k in hashes:t.add(str(P/k),arcname=k,recursive=False)
-remote='''import base64,io,tarfile,hashlib,json
+expected=json.dumps(hashes,indent=2).encode()
+# Transmit the archive over SSH stdin, avoiding the OS per-argument size limit.
+archive_buffer=io.BytesIO()
+with tarfile.open(fileobj=archive_buffer,mode='w:gz') as t:
+ for k in hashes:t.add(str(P/k),arcname=k,recursive=False)
+ info=tarfile.TarInfo('__deployment_expected_sha256.json');info.size=len(expected);t.addfile(info,io.BytesIO(expected))
+remote="""import io,tarfile,hashlib,json,sys
 from pathlib import Path
 root=Path(ROOT);root.mkdir(exist_ok=False)
-with tarfile.open(fileobj=io.BytesIO(base64.b64decode(DATA)),mode='r:gz') as t:
+with tarfile.open(fileobj=io.BytesIO(sys.stdin.buffer.read()),mode='r:gz') as t:
  for m in t.getmembers():
   assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
   p=root/m.name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(t.extractfile(m).read())
-for k,v in HASHES.items():assert hashlib.sha256((root/k).read_bytes()).hexdigest()==v,k
-print(json.dumps(dict(root=str(root),sha256=HASHES)))
-'''.replace('ROOT',repr(root)).replace('DATA',repr(base64.b64encode(buf.getvalue()).decode())).replace('HASHES',repr(hashes))
-res=cpu('python3 -c '+shlex.quote(remote));save('deployment.json',json.loads(res.stdout))
+hashes=json.loads((root/'__deployment_expected_sha256.json').read_text())
+for k,v in hashes.items():assert hashlib.sha256((root/k).read_bytes()).hexdigest()==v,k
+print(json.dumps(dict(root=str(root),sha256=hashes)))
+""".replace('ROOT',repr(root))
+res=subprocess.run([helper,'python3 -c '+shlex.quote(remote)],input=archive_buffer.getvalue(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=120,check=True)
+deployed=json.loads(res.stdout.decode());assert deployed['root']==root and deployed['sha256']==hashes
+save('deployment.json',deployed)
 with (R/'nscc-cpu-timing-probe-20261021/cpu-budget.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX)
  q=cpu('qstat -u apacsc42')

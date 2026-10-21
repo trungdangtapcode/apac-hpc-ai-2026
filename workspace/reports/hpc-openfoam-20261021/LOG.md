@@ -588,3 +588,7 @@ Native graph filter passed in 25907688; still no NUMA solver gain. One ordered p
 Next prepare validated 256-rank inputs as an afterok follower while this pair runs, if combined cap permits. A failed parent blocks that follower; keep one CPU allocation active at a time.
 
 Queue correction: actual normal routing includes q1–q6; qdev caps each job at 128 CPU as well as 256 aggregate. Larger 256/512-core normal requests can route elsewhere (q5 max 2048). Earlier qdev-only inference did not establish a cluster-wide restriction. Retain snapshot and cpu-continuation-20261021/QUEUE_POLICY.md; inspect actual multi-node routing on submission.
+
+## 21 October: preserve and fix a local deployment size limit
+
+The first three-case N256 deployment exceeded the OS per-argument size limit (errno 7) before SSH started. No remote process, qsub or budget reservation occurred; no cluster job or SU was lost. Replaced embedded base64/hash arguments with a tar stream over SSH stdin, retaining safe-path checks, refusal of existing roots and returned exact hash verification. This is a local transport fix; frozen native case/job payload is unchanged. Exact failure and fix live in nscc-cpu-three-cuts256-20261021/deployment-attempt1.json and deploy-submit.py.
