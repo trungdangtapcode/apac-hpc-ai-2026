@@ -1,6 +1,6 @@
 # Current APAC Qwen handoff
 
-Updated 2026-10-21T08:52:58.052317+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
+Updated 2026-10-21T09:46:58.182280+00:00. [21 October complete submission](submission-update-20261021.md) now includes the primary N62 script, build instructions, raw evidence and updated slides. Scheduler snapshots below are dated; query real state on resume.
 
 ## Retained serving results
 

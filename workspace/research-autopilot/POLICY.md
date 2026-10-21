@@ -1,6 +1,6 @@
 # APAC Qwen execution policy
 
-Updated 2026-10-21T06:04:30.385561+00:00. Earlier execution snapshots remain historical; CURRENT links actual recent evidence. Owner AGENTS.md instructions are authoritative.
+Updated 2026-10-21T09:46:58.182280+00:00. Earlier execution snapshots remain historical; CURRENT links actual recent evidence. Owner AGENTS.md instructions are authoritative.
 
 ## Read and preserve context
 
