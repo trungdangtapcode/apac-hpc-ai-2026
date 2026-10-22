@@ -122,3 +122,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: four full N60 reviews and phase-aligned telemetry](entries/20261022-h200-wave-review.md).
 
 - [22 October: guarded N64/N68 load question, CPU only](entries/20261022-n68-conditional-plan.md).
+
+- [22 October: native registration/DRAM transport pass](entries/20261022-nixl-native-registration-pass.md).

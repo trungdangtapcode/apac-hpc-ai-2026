@@ -79,3 +79,6 @@ prospective until deployed in a fresh full-model bundle.
 
 
 [22 October full N60 review and phase-aligned evidence](../reports/research-journey-20261019/journal/entries/20261022-h200-wave-review.md) closes unchanged both-HPC8192 and power_of_two losses. All in-score metrics scrapes are HTTP200 with actual payloads; error-path-only status parsing was corrected. GPU activity, allocated VRAM and KV token occupancy remain distinct, and diagnostic trace contents were not inspected. Client concurrency60 corresponds to control sampled decode running40–52, not automatically a batch of60.
+
+
+**223132 is now F/exit0, NATIVE_NIXL_REGISTRATION_AUX_PASS**,315 seconds /estimated22.4 SU on039/037. Both native190-range VRAM/three-buffer DRAM groups and all three KV/one auxiliary writes pass independent checks. [Sealed review](../../2026-APAC-HPC-AI/qwen-experiments/nixl-native-registration-probe-20261021/REVIEW.md). Full EAGLE3 remains unproven; published charge reconciliation is pending, so maximum42.666667 SU stays reserved. Assess an H200 reference/correctness port to save H100 SU.

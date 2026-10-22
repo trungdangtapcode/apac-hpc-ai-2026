@@ -20,3 +20,7 @@ Review both actual rank receipts, native registration groups, GPU/host byte
 hashes, transport logs and cost when terminal. This result cannot establish
 EAGLE3 correctness or a serving score. Raw peer metadata and pointers remain
 outside the collected artifact tree.
+
+## Terminal result
+
+Superseding the running receipt: **223132 is F/exit0**,315 seconds, native190-range VRAM and three-buffer DRAM groups verified on both ranks; all three KV and one host auxiliary writes pass independent byte checks. Estimated22.4 SU, published reconciliation pending. [Sealed assessment, telemetry limits and next decision](REVIEW.md).
