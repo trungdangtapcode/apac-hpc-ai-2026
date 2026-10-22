@@ -1,8 +1,16 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-21T19:59:32.087973+00:00. This is the HPC session. GPU/Qwen belongs to the separate GPU worker; shared filesystem does not change roles. English artifacts, Vietnamese chat. No background Codex, schedules, or promised automatic chat messages. Keep HPC_Task submission folders untouched until authorized reviewed packaging.
+Updated 2026-10-22T14:16:12.096147+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
 
-## Live pipeline at last check
+## Current access checkpoint — 22 October
+
+VPN currently unavailable. Fresh collection of 25907753 and 25907772 stopped before SSH/PBS; current scheduler states and new results are **unknown**, not failed or completed by inference. A brief separate VPN client later exited; exact cause/lifetime is not established. Preserve private cache and all existing reservations. Owner asked whether DUO approval is available; no new authentication was initiated by the HPC worker. [Safe access evidence and next actions](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/REPORT.md).
+
+Three-cut review.py and H/S256 deploy-submit.py/review.py are implemented and root-reviewed. The 80-step semantic validator accepts both immutable organizer reference logs and rejects changed fixed work. These are parser qualifications, not new timing results. H/S256 remains ready **but not submitted**, awaiting actual prep review and fresh budget/queue checks. [Pre-submission review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair256-20261021/PRE_SUBMIT_REVIEW.md).
+
+NUMA metadata correction is dated separately; actual frozen payload/input hashes agree. [Correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PROVENANCE_CORRECTION.md). All reported measurements below remain historical until a fresh review.
+
+## Historical pipeline snapshot — verified 21 October
 
 | Job | State | Work | Maximum reserved SU |
 |---|---|---|---:|
@@ -27,15 +35,15 @@ These are one-node results, not the scored four-node/150-step result. Atomic dia
 
 Owner explicitly requested expanded research/submissions after learning balances are separate. New bounded **1,000-SU cumulative CPU ceiling**; original 100-SU first wave is historical, preserved in ledger ceiling_history. [Expanded plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/PLAN.md).
 
-All first eight allocations terminal: estimates **83.417778 SU**, conservative consumed **85 SU**. Outstanding maxima **85.866667 SU**, total commitment **170.866667 / 1,000 SU**. These are planning commitments, not posted charges. CPU project **59000042**, grant 30,000 SU, is separate from AI **59010042**. Stale project usage display still reports Used250.033/Balance29749.967/InDoubt0; do not call that current actual wave usage. Individual posted billing and refresh chronology remain unresolved. [SU explanation](hpc-ai-service-units.md).
+All first eight allocations terminal: estimates **83.417778 SU**, conservative consumed **85 SU**. Outstanding maxima **85.866667 SU**, total commitment **170.866667 / 1,000 SU**. These are planning commitments, not posted charges. CPU project **59000042**, grant 30,000 SU, is separate from AI **59010042**. Stale project usage display still reports Used 250.033 / Balance 29749.967 / In Doubt 0; do not call that current actual wave usage. Individual posted billing and refresh chronology remain unresolved. [SU explanation](hpc-ai-service-units.md).
 
 Parent lock/ledger: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.lock and cpu-budget.json. Always check consumed + retained maxima + new request against current ceiling, fresh project rate/balance and combined own PBS jobs. Use tools/reconcile_cpu_budget.py only with all recorded jobs terminal/own queue empty. Preserve original requested maxima and raw failures; no blind retries or prepaid double subtraction. No AI ledger changes.
 
 ## Access and queue correction
 
-Reuse **hpc-experiments/tools/nscc-cpu-ssh.sh**, authenticated CPU master through existing VPN, CPU IP10.103.72.110 with HostKeyAlias aspire2a.nscc.sg. Namespace CPU DNS failed previously. CPU login asp2a-login-nscc02, Python3.6; bash -lc restores PBS/modules. Do not reset VPN/AI master or capture authentication state.
+Reuse **hpc-experiments/tools/nscc-cpu-ssh.sh**, authenticated CPU master through existing VPN, CPU IP 10.103.72.110 with HostKeyAlias aspire2a.nscc.sg. Namespace CPU DNS failed previously. CPU login asp2a-login-nscc02, Python 3.6; bash -lc restores PBS/modules. Do not reset VPN/AI master or capture authentication state.
 
-**normal is a routing queue. qdev max per job is128 cores and aggregate256.** Larger 256/512-core normal requests can route elsewhere, e.g.q5 max2048. Earlier qdev-only inference was too broad. Actual larger-job route/access remains to verify. [Verified safe queue snapshot and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/QUEUE_POLICY.md).
+**normal is a routing queue. qdev max per job is 128 cores and aggregate 256.** Larger 256/512-core normal requests can route elsewhere, e.g. q5 max 2048. Earlier qdev-only inference was too broad. Actual larger-job route/access remains to verify. [Verified safe queue snapshot and correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261021/QUEUE_POLICY.md).
 
 Iris helper requires forced TTY and no remote command so gateway auto-jumps to login01. Work root /global/exafs/users/rdmaworkshop30/apac2026/tripleu-hpc-20261021T1121. Do not touch other shared-account work or run optimized solvers on login CPUs.
 
