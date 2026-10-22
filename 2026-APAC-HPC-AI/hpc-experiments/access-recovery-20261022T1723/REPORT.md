@@ -1,0 +1,9 @@
+# CPU SSH connection recovery, 22 October at 17:23 UTC
+
+The existing VPN process and tunnel were left running. A bounded direct TCP check through its namespace reached the verified CPU IP and returned an OpenSSH banner. The existing CPU multiplexing master answered its local control check, but both a hostname command and queue query through it failed to finish within the check deadline. A local master-process check therefore did not establish a usable remote session. The cause of the blocked old transport/login is unknown; this does not prove a VPN expiry, CPU password rejection or PBS failure.
+
+Created a separate CPU SSH master with the previously authorized credential through the verified hidden password prompt. No credential was written to research files. It authenticated to asp2a-login-nscc02; fresh batch hostname and qstat commands succeeded. Phone-side DUO action and exact session lifetime were not observed. The healthy VPN and both the older CPU master and separate AI connection were preserved. Only this worker's own blocked read-only qstat client was terminated, not a master or scheduler job.
+
+The CPU helper now defaults to the verified cpu-r2 multiplexing path and accepts NSCC_CPU_CONTROL_PATH for an explicit later override. Private socket/cache state is not archived. Shell syntax and fresh read-only queue checks pass. Six four-node shared jobs are still pending; no active CPU allocation was present in the 17:23 UTC query. Owner/controller and shared cost coordination remain unresolved; no new qsub, budget reservation or queue modification occurred. Never present the earlier 3-running/9-queued snapshot as live.
+
+Server password-expiry notices still disagree by one day; no rotation was performed. This report excludes raw authentication/banner material. Earlier stale-connection claims are replaced by this functional access proof, not by an invented cause.
