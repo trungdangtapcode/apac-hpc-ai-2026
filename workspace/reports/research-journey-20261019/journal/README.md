@@ -140,3 +140,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: matched N62/N64 telemetry, tails and initial-cohort assessment](entries/20261022-n64-observability.md).
 
 - [22 October: P12/D4 proposal withheld after equal-TP transport review](entries/20261022-p12-equal-tp-hold.md).
+
+- [22 October: native H200 EAGLE3 correctness design and limits](entries/20261022-eagle3-h200-port-decision.md).

@@ -1,4 +1,7 @@
-# Current token observation route and historical correction
+# Token observation route and historical corrections
+
+Current correction, 22 October: real H100 reference 222761 passes all 1600 IDs, but no full EAGLE3 output comparison passes. Full 223055 fails at the earlier NIXL disconnect; its all-pairs warm marker was false and the final token gate correctly rejects HTTP 500. Later small-buffer component passes do not establish full integration. The independently checked pair-receipt helper is prospective. A [native H200 reference/candidate design](../eagle3-h200-port-20261022/PLAN.md) is unsubmitted. Earlier stage descriptions below are historical and are superseded where their later corrections establish more evidence.
+
 
 The earlier preflight TOKEN_IDS.md described a proposed nonstreaming chat return_token_ids route, with explicit unverified typed-gateway behavior. Actual 222721 proves the native gateway filters those flags and does not return the requested actual IDs. That old helper is not a working full-PD correctness route. Preserve its historical source/tests rather than silently repurposing it.
 

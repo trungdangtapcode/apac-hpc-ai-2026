@@ -1,0 +1,7 @@
+# 22 October: preserve the native H200 EAGLE3 route
+
+The H100 component chain now passes actual small-buffer transfer, descriptor, registration and pinned-DRAM checks, while full EAGLE3 still has no passing output result. The question is whether to investigate full native integration on the working H200 Slurm path without spending limited H100 SU. This is a new correctness route, not a claim that the old disconnect is repaired.
+
+The unsubmitted `eagle3-h200-port-20261022/PLAN.md` preserves the source identities, prior evidence, explicit uncertainty and two-allocation design: fresh target-only H200 reference first, then a separately frozen candidate only if the reference passes. Both need complete 1600 actual output IDs, repeated greedy equality, independent head validation, per-pair semantic warmup and redacted actual KV geometry. Native Slurm dispatch replaces PBS aliases. Draft/model/image checks and one absolute startup budget precede any freeze.
+
+Earlier read-only asset inspection established matching names/sizes and draft aliases, not fresh cross-platform full model/image digest equality. Startup time limits are prospective, not measured guarantees. No job, reservation, canonical payload or speedup is created here. The accepted load replication and N68 screen already queued remain the immediate measurements; choose further allocations from their actual outputs and the stated gates.
