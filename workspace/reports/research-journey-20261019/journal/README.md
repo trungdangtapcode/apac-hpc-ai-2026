@@ -126,3 +126,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: native registration/DRAM transport pass](entries/20261022-nixl-native-registration-pass.md).
 
 - [22 October: fresh full N62 and initial-cohort SLA evidence](entries/20261022-h200-n62-full-and-initial-cohort.md).
+
+- [22 October: full N64 pass and frozen guarded N68 screen](entries/20261022-n64-pass-n68-freeze.md).
