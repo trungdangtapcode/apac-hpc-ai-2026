@@ -172,3 +172,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: refine an offline rank-placement candidate from 0.81% to 4.57% fewer logical crossing faces](entries/20261022-hpc-rank-placement-screen.md).
 
 - [22 October: fresh full draft identity before native H200 speculative integration](entries/20261022-h200-draft-identity.md).
+
+- [22 October: inspect all 48 current-point rank traces before another algorithm change](entries/20261022-h200-n64-kernel-review.md).

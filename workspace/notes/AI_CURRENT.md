@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-22T17:24:45.031112+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-22T17:30:00.923571+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Current measured results
 
@@ -30,6 +30,8 @@ The full N68 pair must pass protocol/runtime/output/SLA and zero-error gates, an
 The reviewed full N60 wave scores are control 24964=2981.417188, both-HPC 24965=2886.298789 (−3.1904%), locality capture 25051=2985.515382 (+0.1375%), and power_of_two router 25283=2867.923337 (−3.8067%). Close unchanged both-HPC and power_of_two branches; locality is diagnostic, not a demonstrated gain. [Wave review and phase-aligned observability](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-h200-wave-20261021/REVIEW.md). Short 25339 favored N64 by 2.861439%; it justified the fresh full pair, not a ranked score.
 
 [Initial-cohort analysis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/phase-transition-review-20261022/REVIEW.md) finds that all TTFT failures in six inspected full/short points started within the first 39 ms of profiling; new N64 failures start no later than 33.481316 ms. No later failures or ITL breaches in those points. This is an association, not a causal prefill diagnosis. Recovering all such failures at unchanged duration would yield only about 1.20–1.39% in those full points; this arithmetic ceiling is not a forecast. Keep all official scored requests in the denominator.
+
+[New offline trace-content review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/kernel-review-h200-n64-20261022/REVIEW.md) inspects all 48 sealed rank traces of 25365/25366/25373, with complete diagnostic requests and all ranks. These are post-score N48 traces, not N62/N64 scoring profiles. Decode mean per-rank summed-kernel fractions are about 34.8–35.0% MoE-associated, 23.4–23.5% fused collective/normalization, 16.3–16.5% attention and 10.7% other quantization. Overlap, unequal capture lengths and unmatched batches prevent critical-path or speedup inference. Explicit-stop HTTP500 warnings remain preserved; actual kernels were captured. This supports the existing correctness-first EAGLE3 question, not reopening unchanged losing backend/collective branches. No additional GPU or PBS SU was used.
 
 Sampled GPU activity, allocated VRAM, KV token occupancy and kernel-time sums are different quantities. The phase-aligned wave review corrects the server-metrics success key and retains HTTP 200 payloads. Profile stop can return HTTP 500 even though scored requests have zero errors. Trace names are inventoried; trace contents are not generally inspected. [Matched N62/N64 inspection](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/observability.md) now retains per-role telemetry, tail latency, profile controls and explicit limits.
 
