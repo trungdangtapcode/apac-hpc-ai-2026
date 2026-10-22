@@ -1,0 +1,7 @@
+# Research presentation update — 22 October 2026
+
+The English 32-slide talk retains the established Metropolis adaptation, native editable diagrams, soft gradients and 32 distinct infrastructure photographs. It now covers reproduced full H200 N64 (3044.489701 / 3044.074628 good output tokens/s), the passing short N68 screen (+2.273457%), tail-latency cohort evidence, recent losing branches and the small-component versus full-model EAGLE3 distinction. H100 remains separate and official accuracy remains unverified.
+
+Build frozen inputs with `submission-tools/freeze_research_update_20261022.py` only into a new output directory; it refuses overwriting this snapshot. Rebuild from the retained inputs with `build_research_update_20261022.py`, using the pinned requirements. Full source hashes and the prior-source refresh audit are retained. Presentation content is for speaking, not a directory tour; research sources are in speaker notes and metadata.
+
+The PDF and PNG previews share the PPTX drawing coordinates, but are not Office renders. The publication step must validate source hashes, raw request counts, English text/notes, geometry, distinct embedded backgrounds and gradients before replacing the primary PPTX. Only presentation-related package files and checksums may change; AI job scripts and HPC payloads must remain unchanged. The existing primary script still declares N62: this is a research-talk update, not a silent deployment promotion.
