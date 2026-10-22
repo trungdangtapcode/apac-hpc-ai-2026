@@ -1,3 +1,7 @@
+# Latest AI run-index update — 22 October 2026
+
+Full observed control 25365 and N64 candidate 25366 are terminal, sealed and reviewed local PASS, not merely scheduler-complete. Their registry entries now point to the formal reviews and actual measurements. N64 reaches 3044.489701 good output tokens/s, +1.082867% over fresh matched N62, with 98.633018% joint SLA and zero errors. Official accuracy remains unverified; independent full N64 receipt 25373 and short N64/N68 receipt 25371 are separate pending measurements. See [current serving comparison](SERVING_TUNING_RESULTS.md) and the [AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md) for the maintained route. All dated records below remain historical evidence.
+
 ## Reverse confirmation submitted — 2026-10-20T14:06:36.113310+00:00
 
 222419→ 222420 is the reversed read/off pair after static probe 222412, max2048SU, exact serving/scoring retained. First pair full local PASS and18.737% lower scheduler-reported walltime with-0.659% goodput, different nodes/cache state; no causal or peak claim. Costs963.129SU reconcile, Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU, internal headroom 7709.976 SU after new reserve. Four H200 model positions remain Priority-pending. Read the concise CURRENT and linked full reports for units, gates and limits. Older snapshots below are historical.

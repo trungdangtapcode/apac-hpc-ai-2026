@@ -1,3 +1,26 @@
+# Current serving comparison — 22 October 2026
+
+Recorded 2026-10-22T00:38:21.898834+00:00. This section supersedes older dated snapshots below; queue and credit claims in those sections are historical. Live state belongs to the scheduler and current AI handoff.
+
+| Hardware / job | Client concurrency | Good output tokens/s | Joint SLA fraction | Errors | Assessment |
+|---|---:|---:|---:|---:|---|
+| H200 full 25366 | 64 | 3044.489701 | 98.633018% | 0 | Highest accepted single local point; independent repeat pending |
+| H200 full 25365 | 62 | 3011.875113 | 98.722725% | 0 | Fresh matched-observer control; N64 gains 1.082867% |
+| H200 full 24962 | 62 | 3023.072304 | 98.726790% | 0 | Prior reproduced observer-off point; paired source 24915=3022.034919 |
+| H100 full 222048 | 54 | 2433.019859 | Local pass | 0 | Separate hardware incumbent; no H100-to-H200 score conversion |
+
+Score is exported AIPerf Goodput in requests/s multiplied by 200, reported as good output tokens/s. Joint SLA counts a request only if TTFT is at most 3000 ms and its mean ITL is at most 20 ms; at least 90% of all scored requests, including errors in the denominator, must pass. Full points retain 60-second warmup, 120-second measurement and 30-second grace, fixed nominal 4000/200 workload, cold prefixes and seed 2026. Local pass does not establish official >=99% reference accuracy, which remains unverified.
+
+N64 retains two TP4 DeepGEMM/chunk8192 prefills and TP8/EP8 HPC-Ops decode, native BF16 KV, FP8 target, FlashInfer/MNNVL, dense decode graph batches 1–64 and matched resource observation. Its 26 TTFT breaches all start within 33.481316 ms of scoring; there are no ITL breaches or scored errors/cancellations. The fixed export has 1898 output-length counters at 200, three at 199 and one at 198; actual generated output IDs were not retained for these performance records. Keep the official Goodput × 200 calculation unchanged.
+
+[Full N64 review](research-review-25366-20261022/REVIEW.md), [matched telemetry and tail inspection](research-review-25366-20261022/observability.md), and [initial-cohort analysis](phase-transition-review-20261022/REVIEW.md) retain controls, units, source artifacts and limits. Full 25373 independently repeats N64; short/unranked 25371 explores N64→N68. No new result exists for those submissions at this record. The submission primary remains reviewed N62 until replication review.
+
+Close unchanged both-HPC8192 and power_of_two losses; locality is diagnostic. Withhold P12/D4 pending bounded actual equal-TP NIXL whole-pool setup and reviewer support. A native H200 EAGLE3 correctness route is planned, not submitted or proven faster. [Current AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md), [complete research journal](/home/apacsc42/workspace/reports/research-journey-20261019/journal/README.md).
+
+---
+
+# Historical serving records
+
 ## Reverse confirmation submitted — 2026-10-20T14:06:36.113310+00:00
 
 222419→ 222420 is the reversed read/off pair after static probe 222412, max2048SU, exact serving/scoring retained. First pair full local PASS and18.737% lower scheduler-reported walltime with-0.659% goodput, different nodes/cache state; no causal or peak claim. Costs963.129SU reconcile, Used 41235.624 SU, Balance 22757.976 SU, In Doubt 6.4 SU, internal headroom 7709.976 SU after new reserve. Four H200 model positions remain Priority-pending. Read the concise CURRENT and linked full reports for units, gates and limits. Older snapshots below are historical.
