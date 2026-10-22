@@ -1,0 +1,41 @@
+#!/bin/bash
+# Three independent native 256-rank cuts; no solver or score claim.
+#PBS -N tu-cpu-cuts256
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=32:mpiprocs=1:mem=96gb:ngpus=0
+#PBS -l walltime=00:45:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+cd "$ROOT"
+test ! -e artifacts
+mkdir artifacts
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+export FI_VERBS_PREFER_XRC=0
+. "$WM_PROJECT_DIR/bin/tools/RunFunctions"
+{ date -u; hostname; module list 2>&1; lscpu; } > environment.log
+phase() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$1" | tee -a "$ROOT/phases.log"; }
+phase mesh_identity
+python3 verify-mesh.py
+for role in hierarchical default_scotch node_scotch; do
+ ART="$ROOT/artifacts/$role"
+ cp -a "$ROOT/cases/$role" "$ART"
+ ln -s /scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh "$ART/constant/polyMesh"
+ mkdir -p "$ART/logFiles"
+ cd "$ART"
+ phase "${role}_decompose"
+ /usr/bin/time -v timeout --signal=TERM --kill-after=15s 900s decomposePar -constant > logFiles/decomposePar.log 2>&1
+ restore0Dir -processor > logFiles/restore0Dir.log 2>&1
+ python3 "$ROOT/check-cut.py" "$ROOT" "$role"
+done
+cd "$ROOT"
+phase reciprocal_graph_review
+python3 interface-graph.py
+phase all_cuts_complete
+printf 'CPU_THREE_CUTS256_PASS\n'

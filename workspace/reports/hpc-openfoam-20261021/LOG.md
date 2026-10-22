@@ -618,3 +618,35 @@ A dated correction explains inherited NUMA PREPARATION metadata: original defaul
 Continue within the owner-requested 1,000-SU cumulative CPU ceiling. Retain conservative consumed85 plus existing requested maxima85.866667 until actual terminal evidence can be collected. Do not interpret the stale project usage display as current spend, release reservations speculatively, or charge the separate AI project. No new compute job, AI change, schedule or background Codex was started in this access-blocked checkpoint.
 
 The owner was asked whether DUO approval is available for restoration. Once access succeeds, collect/seal both jobs, run their reviewers, inspect all warnings/tails/work/forces/graph/resource evidence, reconcile terminal costs and submit the ready H/S256 pair if native prep passes and fresh queue/capacity/budget checks permit. Keep any failed branch and held dependency; do not resubmit unchanged merely because live access was missing.
+
+## 2026-10-22T15:05:50.041275+00:00: recovered losing NUMA run and three valid two-node inputs
+
+
+Scratch evidence for **25907753.pbs101** was recovered and sealed after VPN/CPU SSH restoration on 22 October. **127 text artifacts** pass the files-only reviewer: all native commands exit zero, 40 fixed-work steps per solve / 39 timed samples, original source/precision/function objects, finite forces, exact timing crosschecks, unchanged zero-time fields, and physical-core/eight-NUMA grouping. The final native wrapper marker exists. **PBS history returns Unknown Job Id**, so final scheduler exit, whole-allocation elapsed time, resource maxima and actual billing are not claimed. Retain the full **61.866667-SU** reservation.
+
+| Metric | Default Scotch | NUMA tree (8 16), synthetic 10:1 |
+|---|---:|---:|
+| Average, seconds per step | 13.880988254 | 14.358714620 |
+| p95, seconds per step | 14.018158 | 14.566025 |
+| Maximum, seconds | 14.237294 | 16.614805 (step 10) |
+| Final Cd, dimensionless | 0.4359888360 | 0.4345811574 |
+| Omega bounding messages | 10 | 8 |
+
+Candidate time per step increases **3.4416%** in this ordered same-node pair. Its graph had 10.6283% fewer logical cross-NUMA faces but 1.3423% more total faces; the graph objective did not translate into a timing gain. The evidence does not establish the cause: no measured MPI wait/traffic, bandwidth/cache counters, power or page residency, and no reverse-order repeat. Do not infer a causal NUMA bottleneck or remove the slow step. Default's 13.880988 is the best observed one-node average so far, but comparisons to earlier hosts/allocations are contextual, not additional controlled speedups. No four-node score.
+
+Decision: close this unchanged NUMA configuration as a performance candidate and prioritize the validated two-node baseline. A source/graph improvement alone is insufficient. Keep the complete losing run and exact samples in review-files-only.json. No quality claim follows from a different Cd or fewer bounding messages. Numerical work remains fixed; no universal Basic ±0.5% gate is invented.
+
+
+**25907772.pbs101**: **284 sealed safe text artifacts** recovered from scratch. All three pinned native cases pass full source and official archive/member identity, 256 partitions / 65,334,765 cells, restored-field checks represented by frozen native check-cut.py/CUT_READY, native decomposition End/exit and final wrapper marker, plus reciprocal graph-collection assertions. Raw processor mesh/field trees were not downloaded. PBS history returns Unknown Job Id: final PBS state, whole-batch elapsed/resources and actual charge are unverified. Keep the full **24-SU maximum** reservation.
+
+| Quantity | Hierarchical (16 8 2) | Default Scotch | Node-aware Scotch (2 128), synthetic 10:1 |
+|---|---:|---:|---:|
+| Unique cross-group faces | 717,233 | 99,591 | 127,359 |
+| All unique interface faces | 3,054,282 | 2,116,218 | 2,131,904 |
+| Worst-rank interface faces | 87,288 | 34,886 | 33,930 |
+| Maximum processor neighbors | 19 | 54 | 33 |
+| Maximum cell excess over mean | 0.001205% | 1.127319% | 1.206860% |
+
+Logical groups of128 are not proven physical hosts until the two-node launch probe matches them. Default Scotch has much fewer cross-group faces than hierarchical; node-aware Scotch increases them **27.8820%** versus default, with **0.7412%** more total faces, while reducing fan-out and worst-rank faces. It is not a network-cut winner. Postpone this unchanged tuning unless measured small-message/fan-out evidence justifies a distinct test. Graph face counts are not traffic or elapsed-time estimates.
+
+Decision: proceed with the prepared matched H/default-Scotch two-node / 80-step baseline after fresh capacity/budget checks and full runtime source/rank validation. Re-restore original zero fields before mandatory initialization. Native input evidence can be reused while honestly retaining unavailable scheduler accounting; do not manufacture an old afterok success record or release its reservation. Current submission is blocked by other untracked OpenFOAM work discovered on the shared CPU account, not by these native preparation checks.
