@@ -148,3 +148,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: short N68 gate and full-pair decision](entries/20261022-n68-screen-pass.md).
 
 - [22 October: frozen full N64/N68 matched pair](entries/20261022-n68-full-plan.md).
+
+- [22 October: full N64/N68 receipts 25487/25488](entries/20261022-n68-full-receipt.md).
