@@ -1,0 +1,7 @@
+# 22 October: publish the reviewed research talk
+
+The owner requested a slide update. The new 32-slide English deck tells the complete journey through reproduced full N64 (3044.489701 / 3044.074628 good output tokens/s; mean 3044.282165), while short N68 +2.273457% is labelled pending full confirmation. It includes raw request tails and initial-cohort limits, recent losing/withheld branches and the distinction between small native NIXL passes and failed full EAGLE3 integration. Official accuracy remains unverified and H100 stays separate.
+
+The established theme, gradients, diagrams and 32 separate photographs are preserved. All 149 source hashes, English notes/text, actual 1901/1875 raw SLA counts, embedded background hashes, gradients and text geometry validate. The 32-slide overview plus full-size slides 12/23/30 were inspected. PDF/previews share PPTX coordinates but are not Office renders.
+
+The published PPTX and rebuilt ZIP pass CRC and all 380 package checksum entries. The publication checks all prior files for concurrent edits, backs up the replaced presentation/metadata/ZIP, then writes only reviewed presentation-related paths. All 24 protected existing AI job-script/HPC file paths are byte-identical. The packaged N62 deployment is unchanged; no official upload or hidden N64 primary promotion occurs. Validation and presenter notes are linked from notes/presentation-update-20261022.md.

@@ -1,0 +1,9 @@
+# Research presentation updated — 22 October 2026
+
+The published [PPTX](../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx) and [review PDF](../submission-review/research-update-2026-10-22/TripleU_APAC2026_Presentation.pdf) now describe the reproduced full H200 N64 point, the passing short N68 screen, first-cohort TTFT evidence, recent negative branches and EAGLE3 component/full-model limits. The 32-slide English talk retains the existing gradients and 32 distinct background photographs. Scientific sources stay in speaker notes and metadata.
+
+Full N64 source/repeat are 3044.489701 / 3044.074628 good output tokens/s; the mean 3044.282165 is distinguished from the highest single observation. Short N68 +2.273457% is explicitly unranked and awaits full pair 25487/25488. Official >=99% reference accuracy remains unverified. H100 remains a separate platform with its own settings and results.
+
+All 149 frozen source hashes, raw N64 counts 1901/1875, slide geometry, English text/notes, embedded unique backgrounds, native gradients, ZIP CRC and 380 package checksum entries pass. The overview and changed slides were visually inspected using the coordinate-based PDF/PNG previews; these are not Office renders. [Validation](../submission-review/research-update-2026-10-22/publication-validation.json), [presenter notes](../submission-review/research-update-2026-10-22/PRESENTER_NOTES.md).
+
+The current team ZIP is rebuilt with the new PPTX. Publication changes only the presentation and its metadata/checksums; 24 protected existing AI script/HPC file paths remain unchanged. The packaged primary AI entry still declares N62; changing the research talk does not silently promote a deployment. No organiser upload was performed. The predecessor PPTX/ZIP is preserved in the dated backup recorded by validation. Large artifact bytes remain in the external store pending separate off-host backup.

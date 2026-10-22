@@ -152,3 +152,7 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: full N64/N68 receipts 25487/25488](entries/20261022-n68-full-receipt.md).
 
 - [22 October: source-frozen research presentation update](entries/20261022-presentation-build.md).
+
+- [22 October: reviewed presentation and ZIP published](entries/20261022-presentation-published.md).
+
+- [22 October: OpenFOAM native NUMA loss, validated N256 inputs and shared CPU queue coordination](entries/20261022-hpc-native-recovery-shared-queue.md).
