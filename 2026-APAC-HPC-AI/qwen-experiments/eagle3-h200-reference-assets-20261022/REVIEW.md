@@ -1,0 +1,9 @@
+# Full current H200 asset identity passes
+
+The bounded verifier read and SHA256-hashed **262925340011 bytes across 34 files** in about 189 seconds, with at most three CPU workers and bounded streaming buffers. All checks pass: 33 model files, including 24 safetensors shards, and the 26476240896-byte serving image. Every file's size and stat identity remained stable during its full read. No model weight or image bytes are copied into the research archive.
+
+The model files match the retained completed staging record at official model revision `e156cb4efae43fbee1a1ab073f946a1377e6b969`; all 24 shard hashes also match the official LFS digests retained there. The current H200 image SHA256 is `b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5`, matching the retained image contract. The two reference-file hashes, current paths, sizes, modification/change times and individual digests are preserved in VERIFICATION.json.
+
+This upgrades the earlier names/sizes-only inspection to actual current byte identity. The model and image now match the retained H100 staging identities, but hardware, driver, network, launcher and cache state still differ. It does not establish a throughput conversion factor, future runtime success or official accuracy. Reading shared files may warm storage caches; no startup speedup is attributed to this verification.
+
+Next copy this immutable manifest into the derived H200 reference bundle. The actual client result and independent head checker must bind its digest and validated identities. Runtime checks revalidate paths, sizes/timestamps and small metadata hashes without spending the short GPU allocation rehashing hundreds of gigabytes. Freeze and submit only after integration checks, live partition and queue-cap checks. The original two full N64/N68 positions remain unchanged.

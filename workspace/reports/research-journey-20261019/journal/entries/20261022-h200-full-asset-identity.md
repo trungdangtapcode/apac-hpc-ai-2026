@@ -1,0 +1,7 @@
+# 22 October: close the H200 model/image identity gap
+
+The H200 exact-reference proposal was blocked on actual asset identity, because matching names and sizes could not prove equivalent model/image bytes. Root added a bounded three-worker full verifier, using the retained completed official-model staging record and image contract as pinned references. It streamed all 33 model files and the serving image, checking file identity before and after every read.
+
+All 34 files pass across 262925340011 bytes in about 189 seconds. All 24 model shard digests equal the retained official LFS digests at revision e156cb4efae43fbee1a1ab073f946a1377e6b969. Image digest b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5 matches the retained H100 staging contract. Raw progress, verifier source, per-file evidence and reference hashes are retained; no weights or image bytes enter Git or the external artifact store.
+
+This is direct current byte identity evidence, not a same-performance claim across hardware. It closes one pre-freeze gate, not H200 runtime/output or official accuracy. Root review identified that the prototype accepted not_collected identity placeholders; the derived client/head gates are being bound to the immutable verification manifest before freeze. Preserve the working worker/NIXL bytes, exact output checks and bounded startup. Existing full N64/N68 jobs 25487/25488 remain queued; no PBS SU or new GPU job is spent by this audit.
