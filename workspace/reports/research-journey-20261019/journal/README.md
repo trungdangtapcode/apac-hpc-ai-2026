@@ -156,3 +156,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: reviewed presentation and ZIP published](entries/20261022-presentation-published.md).
 
 - [22 October: OpenFOAM native NUMA loss, validated N256 inputs and shared CPU queue coordination](entries/20261022-hpc-native-recovery-shared-queue.md).
+
+- [22 October: H200 exact-reference CPU preparation and rank-parser correction](entries/20261022-h200-reference-cpu-preparation.md).
