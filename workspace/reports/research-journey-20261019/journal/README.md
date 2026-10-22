@@ -132,3 +132,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: guarded N68 screen receipt 25371](entries/20261022-n68-receipt.md).
 
 - [22 October: independent full N64 replication plan](entries/20261022-n64-repeat-plan.md).
+
+- [22 October: independent full N64 receipt 25373](entries/20261022-n64-repeat-receipt.md).
