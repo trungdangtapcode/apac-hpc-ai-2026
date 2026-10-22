@@ -1,0 +1,11 @@
+# 22 October: inspect the matched N62/N64 improvement beyond score
+
+The question is whether the full N64 gain is accompanied by a clear change in measured demand or a new error. The comparison retains equal observation and the full protocol: N62 job 25365 versus N64 job 25366. The reproduced offline report is `research-review-25366-20261022/observability.md`, with per-series/per-GPU distributions in JSON and the extractor beside it.
+
+All three roles have 23–24 conservative in-score samples with actual HTTP 200 server-metrics payloads. Sampled decode GPU activity is 100% in both runs. Prefill role means are 96.5%/92.4% at N62 versus 95.9%/96.6% at N64. These activity values do not measure FLOPS, kernel occupancy or bandwidth saturation. Sampled decode allocated VRAM is about 134316 versus 134434 MiB, while token/KV usage is about 0.116 versus 0.117; the quantities measure different things. Decode running-request gauge means are 51.4 versus 50.3 per labeled series, with ranges 48–56 versus 28–54. They are neither TP-rank totals nor proof of actual attention batch size or a causal bottleneck.
+
+N64 good output throughput rises by 32.614588 tokens/s (1.082867%). TTFT p99/max is 3487.5/4768.3 ms at N64 versus 3466.5/4504.5 ms at N62. Request-mean ITL p99/max is 15.896/16.304 ms versus 15.678/16.938 ms. Both have zero scored errors/cancellations, but 26 versus 24 TTFT breaches. The sealed per-request timing extension places all 26 N64 failures in the initial cohort, starting no later than 33.481316 ms. Keep all requests in the official score.
+
+Each role retains diagnostic traces and a start-profile HTTP 200 followed by stop-profile HTTP 500, with the explicit exception that profiling is not in progress. These control-path failures are outside scored traffic and must not be mistaken for scored errors or silently called healthy. Trace filenames are retained; trace contents remain uninspected. No matched millisecond-resolution profile proves the origin of the initial burst penalty.
+
+The next decision remains independent full N64 replication 25373 plus unranked N64/N68 screen 25371. A small throughput gain with slightly worse TTFT and joint fraction warrants replication, not a global-optimum claim. Official accuracy remains unverified. The separate P12/D4 idea has a concrete source-level transport risk and remains unsubmitted.

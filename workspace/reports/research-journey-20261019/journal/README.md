@@ -136,3 +136,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: independent full N64 receipt 25373](entries/20261022-n64-repeat-receipt.md).
 
 - [22 October: full N64 evidence and replication decision](entries/20261022-n64-full-evidence.md).
+
+- [22 October: matched N62/N64 telemetry, tails and initial-cohort assessment](entries/20261022-n64-observability.md).

@@ -1,0 +1,1948 @@
+{
+  "title": "Phase-aligned observability review for matched full H200 N62/N64 runs",
+  "generated_from_local_artifacts": true,
+  "scoring_window_rule": "Use the AIPerf phase manifest profiling start/end. Retain a nominal sample only if sample utc_ns minus the configured polling interval is at or after profiling start, and sample utc_ns is at or before profiling end.",
+  "jobs": {
+    "25365": {
+      "job": "25365",
+      "concurrency": 62,
+      "score": {
+        "good_output_tokens_per_s": 3011.8751127997157,
+        "raw_output_tokens_per_s": 3050.802177936844,
+        "good_request_fraction": 0.9872272485364556,
+        "sla_pass": true,
+        "requests": 1879,
+        "errors": 0,
+        "cancelled_requests": 0,
+        "ttft_mean_ms": 1037.6296619398615,
+        "ttft_p95_ms": 1316.5271721,
+        "request_mean_itl_mean_ms": 14.95766257383383,
+        "request_mean_itl_p95_ms": 15.209486141708544
+      },
+      "profiling_phase": {
+        "start_ns": 1792627570696354992,
+        "end_ns": 1792627693875433176,
+        "duration_s": 123.179078184,
+        "requests": 1879,
+        "errors": 0,
+        "cancelled": false,
+        "enclosed_by_run_markers": true
+      },
+      "request_tail_review": {
+        "raw_records_by_phase": {
+          "warmup": 936,
+          "profiling": 1879
+        },
+        "scored_error_records": 0,
+        "scored_error_examples": [],
+        "scored_cancelled_records": 0,
+        "ttft_ms": {
+          "count": 1879,
+          "mean_ms": 1037.629661939863,
+          "p95_ms": 1316.5271720999997,
+          "p99_ms": 3466.54903386,
+          "max_ms": 4504.486417,
+          "over_threshold_count": 24,
+          "threshold_ms": 3000
+        },
+        "request_mean_itl_ms": {
+          "count": 1879,
+          "mean_ms": 14.957662573833849,
+          "p95_ms": 15.209486141708542,
+          "p99_ms": 15.678471061105526,
+          "max_ms": 16.93751382914573,
+          "over_threshold_count": 0,
+          "threshold_ms": 20
+        },
+        "exported_output_sequence_length_counts": {
+          "199": 5,
+          "200": 1874
+        },
+        "note": "Exported sequence lengths are retained; they do not prove actual generated token IDs."
+      },
+      "roles": {
+        "prefill-0": {
+          "state": "COLLECTED",
+          "host": "g1",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 129,
+          "sample_count_inside_scored_phase": 24,
+          "sample_count_outside_scored_phase": 105,
+          "gpu_status_inside": {
+            "ok": 24
+          },
+          "gpu_status_outside": {
+            "ok": 105
+          },
+          "server_http_status_inside": {
+            "200": 24
+          },
+          "server_http_status_outside": {
+            "200": 54,
+            "URLError": 51
+          },
+          "server_metrics_payloads_inside": 24,
+          "observed_gpu_uuids_inside": [
+            "GPU-2f69f949-296d-654f-c334-7014e8586a1e",
+            "GPU-309eb8b2-836c-10cc-819c-f17aadf8f9f8",
+            "GPU-c295f81a-26b6-1f8d-7b94-ce31bcb59f84",
+            "GPU-e6ed95f0-0e8f-f804-f205-aea9c25f1ac3"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-2f69f949-296d-654f-c334-7014e8586a1e": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 95.83333333333333,
+                "min": 92.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 49.791666666666664,
+                "min": 47.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133478.0,
+                "min": 133478.0,
+                "max": 133478.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 686.9883333333332,
+                "min": 680.5,
+                "max": 691.11
+              }
+            },
+            "GPU-309eb8b2-836c-10cc-819c-f17aadf8f9f8": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 96.79166666666667,
+                "min": 91.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 51.416666666666664,
+                "min": 47.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 132998.0,
+                "min": 132998.0,
+                "max": 132998.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 686.5408333333334,
+                "min": 677.21,
+                "max": 694.26
+              }
+            },
+            "GPU-c295f81a-26b6-1f8d-7b94-ce31bcb59f84": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 95.875,
+                "min": 91.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 50.416666666666664,
+                "min": 48.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133478.0,
+                "min": 133478.0,
+                "max": 133478.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 685.7908333333334,
+                "min": 680.19,
+                "max": 690.84
+              }
+            },
+            "GPU-e6ed95f0-0e8f-f804-f205-aea9c25f1ac3": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 97.54166666666667,
+                "min": 93.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 50.666666666666664,
+                "min": 47.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133382.0,
+                "min": 133382.0,
+                "max": 133382.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 684.8937500000001,
+                "min": 677.27,
+                "max": 691.28
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 2.3333333333333335,
+              "min": 0.0,
+              "max": 3.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 2.3333333333333335,
+                  "min": 0.0,
+                  "max": 3.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.08333333333333333,
+              "min": 0.0,
+              "max": 2.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.08333333333333333,
+                  "min": 0.0,
+                  "max": 2.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0007670453584319588,
+              "min": 0.0,
+              "max": 0.00121921482565228,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0007670453584319588,
+                  "min": 0.0,
+                  "max": 0.00121921482565228
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.01791666666666667,
+              "min": 0.0,
+              "max": 0.02,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.01791666666666667,
+                  "min": 0.0,
+                  "max": 0.02
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 22823.0,
+              "min": 0.0,
+              "max": 27935.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 22823.0,
+                  "min": 0.0,
+                  "max": 27935.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        },
+        "prefill-1": {
+          "state": "COLLECTED",
+          "host": "g1",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 129,
+          "sample_count_inside_scored_phase": 24,
+          "sample_count_outside_scored_phase": 105,
+          "gpu_status_inside": {
+            "ok": 24
+          },
+          "gpu_status_outside": {
+            "ok": 105
+          },
+          "server_http_status_inside": {
+            "200": 24
+          },
+          "server_http_status_outside": {
+            "200": 55,
+            "URLError": 50
+          },
+          "server_metrics_payloads_inside": 24,
+          "observed_gpu_uuids_inside": [
+            "GPU-51c4a066-a47b-13f0-dd20-f99835f53077",
+            "GPU-c2400d2f-339f-7e31-8b2c-738ca1afe858",
+            "GPU-d9c437ee-d425-32bc-d1b2-41f6c77673b2",
+            "GPU-e1bd4c6e-5dd8-6830-4144-c6aa15c1b308"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-51c4a066-a47b-13f0-dd20-f99835f53077": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 93.0,
+                "min": 0.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 49.083333333333336,
+                "min": 0.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133475.91666666666,
+                "min": 133474.0,
+                "max": 133476.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 679.9587499999999,
+                "min": 572.85,
+                "max": 698.13
+              }
+            },
+            "GPU-c2400d2f-339f-7e31-8b2c-738ca1afe858": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 92.83333333333333,
+                "min": 0.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 48.291666666666664,
+                "min": 0.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133379.91666666666,
+                "min": 133378.0,
+                "max": 133380.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 673.1516666666668,
+                "min": 542.78,
+                "max": 689.32
+              }
+            },
+            "GPU-d9c437ee-d425-32bc-d1b2-41f6c77673b2": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 93.41666666666667,
+                "min": 0.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 48.666666666666664,
+                "min": 0.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 132995.91666666666,
+                "min": 132994.0,
+                "max": 132996.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 677.5008333333334,
+                "min": 555.61,
+                "max": 693.09
+              }
+            },
+            "GPU-e1bd4c6e-5dd8-6830-4144-c6aa15c1b308": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 90.54166666666667,
+                "min": 0.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 48.041666666666664,
+                "min": 0.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133475.91666666666,
+                "min": 133474.0,
+                "max": 133476.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 677.5420833333334,
+                "min": 547.5,
+                "max": 695.56
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 2.25,
+              "min": 0.0,
+              "max": 4.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 2.25,
+                  "min": 0.0,
+                  "max": 4.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0,
+                  "min": 0.0,
+                  "max": 0.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0008242529163446757,
+              "min": 0.0005145356315924878,
+              "max": 0.0013409728148238449,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0008242529163446757,
+                  "min": 0.0005145356315924878,
+                  "max": 0.0013409728148238449
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.017500000000000005,
+              "min": 0.0,
+              "max": 0.02,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.017500000000000005,
+                  "min": 0.0,
+                  "max": 0.02
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 22009.0,
+              "min": 0.0,
+              "max": 27940.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 22009.0,
+                  "min": 0.0,
+                  "max": 27940.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        },
+        "decode-0": {
+          "state": "COLLECTED",
+          "host": "g4",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 131,
+          "sample_count_inside_scored_phase": 24,
+          "sample_count_outside_scored_phase": 107,
+          "gpu_status_inside": {
+            "ok": 24
+          },
+          "gpu_status_outside": {
+            "ok": 107
+          },
+          "server_http_status_inside": {
+            "200": 24
+          },
+          "server_http_status_outside": {
+            "200": 65,
+            "URLError": 42
+          },
+          "server_metrics_payloads_inside": 24,
+          "observed_gpu_uuids_inside": [
+            "GPU-1b420577-b96a-0c5b-861a-0b9827f50edb",
+            "GPU-24328ed5-f737-90bc-b77d-6aa81580038d",
+            "GPU-41acf189-a964-edfe-f34e-f3367ea95891",
+            "GPU-60d94661-1b30-2134-30f5-3033e0e37a7e",
+            "GPU-67695c27-0cd6-6242-11ba-6ae4d8cbc4ed",
+            "GPU-acc0f19f-9f9a-4b0e-0b2e-b5af98ad1d62",
+            "GPU-ba78cf90-19bb-9f3b-6f66-84546ef62efc",
+            "GPU-bc814ba6-bfcf-1689-4e99-41287382e9c9"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-1b420577-b96a-0c5b-861a-0b9827f50edb": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.916666666666664,
+                "min": 44.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 469.74708333333325,
+                "min": 457.04,
+                "max": 475.37
+              }
+            },
+            "GPU-24328ed5-f737-90bc-b77d-6aa81580038d": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.166666666666664,
+                "min": 43.0,
+                "max": 45.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 133908.0,
+                "min": 133908.0,
+                "max": 133908.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 472.14999999999986,
+                "min": 458.59,
+                "max": 478.63
+              }
+            },
+            "GPU-41acf189-a964-edfe-f34e-f3367ea95891": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.583333333333336,
+                "min": 45.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 474.70583333333326,
+                "min": 462.46,
+                "max": 479.94
+              }
+            },
+            "GPU-60d94661-1b30-2134-30f5-3033e0e37a7e": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.75,
+                "min": 45.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134294.0,
+                "min": 134294.0,
+                "max": 134294.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 476.3070833333332,
+                "min": 464.15,
+                "max": 481.26
+              }
+            },
+            "GPU-67695c27-0cd6-6242-11ba-6ae4d8cbc4ed": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.208333333333336,
+                "min": 44.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 479.6245833333334,
+                "min": 470.23,
+                "max": 483.8
+              }
+            },
+            "GPU-acc0f19f-9f9a-4b0e-0b2e-b5af98ad1d62": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.75,
+                "min": 45.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 470.11208333333343,
+                "min": 459.02,
+                "max": 475.58
+              }
+            },
+            "GPU-ba78cf90-19bb-9f3b-6f66-84546ef62efc": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.75,
+                "min": 44.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 476.0479166666667,
+                "min": 465.01,
+                "max": 481.41
+              }
+            },
+            "GPU-bc814ba6-bfcf-1689-4e99-41287382e9c9": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 43.208333333333336,
+                "min": 43.0,
+                "max": 44.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134388.0,
+                "min": 134388.0,
+                "max": 134388.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 466.28125,
+                "min": 456.74,
+                "max": 469.42
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 51.375,
+              "min": 48.0,
+              "max": 56.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 51.375,
+                  "min": 48.0,
+                  "max": 56.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0,
+                  "min": 0.0,
+                  "max": 0.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0,
+                  "min": 0.0,
+                  "max": 0.0
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.11583333333333336,
+              "min": 0.1,
+              "max": 0.12,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.11583333333333336,
+                  "min": 0.1,
+                  "max": 0.12
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 247008.79166666666,
+              "min": 224758.0,
+              "max": 253045.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 247008.79166666666,
+                  "min": 224758.0,
+                  "max": 253045.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        }
+      },
+      "role_logs": {
+        "prefill-0": {
+          "line_count": 3177,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              3088,
+              "[2026-10-22 08:08:55] ERROR:    Exception in ASGI application"
+            ],
+            [
+              3089,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "prefill-1": {
+          "line_count": 3180,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              3091,
+              "[2026-10-22 08:08:55] ERROR:    Exception in ASGI application"
+            ],
+            [
+              3092,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "decode-0": {
+          "line_count": 4335,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              4243,
+              "[2026-10-22 08:08:55] ERROR:    Exception in ASGI application"
+            ],
+            [
+              4244,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "router": {
+          "line_count": 6578,
+          "traceback_marker_count": 0,
+          "error_marker_count": 0,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [],
+          "first_error_examples": []
+        }
+      },
+      "diagnostic_profile_control": {
+        "start_http_status_by_worker": {
+          "prefill-0": 200,
+          "prefill-1": 200,
+          "decode-0": 200
+        },
+        "start_response_bytes_by_worker": {
+          "prefill-0": 17,
+          "prefill-1": 17,
+          "decode-0": 17
+        },
+        "stop_error_by_worker": {
+          "prefill-0": "HTTP Error 500: Internal Server Error",
+          "prefill-1": "HTTP Error 500: Internal Server Error",
+          "decode-0": "HTTP Error 500: Internal Server Error"
+        },
+        "diagnostic_profile_is_outside_scored_interval": true,
+        "scoring_error_counts_are_independent": true
+      },
+      "diagnostic_trace_files": {
+        "prefill-0": {
+          "file_count": 4,
+          "filenames": [
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-0.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-1.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-2.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-3.trace.json.gz"
+          ]
+        },
+        "prefill-1": {
+          "file_count": 4,
+          "filenames": [
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-0.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-1.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-2.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-3.trace.json.gz"
+          ]
+        },
+        "decode-0": {
+          "file_count": 8,
+          "filenames": [
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-0-EP-0.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-1-EP-1.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-2-EP-2.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-3-EP-3.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-4-EP-4.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-5-EP-5.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-6-EP-6.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-7-EP-7.trace.json.gz"
+          ]
+        }
+      }
+    },
+    "25366": {
+      "job": "25366",
+      "concurrency": 64,
+      "score": {
+        "good_output_tokens_per_s": 3044.4897012232877,
+        "raw_output_tokens_per_s": 3086.643549831643,
+        "good_request_fraction": 0.9863301787592008,
+        "sla_pass": true,
+        "requests": 1902,
+        "errors": 0,
+        "cancelled_requests": 0,
+        "ttft_mean_ms": 1110.463376886961,
+        "ttft_p95_ms": 1351.6323055,
+        "request_mean_itl_mean_ms": 15.002881489210761,
+        "request_mean_itl_p95_ms": 15.163327749999999
+      },
+      "profiling_phase": {
+        "start_ns": 1792628274499721264,
+        "end_ns": 1792628397738765183,
+        "duration_s": 123.239043919,
+        "requests": 1902,
+        "errors": 0,
+        "cancelled": false,
+        "enclosed_by_run_markers": true
+      },
+      "request_tail_review": {
+        "raw_records_by_phase": {
+          "warmup": 949,
+          "profiling": 1902
+        },
+        "scored_error_records": 0,
+        "scored_error_examples": [],
+        "scored_cancelled_records": 0,
+        "ttft_ms": {
+          "count": 1902,
+          "mean_ms": 1110.4633768869617,
+          "p95_ms": 1351.6323055,
+          "p99_ms": 3487.45745234,
+          "max_ms": 4768.296345,
+          "over_threshold_count": 26,
+          "threshold_ms": 3000
+        },
+        "request_mean_itl_ms": {
+          "count": 1902,
+          "mean_ms": 15.002881489210775,
+          "p95_ms": 15.163327749999999,
+          "p99_ms": 15.895926486683416,
+          "max_ms": 16.303585472361807,
+          "over_threshold_count": 0,
+          "threshold_ms": 20
+        },
+        "exported_output_sequence_length_counts": {
+          "198": 1,
+          "199": 3,
+          "200": 1898
+        },
+        "note": "Exported sequence lengths are retained; they do not prove actual generated token IDs."
+      },
+      "roles": {
+        "prefill-0": {
+          "state": "COLLECTED",
+          "host": "g1",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 130,
+          "sample_count_inside_scored_phase": 23,
+          "sample_count_outside_scored_phase": 107,
+          "gpu_status_inside": {
+            "ok": 23
+          },
+          "gpu_status_outside": {
+            "ok": 107
+          },
+          "server_http_status_inside": {
+            "200": 23
+          },
+          "server_http_status_outside": {
+            "200": 56,
+            "URLError": 51
+          },
+          "server_metrics_payloads_inside": 23,
+          "observed_gpu_uuids_inside": [
+            "GPU-2f69f949-296d-654f-c334-7014e8586a1e",
+            "GPU-309eb8b2-836c-10cc-819c-f17aadf8f9f8",
+            "GPU-c295f81a-26b6-1f8d-7b94-ce31bcb59f84",
+            "GPU-e6ed95f0-0e8f-f804-f205-aea9c25f1ac3"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-2f69f949-296d-654f-c334-7014e8586a1e": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 96.0,
+                "min": 92.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 49.78260869565217,
+                "min": 47.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133476.0,
+                "min": 133476.0,
+                "max": 133476.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 685.1921739130435,
+                "min": 680.25,
+                "max": 693.13
+              }
+            },
+            "GPU-309eb8b2-836c-10cc-819c-f17aadf8f9f8": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 96.43478260869566,
+                "min": 91.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 51.26086956521739,
+                "min": 48.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 132996.0,
+                "min": 132996.0,
+                "max": 132996.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 687.2304347826087,
+                "min": 678.6,
+                "max": 699.18
+              }
+            },
+            "GPU-c295f81a-26b6-1f8d-7b94-ce31bcb59f84": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 95.52173913043478,
+                "min": 86.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 50.30434782608695,
+                "min": 46.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133476.0,
+                "min": 133476.0,
+                "max": 133476.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 683.8078260869565,
+                "min": 677.64,
+                "max": 689.98
+              }
+            },
+            "GPU-e6ed95f0-0e8f-f804-f205-aea9c25f1ac3": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 95.47826086956522,
+                "min": 87.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 49.69565217391305,
+                "min": 45.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133380.0,
+                "min": 133380.0,
+                "max": 133380.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 685.0295652173912,
+                "min": 679.21,
+                "max": 692.64
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 3.0434782608695654,
+              "min": 2.0,
+              "max": 4.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 3.0434782608695654,
+                  "min": 2.0,
+                  "max": 4.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.7391304347826086,
+              "min": 0.0,
+              "max": 2.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.7391304347826086,
+                  "min": 0.0,
+                  "max": 2.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.0008918063946450874,
+              "min": 0.0007318858258111735,
+              "max": 0.00121921482565228,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.0008918063946450874,
+                  "min": 0.0007318858258111735,
+                  "max": 0.00121921482565228
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.020000000000000007,
+              "min": 0.02,
+              "max": 0.02,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.020000000000000007,
+                  "min": 0.02,
+                  "max": 0.02
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 26527.652173913044,
+              "min": 23948.0,
+              "max": 28374.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 26527.652173913044,
+                  "min": 23948.0,
+                  "max": 28374.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        },
+        "prefill-1": {
+          "state": "COLLECTED",
+          "host": "g1",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 130,
+          "sample_count_inside_scored_phase": 23,
+          "sample_count_outside_scored_phase": 107,
+          "gpu_status_inside": {
+            "ok": 23
+          },
+          "gpu_status_outside": {
+            "ok": 107
+          },
+          "server_http_status_inside": {
+            "200": 23
+          },
+          "server_http_status_outside": {
+            "200": 57,
+            "URLError": 50
+          },
+          "server_metrics_payloads_inside": 23,
+          "observed_gpu_uuids_inside": [
+            "GPU-51c4a066-a47b-13f0-dd20-f99835f53077",
+            "GPU-c2400d2f-339f-7e31-8b2c-738ca1afe858",
+            "GPU-d9c437ee-d425-32bc-d1b2-41f6c77673b2",
+            "GPU-e1bd4c6e-5dd8-6830-4144-c6aa15c1b308"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-51c4a066-a47b-13f0-dd20-f99835f53077": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 97.26086956521739,
+                "min": 93.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 51.43478260869565,
+                "min": 49.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133478.0,
+                "min": 133478.0,
+                "max": 133478.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 689.0278260869567,
+                "min": 685.15,
+                "max": 696.2
+              }
+            },
+            "GPU-c2400d2f-339f-7e31-8b2c-738ca1afe858": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 96.3913043478261,
+                "min": 92.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 50.08695652173913,
+                "min": 48.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133382.0,
+                "min": 133382.0,
+                "max": 133382.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 683.4208695652175,
+                "min": 679.33,
+                "max": 688.37
+              }
+            },
+            "GPU-d9c437ee-d425-32bc-d1b2-41f6c77673b2": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 96.8695652173913,
+                "min": 93.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 50.56521739130435,
+                "min": 48.0,
+                "max": 52.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 132998.0,
+                "min": 132998.0,
+                "max": 132998.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 688.2252173913042,
+                "min": 683.83,
+                "max": 692.9
+              }
+            },
+            "GPU-e1bd4c6e-5dd8-6830-4144-c6aa15c1b308": {
+              "gpu_activity_percent": {
+                "count": 23,
+                "mean": 96.04347826086956,
+                "min": 90.0,
+                "max": 99.0
+              },
+              "memory_activity_percent": {
+                "count": 23,
+                "mean": 51.0,
+                "min": 48.0,
+                "max": 53.0
+              },
+              "sampled_vram_mib": {
+                "count": 23,
+                "mean": 133478.0,
+                "min": 133478.0,
+                "max": 133478.0
+              },
+              "sampled_power_w": {
+                "count": 23,
+                "mean": 688.8730434782608,
+                "min": 681.49,
+                "max": 698.03
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 2.6956521739130435,
+              "min": 1.0,
+              "max": 3.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 2.6956521739130435,
+                  "min": 1.0,
+                  "max": 3.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.17391304347826086,
+              "min": 0.0,
+              "max": 3.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.17391304347826086,
+                  "min": 0.0,
+                  "max": 3.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.0008274173333174242,
+              "min": 0.0007318858258111735,
+              "max": 0.00100150225338007,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.0008274173333174242,
+                  "min": 0.0007318858258111735,
+                  "max": 0.00100150225338007
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 0.019565217391304353,
+              "min": 0.01,
+              "max": 0.02,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 0.019565217391304353,
+                  "min": 0.01,
+                  "max": 0.02
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 23,
+              "count": 23,
+              "mean": 25655.608695652172,
+              "min": 19958.0,
+              "max": 27533.0,
+              "series": {
+                "engine_type=\"prefill\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 23,
+                  "mean": 25655.608695652172,
+                  "min": 19958.0,
+                  "max": 27533.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        },
+        "decode-0": {
+          "state": "COLLECTED",
+          "host": "g4",
+          "nominal_interval_s": 5.0,
+          "sample_count_all_phases": 134,
+          "sample_count_inside_scored_phase": 24,
+          "sample_count_outside_scored_phase": 110,
+          "gpu_status_inside": {
+            "ok": 24
+          },
+          "gpu_status_outside": {
+            "ok": 110
+          },
+          "server_http_status_inside": {
+            "200": 24
+          },
+          "server_http_status_outside": {
+            "200": 68,
+            "URLError": 42
+          },
+          "server_metrics_payloads_inside": 24,
+          "observed_gpu_uuids_inside": [
+            "GPU-1b420577-b96a-0c5b-861a-0b9827f50edb",
+            "GPU-24328ed5-f737-90bc-b77d-6aa81580038d",
+            "GPU-41acf189-a964-edfe-f34e-f3367ea95891",
+            "GPU-60d94661-1b30-2134-30f5-3033e0e37a7e",
+            "GPU-67695c27-0cd6-6242-11ba-6ae4d8cbc4ed",
+            "GPU-acc0f19f-9f9a-4b0e-0b2e-b5af98ad1d62",
+            "GPU-ba78cf90-19bb-9f3b-6f66-84546ef62efc",
+            "GPU-bc814ba6-bfcf-1689-4e99-41287382e9c9"
+          ],
+          "per_gpu_sampled_metrics": {
+            "GPU-1b420577-b96a-0c5b-861a-0b9827f50edb": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.666666666666664,
+                "min": 39.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 471.6816666666667,
+                "min": 435.26,
+                "max": 475.91
+              }
+            },
+            "GPU-24328ed5-f737-90bc-b77d-6aa81580038d": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.25,
+                "min": 38.0,
+                "max": 45.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134025.5,
+                "min": 133940.0,
+                "max": 134048.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 473.62166666666667,
+                "min": 437.19,
+                "max": 479.4
+              }
+            },
+            "GPU-41acf189-a964-edfe-f34e-f3367ea95891": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.583333333333336,
+                "min": 39.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 475.5075,
+                "min": 438.67,
+                "max": 481.04
+              }
+            },
+            "GPU-60d94661-1b30-2134-30f5-3033e0e37a7e": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.625,
+                "min": 40.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134411.5,
+                "min": 134326.0,
+                "max": 134434.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 476.67666666666673,
+                "min": 444.11,
+                "max": 481.54
+              }
+            },
+            "GPU-67695c27-0cd6-6242-11ba-6ae4d8cbc4ed": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.166666666666664,
+                "min": 38.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 480.46583333333336,
+                "min": 446.46,
+                "max": 485.44
+              }
+            },
+            "GPU-acc0f19f-9f9a-4b0e-0b2e-b5af98ad1d62": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 45.833333333333336,
+                "min": 39.0,
+                "max": 47.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 470.3533333333333,
+                "min": 437.96,
+                "max": 474.88
+              }
+            },
+            "GPU-ba78cf90-19bb-9f3b-6f66-84546ef62efc": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 44.625,
+                "min": 38.0,
+                "max": 46.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 478.0687499999999,
+                "min": 441.49,
+                "max": 482.49
+              }
+            },
+            "GPU-bc814ba6-bfcf-1689-4e99-41287382e9c9": {
+              "gpu_activity_percent": {
+                "count": 24,
+                "mean": 100.0,
+                "min": 100.0,
+                "max": 100.0
+              },
+              "memory_activity_percent": {
+                "count": 24,
+                "mean": 43.166666666666664,
+                "min": 37.0,
+                "max": 44.0
+              },
+              "sampled_vram_mib": {
+                "count": 24,
+                "mean": 134505.5,
+                "min": 134420.0,
+                "max": 134528.0
+              },
+              "sampled_power_w": {
+                "count": 24,
+                "mean": 464.81666666666655,
+                "min": 426.49,
+                "max": 471.12
+              }
+            }
+          },
+          "role_server_gauges_inside": {
+            "sglang:num_running_reqs": {
+              "unit_and_scope": "requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 50.291666666666664,
+              "min": 28.0,
+              "max": 54.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 50.291666666666664,
+                  "min": 28.0,
+                  "max": 54.0
+                }
+              }
+            },
+            "sglang:num_queue_reqs": {
+              "unit_and_scope": "queued requests per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0,
+                  "min": 0.0,
+                  "max": 0.0
+                }
+              }
+            },
+            "sglang:cache_hit_rate": {
+              "unit_and_scope": "unitless fraction per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.0,
+                  "min": 0.0,
+                  "max": 0.0
+                }
+              }
+            },
+            "sglang:token_usage": {
+              "unit_and_scope": "unitless fractional token/KV usage per labeled series",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 0.11708333333333339,
+              "min": 0.05,
+              "max": 0.12,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 0.11708333333333339,
+                  "min": 0.05,
+                  "max": 0.12
+                }
+              }
+            },
+            "sglang:num_used_tokens": {
+              "unit_and_scope": "tokens per labeled series; do not sum across TP ranks",
+              "series_count": 1,
+              "observation_count": 24,
+              "count": 24,
+              "mean": 252372.0,
+              "min": 116089.0,
+              "max": 260955.0,
+              "series": {
+                "engine_type=\"decode\",model_name=\"qwen\",moe_ep_rank=\"0\",pp_rank=\"0\",tp_rank=\"0\"": {
+                  "count": 24,
+                  "mean": 252372.0,
+                  "min": 116089.0,
+                  "max": 260955.0
+                }
+              }
+            }
+          },
+          "inflight_gauge": "No inflight-request gauge was present in retained in-window metrics.",
+          "uuid_limit": "Observed UUIDs come from role-specific sampler GPU IDs; no independent process-to-GPU UUID capture was collected for these jobs."
+        }
+      },
+      "role_logs": {
+        "prefill-0": {
+          "line_count": 3190,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              3101,
+              "[2026-10-22 08:20:40] ERROR:    Exception in ASGI application"
+            ],
+            [
+              3102,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "prefill-1": {
+          "line_count": 3201,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              3112,
+              "[2026-10-22 08:20:40] ERROR:    Exception in ASGI application"
+            ],
+            [
+              3113,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "decode-0": {
+          "line_count": 4372,
+          "traceback_marker_count": 1,
+          "error_marker_count": 1,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [
+            "RuntimeError: Profiling is not in progress. Call /start_profile first."
+          ],
+          "first_error_examples": [
+            [
+              4280,
+              "[2026-10-22 08:20:40] ERROR:    Exception in ASGI application"
+            ],
+            [
+              4281,
+              "Traceback (most recent call last):"
+            ]
+          ]
+        },
+        "router": {
+          "line_count": 6648,
+          "traceback_marker_count": 0,
+          "error_marker_count": 0,
+          "nixl_error_marker_count": 0,
+          "cuda_oom_marker_count": 0,
+          "exception_terminal_lines": [],
+          "first_error_examples": []
+        }
+      },
+      "diagnostic_profile_control": {
+        "start_http_status_by_worker": {
+          "prefill-0": 200,
+          "prefill-1": 200,
+          "decode-0": 200
+        },
+        "start_response_bytes_by_worker": {
+          "prefill-0": 17,
+          "prefill-1": 17,
+          "decode-0": 17
+        },
+        "stop_error_by_worker": {
+          "prefill-0": "HTTP Error 500: Internal Server Error",
+          "prefill-1": "HTTP Error 500: Internal Server Error",
+          "decode-0": "HTTP Error 500: Internal Server Error"
+        },
+        "diagnostic_profile_is_outside_scored_interval": true,
+        "scoring_error_counts_are_independent": true
+      },
+      "diagnostic_trace_files": {
+        "prefill-0": {
+          "file_count": 4,
+          "filenames": [
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-0.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-1.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-2.trace.json.gz",
+            "diagnostic-profile/prefill-0/qwen-tuning--prefill-0-TP-3.trace.json.gz"
+          ]
+        },
+        "prefill-1": {
+          "file_count": 4,
+          "filenames": [
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-0.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-1.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-2.trace.json.gz",
+            "diagnostic-profile/prefill-1/qwen-tuning--prefill-1-TP-3.trace.json.gz"
+          ]
+        },
+        "decode-0": {
+          "file_count": 8,
+          "filenames": [
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-0-EP-0.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-1-EP-1.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-2-EP-2.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-3-EP-3.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-4-EP-4.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-5-EP-5.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-6-EP-6.trace.json.gz",
+            "diagnostic-profile/decode-0/qwen-tuning--decode-0-TP-7-EP-7.trace.json.gz"
+          ]
+        }
+      }
+    }
+  },
+  "comparison": {
+    "control_job": "25365",
+    "candidate_job": "25366",
+    "good_output_tokens_per_s_delta": 32.61458842357206,
+    "good_output_tokens_per_s_delta_percent": 1.082866559936968,
+    "request_count_delta": 23,
+    "role_gpu_uuid_sets_match": {
+      "prefill-0": true,
+      "prefill-1": true,
+      "decode-0": true
+    },
+    "interpretation": "One completed N62/N64 pair with matching full protocol and same observer design; descriptive evidence from one run per point, not a causal attribution or variance estimate."
+  },
+  "limits": [
+    "Nominal telemetry intervals conservatively bound sample timestamps but do not guarantee that every NVML activity value covers precisely that full interval.",
+    "Sparse samples do not establish peaks. GPU activity, sampled VRAM, power and SGLang token/KV gauges are distinct quantities.",
+    "Gauge counts are per labeled TP/PP/EP series and are never summed across ranks; no inflight gauge was present. Client concurrency is not asserted to equal server batch size.",
+    "Missing fields and failed scrapes are reported by status or absence and are never interpreted as zero or healthy.",
+    "The offline review does not inspect compressed trace contents; it records filenames only. Official model accuracy remains outside these artifacts."
+  ]
+}

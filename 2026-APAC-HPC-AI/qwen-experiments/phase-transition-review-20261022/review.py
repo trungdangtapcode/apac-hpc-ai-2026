@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime,timezone
 import hashlib,json
 O=Path(__file__).resolve().parent;R=O.parent
-POINTS=[('24962','confirm',62),('24964','confirm',60),('25339','screen',62),('25339','screen',64),('25365','confirm',62)]
+POINTS=[('24962','confirm',62),('24964','confirm',60),('25339','screen',62),('25339','screen',64),('25365','confirm',62),('25366','confirm',64)]
 results=[]
 for job,phase,n in POINTS:
  run=R/'runs'/job;A=run/f'{phase}/n{n}/artifacts';seal=json.loads((run/'artifact-manifest.json').read_text());sealed={row['path']:row for row in seal['files']}
