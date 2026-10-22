@@ -1,6 +1,14 @@
 # Native H200 EAGLE3 correctness route
 
-This is an unsubmitted design, recorded on 22 October 2026. No canonical payload, reservation, full-model correctness result or speedup is created by this plan.
+## Current continuation — 22 October 2026
+
+The target-only native reference is now frozen and submitted as **25495**; the separate speculative candidate remains unsubmitted. Full target/image byte verification passed 34/34 current files. A fresh full draft verification now passes its 1,145,943,008-byte publisher digest, all 15 tensor-header entries and the architecture-only adapter. [Target/reference receipt](../eagle3-h200-reference-run-20261022/RESULTS.md), [draft audit](../eagle3-h200-candidate-assets-20261022/REVIEW.md). The reference explicitly does not collect full KV geometry; a later derived diagnostic must add and review that instrumentation. No full H200 speculative correctness, performance or official accuracy result exists.
+
+The dated design below is retained. Its statements that no reference is submitted, current byte hashes are unknown, or 25371/25373 are still pending are historical preparation state; AI_CURRENT and the linked definite receipts/reviews take precedence.
+
+## Original unsubmitted design
+
+This was an unsubmitted design recorded earlier on 22 October 2026. No allocation or result was created by writing it.
 
 ## Why this branch is still distinct
 
