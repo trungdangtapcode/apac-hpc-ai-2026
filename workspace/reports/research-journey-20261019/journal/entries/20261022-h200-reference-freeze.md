@@ -1,0 +1,7 @@
+# 22 October: freeze an asset-bound H200 exact reference
+
+After 34/34 full current model/image hashes passed, root review closed the prototype's identity placeholder gap. A derived client records the actual immutable verification-manifest digest and full pinned identities. The independent head checker recomputes runtime path/fingerprint/small-file identity and requires an exact match. A pre-worker gate rejects changed assets before expensive model startup. Four binding integration fixtures pass, including real client execution against a mock API, 1600 IDs, malformed 199-token output, tampered manifests and runtime drift.
+
+New immutable `s37-h200-target-reference` keeps native worker/NIXL/placement/corpus/semantic-warmup bytes and the prototype's deadline/failure gates. It rewrites draft job identity/path and misleading inherited benchmark metadata into a target-only diagnostic. A fresh manifest, source provenance and actual runtime preflight pass. Existing full N64/N68 jobs 25487/25488 stay in their queue positions.
+
+Request one independent 16-H200/two-node job at most 17 minutes, no PBS SU, only after checkpoint and fresh scheduler/cap checks. It sends eight greedy native requests and requires all 1600 actual IDs, A/B equality, both warmup receipts and independent head acceptance. This is prerequisite correctness work, not a speculative run, performance score or official accuracy check. The result must be terminally sealed/reviewed before a separate EAGLE3 candidate; no scheduler-exit-only promotion.
