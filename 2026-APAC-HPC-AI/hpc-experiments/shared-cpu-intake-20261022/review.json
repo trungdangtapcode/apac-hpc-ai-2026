@@ -1,0 +1,1234 @@
+{
+  "reviewed_utc": "2026-10-22T15:27:04.057582+00:00",
+  "scope": "Independent read-only review of sealed shared CPU intake. This is candidate native evidence, not an accepted official score or performance result.",
+  "collection": {
+    "sealed_local_files": 136,
+    "sealed_remote_files": 134,
+    "raw_archive_members": 135,
+    "all_local_and_remote_sha256_checks_passed": true
+  },
+  "runs": {
+    "25921487.pbs101": {
+      "job": "25921487.pbs101",
+      "job_state_from_sanitized_metadata": "F",
+      "exit_status_from_sanitized_metadata": 0,
+      "queue": "q4",
+      "project": "59000042",
+      "exec_host": "x1003c1s3b0n0/0*128",
+      "requested": {
+        "nodes": 1,
+        "ranks": 128,
+        "memory": "440gb",
+        "walltime": "02:00:01",
+        "queue_charge_rate": 1.0
+      },
+      "source_case_comparison": {
+        "official_payload": "/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/payload/case",
+        "all_source_system_bytes_match_after_allowed_parameter_normalization": true,
+        "allowed_changes": [
+          "nCores",
+          "endTime",
+          "decompositionMethod",
+          "nHierarchical"
+        ],
+        "initial_0_orig_and_constant_files_match_exactly": true,
+        "rank": 128,
+        "method": "scotch",
+        "hierarchical_factors": [
+          16,
+          4,
+          2
+        ],
+        "end_time": 40
+      },
+      "stage_logs": {
+        "10_decomposePar": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "Processor 123: field transfer",
+            "Processor 124: field transfer",
+            "Processor 125: field transfer",
+            "Processor 126: field transfer",
+            "Processor 127: field transfer",
+            "End"
+          ]
+        },
+        "20_renumberMesh": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "    renumber    : 0.465857526",
+            "    write       : 1.537752149",
+            "TotalTime = 6.034699519 s",
+            "ExecutionTime = 6.16 s  ClockTime = 9 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "30_potentialFoam": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "GAMG:  Solving for Phi, Initial residual = 7.57115568806008e-10, Final residual = 4.285217749841817e-13, No Iterations 12",
+            "Continuity error = 2.641912184530779e-11",
+            "Interpolated velocity error = 0.0001034451174753495",
+            "ExecutionTime = 45.56 s  ClockTime = 46 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "40_applyBoundaryLayer": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "Creating mask field",
+            "Setting boundary layer velocity",
+            "Writing U",
+            "ExecutionTime = 5.45 s  ClockTime = 6 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "50_simpleFoam": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "    Number of measured time steps = 39",
+            "    Average wall-clock time per time step = 14.45075695907692",
+            "    Standard deviation of wall-clock time per time step = 0.2880588872858558",
+            "    Minimum number of measured time steps for 2% error at 95% confidence level = 4",
+            "End",
+            "Finalising parallel run"
+          ]
+        }
+      },
+      "native_simplefoam": {
+        "build": "OpenFOAM 2512, scalar=64 (double precision)",
+        "completed_time_steps": 40,
+        "final_time": 40,
+        "fixed_iterations_per_step": {
+          "Ux_iters": {
+            "iterations_each_step": 15,
+            "steps": 40
+          },
+          "Uy_iters": {
+            "iterations_each_step": 15,
+            "steps": 40
+          },
+          "Uz_iters": {
+            "iterations_each_step": 15,
+            "steps": 40
+          },
+          "p_iters": {
+            "iterations_each_step": 12,
+            "steps": 40
+          },
+          "omega_iters": {
+            "iterations_each_step": 8,
+            "steps": 40
+          },
+          "k_iters": {
+            "iterations_each_step": 8,
+            "steps": 40
+          }
+        },
+        "native_measured_steps": 39,
+        "native_average_step_seconds": 14.45075695907692,
+        "wallClockTime_rows": 39,
+        "wallClockTime_first_time": 2,
+        "wallClockTime_last_time": 40,
+        "wallClockTime_average_step_seconds": 14.450756959076923,
+        "wallClockTime_min_step_seconds": 14.269316134,
+        "wallClockTime_max_step_seconds": 16.145866032,
+        "wallClockTime_median_step_seconds": 14.415049736,
+        "wallClockTime_standard_deviation_seconds": 0.28805888728585577,
+        "wallClockTime_p95_step_seconds_linear_interpolation": 14.5955396575,
+        "wallClockTime_p95_method": "linear interpolation at position (n-1)*0.95",
+        "wallClockTime_iqr_outlier_fences_seconds": [
+          14.126744702500002,
+          14.684155630499998
+        ],
+        "wallClockTime_iqr_outlier_samples": [
+          {
+            "time": 31,
+            "seconds": 16.145866032
+          }
+        ],
+        "wallClockTime_max_time": 31,
+        "step_time_samples": [
+          {
+            "time": 2,
+            "solver_log_elapsed_seconds": 14.619626011,
+            "wallClockTime_dat_seconds": 14.619626011,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 3,
+            "solver_log_elapsed_seconds": 14.404300566,
+            "wallClockTime_dat_seconds": 14.404300566,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 4,
+            "solver_log_elapsed_seconds": 14.475850081,
+            "wallClockTime_dat_seconds": 14.475850081,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 5,
+            "solver_log_elapsed_seconds": 14.503899854,
+            "wallClockTime_dat_seconds": 14.503899854,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 6,
+            "solver_log_elapsed_seconds": 14.307094677,
+            "wallClockTime_dat_seconds": 14.307094677,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 7,
+            "solver_log_elapsed_seconds": 14.362762919,
+            "wallClockTime_dat_seconds": 14.362762919,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 8,
+            "solver_log_elapsed_seconds": 14.296091043,
+            "wallClockTime_dat_seconds": 14.296091043,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 9,
+            "solver_log_elapsed_seconds": 14.338107347,
+            "wallClockTime_dat_seconds": 14.338107347,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 10,
+            "solver_log_elapsed_seconds": 14.359355194,
+            "wallClockTime_dat_seconds": 14.359355194,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 11,
+            "solver_log_elapsed_seconds": 14.47084331,
+            "wallClockTime_dat_seconds": 14.47084331,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 12,
+            "solver_log_elapsed_seconds": 14.480921784,
+            "wallClockTime_dat_seconds": 14.480921784,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 13,
+            "solver_log_elapsed_seconds": 14.269316134,
+            "wallClockTime_dat_seconds": 14.269316134,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 14,
+            "solver_log_elapsed_seconds": 14.452939544,
+            "wallClockTime_dat_seconds": 14.452939544,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 15,
+            "solver_log_elapsed_seconds": 14.348605185,
+            "wallClockTime_dat_seconds": 14.348605185,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 16,
+            "solver_log_elapsed_seconds": 14.333524298,
+            "wallClockTime_dat_seconds": 14.333524298,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 17,
+            "solver_log_elapsed_seconds": 14.303611289,
+            "wallClockTime_dat_seconds": 14.303611289,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 18,
+            "solver_log_elapsed_seconds": 14.28045558,
+            "wallClockTime_dat_seconds": 14.28045558,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 19,
+            "solver_log_elapsed_seconds": 14.335544928,
+            "wallClockTime_dat_seconds": 14.335544928,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 20,
+            "solver_log_elapsed_seconds": 14.48551964,
+            "wallClockTime_dat_seconds": 14.48551964,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 21,
+            "solver_log_elapsed_seconds": 14.432497187,
+            "wallClockTime_dat_seconds": 14.432497187,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 22,
+            "solver_log_elapsed_seconds": 14.415049736,
+            "wallClockTime_dat_seconds": 14.415049736,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 23,
+            "solver_log_elapsed_seconds": 14.461779054,
+            "wallClockTime_dat_seconds": 14.461779054,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 24,
+            "solver_log_elapsed_seconds": 14.435647835,
+            "wallClockTime_dat_seconds": 14.435647835,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 25,
+            "solver_log_elapsed_seconds": 14.494845575,
+            "wallClockTime_dat_seconds": 14.494845575,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 26,
+            "solver_log_elapsed_seconds": 14.284001864,
+            "wallClockTime_dat_seconds": 14.284001864,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 27,
+            "solver_log_elapsed_seconds": 14.366294952,
+            "wallClockTime_dat_seconds": 14.366294952,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 28,
+            "solver_log_elapsed_seconds": 14.361680642,
+            "wallClockTime_dat_seconds": 14.361680642,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 29,
+            "solver_log_elapsed_seconds": 14.293744438,
+            "wallClockTime_dat_seconds": 14.293744438,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 30,
+            "solver_log_elapsed_seconds": 14.41193857,
+            "wallClockTime_dat_seconds": 14.41193857,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 31,
+            "solver_log_elapsed_seconds": 16.145866032,
+            "wallClockTime_dat_seconds": 16.145866032,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 32,
+            "solver_log_elapsed_seconds": 14.313984942,
+            "wallClockTime_dat_seconds": 14.313984942,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 33,
+            "solver_log_elapsed_seconds": 14.467848003,
+            "wallClockTime_dat_seconds": 14.467848003,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 34,
+            "solver_log_elapsed_seconds": 14.336002673,
+            "wallClockTime_dat_seconds": 14.336002673,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 35,
+            "solver_log_elapsed_seconds": 14.507923164,
+            "wallClockTime_dat_seconds": 14.507923164,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 36,
+            "solver_log_elapsed_seconds": 14.416194299,
+            "wallClockTime_dat_seconds": 14.416194299,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 37,
+            "solver_log_elapsed_seconds": 14.488081071,
+            "wallClockTime_dat_seconds": 14.488081071,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 38,
+            "solver_log_elapsed_seconds": 14.474402984,
+            "wallClockTime_dat_seconds": 14.474402984,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 39,
+            "solver_log_elapsed_seconds": 14.592863396,
+            "wallClockTime_dat_seconds": 14.592863396,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 40,
+            "solver_log_elapsed_seconds": 14.450505603,
+            "wallClockTime_dat_seconds": 14.450505603,
+            "absolute_difference_seconds": 0.0
+          }
+        ],
+        "native_simplefoam_tail": "\nWall-clock time elapsed during the current time step = 14.450505603 s\n\nStatistics:\n    Number of measured time steps = 39\n    Average wall-clock time per time step = 14.45075695907692\n    Standard deviation of wall-clock time per time step = 0.2880588872858558\n    Minimum number of measured time steps for 2% error at 95% confidence level = 4\n\nEnd\n\nFinalising parallel run"
+      },
+      "partition": {
+        "method": "scotch",
+        "ranks": 128,
+        "partition_records": 128,
+        "total_cells": 65334765,
+        "min_cells_per_rank": 505323,
+        "max_cells_per_rank": 516440,
+        "max_cell_excess_fraction": 0.011778644952652684
+      },
+      "force_coefficients": {
+        "rows": 40,
+        "first_time": 1,
+        "final_time": 40,
+        "final_Cd": 0.4359888360190117,
+        "min_Cd": 0.31810688591684205,
+        "max_Cd": 1.1881838147823203,
+        "all_values_finite": true
+      },
+      "pbs_resources_used": {
+        "walltime_seconds": 1081,
+        "walltime": "00:18:01",
+        "cput_seconds": 91903,
+        "cput": "25:31:43",
+        "ncpus": 128,
+        "ngpus": 0,
+        "cpupercent_last_sample_raw": 11551,
+        "derived_whole_allocation_average_cpu_utilization_percent": 66.41925878815911,
+        "mem": "128736360kb",
+        "vmem": "260213940kb",
+        "estimated_SU": 38.43555555555555,
+        "SU_estimate_formula": "resources_used.walltime_seconds * ncpus * Resource_List.queue_charge_rate / 3600",
+        "posted_SU_charge": null
+      },
+      "log_warning_counts": {
+        "10_decomposePar": {
+          "foam_warning_lines": 1,
+          "mpich_warning_lines": 0,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "20_renumberMesh": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "30_potentialFoam": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "40_applyBoundaryLayer": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "50_simpleFoam": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 1,
+          "native_fatal_lines": 0
+        }
+      },
+      "wallclock_sample_confidence_warning_present": false,
+      "omega_bound_records": 10,
+      "omega_minimum_seen": -17835.6309814237,
+      "omega_final_bounds": [
+        -3729.55430642352,
+        45356011.72459479,
+        6780.453143983391
+      ],
+      "omega_diagnostic_interpretation": "Negative bounding minima are also present in accepted controls and do not alone establish a Basic failure; no final fields or hardware counters were collected to diagnose cause."
+    },
+    "25921492.pbs101": {
+      "job": "25921492.pbs101",
+      "job_state_from_sanitized_metadata": "F",
+      "exit_status_from_sanitized_metadata": 0,
+      "queue": "q5",
+      "project": "59000042",
+      "exec_host": "x1002c4s6b0n0/0*128+x1003c6s1b0n1/0*128",
+      "requested": {
+        "nodes": 2,
+        "ranks": 256,
+        "memory": "880gb",
+        "walltime": "00:40:00",
+        "queue_charge_rate": 1.0
+      },
+      "source_case_comparison": {
+        "official_payload": "/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-baseline-headerfix-20261021/payload/case",
+        "all_source_system_bytes_match_after_allowed_parameter_normalization": true,
+        "allowed_changes": [
+          "nCores",
+          "endTime",
+          "decompositionMethod",
+          "nHierarchical"
+        ],
+        "initial_0_orig_and_constant_files_match_exactly": true,
+        "rank": 256,
+        "method": "scotch",
+        "hierarchical_factors": [
+          16,
+          8,
+          2
+        ],
+        "end_time": 80
+      },
+      "stage_logs": {
+        "10_decomposePar": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "Processor 251: field transfer",
+            "Processor 252: field transfer",
+            "Processor 253: field transfer",
+            "Processor 254: field transfer",
+            "Processor 255: field transfer",
+            "End"
+          ]
+        },
+        "20_renumberMesh": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "    renumber    : 0.232554999",
+            "    write       : 3.533635045",
+            "TotalTime = 7.38002763 s",
+            "ExecutionTime = 26.77 s  ClockTime = 31 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "30_potentialFoam": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "GAMG:  Solving for Phi, Initial residual = 7.455141535307505e-10, Final residual = 4.463539067503545e-13, No Iterations 12",
+            "Continuity error = 2.747029307495983e-11",
+            "Interpolated velocity error = 0.0001035465726190113",
+            "ExecutionTime = 25.01 s  ClockTime = 27 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "40_applyBoundaryLayer": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "Creating mask field",
+            "Setting boundary layer velocity",
+            "Writing U",
+            "ExecutionTime = 3.83 s  ClockTime = 5 s",
+            "End",
+            "Finalising parallel run"
+          ]
+        },
+        "50_simpleFoam": {
+          "end_marker": true,
+          "native_fatal_count": 0,
+          "script_error_marker_count": 0,
+          "tail_lines": [
+            "--> FOAM Warning : ",
+            "    From virtual bool Foam::wallClockTimeStatisticsFunctionObject::end()",
+            "    in file /home/users/industry/ai-hpc/apacsc42/scratch/apac2026/hpc/runs/2n-scotch-25921492/system/controlDict/functions/wallClockTimeStatistics at line 175",
+            "    Number of time steps of the current run is smaller than the calculated one by the statistical analysis. Consider to raise endTime in controlDict.",
+            "End",
+            "Finalising parallel run"
+          ]
+        }
+      },
+      "native_simplefoam": {
+        "build": "OpenFOAM 2512, scalar=64 (double precision)",
+        "completed_time_steps": 80,
+        "final_time": 80,
+        "fixed_iterations_per_step": {
+          "Ux_iters": {
+            "iterations_each_step": 15,
+            "steps": 80
+          },
+          "Uy_iters": {
+            "iterations_each_step": 15,
+            "steps": 80
+          },
+          "Uz_iters": {
+            "iterations_each_step": 15,
+            "steps": 80
+          },
+          "p_iters": {
+            "iterations_each_step": 12,
+            "steps": 80
+          },
+          "omega_iters": {
+            "iterations_each_step": 8,
+            "steps": 80
+          },
+          "k_iters": {
+            "iterations_each_step": 8,
+            "steps": 80
+          }
+        },
+        "native_measured_steps": 79,
+        "native_average_step_seconds": 7.462835189316456,
+        "wallClockTime_rows": 79,
+        "wallClockTime_first_time": 2,
+        "wallClockTime_last_time": 80,
+        "wallClockTime_average_step_seconds": 7.462835189316456,
+        "wallClockTime_min_step_seconds": 7.044164564,
+        "wallClockTime_max_step_seconds": 16.397208938,
+        "wallClockTime_median_step_seconds": 7.202989481,
+        "wallClockTime_standard_deviation_seconds": 1.1422433610470357,
+        "wallClockTime_p95_step_seconds_linear_interpolation": 8.327816609099996,
+        "wallClockTime_p95_method": "linear interpolation at position (n-1)*0.95",
+        "wallClockTime_iqr_outlier_fences_seconds": [
+          6.9310669525,
+          7.4870721365
+        ],
+        "wallClockTime_iqr_outlier_samples": [
+          {
+            "time": 2,
+            "seconds": 7.803210046
+          },
+          {
+            "time": 12,
+            "seconds": 16.397208938
+          },
+          {
+            "time": 17,
+            "seconds": 7.87732201
+          },
+          {
+            "time": 19,
+            "seconds": 8.237016188
+          },
+          {
+            "time": 21,
+            "seconds": 8.168947955
+          },
+          {
+            "time": 26,
+            "seconds": 7.493991941
+          },
+          {
+            "time": 41,
+            "seconds": 10.560047999
+          },
+          {
+            "time": 51,
+            "seconds": 9.45158229
+          },
+          {
+            "time": 55,
+            "seconds": 9.145020399
+          },
+          {
+            "time": 59,
+            "seconds": 7.525292721
+          },
+          {
+            "time": 69,
+            "seconds": 7.701169698
+          }
+        ],
+        "wallClockTime_max_time": 12,
+        "step_time_samples": [
+          {
+            "time": 2,
+            "solver_log_elapsed_seconds": 7.803210046,
+            "wallClockTime_dat_seconds": 7.803210046,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 3,
+            "solver_log_elapsed_seconds": 7.444275106,
+            "wallClockTime_dat_seconds": 7.444275106,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 4,
+            "solver_log_elapsed_seconds": 7.395102751,
+            "wallClockTime_dat_seconds": 7.395102751,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 5,
+            "solver_log_elapsed_seconds": 7.333074591,
+            "wallClockTime_dat_seconds": 7.333074591,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 6,
+            "solver_log_elapsed_seconds": 7.404131806,
+            "wallClockTime_dat_seconds": 7.404131806,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 7,
+            "solver_log_elapsed_seconds": 7.418293192,
+            "wallClockTime_dat_seconds": 7.418293192,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 8,
+            "solver_log_elapsed_seconds": 7.345766049,
+            "wallClockTime_dat_seconds": 7.345766049,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 9,
+            "solver_log_elapsed_seconds": 7.240970131,
+            "wallClockTime_dat_seconds": 7.240970131,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 10,
+            "solver_log_elapsed_seconds": 7.046290782,
+            "wallClockTime_dat_seconds": 7.046290782,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 11,
+            "solver_log_elapsed_seconds": 7.208879722,
+            "wallClockTime_dat_seconds": 7.208879722,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 12,
+            "solver_log_elapsed_seconds": 16.397208938,
+            "wallClockTime_dat_seconds": 16.397208938,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 13,
+            "solver_log_elapsed_seconds": 7.139127892,
+            "wallClockTime_dat_seconds": 7.139127892,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 14,
+            "solver_log_elapsed_seconds": 7.134732829,
+            "wallClockTime_dat_seconds": 7.134732829,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 15,
+            "solver_log_elapsed_seconds": 7.095889687,
+            "wallClockTime_dat_seconds": 7.095889687,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 16,
+            "solver_log_elapsed_seconds": 7.077749169,
+            "wallClockTime_dat_seconds": 7.077749169,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 17,
+            "solver_log_elapsed_seconds": 7.87732201,
+            "wallClockTime_dat_seconds": 7.87732201,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 18,
+            "solver_log_elapsed_seconds": 7.044164564,
+            "wallClockTime_dat_seconds": 7.044164564,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 19,
+            "solver_log_elapsed_seconds": 8.237016188,
+            "wallClockTime_dat_seconds": 8.237016188,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 20,
+            "solver_log_elapsed_seconds": 7.098838794,
+            "wallClockTime_dat_seconds": 7.098838794,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 21,
+            "solver_log_elapsed_seconds": 8.168947955,
+            "wallClockTime_dat_seconds": 8.168947955,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 22,
+            "solver_log_elapsed_seconds": 7.083761215,
+            "wallClockTime_dat_seconds": 7.083761215,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 23,
+            "solver_log_elapsed_seconds": 7.383333585,
+            "wallClockTime_dat_seconds": 7.383333585,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 24,
+            "solver_log_elapsed_seconds": 7.082680079,
+            "wallClockTime_dat_seconds": 7.082680079,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 25,
+            "solver_log_elapsed_seconds": 7.215472107,
+            "wallClockTime_dat_seconds": 7.215472107,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 26,
+            "solver_log_elapsed_seconds": 7.493991941,
+            "wallClockTime_dat_seconds": 7.493991941,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 27,
+            "solver_log_elapsed_seconds": 7.107069765,
+            "wallClockTime_dat_seconds": 7.107069765,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 28,
+            "solver_log_elapsed_seconds": 7.135464531,
+            "wallClockTime_dat_seconds": 7.135464531,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 29,
+            "solver_log_elapsed_seconds": 7.118615796,
+            "wallClockTime_dat_seconds": 7.118615796,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 30,
+            "solver_log_elapsed_seconds": 7.063902551,
+            "wallClockTime_dat_seconds": 7.063902551,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 31,
+            "solver_log_elapsed_seconds": 7.11092945,
+            "wallClockTime_dat_seconds": 7.11092945,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 32,
+            "solver_log_elapsed_seconds": 7.187181285,
+            "wallClockTime_dat_seconds": 7.187181285,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 33,
+            "solver_log_elapsed_seconds": 7.148858496,
+            "wallClockTime_dat_seconds": 7.148858496,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 34,
+            "solver_log_elapsed_seconds": 7.150138341,
+            "wallClockTime_dat_seconds": 7.150138341,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 35,
+            "solver_log_elapsed_seconds": 7.262989332,
+            "wallClockTime_dat_seconds": 7.262989332,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 36,
+            "solver_log_elapsed_seconds": 7.232723194,
+            "wallClockTime_dat_seconds": 7.232723194,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 37,
+            "solver_log_elapsed_seconds": 7.282550791,
+            "wallClockTime_dat_seconds": 7.282550791,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 38,
+            "solver_log_elapsed_seconds": 7.170025749,
+            "wallClockTime_dat_seconds": 7.170025749,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 39,
+            "solver_log_elapsed_seconds": 7.125232937,
+            "wallClockTime_dat_seconds": 7.125232937,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 40,
+            "solver_log_elapsed_seconds": 7.154796323,
+            "wallClockTime_dat_seconds": 7.154796323,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 41,
+            "solver_log_elapsed_seconds": 10.560047999,
+            "wallClockTime_dat_seconds": 10.560047999,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 42,
+            "solver_log_elapsed_seconds": 7.166489544,
+            "wallClockTime_dat_seconds": 7.166489544,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 43,
+            "solver_log_elapsed_seconds": 7.191316323,
+            "wallClockTime_dat_seconds": 7.191316323,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 44,
+            "solver_log_elapsed_seconds": 7.13399865,
+            "wallClockTime_dat_seconds": 7.13399865,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 45,
+            "solver_log_elapsed_seconds": 7.210049347,
+            "wallClockTime_dat_seconds": 7.210049347,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 46,
+            "solver_log_elapsed_seconds": 7.166524637,
+            "wallClockTime_dat_seconds": 7.166524637,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 47,
+            "solver_log_elapsed_seconds": 7.185912702,
+            "wallClockTime_dat_seconds": 7.185912702,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 48,
+            "solver_log_elapsed_seconds": 7.138634401,
+            "wallClockTime_dat_seconds": 7.138634401,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 49,
+            "solver_log_elapsed_seconds": 7.149563409,
+            "wallClockTime_dat_seconds": 7.149563409,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 50,
+            "solver_log_elapsed_seconds": 7.219913351,
+            "wallClockTime_dat_seconds": 7.219913351,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 51,
+            "solver_log_elapsed_seconds": 9.45158229,
+            "wallClockTime_dat_seconds": 9.45158229,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 52,
+            "solver_log_elapsed_seconds": 7.156475177,
+            "wallClockTime_dat_seconds": 7.156475177,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 53,
+            "solver_log_elapsed_seconds": 7.107567025,
+            "wallClockTime_dat_seconds": 7.107567025,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 54,
+            "solver_log_elapsed_seconds": 7.203769179,
+            "wallClockTime_dat_seconds": 7.203769179,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 55,
+            "solver_log_elapsed_seconds": 9.145020399,
+            "wallClockTime_dat_seconds": 9.145020399,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 56,
+            "solver_log_elapsed_seconds": 7.173652116,
+            "wallClockTime_dat_seconds": 7.173652116,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 57,
+            "solver_log_elapsed_seconds": 7.146670251,
+            "wallClockTime_dat_seconds": 7.146670251,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 58,
+            "solver_log_elapsed_seconds": 7.171442681,
+            "wallClockTime_dat_seconds": 7.171442681,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 59,
+            "solver_log_elapsed_seconds": 7.525292721,
+            "wallClockTime_dat_seconds": 7.525292721,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 60,
+            "solver_log_elapsed_seconds": 7.210632103,
+            "wallClockTime_dat_seconds": 7.210632103,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 61,
+            "solver_log_elapsed_seconds": 7.274589594,
+            "wallClockTime_dat_seconds": 7.274589594,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 62,
+            "solver_log_elapsed_seconds": 7.246801113,
+            "wallClockTime_dat_seconds": 7.246801113,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 63,
+            "solver_log_elapsed_seconds": 7.240802539,
+            "wallClockTime_dat_seconds": 7.240802539,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 64,
+            "solver_log_elapsed_seconds": 7.185297654,
+            "wallClockTime_dat_seconds": 7.185297654,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 65,
+            "solver_log_elapsed_seconds": 7.184540265,
+            "wallClockTime_dat_seconds": 7.184540265,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 66,
+            "solver_log_elapsed_seconds": 7.202989481,
+            "wallClockTime_dat_seconds": 7.202989481,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 67,
+            "solver_log_elapsed_seconds": 7.231489782,
+            "wallClockTime_dat_seconds": 7.231489782,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 68,
+            "solver_log_elapsed_seconds": 7.183288727,
+            "wallClockTime_dat_seconds": 7.183288727,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 69,
+            "solver_log_elapsed_seconds": 7.701169698,
+            "wallClockTime_dat_seconds": 7.701169698,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 70,
+            "solver_log_elapsed_seconds": 7.131551057,
+            "wallClockTime_dat_seconds": 7.131551057,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 71,
+            "solver_log_elapsed_seconds": 7.285292656,
+            "wallClockTime_dat_seconds": 7.285292656,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 72,
+            "solver_log_elapsed_seconds": 7.244429431,
+            "wallClockTime_dat_seconds": 7.244429431,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 73,
+            "solver_log_elapsed_seconds": 7.243301018,
+            "wallClockTime_dat_seconds": 7.243301018,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 74,
+            "solver_log_elapsed_seconds": 7.140009901,
+            "wallClockTime_dat_seconds": 7.140009901,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 75,
+            "solver_log_elapsed_seconds": 7.20211593,
+            "wallClockTime_dat_seconds": 7.20211593,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 76,
+            "solver_log_elapsed_seconds": 7.211757512,
+            "wallClockTime_dat_seconds": 7.211757512,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 77,
+            "solver_log_elapsed_seconds": 7.214732604,
+            "wallClockTime_dat_seconds": 7.214732604,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 78,
+            "solver_log_elapsed_seconds": 7.138352644,
+            "wallClockTime_dat_seconds": 7.138352644,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 79,
+            "solver_log_elapsed_seconds": 7.254672531,
+            "wallClockTime_dat_seconds": 7.254672531,
+            "absolute_difference_seconds": 0.0
+          },
+          {
+            "time": 80,
+            "solver_log_elapsed_seconds": 7.211531844,
+            "wallClockTime_dat_seconds": 7.211531844,
+            "absolute_difference_seconds": 0.0
+          }
+        ],
+        "native_simplefoam_tail": "    Average wall-clock time per time step = 7.462835189316456\n    Standard deviation of wall-clock time per time step = 1.142243361047036\n    Minimum number of measured time steps for 2% error at 95% confidence level = 225\n\n--> FOAM Warning : \n    From virtual bool Foam::wallClockTimeStatisticsFunctionObject::end()\n    in file /home/users/industry/ai-hpc/apacsc42/scratch/apac2026/hpc/runs/2n-scotch-25921492/system/controlDict/functions/wallClockTimeStatistics at line 175\n    Number of time steps of the current run is smaller than the calculated one by the statistical analysis. Consider to raise endTime in controlDict.\n\nEnd\n\nFinalising parallel run"
+      },
+      "partition": {
+        "method": "scotch",
+        "ranks": 256,
+        "partition_records": 256,
+        "total_cells": 65334765,
+        "min_cells_per_rank": 252661,
+        "max_cells_per_rank": 258091,
+        "max_cell_excess_fraction": 0.011273186641139743
+      },
+      "force_coefficients": {
+        "rows": 80,
+        "first_time": 1,
+        "final_time": 80,
+        "final_Cd": 0.32712980974126155,
+        "min_Cd": 0.3193513139584249,
+        "max_Cd": 1.199665882000151,
+        "all_values_finite": true
+      },
+      "pbs_resources_used": {
+        "walltime_seconds": 1105,
+        "walltime": "00:18:25",
+        "cput_seconds": 179578,
+        "cput": "49:52:58",
+        "ncpus": 256,
+        "ngpus": 0,
+        "cpupercent_last_sample_raw": 23150,
+        "derived_whole_allocation_average_cpu_utilization_percent": 63.48204185520362,
+        "mem": "150124848kb",
+        "vmem": "207278184kb",
+        "estimated_SU": 78.57777777777778,
+        "SU_estimate_formula": "resources_used.walltime_seconds * ncpus * Resource_List.queue_charge_rate / 3600",
+        "posted_SU_charge": null
+      },
+      "log_warning_counts": {
+        "10_decomposePar": {
+          "foam_warning_lines": 1,
+          "mpich_warning_lines": 0,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "20_renumberMesh": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "30_potentialFoam": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "40_applyBoundaryLayer": {
+          "foam_warning_lines": 0,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 0,
+          "native_fatal_lines": 0
+        },
+        "50_simpleFoam": {
+          "foam_warning_lines": 1,
+          "mpich_warning_lines": 1,
+          "dynamic_code_initial_load_misses": 1,
+          "native_fatal_lines": 0
+        }
+      },
+      "wallclock_sample_confidence_warning_present": true,
+      "omega_bound_records": 50,
+      "omega_minimum_seen": -92995.79804748004,
+      "omega_final_bounds": [
+        -17209.35772118803,
+        45355982.6509166,
+        6576.532530816931
+      ],
+      "omega_diagnostic_interpretation": "Negative bounding minima are also present in accepted controls and do not alone establish a Basic failure; no final fields or hardware counters were collected to diagnose cause."
+    }
+  },
+  "descriptive_per_step_time_ratio_1n_over_2n": 1.9363628691364023,
+  "limits": [
+    "PBS F/exit0 and sanitized resource metadata are present, but owner identity and frozen submitted script provenance are not verified; retained script bytes may differ from submitted bytes.",
+    "The two runs compare official prescribed endpoints (128 ranks/40 steps versus 256 ranks/80 steps). Their per-step ratio is an endpoint-scaling observation, not controlled same-work strong scaling or a causal speedup claim.",
+    "No processor fields, mesh binaries, final zero-field seals, or per-rank affinity/physical-core mapping were collected. PBS exec_host identifies allocated host(s), but not the physical cores used by each rank. The official mesh archive identity is not independently verified from these files.",
+    "Negative omega bounding diagnostics alone do not establish failure; no final fields or hardware counters are available to diagnose their cause.",
+    "The scripts treat a native End marker as sufficient even if a command returned nonzero. PBS reports exit 0, but the stage helper does not preserve/check every command return code.",
+    "Estimated SU is elapsed allocation walltime times CPU count times queue charge rate divided by 3600. It is not a posted or reconciled charge.",
+    "Neither run is the official four-node/150-step scored workload. Cd endpoints differ in time and are not an accuracy comparison."
+  ]
+}

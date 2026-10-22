@@ -160,3 +160,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: H200 exact-reference CPU preparation and rank-parser correction](entries/20261022-h200-reference-cpu-preparation.md).
 
 - [22 October: full H200 model/image byte identity passes](entries/20261022-h200-full-asset-identity.md).
+
+- [22 October: full native review of shared Scotch endpoint baselines, tails and CPU costs](entries/20261022-hpc-shared-native-baseline-review.md).

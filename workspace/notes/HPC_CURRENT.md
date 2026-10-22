@@ -1,18 +1,18 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-22T15:07:29.494177+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
+Updated 2026-10-22T15:28:26.661074+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
 
 ## Current continuation checkpoint — 22 October
 
-VPN and CPU SSH restored; healthy connections left running. Old job IDs are no longer in PBS history, but **127 pair + 284 preparation scratch artifacts** are sealed and native reviewers pass without claiming final PBS state/cost.
+VPN/CPU SSH restored and healthy connections preserved. Old jobs 25907753/25907772 have lost PBS history; sealed native scratch reviews pass without inventing final scheduler state or cost. Default versus NUMA average **13.880988254 / 14.358714620 seconds/step**, **3.4416% NUMA slowdown**; close that unchanged branch. At N256 the H/default/node-aware logical cross-group faces are **717,233 / 99,591 / 127,359**; default remains the graph lead, not a measured network bottleneck.
 
-**NUMA configuration loses:** default **13.880988254 s/step**, NUMA **14.358715 s/step**, **3.4416% slower** in the ordered pair. Original work/output/stage exits/field/physical placement gates pass. Close this unchanged NUMA branch; retain its data. [Result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-scotch-numa-pair128-20261021/RESULTS.md).
+**Newly reviewed shared runs:** 25921487 (one node, 128 ranks, 40 steps) **14.450756959 seconds/step**; 25921492 (two nodes, 256 ranks, 80 steps) **7.462835189 seconds/step**. PBS F/exit 0, full native work/source/timer/finite-force checks pass. These are useful native observations with missing frozen submission, stage-return, mesh-seal and rank-affinity evidence; not fully accepted scores. One-node best observed timing remains 13.880988254. The 1.936 endpoint ratio is descriptive across allocations, not controlled same-work speedup. Two-node p95 **8.327817 s**, max **16.397209 s at Time 12**, all samples retained. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/shared-cpu-intake-20261022/RESULTS.md).
 
-**N256 input evidence passes:** H/default/node-aware cross-group faces **717,233 /99,591 /127,359**. Default is the network-cut lead; physical host mapping still needs the launch probe. Node-aware tuning is not a cross-node-cut winner. [Result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-three-cuts256-20261021/RESULTS.md).
+**Queue snapshot, 15:21 UTC:** six other submissions pending from apac2026/hpc/job_scripts: S4 at 64/96/128 ranks per node, plus H1/H2/H4. Five report node_pool insufficiency; H1 reports qdev aggregate CPU capacity. Ownership remains unconfirmed; preserve all existing work. Do not add jobs, silently fund these through this worker's ledger or infer a budget/cap increase from continue. Snapshot is dated, not a promise of current live state.
 
-**Ready but not submitted:** full two-node H/default-S, 80 steps each, maximum 170.666667 SU. Bundle verified on scratch, wrapper lifecycle/resource capture added before first submission. Fresh queue guard then found five newer OpenFOAM jobs from another work root and stopped before intent/reservation/qsub. Existing jobs are preserved; owner asked which worker is using the shared account. Current CPU occupancy/budget must be coordinated before adding more jobs. [Snapshot and launch decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/CURRENT_DECISION.md).
+**Ready but unsubmitted:** full matched H/default-S two-node pair, 80 steps each, maximum **170.666667 SU**, staged and hash-verified with durable wrapper lifecycle. No intent, reservation or qsub was created. Our ledger remains conservative **170.866667 / 1,000 SU** committed; project reporting is still stale as of 21 October. Fresh ownership/cost/capacity coordination is needed before this launch. [Launch decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/CURRENT_DECISION.md).
 
-Current own ledger remains conservative **170.866667 / 1,000 SU** committed; no speculative reconciliation or budget increase. Historical active/held table below is 21 October only. Do not describe the restored connection as currently down.
+**Active offline improvement:** screen rank-to-NUMA placement on unchanged default-Scotch partitions, so lower logical cut does not require the extra total faces of the losing decomposition. Graph improvement is not measured solve speedup. [Reviewed transport comparison](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/next-hypothesis-20261022/REPORT.md) is a later costed option, not a new submission or claim that SRX-off is untested. No four-node score yet.
 
 ## Historical pipeline snapshot — verified 21 October
 
