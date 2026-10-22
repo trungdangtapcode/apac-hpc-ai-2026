@@ -166,3 +166,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: frozen asset-bound H200 exact-reference diagnostic](entries/20261022-h200-reference-freeze.md).
 
 - [22 October: native H200 reference receipt 25495](entries/20261022-h200-reference-receipt.md).
+
+- [22 October: costed, deferred same-allocation SRX transport hypothesis](entries/20261022-hpc-controlled-transport-plan.md).
