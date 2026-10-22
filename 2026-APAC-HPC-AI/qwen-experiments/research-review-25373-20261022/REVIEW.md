@@ -18,3 +18,5 @@ All 26 failures breach TTFT; none breaches ITL. Keep all requests in the officia
 The separate `observability.md` compares phase-aligned per-role hardware/server samples, tail latency and profile controls. It retains exact units and missing-data limits. Three profile starts return HTTP 200 and three stops HTTP 500 with profiling-not-in-progress; scored request errors remain zero. Trace filenames are retained; trace contents are uninspected. High GPU activity alone does not diagnose a compute or memory bottleneck.
 
 **Official >=99% reference accuracy remains unverified.** Local smoke and retrieval are not MMLU-Pro/GPQA. N64 is now a reproduced local candidate for an explicitly reviewed AI submission update; frozen previous payloads remain unchanged. The distinct short N64/N68 screen still needs its own full review before fresh full N68 measurements. No N68 full score is claimed here.
+
+Host CPU/network counters were collected by the resource observer but were not separately inspected in this full-repeat review; no CPU or network bottleneck conclusion is supported.

@@ -1,6 +1,6 @@
 # Latest AI run-index update — 22 October 2026
 
-Full observed control 25365 and N64 candidate 25366 are terminal, sealed and reviewed local PASS, not merely scheduler-complete. Their registry entries now point to the formal reviews and actual measurements. N64 reaches 3044.489701 good output tokens/s, +1.082867% over fresh matched N62, with 98.633018% joint SLA and zero errors. Official accuracy remains unverified; independent full N64 receipt 25373 and short N64/N68 receipt 25371 are separate pending measurements. See [current serving comparison](SERVING_TUNING_RESULTS.md) and the [AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md) for the maintained route. All dated records below remain historical evidence.
+Full N64 source 25366 and independent repeat 25373 pass at 3044.489701 / 3044.074628 good output tokens/s (mean 3044.282165; repeat −0.013634%), with zero errors and about 98.63% joint SLA. Short N64/N68 job 25371 also passes at +2.273457%, motivating fresh full N64→N68 receipts 25487→25488, each 16 H200 GPUs / two nodes / at most 17 minutes. No full N68 score or official accuracy pass is claimed. Raw artifacts and formal reviews are sealed, captured and indexed. Existing packaged primary remains N62 pending an explicit reviewed AI update. See [current comparison](SERVING_TUNING_RESULTS.md) and [AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md). Dated older snapshots below remain historical.
 
 ## Reverse confirmation submitted — 2026-10-20T14:06:36.113310+00:00
 
