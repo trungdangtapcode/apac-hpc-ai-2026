@@ -116,3 +116,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: full matched load receipts 25365 and 25366](entries/20261021-h200-full-load-receipt.md).
 
 - [21 October: native KV registration and host auxiliary preflight](entries/20261021-nixl-native-registration-plan.md).
+
+- [21 October: native registration/DRAM gate receipt 223132](entries/20261021-nixl-native-registration-receipt.md).

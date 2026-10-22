@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-21T23:56:58.401280+00:00. [21 October submission](submission-update-20261021.md) retains the same measured H200 N62 deployment; new independent repeat is reviewed below. All scheduler statements are dated.
+Updated 2026-10-22T00:00:12.780090+00:00. [21 October submission](submission-update-20261021.md) retains the same measured H200 N62 deployment; new independent repeat is reviewed below. All scheduler statements are dated.
 
 ## Session ownership
 
@@ -60,10 +60,19 @@ If valid and useful, prepare a fresh equally observed/capacity-controlled short 
 
 ## Budget and scope
 
-Fresh locked terminal review 2026-10-21T19:32:04.774264+00:00: Used **46367.710**, Balance **17632.290**, In Doubt **0.000 SU**. Unique posted 28.018-SU delta reconciles 223091, releasing its 42.666667-SU maximum. Before new 223097, no outstanding AI GPU maximum. Pre-reservation internal headroom **4632.290 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-peer-probe-20261021/terminal-reconciliation.json). Before the new receipt, own GPU PBS queue was empty; **223097.pbs111 is now F/exit0, SGLANG_NIXL_DESCRIPTOR_PASS** on 035/039: all 24 native descriptor writes and independent destination hashes pass, 199 seconds / estimated 14.151111 SU. [Sealed review and coarse PBS telemetry correction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Fresh 20:00 UTC own GPU queue is empty; published charge not uniquely posted, so maximum 42.666667 SU stays reserved and headroom remains **4589.623333 SU**. Next source-backed cheap registration/DRAM-aux fixture is frozen after actual-method CPU regressions and real-NumPy rehearsal, not yet submitted; no full EAGLE3 result. No HPC CPU access or ledger change.
+Fresh locked terminal review 2026-10-21T19:32:04.774264+00:00: Used **46367.710**, Balance **17632.290**, In Doubt **0.000 SU**. Unique posted 28.018-SU delta reconciles 223091, releasing its 42.666667-SU maximum. Before new 223097, no outstanding AI GPU maximum. Pre-reservation internal headroom **4632.290 SU**, unchanged **51000 cap / 13000 buffer**. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-peer-probe-20261021/terminal-reconciliation.json). Before the new receipt, own GPU PBS queue was empty; **223097.pbs111 is now F/exit0, SGLANG_NIXL_DESCRIPTOR_PASS** on 035/039: all 24 native descriptor writes and independent destination hashes pass, 199 seconds / estimated 14.151111 SU. [Sealed review and coarse PBS telemetry correction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Fresh 20:00 UTC own GPU queue is empty; published charge not uniquely posted, so maximum 42.666667 SU stays reserved and headroom remains **4589.623333 SU**. **New 223132.pbs111** native registration/DRAM-aux gate is RUNNING on 039/037 in its 23:58 UTC receipt, **2 H100 / two nodes / max 10 minutes / max 42.666667 SU**. Actual-method CPU regressions and real-NumPy rehearsal pass; no terminal result yet. [Receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-native-registration-probe-20261021/RESULTS.md); no full EAGLE3 result. No HPC CPU access or ledger change.
 
 CPU envelope gains 0.289035%, below 1% gate; reverse prefetch saves 9.836066%, below 10% gate. Both exact methods stay closed unchanged, as do losing chunk/routing/DP8/DeepEP repeats. Keep native NUMA and retained backends. [Priorities](../reports/research-priorities-20261020/PLAN.md), [observability limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/observability-review-20261020/REPORT.md).
 
 Public README R2/R5 requires Basic results for both Qwen and OpenFOAM. Our delivered package updates Qwen only; empty HPC_Task is owner scope, not an organiser exemption. [Clarification](contest-scoring-and-tracks-20261020.md).
 
 English artifacts, Vietnamese chat. This session owns GPU/AI research; the separate HPC session owns OpenFOAM. HPC_Task updates belong to the separate HPC worker; the earlier empty-folder statement describes the previous AI-only delivery, not a live cross-track status claim. The owner authorised a full submission update on 21 October; the previous no-edit restriction is superseded. **Autopilot OFF**: no background Codex, schedules or automatic chat notification. Preserve VPN/authentication and exclude session/credential state. Explicit safe small capture/commit/push checkpoints; Git carries external-object manifests, not sibling artifact bytes (separate off-host backup still needed). [Policy](../research-autopilot/POLICY.md).
+
+
+Latest PBS budget supersedes the earlier dated snapshots: before 223132, published
+Used **46381.861 SU**, Balance **17618.139 SU**, In Doubt zero. Unique posted
+14.151-SU charge reconciles 223097 and releases its old maximum. New 223132 reserves
+42.666667 SU, leaving **4575.472333 SU** under the unchanged 51000 cap/13000 reserve.
+No HPC CPU spending or access. Review the new native-registration/DRAM probe
+before a full-model integration decision; semantic pair warmup gate remains
+prospective until deployed in a fresh full-model bundle.
