@@ -76,3 +76,6 @@ Used **46381.861 SU**, Balance **17618.139 SU**, In Doubt zero. Unique posted
 No HPC CPU spending or access. Review the new native-registration/DRAM probe
 before a full-model integration decision; semantic pair warmup gate remains
 prospective until deployed in a fresh full-model bundle.
+
+
+[22 October full N60 review and phase-aligned evidence](../reports/research-journey-20261019/journal/entries/20261022-h200-wave-review.md) closes unchanged both-HPC8192 and power_of_two losses. All in-score metrics scrapes are HTTP200 with actual payloads; error-path-only status parsing was corrected. GPU activity, allocated VRAM and KV token occupancy remain distinct, and diagnostic trace contents were not inspected. Client concurrency60 corresponds to control sampled decode running40–52, not automatically a batch of60.

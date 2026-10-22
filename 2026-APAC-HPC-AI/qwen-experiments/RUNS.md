@@ -2271,4 +2271,4 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 
 ## Actual small KV descriptor gate — 2026-10-21T20:01:48.672327+00:00
 
-223097.pbs111 passes all24 native descriptor writes and independent GPU byte checks,199 seconds / estimated14.151111 SU; posted credit reconciliation is pending. No inference or new score. [Full result, observability correction and next registration/aux hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Preserve raw evidence and the five pending H200 positions.
+223097.pbs111 passes all 24 native descriptor writes and independent GPU byte checks, 199 seconds / estimated 14.151111 SU; posted credit reconciliation is pending. No inference or new score. [Full result, observability correction and next registration/aux hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Preserve raw evidence and the five pending H200 positions.

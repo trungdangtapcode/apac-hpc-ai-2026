@@ -46,7 +46,7 @@ There is no inference request, latency/SLA sample, goodput or contest score.
 
 Together with 223091, this removes a simple reproducible base-transfer or
 small-descriptor arithmetic failure on these selected node pairs. It does not
-clear the earlier failed019/031 pair, native full model startup, large pools,
+clear the earlier failed 019/031 pair, native full model startup, large pools,
 190 separate layer registrations, CPU auxiliary transfers or actual eight-rank
 bootstrap/concurrency. It is not EAGLE3 equivalence or performance proof.
 

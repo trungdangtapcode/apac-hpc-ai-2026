@@ -118,3 +118,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [21 October: native KV registration and host auxiliary preflight](entries/20261021-nixl-native-registration-plan.md).
 
 - [21 October: native registration/DRAM gate receipt 223132](entries/20261021-nixl-native-registration-receipt.md).
+
+- [22 October: four full N60 reviews and phase-aligned telemetry](entries/20261022-h200-wave-review.md).

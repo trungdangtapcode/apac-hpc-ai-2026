@@ -4,7 +4,7 @@ Recorded 2026-10-21T20:01:48.672327+00:00. Prior question/change/control and rec
 [plan](20261021-nixl-descriptor-plan.md) and
 [submission](20261021-nixl-descriptor-receipt.md).
 
-**223097.pbs111: F/exit0, 199 seconds, estimated14.151111 SU.** All24 actual
+**223097.pbs111: F/exit0, 199 seconds, estimated 14.151111 SU.** All 24 actual
 native KV descriptor writes pass, three geometries × eight virtual TP routes,
 9056 descriptor pairs, 2318336 bytes. Both GPUs/nodes/source identities
 and all whole-allocation destination hashes match. Head and local independent
@@ -17,16 +17,16 @@ Automatic coarse PBS counters exist but lack matched coverage and have anomalous
 durations; the frozen collector's broad no-telemetry sentence is superseded by
 the precise review. No inference, score, SLA or official accuracy measurement.
 
-The ledger has not uniquely posted this charge at20:00 UTC: retain42.666667 SU
-maximum, leaving4589.623333 SU headroom before any new reservation. GPU PBS queue
+The ledger has not uniquely posted this charge at 20:00 UTC: retain42.666667 SU
+maximum, leaving 4589.623333 SU headroom before any new reservation. GPU PBS queue
 is empty, and no HPC CPU resource is queried. Actual native source confirms
 draft descriptor lists are appended to target lists, while the patched sender
 uses scalar strides; [static review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/kv-geometry-review-20261021/REPORT.md) distinguishes inference from
 missing actual KVArgs capture.
 
 Decision: do not repeat the unchanged full model. Validate one distinct bounded
-component for190 real tiny KV registrations and DRAM auxiliary transfer, then
+component for 190 real tiny KV registrations and DRAM auxiliary transfer, then
 reserve/submit only after CPU gates and a fresh locked queue/ledger check. The
 new semantic pair receipt gate must be included before a future full integration
-retry. H200 full incumbent3023.072304 and H100 incumbent2433.019859 good output
+retry. H200 full incumbent 3023.072304 and H100 incumbent 2433.019859 good output
 tokens/s remain unchanged; five H200 positions are preserved.
