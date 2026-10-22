@@ -1,0 +1,148 @@
+#!/bin/bash
+# Unsubmitted same-partition default placement versus runtime rank binding screen.
+#PBS -N tu-cpu-RP128
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=excl
+#PBS -l walltime=00:29:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$RUN"
+mkdir -p "$RUN"
+BATCH_START_EPOCH=$(date +%s)
+python3 "$ROOT/batch-lifecycle.py" start "$RUN"
+finish_wrapper() {
+    local status=$?
+    set +e
+    python3 "$ROOT/batch-lifecycle.py" finish "$RUN" "$status"
+    exit "$status"
+}
+# PBS walltime is the hard stop. This EXIT trap records wrapper state on normal
+# shell exit, but cannot be relied on after scheduler SIGKILL/node failure.
+trap finish_wrapper EXIT
+remaining_seconds() {
+    local elapsed=$(( $(date +%s) - BATCH_START_EPOCH ))
+    echo $(( 1710 - elapsed ))
+}
+run_remaining() {
+    local left
+    left=$(remaining_seconds)
+    test "$left" -gt 0
+    timeout --signal=TERM --kill-after=15s "${left}s" "$@"
+}
+
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+# Identical transport settings in both arms; this is not an SRX-off tactic.
+export FI_VERBS_PREFER_XRC=0 FI_OFI_RXM_USE_SRX=1
+test "$OMP_NUM_THREADS" = 1
+test "$FI_VERBS_PREFER_XRC" = 0
+test "$FI_OFI_RXM_USE_SRX" = 1
+cd "$ROOT"
+run_remaining python3 verify-inputs.py > "$RUN/source-validation-before.json"
+SOURCE_CASE=$(python3 -c 'import json;print(json.load(open("inputs.json"))["source_case"])')
+{ date -u; hostname; module list 2>&1; lscpu; env | sort | grep -E '^(FI_VERBS_PREFER_XRC|FI_OFI_RXM_USE_SRX|OMP_NUM_THREADS|MKL_NUM_THREADS|OPENBLAS_NUM_THREADS|WM_NCOMPPROCS)='; } > "$RUN/environment.log"
+if [ -n "${PBS_NODEFILE:-}" ]; then cat "$PBS_NODEFILE" > "$RUN/pbs-nodefile.txt"; fi
+
+# Require the native default placement to establish the assumed 8x16 topology.
+run_remaining mpirun -np 128 python3 "$ROOT/rank-probe.py" > "$RUN/default-rank-placement.jsonl" 2> "$RUN/default-rank-placement.stderr"
+run_remaining python3 "$ROOT/validate-rank-probe.py" default "$RUN/default-rank-placement.jsonl" > "$RUN/default-rank-placement-validation.json"
+run_remaining python3 "$ROOT/render_binding.py" "$ROOT/placement-screen.json" "$RUN/default-rank-placement.jsonl" > "$RUN/rendered-binding.json"
+CANDIDATE_BIND=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["pals_cpu_bind_argument"])' "$RUN/rendered-binding.json")
+test "${CANDIDATE_BIND#list:}" != "$CANDIDATE_BIND"
+# Verify the exact proposed mapping on the actual allocation before any init.
+run_remaining mpirun -np 128 --cpu-bind "$CANDIDATE_BIND" python3 "$ROOT/rank-probe.py" > "$RUN/candidate-rank-placement.jsonl" 2> "$RUN/candidate-rank-placement.stderr"
+run_remaining python3 "$ROOT/validate-rank-probe.py" candidate "$RUN/candidate-rank-placement.jsonl" "$RUN/rendered-binding.json" > "$RUN/candidate-rank-placement-validation.json"
+
+phase() { printf '%s %s\n' "$(date -u +%FT%TZ)" "$1" | tee -a "$RUN/phases.log"; }
+run_stage() {
+    local role=$1 label=$2 log=$3
+    shift 3
+    local left
+    left=$(remaining_seconds)
+    test "$left" -gt 0
+    phase "$label"
+    if [ "$role" = candidate ]; then
+        /usr/bin/time -v timeout --signal=TERM --kill-after=15s "${left}s" \
+            mpirun -np 128 --cpu-bind "$CANDIDATE_BIND" "$@" > "$log" 2>&1
+    else
+        /usr/bin/time -v timeout --signal=TERM --kill-after=15s "${left}s" \
+            mpirun -np 128 "$@" > "$log" 2>&1
+    fi
+    python3 - "$log" <<'PY_LOG'
+from pathlib import Path
+import re,sys
+s=Path(sys.argv[1]).read_text()
+assert re.search(r'^End\s*$',s,re.M) and 'FOAM FATAL' not in s and 'died from signal' not in s
+assert 'OPENFOAM=2512' in s and 'scalar=64' in s
+assert re.search(r'^nProcs\s*:\s*128\s*$',s,re.M)
+PY_LOG
+}
+
+# Make distinct per-job working cases so both arms start from the same accepted
+# source and neither can alter that source or share solver output with the other.
+shopt -s nullglob
+PROCESSOR_DIRS=("$SOURCE_CASE"/processor[0-9]*)
+test "${#PROCESSOR_DIRS[@]}" -eq 128
+for role in control candidate; do
+    CASE="$RUN/$role-case"
+    mkdir -p "$CASE"
+    run_remaining cp -a --reflink=auto "$SOURCE_CASE/CUT_READY.json" "$SOURCE_CASE/system" \
+        "$SOURCE_CASE/constant" "$SOURCE_CASE/0.orig" "${PROCESSOR_DIRS[@]}" "$CASE/"
+    run_remaining python3 "$ROOT/verify-inputs.py" "$CASE" > "$RUN/$role-copy-validation.json"
+done
+
+# Explicitly restore both accepted 40-step artifacts to original zero-time
+# fields; they had been initialized in earlier runs. Compare seals before init.
+for role in control candidate; do
+    CASE="$RUN/$role-case"
+    mkdir -p "$RUN/$role-init"
+    cd "$CASE"
+    phase "${role}_restore_zero"
+    run_remaining bash -ec '. "$WM_PROJECT_DIR/bin/tools/RunFunctions"; restore0Dir -processor' \
+        > "$RUN/$role-init/restore0Dir.log" 2>&1
+    run_remaining python3 "$ROOT/field-seal.py" "$CASE" "$RUN/$role-restored-fields.json"
+done
+run_remaining python3 - "$RUN/control-restored-fields.json" "$RUN/candidate-restored-fields.json" <<'PY_FIELDS'
+import json,sys
+a=json.load(open(sys.argv[1]))['files'];b=json.load(open(sys.argv[2]))['files']
+assert a==b, 'Restored zero-time input fields differ between arms'
+PY_FIELDS
+
+# Full mandatory initialization in each arm. Candidate rank binding is applied
+# to every MPI initialization command and the later solver.
+for role in control candidate; do
+    CASE="$RUN/$role-case"
+    cd "$CASE"
+    run_stage "$role" "${role}_renumber" "$RUN/$role-init/renumberMesh.log" \
+        renumberMesh -constant -overwrite -parallel
+    run_stage "$role" "${role}_potential" "$RUN/$role-init/potentialFoam.log" \
+        potentialFoam -initialiseUBCs -parallel
+    run_stage "$role" "${role}_boundary" "$RUN/$role-init/applyBoundaryLayer.log" \
+        applyBoundaryLayer -ybl 0.0450244 -parallel
+    run_remaining python3 "$ROOT/field-seal.py" "$CASE" "$RUN/$role-before-solve.json"
+    run_remaining foamDictionary system/controlDict -entry startFrom -set startTime \
+        > "$RUN/$role-init/control-set.stdout" 2> "$RUN/$role-init/control-set.stderr"
+    run_remaining foamDictionary system/controlDict -entry endTime -set 40 \
+        >> "$RUN/$role-init/control-set.stdout" 2>> "$RUN/$role-init/control-set.stderr"
+    mkdir -p "$CASE/logFiles"
+    run_stage "$role" "${role}_simpleFoam" "$CASE/logFiles/simpleFoam.log" \
+        simpleFoam -parallel
+    run_remaining python3 "$ROOT/validate-solve.py" "$CASE" "$RUN/$role-semantic-result.json" \
+        > "$RUN/$role-semantic-result.stdout.json"
+    phase "${role}_zero_field_verification"
+    run_remaining python3 "$ROOT/field-seal.py" "$CASE" "$RUN/$role-after-solve.json" \
+        "$RUN/$role-before-solve.json"
+done
+
+# Recheck the accepted source manifest after both isolated copies have run.
+run_remaining python3 "$ROOT/verify-inputs.py" "$SOURCE_CASE" > "$RUN/source-unchanged-validation.json"
+phase pair_complete
+printf 'CPU_RANK_PLACEMENT_PAIR128_PASS\n'

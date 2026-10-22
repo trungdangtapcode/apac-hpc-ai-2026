@@ -178,3 +178,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: redacted native KV registration geometry before H200 EAGLE3](entries/20261022-h200-kv-geometry-preparation.md).
 
 - [22 October: six completed rank/method reviews change the observed two-node leader](entries/20261022-hpc-density-method-review.md).
+
+- [22 October: fix and qualify the unsubmitted same-partition CPU binding pair](entries/20261022-hpc-placement-pair-qualified.md).
