@@ -1,0 +1,7 @@
+# 22 October: full N64 evidence and interpretation
+
+The prior short screen favored N64 by 2.861439%, but required full matched confirmation. Fresh full observed N62 25365 and full N64 25366 preserve serving/observer bytes and full 60/120/30 protocol; client concurrency is the changed factor. N64 scores 3044.489701 versus 3011.875113 good output tokens/s, a 1.082867% gain. Joint SLA is 98.633018% versus 98.722725%; both have zero errors/cancellations. N64 TTFT mean/p95 is 1110.463377/1351.632306 ms; request-mean ITL mean/p95 is 15.002881/15.163328 ms. All 26 N64 failures are TTFT breaches.
+
+This is a small accepted full improvement, not a proven plateau or global optimum. It passes the 1% practical confirmation gate, motivating independent full N64 repeat 25373 and unranked same-deployment N64/N68 screen 25371. No primary promotion before replication review. Official accuracy remains unverified.
+
+All terminal raw hashes are verified before archive capture. Preserve the original exported output-length histogram (1898×200, 3×199, 1×198) and nominal 200-token request settings. No actual generated-ID-count evidence exists for these performance exports. Do not filter out early failures or alter the Goodput × 200 rule. Raw score checks and bounded runtime-log searches pass; deeper sampled observability is a separate explicit inspection with its own limits. The raw artifacts, formal proof, accounting and review are retained under `research-review-25366-20261022` and `runs/25366`.
