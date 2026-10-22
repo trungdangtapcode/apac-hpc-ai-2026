@@ -144,3 +144,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: native H200 EAGLE3 correctness design and limits](entries/20261022-eagle3-h200-port-decision.md).
 
 - [22 October: full N64 independent replication passes](entries/20261022-n64-repeat-pass.md).
+
+- [22 October: short N68 gate and full-pair decision](entries/20261022-n68-screen-pass.md).

@@ -1,0 +1,5 @@
+# Local review metadata correction
+
+Root integration caught inconsistent derived metadata before any full followup was frozen or submitted. The first short-review JSON had the computed 2.27346% gain and a true one-percent gate, but a stale literal assessment incorrectly said the gain was below 1%; its state/key names also differed from the established full-followup contract. The first local prepare therefore stopped at its guard, before creating a payload or GPU job. The associated checkpoint selection was not produced, and an empty failed checkpoint directory is retained rather than rebuilt.
+
+The review now asserts normalized protocol equality, both local SLA/output gates and long-context pass, uses the established local-pass state and practical-gate key, and derives assessment/next decision from the actual gain. All inherited raw request/payload/runtime checks remain unchanged. Raw artifacts and their seal are unchanged. Root replay is required before preparation; this corrects derived metadata, not a measured result or acceptance threshold.
