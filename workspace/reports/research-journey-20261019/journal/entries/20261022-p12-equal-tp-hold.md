@@ -1,0 +1,11 @@
+# 22 October: withhold P12/D4 after source-level transport review
+
+The hypothesis was to combine three TP4 DeepGEMM prefills with one TP4/EP4 HPC-Ops decode, shifting four GPUs from decode to prefill under the current stack. Old auto-backend P12/D4 measurements were poor, but did not test this interaction. A prospective matched short N60 pair was drafted, not submitted.
+
+Inspection found a distinct setup risk: current production TP4→TP8 peers use the patched heterogeneous on-demand descriptor path. The proposed TP4→TP4 peers enter the unchanged equal-TP preparation path, which enumerates every KV slot across every registered layer region. For a 94-layer K/V rank, an illustrative 188 × S descriptors per handle are created for S slots per region. NumPy alone needs at least 48 bytes per descriptor at construction peak from region tables plus their stacked copy, excluding temporary arrays and NIXL overhead. At an illustrative 100000 slots this is at least 0.9 GB per rank/handle; at 1000000 slots, at least 9 GB. These are source-based examples, not actual candidate pool sizes.
+
+There is no per-call descriptor-count, host-memory or setup-time cap in that path. Actual candidate pool geometry and setup memory/time are unmeasured, and the current score reviewer also assumes at most two prefills and TP8 decode. These are reasons to withhold a full-model screen rather than spend GPU time on an unbounded proposal. No NIXL transport code was changed, no failed GPU score is claimed, and no queue position or budget was touched.
+
+The seven existing CPU structural fixtures pass, as do immutable source hashes, reviewed-control gates and placement checks. Mutable proposals retain the original digest inventory as SOURCE_SHA256SUMS; they have no valid submission manifest. Bootstrap ports preserve existing 9000/9001 and add 9002, with decode bootstrap 0 unused. The detailed plan, proposal source, validations and limitations are preserved in `research-followup-20261022-p12-hpc`.
+
+Revisit only after deriving bounded actual pool geometry and independently supporting the new topology in the reviewer, or through a separately reviewed transport design. Meanwhile accepted N64 replication 25373 and N64/N68 screen 25371 answer supported load hypotheses without changing transport geometry. Official accuracy remains unverified.
