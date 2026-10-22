@@ -13,6 +13,14 @@ ROOT=$PBS_O_WORKDIR
 RUN="$ROOT/runs/${PBS_JOBID%%.*}"
 test ! -e "$RUN"
 mkdir -p "$RUN"
+python3 "$ROOT/batch-lifecycle.py" start "$RUN"
+finish_wrapper() {
+ local result=$?
+ set +e
+ python3 "$ROOT/batch-lifecycle.py" finish "$RUN" "$result"
+ exit "$result"
+}
+trap finish_wrapper EXIT
 if . /app/apps/resetmodule; then :; else exit 1; fi
 module load openfoam/2512
 test "$WM_PROJECT_VERSION" = 2512
@@ -54,6 +62,8 @@ for role in control candidate; do
  ART=$(python3 -c "import json;print(json.load(open('$ROOT/inputs.json'))['$role'])")
  mkdir -p "$RUN/${role}-init"
  cd "$ART"
+ . "$WM_PROJECT_DIR/bin/tools/RunFunctions"
+ restore0Dir -processor > "$RUN/${role}-init/restore0Dir.log" 2>&1
  run_stage "${role}_renumber" "$RUN/${role}-init/renumberMesh.log" renumberMesh -constant -overwrite -parallel
  run_stage "${role}_potential" "$RUN/${role}-init/potentialFoam.log" potentialFoam -initialiseUBCs -parallel
  run_stage "${role}_boundary" "$RUN/${role}-init/applyBoundaryLayer.log" applyBoundaryLayer -ybl 0.0450244 -parallel
