@@ -1,3 +1,5 @@
+> Historical 15:07 UTC launch decision. Later native reviews and the 15:35 UTC shared queue (3 running / 9 queued) are recorded in [HPC_CURRENT](/home/apacsc42/workspace/notes/HPC_CURRENT.md). The launch remains unsubmitted pending coordination; no prior evidence was erased.
+
 # 22 October continuation: native results recovered, next launch deferred for coordination
 
 Access is restored. Native default-versus-NUMA evidence shows **13.880988 vs 14.358715 s/step**, a **3.4416% NUMA slowdown** in one ordered pair. Keep the losing branch and all samples; no reverse test or causal bottleneck proof. N256 native preparations also pass: default cross-group faces99,591 versus hierarchical717,233, while the node-aware tree worsens that objective to127,359. Prioritize default-versus-hierarchical full two-node timing, not blind promotion of a graph tuning.

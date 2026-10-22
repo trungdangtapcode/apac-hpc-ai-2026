@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-22T15:28:26.661074+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
+Updated 2026-10-22T15:38:40.906272+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
 
 ## Current continuation checkpoint — 22 October
 
@@ -8,11 +8,11 @@ VPN/CPU SSH restored and healthy connections preserved. Old jobs 25907753/259077
 
 **Newly reviewed shared runs:** 25921487 (one node, 128 ranks, 40 steps) **14.450756959 seconds/step**; 25921492 (two nodes, 256 ranks, 80 steps) **7.462835189 seconds/step**. PBS F/exit 0, full native work/source/timer/finite-force checks pass. These are useful native observations with missing frozen submission, stage-return, mesh-seal and rank-affinity evidence; not fully accepted scores. One-node best observed timing remains 13.880988254. The 1.936 endpoint ratio is descriptive across allocations, not controlled same-work speedup. Two-node p95 **8.327817 s**, max **16.397209 s at Time 12**, all samples retained. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/shared-cpu-intake-20261022/RESULTS.md).
 
-**Queue snapshot, 15:21 UTC:** six other submissions pending from apac2026/hpc/job_scripts: S4 at 64/96/128 ranks per node, plus H1/H2/H4. Five report node_pool insufficiency; H1 reports qdev aggregate CPU capacity. Ownership remains unconfirmed; preserve all existing work. Do not add jobs, silently fund these through this worker's ledger or infer a budget/cap increase from continue. Snapshot is dated, not a promise of current live state.
+**Latest queue snapshot, 15:35:36 UTC:** **3 running / 9 queued** other CPU submissions from apac2026/hpc/job_scripts, beyond this worker's receipts/ledger. The earlier six-pending snapshot at 15:21 is historical. Work now includes hierarchical and Scotch endpoint/rank-density branches. Ownership remains unconfirmed; owner asked to identify the controller before more spending. Preserve all existing jobs; do not silently fund them through our ledger or infer a budget/cap increase from continue. [Dated metadata](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/shared-cpu-intake-20261022/queue-project-20261022T1535.json).
 
 **Ready but unsubmitted:** full matched H/default-S two-node pair, 80 steps each, maximum **170.666667 SU**, staged and hash-verified with durable wrapper lifecycle. No intent, reservation or qsub was created. Our ledger remains conservative **170.866667 / 1,000 SU** committed; project reporting is still stale as of 21 October. Fresh ownership/cost/capacity coordination is needed before this launch. [Launch decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/CURRENT_DECISION.md).
 
-**Active offline improvement:** screen rank-to-NUMA placement on unchanged default-Scotch partitions, so lower logical cut does not require the extra total faces of the losing decomposition. Graph improvement is not measured solve speedup. [Reviewed transport comparison](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/next-hypothesis-20261022/REPORT.md) is a later costed option, not a new submission or claim that SRX-off is untested. No four-node score yet.
+**New offline candidate, not a timing result:** unchanged default-Scotch rank placement screen reduces logical cross-NUMA-group faces **371,658 → 354,658 (4.5741%)**, preserving total faces/cells/partitions. Initial 0.8137% attempt retained; warm-start descent improves the heuristic. Mapping/rendering independently qualified, PALS 1.1.6 binding syntax checked read-only; actual fresh-allocation binding and solve benefit are unverified. Conditional same-node 40+40-step pair maximum **61.866667 SU**, unsubmitted and unreserved. [Plan, limits and stopping rule](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/rank-placement-screen-20261022/PLAN.md). A separate [controlled transport proposal](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/next-hypothesis-20261022/REPORT.md) remains deferred; SRX-off is already used. No four-node score yet.
 
 ## Historical pipeline snapshot — verified 21 October
 

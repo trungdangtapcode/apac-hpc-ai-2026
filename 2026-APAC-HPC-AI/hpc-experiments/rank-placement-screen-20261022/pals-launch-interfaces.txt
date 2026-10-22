@@ -1,0 +1,76 @@
+Unload all loaded modules..
+Load default modules..
+/opt/cray/pe/pals/1.1.6/bin/mpirun
+mpiexec version 1.1.6
+Usage: mpiexec [global_options] [command_options] cmd1
+    [: [command_options] cmd2 [: ...] ]
+
+GLOBAL OPTIONS
+
+:                     Multiple Program Multiple Data separator
+--hosts               Comma-separated list of node hostnames
+--hostfile            File containing list of node hostnames
+--configfile          File containing list of MPMD commands
+--env                 Set an env var (VAR=VAL format)
+--envlist             Comma-separated list of env vars to export
+--envall              Export all env vars (default)
+--envnone             Export no env vars
+--transfer            Transfer executables (default)
+--no-transfer         Don't transfer executables
+--cpu-bind            Bind ranks to CPUs (deprecated)
+--mem-bind            Bind ranks to NUMA nodes (deprecated)
+--depth               CPUs per rank
+--label               Add node and rank labels output
+--no-label            Don't add labels to output (default)
+--include-tasks       List of ATOM tasks to run
+--exclude-tasks       List of ATOM tasks to skip
+--exclusive           Require exclusive node access
+--shared              Shared node access (default)
+--line-buffer         Line buffered mode for stdio
+--no-line-buffer      Fully buffered stdio (default)
+--abort-on-failure    Abort on rank failure (default)
+--no-abort-on-failure Continue running on rank failure
+--pmi                 PMI type (cray, pmix, none)
+--restart             Restart if a failure is detected
+--rlimits             Comma-separated list of rlimits to export
+--sstartup            Enable Scalable Start Up
+--no-sstartup         Disable Scalable Start Up
+--traffic-classes     Network QoS (low_latency, bulk_data, etc)
+--network             Configuration parameters for the NICs
+-v, --verbose         More verbose output
+-V, --version         Print version and exit
+-h, --help            Print this message and exit
+
+COMMAND OPTIONS
+
+-n, --np              Number of ranks
+--ppn                 Ranks per node
+--umask               File creation mask
+--wdir                Working directory
+
+--cpu-bind            Bind ranks to CPUs
+--mem-bind            Bind ranks to NUMA nodes
+CPU BINDING
+
+The --cpu-bind option is formatted as
+[verbose,]<keyword>[:arguments]
+
+Keywords:
+
+* none - No CPU binding.
+* numa, socket, core, thread - Bind ranks to the specified hardware.
+* depth - Bind ranks to number of threads in 'depth' argument.
+* list - Bind ranks to colon-separated rangelists of CPUs.
+* mask - Bind ranks to comma-separated bitmasks of CPUs.
+
+MEMORY (NUMA NODE) BINDING
+
+The --mem-bind option is formatted as
+[verbose,]<keyword>[:arguments]
+
+Keywords:
+* none - No memory binding.
+* local - Restrict each rank to use only its own NUMA node memory.
+* list - Bind ranks to colon-separated rangelists of NUMA nodes.
+* mask - Bind ranks to comma-separated bitmasks of NUMA nodes.
+

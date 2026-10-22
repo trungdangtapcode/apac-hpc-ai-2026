@@ -168,3 +168,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: native H200 reference receipt 25495](entries/20261022-h200-reference-receipt.md).
 
 - [22 October: costed, deferred same-allocation SRX transport hypothesis](entries/20261022-hpc-controlled-transport-plan.md).
+
+- [22 October: refine an offline rank-placement candidate from 0.81% to 4.57% fewer logical crossing faces](entries/20261022-hpc-rank-placement-screen.md).
