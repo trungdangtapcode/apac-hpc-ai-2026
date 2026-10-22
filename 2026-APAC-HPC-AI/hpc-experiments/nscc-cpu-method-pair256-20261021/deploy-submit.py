@@ -106,11 +106,13 @@ with CPU_LOCK.open("a") as lock:
     if parent_process.returncode == 0:
         parent = json.loads(parent_process.stdout)["Jobs"][DEPENDENCY]
         assert str(parent["project"]) == "59000042" and parent["job_state"] == "F" and parent["Exit_status"] == 0
+        parent_state = "F"
         dependency_satisfied = True
         dependency_history_unavailable = False
     else:
         assert "Unknown Job Id" in parent_process.stderr, parent_process.stderr
         assert preparation["state"] == "NATIVE_THREE_CUTS_EVIDENCE_PASS_SCHEDULER_HISTORY_UNAVAILABLE"
+        parent_state = "HISTORY_UNAVAILABLE"
         dependency_satisfied = False
         dependency_history_unavailable = True
     # Fresh runtime input/rank checks and complete initialization validate the prepared data;
@@ -150,6 +152,7 @@ with CPU_LOCK.open("a") as lock:
         "dependency_job": DEPENDENCY,
         "dependency_already_satisfied": dependency_satisfied,
         "dependency_scheduler_state": parent_state,
+        "dependency_history_unavailable": dependency_history_unavailable,
         "preparation_review": str(PREPARATION_REVIEW),
         "preparation_review_state": preparation["state"],
         "budget_schema": budget["schema"],

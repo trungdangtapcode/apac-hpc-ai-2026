@@ -1,14 +1,18 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-22T14:16:12.096147+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
+Updated 2026-10-22T15:07:29.494177+00:00. This is the HPC session; GPU/Qwen remains owned by its separate worker. English artifacts, Vietnamese chat. No background Codex or schedules.
 
-## Current access checkpoint — 22 October
+## Current continuation checkpoint — 22 October
 
-VPN currently unavailable. Fresh collection of 25907753 and 25907772 stopped before SSH/PBS; current scheduler states and new results are **unknown**, not failed or completed by inference. A brief separate VPN client later exited; exact cause/lifetime is not established. Preserve private cache and all existing reservations. Owner asked whether DUO approval is available; no new authentication was initiated by the HPC worker. [Safe access evidence and next actions](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/REPORT.md).
+VPN and CPU SSH restored; healthy connections left running. Old job IDs are no longer in PBS history, but **127 pair + 284 preparation scratch artifacts** are sealed and native reviewers pass without claiming final PBS state/cost.
 
-Three-cut review.py and H/S256 deploy-submit.py/review.py are implemented and root-reviewed. The 80-step semantic validator accepts both immutable organizer reference logs and rejects changed fixed work. These are parser qualifications, not new timing results. H/S256 remains ready **but not submitted**, awaiting actual prep review and fresh budget/queue checks. [Pre-submission review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair256-20261021/PRE_SUBMIT_REVIEW.md).
+**NUMA configuration loses:** default **13.880988254 s/step**, NUMA **14.358715 s/step**, **3.4416% slower** in the ordered pair. Original work/output/stage exits/field/physical placement gates pass. Close this unchanged NUMA branch; retain its data. [Result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-scotch-numa-pair128-20261021/RESULTS.md).
 
-NUMA metadata correction is dated separately; actual frozen payload/input hashes agree. [Correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/PROVENANCE_CORRECTION.md). All reported measurements below remain historical until a fresh review.
+**N256 input evidence passes:** H/default/node-aware cross-group faces **717,233 /99,591 /127,359**. Default is the network-cut lead; physical host mapping still needs the launch probe. Node-aware tuning is not a cross-node-cut winner. [Result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-three-cuts256-20261021/RESULTS.md).
+
+**Ready but not submitted:** full two-node H/default-S, 80 steps each, maximum 170.666667 SU. Bundle verified on scratch, wrapper lifecycle/resource capture added before first submission. Fresh queue guard then found five newer OpenFOAM jobs from another work root and stopped before intent/reservation/qsub. Existing jobs are preserved; owner asked which worker is using the shared account. Current CPU occupancy/budget must be coordinated before adding more jobs. [Snapshot and launch decision](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-check-20261022/CURRENT_DECISION.md).
+
+Current own ledger remains conservative **170.866667 / 1,000 SU** committed; no speculative reconciliation or budget increase. Historical active/held table below is 21 October only. Do not describe the restored connection as currently down.
 
 ## Historical pipeline snapshot — verified 21 October
 
@@ -26,7 +30,7 @@ Parent runs on x1001c7s5b1n0. Follower's Hold_Types=d is intentional: PBS depend
 
 - **25905114**: first native ASPIRE CPU hierarchical baseline, full init + 40 steps, **14.9219814004 s/step**, Cd **0.4389323284**, 728 s allocation, estimated 25.884444 SU. All fixed-work/output gates pass.
 - **25907325**: matched H→S pair on one node, H **14.7872238123**, S **14.6402329083 s/step**, observed **0.994% saving**, not stable proof. S step 9 = **21.120703 s**, native sample confidence warning (50 needed vs 39). Cd H **0.4389323284**, S **0.4359888360**; both native work/output/hash gates pass. **1373 s**, estimated 48.817778 SU. [Detailed inspection](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-method-pair128-20261021/RESULTS.md).
-- **25907688**: NUMA tree (8 16) prep passes all preregistered graph filters. Cross-group faces **332,157 vs 371,658** (−10.6283%), total faces **1,570,175 vs 1,549,377** (+1.3423%), cell max excess 1.0055%, max neighbors 32 vs 35. **385 s**, estimated 3.422222 SU. No NUMA solver gain yet. [Native result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/RESULTS.md).
+- **25907688**: NUMA tree (8 16) prep passes all preregistered graph filters. Cross-group faces **332,157 vs 371,658** (−10.6283%), total faces **1,570,175 vs 1,549,377** (+1.3423%), cell max excess 1.0055%, max neighbors 32 vs 35. **385 s**, estimated 3.422222 SU. Later native solve review found a slowdown; see current checkpoint. [Native result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-numa-scotch128-20261021/RESULTS.md).
 - **2293754 Iris practice**: 56 MPI/40 steps, 21.9653538363 s/step, Cd 0.4405543814, full chain passes. Practice only, no score. First CPU diagnostics and all failures remain linked in the log.
 
 These are one-node results, not the scored four-node/150-step result. Atomic diagnostic rank maps establish pre-solve core affinity and grouping, not actual NUMA page residency, solve-time migration, measured MPI waits/traffic or a bottleneck. Hardware counters, bandwidth and power were not collected. Keep all outliers in native Average.

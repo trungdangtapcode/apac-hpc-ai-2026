@@ -1,0 +1,9 @@
+# 22 October continuation: native results recovered, next launch deferred for coordination
+
+Access is restored. Native default-versus-NUMA evidence shows **13.880988 vs 14.358715 s/step**, a **3.4416% NUMA slowdown** in one ordered pair. Keep the losing branch and all samples; no reverse test or causal bottleneck proof. N256 native preparations also pass: default cross-group faces99,591 versus hierarchical717,233, while the node-aware tree worsens that objective to127,359. Prioritize default-versus-hierarchical full two-node timing, not blind promotion of a graph tuning.
+
+The 256-rank / two-node / 80-step H/S pair is prepared and hash-verified in a fresh remote directory, with original zero-field restoration, physical-core/host guards, complete mandatory initialization, all fixed work and durable wrapper lifecycle. Its **170.666667-SU** maximum is **not reserved** and no new job was submitted. Fresh account queue checks found other untracked OpenFOAM jobs and stopped safely. Existing jobs remain untouched.
+
+Old PBS history is unavailable; scratch native proof is reviewed separately from scheduler/accounting proof. Our ledger retains **85 SU conservative consumed + 85.866667 SU requested maxima =170.866667 /1,000 SU**. Current actual usage is not inferred from stale myprojects output. Other shared-project jobs are not silently added or funded through this ledger; coordinate ownership and total cost before further submissions. The owner's expanded research direction remains active within agreed caps.
+
+Next: clarify shared CPU ownership, inspect/reuse legitimate existing work rather than duplicate it, then refresh real queues/project budget and submit the ready matched baseline when allowed. No AI changes or background Codex. All safe raw evidence, reasoning and orchestration are captured/verified/committed/pushed as separate milestones. External artifact store is not automatically uploaded by Git.
