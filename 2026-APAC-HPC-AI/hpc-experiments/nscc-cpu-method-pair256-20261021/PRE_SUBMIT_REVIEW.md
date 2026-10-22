@@ -1,0 +1,7 @@
+# Two-node pre-submission review, 22 October
+
+Three bounded subagents independently implemented the three-cut reviewer, two-node submission/reviewer tools, and static provenance audit. Root review corrected an invalid assumption that processor fields are downloaded (they are intentionally excluded) and removed a lexical/numeric directory comparison trap. Native frozen check-cut gates, CUT_READY, 256 logged cell records and sealed boundary hashes carry that evidence, with the collection limit explicit.
+
+The submit helper accepts a successfully completed prep job even after it leaves qstat -u, binds the reviewed job ID to its fresh PBS history and omits an already-satisfied dependency. A failed or unreviewed prep still blocks submission. It streams archive over SSH stdin, checks returned hashes, locks the CPU ledger, preserves active CPU work/combined PBS capacity, reserves the full 170.666667-SU maximum before exactly one qsub, and retains uncertain outcomes. No submitted payload was changed by this review.
+
+The frozen 80-step semantic validator accepts both pinned organizer ASPIRE two-node reference logs/force outputs, and rejects a changed U fixed iteration in disposable copies. These are parser qualification data, not our new performance results. All three new scripts pass local AST parsing. Full two-node native execution and post-run review remain unmeasured until access is restored and actual evidence is collected. See validator-qualification-20261022.json and ../review-audit-20261022/REPORT.md.
