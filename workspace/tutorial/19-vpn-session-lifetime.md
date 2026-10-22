@@ -68,3 +68,7 @@ The earlier 01:04 connection snapshot is historical. At the owner's explicit req
 ## Owner-authorised restoration on 21 October
 
 [Fresh access record](../notes/vpn-restored-20261021.md): the old pane was dead; only that pane was respawned and private recovery state preserved. Both VPN and SSH authenticated again. Fresh batch SSH reached a2ap-login01 at 09:56:56 UTC. This is a new session, not proof of automatic renewal or the previous negotiated lifetime. No exact expiry or phone-side DUO action was observed. Keep this live connection running.
+
+## Owner-authorised attempt on 22 October
+
+The old client pane was dead. One authorised login attempt preserved private recovery state but ended with gateway `Authentication failed`; the subsequent SSH reachability check timed out. No phone-side DUO action or exact cause was established. This supersedes earlier live-connection snapshots as a current access claim. The requested 86400-second IKE lifetime remains a proposal, not a guaranteed duration. [Safe attempt record](../notes/vpn-access-20261022.md).
