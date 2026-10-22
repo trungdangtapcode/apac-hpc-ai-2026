@@ -1,3 +1,7 @@
+# 22 October continuation: full identity proof and reference diagnostic
+
+Submitted **25495** is an independent native H200 target-only correctness reference (16 GPUs/two nodes/at most 17 minutes/no PBS SU), not a ranked performance job. It is bound to full current hashes for 34 assets (about 263 GB), and requires eight native requests/1600 actual IDs plus independent semantic acceptance. Existing full N64/N68 jobs 25487/25488 remain unchanged. See [receipt](eagle3-h200-reference-run-20261022/RESULTS.md) and [full asset proof](eagle3-h200-reference-assets-20261022/REVIEW.md). Best performance remains reproduced N64; no new output or speedup is claimed at submission. Older dated records below remain historical.
+
 # Latest AI run-index update — 22 October 2026
 
 Full N64 source 25366 and independent repeat 25373 pass at 3044.489701 / 3044.074628 good output tokens/s (mean 3044.282165; repeat −0.013634%), with zero errors and about 98.63% joint SLA. Short N64/N68 job 25371 also passes at +2.273457%, motivating fresh full N64→N68 receipts 25487→25488, each 16 H200 GPUs / two nodes / at most 17 minutes. No full N68 score or official accuracy pass is claimed. Raw artifacts and formal reviews are sealed, captured and indexed. Existing packaged primary remains N62 pending an explicit reviewed AI update. See [current comparison](SERVING_TUNING_RESULTS.md) and [AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md). Dated older snapshots below remain historical.

@@ -164,3 +164,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: full native review of shared Scotch endpoint baselines, tails and CPU costs](entries/20261022-hpc-shared-native-baseline-review.md).
 
 - [22 October: frozen asset-bound H200 exact-reference diagnostic](entries/20261022-h200-reference-freeze.md).
+
+- [22 October: native H200 reference receipt 25495](entries/20261022-h200-reference-receipt.md).
