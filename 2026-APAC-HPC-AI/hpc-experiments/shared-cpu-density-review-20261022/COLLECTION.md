@@ -1,0 +1,7 @@
+# Completed shared CPU rank-density and method evidence
+
+Six new one/two-node jobs are PBS F / exit 0: 25921831, 25921832, 25921833, 25921809, 25921820, 25921822. The read-only collector sealed 399 bounded text members, plus recovery hashes, at 17:24 UTC on 22 October. Full case/system and 0.orig inputs, native stage/solver logs, function-object outputs and sanitized PBS resources are retained; processor fields, mesh binaries, environment/authentication state and runtime caches are excluded. Current script copies are not frozen submission receipts.
+
+Allocated CPU counts are 128 per node, while the experiment MPI ranks may be 64, 96 or 128 per node. Use allocated CPUs for resource/cost estimates and actual MPI ranks for partition/work checks; do not equate them. Compare methods and rank counts only within the same prescribed node/step endpoint, label cross-allocation observations and preserve all outliers. Exit 0 alone is not acceptance. Native validation is a separate milestone.
+
+No remote work, queue, receipt or either budget was changed. These shared job IDs remain outside this worker's submission ledger until ownership/cost coordination is established. The collector verified the remote file hashes after extraction, and evidence-sha256.json seals retained bytes. Do not replace these files or invent missing per-stage return codes, frozen payload, final-field or affinity evidence.

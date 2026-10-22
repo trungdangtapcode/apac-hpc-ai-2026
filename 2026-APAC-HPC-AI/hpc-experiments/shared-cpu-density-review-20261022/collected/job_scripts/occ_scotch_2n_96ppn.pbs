@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N tripleu-occ-s96-2
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=2:ncpus=128:mpiprocs=96:mem=440gb
+#PBS -l place=excl
+#PBS -l walltime=01:00:00
+#PBS -j oe
+
+export NODES=2 NPROCS=192 END_TIME=80 DECOMP_METHOD=scotch HIER_SHAPE="16 8 4"
+bash "$HOME/scratch/apac2026/hpc/job_scripts/run_occ_common.sh"

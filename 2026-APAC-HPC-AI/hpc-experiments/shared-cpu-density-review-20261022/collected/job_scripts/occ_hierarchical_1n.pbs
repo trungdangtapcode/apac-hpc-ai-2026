@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -N tripleu-occ-hier1
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb
+#PBS -l place=excl
+#PBS -l walltime=02:00:01
+#PBS -j oe
+export NODES=1 NPROCS=128 END_TIME=40 DECOMP_METHOD=hierarchical HIER_SHAPE="16 4 2"
+bash "$HOME/scratch/apac2026/hpc/job_scripts/run_occ_common.sh"
