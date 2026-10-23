@@ -176,3 +176,11 @@ The new [research record](../research-journey-20261019/journal/entries/20261023-
 A separate offline screen keeps the 512 partitions unchanged and proposes which ranks share a node. Crossing interface faces fall from 337,324 to 261,110 (22.59% of the old crossing cut; 2.604% of all interface faces). Cell counts per proposed host become slightly less balanced. These are graph diagnostics, not measured communication or speedup. Think of keeping each worker's territory fixed while changing which room that worker occupies.
 
 Before a full solver test, job 25943865 checks a tiny four-rank MPI order change on one CPU node. It depends on confirmation 25940700 and is held until that job finishes. The test reads actual MPI world ranks and verifies host/core placement; a launcher environment rank alone would not establish that MPI applied the order. A successful four-rank probe would still not prove the four-node candidate. The existing confirmation remains queued; no new solver result was obtained during this continuation.
+
+## 23 October — checking both levels of placement
+
+The node-only candidate reduced the host cut while making the same-host NUMA cut worse. A new search keeps its host membership fixed and improves the second level. The [complete trade-off record](../research-journey-20261019/journal/entries/20261023-hpc-fixed-host-numa-tradeoff.md) includes every control, proxy loss, refinement and physical-proof requirement.
+
+![Same partitions, different logical placement](figures/placement-tradeoff.png)
+
+The refined candidate retains 261,110 crossing-host faces and reduces same-host crossing-NUMA faces to 732,712 from 1,097,554. Its NUMA proxy still exceeds the original 710,081. Every bar totals 2,927,022 interface faces; no cells or numerical work were removed. These graph counts are not measured bytes, memory placement or speedup. The later conditional MPI qualification is job 25947168 (afterok both earlier jobs), maximum 25.6 SU; it runs no solver. The plot itself remains an offline graph comparison and carries no performance result.

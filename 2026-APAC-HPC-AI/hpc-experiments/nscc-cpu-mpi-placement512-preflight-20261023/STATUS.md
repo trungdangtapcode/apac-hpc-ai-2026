@@ -1,0 +1,11 @@
+# Four-node MPI placement qualification: submitted, pending prerequisites
+
+Job **25947168.pbs101** was submitted once and is **H/q5** at 2026-10-23T18:15:29.209000Z. Its `afterok` prerequisites are **25940700.pbs101** and **25943865.pbs101**. The parent confirmation is still Q/q5 and the four-rank interface preflight is H/qdev in that snapshot. The system hold is intentional: this larger diagnostic runs only after both earlier jobs exit successfully, keeping one active CPU allocation. Preserve the existing jobs and do not repeat any submission intent.
+
+The request is four exclusive CPU nodes, 128 CPUs/MPI ranks per node, 32 GB per node, no GPUs and three minutes. It reserves **25.6 SU** under the checked rate. The memory request is qualification headroom, not measured RSS. C compilation occurs on the allocated node. Both identity and candidate launches use the same binary, explicit thread binding, single-thread controls, method 3 and SRX-off; only the rank-order file changes.
+
+Each MPI rank reads its own local host/core/NUMA properties. The identity gate requires four hosts with 128 distinct physical cores each and eight domains with 16 ranks/domain. If that assumed topology is absent, it stops before the candidate. The renderer uses those actual slots to implement the refined logical groups while keeping world rank 0 first. The validator independently checks all expected slot fields against the identity records, the full order and every logical group's co-location, in addition to the observed candidate.
+
+Root checks passed source pins and seals, Bash/Python grammar and randomized synthetic fixtures (one positive, seven negative). C syntax passed with synthetic MPI declarations only: no real MPI build, linking, launch or physical mapping has yet been observed. The real MPI-linked probe, terminal PBS accounting and per-command runtime checks remain pending. This runs no OpenFOAM solver, reads no mesh and claims no performance or score.
+
+After reservation, conservative CPU commitment is **4,897.533333 / 5,000 SU**, leaving **102.466667 SU**. Existing uncertain shared maxima remain unchanged. This is an allowance, not a posted charge. No extra full solver job was submitted.

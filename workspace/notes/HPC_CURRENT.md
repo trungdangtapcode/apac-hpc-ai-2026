@@ -1,15 +1,16 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-23T15:53:42.814836+00:00. Session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40 owns HPC/OpenFOAM. AI/Qwen remains with its separate worker. English artifacts, Vietnamese chat. No background Codex, autopilot or schedules.
+Updated 2026-10-23T18:18:38.315145+00:00. Session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40 owns HPC/OpenFOAM. AI/Qwen remains with its separate worker. English artifacts, Vietnamese chat. No background Codex, autopilot or schedules.
 
 ## Live checkpoint
 
-The whitelisted PBS check at **2026-10-23T15:51:33.303663Z** shows:
+The whitelisted PBS check at **2026-10-23T18:15:29.209000Z** shows:
 
 | Job | State | Purpose and interpretation |
 |---|---|---|
 | 25940700.pbs101 | Q/q5 |Four-node default Scotch confirmation, 512 ranks, 150 steps; insufficient node_pool. No new result. Preserve queue position. |
 | 25943865.pbs101 | H/qdev |New four-rank actual MPI_COMM_WORLD reorder preflight, afterany 25940700. Expected dependency hold, not a failed probe. No runtime result. |
+| 25947168.pbs101 | H/q5 |Conditional four-node/512-rank host/core/NUMA placement qualification; afterok both earlier jobs. No solver, result or mapping claim yet. |
 
 [New receipt, frozen source and checks](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-reorder-preflight-20261023/STATUS.md). The preflight requests four CPUs, 4 GB, no GPU and 3 minutes; identity and nonidentity orders share method 3, PALS thread binding, thread controls, binary and allocation. It compiles only on the allocated node. Actual MPI_Comm_rank plus host/affinity/sysfs core identity is authoritative; PMI_RANK alone cannot prove library-level reordering. Do not change either frozen payload or resubmit either intent.
 
@@ -27,9 +28,9 @@ The NUMA decomposition remains closed after its 3.4416% slowdown. Earlier N128 p
 
 ## Budget and access
 
-CPU project 59000042 is separate from AI 59010042. The owner-approved cumulative ceiling remains **5,000 SU**. After the new conservative 6.4 SU reservation, consumed allowance plus all maxima is **4,871.933333 SU**, leaving **128.066667 SU**. Shared unknown maxima 2,389.333333 SU and older own unknown costs are retained, with deliberate possible double counting. The four-rank request's nominal maximum 0.2 SU is not its conservative reservation or a posted charge. [Locked checks](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261023/checkpoint-20261023T1537/budget-check.json) precede the new receipt; the ledger and post-submit summary record the later reservation.
+CPU project 59000042 is separate from AI 59010042. The owner-approved cumulative ceiling remains **5,000 SU**. After the two preflight reservations (6.4 + 25.6 SU), consumed allowance plus all maxima is **4,897.533333 SU**, leaving **102.466667 SU**. Shared unknown maxima 2,389.333333 SU and older own unknown costs are retained, with deliberate possible double counting. The four-rank request's nominal maximum 0.2 SU is not its conservative reservation or a posted charge. [Locked checks](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261023/checkpoint-20261023T1537/budget-check.json) precede the new receipt; the ledger and post-submit summary record the later reservation.
 
-Last queried project report: Used 2,269.938 / Balance 27,730.062 / In Doubt 0, with the report's own dated refresh. The detailed 21–23 October estimate 579.91 SU carries an explicit incomplete/inaccurate disclaimer and no per-job records; it cannot retire old unknown maxima. One active CPU allocation and combined PBS cap 3 remain. The dependent preflight guarantees no overlap with the existing parent. Pre-submit CPU queue had only the parent and the separate read-only AI PBS queue was empty. Do not infer a fresh queue from this dated snapshot.
+Last queried project report: Used 2,269.938 / Balance 27,730.062 / In Doubt 0, with the report's own dated refresh. The detailed 21–23 October estimate 579.91 SU carries an explicit incomplete/inaccurate disclaimer and no per-job records; it cannot retire old unknown maxima. One active CPU allocation and combined PBS cap 3 remain. The dependent preflight guarantees no overlap with the existing parent. The earlier four-rank pre-submit CPU queue had only the parent. The later 512-rank pre-submit CPU queue had those two prerequisite jobs and the read-only AI PBS queue was empty; the admitted combined count is three. Do not infer a fresh queue from this dated snapshot.
 
 VPN and CPU SSH are functional through the cpu-r3 helper at the last live check. Preserve existing tunnel, private caches and AI connection. The failed 14:55 authentication and successful 15:04:45 recovery are [recorded](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/REPORT.md); their cause/phone-side approval/exact lifetime were not established. No authentication/session state is archived.
 
@@ -40,3 +41,7 @@ The authorized [submission update](../submission-review/hpc-update-20261023/READ
 The [preceding handoff](history/HPC_CURRENT-before-four-node-placement-20261023T1553.md) is historical. Small explicit safe checkpoints preserve raw failures, all measurements, hypotheses and receipts. GitHub holds Git files/manifests; external large objects still need an off-host copy.
 
 **Later queue observation:** 2026-10-23T17:49:37.514429Z still parent Q/q5 and preflight H/qdev, unchanged dependencies and no runtime result. A separate offline check of within-host logical NUMA trade-offs is in progress; no new spending has been authorized or made for it.
+
+**Within-host refinement:** [New report](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/rank-placement-512-numa-screen-20261023/RESULTS.md) keeps the four host memberships and 261,110 crossing faces unchanged. Same-host cross-NUMA faces improve 1,097,554 → 732,712 (−33.24%); the original contiguous control was 710,081, so the refined proxy is still 3.19% worse on this category. All 512 ranks and 4 × 128 / 32 × 16 group sizes pass independent checks. Eight domains per host remain a logical assumption, not observed four-node topology. [Learning figure](../reports/hpc-research-journey-20261023/figures/placement-tradeoff.png). Conditional 512-rank qualification **25947168** is now H/q5 with afterok prerequisites on both existing jobs; its maximum 25.6 SU is reserved. [Receipt and qualification limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-placement512-preflight-20261023/STATUS.md).
+
+**Admission at the latest checkpoint:** all three combined PBS slots are occupied by these CPU jobs; the read-only AI PBS queue was empty immediately before the new submission. Holds count toward the cap. No further qsub until a fresh combined count permits it. This does not change AI ownership, payloads or its separate budget. The refined mapping is the preferred graph candidate, conditional on actual qualification; no full solver test or performance gain is inferred.

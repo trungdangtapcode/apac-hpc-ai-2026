@@ -17,3 +17,7 @@ The conditional PBS payload and the refined assignment with source pins are prep
 ## Runtime evidence still required
 
 Review the terminal PBS state/accounting, source-hash reports, full 4x128 identity topology, all eight actual 16-rank NUMA domains on each host, generated identity-slot rank-order file, all 512 candidate world-rank host/core/NUMA matches, thread and FI controls, module/compiler/launcher/library versions, per-command returns, and both complete arm logs. A pass is allocation-specific placement qualification only. It does not establish solver behavior, memory-page locality, performance or score.
+
+## Root integration before the frozen submission
+
+Root added independent expected-slot checks against identity records and logical-group co-location validation, plus negative fixtures for inconsistent slot metadata and a physically valid permutation that breaks the selected host grouping. One synthetic positive and seven negatives pass. The NUMA cpulist fallback now handles missing per-CPU node symlinks correctly, and the optional PMI string is snapshotted before MPI_Init. All source hashes were regenerated before freeze. C syntax passed under `cc -std=c11 -Wall -Wextra -Werror -fsyntax-only` with a deliberately synthetic MPI header; this is not an actual MPI build or linking result. Target execution remains pending.
