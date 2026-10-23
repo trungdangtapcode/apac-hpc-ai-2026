@@ -11,7 +11,7 @@ from pptx import Presentation
 
 W = Path('/home/apacsc42/workspace')
 O = W / 'submission-review/hpc-update-20261023'
-BASE = W / 'VNUHCM - TripleU/Presentation/TripleU_APAC2026_Presentation.pptx'
+BASE = O / 'inputs/AI-base.pptx'
 SECTION = O / 'slide-section/HPC-section.pptx'
 P = 'http://schemas.openxmlformats.org/presentationml/2006/main'
 R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
@@ -150,7 +150,7 @@ def main():
         assert s._element.xml == deck.slides[i]._element.xml
         assert s.notes_slide.notes_text_frame.text == deck.slides[i].notes_slide.notes_text_frame.text
     pdf = fitz.open()
-    for p in [W / 'submission-review/research-update-2026-10-22/TripleU_APAC2026_Presentation.pdf',
+    for p in [O / 'inputs/AI-base.pdf',
               O / 'slide-section/HPC-section.pdf']:
         with fitz.open(p) as section:
             pdf.insert_pdf(section)

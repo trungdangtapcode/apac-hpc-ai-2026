@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N tripleu-occ-1n
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=1:ncpus=128:mpiprocs=128:mem=440gb
+#PBS -l place=excl
+# ASPIRE2A routes <=128-core jobs with walltime <=2 h to the congested qdev
+# pool.  The organizer's application note uses 02:00:01 so this run reaches q4;
+# billing is based on walltime actually used.
+#PBS -l walltime=02:00:01
+#PBS -j oe
+
+export NODES=1 NPROCS=128 END_TIME=40 DECOMP_METHOD=scotch HIER_SHAPE="16 4 2"
+bash "$HOME/scratch/apac2026/hpc/job_scripts/run_occ_common.sh"

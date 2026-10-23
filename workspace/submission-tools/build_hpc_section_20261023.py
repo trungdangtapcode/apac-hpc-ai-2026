@@ -191,10 +191,10 @@ end()
 
 # 7 reproducibility
 s=start('A reproducible candidate needs more than a fast log',7,
-"The best reviewed four-node native mean is a candidate observation, not an accepted official score. The independent confirmation job 25940700 was submitted on 23 October at 12:51 UTC. A fresh scheduler query at 15:09 UTC still showed Q/q5 with the comment Not Running: Insufficient amount of resource: node_pool. No result is available. The job is configured to re-run the full preparation and 150-step solve on four exclusive nodes. Its fresh 54-file bundle requires source/mesh identity, explicit stage returns, startup 512-physical-core/four-host proof, and zero-field seals. These are required proofs, not completed checks.",SRC4+'; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-four-node-confirm-20261023/submission.json')
+"The best reviewed four-node native mean is a candidate observation, not an accepted official score. The independent confirmation job 25940700 was submitted on 23 October at 12:51 UTC. A fresh scheduler query at 15:06 UTC still showed Q/q5 with the comment Not Running: Insufficient amount of resource: node_pool. No result is available. The job is configured to re-run the full preparation and 150-step solve on four exclusive nodes. Its fresh 54-file bundle requires source/mesh identity, explicit stage returns, startup 512-physical-core/four-host proof, and zero-field seals. These are required proofs, not completed checks.",SRC4+'; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-four-node-confirm-20261023/submission.json')
 text(s,'Reviewed candidate',.96,1.46,4.7,.44,21,GRAY,True);text(s,'3.677906731',.96,2.02,5.2,.74,37,ORANGE,True);text(s,'seconds per step · Scotch-128 · 149 samples',.99,2.84,5.5,.56,18,INK)
 line(6.43,1.50,6.43,4.26,PALE,1.2)
-text(s,'Independent repeat',6.88,1.46,4.8,.44,21,GRAY,True);text(s,'25940700',6.88,2.04,4.8,.68,34,INK,True);text(s,'Q/q5 · 15:09 UTC\nNot running: node_pool insufficient\nNo result',6.91,2.84,5.1,1.00,18,GRAY)
+text(s,'Independent repeat',6.88,1.46,4.8,.44,21,GRAY,True);text(s,'25940700',6.88,2.04,4.8,.68,34,INK,True);text(s,'Q/q5 · 15:06 UTC\nNot running: node_pool insufficient\nNo result',6.91,2.84,5.1,1.00,18,GRAY)
 checks=['Frozen 54-file input bundle','Full initialization + 150 steps','Explicit stage return codes','512 physical cores on 4 hosts','Source, mesh and output seals']
 text(s,'Proof required from the queued confirmation',.98,4.23,8.5,.34,18,INK,True)
 for i,v in enumerate(checks):
@@ -203,11 +203,11 @@ end()
 
 # 8 conclusion and next
 s=start('What we learned — and the next measurement',8,
-"The research has narrowed choices, rejected the unchanged NUMA-aware branch, and identified Scotch-128 as the lowest mean among six reviewed four-node native observations. This is not a proven global optimum or accepted score. At 15:09 UTC on 23 October, job 25940700 was still Q/q5; PBS reported Not Running because node_pool resources were insufficient. No result was available. Next review its complete terminal proof and all iteration tails, then use bounded matched sampling to investigate stability before choosing another configuration.",GUIDE+'JOURNEY.md; '+GUIDE+'TALK_TRACK.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/workspace/notes/HPC_CURRENT.md')
+"The research has narrowed choices, rejected the unchanged NUMA-aware branch, and identified Scotch-128 as the lowest mean among six reviewed four-node native observations. This is not a proven global optimum or accepted score. At 15:06 UTC on 23 October, job 25940700 was still Q/q5; PBS reported Not Running because node_pool resources were insufficient. No result was available. Next review its complete terminal proof and all iteration tails, then use bounded matched sampling to investigate stability before choosing another configuration.",GUIDE+'JOURNEY.md; '+GUIDE+'TALK_TRACK.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/workspace/notes/HPC_CURRENT.md')
 for i,(num,hd,body) in enumerate([('01','Measure the whole job','Keep preparation, all steps and provenance.'),('02','Trust runtime evidence','A smaller graph cut is not a speedup.'),('03','Preserve every sample','Tails matter; causes need instrumentation.'),('04','Confirm independently','Review job 25940700 before the next choice.')]):
  x=.95+i*3.08;text(s,num,x,1.62,.80,.54,27,ORANGE,True);text(s,hd,x,2.37,2.78,.78,20,INK,True);text(s,body,x,3.36,2.78,1.12,18,GRAY)
 rect(.96,5.15,11.37,.035,PALE)
-text(s,'23 Oct 15:09 UTC · 25940700 still Q/q5; node_pool insufficient; no result',.98,5.48,11.2,.60,19,INK,True)
+text(s,'23 Oct 15:06 UTC · 25940700 still Q/q5; node_pool insufficient; no result',.98,5.48,11.2,.60,19,INK,True)
 text(s,'Next: review tails, terminal proof and bounded hardware samples',.98,6.14,11.2,.44,18,ORANGE,True)
 end()
 
