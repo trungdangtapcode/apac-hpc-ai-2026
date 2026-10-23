@@ -1,0 +1,11 @@
+# 23 October: the repaired H200 exact-token reference is real and accepted
+
+**Question and prior evidence.** Reference 25495 stopped before its client container started. Separate 25585 repaired only the missing client HOME prerequisite after a source/repaired shell regression and unchanged asset-bound client/head tests. Acceptance required actual output and independent semantics, not scheduler exit.
+
+**Actual result.** Top-level Slurm COMPLETED/0:0, 458 seconds. All 8 real responses retain 1600 actual generated IDs; four repeated greedy pairs match request, all IDs and finish exactly. The client/head/current replay bind the same full target/image manifest; both actual P/D warmup receipts and 4+4+8 BF16 rank allocation logs pass independently. Complete submitted payload and terminal raw data are sealed and hash-checked. Stage times from start: workers/router 328 s, pair initialization 368 s, accepted result 452 s. [Exact observations and proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25585-20261023/REVIEW.md).
+
+**Assessment and limits.** The supported HOME repair reaches the real token client and establishes a fresh H200 reference, closing that narrow deployment failure. This is target-only N1 diagnostic evidence. Prefix reuse during the second pass, startup/N1 resource samples and missing detailed KV geometry prevent cold-cache, scoring, peak-demand or startup-speedup claims. It is not EAGLE3 execution or official MMLU-Pro/GPQA accuracy.
+
+**Next decision.** Prepare one separately derived native H200 EAGLE3 correctness bundle now, using these exact frozen outputs and the current pinned draft. Require explicit BF16/unquant, uniform eager prefill, target/draft runtime/rank/graph gates, actual redacted registration geometry, both semantic P/D receipts and all 1600 candidate IDs matching this reference. Only a valid candidate permits a separately matched short load pair. Keep no unproved speedup and no obsolete H100 reference in the new H200 comparison.
+
+**Preservation.** Capture terminal raw output, seal, independent review, outcome and decision as one separate milestone. Preserve failed 25495 and frozen source bytes. No new allocation or PBS SU is created by recording acceptance.
