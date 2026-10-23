@@ -1,0 +1,27 @@
+{
+  "derived_file": "nixl-conn-instrumented.py",
+  "derived_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8",
+  "expected_source_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+  "helper_file": "kv_geometry.py",
+  "instrumented_expression": "_instrument_nixl_registration(self, self.register_buffer_to_engine)",
+  "layer_identity_contract": {
+    "behavior": "Computes MHA layer count from len(src_kv_ptrs)//2 and applies prefill_start_layer offsets; no kv_layer_ids requirement or semantic layer-ID list is produced.",
+    "candidate_validator_rule": "Accept observed [] only with exact 190-region, heads 1/4, page-size 1 signature. Reject missing, null, not_collected, malformed IDs, and other region counts. Report empty observation and semantic layer order unproven.",
+    "replay_test": "../eagle3-h200-candidate-20261023/replay_probe_evidence.py; validates all eight original receipts by hash and replays each record plus stable before/after rank pairs",
+    "runtime_collection_manifest_sha256": "372ff2c7935de2bd7f6813c3cb3adb1273013c53ba2e42422bb2cfdd9661edfe",
+    "runtime_evidence": "Four ranks each observed exactly 190 KV regions, kv_head_num=1, total_kv_head_num=4, page_size_tokens=1, kv_layer_ids=[], and stable successful before/after native registration receipts. This is H100-source-backed metadata evidence only; no H200 or transfer result is inferred.",
+    "runtime_evidence_job": "223788.pbs111",
+    "runtime_evidence_manifest": "research-review-223788-20261023/geometry-source-records.json",
+    "runtime_evidence_manifest_sha256": "19beb2149fd9fe9cf2e4aff2636dc47cad68a920f77a5ffa1cf4843acddefdd2",
+    "schema": "qwen-mha-implicit-layer-order-contract-v1",
+    "source_lines": "792-823",
+    "source_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/source/common-conn.py",
+    "source_sha256": "ba33d63c6920f87b55cf57f9224bb7d08af67e1476bd70b8e1a70067f33a29d7",
+    "source_symbol": "CommonKVManager.get_mha_kv_ptrs_with_pp"
+  },
+  "native_registration_call": "self.register_buffer_to_engine()",
+  "other_native_source_changes": false,
+  "schema": "h200-kv-geometry-derivation-v1",
+  "source_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s37-h200-target-reference/nixl-conn.py",
+  "source_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+}

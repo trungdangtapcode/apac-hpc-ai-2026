@@ -240,3 +240,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: a balanced two-proxy placement option and CPU fragmentation evidence](entries/20261023-hpc-balanced-placement-and-queue.md).
 
 - [23 October: H200 EAGLE3 stops before loading at the cross-node draft stat guard](entries/20261023-h200-draft-stat-failure.md).
+
+- [23 October: full role-local draft hashing repairs the unsafe cross-node stat assumption](entries/20261023-h200-worker-byte-identity-repair.md).
