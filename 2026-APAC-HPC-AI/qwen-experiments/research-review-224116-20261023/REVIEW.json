@@ -1,0 +1,169 @@
+{
+  "job": "224116.pbs111",
+  "reviewed_utc": "2026-10-23T13:16:00.122207+00:00",
+  "state": "NATIVE_PRODUCTION_SPAN_BYTE_GATES_PASS_JOB_FAILED",
+  "pbs_state": "F",
+  "pbs_exit_status": 1,
+  "stageout_status": 1,
+  "walltime_s": 229,
+  "original_job_pass": false,
+  "independent_native_byte_gate": {
+    "status": "pass",
+    "physical_ranks": 2,
+    "hosts": [
+      "a2ap-dgx036",
+      "a2ap-dgx037"
+    ],
+    "gpu_uuids": [
+      "2a95c117-1313-cb8f-323f-ea75d126060d",
+      "eed14ddb-7e9b-df97-75e6-d0d564b6b106"
+    ],
+    "registered_kv_bytes_per_rank": 14465098240,
+    "registered_aux_bytes_per_rank": 933888,
+    "selected_kv_bytes": 97280,
+    "untouched_destination_bytes_gpu_scanned": 14465000960,
+    "component_relative_t0_s_max": 100.161,
+    "scope": "Two physical H100 rank pair, no weights/model; native full-span NIXL registration and sparse selected-page transfer; not full TP collective or EAGLE output proof"
+  },
+  "phase_summary": [
+    {
+      "rank": 0,
+      "host": "a2ap-dgx036",
+      "elapsed_s": 100.161,
+      "phases": [
+        {
+          "name": "device_and_active_ib_check",
+          "duration_s": 0.009
+        },
+        {
+          "name": "source_hash_and_runtime_identity",
+          "duration_s": 0.659
+        },
+        {
+          "name": "nixl_agent_initialization",
+          "duration_s": 6.913
+        },
+        {
+          "name": "allocation_and_sentinel_initialization",
+          "duration_s": 0.05
+        },
+        {
+          "name": "native_register_buffer_to_engine",
+          "duration_s": 0.618
+        },
+        {
+          "name": "remote_agent_exchange",
+          "duration_s": 0.099
+        },
+        {
+          "name": "source_and_auxiliary_pattern_initialization",
+          "duration_s": 0.141
+        },
+        {
+          "name": "native_95_to_95_transfer_plan",
+          "duration_s": 15.155
+        },
+        {
+          "name": "native_full_span_kv_send",
+          "duration_s": 0.004
+        },
+        {
+          "name": "native_ten_buffer_aux_send",
+          "duration_s": 0.001
+        },
+        {
+          "name": "gpu_full_span_source_preservation_scan",
+          "duration_s": 0.068
+        },
+        {
+          "name": "source_auxiliary_preservation",
+          "duration_s": 0.074
+        },
+        {
+          "name": "registered_buffer_lifetime_check",
+          "duration_s": 0.0
+        }
+      ]
+    },
+    {
+      "rank": 1,
+      "host": "a2ap-dgx037",
+      "elapsed_s": 99.996,
+      "phases": [
+        {
+          "name": "device_and_active_ib_check",
+          "duration_s": 0.011
+        },
+        {
+          "name": "source_hash_and_runtime_identity",
+          "duration_s": 0.71
+        },
+        {
+          "name": "nixl_agent_initialization",
+          "duration_s": 7.365
+        },
+        {
+          "name": "allocation_and_sentinel_initialization",
+          "duration_s": 0.054
+        },
+        {
+          "name": "native_register_buffer_to_engine",
+          "duration_s": 0.64
+        },
+        {
+          "name": "remote_agent_exchange",
+          "duration_s": 0.117
+        },
+        {
+          "name": "source_and_auxiliary_pattern_initialization",
+          "duration_s": 0.0
+        },
+        {
+          "name": "receiver_kv_ready_barrier",
+          "duration_s": 0.004
+        },
+        {
+          "name": "gpu_full_span_kv_destination_scan",
+          "duration_s": 0.075
+        },
+        {
+          "name": "auxiliary_receiver_ready",
+          "duration_s": 0.005
+        },
+        {
+          "name": "gpu_pinned_auxiliary_full_span_verification",
+          "duration_s": 0.085
+        },
+        {
+          "name": "registered_buffer_lifetime_check",
+          "duration_s": 0.002
+        }
+      ]
+    }
+  ],
+  "observability": {
+    "phase_resource_samples": "inspected on both ranks",
+    "max_sampled_torch_allocated_bytes": 14465146880,
+    "max_sampled_torch_reserved_bytes": 14822670336,
+    "max_sampled_rss_kib": 8063392,
+    "pbs_gpu_telemetry": "retained but contradictory counters; lowUtilizationTime exceeds job walltime, ngpus=0 despite two devices; not trusted as measured utilization",
+    "continuous_hardware_utilization": "not collected",
+    "serving_tail_latency_errors_concurrency": "not applicable; no serving requests",
+    "role_queue_inflight_kv_token_occupancy": "not collected; no serving runtime"
+  },
+  "cost": {
+    "allocated_gpus": 2,
+    "walltime_s": 229,
+    "estimated_allocated_charge_su": 16.284444444444443,
+    "posted_charge_su": "not reconciled yet",
+    "maximum_reservation_su": 42.666666666666664
+  },
+  "limits": [
+    "PBS job fails even though independent byte gates pass; do not relabel original job successful",
+    "One task log reports exit1 while outer status is0; stdout prints component complete; exact failure origin is unresolved",
+    "Whole-buffer auxiliary diagnostic does not establish native request item strides",
+    "No model, full TP deployment, generated IDs, throughput, official accuracy or serving speedup measured",
+    "Lifetime fixture checks live references only inside rank_run; no explicit deregistration/agent close ordering proves buffers survive native agent destruction. Not established as failure cause."
+  ],
+  "next_decision": "Preserve full byte-transfer proof separately from failed job; instrument node/container/parent exit boundaries in a separately frozen derived diagnostic before full H100 serving repair; preserve H20025682 position."
+}

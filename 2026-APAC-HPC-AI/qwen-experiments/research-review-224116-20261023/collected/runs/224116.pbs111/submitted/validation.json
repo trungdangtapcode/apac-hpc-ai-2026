@@ -1,0 +1,70 @@
+{
+  "schema": "nixl-production-span-validation-v1",
+  "passed": true,
+  "executed_utc_date": "2026-10-23",
+  "commands": [
+    {
+      "command": "python3 -m py_compile native_probe.py CPU-test.py cpu_numpy.py cpu_eagle_layout.py descriptor-base.py",
+      "result": "pass"
+    },
+    {
+      "command": "bash -n component.pbs node-entry.sh entry.sh",
+      "result": "pass"
+    },
+    {
+      "command": "python3 CPU-test.py",
+      "result": "pass",
+      "test_functions": 5
+    },
+    {
+      "command": "python3 cpu_eagle_layout.py",
+      "result": "pass",
+      "cases": [
+        "both EAGLE3 roles 190-to-190",
+        "plain prefill to EAGLE3 decode 188-to-190"
+      ]
+    },
+    {
+      "command": "sha256sum --check SHA256SUMS",
+      "result": "pass",
+      "files": 24
+    },
+    {
+      "command": "source provenance hash verification",
+      "result": "pass",
+      "files": 8
+    }
+  ],
+  "coverage": {
+    "native_ast_methods": [
+      "register_buffer_to_engine",
+      "_init_hetero_tp_prep_handle",
+      "send_kvcache_slice",
+      "send_aux"
+    ],
+    "selector_geometries": [
+      "94-to-94",
+      "94-to-95",
+      "95-to-95"
+    ],
+    "production_kv_regions": 190,
+    "auxiliary_items": 10,
+    "distinct_selected_region_page_patterns": 380,
+    "negative_checks": [
+      "missing KV region",
+      "wrong item stride",
+      "wrong source origin",
+      "short destination vector",
+      "incomplete result gate",
+      "receiver prefilled source page outside destination writes",
+      "invalid physical rank"
+    ],
+    "full_pool_memory_allocated_on_login": false
+  },
+  "limits": {
+    "numpy_rehearsal": "not run; CPython 3.9.25 has no NumPy, no usable cached CPU environment was available, and no installation was attempted",
+    "gpu_runtime_probe": "not run by payload preparation; full-size H100 registration and transport remain unvalidated",
+    "model_or_weights_loaded": false
+  },
+  "root_correction": "Only rank zero receives source patterns; rank one retains KV/auxiliary sentinels. Real verifier sparse fixture rejects receiver contamination."
+}

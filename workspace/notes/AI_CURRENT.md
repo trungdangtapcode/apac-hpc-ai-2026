@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T13:09:23.169553+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T13:17:04.767396+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -48,8 +48,7 @@ Sampled GPU activity, allocated VRAM, KV token occupancy and kernel-time sums ar
 
 ## H100 NIXL / EAGLE3 branch
 
-**224116.pbs111 is submitted and immediately R** at 13:08 UTC on a2ap-dgx036 / a2ap-dgx037: no-model two-H100 / ten-minute full-span transfer diagnostic. Reproduce 190×76,132,096-byte KV allocations per rank and ten observed host spans; verify 380 distinct sparse page writes, all untouched destination bytes on GPU, source preservation and whole auxiliary items. Native per-request auxiliary strides remain unknown. The initial preparation's receiver-prefill defect was fixed before submission and regression checked. Maximum 42.666667 SU reserved; headroom 4507.703333 SU, no cap/reserve change. No transfer/model/output/score pass yet. [Frozen design and definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-production-span-probe-20261023/RESULTS.md).
-
+**224116.pbs111 is terminal F / exit 1**, 229 s / estimated 16.284444 SU; never relabel it a successful job. Independent replay passes all full-sized native byte gates on two H100 hosts: 190×76,132,096-byte KV spans per rank, 380 sparse pages /97,280 bytes, 14,465,000,960 untouched destination bytes GPU-scanned, source preservation and ten whole auxiliary spans /933,888 bytes. Both rank semantic receipts finish by T0+100.161 s and component marker by130.146 s. Stageout_status1 and a task exit1 coexist with outer launcher0; exact exit origin unresolved. Phase RSS/GPU allocator samples inspected; PBS utilization counters are inconsistent. No model output/speedup claim. Reserve42.666667 SU remains until uniquely posted; headroom4507.703333 SU. [Raw proof, limitations and next exit-boundary diagnostic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224116-20261023/REVIEW.md).
 
 **223788.pbs111 is terminal F / exit 1**, 319 seconds/four H100. Original gate fails on the unsupported nonempty layer-list assumption; actual model/draft/graph/config/health gates and all four full-sized native registrations pass. Eight stable before/after receipts show 190 KV ranges and 10 auxiliary buffers per rank, `kv_layer_ids=[]`. Exact native MHA source does not require nonempty explicit IDs. A candidate-local source-backed 190-region/head 1, total 4 / page 1 exception replays these actual records without inventing layer identities or changing the original failed job. No H100 transfer/output/speedup claim. [Full raw review and correction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-223788-20261023/REVIEW.md).
 

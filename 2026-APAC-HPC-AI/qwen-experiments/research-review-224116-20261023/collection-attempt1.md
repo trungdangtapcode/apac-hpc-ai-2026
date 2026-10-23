@@ -1,0 +1,1 @@
+Initial terminal-only collection stopped before writing evidence because PBS was still E (exiting), not F. Empty initial archive and assertion stderr are retained. A separate exiting snapshot is explicitly provisional; never relabel it as terminal.

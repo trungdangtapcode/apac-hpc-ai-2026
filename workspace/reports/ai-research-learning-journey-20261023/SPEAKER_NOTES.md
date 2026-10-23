@@ -69,3 +69,7 @@ It explains a decision. A transport failure narrowed the next question to actual
 
 **Did the unusual KV list split prove a code bug?**  
 No. We followed the complete source chain and checked the final mapping with independent labels. For our one-pipeline-stage configuration, the split and recombination preserve the original list. This is a source-level negative result, not proof that GPU memory transfers or model outputs are correct.
+
+### Why keep a failed job whose byte checks pass?
+
+The useful observation and the overall job status answer different questions. Job 224116 proves selected bytes arrived at production-sized registrations, but PBS reports exit 1. We keep the data proof and the failed exit, then isolate the missing process-level evidence. This is not a performance improvement yet.
