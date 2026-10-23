@@ -17,3 +17,7 @@ python3 inspect_scheduler.py --output snapshot-NEW.json
 The helper is read-only and refuses to replace an earlier snapshot. A later queue decision requires a fresh snapshot; this is a dated explanation, not live cluster state.
 
 Interpretation correction: an earlier prose draft equated the single zero-assigned node with the single down node. Those two aggregate counts do not prove that identity; the raw snapshot is unchanged.
+
+## Later checkpoint
+
+At 2026-10-23T19:12:06.383253Z, the pool had 193 nodes marked free, still zero free-state nodes with 128 CPUs unassigned. The three own jobs remained Q/H/H under their original dependencies. [The later snapshot](snapshot-20261023T1912.json) preserves that observation; no queue or spending change was made.
