@@ -1,0 +1,78 @@
+{
+  "scope": "Source-only audit of pinned native SGLang auxiliary request-slot layout for H100 NIXL/EAGLE3; no model or GPU loaded.",
+  "input_receipt": {
+    "job": "223788.pbs111",
+    "geometry_records": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-223788-20261023/geometry-source-records.json",
+    "observed_aux_region_bytes_per_rank": [6144, 6144, 6144, 6144, 49152, 49152, 6144, 12288, 786432, 6144],
+    "observed_region_count": 10,
+    "observed_kv_layer_ids": [],
+    "observed_aux_item_lens": "not collected",
+    "observed_tensor_shapes_strides_dtypes": "not collected"
+  },
+  "source_pinned": {
+    "image_path": "/scratch/enroot-images/sglang-harbor.sqsh",
+    "image_size_bytes": 26476240896,
+    "image_sha256": "not computed; image is 26.5 GB",
+    "extracted_source_root": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-aux-layout-review-20261023/source-image/sgl-workspace/sglang/python/sglang/srt",
+    "files": [
+      {"path": "disaggregation/utils.py", "sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82", "lines": "262-384"},
+      {"path": "disaggregation/nixl/conn.py", "sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601", "lines": "1291-1312, 1975-2008"},
+      {"path": "managers/scheduler.py", "sha256": "1d4a7683e32f0862cf5b03be33e5ec23f9d112e59546d391e28fa222fcd1619b", "lines": "1294-1373"},
+      {"path": "speculative/eagle_utils.py", "sha256": "3c71d7ef97a12a345614c5d40cc7a176ab79afa40013cd7fcd4a6c8067fe87bc", "lines": "481-487"},
+      {"path": "mem_cache/memory_pool.py", "sha256": "29ef7b37d2e12b1a4b674b97c33b3ceb05cd8421a3742eb33cb6a75f52896ddc", "lines": "256-275"},
+      {"path": "disaggregation/prefill.py", "sha256": "9fd0c9debefae5f4c675a79ad7b62c1a7fe1dc92aeac6cdda12d527e20189af3", "lines": "182-250"},
+      {"path": "disaggregation/decode.py", "sha256": "7d7d715013d5a72c1505f9a3a784f87a48938d8d52db6938102865cbd63e954b", "lines": "418-490"}
+    ]
+  },
+  "slot_count_basis": {
+    "prefill": {
+      "runtime_observation": "223788 and 223055 retained prefill ServerArgs/runtime config report max_running_requests=48 under EAGLE3.",
+      "source_rule": "Pinned scheduler.py:1361-1372 sets prefill MetadataBuffers size to max_running_requests * 2.",
+      "derived_slots": 96,
+      "status": "derived from independent runtime config plus pinned source; not reverse-calculated from auxiliary region lengths"
+    },
+    "decode_223055": {
+      "runtime_observation": "Retained config.json declares decode_max_running_requests=256; retained decode ServerArgs and startup log report max_running_requests=256 and EAGLE3.",
+      "source_rule": "Pinned scheduler.py:1311-1327 sets decode MetadataBuffers size to req_to_token_pool.size * 2 for the non-MiniMax Qwen model; memory_pool.py:261-275 stores the constructor size as .size.",
+      "req_to_token_pool_size": "not retained in the job's logs/receipts",
+      "conditional_metadata_slots": {"pool_size_128": 256, "pool_size_256": 512},
+      "status": "decode cap 256 is verified; actual metadata slot count remains unverified until actual req_to_token_pool.size is collected"
+    }
+  },
+  "retained_223055_runtime_inputs": [
+    {"path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/collected/223055.pbs111/runs/223055.pbs111/task-prefill-0-node0.nAUSuE1R.log", "sha256": "05ab676bbd25f5e916f1533cbb4e113c753fba67da638c2f625909c847026509", "fields": "ServerArgs max_running_requests=48, prefill; EAGLE3"},
+    {"path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/collected/223055.pbs111/runs/223055.pbs111/task-prefill-1-node0.wWsUpbNb.log", "sha256": "c241da039d89c6bf8e39918c30ece0d5b71dd48eb3d9ab7c64e728bbcdf262f0", "fields": "ServerArgs max_running_requests=48, prefill; EAGLE3"},
+    {"path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/collected/223055.pbs111/runs/223055.pbs111/task-decode-0-node1.sIYCPZfA.log", "sha256": "0a42ec4e269b944f5c45443776d67aa4628c85dddf7c7ffb68c292cb89042f7e", "fields": "ServerArgs max_running_requests=256, decode; startup max_running_requests=256; EAGLE3"},
+    {"path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/collected/223055.pbs111/runs/223055.pbs111/config.json", "sha256": "a8ba77b901282adfaa99e93d511d9baa2daf2eb9ce7ce2b4b47b8a94c039b92d", "fields": "decode_max_running_requests=256"}
+  ],
+  "role_schema": {
+    "source_expected_list_counts_per_role": {"aux_data_ptrs": 10, "aux_data_lens": 10, "aux_item_lens": 10},
+    "prefill_actual_region_count_223788": 10,
+    "decode_actual_region_count_223055": "not collected",
+    "expected_per_item_widths": "same source order/width when P and D have matching hidden-state spec and optional fields; send_aux uses prefill item_lens for both sides",
+    "runtime_cross_role_width_match": "not collected"
+  },
+  "layout": [
+    {"index": 0, "name": "output_ids", "item_bytes": 64, "status": "source-derived", "formula": "16 x int32"},
+    {"index": 1, "name": "cached_tokens", "item_bytes": 64, "status": "source-derived", "formula": "16 x int32"},
+    {"index": 2, "name": "output_token_logprobs_val", "item_bytes": 64, "status": "source-derived", "formula": "16 x float32"},
+    {"index": 3, "name": "output_token_logprobs_idx", "item_bytes": 64, "status": "source-derived", "formula": "16 x int32"},
+    {"index": 4, "name": "output_top_logprobs_val", "item_bytes": 512, "status": "source-derived", "formula": "default max_top_logprobs_num=128 x float32"},
+    {"index": 5, "name": "output_top_logprobs_idx", "item_bytes": 512, "status": "source-derived", "formula": "default max_top_logprobs_num=128 x int32"},
+    {"index": 6, "name": "output_topk_p", "item_bytes": 64, "status": "source-derived", "formula": "16 x float32"},
+    {"index": 7, "name": "output_topk_index", "item_bytes": 128, "status": "source-derived", "formula": "16 x int64"},
+    {"index": 8, "name": "output_hidden_states", "item_bytes": 8192, "status": "conditional derivation; runtime value unverified", "formula": "spec_hidden_size 4096 x BF16 (2 bytes); scheduler gets these from the draft runner spec"},
+    {"index": 9, "name": "bootstrap_room", "item_bytes": 64, "status": "source-derived", "formula": "8 x uint64"}
+  ],
+  "send_aux": {
+    "selection": "Called on the terminal KV chunk path (also terminal no-KV notification path); requires prefill_aux_index. It enumerates destination auxiliary pointers, uses source item_lens[i], and offsets both source and destination bases by item_bytes * their respective row indices.",
+    "source_line_range": "nixl/conn.py:1291-1312, 1975-2008",
+    "important_gap": "No explicit equality/bounds check is visible before indexing source pointer/item-length arrays by destination-pointer count. Actual pointer values, row strides, destination registration lengths and selected per-request indices were not retained in the 223788 geometry receipts."
+  },
+  "status_summary": {
+    "known_from_source": ["order", "shapes of fixed metadata fields", "item_bytes for fixed fields", "source/destination offset formula", "terminal-chunk selection"],
+    "derived_from_runtime_config_and_source": ["96 prefill metadata slots"],
+    "conditional": ["hidden-state item_bytes=8192 if EAGLE recurrent hidden width is 4096 and dtype BF16"],
+    "unverified_runtime": ["223055 actual req_to_token_pool.size and decode metadata slot count", "decode actual auxiliary region/list count", "actual aux_item_lens values", "actual aux pointers and slot-to-slot deltas", "actual strided/consolidated tensor layout", "destination pointer-list length/order equality", "actual send_aux selection indices and byte copy result"]
+  }
+}

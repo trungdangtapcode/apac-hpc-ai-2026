@@ -224,3 +224,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: AI SSH authenticated, prior cost posted and H100 exit-boundary 224155 submitted](entries/20261023-exit-boundary-224155-submitted.md).
 
 - [23 October: native Python/container success and the isolated login-shell exit failure](entries/20261023-login-shell-exit-failure-isolated.md).
+
+- [23 October: source review separates whole auxiliary spans from actual request-row addressing](entries/20261023-native-aux-slot-layout-source.md).

@@ -124,3 +124,7 @@ The graph-policy controls are now queued as 25712 and 25713 after existing corre
 ### A failed job can hide a successful computation
 
 The independent exit records narrowed the fault: both native Python programs and containers returned zero, but their surrounding shells returned one. We reproduced the error without GPUs. Only login mode combined with strict errexit and console-cleanup logout code failed in an eight-case CPU test. This supports changing our batch launcher to a normal shell with explicit environment setup, while keeping all error and byte checks. It does not repair or explain the separate full-model NIXL disconnect. [Full observations, negative control and next repair](../research-journey-20261019/journal/entries/20261023-login-shell-exit-failure-isolated.md).
+
+### Check the row as well as the memory region
+
+The transport registers a large memory region, but a request copies one row at a selected slot index. Whole-region registration and a whole-buffer copy do not prove the row width and index are correct on both sides. Our source review identifies the expected ten metadata rows and a remaining runtime gap: actual decoder pool size and hidden-state layout. Conditional arithmetic stays labelled conditional. [Source, limits and the next useful evidence](../research-journey-20261019/journal/entries/20261023-native-aux-slot-layout-source.md).
