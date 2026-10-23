@@ -6,9 +6,11 @@ Start with the computation, then the experiments, then rehearse the story. This 
 |---|---|---:|
 | [Foundations](FOUNDATIONS.md) | CFD, cells, iterations, MPI, NUMA, required work, metrics, units and scoring | 10–15 minutes |
 | [Research journey](JOURNEY.md) | Why each experiment was tried, what happened, what lost, and what changed next | 15–20 minutes |
-| [Presenter script and Q&A](TALK_TRACK.md) | A short HPC story to say aloud, with figure explanations and limits | 6–8 minutes to rehearse |
+| [Presenter script and Q&A](TALK_TRACK.md) | A short HPC story to say aloud, with figure explanations and limits | 3–4 minutes for the eight published slides; longer practice script retained |
 
 The task rewards explanation: HPC has 50 points, comprising 20 Basic judging points, 15 Bonus judging points, and 15 performance/re-verification points. Solid Basic tuning can earn Bonus recognition; experimental source changes are optional. See the [official scoring addendum](https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/README.md#r4-scoring).
+
+The [published 40-slide deck](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx) keeps AI as the main section: 32 AI slides and eight HPC slides, exactly 20% HPC. [The package update](../../submission-review/hpc-update-20261023/README.md) links the PDF, speaker notes, portable PBS scripts and historical native logs. The new scripts have passed offline validation, but have not produced a new compute result. The last verified confirmation status is Q/q5 at 23 October 15:06:39 UTC. The figures below retain their original earlier snapshot.
 
 ## The journey in one picture
 

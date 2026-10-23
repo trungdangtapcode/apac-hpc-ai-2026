@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-23T13:03:00.752970+00:00. This is session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40, HPC/OpenFOAM only. AI/Qwen stays with its separate worker. English artifacts, Vietnamese chat, no background Codex or schedules.
+Updated 2026-10-23T15:16:27.091340+00:00. This is session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40, HPC/OpenFOAM only. AI/Qwen stays with its separate worker. English artifacts, Vietnamese chat, no background Codex or schedules.
 
 ## Current checkpoint — 23 October
 
@@ -18,5 +18,7 @@ All six native short-sample warnings are retained. S128 median 3.298742 s, p95 3
 
 **Access, updated 23 October 15:10 UTC:** VPN was found disconnected; the first restoration failed authentication without a proven cause. After the owner authorized another DUO attempt, VPN connected at 15:04:45 and CPU SSH authenticated using a separate cpu-r3 master. A fresh PBS query still shows 25940700 Q/q5, insufficient node_pool; no result yet. CPU helper tools/nscc-cpu-ssh.sh now reuses cpu-r3 on asp2a-login-nscc02. Preserve the healthy VPN, old private state and AI master. [Dated recovery](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/REPORT.md). No credentials/session state in notes. CPU IP 10.103.72.110 with verified HostKeyAlias aspire2a.nscc.sg; bash -lc restores PBS/modules. Private control paths are not recovery artifacts. [Old connection correction](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261022T1723/REPORT.md).
 
-The [previous handoff](history/HPC_CURRENT-before-four-node-review-20261023.md) is historical, including its 1,000-SU ceiling and six-pending queue. Preserve raw failures, stage-return limitations, graph-provenance correction and all older measurements in the journal. Existing HPC_Task submission materials remain unchanged.
+The [previous handoff](history/HPC_CURRENT-before-four-node-review-20261023.md) is historical, including its 1,000-SU ceiling and six-pending queue. Preserve raw failures, stage-return limitations, graph-provenance correction and all older measurements in the journal. The owner authorized a reviewed HPC package update and an approximately 20% HPC presentation section. The published deck now has 32 preserved AI slides plus eight HPC slides. HPC_Task contains portable PBS scripts, original ASCII inputs, selected native 1/2/4-node logs and explicit evidence limits. No organizer upload occurred. [Delivery and checks](../submission-review/hpc-update-20261023/README.md). The new portable bundle has no new compute result; confirmation 25940700 remains queued in the retained 15:06:39 UTC snapshot. AI scripts, raw logs and measurements were preserved.
 
+
+**End-of-turn queue check:** 23 October 15:20:58 UTC, confirmation 25940700 still Q/q5, insufficient node_pool. The published slide snapshot remains 15:06 UTC and is explicitly dated. No result, cancellation, extra qsub or budget change followed the package update. [Final queue record](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/final-queue-check.json).

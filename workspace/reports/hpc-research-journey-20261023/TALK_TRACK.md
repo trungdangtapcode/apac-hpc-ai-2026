@@ -1,6 +1,25 @@
 # HPC presenter script and likely questions
 
-Use this as a **6–8 minute HPC section** inside the single 15–20 minute combined AI/HPC presentation. Coordinate time with the AI presenter. The script explains the computation and decisions; job paths and detailed proofs stay in the linked reports. The observations below are dated 23 October, before confirmation job 25940700 has produced a reviewed result.
+The owner requested **about 20% HPC and 80% AI**. The published deck has 32 AI slides and eight HPC slides (33–40). Rehearse the concise **3–4 minute** script below inside the combined 15–20 minute presentation. This is a presentation allocation, not a change to the official scoring weights. The longer original script is retained afterward for learning and questions. No reviewed result is available for confirmation job 25940700; the retained 23 October 15:06:39 UTC snapshot shows Q/q5, waiting for node_pool resources.
+
+## Concise script for the eight published slides
+
+| Slide | What to say |
+|---|---|
+| 33 — Fixed calculation | “We optimize the official airflow-around-a-car calculation: 65.3 million cells, OpenFOAM v2512, double precision. On four CPU nodes we run 512 MPI processes and all 150 required solver iterations. The metric is average seconds per iteration from the second iteration onward. Lower is better.” |
+| 34 — Complete pipeline | “We retain every preparation stage: assign cells to processes, restore the original fields, reorder cells, initialize the flow, apply the prescribed boundary layer, then solve. Decomposition decides which cells a process owns; CPU affinity decides where that process runs. They are different optimization choices.” |
+| 35 — A failed idea | “Our NUMA-aware partition looked promising because fewer faces crossed logical memory groups. But its measured mean was 3.44 percent slower. We retained the loss and closed that unchanged candidate. A smaller graph cut is a proxy, not measured communication or a guaranteed speedup.” |
+| 36 — Scaling | “We compared the prescribed one-, two- and four-node endpoints. Hierarchical leads the two-node observations, while Scotch leads at four nodes. These are different allocations and endpoint lengths, so we show descriptive scaling rather than claim a controlled causal speedup.” |
+| 37 — Rank density | “Among six four-node native records, Scotch at 128 ranks per node has the lowest mean: 3.678 seconds per iteration. Hierarchical leads at the lower rank densities. Configuration choice depends on the actual node count and process density; a method name alone is insufficient.” |
+| 38 — Timing tail | “The selected record's median is 3.299 seconds, but one step took 35.884 seconds. We keep all 149 timed samples in the mean. The trace shows the event, not its cause. MPI wait, bandwidth, frequency, power and page residency were not measured.” |
+| 39 — Independent confirmation | “The old native work and timer checks pass, but final scheduler history and some provenance checks are missing. We therefore report a candidate observation, not an accepted official score. Job 25940700 independently repeats the setting with frozen inputs, explicit exits, physical-core startup checks and field seals.” |
+| 40 — Next decision | “We narrowed the configuration choice, rejected a losing hypothesis and strengthened reproduction. The independent repeat is still queued in the dated snapshot. Next we inspect its full results and timing tails, then choose a measured followup. We do not invent a new performance gain from an unrun plan.” |
+
+The portable package's main entry is `submit-best.pbs`; the one/two-node scripts are scaling checks. Keep command syntax and historical provenance detail for questions, not the spoken story.
+
+## Expanded learning script — original 6–8 minute version
+
+The following longer version is retained for private rehearsal and Q&A. Its old 12:52 queue sentence is a historical snapshot; use the current dated status above during the presentation.
 
 ## 1. The problem — about 45 seconds
 
