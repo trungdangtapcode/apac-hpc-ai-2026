@@ -66,3 +66,6 @@ No. It replays a sequence of GPU operations on the current tensors. Prefix/KV ca
 
 **Why record a failed test in a presentation?**  
 It explains a decision. A transport failure narrowed the next question to actual memory geometry; a cheap four-GPU probe then exposed a validator assumption before we submitted the larger H200 candidate. We preserve the failure and the useful evidence separately.
+
+**Did the unusual KV list split prove a code bug?**  
+No. We followed the complete source chain and checked the final mapping with independent labels. For our one-pipeline-stage configuration, the split and recombination preserve the original list. This is a source-level negative result, not proof that GPU memory transfers or model outputs are correct.

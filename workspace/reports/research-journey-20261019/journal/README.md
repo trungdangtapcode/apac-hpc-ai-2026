@@ -198,3 +198,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: real H100 geometry, original failed gate, source-backed correction and posted cost](entries/20261023-h100-geometry-gate-correction.md).
 
 - [23 October: a beginner journey, concepts and English presentation script](entries/20261023-learning-presentation-route.md).
+
+- [23 October: trace the final KV mapping before calling an intermediate split a bug](entries/20261023-kv-pointer-order-source-review.md).

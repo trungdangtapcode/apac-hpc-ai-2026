@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T12:40:13.702344+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T12:51:35.076548+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -35,6 +35,8 @@ Historical source 25366 N64 has zero request errors/cancellations, 1876/1902 joi
 The full N68 pair passes local gates but misses its 1% improvement threshold; unchanged N68 replication is closed. A new distinct hypothesis still requires evidence and a fresh supported plan. Dense graphs remain 1–64; client concurrency is not actual batch size. Maximum five own active/pending jobs and the actual 17-minute partition limit remain unchanged. No PBS SU is reserved by these Slurm jobs.
 
 ## Decisions from completed runs
+
+[Source-only KV order review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle_kv_layout_review-20261023/REPORT.md) finds no pointer-origin bug for 25682's PP=1 / start 0 path: native builders append target+draft pointers and the final full-range split/recombine preserves ordering. Root checks the actual frozen request-plan/head selector for 16 CPU cases, covering 190→190 and 188→190. This is not GPU transfer/output proof. Keep the queued payload and position unchanged; prepare a distinct actual full-span byte-transfer probe from 190×76,132,096 byte KV regions and ten observed auxiliary spans. No new probe submitted/reserved at this source-review milestone.
 
 The reviewed full N60 wave scores are control 24964=2981.417188, both-HPC 24965=2886.298789 (−3.1904%), locality capture 25051=2985.515382 (+0.1375%), and power_of_two router 25283=2867.923337 (−3.8067%). Close unchanged both-HPC and power_of_two branches; locality is diagnostic, not a demonstrated gain. [Wave review and phase-aligned observability](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-h200-wave-20261021/REVIEW.md). Short 25339 favored N64 by 2.861439%; it justified the fresh full pair, not a ranked score.
 
