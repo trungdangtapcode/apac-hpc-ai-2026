@@ -25,3 +25,5 @@ No qsub, budget reservation, frozen-payload modification or result claim is auth
 - [Native comparison](../four-node-review-20261023/RESULTS.md).
 - [Prior one-node placement screen](../rank-placement-screen-20261022/PLAN.md).
 - [HPE Cray MPI 24.03 rank-reordering documentation](https://h41374.www4.hpe.com/docs/24.03/mpt/mpich/intro_mpi.html#general-mpi-environment-variables), reviewed 23 October 2026. It documents custom MPI rank ordering; this is not verification of the installed cluster version or runtime binding.
+
+A future four-node runtime candidate must compare the fresh 512-way processor adjacency and face counts with the sealed input graph before applying this mapping. A changed partition must fail that gate and be analyzed separately; the old permutation must never be silently applied to a different decomposition.
