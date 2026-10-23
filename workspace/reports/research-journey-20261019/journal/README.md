@@ -230,3 +230,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: frozen nonlogin repair retains strict native/data/exit gates](entries/20261023-nonlogin-repair-preparation.md).
 
 - [23 October: supported nonlogin launcher repair 224157 submitted for confirmation](entries/20261023-nonlogin-repair-224157-submitted.md).
+
+- [23 October: full slow-step audit, a four-host placement graph and the dependent MPI preflight](entries/20261023-hpc-four-node-placement.md).

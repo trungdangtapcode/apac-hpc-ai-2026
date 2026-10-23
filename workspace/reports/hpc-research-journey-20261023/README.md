@@ -55,3 +55,7 @@ python3 -m venv /tmp/hpc-figure-env
 ```
 
 Figure generation uses local CPU work, not a cluster allocation. It does not change submission slides or the HPC_Task package.
+
+## Latest continuation: test placement rather than change the partition
+
+The [new research entry](../research-journey-20261019/journal/entries/20261023-hpc-four-node-placement.md) records the full tail audit, the 512-rank/four-logical-host graph candidate and dependent interface preflight 25943865. The graph cut improves 22.59%, but solver speedup is unmeasured. Presentation files retain their dated slide snapshot; this learning guide links the newer hypothesis separately.

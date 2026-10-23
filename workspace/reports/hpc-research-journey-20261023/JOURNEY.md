@@ -168,3 +168,11 @@ Job **25940700.pbs101** was submitted at **12:51 UTC** as one independent Scotch
 **Presenter.** “The old records identify a promising configuration, but also show why we need stronger proof. We have now submitted an independent full-work confirmation with frozen inputs and explicit exit/field/placement checks. This is a replication with better evidence, not a new tuning trick or a second claimed result. Our next decision will depend on that reviewed output.”
 
 Sources: [confirmation plan](../../../2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-four-node-confirm-20261023/PLAN.md), [submission receipt](../../../2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-four-node-confirm-20261023/submission.json), [conservative budget](../../../2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261023/BUDGET.md). For reusable figures and a speaking route, use [the guide](README.md) and [presenter script](TALK_TRACK.md).
+
+## 23 October continuation — placement without repartitioning
+
+The new [research record](../research-journey-20261019/journal/entries/20261023-hpc-four-node-placement.md) explains the post-submission continuation. We inspected all 894 timing samples and the 13 active probe outputs per case. The main output cadence does not isolate a cause of slow steps; every sample remains in the metric.
+
+A separate offline screen keeps the 512 partitions unchanged and proposes which ranks share a node. Crossing interface faces fall from 337,324 to 261,110 (22.59% of the old crossing cut; 2.604% of all interface faces). Cell counts per proposed host become slightly less balanced. These are graph diagnostics, not measured communication or speedup. Think of keeping each worker's territory fixed while changing which room that worker occupies.
+
+Before a full solver test, job 25943865 checks a tiny four-rank MPI order change on one CPU node. It depends on confirmation 25940700 and is held until that job finishes. The test reads actual MPI world ranks and verifies host/core placement; a launcher environment rank alone would not establish that MPI applied the order. A successful four-rank probe would still not prove the four-node candidate. The existing confirmation remains queued; no new solver result was obtained during this continuation.
