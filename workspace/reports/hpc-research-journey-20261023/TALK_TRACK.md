@@ -54,6 +54,7 @@ The submitted confirmation is **25940700.pbs101**, maximum 40 minutes on four ex
 | Is 4.57% less cut equal to 4.57% faster? | No. It is only an offline candidate; the runtime test is unmeasured. |
 | Can you delete the 35.88-second sample? | No. The native Average includes every measured step. We retain it and investigate it. |
 | Why is the fastest configuration not called the final score? | Native work/time checks pass, but the old terminal scheduler/return/provenance evidence is incomplete. A stronger confirmation is in the queue. |
+| Are your extra proof checks new contest rules? | No. They are our research/reproducibility checks, not additional official eligibility conditions or a judge acceptance decision. |
 | Does UnknownJobId mean failure? | No. It means that query no longer provides the job history; native logs and terminal accounting answer different questions. |
 | Can the HPC task use the AI GPUs? | GPU acceleration is prohibited for this CPU task in every tier. AI resources and scoring are separate. |
 | Do we need a source patch for Bonus points? | No. Carefully explained Basic tuning can earn Bonus recognition. Experimental changes are optional and require self-proof. |

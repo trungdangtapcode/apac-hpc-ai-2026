@@ -34,7 +34,7 @@ This deliberately uses the shared 128-rank/node series: H1/S1 jobs 25921831/2592
 
 ![All measured iteration durations for the two full-rank four-node cases](figures/iteration-spikes.png)
 
-Scotch128's median is **3.298742 seconds**, p95 **3.795740 seconds**, and maximum **35.883552 seconds at Time 119**. That maximum alone contributes **0.240829 seconds** to the untrimmed mean, or **6.55%** of the total measured duration. It stays in the metric. This is its arithmetic contribution, not an estimate of recoverable optimization time. All six native loggers warn that their sample count is below the logger's recommendation; the recommendation is not a formal independent confidence interval. The traces show when slow steps happened, not whether CPU frequency, MPI, I/O or another factor caused them. Those measurements were not collected.
+Scotch128's median is **3.298742 seconds**, p95 **3.795740 seconds**, and maximum **35.883552 seconds at Time 119**. That maximum alone contributes **0.240829 seconds** to the untrimmed mean, or **6.55%** of the total measured duration. It stays in the metric. This is its arithmetic contribution, not an estimate of recoverable optimization time. All six native loggers warn that their sample count is below the logger's recommendation; the recommendation is not a formal independent confidence interval. The logger warning does not replace the official 150-step endpoint; it motivates independent repeats, not a longer ranked run. The traces show when slow steps happened, not whether CPU frequency, MPI, I/O or another factor caused them. Those measurements were not collected.
 
 ## How this guide stays current
 
