@@ -44,7 +44,7 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX)
         before = inventory()
         merge = json.loads((O / 'merge-validation.json').read_text())
-        assert sha(before[DECK]) == merge['base_sha256'], 'AI deck changed: rebase this section'
+        assert sha(before[DECK]) in {merge['base_sha256'], merge['combined_sha256']}, 'AI deck changed: rebase this section'
         assert merge['passed'] and (merge['ai_slides'], merge['hpc_slides']) == (32, 8)
         deck = Presentation(O / 'TripleU_APAC2026_Presentation.pptx')
         assert len(deck.slides) == 40
@@ -59,9 +59,12 @@ def main():
         assert all(0 <= b['x'] and 0 <= b['y'] and b['x'] + b['w'] <= 13.334
                    and b['y'] + b['h'] <= 7.501 for b in layout['text_boxes'])
         bg = json.loads(before['AI_Task/logs/presentation-backgrounds.json'])['slides']
-        assert len(bg) == 32
-        for i, item in enumerate(layout['backgrounds'], 33):
-            bg.append({**item, 'slide': i, 'section': 'HPC'})
+        assert len(bg) in (32, 40)
+        if len(bg) == 32:
+            for i, item in enumerate(layout['backgrounds'], 33):
+                bg.append({**item, 'slide': i, 'section': 'HPC'})
+        else:
+            assert [x['sha256'] for x in bg[32:]] == [x['sha256'] for x in layout['backgrounds']]
         assert len({x['sha256'] for x in bg}) == 40
         scripts = O / 'package/HPC_Task/job_scripts'
         subprocess.run(['python3', str(scripts / 'verify-inputs.py'), '--root', str(scripts),
@@ -74,6 +77,8 @@ def main():
             assert sha((O / 'package/HPC_Task/logs' / row['path']).read_bytes()) == row['sha256']
         now = datetime.now(timezone.utc)
         prior_validation = json.loads(before['AI_Task/logs/presentation-validation.json'])
+        if prior_validation.get('slides') == 40:
+            prior_validation = prior_validation['previous_ai_validation']
         report = dict(checked_utc=now.isoformat(), passed=True,
                       slides=40, ai_slides=32, hpc_slides=8, hpc_slide_fraction=0.2,
                       english_slides_and_notes=True, distinct_backgrounds=40,

@@ -48,10 +48,12 @@ The original 32-slide AI deck and PDF are retained in `inputs`. Rebuild the HPC
 section with `workspace/submission-tools/build_hpc_section_20261023.py`, then run
 `merge_hpc_section_20261023.py` in an environment installed from the section's
 pinned `requirements.txt`. These builders use the documented active workspace
-paths. The publisher deliberately refuses a changed AI base and is a guarded
-one-time update, not a blind overwrite command. Native source origins and hashes
+paths. The publisher refuses an unknown AI deck and permits only the retained original
+base or the exact reviewed combined deck, allowing controlled HPC package fixes. Native source origins and hashes
 are in `package/HPC_Task/logs/provenance.json`. A previous package was backed up
 before publication. No organizer upload occurred.
 
 Large PPTX/PDF/ZIP objects are retained through the research archive's external
 artifact manifests; a Git push alone does not upload those object bytes.
+
+[Final extracted-ZIP checks](delivery-validation.json) include all three PBS entry points with a nonexecutable driver and a path containing spaces. The entry points explicitly call `bash`; no executable permission bit is required after extraction. [Retained-input rebuild checks](rebuild-validation.json) verify all 270 PPTX package parts and the speaker notes.

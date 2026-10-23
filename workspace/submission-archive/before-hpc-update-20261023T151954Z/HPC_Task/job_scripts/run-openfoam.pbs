@@ -1,0 +1,89 @@
+#!/bin/bash
+# PBS execution driver. All project files are embedded beside this script.
+set -eo pipefail
+: "${PBS_JOBID:?PBS_JOBID is required}" "${PBS_O_WORKDIR:?Submit from job_scripts}" "${PBS_NODEFILE:?PBS_NODEFILE is required}"
+ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
+NODES=${HPC_NODES:?}; STEPS=${HPC_STEPS:?}; VARIANT=${HPC_VARIANT:?}; RANKS=$((NODES * 128))
+case "$NODES:$STEPS" in 1:40|2:80|4:150) ;; *) echo 'Unsupported node/step combination' >&2; exit 2 ;; esac
+MESH=${HPC_MESH_DIR:-/scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh}
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"; test ! -e "$RUN"; mkdir -p "$RUN/logs"
+START=$(date +%s); DEADLINE=2220
+python3 "$ROOT/batch-lifecycle.py" start "$RUN" "$NODES" "$RANKS" "$STEPS"
+finish() { rc=$?; set +e; python3 "$ROOT/batch-lifecycle.py" finish "$RUN" "$rc"; exit "$rc"; }
+trap finish EXIT
+left() { echo $((DEADLINE - ($(date +%s) - START))); }
+bounded() { local s; s=$(left); test "$s" -gt 45; timeout --signal=TERM --kill-after=15s "${s}s" "$@"; }
+phase() { printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$1" "$2" >> "$RUN/phases.tsv"; }
+record_rc() { python3 - "$RUN/command-return-codes.json" "$1" "$2" <<'PY'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1]); x=json.loads(p.read_text()) if p.exists() else []
+x.append({'stage':sys.argv[2],'return_code':int(sys.argv[3])}); p.write_text(json.dumps(x,indent=2)+'\n')
+PY
+}
+stage() {
+ label=$1; mode=$2; logfile=$3; shift 3
+ s=$(left); test "$s" -gt 45; phase start "$label"
+ if /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" timeout --signal=TERM --kill-after=15s "${s}s" "$@" >"$logfile" 2>&1; then rc=0; else rc=$?; fi
+ record_rc "$label" "$rc"; phase "exit=$rc" "$label"; test "$rc" -eq 0
+ if [ "$mode" = serial ]; then bounded python3 "$ROOT/validate-stage.py" "$logfile" decompose "$RANKS" >"$RUN/logs/$label.validation.json"
+ else bounded python3 "$ROOT/validate-stage.py" "$logfile" "$label" "$RANKS" >"$RUN/logs/$label.validation.json"; fi
+}
+phase start module_setup
+. /app/apps/resetmodule
+module load openfoam/2512
+: "${WM_PROJECT_DIR:?OpenFOAM module did not set WM_PROJECT_DIR}"
+test "${WM_PROJECT_VERSION:-}" = 2512 && test "${WM_PRECISION_OPTION:-}" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS="$NODES" FI_OFI_RXM_USE_SRX=0
+{ date -u; hostname; module list 2>&1; printf 'WM_PROJECT_VERSION=%s\nWM_PRECISION_OPTION=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION"; lscpu; env | sort | grep -E '^(FI_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*|MKL_[A-Za-z0-9_]*|OPENBLAS_[A-Za-z0-9_]*|WM_[A-Za-z0-9_]*)=' || true; } >"$RUN/environment.log"
+printf 'nodes=%s ranks=%s steps=%s variant=%s mesh=%s\n' "$NODES" "$RANKS" "$STEPS" "$VARIANT" "$MESH" >"$RUN/parameters.txt"
+phase complete module_setup
+python3 - "$PBS_NODEFILE" "$RUN/pbs-nodefile-validation.json" "$NODES" "$RANKS" <<'PY'
+from collections import Counter
+from pathlib import Path
+import json,sys
+p,o,n,r=sys.argv[1],sys.argv[2],int(sys.argv[3]),int(sys.argv[4]); rows=[x.strip().split('.')[0] for x in Path(p).read_text().splitlines() if x.strip()]; c=Counter(rows)
+assert len(rows)==r and len(c)==n and sorted(c.values())==[128]*n,(len(rows),c)
+Path(o).write_text(json.dumps({'passed':True,'lines':len(rows),'nodes':dict(sorted(c.items()))},indent=2)+'\n')
+PY
+cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+phase start frozen_input_validation
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode bundle >"$RUN/source-validation-before.json"
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode case --case "$ROOT/case" --nodes 1 --steps 40 >"$RUN/canonical-case-validation.json"
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$MESH" >"$RUN/mesh-validation.json"
+phase complete frozen_input_validation
+phase start startup_rank_probe
+s=$(left); test "$s" -gt 45
+if /usr/bin/time -v -o "$RUN/logs/startup_rank_probe.resource.txt" timeout --signal=TERM --kill-after=15s "${s}s" mpirun -np "$RANKS" python3 "$ROOT/rank-probe.py" >"$RUN/rank-probe.jsonl" 2>"$RUN/rank-probe.stderr"; then rc=0; else rc=$?; fi
+record_rc startup_rank_probe "$rc"; phase "exit=$rc" startup_rank_probe; test "$rc" -eq 0
+bounded python3 "$ROOT/validate-rank-probe.py" "$RUN/rank-probe.jsonl" --nodefile "$PBS_NODEFILE" --expected-ranks "$RANKS" --nodes "$NODES" >"$RUN/rank-probe-validation.json"
+phase complete startup_rank_probe
+CASE="$RUN/case"; test ! -e "$CASE"; bounded cp -a --reflink=auto "$ROOT/case" "$CASE"
+bounded python3 - "$CASE" "$NODES" "$STEPS" <<'PY'
+from pathlib import Path
+import re,sys
+c=Path(sys.argv[1]); ranks=int(sys.argv[2])*128; steps=int(sys.argv[3])
+p=c/'system/include/caseDefinition'; s=p.read_bytes(); t,n=re.subn(rb'(?m)^(\s*nCores\s+)128(\s*;)',lambda m:m.group(1)+str(ranks).encode()+m.group(2),s,count=1); assert n==1; p.write_bytes(t)
+p=c/'system/controlDict'; s=p.read_bytes(); t,n=re.subn(rb'(?m)^(\s*endTime\s+)40(\s*;)',lambda m:m.group(1)+str(steps).encode()+m.group(2),s,count=1); assert n==1; p.write_bytes(t)
+PY
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode derive --case "$CASE" --nodes "$NODES" --steps "$STEPS" >"$RUN/derived-case-validation.json"
+test ! -e "$CASE/constant/polyMesh"; ln -s "$MESH" "$CASE/constant/polyMesh"; test -L "$CASE/constant/polyMesh"
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$CASE/constant/polyMesh" >"$RUN/linked-mesh-validation.json"
+cd "$CASE"; . "$WM_PROJECT_DIR/bin/tools/RunFunctions"; mkdir -p logFiles
+stage decomposePar serial "$RUN/logs/10_decomposePar.log" decomposePar -constant
+bounded python3 "$ROOT/verify-layout.py" "$CASE" "$RANKS" >"$RUN/decomposition-layout-validation.json"
+s=$(left); test "$s" -gt 45; phase start restore0Dir
+if /usr/bin/time -v -o "$RUN/logs/restore0Dir.resource.txt" timeout --signal=TERM --kill-after=15s "${s}s" bash -ec '. "$WM_PROJECT_DIR/bin/tools/RunFunctions"; restore0Dir -processor' >"$RUN/logs/15_restore0Dir.log" 2>&1; then rc=0; else rc=$?; fi
+record_rc restore0Dir "$rc"; phase "exit=$rc" restore0Dir; test "$rc" -eq 0
+bounded python3 "$ROOT/field-seal.py" "$CASE" "$RUN/restored-zero-fields.json" "$RANKS"
+stage renumberMesh parallel "$RUN/logs/20_renumberMesh.log" mpirun -np "$RANKS" renumberMesh -constant -overwrite -parallel
+stage potentialFoam parallel "$RUN/logs/30_potentialFoam.log" mpirun -np "$RANKS" potentialFoam -initialiseUBCs -parallel
+stage applyBoundaryLayer parallel "$RUN/logs/40_applyBoundaryLayer.log" mpirun -np "$RANKS" applyBoundaryLayer -ybl 0.0450244 -parallel
+bounded python3 "$ROOT/field-seal.py" "$CASE" "$RUN/initialized-zero-fields-before-solve.json" "$RANKS"
+stage simpleFoam parallel "$CASE/logFiles/simpleFoam.log" mpirun -np "$RANKS" simpleFoam -parallel
+phase start solver_output_validation
+bounded python3 "$ROOT/validate-solve.py" "$CASE" --steps "$STEPS" --nodes "$NODES" --output "$RUN/native-solver-review.json" >"$RUN/native-solver-review.stdout.json"
+bounded python3 "$ROOT/field-seal.py" "$CASE" "$RUN/initialized-zero-fields-after-solve.json" "$RANKS" "$RUN/initialized-zero-fields-before-solve.json"
+bounded python3 "$ROOT/verify-inputs.py" --root "$ROOT" --mode bundle >"$RUN/source-validation-after.json"
+phase complete solver_output_validation
+echo "OPENFOAM_CPU_NATIVE_PASS $VARIANT"

@@ -36,3 +36,5 @@ PBS combines output into the scheduler's job output file because `-j oe` is set.
 `batch-lifecycle.json` contains wrapper timing and a best-effort live PBS snapshot taken before process exit. It is diagnostic only; it is not final PBS completion/accounting. Review the terminal scheduler record separately before claiming completion or cost. Startup rank binding does not establish solver-time migration, page residency, or runtime communication. Native timing validation does not establish a confidence interval or causal explanation. The one/two-node examples are scaling checks only; no portability claim, CPU/GPU replay claim, or new measured result is made by this bundle.
 
 `bundle-sha256.json` seals the source files other than itself and generated `runs/` output. `source-case-sha256.json` separately records the 43-file accepted ASCII case. The scripts use Python standard-library syntax compatible with Python 3.6.
+
+The PBS entry points invoke the driver through `bash`, so execution does not depend on executable permission bits surviving ZIP extraction.

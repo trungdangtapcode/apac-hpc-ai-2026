@@ -139,7 +139,7 @@ def main():
             for rel in xml(data):
                 if rel.get('TargetMode') != 'External':
                     assert resolve(owner, rel.get('Target')) in dst, (name, rel.attrib)
-    out = O / BASE.name
+    out = O / 'TripleU_APAC2026_Presentation.pptx'
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for name, data in dst.items():
             z.writestr(name, data)
