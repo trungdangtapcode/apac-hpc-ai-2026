@@ -214,3 +214,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: independent Python, container and batch exit-boundary hypothesis](entries/20261023-exit-boundary-preparation.md).
 
 - [23 October: exit-boundary payload backed up; no submission after connection preflight failure](entries/20261023-exit-boundary-access-preflight.md).
+
+- [23 October: matched H200 prefill graph policy pair before speculative performance claims](entries/20261023-h200-prefill-graph-policy-preparation.md).

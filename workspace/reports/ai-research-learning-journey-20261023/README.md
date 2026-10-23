@@ -114,3 +114,7 @@ The overall PBS job still failed with exit 1. A data check can succeed while cle
 ### Completing the calculation and finishing the program
 
 The native byte check is a calculation inside a program. After the calculation ends, the program still tears down its transport, the container exits and PBS stages output. A success message inside the calculation does not prove those later layers succeeded. The next derived diagnostic records each exit independently while preserving the tested transfer algorithm. Its CPU fixtures distinguish clean exits, errors, missing records and timeouts. GPU execution is still pending at this preparation checkpoint. [Controlled exit-boundary hypothesis](../research-journey-20261019/journal/entries/20261023-exit-boundary-preparation.md).
+
+### Separate a prerequisite from the optimization itself
+
+Our native EAGLE setup currently disables prefill CUDA graphs to initialize reliably. CUDA graphs can reduce repeated GPU launch overhead, while capture costs setup time and memory. If ordinary serving keeps graphs and EAGLE disables them, a comparison changes two things at once. We are therefore preparing a target-only graph-policy pair with the same explicit request limits and dtype on both sides. Both sides must prove the actual initialized settings before load. This can measure a policy cost or benefit; it does not measure EAGLE speedup. [Question, corrected backend syntax, controls and stopping rule](../research-journey-20261019/journal/entries/20261023-h200-prefill-graph-policy-preparation.md).

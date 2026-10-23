@@ -1,0 +1,15 @@
+# Separate the graph-policy effect from speculative decoding
+
+23 October 2026. Prior results retain reproduced H200 N64 at 3044.400475 good output tokens/s mean. Full N68's 0.083056% gain is too small to reopen unchanged. EAGLE correctness 25682 remains pending. H100 currently has no live VPN and its prepared exit-boundary probe is not submitted.
+
+Question: how much does disabling prefill CUDA graphs change target-only startup and short goodput? Native EAGLE currently needs uniform eager prefill, unlike the ordinary target setup. A later speculative comparison must share that policy and initialized request capacities, or it mixes multiple changes.
+
+Prepare two separate target-only 16-H200/two-node/17-minute allocations: s40 native automatic prefill policy, s41 explicit disabled policy. Both use TP4+TP4 DeepGEMM/chunk8192 prefills, TP8/EP8 HPC-Ops decode, the same FP8 target/BF16 activations and KV, MNNVL, FlashInfer, round-robin, native transport, common observer, explicit prefill 64/decode 256 request limits and dense decode graphs 1–64. Do not compare either directly with a full incumbent that had different automatic capacity. The only between-pair treatment is the common prefill graph policy.
+
+A source check caught a preparation assumption before submission: literal auto is not a supported backend. Control therefore omits the flag. Native ServerArgs remain None, resolving breakable on prefill workers but disabled prefill graphs on decode through the role rule. Treatment is explicit disabled on every role. Require actual resolved settings and initialized scheduler receipts, per-rank graph/KV evidence, both semantic P/D receipts, exact normalized AIPerf 20/40/30 protocol and full raw profiling records, joint SLA at least 0.90 with zero errors/cancel, and independent short/long raw-response diagnostics. No full-model accuracy claim.
+
+Ten capacity tests and two synthetic complete head fixtures pass, including eight rejection checks. Source bundles are checksum-verified; target/serving fingerprints and full client-image hash are retained. These are preparation tests, not new model results. Absolute startup/warmup/client/head/teardown bounds fit 1020 seconds. No PBS SU is used. Freeze and back up before submitting s40 afterany 25682 and s41 afterok s40; own active/pending cap stays five. Preserve all earlier positions and payloads.
+
+A valid short gain at least 1% permits considering a fresh full pair and confirmation. Otherwise close this standalone policy unchanged. A startup saving is separate from tokens/s; a graph-policy loss does not prove EAGLE loses. [Controlled plan and stopping rules](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-prefill-graph-policy-20261023/PLAN.md).
+
+For a presentation: “CUDA graphs record repeated GPU work to reduce repeated launch overhead, but they also cost setup time and memory. EAGLE needs a different prefill graph policy in our current runtime. We first measure that policy separately, with the same model and request capacity on both sides, so any later EAGLE speedup is attributed fairly.”
