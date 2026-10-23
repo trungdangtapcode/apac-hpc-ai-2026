@@ -228,3 +228,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: source review separates whole auxiliary spans from actual request-row addressing](entries/20261023-native-aux-slot-layout-source.md).
 
 - [23 October: frozen nonlogin repair retains strict native/data/exit gates](entries/20261023-nonlogin-repair-preparation.md).
+
+- [23 October: supported nonlogin launcher repair 224157 submitted for confirmation](entries/20261023-nonlogin-repair-224157-submitted.md).

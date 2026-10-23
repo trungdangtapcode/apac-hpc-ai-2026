@@ -2304,3 +2304,7 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## H100 exit-boundary 224155 — 23 October 15:29 UTC
 
 Prior 224116 uniquely reconciles 16.284 SU; failed PBS status and passing byte evidence remain separate. Submitted 224155.pbs111, immediately R, two H100 on 037/039 / max ten minutes / max 42.666667 SU. Adds independent Python/container/node/batch exits to unchanged native transfer; no measurement yet. Headroom 4491.419333 SU under unchanged cap/reserve. [Receipt and limits](nixl-exit-boundary-probe-20261023/RESULTS.md).
+
+## Nonlogin repair 224157 — 23 October 15:49 UTC
+
+Submitted 224157.pbs111, immediately R on 037/039, two H100/max ten minutes/max 42.666667 SU; internal headroom 4472.788333 SU. Ordinary Bash plus explicit module bootstrap repairs the CPU-reproduced exit fault while preserving strict byte/process gates. No runtime/score result at submission. [Design, receipt and limits](nixl-nonlogin-exitfix-20261023/RESULTS.md).

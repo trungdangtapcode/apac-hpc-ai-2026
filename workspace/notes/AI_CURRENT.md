@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T15:45:10.744593+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T15:51:37.282280+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -50,6 +50,9 @@ The reviewed full N60 wave scores are control 24964=2981.417188, both-HPC 24965=
 Sampled GPU activity, allocated VRAM, KV token occupancy and kernel-time sums are different quantities. The phase-aligned wave review corrects the server-metrics success key and retains HTTP 200 payloads. Profile stop can return HTTP 500 even though scored requests have zero errors. Trace names are inventoried; trace contents are not generally inspected. [Matched N62/N64 inspection](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/observability.md) now retains per-role telemetry, tail latency, profile controls and explicit limits.
 
 ## H100 NIXL / EAGLE3 branch
+
+**224157.pbs111 is submitted/R** at 15:49 UTC on two H100 hosts 037/039, one GPU each, max ten minutes. Supported nonlogin batch/node repair plus explicit module init preserves all native byte, strict error and independent exit gates. No runtime pass yet; source and actual CPU reproduction are frozen in 70f4094b. Maximum 42.666667 SU reserved; fresh Used 46484.545 / Balance 17515.455 / In Doubt 0 / headroom 4472.788333 SU. Old 224155 charge 18.631 SU is uniquely posted. [Receipt and exact limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-nonlogin-exitfix-20261023/RESULTS.md).
+
 
 **224155.pbs111 is terminal F / exit 1**, 262 s / posted 18.631 SU. Actual native byte checks pass again; both Python children and containers return 0, cleanup 0, but both node shells report 1 and the strict head exit gate correctly rejects. Controlled eight-case CPU tests isolate login mode  + errexit  + console-cleanup logout; the other seven pass. User startup/logout files are unchanged. Next derive nonlogin batch/node launch with explicit module init, retaining all strict gates, before one bounded confirmation. This does not explain the earlier full 223055 NIXL disconnect. Fresh ledger at 15:42: Used 46484.545 / Balance 17515.455 / In Doubt 0 / outstanding maxima 0 / headroom 4515.455 SU. [Complete proof and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224155-20261023/REVIEW.md).
 
