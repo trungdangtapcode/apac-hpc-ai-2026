@@ -1,0 +1,100 @@
+{
+  "status": "prepared_not_submitted",
+  "source_payload_files": 9,
+  "source_hashes_before_job": "passed locally; job repeats before and after execution",
+  "bash_syntax": "passed",
+  "python_3_6_grammar": "passed for all payload Python files",
+  "offline_synthetic_fixtures": {
+    "type": "synthetic MPI records; no MPI launch or site inference",
+    "positive_count": 1,
+    "negative_count": 4,
+    "positive_mapping": [
+      {
+        "candidate_mpi_rank": 0,
+        "control_slot_index": 0,
+        "host": "fixture-host",
+        "logical_cpu": 0,
+        "physical_package_core": [
+          0,
+          0
+        ]
+      },
+      {
+        "candidate_mpi_rank": 1,
+        "control_slot_index": 2,
+        "host": "fixture-host",
+        "logical_cpu": 2,
+        "physical_package_core": [
+          0,
+          2
+        ]
+      },
+      {
+        "candidate_mpi_rank": 2,
+        "control_slot_index": 1,
+        "host": "fixture-host",
+        "logical_cpu": 1,
+        "physical_package_core": [
+          0,
+          1
+        ]
+      },
+      {
+        "candidate_mpi_rank": 3,
+        "control_slot_index": 3,
+        "host": "fixture-host",
+        "logical_cpu": 3,
+        "physical_package_core": [
+          0,
+          3
+        ]
+      }
+    ],
+    "negative_cases": [
+      "candidate left at identity mapping",
+      "duplicate physical core in identity arm",
+      "duplicate MPI_COMM_WORLD rank record",
+      "PBS nodefile has only three slots"
+    ],
+    "pmi_rank_authoritative": false,
+    "cpu_topology_source": "/sys on the local validation host"
+  },
+  "pbs_root_path_with_spaces": {
+    "passed": true,
+    "checked": "ROOT=$(cd \"$PBS_O_WORKDIR\" && pwd -P), PAYLOAD=\"$ROOT/payload\", and RUN=\"$ROOT/runs/space-check\" with embedded files available"
+  },
+  "thread_controls": {
+    "OMP_NUM_THREADS": 1,
+    "MKL_NUM_THREADS": 1,
+    "OPENBLAS_NUM_THREADS": 1
+  },
+  "mpi_launch_options_both_arms": [
+    "mpiexec",
+    "-n",
+    "4",
+    "--cpu-bind",
+    "thread"
+  ],
+  "cray_mpich_reorder_settings_both_arms": {
+    "MPICH_RANK_REORDER_METHOD": "3",
+    "MPICH_RANK_REORDER_FILE": "rank-order.txt",
+    "MPICH_RANK_REORDER_DISPLAY": "1"
+  },
+  "local_mpi_compile": "not attempted: mpicc unavailable; no mpi.h found under /usr/include or /usr/local/include",
+  "target_interface_review": {
+    "cray_mpich": "8.1.15",
+    "pals": "1.1.6",
+    "method3_documented": true,
+    "mpi_processes_launched_during_manual_review": 0,
+    "review_record": "../rank-placement-512-screen-20261023/runtime-interface-review.json",
+    "installed_manual_excerpt_sha256": "ff1e14d2bb3e0ecd3c38d528e15bf064815ef5baed461c62e1058d6efab9b127"
+  },
+  "runtime_evidence": "pending target allocation; no SSH, scheduler query, qsub, MPI launch, solver, mesh, or budget operation was performed",
+  "resource_policy": {
+    "PBS_requested_ncpus": 4,
+    "PBS_walltime_minutes": 3,
+    "nominal_requested_SU": 0.2,
+    "conservative_parent_reservation_SU": 6.4,
+    "accounting_note": "Reservation allowance is not posted job accounting."
+  }
+}
