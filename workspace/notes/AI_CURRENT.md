@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T04:13:18.312231+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T04:15:39.527402+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Current measured results
 
@@ -50,10 +50,9 @@ The canonical reference preserves source worker, NIXL, placement and corpus byte
 
 ## Access, budget, backup and operating policy
 
-**22 October access attempt:** the previous VPN pane was dead. At the owner's explicit request only that pane was restarted, preserving private recovery state. Gateway authentication failed; no VPN connection was established and the owner confirmed no DUO notification, and SSH reachability timed out. The rejection reason is unverified; no repeat login loop. [Safe record](vpn-access-20261022.md). PBS credit below is a dated retained snapshot, not a fresh query.
+**23 October read-only access check:** an existing authenticated AI SSH connection reaches `a2ap-login01`; selected project 59010042 has no active jobs. No VPN restart/password/DUO action was attempted. The earlier failure and current working transport are separate dated observations; restoration method/time and lifetime are unknown. [Safe current record](vpn-access-20261023.md). The first command's missing PBS PATH and older purged job history are not authentication failures.
 
-
-Latest retained locked PBS snapshot: **2026-10-22T00:09:19.059347Z**, Used **46381.861 SU**, Balance **17575.472 SU**, In Doubt **42.667 SU**. Maximum **42.666667 SU** for 223132 remains reserved until its charge is uniquely reconciled. Internal headroom **4575.472333 SU** under the unchanged 51000 cap / 13000 reserve. The published balance already excludes the prepayment; do not subtract it twice. This is a dated snapshot, not live credit. No new PBS GPU job is authorised merely by an access check, and HPC spending is separate.
+Fresh locked AI credit from 23 October: Used **46404.261 SU**, Balance **17595.739 SU**, In Doubt **0 SU**. Only remaining unposted 223132 now uniquely matches a **22.4 SU** published increment (two GPUs/315 seconds), so its **42.666667 SU** maximum is released and the job is marked posted. Outstanding maxima are zero; internal headroom **4595.739 SU** under the unchanged 51000 cap / 13000 reserve. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-access-credit-20261023/RECONCILIATION.json). No reservation/new PBS job is created by this review; any next spend needs fresh locked checks and a separate receipt. Public balance already accounts for prepayment; do not subtract it twice. HPC spending remains independent.
 
 Edit active sources once, capture explicit safe checkpoints into the local archive, verify, commit with actual dates and push promptly. GitHub contains the Git portion and external-object manifests; the sibling artifact store still needs a separate off-host copy. Never capture credentials or session state. English artifacts, Vietnamese chat. Autopilot is OFF; no schedules, background Codex or automatic chat-notification promises.
 

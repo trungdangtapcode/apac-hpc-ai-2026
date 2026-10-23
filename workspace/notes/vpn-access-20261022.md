@@ -1,3 +1,5 @@
+> Historical 22 October authentication failure. On 23 October a read-only check reused an existing authenticated AI SSH connection successfully; no login or VPN restart was performed. See [current access evidence](vpn-access-20261023.md).
+
 # VPN authentication attempt — 22 October 2026
 
 Recorded 2026-10-22T14:15:37.078526+00:00. The owner explicitly asked to retry VPN login and DUO if authentication was required. The read-only check found the old tmux pane dead with exit status 0 and no live VPN namespace. This is not evidence of its disconnect cause or exact negotiated lifetime. The launcher still requests 86400 seconds; that setting does not guarantee a 24-hour accepted session.
