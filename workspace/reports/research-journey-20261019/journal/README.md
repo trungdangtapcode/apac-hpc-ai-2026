@@ -200,3 +200,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: a beginner journey, concepts and English presentation script](entries/20261023-learning-presentation-route.md).
 
 - [23 October: trace the final KV mapping before calling an intermediate split a bug](entries/20261023-kv-pointer-order-source-review.md).
+
+- [23 October: six four-node native reviews, conservative funding and confirmation25940700](entries/20261023-hpc-four-node-review-and-confirmation.md).

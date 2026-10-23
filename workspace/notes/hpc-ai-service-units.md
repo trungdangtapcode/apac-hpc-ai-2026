@@ -18,3 +18,7 @@ Evidence: hpc-experiments/nscc-cpu-timing-probe-20261021/cpu-budget.json and its
 ## Later owner-directed expansion
 
 After this clarification the owner explicitly requested substantially more HPC research/submissions. The CPU continuation now uses a bounded cumulative 1,000-SU planning ceiling, including the original first wave. The original 100-SU description above is historical for that first phase. Separate project balances and all queue/budget/AI-preservation rules remain. See hpc-experiments/cpu-continuation-20261021/PLAN.md and the CPU ledger ceiling_history.
+
+## 23 October: current CPU campaign ceiling
+
+The 21 October 1,000-SU continuation is historical. The owner explicitly approved a **5,000-SU cumulative CPU research ceiling including conservative shared use**. This is a local campaign spending limit, not the site's 30,000-SU grant or an AI-credit change. Current ledger commitment after submitting 25940700 is **4,865.533333 SU**, including intentionally overlapping posted-display usage and retained unknown-job maxima. Exact historical charges remain unproven. See [current funding](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/cpu-continuation-20261023/BUDGET.md) for the arithmetic. No old unknown reservation was released.
