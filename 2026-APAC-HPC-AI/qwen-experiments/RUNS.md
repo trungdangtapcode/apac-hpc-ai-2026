@@ -2300,3 +2300,7 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## H200 matched prefill graph-policy screens — 23 October 14:54 UTC
 
 25712 automatic policy follows afterany:25682; 25713 disabled policy follows afterok:25712. Each 16H200/two nodes/max 17 minutes, unranked 20/40/30 N64, no PBS SU. Common explicit BF16 and 64/256 capacities, same decoder graphs, stack, observer and strict semantic/raw-data gates. No new score at submission. [Hypothesis, source correction, receipts and stopping rules](h200-prefill-graph-policy-20261023/RESULTS.md).
+
+## H100 exit-boundary 224155 — 23 October 15:29 UTC
+
+Prior 224116 uniquely reconciles 16.284 SU; failed PBS status and passing byte evidence remain separate. Submitted 224155.pbs111, immediately R, two H100 on 037/039 / max ten minutes / max 42.666667 SU. Adds independent Python/container/node/batch exits to unchanged native transfer; no measurement yet. Headroom 4491.419333 SU under unchanged cap/reserve. [Receipt and limits](nixl-exit-boundary-probe-20261023/RESULTS.md).

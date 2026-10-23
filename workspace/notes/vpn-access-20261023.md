@@ -30,6 +30,6 @@ For troubleshooting: a VPN supplies a network path; SSH then authenticates to a 
 
 ## AI SSH authenticated again — 2026-10-23T15:28:36.236392+00:00
 
-The AI worker reused the healthy shared VPN and authenticated SSH to the expected H100 server using the previously supplied credential through a terminal with echo disabled. A remote command returns a2ap-login01. No VPN restart, fresh gateway authentication or phone-side DUO step was performed by this worker. No credential was written into scripts, research artifacts or notes. The SSH service reports that the account password will expire in three days; this was a server notice, not a VPN lifetime. No password change was attempted.
+The AI worker reused the healthy shared VPN and authenticated SSH to the expected H100 server using the previously supplied credential through a terminal with echo disabled. A remote command returns a2ap-login01. No VPN restart, fresh gateway authentication or phone-side DUO step was performed by this worker. No credential was saved into the codebase, research artifacts or notes. The SSH service reports that the account password will expire in three days; this was a server notice, not a VPN lifetime. No password change was attempted.
 
 The selected AI queue 59010042 is empty, and fresh selected credit successfully reconciles the uniquely posted 224116 charge 16.284 SU. Existing CPU-project access/queues/budget are untouched. The earlier unauthenticated AI SSH snapshot is historical.

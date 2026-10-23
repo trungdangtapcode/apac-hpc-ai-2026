@@ -220,3 +220,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: H200 policy controls 25712/25713 submitted serially after 25682](entries/20261023-h200-prefill-graph-policy-submitted.md).
 
 - [23 October: 80/20 AI/HPC presentation and portable CPU submission, with access recovery](entries/20261023-hpc-presentation-and-submission.md).
+
+- [23 October: AI SSH authenticated, prior cost posted and H100 exit-boundary 224155 submitted](entries/20261023-exit-boundary-224155-submitted.md).
