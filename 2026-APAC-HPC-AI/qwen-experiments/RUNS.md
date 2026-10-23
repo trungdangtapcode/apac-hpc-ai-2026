@@ -1,3 +1,7 @@
+## 23 October: four-H100 production registration probe 223788
+
+Definite PBS 223788.pbs111, initially R, project 59010042, four H100/one node/20-minute ceiling/max 170.666667 SU. Actual native geometry and source/dtype/graph/health gates are required; no decoder, serving client, PD equivalence or score. Fresh locked reservation leaves 4425.072333 SU internal headroom. [Receipt/limits](eagle3-h100-geometry-probe-20261023/RESULTS.md).
+
 ## 23 October: repaired H200 exact reference 25585
 
 Definite native Slurm receipt: **25585**, `s38-h200-target-reference-homefix`, 16 H200/two nodes/17-minute maximum/no PBS SU. Adds only the missing client HOME directory proven by failed 25495, with mount-prerequisite regression and unchanged actual token/head/asset gates. Pending output/runtime review, not a score or EAGLE3 result. [Receipt](eagle3-h200-reference-homefix-20261023/RESULTS.md), [failure evidence](research-review-25495-20261023/REVIEW.md).

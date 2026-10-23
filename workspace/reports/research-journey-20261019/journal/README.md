@@ -190,3 +190,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: existing H100 access and uniquely posted native-probe charge](entries/20261023-h100-existing-access-credit.md).
 
 - [23 October: H200 reference 25585 accepted with all 1600 real IDs](entries/20261023-h200-reference-accepted.md).
+
+- [23 October: bounded production-size H100 KV geometry probe 223788 submitted](entries/20261023-h100-production-geometry-submitted.md).

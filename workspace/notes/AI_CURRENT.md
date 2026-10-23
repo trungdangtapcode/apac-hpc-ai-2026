@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T04:21:46.957395+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T04:26:35.717125+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Current measured results
 
@@ -40,6 +40,9 @@ Sampled GPU activity, allocated VRAM, KV token occupancy and kernel-time sums ar
 
 ## H100 NIXL / EAGLE3 branch
 
+**223788.pbs111 is submitted**, initially R/aiq1: four H100/one node/20-minute ceiling, maximum 170.666667 SU reserved. It collects actual production-size target/draft KV registration geometry using the source-derived observer on the known eager-prefill recipe; no decoder/user-serving client/PD output/score. 41 CPU proposal checks and remote staged-size/metadata/full-draft preflight pass; actual runtime/overhead remains pending. [Definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-h100-geometry-probe-20261023/RESULTS.md).
+
+
 All no-model component probes pass: 223091 base VRAM transfers, 223097 actual patched descriptors, and **223132 native 190-range VRAM registration plus pinned-DRAM auxiliary transfer**. Latest is F/exit 0, 315 seconds, estimated 22.4 SU, on 039/037. Three KV writes and one auxiliary write pass independent byte/hash checks. [Sealed native review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-native-registration-probe-20261021/REVIEW.md).
 
 These small buffers and different hosts do not prove full EAGLE3 transport or output correctness. Full 223055 failed at an earlier NIXL remote disconnect; later metadata-not-found was downstream. Its ALL_PAIRS_WARM marker was false because remote child status was masked; the final token gate correctly rejected HTTP 500 and zero outputs. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/REVIEW.md). The independent [semantic warmup receipt gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/pair-warmup-semantic-20261021/PLAN.md) is CPU-validated and now actually passes both H200 25495 pair receipts; it is not yet deployed in an accepted full H100 repair.
@@ -52,7 +55,7 @@ The canonical reference preserves source worker, NIXL, placement and corpus byte
 
 **23 October read-only access check:** an existing authenticated AI SSH connection reaches `a2ap-login01`; selected project 59010042 has no active jobs. No VPN restart/password/DUO action was attempted. The earlier failure and current working transport are separate dated observations; restoration method/time and lifetime are unknown. [Safe current record](vpn-access-20261023.md). The first command's missing PBS PATH and older purged job history are not authentication failures.
 
-Fresh locked AI credit from 23 October: Used **46404.261 SU**, Balance **17595.739 SU**, In Doubt **0 SU**. Only remaining unposted 223132 now uniquely matches a **22.4 SU** published increment (two GPUs/315 seconds), so its **42.666667 SU** maximum is released and the job is marked posted. Outstanding maxima are zero; internal headroom **4595.739 SU** under the unchanged 51000 cap / 13000 reserve. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-access-credit-20261023/RECONCILIATION.json). No reservation/new PBS job is created by this review; any next spend needs fresh locked checks and a separate receipt. Public balance already accounts for prepayment; do not subtract it twice. HPC spending remains independent.
+Fresh locked AI credit from 23 October: Used **46404.261 SU**, Balance **17595.739 SU**, In Doubt **0 SU**. Only remaining unposted 223132 now uniquely matches a **22.4 SU** published increment (two GPUs/315 seconds), so its **42.666667 SU** maximum is released and the job is marked posted. After 223788 submission the outstanding maximum is 170.666667 SU; internal headroom is **4425.072333 SU** under the unchanged 51000 cap / 13000 reserve. [Reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-access-credit-20261023/RECONCILIATION.json). The read-only reconciliation created no new spend; separate supported probe 223788 now has its own definite receipt and reservation; any next spend needs fresh locked checks and a separate receipt. Public balance already accounts for prepayment; do not subtract it twice. HPC spending remains independent.
 
 Edit active sources once, capture explicit safe checkpoints into the local archive, verify, commit with actual dates and push promptly. GitHub contains the Git portion and external-object manifests; the sibling artifact store still needs a separate off-host copy. Never capture credentials or session state. English artifacts, Vietnamese chat. Autopilot is OFF; no schedules, background Codex or automatic chat-notification promises.
 

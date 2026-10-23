@@ -1,0 +1,11 @@
+# Bounded H100 production-registration probe submitted
+
+Definite job **223788.pbs111**, submitted 2026-10-23T04:24:47.114057+00:00. The server immediately reports **R** in aiq1, four requested H100 GPUs, one node, project 59010042 and 00:20:00 walltime. [Actual receipt](pbs-receipt.json), [initial PBS state](post-submit.stdout).
+
+This reuses the actual 223005 native TP4 EAGLE3 eager-prefill readiness recipe, adding source-derived redacted before/after registration receipts and independent exact four-rank checks. The question is production-sized KV/aux/state registration geometry, which previous small-buffer probes and readiness logs did not collect. It does not test a decoder, cross-node P/D transfer, actual speculative output equivalence or throughput. Native health may internally execute a token-level check; no explicit serving client was added.
+
+Root reran all 41 proposal checks, reviewed source/cleanup/identity and new observer changes, pinned the complete package, and committed it before upload. Remote preflight rechecks all 33 target file sizes, small metadata hashes, serving image size and the full pinned draft digest; large current H100 target/image hashes are not repeated and source pins gate native startup. Runtime success remains unverified until terminal semantic review. One T0 bounds startup 1100 s, result check 1140 s and cleanup 1170 s inside the 1200 s allocation.
+
+A fresh selected-AI-project queue/credit query under the budget lock confirmed no active AI job, Used 46404.261 SU, Balance 17595.739 SU and In Doubt 0. Reserving **170.666667 SU maximum** leaves **4425.072333 SU internal headroom**, under the unchanged 51000 cap / 13000 project reserve. This is a maximum reservation, not an actual charge. There is no uncertain retry or full-model campaign expansion; the CPU project remains untouched.
+
+Require all four actual target/draft BF16 and eager-prefill log records, native source/H100/draft/runtime identities, real HTTP readiness and exactly eight strict geometry receipts bound to this fresh job experiment. Preserve missing/failed evidence; registration success alone is not transfer or scoring acceptance. Retain the maximum until posted cost is uniquely reconciled.
