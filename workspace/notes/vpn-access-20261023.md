@@ -19,3 +19,11 @@ The same authenticated path successfully uploaded a frozen AI diagnostic, querie
 ## Later loss of access — 2026-10-23T14:29:18.814708+00:00
 
 The original working connection snapshot is historical. Before a new diagnostic submission, the local AI SSH master check fails. A read-only persistent-helper status shows a dead VPN pane; entering the expected namespace reports no live VPN session. These establish that no current usable VPN namespace is present, not why it stopped. Do not infer expiry, a gateway authentication rejection or a client bug from the missing master alone. No restart, credential input or DUO step was attempted. Phone-holder availability for a fresh authentication was asked. Private recovery state is preserved. The intended diagnostic was not uploaded, reserved or submitted.
+
+## VPN restored; AI SSH still needs authentication — 2026-10-23T15:09:49.749526+00:00
+
+A fresh read-only status check finds a live persistent VPN pane and tunnel interface. The AI SSH helper reaches the expected H100 SSH host through that namespace with host-key verification, then exits with `Permission denied (password)` in BatchMode. No password was supplied in this check, so this is not evidence that the owner's password was rejected. It establishes working reachability to the SSH authentication stage, while the old AI SSH master is absent and a new authenticated H100 channel has not been established.
+
+The separate HPC handoff records that its worker restored the shared VPN. This AI session did not perform that login or observe phone-side DUO approval. Do not restart the healthy shared VPN or infer that successful CPU SSH is an authenticated H100 SSH session: they use different login hosts. The earlier unavailable-VPN observation is historical. The earlier question about DUO-holder availability no longer blocks reuse of the now healthy VPN. Preserve all private recovery state; no authentication material is retained here. No queue, credit or submission was changed by this check.
+
+For troubleshooting: a VPN supplies a network path; SSH then authenticates to a particular server. A BatchMode password prompt failure can occur simply because no reusable SSH channel or noninteractive credential is available. It does not establish gateway MFA failure or an expired VPN.

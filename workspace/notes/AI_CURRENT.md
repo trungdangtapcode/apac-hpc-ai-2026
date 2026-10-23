@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T14:56:26.036691+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T15:09:49.749526+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -65,7 +65,10 @@ The canonical reference preserves source worker, NIXL, placement and corpus byte
 
 ## Access, budget, backup and operating policy
 
-**Latest access check 2026-10-23T14:29:18.814708+00:00:** original AI SSH master unavailable, persistent VPN pane dead, and read-only namespace entry reports no live VPN. The previously working 13:08 connection is historical; exact disconnect cause is unknown. The exit-boundary diagnostic is frozen and backed up in 615e7838, but its connection preflight stopped **before upload/reservation/qsub**. No new PBS job exists. Phone-holder availability for fresh DUO authentication has been asked; no login/restart attempted. [Safe prepared payload and submission status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-exit-boundary-probe-20261023/RESULTS.md). The 13:16 credit snapshot is dated; refresh and reconcile it before spending. H200 25682 remains PENDING Resources at the latest check, unchanged.
+**Latest access check 2026-10-23T15:09:49.749526+00:00:** shared VPN is live again and AI SSH reaches the expected H100 server through it, but BatchMode reports password authentication unavailable; no password was entered, so no rejected-password conclusion. The old AI master is absent and no new authenticated H100 SSH channel exists. Separate HPC handoff records its worker restored the shared VPN; this AI session did not perform fresh VPN/DUO authentication. Preserve the healthy VPN and private state. The prior DUO-availability question is no longer needed for VPN connectivity. H100 queue/credit remain unqueried and its exit-boundary probe unsubmitted. [Connection versus server authentication](vpn-access-20261023.md).
+
+
+**Historical unavailable-access check 2026-10-23T14:29:18.814708+00:00:** original AI SSH master unavailable, persistent VPN pane dead, and read-only namespace entry reports no live VPN. The previously working 13:08 connection is historical; exact disconnect cause is unknown. The exit-boundary diagnostic is frozen and backed up in 615e7838, but its connection preflight stopped **before upload/reservation/qsub**. No new PBS job exists. Phone-holder availability for fresh DUO authentication has been asked; no login/restart attempted. [Safe prepared payload and submission status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-exit-boundary-probe-20261023/RESULTS.md). The 13:16 credit snapshot is dated; refresh and reconcile it before spending. H200 25682 remains PENDING Resources at the latest check, unchanged.
 
 
 **Historical 23 October read-only access check (reconfirmed 12:37 UTC):** an existing authenticated AI SSH connection reaches `a2ap-login01`; selected project 59010042 has no active jobs. An actual remote SSH command and selected AI queue query succeed, beyond a local master-process check. No VPN restart/password/DUO action was attempted; fresh DUO authentication remains untested. The earlier failure and current working transport are separate dated observations; restoration method/time and lifetime are unknown. [Safe current record](vpn-access-20261023.md). The first command's missing PBS PATH and older purged job history are not authentication failures.
