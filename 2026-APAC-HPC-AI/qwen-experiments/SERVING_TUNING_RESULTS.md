@@ -1,3 +1,7 @@
+## 23 October: full N68 gain does not clear the repeat gate
+
+Fresh full N64 control 25487=3044.637094 versus N68 candidate 25488=3047.165853 good output tokens/s (**+0.083056%**). Both pass local protocol/SLA/output checks, with zero errors/cancellations. N68 has the highest single observed score but misses the 1% practical repeat gate and raises mean TTFT 1113.595→1347.105 ms; joint SLA 98.632299%→98.430141%. Retain N64 as the reproduced operating choice, three-run mean 3044.400475. Close unchanged N68 replication and pursue separately gated EAGLE3 rather than extrapolate the short +2.27% result. Official accuracy remains unverified. [Raw/sealed full review](research-review-25487-25488-20261023/REVIEW.md).
+
 # Current serving comparison — 22 October 2026
 
 Recorded 2026-10-22T14:18:28.492036+00:00. This section supersedes older dated snapshots below; queue and credit claims in those sections are historical. Live state belongs to the scheduler and current AI handoff.

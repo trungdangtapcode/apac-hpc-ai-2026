@@ -184,3 +184,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: reference 25495 client HOME mount failure and supported repair](entries/20261023-h200-reference-mount-failure.md).
 
 - [23 October: supported reference HOME repair submitted as 25585](entries/20261023-h200-reference-homefix-submission.md).
+
+- [23 October: full N68 gain shrinks to 0.083%, closing unchanged replication](entries/20261023-h200-n68-full-result.md).
