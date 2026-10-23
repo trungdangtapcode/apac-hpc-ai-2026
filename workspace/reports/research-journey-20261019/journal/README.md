@@ -206,3 +206,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: production-sized byte-transfer hypothesis and corrected receiver baseline](entries/20261023-full-span-transfer-preparation.md).
 
 - [23 October: full-span two-H100 pilot 224116 submitted and running](entries/20261023-full-span-transfer-submission.md).
+
+- [23 October: complete beginner learning guide, research figures and presenter script](entries/20261023-hpc-learning-and-presentation-journey.md).

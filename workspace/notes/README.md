@@ -13,6 +13,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 |---|---|
 | Learn the AI journey and explain it in a presentation | [Beginner narrative](../reports/ai-research-learning-journey-20261023/README.md), [speaker notes](../reports/ai-research-learning-journey-20261023/SPEAKER_NOTES.md), [glossary](../reports/ai-research-learning-journey-20261023/GLOSSARY.md) |
 | HPC task explanation, rules, baselines and experiment plan | [HPC research](../reports/hpc-openfoam-20261021/README.md) |
+| Learn the HPC track, its complete research story, figures and presenter script | [HPC learning and presentation guide](../reports/hpc-research-journey-20261023/README.md) |
 | Latest AI research presentation, PDF and speaker notes | [22 October presentation](presentation-update-20261022.md) |
 | Complete submission, deployment, measured logs, slides and PDF | [21 October full delivery](submission-update-20261021.md) |
 | Latest checked public repository update | [Pinned upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md) |

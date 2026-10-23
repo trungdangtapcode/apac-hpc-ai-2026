@@ -1,3 +1,5 @@
+> Learning/presentation update, 23 October: read the [beginner guide and full HPC journey](../hpc-research-journey-20261023/README.md). It includes the six four-node native observations, charts, a speaking script and the submitted independent confirmation. Earlier snapshots below remain dated historical records.
+
 # OpenFOAM HPC task: what to do and where to start
 
 **Access update:** [Interactive login now reaches the actual Iris cluster](IRIS_ACCESS.md). Earlier gateway-only observations below are historical; they did not establish a submission restriction.

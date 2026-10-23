@@ -1,0 +1,7 @@
+# HPC learning and presentation handoff
+
+On 23 October the owner explicitly asked that the whole HPC research journey retain explanations, knowledge and history, because they need to learn the track and present it themselves. Start with ../reports/hpc-research-journey-20261023/README.md; it routes to foundations, the dated experiment story, an English speaking script, likely questions, and reusable figures.
+
+For every subsequent reviewed HPC milestone, update the detailed research journal and this beginner/presenter layer during the same authorized turn. Explain the problem and new terms, prior evidence, hypothesis, exact change and controls, job/source identity, measurements with units, failure or losing result, limits, decision and what to say aloud. Link raw evidence separately. Do not replace explanations with a job-ID list or folder inventory. Plans, graph proxies, native observations, matched evidence and accepted scores remain distinct. Preserve older interpretations as historical and never invent dates or causes.
+
+Work artifacts remain English; chat is Vietnamese. This requirement does not authorize AI changes, submission packaging, automatic Codex schedules or extra spending. Use the current HPC handoff, actual queues and the owner-approved 5,000-SU CPU ceiling including conservative shared use. Confirmation 25940700 is a new submitted run, not a measured improvement yet.
