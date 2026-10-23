@@ -216,3 +216,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: exit-boundary payload backed up; no submission after connection preflight failure](entries/20261023-exit-boundary-access-preflight.md).
 
 - [23 October: matched H200 prefill graph policy pair before speculative performance claims](entries/20261023-h200-prefill-graph-policy-preparation.md).
+
+- [23 October: H200 policy controls 25712/25713 submitted serially after 25682](entries/20261023-h200-prefill-graph-policy-submitted.md).

@@ -2296,3 +2296,7 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## Full-span native transfer pilot — 23 October 13:08 UTC
 
 224116.pbs111 submitted and immediately R on two distinct H100 hosts. No model; 190 production-sized KV spans per rank, ten host auxiliary spans, 380 sparse page patterns, untouched-memory GPU scan and source-preservation gates. Maximum 42.666667 SU reserved; no speedup or correctness result at submission. [Design, preparation correction, receipt and limits](nixl-production-span-probe-20261023/RESULTS.md).
+
+## H200 matched prefill graph-policy screens — 23 October 14:54 UTC
+
+25712 automatic policy follows afterany:25682; 25713 disabled policy follows afterok:25712. Each 16H200/two nodes/max 17 minutes, unranked 20/40/30 N64, no PBS SU. Common explicit BF16 and 64/256 capacities, same decoder graphs, stack, observer and strict semantic/raw-data gates. No new score at submission. [Hypothesis, source correction, receipts and stopping rules](h200-prefill-graph-policy-20261023/RESULTS.md).
