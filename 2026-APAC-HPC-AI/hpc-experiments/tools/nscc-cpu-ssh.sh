@@ -10,5 +10,5 @@ exec bash "$VPN_ROOT/vpn.sh" enter ssh -F /dev/null \
   -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$VPN_ROOT/known_hosts" \
   -o HostKeyAlias=aspire2a.nscc.sg -o PubkeyAuthentication=no \
   -o ControlMaster=auto -o ControlPersist=86400 \
-  -o ControlPath="${NSCC_CPU_CONTROL_PATH:-$VPN_ROOT/run/cpu-r2-%C}" \
+  -o ControlPath="${NSCC_CPU_CONTROL_PATH:-$VPN_ROOT/run/cpu-r3-%C}" \
   "apacsc42@${NSCC_CPU_ADDRESS:-10.103.72.110}" "$@"
