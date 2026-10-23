@@ -1,0 +1,11 @@
+# Repair the proven H200 reference client HOME prerequisite
+
+Job 25495 reached native worker/router readiness and both semantic P/D transfer gates, then failed before the token client started because its container HOME source directory did not exist. The source job and complete raw evidence are sealed and retained; no actual reference ID exists. [Failure review](../research-review-25495-20261023/REVIEW.md).
+
+Derive `s38-h200-target-reference-homefix` from the exact frozen s37 source. The only execution change is to create `$ROOT/home/$SLURM_JOB_ID/token-client` immediately before its client srun. Job identity/path and diagnostic provenance are updated. Worker implementation, target/image manifest, precision, TP4/TP4/TP8 layout, corpus, NIXL bytes, semantic warmup, actual client/head logic and every absolute deadline are unchanged.
+
+The actual-shell regression checks container mount source existence before dispatch. It reproduces the original launcher's missing-mount rejection (fixture exit86), while the repaired launcher reaches the fake token client and correctly propagates its deliberate exit7. This directly covers the prerequisite omitted by the previous mock. The four unchanged actual-client/head asset-binding fixtures pass. These remain CPU fixtures, not Pyxis or GPU integration proof. Runtime asset preflight and frozen source hashes pass.
+
+One justified native Slurm reference diagnostic requests 16 H200/two nodes for at most 17 minutes, no PBS SU. Submit once under the existing lock/five-job cap with a definite receipt; record uncertain submission instead of retrying. It must capture all 1600 actual output IDs across 8 requests, exact repeat IDs/finish, independent head acceptance, all 4+4+8 BF16 rank records and both semantic P/D receipts. Preserve all requests and failures. It is neither EAGLE3 nor a throughput/official-accuracy run.
+
+A second failure requires its own terminal diagnosis and concrete supported repair; do not repeat unchanged. Only a reviewed exact H200 reference permits a separately derived EAGLE3 correctness candidate with current draft identity and redacted runtime geometry. Existing full N64/N68 results are reviewed separately and never turned into a speculative reference.
