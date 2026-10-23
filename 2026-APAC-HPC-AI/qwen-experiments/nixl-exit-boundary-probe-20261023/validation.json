@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-23T14:26:21.172298+00:00",
+  "native_algorithm_unchanged": true,
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "CPU-test.py"
+      ],
+      "returncode": 0,
+      "stdout": "PASS: AST-extracted role builders/selector, native registration, 94/94 + 94/95 + 95/95 pointer selection, KV slice writes, ten-item aux write, unique page identities, and failure gates\n"
+    },
+    {
+      "command": [
+        "python3",
+        "CPU-exit-test.py"
+      ],
+      "returncode": 0,
+      "stdout": "PASS: supervisor exit0/exit17/timeout; valid exit gates; five malformed and missing receipt rejections\n"
+    },
+    {
+      "command": [
+        "python3",
+        "CPU-node-exit-test.py"
+      ],
+      "returncode": 0,
+      "stdout": "PASS: actual node shell preserves mocked container exit0/exit17 and records bounded cleanup\n"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "component.pbs",
+        "node-entry.sh",
+        "entry.sh"
+      ],
+      "returncode": 0,
+      "stdout": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "py_compile",
+        "native_probe.py",
+        "exit-boundaries.py",
+        "CPU-test.py",
+        "CPU-exit-test.py",
+        "CPU-node-exit-test.py",
+        "submit-pbs.py"
+      ],
+      "returncode": 0,
+      "stdout": ""
+    }
+  ],
+  "sha_files": 27,
+  "gpu_execution": "not run",
+  "model_loaded": false
+}

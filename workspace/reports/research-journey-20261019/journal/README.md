@@ -210,3 +210,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: complete beginner learning guide, research figures and presenter script](entries/20261023-hpc-learning-and-presentation-journey.md).
 
 - [23 October: production-sized native bytes pass while original PBS job exits 1](entries/20261023-full-span-transfer-result.md).
+
+- [23 October: independent Python, container and batch exit-boundary hypothesis](entries/20261023-exit-boundary-preparation.md).

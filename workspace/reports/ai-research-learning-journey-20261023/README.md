@@ -110,3 +110,7 @@ During preparation we caught a flawed baseline: both endpoints were initially fi
 The first GPU run, 224116, passed the independent byte checks: 380 selected pages were correct, every other registered destination byte was checked on GPU, and the source stayed intact. This narrows the gap left by earlier 1 KiB test buffers. It does not mean 14.47 GB crossed the network: that is the registered capacity per GPU; the selected KV payload was 97,280 bytes.
 
 The overall PBS job still failed with exit 1. A data check can succeed while cleanup, process teardown or scheduler staging fails. We retain both outcomes and will add durable exit receipts to isolate the failure before a full-model repair. There is no new goodput score or EAGLE speedup from this diagnostic. [Evidence and learning point](../research-journey-20261019/journal/entries/20261023-full-span-transfer-result.md).
+
+### Completing the calculation and finishing the program
+
+The native byte check is a calculation inside a program. After the calculation ends, the program still tears down its transport, the container exits and PBS stages output. A success message inside the calculation does not prove those later layers succeeded. The next derived diagnostic records each exit independently while preserving the tested transfer algorithm. Its CPU fixtures distinguish clean exits, errors, missing records and timeouts. GPU execution is still pending at this preparation checkpoint. [Controlled exit-boundary hypothesis](../research-journey-20261019/journal/entries/20261023-exit-boundary-preparation.md).
