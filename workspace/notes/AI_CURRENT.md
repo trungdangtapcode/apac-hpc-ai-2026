@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T12:25:43.255547+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T12:40:13.702344+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -58,7 +58,7 @@ The canonical reference preserves source worker, NIXL, placement and corpus byte
 
 ## Access, budget, backup and operating policy
 
-**23 October read-only access check:** an existing authenticated AI SSH connection reaches `a2ap-login01`; selected project 59010042 has no active jobs. No VPN restart/password/DUO action was attempted. The earlier failure and current working transport are separate dated observations; restoration method/time and lifetime are unknown. [Safe current record](vpn-access-20261023.md). The first command's missing PBS PATH and older purged job history are not authentication failures.
+**23 October read-only access check (reconfirmed 12:37 UTC):** an existing authenticated AI SSH connection reaches `a2ap-login01`; selected project 59010042 has no active jobs. An actual remote SSH command and selected AI queue query succeed, beyond a local master-process check. No VPN restart/password/DUO action was attempted; fresh DUO authentication remains untested. The earlier failure and current working transport are separate dated observations; restoration method/time and lifetime are unknown. [Safe current record](vpn-access-20261023.md). The first command's missing PBS PATH and older purged job history are not authentication failures.
 
 Fresh locked AI credit on 23 October after uniquely posting 223788's 45.369 SU charge: Used **46449.630 SU**, Balance **17550.370 SU**, In Doubt **0 SU**. Both 223132 and 223788 charges are now uniquely reconciled; outstanding maxima are zero and internal headroom **4550.370 SU** under the unchanged 51000 cap / 13000 reserve. [Current selected ledger and reconciliation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-223788-20261023/RECONCILIATION.json). Selected AI queue is empty at that snapshot; H200 25682 is separately pending resources. No new PBS spend or CPU-project change follows from this review. Public balance accounts for prepayment; do not subtract it twice.
 
