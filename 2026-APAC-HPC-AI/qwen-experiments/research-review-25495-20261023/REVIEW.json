@@ -1,0 +1,37 @@
+{
+  "job": "25495",
+  "reviewed_utc": "2026-10-23T04:03:12.586033+00:00",
+  "state": "FAILED_CLIENT_CONTAINER_HOME_MOUNT",
+  "scheduler_state": {
+    "JobID": "25495",
+    "State": "FAILED",
+    "ExitCode": "1:0",
+    "Elapsed": "00:06:46",
+    "Start": "2026-10-22T20:15:12",
+    "End": "2026-10-22T20:21:58"
+  },
+  "payload_and_sealed_evidence_verified": true,
+  "seal_sha256": "c796f444c4cd4fb05dab48fb2899563c6bf6fb355377bb63511c771b20491aa0",
+  "all_workers_and_router_ready": true,
+  "bf16_kv_rank_counts": [
+    4,
+    4,
+    8
+  ],
+  "semantic_warmup": {
+    "schema": "pair-warmup-semantic-v1",
+    "inventory_sha256": "19be00e226b3945934bf5a54529d9b06c733e07f8da3e760e4c0d1af6b753bab",
+    "pair_count": 2,
+    "run_token": "1ce8801537efc52e1e993e41233d8204"
+  },
+  "client_process_started": false,
+  "actual_model_responses": 0,
+  "actual_output_token_ids": 0,
+  "accepted_reference": false,
+  "ranked_performance_measured": false,
+  "official_accuracy_verified": false,
+  "earliest_concrete_failure": "Pyxis refused token-client container because mounts() names a role HOME directory that topology-job.sh never created",
+  "downstream_error": "Independent head checker rejects missing target-reference.json; this is downstream of container launch failure",
+  "correction": "Prior CPU launcher fixture mocked srun without checking mount source prerequisites; it therefore missed this real launcher bug",
+  "next_decision": "Derive a fresh bundle adding token-client HOME mkdir before its srun, with actual-launcher mount-prerequisite regression; preserve source and failed evidence. Do not launch EAGLE3 before a passing reference."
+}
