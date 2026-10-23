@@ -1,6 +1,10 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T12:20:42.859547+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T12:25:43.255547+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+
+## Learning and presentation route
+
+Owner requirement reaffirmed on 23 October: preserve knowledge and improvement history in a form the owner can learn and explain aloud, not only resume an agent. Maintain the [plain-English journey](../reports/ai-research-learning-journey-20261023/README.md), [5–8 minute speaker notes](../reports/ai-research-learning-journey-20261023/SPEAKER_NOTES.md), [glossary](../reports/ai-research-learning-journey-20261023/GLOSSARY.md) and [next-entry guide](../reports/ai-research-learning-journey-20261023/HOW_TO_UPDATE.md). Each AI milestone needs the concept, prior evidence/question, controlled change, result with units, lesson/limits, next decision and a short spoken explanation linked to the detailed journal/raw proof. Preserve failed branches and corrections; never invent missing history or upgrade a pending job into a result. English artifacts; Vietnamese chat.
 
 ## Current measured results
 
