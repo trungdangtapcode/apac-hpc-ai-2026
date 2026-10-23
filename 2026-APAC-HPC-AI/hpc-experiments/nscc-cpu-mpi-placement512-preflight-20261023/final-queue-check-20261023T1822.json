@@ -1,0 +1,22 @@
+{
+  "checked_utc": "2026-10-23T18:22:15.767801Z",
+  "jobs": {
+    "25940700.pbs101": {
+      "job_state": "Q",
+      "queue": "q5",
+      "comment": "Not Running: Insufficient amount of resource: node_pool",
+      "depend": "beforeany:25943865.pbs101@pbs101,beforeok:25947168.pbs101@pbs101"
+    },
+    "25943865.pbs101": {
+      "job_state": "H",
+      "queue": "qdev",
+      "depend": "afterany:25940700.pbs101@pbs101,beforeok:25947168.pbs101@pbs101"
+    },
+    "25947168.pbs101": {
+      "job_state": "H",
+      "queue": "q5",
+      "depend": "afterok:25940700.pbs101@pbs101:25943865.pbs101@pbs101"
+    }
+  },
+  "interpretation": "Unchanged pending dependency chain; no MPI or solver result. Parent queue position preserved; child holds are expected."
+}
