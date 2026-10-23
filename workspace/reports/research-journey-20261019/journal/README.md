@@ -194,3 +194,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: bounded production-size H100 KV geometry probe 223788 submitted](entries/20261023-h100-production-geometry-submitted.md).
 
 - [23 October: native H200 EAGLE3 correctness candidate 25682 submitted](entries/20261023-h200-eagle3-correctness-submitted.md).
+
+- [23 October: real H100 geometry, original failed gate, source-backed correction and posted cost](entries/20261023-h100-geometry-gate-correction.md).

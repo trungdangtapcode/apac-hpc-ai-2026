@@ -1,0 +1,90 @@
+{
+  "passed": false,
+  "experiment_id": "ap42-e3-h100-geometry-223788.pbs111-ff7fef9bdf124ffa8d1eec392ac1d78e",
+  "proof": {
+    "experiment_context_verified": true,
+    "http_health_status": "200",
+    "readiness_loop_passed": true,
+    "server_ready_log": true,
+    "native_graph_source_verified": true,
+    "runtime_h100_verified": true,
+    "draft_sha256_verified": true,
+    "derived_nixl_source_verified": true,
+    "hpc_ops_preflight_passed": true,
+    "resolved_server_config": {
+      "passed": true,
+      "observed": {
+        "model_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "context_length": 8192,
+        "dtype": "bfloat16",
+        "mem_fraction_static": 0.9,
+        "chunked_prefill_size": 4096,
+        "tp_size": 4,
+        "speculative_algorithm": "EAGLE3",
+        "speculative_draft_model_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09",
+        "speculative_num_steps": 2,
+        "speculative_eagle_topk": 1,
+        "speculative_num_draft_tokens": 3,
+        "speculative_draft_model_quantization": null,
+        "moe_runner_backend": "hpc_ops",
+        "disaggregation_mode": "prefill",
+        "disaggregation_transfer_backend": "nixl"
+      },
+      "expected": {
+        "model_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+        "tp_size": 4,
+        "dtype": "bfloat16",
+        "context_length": 8192,
+        "chunked_prefill_size": 4096,
+        "moe_runner_backend": "hpc_ops",
+        "speculative_algorithm": "EAGLE3",
+        "speculative_draft_model_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09",
+        "speculative_num_steps": 2,
+        "speculative_eagle_topk": 1,
+        "speculative_num_draft_tokens": 3,
+        "speculative_draft_model_quantization": null,
+        "disaggregation_mode": "prefill",
+        "disaggregation_transfer_backend": "nixl",
+        "mem_fraction_static": 0.9
+      },
+      "note": "The original worker passes the explicit unquantized-draft option; the retained readiness ServerArgs resolves speculative_draft_model_quantization=None. Preserve this observed runtime representation and the pinned draft bytes; do not reinterpret the field as a dtype measurement."
+    },
+    "kv_cache_dtype_counts_by_rank": {
+      "0": [
+        "torch.bfloat16",
+        "torch.bfloat16"
+      ],
+      "1": [
+        "torch.bfloat16",
+        "torch.bfloat16"
+      ],
+      "2": [
+        "torch.bfloat16",
+        "torch.bfloat16"
+      ],
+      "3": [
+        "torch.bfloat16",
+        "torch.bfloat16"
+      ]
+    },
+    "disabled_prefill_graph_messages_by_rank": {
+      "0": 2,
+      "1": 2,
+      "2": 2,
+      "3": 2
+    },
+    "nixl_initialization_count_by_rank": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1
+    },
+    "unexpected_rank_labels": [],
+    "prefill_graph_capture_started": false,
+    "fatal_runtime_lines": []
+  },
+  "geometry_validation": null,
+  "geometry_error": "ValueError: full-model geometry requires a nonempty KV layer list",
+  "pbs_job_id": "223788.pbs111",
+  "scope": "One native TP4 EAGLE3 prefill readiness and full-size KV registration geometry only; no explicit user-serving client or generation workload, decoder, router, PD equivalence, score, or official accuracy claim. The native /health path may internally execute a token-level check."
+}
