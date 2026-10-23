@@ -1,7 +1,7 @@
 #!/bin/bash
 # PBS execution driver. All project files are embedded beside this script.
-set -euo pipefail
-: "${PBS_JOBID:?PBS_JOBID is required}" "${PBS_O_WORKDIR:?Submit from job_scripts}"
+set -eo pipefail
+: "${PBS_JOBID:?PBS_JOBID is required}" "${PBS_O_WORKDIR:?Submit from job_scripts}" "${PBS_NODEFILE:?PBS_NODEFILE is required}"
 ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
 NODES=${HPC_NODES:?}; STEPS=${HPC_STEPS:?}; VARIANT=${HPC_VARIANT:?}; RANKS=$((NODES * 128))
 case "$NODES:$STEPS" in 1:40|2:80|4:150) ;; *) echo 'Unsupported node/step combination' >&2; exit 2 ;; esac
@@ -32,6 +32,7 @@ stage() {
 phase start module_setup
 . /app/apps/resetmodule
 module load openfoam/2512
+: "${WM_PROJECT_DIR:?OpenFOAM module did not set WM_PROJECT_DIR}"
 test "${WM_PROJECT_VERSION:-}" = 2512 && test "${WM_PRECISION_OPTION:-}" = DP
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS="$NODES" FI_OFI_RXM_USE_SRX=0
 { date -u; hostname; module list 2>&1; printf 'WM_PROJECT_VERSION=%s\nWM_PRECISION_OPTION=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION"; lscpu; env | sort | grep -E '^(FI_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*|MKL_[A-Za-z0-9_]*|OPENBLAS_[A-Za-z0-9_]*|WM_[A-Za-z0-9_]*)=' || true; } >"$RUN/environment.log"
