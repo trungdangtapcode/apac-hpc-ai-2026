@@ -27,3 +27,9 @@ A fresh read-only status check finds a live persistent VPN pane and tunnel inter
 The separate HPC handoff records that its worker restored the shared VPN. This AI session did not perform that login or observe phone-side DUO approval. Do not restart the healthy shared VPN or infer that successful CPU SSH is an authenticated H100 SSH session: they use different login hosts. The earlier unavailable-VPN observation is historical. The earlier question about DUO-holder availability no longer blocks reuse of the now healthy VPN. Preserve all private recovery state; no authentication material is retained here. No queue, credit or submission was changed by this check.
 
 For troubleshooting: a VPN supplies a network path; SSH then authenticates to a particular server. A BatchMode password prompt failure can occur simply because no reusable SSH channel or noninteractive credential is available. It does not establish gateway MFA failure or an expired VPN.
+
+## AI SSH authenticated again — 2026-10-23T15:28:36.236392+00:00
+
+The AI worker reused the healthy shared VPN and authenticated SSH to the expected H100 server using the previously supplied credential through a terminal with echo disabled. A remote command returns a2ap-login01. No VPN restart, fresh gateway authentication or phone-side DUO step was performed by this worker. No credential was written into scripts, research artifacts or notes. The SSH service reports that the account password will expire in three days; this was a server notice, not a VPN lifetime. No password change was attempted.
+
+The selected AI queue 59010042 is empty, and fresh selected credit successfully reconciles the uniquely posted 224116 charge 16.284 SU. Existing CPU-project access/queues/budget are untouched. The earlier unauthenticated AI SSH snapshot is historical.
