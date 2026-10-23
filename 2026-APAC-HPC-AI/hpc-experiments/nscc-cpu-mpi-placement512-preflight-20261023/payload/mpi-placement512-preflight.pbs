@@ -1,0 +1,105 @@
+#!/bin/bash
+#PBS -N mpi-placement512-preflight
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=32gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:03:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?PBS_JOBID is required}" "${PBS_O_WORKDIR:?Submit from the experiment root}" "${PBS_NODEFILE:?PBS_NODEFILE is required}"
+ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
+PAYLOAD="$ROOT/payload"
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+export PYTHONDONTWRITEBYTECODE=1
+test ! -e "$RUN"
+mkdir -p "$RUN/logs" "$RUN/identity" "$RUN/candidate"
+BATCH_START=$(date +%s)
+INTERNAL_DEADLINE=135
+python3 "$PAYLOAD/batch-lifecycle.py" start "$RUN"
+finish_wrapper() {
+    local rc=$? hash_rc=0
+    set +e
+    python3 "$PAYLOAD/verify-payload.py" --root "$ROOT" >"$RUN/source-validation-after.json" 2>"$RUN/source-validation-after.stderr"
+    hash_rc=$?
+    if [ "$rc" -eq 0 ] && [ "$hash_rc" -ne 0 ]; then rc=1; fi
+    python3 "$PAYLOAD/batch-lifecycle.py" finish "$RUN" "$rc" "$hash_rc"
+    exit "$rc"
+}
+trap finish_wrapper EXIT
+remaining_seconds() { echo $((INTERNAL_DEADLINE - ($(date +%s) - BATCH_START))); }
+phase() { printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$1" "$2" >>"$RUN/phases.tsv"; }
+record_rc() { python3 "$PAYLOAD/record-return.py" "$RUN/command-return-codes.json" "$1" "$2"; }
+run_logged() {
+    local label=$1 cwd=$2 seconds rc
+    shift 2
+    seconds=$(remaining_seconds)
+    test "$seconds" -gt 5
+    phase start "$label"
+    if (cd "$cwd" && /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" timeout --signal=TERM --kill-after=5s "${seconds}s" "$@" >"$RUN/logs/$label.stdout.txt" 2>"$RUN/logs/$label.stderr.txt"); then rc=0; else rc=$?; fi
+    record_rc "$label" "$rc"
+    phase "exit=$rc" "$label"
+    test "$rc" -eq 0
+}
+phase start payload_source_check_before
+run_logged payload_hash_before "$ROOT" python3 "$PAYLOAD/verify-payload.py" --root "$ROOT"
+phase complete payload_source_check_before
+run_logged validate_refined_assignment "$ROOT" python3 "$PAYLOAD/validate-assignment.py" "$PAYLOAD/assignment.json"
+run_logged copy_pbs_nodefile "$ROOT" cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+run_logged pbs_nodefile_validation "$ROOT" python3 "$PAYLOAD/validate-nodefile.py" "$PBS_NODEFILE"
+phase complete pbs_nodefile_validation
+phase start module_setup
+phase start site_module_reset
+if . /app/apps/resetmodule; then rc=0; else rc=$?; fi
+record_rc site_module_reset "$rc"; phase "exit=$rc" site_module_reset; test "$rc" -eq 0
+phase start load_openfoam_2512
+if module load openfoam/2512; then rc=0; else rc=$?; fi
+record_rc load_openfoam_2512 "$rc"; phase "exit=$rc" load_openfoam_2512; test "$rc" -eq 0
+: "${WM_PROJECT_DIR:?OpenFOAM module did not set WM_PROJECT_DIR}" "${WM_PROJECT_VERSION:?OpenFOAM module did not set WM_PROJECT_VERSION}"
+test "$WM_PROJECT_VERSION" = 2512
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+export FI_OFI_RXM_USE_SRX=0
+if module list >"$RUN/logs/module-list.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc module_list "$rc"; phase "exit=$rc" module_list; test "$rc" -eq 0
+{ date -u; hostname; printf 'WM_PROJECT_VERSION=%s\nWM_PROJECT_DIR=%s\nOMP_NUM_THREADS=%s\nMKL_NUM_THREADS=%s\nOPENBLAS_NUM_THREADS=%s\nFI_OFI_RXM_USE_SRX=%s\n' "$WM_PROJECT_VERSION" "$WM_PROJECT_DIR" "$OMP_NUM_THREADS" "$MKL_NUM_THREADS" "$OPENBLAS_NUM_THREADS" "$FI_OFI_RXM_USE_SRX"; command -v cc; command -v mpiexec; env | sort | grep -E '^(CRAY_[A-Za-z0-9_]*|MPICH_[A-Za-z0-9_]*|FI_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*|MKL_[A-Za-z0-9_]*|OPENBLAS_[A-Za-z0-9_]*)=' || true; } >"$RUN/environment.log"
+phase complete module_setup
+run_logged compiler_version "$ROOT" cc --version
+seconds=$(remaining_seconds); test "$seconds" -gt 5
+phase start pals_launcher_version
+if (timeout --signal=TERM --kill-after=5s "${seconds}s" mpiexec --version >"$RUN/logs/mpiexec-version.stdout.txt" 2>"$RUN/logs/mpiexec-version.stderr.txt"); then rc=0; else rc=$?; fi
+record_rc mpiexec_version "$rc"; phase "exit=$rc" pals_launcher_version
+phase start compile_mpi_probe
+run_logged compile_mpi_probe "$ROOT" cc -O0 -g -o "$RUN/mpi-probe" "$PAYLOAD/mpi-probe.c"
+phase complete compile_mpi_probe
+run_logged linked_mpi_libraries "$ROOT" ldd "$RUN/mpi-probe"
+phase start selected_mpi_library_gate
+if grep -Ei 'libmpi|libmpich' "$RUN/logs/linked_mpi_libraries.stdout.txt" >"$RUN/logs/selected-mpi-libraries.txt" && test -s "$RUN/logs/selected-mpi-libraries.txt"; then rc=0; else rc=1; fi
+record_rc selected_mpi_library_gate "$rc"; phase "exit=$rc" selected_mpi_library_gate; test "$rc" -eq 0
+phase start expected_mpich_version_gate
+if grep -Fq '/mpich/8.1.15/' "$RUN/logs/selected-mpi-libraries.txt"; then rc=0; else rc=1; fi
+record_rc expected_mpich_version_gate "$rc"; phase "exit=$rc" expected_mpich_version_gate
+if [ "$rc" -ne 0 ]; then echo 'Linked MPI libraries do not identify reviewed Cray MPICH 8.1.15' >&2; exit 1; fi
+run_logged write_identity_order "$ROOT" python3 "$PAYLOAD/write-identity-order.py" "$RUN/identity/rank-order.txt"
+run_arm() {
+    local arm=$1 seconds rc
+    seconds=$(remaining_seconds); test "$seconds" -gt 5
+    phase start "mpi_${arm}"
+    if (cd "$RUN/$arm" && env MPICH_RANK_REORDER_METHOD=3 MPICH_RANK_REORDER_FILE=rank-order.txt MPICH_RANK_REORDER_DISPLAY=1 /usr/bin/time -v -o "$RUN/logs/mpi_${arm}.resource.txt" timeout --signal=TERM --kill-after=5s "${seconds}s" mpiexec -n 512 --cpu-bind thread "$RUN/mpi-probe" >"$RUN/logs/mpi_${arm}.stdout.txt" 2>"$RUN/logs/mpi_${arm}.stderr.txt"); then rc=0; else rc=$?; fi
+    record_rc "mpi_${arm}" "$rc"
+    phase "exit=$rc" "mpi_${arm}"
+    test "$rc" -eq 0
+}
+unset MPICH_RANK_ORDER
+run_arm identity
+run_logged validate_identity "$ROOT" python3 "$PAYLOAD/validate-identity.py" "$RUN/logs/mpi_identity.stdout.txt" "$RUN/pbs-nodefile.txt" --output "$RUN/identity-validation.json"
+phase start render_candidate_from_identity_slots
+run_logged render_candidate "$ROOT" python3 "$PAYLOAD/render-candidate.py" "$RUN/logs/mpi_identity.stdout.txt" "$RUN/pbs-nodefile.txt" "$PAYLOAD/assignment.json" --order-file "$RUN/candidate/rank-order.txt" --expected-file "$RUN/candidate/expected-mapping.json"
+phase complete render_candidate_from_identity_slots
+run_arm candidate
+phase start final_mapping_validation
+run_logged validate_candidate "$ROOT" python3 "$PAYLOAD/validate-mapping.py" "$RUN/logs/mpi_identity.stdout.txt" "$RUN/logs/mpi_candidate.stdout.txt" "$RUN/pbs-nodefile.txt" "$PAYLOAD/assignment.json" "$RUN/candidate/expected-mapping.json" --output "$RUN/mapping-validation.json"
+phase complete final_mapping_validation
+phase start payload_source_check_after
+run_logged payload_hash_after "$ROOT" python3 "$PAYLOAD/verify-payload.py" --root "$ROOT"
+phase complete payload_source_check_after
+printf 'MPI_PLACEMENT512_INTERFACE_PREFLIGHT_PASS\n'

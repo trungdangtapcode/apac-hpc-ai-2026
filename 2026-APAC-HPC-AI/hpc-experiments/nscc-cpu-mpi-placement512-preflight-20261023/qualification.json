@@ -1,0 +1,100 @@
+{
+  "status": "prepared_conditional_not_submitted",
+  "source_payload_files": 15,
+  "source_payload_bytes_including_manifest": 72498,
+  "source_sha256_self_verification": "passed locally; the PBS job repeats it before and after both arms",
+  "assignment_pins": {
+    "parent_graph_sha256": "3ba8612bf5e0521f2cfb39fdd4c9d0642f689c6e5a86a9bb93accad212b7a209",
+    "parent_screen_sha256": "4c10d37a7a2e7fbf895f37370628e806d0f16bdfbd7c9f978fb8346d4a29bd5b",
+    "source_screen_sha256": "7b9532f95708d991ab0543e0263c1b7d5a91aaa9955c3a45e130ecf5a79a3846",
+    "refinement_sha256": "a29053ca5a52d853d15bd2c8a565a23963ea3c766f32f520b6f5890e2871bd07"
+  },
+  "offline_graph_proxy": {
+    "original_contiguous_cross_host_faces": 337324,
+    "parent_and_refined_cross_host_faces": 261110,
+    "cross_host_proxy_reduction_percent": 22.5937,
+    "original_contiguous_same_host_cross_numa_faces": 710081,
+    "refined_same_host_cross_numa_faces": 732712,
+    "refined_vs_original_same_host_cross_numa_change_percent": 3.1871,
+    "interpretation": "Face-count proxies only; neither graph cut is runtime, traffic, locality, or speedup."
+  },
+  "syntax_checks": {
+    "pbs_bash_syntax": "passed",
+    "python_3_6_grammar": "passed for all helpers"
+  },
+  "offline_synthetic_fixtures": {
+    "type": "synthetic MPI records only; no MPI runtime or ASPIRE topology claim",
+    "randomized_control_slots": true,
+    "baseline_rank_to_host_not_contiguous": true,
+    "positive_count": 1,
+    "negative_count": 7,
+    "negative_guards": [
+      "expected slot metadata differs from original identity",
+      "physically valid permutation breaks selected logical host group",
+      "identity NUMA count differs from eight domains by sixteen",
+      "duplicate or missing MPI world rank",
+      "candidate reports a wrong physical core",
+      "candidate rank is on the wrong host",
+      "candidate rank is on the wrong NUMA domain"
+    ],
+    "pmi_rank_authoritative": false
+  },
+  "pbs_path_with_spaces": "passed for ROOT, ROOT/payload and fresh ROOT/runs path",
+  "local_mpi_compile": {
+    "status": "not attempted",
+    "mpicc_available": false,
+    "mpi_headers_under_usr_include_or_usr_local_include": false
+  },
+  "target_runtime_review": {
+    "cray_mpich": "8.1.15",
+    "pals": "1.1.6",
+    "method_3_manual_interface_reviewed": true,
+    "runtime_processes_launched_during_manual_review": 0,
+    "evidence": "../rank-placement-512-screen-20261023/runtime-interface-review.json"
+  },
+  "future_job_configuration": {
+    "queue": "normal",
+    "project": "59000042",
+    "nodes": 4,
+    "ncpus_per_node": 128,
+    "mpiprocs_per_node": 128,
+    "memory_per_node": "32gb",
+    "gpu_count": 0,
+    "placement": "scatter:excl",
+    "walltime_seconds": 180,
+    "internal_deadline_seconds": 135,
+    "maximum_requested_SU": 25.6,
+    "thread_environment": {
+      "OMP_NUM_THREADS": 1,
+      "MKL_NUM_THREADS": 1,
+      "OPENBLAS_NUM_THREADS": 1
+    },
+    "transport_environment": {
+      "FI_OFI_RXM_USE_SRX": 0,
+      "other_FI_variables": "unchanged at module/site defaults; allowlisted capture"
+    },
+    "same_both_arm_launcher": [
+      "mpiexec",
+      "-n",
+      "512",
+      "--cpu-bind",
+      "thread"
+    ],
+    "dependency_required": "afterok:25940700:25943865",
+    "mem_note": "32 GB/node is runtime headroom, not measured RSS."
+  },
+  "runtime_evidence": "pending; no MPI compile/launch, SSH, qsub, PBS query, budget action, mesh access, solver, or profiler use in this preparation",
+  "no_payload_bytecode_cache": true,
+  "root_review_corrections": [
+    "Make NUMA cpulist fallback reachable when per-CPU symlinks are absent; unsupported topology still fails.",
+    "Snapshot optional PMI diagnostic before MPI_Init.",
+    "Independently validate expected slot fields against the original identity records and group co-location."
+  ],
+  "local_c_syntax_only": {
+    "passed": true,
+    "compiler": "cc -std=c11 -Wall -Wextra -Werror -fsyntax-only",
+    "mpi_header": "Synthetic declarations only; no installed MPI headers, real MPI build, linking or MPI run."
+  },
+  "body_files_excluding_manifest": 15,
+  "payload_files_including_manifest": 16
+}
