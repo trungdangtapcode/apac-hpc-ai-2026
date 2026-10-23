@@ -1,0 +1,113 @@
+{
+  "job": "224155.pbs111",
+  "reviewed_utc": "2026-10-23T15:42:15.158433+00:00",
+  "state": "BYTE_GATES_PASS_LOGIN_SHELL_EXIT_FAILURE_REPRODUCED",
+  "pbs_state": "F",
+  "pbs_exit_status": 1,
+  "stageout_status": 1,
+  "original_job_pass": false,
+  "native_byte_gate": {
+    "status": "pass",
+    "physical_ranks": 2,
+    "hosts": [
+      "a2ap-dgx037",
+      "a2ap-dgx039"
+    ],
+    "gpu_uuids": [
+      "77675e25-870d-2220-246e-03d5cbae6bc9",
+      "d4dd388d-6209-0b92-771a-32bb3dd39b01"
+    ],
+    "registered_kv_bytes_per_rank": 14465098240,
+    "registered_aux_bytes_per_rank": 933888,
+    "selected_kv_bytes": 97280,
+    "untouched_destination_bytes_gpu_scanned": 14465000960,
+    "component_relative_t0_s_max": 218.225,
+    "scope": "Two physical H100 rank pair, no weights/model; native full-span NIXL registration and sparse selected-page transfer; not full TP collective or EAGLE output proof"
+  },
+  "exit_gate": {
+    "status": "fail",
+    "error": "container/node cleanup exit failed: final_returncode"
+  },
+  "exit_boundaries": {
+    "rank0-python-exit.json": {
+      "schema": "python-child-exit-v1",
+      "rank": 0,
+      "host": "a2ap-dgx037",
+      "child_returncode": 0,
+      "timed_out": false,
+      "started_epoch_s": 1792769615.827133,
+      "ended_epoch_s": 1792769650.081456,
+      "source_sha256": "b71dfa9bfb87e05e91fb4ebc56ac07bcfa4a1d3fb5bbf0290dda3fb0b236736c",
+      "child_fully_waited": true
+    },
+    "rank1-python-exit.json": {
+      "schema": "python-child-exit-v1",
+      "rank": 1,
+      "host": "a2ap-dgx039",
+      "child_returncode": 0,
+      "timed_out": false,
+      "started_epoch_s": 1792769613.8912199,
+      "ended_epoch_s": 1792769648.860275,
+      "source_sha256": "b71dfa9bfb87e05e91fb4ebc56ac07bcfa4a1d3fb5bbf0290dda3fb0b236736c",
+      "child_fully_waited": true
+    },
+    "rank0-node-exit.json": {
+      "schema": "node-exit-v1",
+      "rank": 0,
+      "host": "a2ap-dgx037",
+      "container_returncode": 0,
+      "cleanup_returncode": 0,
+      "cleanup_deleted": true,
+      "final_returncode": 1,
+      "recorded_epoch_s": 1792769656.1671104
+    },
+    "rank1-node-exit.json": {
+      "schema": "node-exit-v1",
+      "rank": 1,
+      "host": "a2ap-dgx039",
+      "container_returncode": 0,
+      "cleanup_returncode": 0,
+      "cleanup_deleted": true,
+      "final_returncode": 1,
+      "recorded_epoch_s": 1792769654.286586
+    },
+    "batch-exit.json": {
+      "schema": "batch-exit-v1",
+      "host": "a2ap-dgx037",
+      "final_returncode": 1,
+      "recorded_epoch_s": 1792769661.1697216
+    }
+  },
+  "observability": {
+    "phase_timing_memory_rss": "inspected both ranks",
+    "max_sampled_torch_allocated_bytes": 14465146880,
+    "max_sampled_torch_reserved_bytes": 14822670336,
+    "max_sampled_rss_kib": 8072056,
+    "continuous_hardware_telemetry": "not collected",
+    "pbs_gpu_counters": "retained; internally inconsistent and not used to infer utilization",
+    "serving_latency_errors_concurrency": "not applicable; no serving requests"
+  },
+  "cost": {
+    "allocated_gpus": 2,
+    "walltime_s": 262,
+    "estimated_allocated_charge_su": 18.63111111111111,
+    "posted_charge_su": 18.631000000001222,
+    "maximum_reservation_su": 42.666666666666664,
+    "posted_checked_utc": "2026-10-23T15:42:15.499172+00:00"
+  },
+  "cpu_reproduction": {
+    "real_login_strict_shell_exit": 1,
+    "nonlogin_strict_shell_exit": 0,
+    "controlled_cases": 8,
+    "only_failing_case": "temporary console logout + errexit + login shell",
+    "actual_logout_commands_match_public_clear_console_case": true,
+    "user_profile_modified": false
+  },
+  "limits": [
+    "No full serving, model output, EAGLE speedup or official accuracy result",
+    "Successful Python/container teardown on this allocation does not retroactively prove every prior failure had the same cause",
+    "The old full223055 native NIXL remote disconnect remains a separate unresolved serving failure",
+    "Per-request auxiliary strides/row transfer remain outside the full-span diagnostic"
+  ],
+  "next_decision": "Derive a nonlogin batch/node launcher with explicit module initialization; retain strict byte and exit gates and test CPU shell behavior before one bounded GPU confirmation."
+}

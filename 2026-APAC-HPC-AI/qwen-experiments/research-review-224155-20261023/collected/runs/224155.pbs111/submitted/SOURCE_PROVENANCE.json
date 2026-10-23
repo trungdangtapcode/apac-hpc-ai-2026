@@ -1,0 +1,24 @@
+{
+  "schema": "nixl-production-span-source-provenance-v1",
+  "created_utc_date": "2026-10-23",
+  "source_review": {
+    "geometry_source_records_path": "../research-review-223788-20261023/geometry-source-records.json",
+    "geometry_source_records_sha256": "19beb2149fd9fe9cf2e4aff2636dc47cad68a920f77a5ffa1cf4843acddefdd2",
+    "run_223788_raw_evidence_manifest_path": "../research-review-223788-20261023/collected/evidence-sha256.json",
+    "run_223788_raw_evidence_manifest_sha256": "372ff2c7935de2bd7f6813c3cb3adb1273013c53ba2e42422bb2cfdd9661edfe",
+    "interpretation": "190 KV ranges and ten auxiliary lengths follow the retained 223788 evidence and geometry review; the two-rank pilot does not recreate its full 16-GPU deployment."
+  },
+  "pinned_source_files": [
+    {"path": "nixl-conn.py", "role": "NixlKVManager native registration, selector, KV slice send, and auxiliary send methods; copied from the prior reviewed native probe", "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"},
+    {"path": "source/common-conn.py", "role": "CommonKVManager MHA pointer split helper; copied from the prior reviewed native probe", "sha256": "ba33d63c6920f87b55cf57f9224bb7d08af67e1476bd70b8e1a70067f33a29d7"},
+    {"path": "source/nixl_api.py", "role": "NIXL API registration and transfer lifecycle source; copied from the prior reviewed native probe", "sha256": "27c3ce3c4fe58480aa3bce5e5c158c7659821a3bf1e84680778645adfdaa1bea"},
+    {"path": "staging_buffer.py", "role": "Pinned staging helper source identity required by runtime source validation", "sha256": "52693777d6ee25d1919555a5b910677ba58fa6c18e35782faa7a0470b43839ab"},
+    {"path": "native-positional-mha-source.py.txt", "role": "Relevant retained source excerpt establishing the flat MHA pointer split and draft-KV positional case", "sha256": "c3871e5f8259dd9e4baa9f8fe8b3cd82b0c7170f3167abee29a6c5c5c8cadf56"}
+  ],
+  "role_builder_sources": [
+    {"path": "source/eagle/sgl-workspace/sglang/python/sglang/srt/disaggregation/prefill.py", "role": "Pinned prefill KVArgs builder source used by the bounded AST pointer-order fixture", "sha256": "9fd0c9debefae5f4c675a79ad7b62c1a7fe1dc92aeac6cdda12d527e20189af3"},
+    {"path": "source/eagle/sgl-workspace/sglang/python/sglang/srt/disaggregation/decode.py", "role": "Pinned decode KVArgs builder source used by the bounded AST pointer-order fixture", "sha256": "7d7d715013d5a72c1505f9a3a784f87a48938d8d52db6938102865cbd63e954b"},
+    {"path": "source/eagle/sgl-workspace/sglang/python/sglang/srt/mem_cache/memory_pool.py", "role": "Pinned MHA K/V pool registration order source used by the bounded AST pointer-order fixture", "sha256": "29ef7b37d2e12b1a4b674b97c33b3ceb05cd8421a3742eb33cb6a75f52896ddc"}
+  ],
+  "runtime_source_gate": "The task image source hashes and NIXL API hash must match pinned identity values before native methods run; the code does not import a model. Role-builder source evidence is CPU-only and does not establish live tensor provenance."
+}

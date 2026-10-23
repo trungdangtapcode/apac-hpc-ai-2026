@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T15:31:57.901739+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T15:45:10.744593+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Learning and presentation route
 
@@ -51,8 +51,7 @@ Sampled GPU activity, allocated VRAM, KV token occupancy and kernel-time sums ar
 
 ## H100 NIXL / EAGLE3 branch
 
-**224155.pbs111 is submitted/R** at 15:29 UTC on two H100 hosts 037/039, one GPU each, at most ten minutes. It preserves native full-span transfer bytes and adds independent child/container/node/batch exit receipts to localize the original failure; no pass or causal fix claim yet. Maximum 42.666667 SU reserved, internal headroom 4491.419333 SU. [Definite receipt and bounded design](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-exit-boundary-probe-20261023/RESULTS.md).
-
+**224155.pbs111 is terminal F / exit 1**, 262 s / posted 18.631 SU. Actual native byte checks pass again; both Python children and containers return 0, cleanup 0, but both node shells report 1 and the strict head exit gate correctly rejects. Controlled eight-case CPU tests isolate login mode  + errexit  + console-cleanup logout; the other seven pass. User startup/logout files are unchanged. Next derive nonlogin batch/node launch with explicit module init, retaining all strict gates, before one bounded confirmation. This does not explain the earlier full 223055 NIXL disconnect. Fresh ledger at 15:42: Used 46484.545 / Balance 17515.455 / In Doubt 0 / outstanding maxima 0 / headroom 4515.455 SU. [Complete proof and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224155-20261023/REVIEW.md).
 
 **224116.pbs111 is terminal F / exit 1**, 229 s / estimated 16.284444 SU; never relabel it a successful job. Independent replay passes all full-sized native byte gates on two H100 hosts: 190×76,132,096-byte KV spans per rank, 380 sparse pages / 97,280 bytes, 14,465,000,960 untouched destination bytes GPU-scanned, source preservation and ten whole auxiliary spans / 933,888 bytes. Both rank semantic receipts finish by T0+100.161 s and component marker by 130.146 s. Stageout_status 1 and a task exit 1 coexist with outer launcher 0; exact exit origin unresolved. Phase RSS/GPU allocator samples inspected; PBS utilization counters are inconsistent. No model output/speedup claim. The prior maximum is now uniquely reconciled at 16.284 SU (15:27 UTC); original PBS status remains failed. The successor reservation is recorded separately. [Raw proof, limitations and next exit-boundary diagnostic](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224116-20261023/REVIEW.md).
 
