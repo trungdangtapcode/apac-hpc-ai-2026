@@ -8,8 +8,8 @@
     "balance_SU": 29777.846,
     "in_doubt_SU": 0
   },
-  "baseline_wave_planning_ceiling_SU": 1000,
-  "reserved_max_SU": 170.86666666666667,
+  "baseline_wave_planning_ceiling_SU": 5000,
+  "reserved_max_SU": 4524.200000000001,
   "jobs": [
     {
       "id": "25904725.pbs101",
@@ -133,19 +133,19 @@
   ],
   "note": "CPU-only ledger; no AI budget changes. Probe and future stages need locked fresh checks and separate submission receipts.",
   "schema": 2,
-  "updated_utc": "2026-10-21T19:51:40.782003+00:00",
-  "consumed_ceiling_SU": 85,
-  "outstanding_reserved_max_SU": 85.86666666666667,
-  "planning_committed_SU": 170.86666666666667,
+  "updated_utc": "2026-10-23T12:41:55.295106+00:00",
+  "consumed_ceiling_SU": 2049,
+  "outstanding_reserved_max_SU": 2475.2000000000003,
+  "planning_committed_SU": 4524.200000000001,
   "reservation_semantics": "Always enforce consumed_ceiling_SU + outstanding_reserved_max_SU + new maximum <= current cumulative research ceiling (baseline_wave_planning_ceiling_SU). Original first-wave ceiling remains in ceiling_history.",
   "latest_project_snapshot": {
-    "observed_utc": "2026-10-21T19:47:43.205709+00:00",
-    "used_SU": 250.033,
-    "balance_SU": 29749.967,
+    "observed_utc": "2026-10-23T12:41:52.019880Z",
+    "used_SU": 2269.938,
+    "balance_SU": 27730.062,
     "in_doubt_SU": 0.0,
-    "site_timestamp_limitation": "See retained raw report; timestamp/refresh chronology unresolved"
+    "site_timestamp_limitation": "Full raw report retained; project display is not individual posted-job accounting."
   },
-  "reconciliation_note": "All recorded CPU jobs terminal; own queue empty and report In Doubt zero. Requested maxima retired with actual terminal resources plus one SU rounding buffer; not individual posted billing.",
+  "reconciliation_note": "Authorised ceiling expansion and conservative common-cost coverage, not retirement of unknown reservations; reported campaign delta and unresolved maxima may double count intentionally.",
   "last_reconciliation": "nscc-cpu-timing-probe-20261021/reconciliation-20261021T194743Z.json",
   "ceiling_history": [
     {
@@ -154,6 +154,81 @@
       "new_cumulative_ceiling_SU": 1000,
       "authorization": "Owner explicitly requested expanded aggressive HPC research and submissions after clarification that the separate CPU project has a 30,000-SU grant. Agent chooses a bounded 1,000-SU cumulative continuation, not unlimited spending.",
       "scope": "CPU project 59000042 only; retain one active CPU allocation and combined PBS cap three."
+    },
+    {
+      "observed_utc": "2026-10-23T12:41:55.295106+00:00",
+      "previous_ceiling_SU": 1000,
+      "new_cumulative_ceiling_SU": 5000,
+      "authorization": "Owner explicitly approved raising cumulative CPU campaign ceiling to 5,000 SU, conservatively including shared use, on 23 October 2026.",
+      "scope": "CPU project 59000042 only, cumulative campaign since retained 222.154-SU baseline; one active CPU allocation and combined PBS cap three remain."
     }
-  ]
+  ],
+  "shared_cost_observations": {
+    "known_terminal_estimate_SU": 440.1066666666667,
+    "retained_uncertain_max_SU": 2389.3333333333335,
+    "unknown_history_jobs": [
+      {
+        "job": "25921488.pbs101",
+        "requested_ncpus": 512,
+        "requested_max_SU": 341.3333333333333,
+        "conservative_full_four_node_max_SU": 341.3333333333333,
+        "request_walltime_seconds": 2400,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      },
+      {
+        "job": "25921517.pbs101",
+        "requested_ncpus": 256,
+        "requested_max_SU": 213.33333333333334,
+        "conservative_full_four_node_max_SU": 426.6666666666667,
+        "request_walltime_seconds": 3000,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      },
+      {
+        "job": "25921518.pbs101",
+        "requested_ncpus": 384,
+        "requested_max_SU": 320.0,
+        "conservative_full_four_node_max_SU": 426.6666666666667,
+        "request_walltime_seconds": 3000,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      },
+      {
+        "job": "25921692.pbs101",
+        "requested_ncpus": 512,
+        "requested_max_SU": 341.3333333333333,
+        "conservative_full_four_node_max_SU": 341.3333333333333,
+        "request_walltime_seconds": 2400,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      },
+      {
+        "job": "25921905.pbs101",
+        "requested_ncpus": 512,
+        "requested_max_SU": 426.6666666666667,
+        "conservative_full_four_node_max_SU": 426.6666666666667,
+        "request_walltime_seconds": 3000,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      },
+      {
+        "job": "25921906.pbs101",
+        "requested_ncpus": 512,
+        "requested_max_SU": 426.6666666666667,
+        "conservative_full_four_node_max_SU": 426.6666666666667,
+        "request_walltime_seconds": 3000,
+        "state": "HISTORY_UNAVAILABLE_NATIVE_EVIDENCE_PASS",
+        "terminal_charge": null,
+        "source": "four-node-review-20261023/collected/collection.json"
+      }
+    ],
+    "policy": "Keep full four-node planning allowance for all missing-history shared jobs, even partial CPU requests; no individual posting or exact charge claim.",
+    "source": "cpu-continuation-20261023/budget-authorization-and-check.json"
+  }
 }

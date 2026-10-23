@@ -7,6 +7,7 @@ def seconds(s):
  h,m,v=map(int,s.split(':'));return h*3600+m*60+v
 with (base/'cpu-budget.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX);d=json.loads(ledger.read_text());assert d['schema']==2 and d['project']=='59000042'
+ assert not d.get('shared_cost_observations',{}).get('retained_uncertain_max_SU',0), 'Shared unknown-history reservations must be reconciled explicitly; do not retire them through the legacy own-job helper'
  ids=[j['id'] for j in d['jobs']];assert all(re.fullmatch(r'\d+\.pbs\d+',j) for j in ids) and len(set(ids))==len(ids)
  own=remote('qstat -u apacsc42');assert 'apacsc42' not in own,'An own CPU job is still queued/running; no reconciliation'
  raw=json.loads(remote('qstat -xf -F json '+' '.join(ids)))['Jobs'];assert set(raw)==set(ids)
