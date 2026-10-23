@@ -1,0 +1,22 @@
+{
+  "checked_utc": "2026-10-23T19:24:06.430522Z",
+  "jobs": {
+    "25940700.pbs101": {
+      "job_state": "Q",
+      "queue": "q5",
+      "comment": "Not Running: Insufficient amount of resource: node_pool",
+      "depend": "beforeany:25943865.pbs101@pbs101,beforeok:25947168.pbs101@pbs101"
+    },
+    "25943865.pbs101": {
+      "job_state": "H",
+      "queue": "qdev",
+      "depend": "afterany:25940700.pbs101@pbs101,beforeok:25947168.pbs101@pbs101"
+    },
+    "25947168.pbs101": {
+      "job_state": "H",
+      "queue": "q5",
+      "depend": "afterok:25940700.pbs101@pbs101:25943865.pbs101@pbs101"
+    }
+  },
+  "assessment": "No new solver or MPI mapping result. Dependency holds are expected; preserve all payloads and queue positions. Three queue slots and the existing conservative budget constrain new submissions; no new job or spending change."
+}
