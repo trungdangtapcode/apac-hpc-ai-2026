@@ -1,0 +1,165 @@
+#!/bin/bash
+# Unsubmitted independent four-node default-Scotch S128 confirmation.
+#PBS -N tu-cpu-4n-confirm-S128
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:40:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+RANKS=512
+NODES=4
+CPUS=512
+WALL_SECONDS=2400
+# Start the internal clock before module setup, source verification, mesh checks,
+# startup probes, copies, decomposition, and solver work. Reserve three minutes
+# before PBS walltime for cleanup and best-effort lifecycle capture.
+BATCH_START_EPOCH=$(date +%s)
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$RUN"
+mkdir -p "$RUN/logs"
+python3 "$ROOT/payload/batch-lifecycle.py" start "$RUN"
+trap 'finish_wrapper' EXIT
+finish_wrapper() {
+    local status=$?
+    set +e
+    python3 "$ROOT/payload/batch-lifecycle.py" finish "$RUN" "$status"
+    exit "$status"
+}
+remaining_seconds() {
+    local elapsed=$(( $(date +%s) - BATCH_START_EPOCH ))
+    echo $(( 2220 - elapsed ))
+}
+run_bounded() {
+    local left
+    left=$(remaining_seconds)
+    test "$left" -gt 45
+    timeout --signal=TERM --kill-after=15s "${left}s" "$@"
+}
+phase() {
+    local state=$1 label=$2
+    printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$state" "$label" >> "$RUN/phases.tsv"
+}
+record_rc() {
+    python3 - "$RUN/command-return-codes.json" "$1" "$2" <<'PY_RC'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1]);items=json.loads(p.read_text()) if p.exists() else []
+items.append({'stage':sys.argv[2],'return_code':int(sys.argv[3])})
+p.write_text(json.dumps(items,indent=2)+'\n')
+PY_RC
+}
+run_stage() {
+    local label=$1 kind=$2 log=$3; shift 3
+    local left rc
+    left=$(remaining_seconds); test "$left" -gt 45
+    phase start "$label"
+    if /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" timeout --signal=TERM --kill-after=15s "${left}s" "$@" > "$log" 2>&1; then rc=0; else rc=$?; fi
+    record_rc "$label" "$rc"
+    phase "exit=$rc" "$label"
+    test "$rc" -eq 0
+    if [ "$kind" = serial ]; then
+        run_bounded python3 "$ROOT/payload/validate-stage.py" "$log" decompose > "$RUN/logs/$label-validation.json"
+    else
+        run_bounded python3 "$ROOT/payload/validate-stage.py" "$log" "$label" "$RANKS" > "$RUN/logs/$label-validation.json"
+    fi
+}
+
+phase start wrapper
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+# The shared-run configuration used SRX-off. Keep other FI variables at module
+# or site defaults and retain their effective values in environment capture.
+export FI_OFI_RXM_USE_SRX=0
+test "$OMP_NUM_THREADS" = 1
+test "$FI_OFI_RXM_USE_SRX" = 0
+phase complete module_setup
+{
+    date -u
+    hostname
+    module list 2>&1
+    printf 'WM_PROJECT_VERSION=%s\nWM_PRECISION_OPTION=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION"
+    lscpu
+    env | sort | grep -E '^(FI_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*|MKL_[A-Za-z0-9_]*|OPENBLAS_[A-Za-z0-9_]*|WM_[A-Za-z0-9_]*)=' || true
+} > "$RUN/environment.log"
+if [ -n "${PBS_NODEFILE:-}" ]; then
+    cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+    python3 - "$PBS_NODEFILE" <<'PY_NODES' > "$RUN/pbs-nodefile-validation.json"
+import collections,json,sys
+from pathlib import Path
+rows=[x.strip().split('.')[0] for x in Path(sys.argv[1]).read_text().splitlines() if x.strip()]
+c=collections.Counter(rows)
+assert len(rows)==512 and len(c)==4 and sorted(c.values())==[128]*4,(len(rows),c)
+print(json.dumps({'passed':True,'lines':len(rows),'nodes':dict(sorted(c.items()))},indent=2))
+PY_NODES
+else
+    echo 'PBS_NODEFILE not provided' > "$RUN/pbs-nodefile-validation.json"
+    exit 1
+fi
+
+phase start frozen_payload_validation
+run_bounded python3 "$ROOT/payload/verify-inputs.py" --root "$ROOT" --mode bundle > "$RUN/source-validation-before.json"
+run_bounded python3 "$ROOT/payload/verify-inputs.py" --root "$ROOT" --mode mesh > "$RUN/mesh-validation.json"
+phase complete frozen_payload_and_known_mesh_validation
+
+# Exactly 512 ranks perform one bounded topology read/write each before setup.
+# This is an allocation/launcher startup check, not continuous instrumentation.
+phase start startup_rank_probe
+run_bounded mpirun -np "$RANKS" python3 "$ROOT/payload/rank-probe.py" > "$RUN/rank-probe.jsonl" 2> "$RUN/rank-probe.stderr"
+run_bounded python3 "$ROOT/payload/validate-rank-probe.py" "$RUN/rank-probe.jsonl" --nodefile "$PBS_NODEFILE" > "$RUN/rank-probe-validation.json"
+phase complete startup_rank_probe
+
+SOURCE="$ROOT/payload/case"
+CASE="$RUN/case"
+test ! -e "$CASE"
+phase start isolated_case_copy
+run_bounded cp -a --reflink=auto "$SOURCE" "$CASE"
+run_bounded python3 "$ROOT/payload/verify-inputs.py" --root "$ROOT" --mode case --case "$CASE" > "$RUN/case-copy-validation.json"
+# Reuse only the previously verified shared mesh at the recorded path. No mesh
+# download or processing occurs on a login node; processor meshes are local.
+test ! -e "$CASE/constant/polyMesh"
+ln -s /scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh "$CASE/constant/polyMesh"
+test -L "$CASE/constant/polyMesh"
+run_bounded python3 "$ROOT/payload/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$CASE/constant/polyMesh" > "$RUN/linked-mesh-validation.json"
+phase complete isolated_case_copy_and_mesh_guard
+
+cd "$CASE"
+. "$WM_PROJECT_DIR/bin/tools/RunFunctions"
+mkdir -p "$CASE/logFiles"
+run_stage decomposePar serial "$RUN/logs/10_decomposePar.log" decomposePar -constant
+run_bounded python3 - "$CASE" > "$RUN/logs/decomposition-layout-validation.json" <<'PY_LAYOUT'
+from pathlib import Path
+import json,sys
+p=Path(sys.argv[1]); dirs=[x.name for x in p.glob('processor*') if x.is_dir()]
+assert len(dirs)==512 and set(dirs)=={'processor'+str(i) for i in range(512)},(len(dirs),dirs[:8])
+assert all((p/('processor'+str(i))/'constant/polyMesh').is_dir() for i in range(512))
+print(json.dumps({'passed':True,'processor_directories':512,'numeric_ids':[0,511]},indent=2))
+PY_LAYOUT
+phase start restore0Dir
+left=$(remaining_seconds); test "$left" -gt 45
+if /usr/bin/time -v -o "$RUN/logs/restore0Dir.resource.txt" timeout --signal=TERM --kill-after=15s "${left}s" bash -ec '. "$WM_PROJECT_DIR/bin/tools/RunFunctions"; restore0Dir -processor' > "$RUN/logs/15_restore0Dir.log" 2>&1; then rc=0; else rc=$?; fi
+record_rc restore0Dir "$rc"; phase "exit=$rc" restore0Dir; test "$rc" -eq 0
+run_bounded python3 "$ROOT/payload/field-seal.py" "$CASE" "$RUN/restored-zero-fields.json"
+phase complete restore_and_initial_zero_seal
+
+run_stage renumberMesh parallel "$RUN/logs/20_renumberMesh.log" mpirun -np "$RANKS" renumberMesh -constant -overwrite -parallel
+run_stage potentialFoam parallel "$RUN/logs/30_potentialFoam.log" mpirun -np "$RANKS" potentialFoam -initialiseUBCs -parallel
+run_stage applyBoundaryLayer parallel "$RUN/logs/40_applyBoundaryLayer.log" mpirun -np "$RANKS" applyBoundaryLayer -ybl 0.0450244 -parallel
+run_bounded python3 "$ROOT/payload/field-seal.py" "$CASE" "$RUN/initialized-zero-fields-before-solve.json"
+phase complete mandatory_initialization_and_pre_solve_seal
+
+# The payload case has the single permitted control change endTime=150.
+run_stage simpleFoam parallel "$CASE/logFiles/simpleFoam.log" mpirun -np "$RANKS" simpleFoam -parallel
+phase start full_solver_output_validation
+run_bounded python3 "$ROOT/payload/validate-solve.py" "$CASE" --output "$RUN/native-solver-review.json" > "$RUN/native-solver-review.stdout.json"
+run_bounded python3 "$ROOT/payload/field-seal.py" "$CASE" "$RUN/initialized-zero-fields-after-solve.json" "$RUN/initialized-zero-fields-before-solve.json"
+phase complete solver_review_and_zero_time_field_seal
+run_bounded python3 "$ROOT/payload/verify-inputs.py" --root "$ROOT" --mode bundle > "$RUN/source-validation-after.json"
+phase complete source_manifest_unchanged
+printf 'CPU_FOUR_NODE_CONFIRM_S128_NATIVE_PASS\n'
