@@ -2292,3 +2292,7 @@ Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconci
 ## Actual small KV descriptor gate — 2026-10-21T20:01:48.672327+00:00
 
 223097.pbs111 passes all 24 native descriptor writes and independent GPU byte checks, 199 seconds / estimated 14.151111 SU; posted credit reconciliation is pending. No inference or new score. [Full result, observability correction and next registration/aux hypothesis](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-descriptor-probe-20261021/REVIEW.md). Preserve raw evidence and the five pending H200 positions.
+
+## Full-span native transfer pilot — 23 October 13:08 UTC
+
+224116.pbs111 submitted and immediately R on two distinct H100 hosts. No model; 190 production-sized KV spans per rank, ten host auxiliary spans, 380 sparse page patterns, untouched-memory GPU scan and source-preservation gates. Maximum 42.666667 SU reserved; no speedup or correctness result at submission. [Design, preparation correction, receipt and limits](nixl-production-span-probe-20261023/RESULTS.md).

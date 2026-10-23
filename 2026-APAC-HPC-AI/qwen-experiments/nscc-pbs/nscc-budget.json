@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-23T12:17:43.346672+00:00",
+  "updated_utc": "2026-10-23T13:08:26.351858+00:00",
   "project": "59010042",
   "commissioning_cap_su": 51000.0,
   "cap_interpretation": "Use project credit under the current user instruction; retain the existing13000SU conservative project reserve. Previous16384SU internal campaign cap is historical, not a BTC limit.",
@@ -10,14 +10,14 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 13000,
   "ledger": {
-    "as_of": "23/10/2026-20:00:01",
+    "as_of": "23/10/2026-21:00:02",
     "grant_su": 64000.0,
     "used_su": 46449.63,
     "balance_su": 17550.37,
     "in_doubt_su": 0.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-223788-20261023/fresh-selected-credit.json",
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-production-span-probe-20261023/pre-submit.stdout",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-23T12:17:43.346672+00:00",
+    "queried_utc": "2026-10-23T13:08:26.351771+00:00",
     "freshness_note": "Selected AI project only; terminal geometry probe cost assessed separately from its failed diagnostic gate."
   },
   "jobs": [
@@ -1919,6 +1919,18 @@
       "observed_walltime": "00:05:19",
       "estimated_charge_su": 45.36888888888889,
       "last_checked_utc": "2026-10-23T12:17:43.346672+00:00"
+    },
+    {
+      "job_id": "224116.pbs111",
+      "bundle": "nixl-production-span-probe-20261023",
+      "kind": "native_production_span_transfer",
+      "state": "SUBMITTED",
+      "requested_gpus": 2,
+      "requested_walltime": "00:10:00",
+      "max_charge_su": 42.666666666666664,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "submitted_utc": "2026-10-23T13:08:26.583661+00:00"
     }
   ],
   "pending_reservations": [
@@ -3125,10 +3137,22 @@
       "submitted_utc": "2026-10-23T04:24:47.114057+00:00",
       "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-223788-20261023/fresh-selected-credit.json",
       "last_checked_utc": "2026-10-23T12:17:43.346672+00:00"
+    },
+    {
+      "purpose": "nixl-production-span-probe-20261023",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 42.666666666666664,
+      "requested_gpus": 2,
+      "requested_walltime": "00:10:00",
+      "reserved_utc": "2026-10-23T13:08:26.351747+00:00",
+      "job_id": "224116.pbs111",
+      "submitted_utc": "2026-10-23T13:08:26.583661+00:00"
     }
   ],
-  "active_pbs_jobs": [],
-  "unallocated_commissioning_su": 4550.370000000003,
+  "active_pbs_jobs": [
+    "224116.pbs111"
+  ],
+  "unallocated_commissioning_su": 4507.703333333336,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh all own jobs and project credit. Under budget.lock, reserve the maximum charge and record each returned job ID. Keep used plus unaccounted charges and outstanding reservations within 51,000 SU, retaining a conservative 13,000 SU project reserve. These are planning bounds, not organiser limits. At most three active PBS GPU jobs in an afterany chain, with one running 16-GPU allocation. Retain uncertain reservations and do not retry an uncertain submission.",
@@ -3191,7 +3215,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 4550.370000000003,
+  "campaign_headroom_after_reserved_su": 4507.703333333336,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",

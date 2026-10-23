@@ -204,3 +204,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: six four-node native reviews, conservative funding and confirmation25940700](entries/20261023-hpc-four-node-review-and-confirmation.md).
 
 - [23 October: production-sized byte-transfer hypothesis and corrected receiver baseline](entries/20261023-full-span-transfer-preparation.md).
+
+- [23 October: full-span two-H100 pilot 224116 submitted and running](entries/20261023-full-span-transfer-submission.md).
