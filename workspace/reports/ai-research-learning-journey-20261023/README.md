@@ -128,3 +128,5 @@ The independent exit records narrowed the fault: both native Python programs and
 ### Check the row as well as the memory region
 
 The transport registers a large memory region, but a request copies one row at a selected slot index. Whole-region registration and a whole-buffer copy do not prove the row width and index are correct on both sides. Our source review identifies the expected ten metadata rows and a remaining runtime gap: actual decoder pool size and hidden-state layout. Conditional arithmetic stays labelled conditional. [Source, limits and the next useful evidence](../research-journey-20261019/journal/entries/20261023-native-aux-slot-layout-source.md).
+
+The separate real confirmation 224157 now passes the same byte checks and all application exit boundaries with PBS Exit_status 0. A remaining Stageout_status 1 is retained, so we claim only the declared application/exit result. This closes the shell repair and leaves full serving correctness as a different question. [Measured confirmation and cost](../research-journey-20261019/journal/entries/20261023-nonlogin-repair-confirmed.md).
