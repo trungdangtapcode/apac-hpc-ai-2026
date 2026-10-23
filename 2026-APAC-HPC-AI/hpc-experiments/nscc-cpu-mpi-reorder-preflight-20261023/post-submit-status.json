@@ -1,0 +1,61 @@
+{
+  "checked_utc": "2026-10-23T15:51:33.303663Z",
+  "jobs": {
+    "25940700.pbs101": {
+      "Job_Name": "tu-cpu-4n-confirm-S128",
+      "job_state": "Q",
+      "queue": "q5",
+      "project": "59000042",
+      "comment": "Not Running: Insufficient amount of resource: node_pool ",
+      "depend": "beforeany:25943865.pbs101@pbs101",
+      "Resource_List": {
+        "am_job_cache": "{\"job.ngpus\": 0.0, \"job.ncpus\": 512.0, \"job.walltime\": 2400, \"job.queue_charge_rate\": 1.0}",
+        "jobprio": 170,
+        "mem": "1760gb",
+        "mpiprocs": 512,
+        "ncpus": 512,
+        "ngpus": 0,
+        "nodect": 4,
+        "organisation": "org_default",
+        "parent_organisation": "parent_org_default",
+        "place": "scatter:excl",
+        "project_category": "category_default",
+        "queue_charge_rate": 1,
+        "scientific_area": "area_default",
+        "select": "4:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0",
+        "software": "software_default",
+        "user_organisation": "user_org_default",
+        "walltime": "00:40:00"
+      },
+      "Hold_Types": "n"
+    },
+    "25943865.pbs101": {
+      "Job_Name": "mpi-rank-reorder-preflight",
+      "job_state": "H",
+      "queue": "qdev",
+      "project": "59000042",
+      "depend": "afterany:25940700.pbs101@pbs101",
+      "Resource_List": {
+        "am_job_cache": "{\"job.ngpus\": 0.0, \"job.ncpus\": 4.0, \"job.walltime\": 180, \"job.queue_charge_rate\": 1.0, \"formula_constants\": \"\", \"am_cloud_enabled\": false}",
+        "jobprio": 1,
+        "mem": "4gb",
+        "mpiprocs": 4,
+        "ncpus": 4,
+        "ngpus": 0,
+        "nodect": 1,
+        "organisation": "org_default",
+        "parent_organisation": "parent_org_default",
+        "place": "pack:shared",
+        "project_category": "category_default",
+        "queue_charge_rate": 1,
+        "scientific_area": "area_default",
+        "select": "1:ncpus=4:mpiprocs=4:mem=4gb:ngpus=0",
+        "software": "software_default",
+        "user_organisation": "user_org_default",
+        "walltime": "00:03:00"
+      },
+      "Hold_Types": "d"
+    }
+  },
+  "scope": "Whitelisted scheduler metadata only; no credential/environment state."
+}
