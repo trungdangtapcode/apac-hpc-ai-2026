@@ -1,0 +1,5 @@
+# Exit-boundary payload ready; access fails before submission
+
+Observed 2026-10-23T14:29:18.814708+00:00. The separately frozen probe is prepared and backed up as 615e7838; no GPU result exists. Its local connection preflight fails because the prior SSH master is absent. Read-only checks additionally establish a dead VPN pane and no live VPN namespace; the cause remains unknown. No upload, budget reservation or qsub occurred. Phone-holder availability was asked; no fresh authentication was attempted.
+
+Preserve private recovery state, completed 224116 proof and the pending H200 25682 position. The last locked AI credit at 13:16 remains historical, with the original 42.666667-SU maximum retained until posting. After restored access, query selected project 59010042 and reconcile fresh ledger before one justified probe. Do not bypass caps or blindly resubmit. [Exact payload and safe preflight record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-exit-boundary-probe-20261023/RESULTS.md).

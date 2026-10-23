@@ -15,3 +15,7 @@ DUO is an authentication step, while an SSH master is an already authenticated c
 ## Submission confirms the existing path — 13:08 UTC
 
 The same authenticated path successfully uploaded a frozen AI diagnostic, queried the selected AI queue and project credit, submitted 224116.pbs111, and read its running scheduler record. No VPN restart or new DUO authentication was attempted. This confirms usable current research access; fresh DUO push delivery and acceptance remain untested.
+
+## Later loss of access — 2026-10-23T14:29:18.814708+00:00
+
+The original working connection snapshot is historical. Before a new diagnostic submission, the local AI SSH master check fails. A read-only persistent-helper status shows a dead VPN pane; entering the expected namespace reports no live VPN session. These establish that no current usable VPN namespace is present, not why it stopped. Do not infer expiry, a gateway authentication rejection or a client bug from the missing master alone. No restart, credential input or DUO step was attempted. Phone-holder availability for a fresh authentication was asked. Private recovery state is preserved. The intended diagnostic was not uploaded, reserved or submitted.
