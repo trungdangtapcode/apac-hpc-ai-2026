@@ -1,0 +1,87 @@
+#!/bin/bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-nonlogin
+#PBS -l select=2:ngpus=1:ncpus=14:mem=235gb:mpiprocs=1
+#PBS -l place=scatter
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+export PATH=/usr/bin:/bin:/opt/pbs/bin
+cd "$PBS_O_WORKDIR"
+component_t0=$(date +%s)
+sha256sum --check SHA256SUMS
+art="$PBS_O_WORKDIR/runs/$PBS_JOBID"
+exchange="$PBS_O_WORKDIR/runtime-peer-state/$PBS_JOBID"
+[[ ! -e "$art" && ! -e "$exchange" ]]
+mkdir -p "$art/submitted" "$exchange"
+chmod 700 "$exchange"
+python3 -c 'import json,os,sys; open(sys.argv[1],"w").write(json.dumps({"t0_epoch_s":int(sys.argv[2])})+"\n")' \
+  "$exchange/component-start.json" "$component_t0"
+mapfile -t files < <(awk '{print $2}' SHA256SUMS)
+cp --parents -- "${files[@]}" SHA256SUMS "$art/submitted/"
+awk '!seen[$0]++' "$PBS_NODEFILE" > "$art/allocated-nodes.txt"
+[[ $(wc -l < "$art/allocated-nodes.txt") -eq 2 ]]
+pids=()
+cleanup() {
+  local status=$?
+  trap - EXIT
+  for pid in "${pids[@]}"; do kill -TERM "$pid" 2>/dev/null || :; done
+  for _ in {1..20}; do
+    local alive=0
+    for pid in "${pids[@]}"; do kill -0 "$pid" 2>/dev/null && alive=1 || :; done
+    (( alive == 0 )) && break
+    (( $(date +%s) < component_t0 + 563 )) || break
+    sleep 0.1
+  done
+  for pid in "${pids[@]}"; do kill -KILL "$pid" 2>/dev/null || :; done
+  for pid in "${pids[@]}"; do wait "$pid" 2>/dev/null || :; done
+  if [[ -d "$exchange" ]]; then
+    if timeout --signal=TERM --kill-after=1s 3s rm -rf -- "$exchange"; then
+      printf '%s\n' 'deleted' > "$art/private-state-cleanup.txt"
+    else
+      printf '%s\n' 'timeout; deletion not confirmed' > "$art/private-state-cleanup.txt"
+      status=1
+    fi
+  fi
+  if ! timeout --signal=TERM --kill-after=1s 3s python3 -c '
+import json,socket,sys,time
+from pathlib import Path
+p=Path(sys.argv[1]);tmp=p.with_suffix(".tmp")
+tmp.write_text(json.dumps(dict(schema="batch-exit-v1",host=socket.gethostname(),final_returncode=int(sys.argv[2]),recorded_epoch_s=time.time()),indent=2)+"\n");tmp.replace(p)
+' "$art/batch-exit.json" "$status"; then status=1; fi
+  exit "$status"
+}
+trap cleanup EXIT
+for rank in 0 1; do
+  remaining=$(( component_t0 + 540 - $(date +%s) ))
+  (( remaining > 0 )) || { echo 'T0+540 reached before rank launch' >&2; exit 1; }
+  timeout --signal=TERM --kill-after=5s "${remaining}s" /opt/pbs/bin/pbsdsh -n "$rank" -- \
+    /bin/bash "$art/submitted/node-entry.sh" "$rank" "$art/submitted" "$art" "$exchange" \
+    > "$art/rank${rank}-task.log" 2>&1 &
+  pids+=("$!")
+done
+remote_status=0
+for pid in "${pids[@]}"; do wait "$pid" || remote_status=1; done
+pids=()
+printf '%s\n' "$remote_status" > "$art/outer-step-status.txt"
+(( remote_status == 0 )) || { echo 'A physical rank task failed' >&2; exit 1; }
+# A successful pbsdsh return does not prove remote success. Check both actual
+# rank artifacts with this stdlib-only semantic path on the allocated head.
+remaining=$(( component_t0 + 555 - $(date +%s) ))
+(( remaining > 0 )) || { echo 'T0+555 reached before head semantic check' >&2; exit 1; }
+timeout --signal=TERM --kill-after=2s "${remaining}s" \
+  python3 "$art/submitted/native_probe.py" --check --art "$art" | tee "$art/head-result-check.json"
+remaining=$(( component_t0 + 555 - $(date +%s) ))
+(( remaining > 0 )) || { echo 'T0+555 reached before independent exit check' >&2; exit 1; }
+timeout --signal=TERM --kill-after=2s "${remaining}s" \
+  python3 "$art/submitted/exit-boundaries.py" --check --art "$art" | tee "$art/head-exit-check.json"
+if timeout --signal=TERM --kill-after=1s 3s rm -rf -- "$exchange"; then
+  printf '%s\n' 'deleted' > "$art/private-state-cleanup.txt"
+else
+  printf '%s\n' 'timeout; deletion not confirmed' > "$art/private-state-cleanup.txt"
+  exit 1
+fi
+component_elapsed=$(python3 -c 'import sys,time; print(f"{time.time()-int(sys.argv[1]):.3f}")' "$component_t0")
+python3 -c 'import sys; assert float(sys.argv[1])<=570, "component T0 exceeded 570 seconds"' "$component_elapsed"
+echo "NIXL_PRODUCTION_SPAN_COMPLETE elapsed_s=$component_elapsed"
