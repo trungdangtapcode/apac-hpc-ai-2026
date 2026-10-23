@@ -1,3 +1,7 @@
+## 23 October: repaired H200 exact reference 25585
+
+Definite native Slurm receipt: **25585**, `s38-h200-target-reference-homefix`, 16 H200/two nodes/17-minute maximum/no PBS SU. Adds only the missing client HOME directory proven by failed 25495, with mount-prerequisite regression and unchanged actual token/head/asset gates. Pending output/runtime review, not a score or EAGLE3 result. [Receipt](eagle3-h200-reference-homefix-20261023/RESULTS.md), [failure evidence](research-review-25495-20261023/REVIEW.md).
+
 # 22 October continuation: full identity proof and reference diagnostic
 
 Submitted **25495** is an independent native H200 target-only correctness reference (16 GPUs/two nodes/at most 17 minutes/no PBS SU), not a ranked performance job. It is bound to full current hashes for 34 assets (about 263 GB), and requires eight native requests/1600 actual IDs plus independent semantic acceptance. Existing full N64/N68 jobs 25487/25488 remain unchanged. See [receipt](eagle3-h200-reference-run-20261022/RESULTS.md) and [full asset proof](eagle3-h200-reference-assets-20261022/REVIEW.md). Best performance remains reproduced N64; no new output or speedup is claimed at submission. Older dated records below remain historical.

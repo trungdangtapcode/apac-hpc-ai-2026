@@ -182,3 +182,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [22 October: fix and qualify the unsubmitted same-partition CPU binding pair](entries/20261022-hpc-placement-pair-qualified.md).
 
 - [23 October: reference 25495 client HOME mount failure and supported repair](entries/20261023-h200-reference-mount-failure.md).
+
+- [23 October: supported reference HOME repair submitted as 25585](entries/20261023-h200-reference-homefix-submission.md).

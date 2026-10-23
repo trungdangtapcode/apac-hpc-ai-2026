@@ -1,6 +1,6 @@
 # Current GPU / AI / Qwen handoff
 
-Updated 2026-10-23T04:03:55.948260+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
+Updated 2026-10-23T04:07:36.948865+00:00. This handoff belongs to AI session `01a15dd3-3094-7712-a991-8ce55b15cbfe`. Continuation on 23 October runs in GPU-named fork session `01a166eb-33cb-7ce0-9699-ec65de26689a`, verified through local session metadata. The separate HPC worker owns OpenFOAM. Do not modify HPC payloads, queues, notes or spending.
 
 ## Current measured results
 
@@ -17,9 +17,11 @@ Full N64 has zero request errors/cancellations, 1876/1902 jointly good, TTFT mea
 
 ## Current H200 followup and completed evidence
 
+- **25585** is submitted: `s38-h200-target-reference-homefix`, 16 H200/two nodes/17-minute ceiling/no PBS SU. It repairs only the missing token-client HOME directory proven by 25495; mount-validating actual-shell regression and four unchanged asset-binding client/head fixtures pass. No actual reference IDs yet. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-h200-reference-homefix-20261023/RESULTS.md). Query Slurm for live state.
+
 - **25495 is terminal FAILED / 1:0**: actual workers/router and both semantic P/D warmup receipts pass, but Pyxis refuses the token-client container because its role HOME was never created. No exact-reference output was captured. [Sealed failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25495-20261023/REVIEW.md). Derive a new mount-prerequisite repair; preserve the old job. Historical submission description: independent target-only exact-reference diagnostic, 16 H200 / two nodes / at most 17 minutes, no PBS SU. Eight native greedy requests must yield 1600 actual IDs, repeated-pass equality and independent semantic acceptance. This is not an EAGLE3 run or a throughput score. [Definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-h200-reference-run-20261022/RESULTS.md). Existing 25487/25488 positions are unchanged.
 
-- **25487 → 25488**, fresh full N64 control then N68 candidate afterok, each 16 H200 GPUs / two nodes / at most 17 minutes, full 60/120/30. Only offered load differs; all operational files are byte-identical. Immediate queue snapshot: Resources / Dependency. Query Slurm for live state. [Definite receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261022-n68-full/RESULTS.md).
+- **25487 / 25488 are terminal COMPLETED / 0:0**; detailed full-pair review is being captured separately. Historical submission: fresh full N64 control then N68 candidate afterok, each 16 H200 GPUs / two nodes / at most 17 minutes, full 60/120/30. Only offered load differs; all operational files are byte-identical. Immediate queue snapshot: Resources / Dependency. Query Slurm for live state. [Definite receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261022-n68-full/RESULTS.md).
 - Completed **25371** short N64/N68 passes all local gates: 2830.699360 → 2895.054081 good output tokens/s, +2.273457%, joint SLA 95.931142% / 95.890411%, zero errors/cancellations, long retrieval 12/12. Actual scored decode running-request log maxima are 54 / 58, below graph cap 64. Fixed-order short scores are unranked. [Review, tails and telemetry](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25371-20261022/REVIEW.md).
 - Completed **25373** independently repeats full N64 at 3044.074628 good output tokens/s, joint SLA 98.632299%, zero errors/cancellations, long 12/12. TTFT mean/p95 1113.240102 / 1309.781135 ms; request-mean ITL mean/p95 14.992752 / 15.159936 ms. All 26 failures breach TTFT; output-length counters are 1896 at 200 and five at 199. Same sampled UUID sets as source limit hardware diversity. [Full review and observability](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md).
 
