@@ -61,3 +61,5 @@ Figure generation uses local CPU work, not a cluster allocation. It does not cha
 The [new research entry](../research-journey-20261019/journal/entries/20261023-hpc-four-node-placement.md) records the full tail audit, the 512-rank/four-logical-host graph candidate and dependent interface preflight 25943865. The graph cut improves 22.59%, but solver speedup is unmeasured. Presentation files retain their dated slide snapshot; this learning guide links the newer hypothesis separately.
 
 The [host/NUMA trade-off refinement](../research-journey-20261019/journal/entries/20261023-hpc-fixed-host-numa-tradeoff.md) checks the second level of placement and explains the new figure. Lower cross-host face counts do not guarantee lower same-host NUMA counts, nor measured solver speedup.
+
+The [balanced placement followup](../research-journey-20261019/journal/entries/20261023-hpc-balanced-placement-and-queue.md) removes the logical NUMA face-count regression while retaining a 15.86% host-cut reduction. Its new two-axis figure keeps the trade-offs visible. Neither candidate has a new solver measurement.

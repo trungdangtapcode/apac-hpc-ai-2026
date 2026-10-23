@@ -236,3 +236,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: the host/NUMA placement trade-off and its refinement](entries/20261023-hpc-fixed-host-numa-tradeoff.md).
 
 - [23 October: real nonlogin repair confirms native/application exits while retaining the stageout anomaly](entries/20261023-nonlogin-repair-confirmed.md).
+
+- [23 October: a balanced two-proxy placement option and CPU fragmentation evidence](entries/20261023-hpc-balanced-placement-and-queue.md).

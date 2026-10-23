@@ -184,3 +184,11 @@ The node-only candidate reduced the host cut while making the same-host NUMA cut
 ![Same partitions, different logical placement](figures/placement-tradeoff.png)
 
 The refined candidate retains 261,110 crossing-host faces and reduces same-host crossing-NUMA faces to 732,712 from 1,097,554. Its NUMA proxy still exceeds the original 710,081. Every bar totals 2,927,022 interface faces; no cells or numerical work were removed. These graph counts are not measured bytes, memory placement or speedup. The later conditional MPI qualification is job 25947168 (afterok both earlier jobs), maximum 25.6 SU; it runs no solver. The plot itself remains an offline graph comparison and carries no performance result.
+
+## 23 October — a balanced alternative without a NUMA-cut regression
+
+A new [whole-group host search](../research-journey-20261019/journal/entries/20261023-hpc-balanced-placement-and-queue.md) keeps the 32 logical NUMA groups intact. It finds 283,819 crossing-host faces and 710,003 same-host crossing-NUMA faces, compared with 337,324 / 710,081 in the original control. The NUMA change is only 78 faces; the useful result is removal of the proxy regression, not a measured memory or solver gain. Host cell balance remains worse than original.
+
+![Placement options on both graph axes](figures/placement-options.png)
+
+Both aggressive and balanced options are retained. Queued qualification 25947168 still contains the aggressive mapping and is frozen; the new mapping is unsubmitted. The current CPU queue needs four whole 128-core chunks, while the 18:54 snapshot had 182 partially free CPU nodes but none with 128 CPUs unassigned. Raw counts and interpretation limits are linked in the journal. No new job, reservation or speedup result followed this offline search.
