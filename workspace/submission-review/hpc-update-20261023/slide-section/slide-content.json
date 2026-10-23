@@ -1,0 +1,256 @@
+[
+  {
+    "slide": 1,
+    "title": "The task: same 65-million-cell airflow calculation",
+    "visible_text": [
+      "The task: same 65-million-cell airflow calculation",
+      "TripleU / APAC HPC-AI 2026",
+      "33 / 40",
+      "65.3 million",
+      "mesh cells",
+      "4 nodes",
+      "512 MPI ranks \u00b7 128 per node",
+      "150 steps",
+      "149 timed samples",
+      "Metric",
+      "Average seconds per solver step",
+      "Lower is better \u00b7 every required step stays in\nthe run",
+      "Fixed calculation, better use of CPU resources"
+    ],
+    "speaker_notes_en": "We optimize execution of the official OpenFOAM v2512 car-flow case, not its mathematics. The mesh contains 65,334,765 cells. The job completes the prescribed preparation and 150 solver iterations on four nodes. The measured metric is the solver's average wall-clock seconds per time step, beginning with the second solver iteration; lower is better. The retained final drag coefficient is a physical sanity signal, not the performance score.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/FOUNDATIONS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/equinix-private-ai-dgx/hybrid-ai-infrastructure-m460-d.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/dgx-superpod/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/equinix-private-ai-dgx/hybrid-ai-infrastructure-m460-d.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/dgx-superpod/",
+      "sha256": "241ea701484779a3c6f9dd0b9cc162475902d9deefe51eeefdea5ec1903181d9"
+    }
+  },
+  {
+    "slide": 2,
+    "title": "The whole required pipeline comes before the score",
+    "visible_text": [
+      "The whole required pipeline comes before the score",
+      "TripleU / APAC HPC-AI 2026",
+      "34 / 40",
+      "01",
+      "decomposePar",
+      "Assign mesh\ncells to ranks",
+      "\u2192",
+      "02",
+      "renumberMesh",
+      "Reorder local\ncell data",
+      "\u2192",
+      "03",
+      "potentialFoam",
+      "Initialize flow\nfields",
+      "\u2192",
+      "04",
+      "applyBoundary\nLayer",
+      "Apply\nprescribed\nboundary layer",
+      "\u2192",
+      "05",
+      "simpleFoam",
+      "Run all 150\nsolver steps",
+      "Decomposition",
+      "Which cells belong to each MPI rank?",
+      "CPU affinity",
+      "Which CPU runs each rank?"
+    ],
+    "speaker_notes_en": "MPI means Message Passing Interface: separate solver processes exchange information about cells at partition boundaries. Mesh decomposition assigns cells to ranks; CPU affinity maps ranks to CPUs. These are different decisions. A complete run includes mesh decomposition, renumbering, potential-flow initialization, boundary-layer setup, and the 150-step simpleFoam solve. Skipping preparation or solver work would not be a valid comparison.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/FOUNDATIONS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/dgx-superpod/Automotive-Collaboration-6701.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/dgx-superpod/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/dgx-superpod/Automotive-Collaboration-6701.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/dgx-superpod/",
+      "sha256": "48cde643c1c8012fb4da66bf937c030f613efc02e976b1920926fb18dcfaba2a"
+    }
+  },
+  {
+    "slide": 3,
+    "title": "A smaller partition cut did not make the solver faster",
+    "visible_text": [
+      "A smaller partition cut did not make the solver faster",
+      "TripleU / APAC HPC-AI 2026",
+      "35 / 40",
+      "NUMA-aware idea",
+      "Reduce remote-memory / interface cost",
+      "\u221210.63%",
+      "graph cut",
+      "\u2260",
+      "+3.4416%",
+      "slower solver mean",
+      "Lesson",
+      "A graph proxy is not a runtime measurement.",
+      "Cause not measured: MPI wait, bandwidth, frequency, power, page residency"
+    ],
+    "speaker_notes_en": "The NUMA-aware decomposition hypothesis was that grouping work by memory locality might reduce communication and improve speed. Its graph cut fell by 10.63%, but the solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416% slowdown. The comparison also changed other partition properties, so the cut alone cannot explain the runtime. We closed the unchanged branch. A separate offline mapping reduced a graph cut by 4.5741% but has no measured solver result.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-research-journey-20261023/JOURNEY.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/figures/research-journey.png\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/nvidiaweb/networking/infiniband-switching/nvidia-infiniband-switch-ndr-400gbs-2c50-d-2x.jpeg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/infiniband-switching/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/nvidiaweb/networking/infiniband-switching/nvidia-infiniband-switch-ndr-400gbs-2c50-d-2x.jpeg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/infiniband-switching/",
+      "sha256": "a96599b6fa3ec70cf18b35c952739d44b947dc59f624603fb85acf0b644c51e2"
+    }
+  },
+  {
+    "slide": 4,
+    "title": "Observed scaling changed which decomposition led",
+    "visible_text": [
+      "Observed scaling changed which decomposition led",
+      "TripleU / APAC HPC-AI 2026",
+      "36 / 40",
+      "1 node \u00b7 40 steps",
+      "Scotch",
+      "14.451",
+      "Hierarchical",
+      "14.366",
+      "2 nodes \u00b7 80 steps",
+      "Scotch",
+      "7.463",
+      "Hierarchical",
+      "7.170",
+      "4 nodes \u00b7 150 steps",
+      "Scotch",
+      "3.678",
+      "Hierarchical",
+      "3.820",
+      "Best observed choice depends on node count and rank density",
+      "Different allocations and endpoints make this descriptive, not causal."
+    ],
+    "speaker_notes_en": "These are separately allocated observations at 128 ranks per node, not an identical-work strong-scaling experiment. Endpoints are 40, 80 and 150 solver steps. Hierarchical led the two-node pair at 7.169996913 seconds per step versus Scotch at 7.462835189. At four nodes, Scotch led at 3.677906731 versus hierarchical at 3.819929017. Different allocations and endpoint lengths limit causal claims.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/shared-cpu-density-review-20261022/RESULTS.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/figures/observed-scaling.png\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrum-x-og-2.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/spectrumx/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrum-x-og-2.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/spectrumx/",
+      "sha256": "23f851a2329772688915736bbbca9659279258af68c15f620ce7f37d1ee6b517"
+    }
+  },
+  {
+    "slide": 5,
+    "title": "At four nodes, the winner depends on ranks per node",
+    "visible_text": [
+      "At four nodes, the winner depends on ranks per node",
+      "TripleU / APAC HPC-AI 2026",
+      "37 / 40",
+      "Scotch \u00b7 64",
+      "10.310 s/step",
+      "Hierarchical \u00b7 64",
+      "4.489 s/step",
+      "Scotch \u00b7 96",
+      "7.146 s/step",
+      "Hierarchical \u00b7 96",
+      "4.922 s/step",
+      "Scotch \u00b7 128",
+      "3.678 s/step",
+      "Hierarchical \u00b7 128",
+      "3.820 s/step",
+      "128 ranks per node \u2192 lowest reviewed mean: Scotch",
+      "Separate allocations; compare these as observed means, not causal effects."
+    ],
+    "speaker_notes_en": "The six reviewed four-node logs all complete 150 steps with 149 timed samples. At 64 and 96 ranks per node, hierarchical has the lower observed mean; at 128, Scotch is lower. Requested CPU counts differ across some configurations, and these are separate allocations. We therefore describe measured candidate means, not a causal effect or a universal best method. The lowest mean is 3.677906731 seconds per step for Scotch-128.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrumx-multiplane-ari-1920x1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/spectrumx/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrumx-multiplane-ari-1920x1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/spectrumx/",
+      "sha256": "704a45250268f40a93f890dc7c3b3cfc615a56100125da555fac1cbf65826287"
+    }
+  },
+  {
+    "slide": 6,
+    "title": "Keep the slow step in the mean; inspect the tail",
+    "visible_text": [
+      "Keep the slow step in the mean; inspect the tail",
+      "TripleU / APAC HPC-AI 2026",
+      "38 / 40",
+      "3.298742 s",
+      "median",
+      "3.795740 s",
+      "95th percentile",
+      "35.883552 s",
+      "maximum \u00b7 Time 119",
+      "149/149 samples retained",
+      "Official-style arithmetic mean includes every measured step.",
+      "Cause unknown",
+      "No measured MPI wait, bandwidth, frequency, power or page residency"
+    ],
+    "speaker_notes_en": "Scotch-128 has a median of 3.298742 seconds, p95 of 3.795740 seconds, and maximum of 35.883552 seconds at solver Time 119. All 149 timed samples remain in the arithmetic mean. The review did not collect enough hardware counters to attribute the spike to MPI, CPU scheduling, memory or I/O. The sample-size warning motivates independent repeats; it does not authorize removing the slow point or changing the prescribed endpoint.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/figures/iteration-spikes.png\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/ai-homepage/inference/inferencemax-promo-reference/dgx-press-gb300-1920x1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/ai-homepage/inference/inferencemax-promo-reference/dgx-press-gb300-1920x1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/",
+      "sha256": "80cc927752a3a59d136dc20b5ab623338a2d74ea132723275bc1d9dfcd142d83"
+    }
+  },
+  {
+    "slide": 7,
+    "title": "A reproducible candidate needs more than a fast log",
+    "visible_text": [
+      "A reproducible candidate needs more than a fast log",
+      "TripleU / APAC HPC-AI 2026",
+      "39 / 40",
+      "Reviewed candidate",
+      "3.677906731",
+      "seconds per step \u00b7 Scotch-128 \u00b7 149 samples",
+      "Independent repeat",
+      "25940700",
+      "Q/q5 \u00b7 15:09 UTC\nNot running: node_pool insufficient\nNo result",
+      "Proof required from the queued confirmation",
+      "Frozen 54-file input bundle",
+      "Full initialization + 150 steps",
+      "Explicit stage return codes",
+      "512 physical cores on 4 hosts",
+      "Source, mesh and output seals"
+    ],
+    "speaker_notes_en": "The best reviewed four-node native mean is a candidate observation, not an accepted official score. The independent confirmation job 25940700 was submitted on 23 October at 12:51 UTC. A fresh scheduler query at 15:09 UTC still showed Q/q5 with the comment Not Running: Insufficient amount of resource: node_pool. No result is available. The job is configured to re-run the full preparation and 150-step solve on four exclusive nodes. Its fresh 54-file bundle requires source/mesh identity, explicit stage returns, startup 512-physical-core/four-host proof, and zero-field seals. These are required proofs, not completed checks.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-four-node-confirm-20261023/submission.json\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/technologies/blackwell-architecture/nvidia-gb200-nvl72-1920-1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/technologies/blackwell-architecture/nvidia-gb200-nvl72-1920-1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/",
+      "sha256": "31cf2598e6f652d933db6557452f34cebda97b17741af657aa9cd2308af7b864"
+    }
+  },
+  {
+    "slide": 8,
+    "title": "What we learned \u2014 and the next measurement",
+    "visible_text": [
+      "What we learned \u2014 and the next measurement",
+      "TripleU / APAC HPC-AI 2026",
+      "40 / 40",
+      "01",
+      "Measure the whole\njob",
+      "Keep preparation, all\nsteps and provenance.",
+      "02",
+      "Trust runtime\nevidence",
+      "A smaller graph cut is\nnot a speedup.",
+      "03",
+      "Preserve every\nsample",
+      "Tails matter; causes\nneed instrumentation.",
+      "04",
+      "Confirm\nindependently",
+      "Review job 25940700\nbefore the next choice.",
+      "23 Oct 15:09 UTC \u00b7 25940700 still Q/q5; node_pool insufficient; no result",
+      "Next: review tails, terminal proof and bounded hardware samples"
+    ],
+    "speaker_notes_en": "The research has narrowed choices, rejected the unchanged NUMA-aware branch, and identified Scotch-128 as the lowest mean among six reviewed four-node native observations. This is not a proven global optimum or accepted score. At 15:09 UTC on 23 October, job 25940700 was still Q/q5; PBS reported Not Running because node_pool resources were insufficient. No result was available. Next review its complete terminal proof and all iteration tails, then use bounded matched sampling to investigate stability before choosing another configuration.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-research-journey-20261023/JOURNEY.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/TALK_TRACK.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/access-recovery-20261023T1504/scheduler-status.json; /home/apacsc42/workspace/notes/HPC_CURRENT.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/h100/hpc-web-gtc23-h100-2560x1440.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/h100/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/h100/hpc-web-gtc23-h100-2560x1440.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/h100/",
+      "sha256": "2564d62e1875d0fd0c770475fd59fa8da19e7cd94eb1b8473ecb2c5958a1ca06"
+    }
+  }
+]
