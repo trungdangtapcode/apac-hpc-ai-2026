@@ -1,0 +1,13 @@
+# First native H200 EAGLE3 correctness candidate submitted
+
+Definite job **25682**, submitted 2026-10-23T12:11:27.369883+00:00, canonical `s39-h200-eagle3-correctness`. One native Slurm allocation, 16 H200/two nodes/17-minute maximum/no PBS SU. [Actual receipt](slurm-receipt.json). This is a correctness diagnostic; no AIPerf score or EAGLE3 speedup exists yet. Query Slurm for live state.
+
+The independent target-only reference 25585 passes all 1600 actual IDs, exact repeated outputs, both semantic P/D receipts, asset identity and complete 4+4+8 BF16 logs. This candidate pins that actual H200 output and its accepted review; no H100 reference is substituted.
+
+Keep the measured target configuration: TP4+TP4 DeepGEMM/chunk8192 prefill, TP8/EP8 HPC-Ops decode, FP8 target/BF16 KV, FlashInfer/MNNVL and native Slurm placement/NUMA. Add the current pinned EAGLE3 BF16/unquant draft, steps 2 / top-k 1 / draft tokens 3, uniformly eager prefill and redacted native registration observer. These correctness-stage settings require their own matched control before any later performance claim. Draft full hash runs before workers inside the original shared startup budget. Resource observation and absolute cleanup are bounded.
+
+Root reviewed and reran 4 target asset tests, 12 geometry tests and 5 actual candidate client/head fixtures, plus replay of eight actual H100 metadata receipts. The raw H100 record exposed an unsupported nonempty-layer-ID assumption: original 223788 remains F/1. A candidate-local derivative allows observed [] only for exact 190-region Qwen MHA / head 1, total 4 / page 1 geometry, with stable successful before/after receipts. Missing/malformed values still fail; no semantic layer sequence is invented. The unchanged original/shared validator and original failed payload are preserved. Full H200 geometry and token correctness remain runtime gates.
+
+Other root corrections before freeze: all execution paths use the actual H200 staged draft; repeated IDs/finishes are compared independently of per-request speculation counters; exact resolved runtime/graph fields and decode sizes 1–64 are parsed; the freeze copies nested evidence, binds the complete canonical job path and seals provenance itself. Full frozen source and CPU evidence were committed before submission.
+
+Require eight complete candidate responses/all 1600 real IDs, exact equality to the accepted reference, individually valid native speculative counters, actual target/draft BF16/graph/source/role gates, 32 rank geometry receipts and both semantic P/D paths. Any missing/failing evidence rejects the candidate. A pass only permits a separately matched short performance screen; official >=99% reference accuracy remains unverified.

@@ -1,3 +1,7 @@
+## 23 October: H200 EAGLE3 exact-output candidate 25682
+
+Definite native Slurm 25682, `s39-h200-eagle3-correctness`, 16 H200/two nodes/17-minute maximum/no PBS SU. Requires all 1600 candidate IDs equal accepted H200 reference 25585, native speculative counters, per-rank runtime/geometry and semantic P/D receipts. No score or EAGLE3 speedup exists yet. [Receipt](eagle3-h200-candidate-20261023/RESULTS.md).
+
 ## 23 October: four-H100 production registration probe 223788
 
 Definite PBS 223788.pbs111, initially R, project 59010042, four H100/one node/20-minute ceiling/max 170.666667 SU. Actual native geometry and source/dtype/graph/health gates are required; no decoder, serving client, PD equivalence or score. Fresh locked reservation leaves 4425.072333 SU internal headroom. [Receipt/limits](eagle3-h100-geometry-probe-20261023/RESULTS.md).
