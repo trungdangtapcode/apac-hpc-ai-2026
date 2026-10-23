@@ -1,0 +1,91 @@
+{
+  "checked_utc": "2026-10-23T18:15:29.209000Z",
+  "jobs": {
+    "25940700.pbs101": {
+      "Job_Name": "tu-cpu-4n-confirm-S128",
+      "job_state": "Q",
+      "queue": "q5",
+      "project": "59000042",
+      "depend": "beforeany:25943865.pbs101@pbs101,beforeok:25947168.pbs101@pbs101",
+      "comment": "Not Running: Insufficient amount of resource: node_pool ",
+      "Hold_Types": "n",
+      "qtime": "Fri Oct 23 20:51:34 2026",
+      "Resource_List": {
+        "am_job_cache": "{\"job.ngpus\": 0.0, \"job.ncpus\": 512.0, \"job.walltime\": 2400, \"job.queue_charge_rate\": 1.0}",
+        "jobprio": 170,
+        "mem": "1760gb",
+        "mpiprocs": 512,
+        "ncpus": 512,
+        "ngpus": 0,
+        "nodect": 4,
+        "organisation": "org_default",
+        "parent_organisation": "parent_org_default",
+        "place": "scatter:excl",
+        "project_category": "category_default",
+        "queue_charge_rate": 1,
+        "scientific_area": "area_default",
+        "select": "4:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0",
+        "software": "software_default",
+        "user_organisation": "user_org_default",
+        "walltime": "00:40:00"
+      }
+    },
+    "25943865.pbs101": {
+      "Job_Name": "mpi-rank-reorder-preflight",
+      "job_state": "H",
+      "queue": "qdev",
+      "project": "59000042",
+      "depend": "afterany:25940700.pbs101@pbs101,beforeok:25947168.pbs101@pbs101",
+      "Hold_Types": "d",
+      "qtime": "Fri Oct 23 23:50:33 2026",
+      "Resource_List": {
+        "am_job_cache": "{\"job.ngpus\": 0.0, \"job.ncpus\": 4.0, \"job.walltime\": 180, \"job.queue_charge_rate\": 1.0, \"formula_constants\": \"\", \"am_cloud_enabled\": false}",
+        "jobprio": 1,
+        "mem": "4gb",
+        "mpiprocs": 4,
+        "ncpus": 4,
+        "ngpus": 0,
+        "nodect": 1,
+        "organisation": "org_default",
+        "parent_organisation": "parent_org_default",
+        "place": "pack:shared",
+        "project_category": "category_default",
+        "queue_charge_rate": 1,
+        "scientific_area": "area_default",
+        "select": "1:ncpus=4:mpiprocs=4:mem=4gb:ngpus=0",
+        "software": "software_default",
+        "user_organisation": "user_org_default",
+        "walltime": "00:03:00"
+      }
+    },
+    "25947168.pbs101": {
+      "Job_Name": "mpi-placement512-preflight",
+      "job_state": "H",
+      "queue": "q5",
+      "project": "59000042",
+      "depend": "afterok:25940700.pbs101@pbs101:25943865.pbs101@pbs101",
+      "Hold_Types": "d",
+      "qtime": "Sat Oct 24 02:14:32 2026",
+      "Resource_List": {
+        "am_job_cache": "{\"job.ngpus\": 0.0, \"job.ncpus\": 512.0, \"job.walltime\": 180, \"job.queue_charge_rate\": 1.0, \"formula_constants\": \"\", \"am_cloud_enabled\": false}",
+        "jobprio": 1,
+        "mem": "128gb",
+        "mpiprocs": 512,
+        "ncpus": 512,
+        "ngpus": 0,
+        "nodect": 4,
+        "organisation": "org_default",
+        "parent_organisation": "parent_org_default",
+        "place": "scatter:excl",
+        "project_category": "category_default",
+        "queue_charge_rate": 1,
+        "scientific_area": "area_default",
+        "select": "4:ncpus=128:mpiprocs=128:mem=32gb:ngpus=0",
+        "software": "software_default",
+        "user_organisation": "user_org_default",
+        "walltime": "00:03:00"
+      }
+    }
+  },
+  "scope": "Whitelisted scheduler metadata; no full environment or authentication state."
+}
