@@ -595,3 +595,9 @@ Submitted three matched off/on/receive-2 pilots per platform: H200 24926/24927/2
 
 Published Used 34972.443 SU, Balance 29027.557 SU; four terminal charges reconcile 937.244 SU. New maximum reserve 4608 SU, internal headroom 11419.557 SU under unchanged cap/buffer. Existing access reused, no authentication, background AI, slides or official accuracy claim. [Full result/insight/next-decision entry](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261020-receive-polling.md). Older states below retain their timestamps.
 
+## 24 October: EAGLE3 is faster between tokens but misses TTFT SLA
+
+Matched short H200 N64 screen 25947/25948 (20-second warmup, 40-second measure, 30-second grace; 16 GPUs; fixed 4,000/200 tokens, seed 2026). Target-only control 25947 reaches 2,757.36 good output tokens/s and 95.24% joint SLA. The all-workers EAGLE3 arm 25948 reaches 2,443.00 good output tokens/s and 83.49% joint SLA: mean ITL improves 14.833→7.820 ms, while mean TTFT worsens 1,311.60→2,631.95 ms and p95 TTFT is 3,321.06 ms. There are no profiled request errors or cancellations. The candidate is below the required 90% fraction and is not scoreable. Its terminal FAILED 1:0 also records a checker schema mismatch after profiling; an independent raw replay confirms the real SLA failure. Output sanity is 7/8 and retrieval is 12/12 for both arms, neither of which establishes official accuracy. The complete review is [here](research-review-25947-25948-20261024/REVIEW.md).
+
+The reproduced full-protocol frontier is unchanged at **3,044.400475 good output tokens/s** (H200, N64; 60/120/30-second protocol). The short screen above is not directly comparable with it. Next test: [S61 EAGLE3 on decode only](eagle3-decode-only-20261024/PLAN.md), preserving target-only prefill based on the incumbent's actual resolved arguments.
+

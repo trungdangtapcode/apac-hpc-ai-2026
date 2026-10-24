@@ -2308,3 +2308,9 @@ Prior 224116 uniquely reconciles 16.284 SU; failed PBS status and passing byte e
 ## Nonlogin repair 224157 — 23 October 15:49 UTC
 
 Submitted 224157.pbs111, immediately R on 037/039, two H100/max ten minutes/max 42.666667 SU; internal headroom 4472.788333 SU. Ordinary Bash plus explicit module bootstrap repairs the CPU-reproduced exit fault while preserving strict byte/process gates. No runtime/score result at submission. [Design, receipt and limits](nixl-nonlogin-exitfix-20261023/RESULTS.md).
+## 24 October: fast-default EAGLE3 screen and decode-only follow-up
+
+H200 **25947 / 25948** are a matched short N64 screen, not full ranked runs. Control 25947 passes at 2,757.36 good output tokens/s and 95.24% joint latency success. All-workers EAGLE3 candidate 25948 lowers mean ITL (14.833→7.820 ms) but raises mean TTFT (1,311.60→2,631.95 ms); only 83.49% of requests meet both latency limits, below the required 90%, and good output throughput is 2,443.00 tokens/s. Its AIPerf profile completed with zero request errors/cancellations, but the job terminal state is FAILED 1:0 because the post-run checker expected the wrong root-review schema. An independent replay confirmed that the substantive SLA gate also fails. The full-protocol H200 frontier remains 3,044.400475; short results are not directly rankable against it. [Paired review](research-review-25947-25948-20261024/REVIEW.md).
+
+The next distinct hypothesis is to retain target-only prefill workers and enable EAGLE3 only on decode. Frozen S61 bundle: [serving-tuning-10/s61-h200-eagle3-decode-only](serving-tuning-10/s61-h200-eagle3-decode-only/README.md); [plan and status](eagle3-decode-only-20261024/PLAN.md). Do not treat it as submitted until a definite receipt exists.
+

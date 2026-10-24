@@ -1,0 +1,15 @@
+# 24 October: EAGLE3 improves decode spacing but fails the TTFT gate
+
+**Question and prior evidence.** The full-protocol H200 N64 choice remains 3,044.400475 good output tokens/s, reproduced in jobs 25366, 25373 and 25487. Earlier EAGLE3 tests had exact-token mismatches, while official full-set accuracy stayed unknown. The next question was whether the fast native serving path could make EAGLE3 useful under the actual TTFT and ITL thresholds.
+
+**Change and control.** H200 jobs 25947 and 25948 used the same two-node, 16-GPU P8-TP4 / D8-TP8-EP8 topology, BF16 KV, FP8 target, N64, 4,000/200 tokens, cold prefix cache and seed 2026. Both used FlashInfer sampling, 20 seconds warmup, 40 seconds measurement and 30 seconds grace. Job 25947 was target-only. Job 25948 added EAGLE3 with two steps, top-k 1 and three draft tokens on all workers.
+
+**Measurement.** Job 25947 completed 0:0 and independently replayed at 2,757.36 good output tokens/s, 95.24% joint request success, 1,311.60 ms mean TTFT and 14.833 ms mean request ITL. Job 25948 completed the AIPerf workload with zero request errors or cancellations, but the batch ended FAILED 1:0 because its post-run checker expected the wrong control-review field names. The actual profile had 83.489% joint success, 2,443.00 good output tokens/s, 2,631.95 ms mean TTFT, 3,321.06 ms p95 TTFT and 7.820 ms mean request ITL. The existing 90% joint-success gate therefore fails regardless of the checker schema bug. Both arms passed 7/8 output sanity and 12/12 retrieval checks.
+
+**Assessment.** On this matched short protocol, raw output throughput increased about 1.07% and mean ITL fell about 47.24%, but mean TTFT roughly doubled and the candidate's score fell about 11.40%. Speculative decode counters showed accept length near 2 and accept rate near 0.5. Five-second GPU sampling was broadly similar, but does not identify the cause of TTFT growth. Short 20/40/30 results are not directly ranked against the full 60/120/30 incumbent.
+
+The frozen incumbent uses no speculative algorithm on either prefill worker or the decode worker. S60 enabled EAGLE3 on all three. The measured evidence supports a narrower next experiment: keep prefill target-only and enable EAGLE3 only on decode. The new S61 payload also fixes the root-review field-schema mismatch and binds its control to actual job 25947. Retain all failed candidate evidence; do not promote EAGLE3 or claim official quality.
+
+**Next decision.** Run one bounded N64 decode-only EAGLE3 screen only after the frozen source, actual S59 control proof, queue, source hashes and role-specific runtime checks pass. Require at least 90% joint success, zero request errors/cancellations, both P/D semantic paths, the 7/8 sanity floor and 12/12 retrieval. Stop the EAGLE3 branch if the short SLA gate fails. Full-set ≥99% reference accuracy remains UNKNOWN.
+
+**Evidence.** [Paired review](../../../../../2026-APAC-HPC-AI/qwen-experiments/research-review-25947-25948-20261024/REVIEW.md), [S61 decode-only plan](../../../../../2026-APAC-HPC-AI/qwen-experiments/eagle3-decode-only-20261024/PLAN.md), and raw runs 25947/25948 in the active experiment tree.

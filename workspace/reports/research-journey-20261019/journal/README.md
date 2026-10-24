@@ -20,6 +20,8 @@ Latest methodology review: [20 October observability, missing telemetry and prof
 
 # Read the complete retained research journey
 
+Latest AI continuation: [24 October: fast-default EAGLE3 result and decode-only follow-up](entries/20261024-fast-default-eagle3-result.md).
+
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
 
 Start with **[the journey in 32 stages](JOURNEY.md)**. Each stage explains the question, tested change, observed result, assessment and next decision, with links to the original records. It includes failed attempts, rejected branches, repeated gains, review mistakes and later corrections across both clusters.
@@ -252,3 +254,7 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [24 October: real FP8 kernels, speculative output divergence and the owner-approved credit change](entries/20261024-fp8-output-and-credit.md).
 
 - [24 October: five jobs with separate numerical, precision and transport hypotheses](entries/20261024-five-job-hypothesis-wave.md).
+
+- [24 October: separate H200 token identity, KV screening, and H100 R3 numerical evidence](entries/20261024-h200-eagle-kv-and-h100-r3-review.md).
+
+- [24 October: close the measured cache loss and repair the five-rank vocabulary constraint](entries/20261024-cache-loss-and-five-rank-repairs.md).
