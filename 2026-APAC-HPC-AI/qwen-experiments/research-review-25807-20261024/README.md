@@ -1,0 +1,11 @@
+# Deterministic target reference blocked by a launcher/checker mismatch
+
+Job **25807** is **FAILED / exit1:0**, elapsed **309seconds** on16H200. All sixteen target workers start and produce the expected per-rank BF16 allocation messages; all32 native registration receipts exist, each with188KV regions. The first independent runtime gate then rejects `ServerArgs(dtype='auto')` because its frozen contract requires literal `bfloat16`. The launcher omitted `--dtype bfloat16`. This was an avoidable preparation/review error, not evidence that the model actually used FP16 or that deterministic mode failed. GPU initialization time was spent before the check failed.
+
+No pair warmup/reference output pass, actual token reference, quality result or performance score is produced. Preserve this failure and the frozen payload. The derived S46 reference will explicitly request BF16 in the shared worker command. Its regression must inspect the actual launch command, not only a manually constructed resolved-log fixture. All real25807 logs will be replayed in a temporary CPU fixture changing only the declared dtype value, so additional latent mismatches can be found without another GPU allocation. Raw logs remain unchanged.
+
+The actual target-only188-region receipts are also replayable under the source-bound geometry validator. Neither that replay nor a corrected fixture establishes a new GPU pass. Strict rank/graph/deterministic/source/geometry/semantic and1600-ID repeat-stability gates remain. Old25585 token matching remains informational for the new deployment; the earlier25797 failure is unchanged.
+
+Per-role hardware/server samples and startup logs were collected. Runtime allocation/markers and registration counts were inspected; periodic hardware statistics are not independently summarized here. No request latency distribution, AIPerf workload or heavy profile was collected. This diagnostic consumed no PBS SU, but its full16-GPU startup still had an opportunity cost.
+
+For a presentation: “The deterministic deployment initializes, but our launch command and validation contract disagree about an explicit dtype setting. We fix the command and add a regression against the real launcher before retrying; we do not call this an engine or accuracy result.”
