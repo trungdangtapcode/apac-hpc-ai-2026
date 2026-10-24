@@ -1,0 +1,72 @@
+{
+  "review_id": "research-review-224555-20261024",
+  "job_id": "224555.pbs111",
+  "bundle": "dp5-h100-readiness-r3-20261024",
+  "terminal": {
+    "state": "F",
+    "exit_status": 0,
+    "stageout_status": 1,
+    "pbs_wall_seconds": 381,
+    "requested_wall_seconds": 1020,
+    "allocated_gpus": 5,
+    "host": "a2ap-dgx037",
+    "estimated_actual_su": 67.73333333333333,
+    "estimated_max_su": 181.33333333333334,
+    "su_note": "Walltime-based arithmetic at 128 SU/GPU-hour; not a posted ledger charge"
+  },
+  "change_under_test": {
+    "actual_server_flag": "--enable-dp-lm-head",
+    "all_five_rank_observers_enabled": true,
+    "prior_r2_failure": "ParallelLMHead asserted that 151936 is not divisible by TP size 5"
+  },
+  "independent_headcheck": {
+    "state": "D5_STARTUP_READINESS_PASS",
+    "source": "dp5-h100-readiness-r3-20261024/headcheck.py",
+    "source_sha256": "bd89fef98e5356ce432216655b21b91a7f2fd49932d0b8034675742d37f37b8d",
+    "source_manifest_match": true,
+    "rerun_against_collected_evidence": true,
+    "ranks_verified": [0, 1, 2, 3, 4],
+    "replica_slot_pairs_verified": [[0, 24], [1, 25]],
+    "generation_request": false
+  },
+  "runtime": {
+    "native_health_http": 200,
+    "health_ready_utc": "2026-10-24T13:36:49Z",
+    "tp_size": 5,
+    "dp_size": 5,
+    "dp_attention": true,
+    "dp_lm_head": true,
+    "ep_size": 5,
+    "attention_tp_size": 1,
+    "moe_tp_size": 1,
+    "model_dtype": "torch.bfloat16",
+    "kv_cache_dtype": "bfloat16",
+    "kv_heads": 4,
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "local_physical_experts_per_rank": 26,
+    "expert_map_shape": [94, 130],
+    "expert_map_sha256": "c9224e794770eafdb9ceecfce2578998360528167bdf8fe75166841ee29cc84c",
+    "replica_map_valid_all_ranks": true,
+    "loaded_weight_dtype": "torch.float8_e4m3fn",
+    "loaded_scale_dtype": "torch.float32",
+    "block_size": [128, 128],
+    "replica_hash_pairs_match": true,
+    "assigned_h100_uuids_match_rank_observers": true
+  },
+  "scope": {
+    "startup_geometry_loaded_replica_runtime_dtype_and_native_health": true,
+    "multi_node_d5_behavior_established": false,
+    "generation_or_token_output": false,
+    "quality_score": false,
+    "aiperf_or_performance_measurement": false,
+    "continuous_utilization_peak_memory_kernel_or_thermal_telemetry": false
+  },
+  "artifact_paths": {
+    "raw_archive": "collected/raw-run.tar.gz",
+    "terminal_qstat": "collected/qstat-224555.txt",
+    "pbs_joined_output": "collected/pbs-joined-output.txt",
+    "independent_headcheck_result": "independent-headcheck-result.json",
+    "sha256_manifest": "collected/SHA256SUMS"
+  }
+}
