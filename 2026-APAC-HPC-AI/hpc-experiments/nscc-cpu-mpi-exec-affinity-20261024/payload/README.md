@@ -1,0 +1,9 @@
+# Capture launcher affinity before exec, then qualify MPI initialization
+
+The earlier matrix failed: its shim restored 253 ranks but rejected 259 broad masks already present at shim entry. The advisory method 0 and PALS environment controls did not retain binding consistently and are closed. This version does not repeat those unchanged controls.
+
+The application launcher now runs capture-affinity-exec.py under the same explicit PALS thread binding. It requires a singleton CPU mask, records the actual launcher CPU and optional local topology, then execs only the MPI application with the opt-in shim and that exact captured CPU. The shim can observe a later widened mask but never chooses a replacement CPU: it restores exactly the pre-exec captured CPU, rereads it, and fails closed if it cannot prove restoration. The launcher itself is never preloaded.
+
+All strict post-MPI affinity/world-rank/host/core/NUMA checks remain. Identity and original aggressive candidate use MPI_Init_thread(SINGLE), matching the installed OpenFOAM Pstream interface shape. Additional identity probes use plain MPI_Init and MPI_Init_thread(MULTIPLE); they must also pass the strict identity and trace checks. The exact actual OpenFOAM runtime still requires its own audit before any solver claim. Each successful arm must contain 512 original exec-capture records, 512 PMPI world-rank records and 512 independent C topology records that agree on the restored CPU. Captured PMI values associate each original process; they never replace MPI_Comm_rank as world-rank authority.
+
+Four exclusive CPU nodes × 128 ranks/CPUs, 32 GB/node, 0 GPUs, 5 minutes, 255-second internal deadline. No solver or measured speedup. C/shared-library compilation occurs on the allocation. Source/assignment pins and all four probes must pass for the final PASS marker. The balanced mapping remains separate and unsubmitted. Missing helper-thread, page-residency and solver-time data remain unmeasured.
