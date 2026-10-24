@@ -5,6 +5,7 @@ from pathlib import Path
 import fcntl
 import hashlib
 import json
+import re
 import subprocess
 import sys
 
@@ -37,8 +38,9 @@ def main():
     partition = run(["scontrol", "show", "partition", "hpcai", "-o"])
     assert len(queue.splitlines()) < 5, "Five-job Slurm cap would be exceeded"
     assert "State=UP" in partition and ("MaxTime=00:17:00" in partition or "MaxTime=UNLIMITED" in partition)
-    test = run(["sbatch", "--test-only", "--parsable", str(B / "job.sbatch")], cwd=R).strip()
-    assert test.split(";")[0].isdigit(), "Slurm test-only admission did not return a virtual job ID"
+    test = run(["sbatch", "--test-only", str(B / "job.sbatch")], cwd=R).strip()
+    match = re.search(r"\bJob\s+(\d+)\s+to start at\b", test)
+    assert match, f"Slurm test-only admission did not return its expected placement report: {test}"
 
     review = {
         "state": "ROOT_REVIEWED_READY",
@@ -57,6 +59,7 @@ def main():
         "queue_before_submit": queue.splitlines(),
         "partition": partition.strip(),
         "test_only_result": test,
+        "test_only_virtual_job_id": match.group(1),
         "required_gates": ["role-specific native args", "BF16 KV and NIXL rank records", "both P/D semantic paths", "zero request errors/cancellations", "joint success >= 0.90", "smoke >= 7/8 without regression", "retrieval 12/12"],
         "source_limit": "This short feasibility screen is not directly rankable against the full 60/120/30-second 3044.400475-token/s incumbent."
     }
