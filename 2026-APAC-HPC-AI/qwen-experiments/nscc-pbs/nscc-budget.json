@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-24T03:36:07.445137+00:00",
+  "updated_utc": "2026-10-24T08:15:54.463508+00:00",
   "project": "59010042",
   "commissioning_cap_su": 64000.0,
   "cap_interpretation": "Owner explicitly authorised unrestricted use of remaining AI H100 credit on 24 October and stated a 30 October usable deadline. The former 51,000 SU internal cap /13,000 SU buffer is superseded. Do not exceed actual project grant; retain all uncertain or unposted reservations.",
@@ -10,15 +10,15 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 0,
   "ledger": {
-    "as_of": "24/10/2026-11:20:01",
+    "as_of": "24/10/2026-16:00:01",
     "grant_su": 64000.0,
-    "used_su": 46528.065,
-    "balance_su": 17343.935,
-    "in_doubt_su": 128.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/hpc-ops-replica-primitive-20261024/pre-submit.stdout",
+    "used_su": 46904.065,
+    "balance_su": 17095.935,
+    "in_doubt_su": 0.0,
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-serial-init-r6-20261024/pre-submit.stdout",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-24T03:36:07.445036+00:00",
-    "freshness_note": "224275 terminal cost uniquely matches published delta; retain224276 and224277 maxima. Balance includes128SU prepaid deduction; do not subtract it twice."
+    "queried_utc": "2026-10-24T08:15:54.463394+00:00",
+    "freshness_note": "All three known terminal allocations sum exactly to published delta376SU; no selected AI jobs or unmatched maxima. Per-job values derive from actual elapsed allocated GPUs, not direct itemized billing lines."
   },
   "jobs": [
     {
@@ -1989,37 +1989,73 @@
       "job_id": "224276.pbs111",
       "bundle": "eagle3-observer-prefill-api-r2-20261024",
       "kind": "eagle3_observer_prefill_readiness",
-      "state": "SUBMITTED",
+      "state": "F",
       "requested_gpus": 4,
       "requested_walltime": "00:15:00",
       "max_charge_su": 128.0,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
-      "submitted_utc": "2026-10-24T03:13:21.633351+00:00"
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
+      "submitted_utc": "2026-10-24T03:13:21.633351+00:00",
+      "exit_status": 0,
+      "estimated_charge_su": 51.05777777777778,
+      "observed_walltime": "00:05:59",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
     },
     {
       "job_id": "224277.pbs111",
       "bundle": "eagle3-pd-observed-r5-20261024",
       "kind": "eagle3_full_pd_observed_correctness",
-      "state": "SUBMITTED",
+      "state": "F",
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
       "max_charge_su": 1024.0,
-      "included_in_ledger_used": false,
-      "accounting_pending": true,
-      "submitted_utc": "2026-10-24T03:16:58.721805+00:00"
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
+      "submitted_utc": "2026-10-24T03:16:58.721805+00:00",
+      "exit_status": 1,
+      "estimated_charge_su": 321.99111111111114,
+      "observed_walltime": "00:09:26",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
     },
     {
       "job_id": "224278.pbs111",
       "bundle": "hpc-ops-replica-primitive-20261024",
       "kind": "hpc_ops_virtual_ep5_replica_primitive",
+      "state": "F",
+      "requested_gpus": 1,
+      "requested_walltime": "00:10:00",
+      "max_charge_su": 21.333333333333332,
+      "included_in_ledger_used": true,
+      "accounting_pending": false,
+      "submitted_utc": "2026-10-24T03:36:07.677386+00:00",
+      "exit_status": 2,
+      "estimated_charge_su": 2.951111111111111,
+      "observed_walltime": "00:01:23",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
+    },
+    {
+      "job_id": "224460.pbs111",
+      "bundle": "hpc-ops-replica-r2-20261024",
+      "kind": "hpc_ops_replica_quant_rounding_diagnostic_r2",
       "state": "SUBMITTED",
       "requested_gpus": 1,
       "requested_walltime": "00:10:00",
       "max_charge_su": 21.333333333333332,
       "included_in_ledger_used": false,
       "accounting_pending": true,
-      "submitted_utc": "2026-10-24T03:36:07.677386+00:00"
+      "submitted_utc": "2026-10-24T08:05:32.276195+00:00"
+    },
+    {
+      "job_id": "224466.pbs111",
+      "bundle": "eagle3-pd-serial-init-r6-20261024",
+      "kind": "eagle3_serial_initialization_then_concurrent_semantic_retest",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:20:00",
+      "max_charge_su": 682.6666666666666,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "submitted_utc": "2026-10-24T08:15:54.600669+00:00"
     }
   ],
   "pending_reservations": [
@@ -3276,40 +3312,62 @@
     },
     {
       "purpose": "eagle3-observer-prefill-api-r2-20261024",
-      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "state": "RECONCILED_IN_LEDGER",
       "max_charge_su": 128.0,
       "requested_gpus": 4,
       "requested_walltime": "00:15:00",
       "reserved_utc": "2026-10-24T03:13:21.490339+00:00",
       "job_id": "224276.pbs111",
-      "submitted_utc": "2026-10-24T03:13:21.633351+00:00"
+      "submitted_utc": "2026-10-24T03:13:21.633351+00:00",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
     },
     {
       "purpose": "eagle3-pd-observed-r5-20261024",
-      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "state": "RECONCILED_IN_LEDGER",
       "max_charge_su": 1024.0,
       "requested_gpus": 16,
       "requested_walltime": "00:30:00",
       "reserved_utc": "2026-10-24T03:16:58.472306+00:00",
       "job_id": "224277.pbs111",
-      "submitted_utc": "2026-10-24T03:16:58.721805+00:00"
+      "submitted_utc": "2026-10-24T03:16:58.721805+00:00",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
     },
     {
       "purpose": "hpc-ops-replica-primitive-20261024",
-      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "state": "RECONCILED_IN_LEDGER",
       "max_charge_su": 21.333333333333332,
       "requested_gpus": 1,
       "requested_walltime": "00:10:00",
       "reserved_utc": "2026-10-24T03:36:07.445015+00:00",
       "job_id": "224278.pbs111",
-      "submitted_utc": "2026-10-24T03:36:07.677386+00:00"
+      "submitted_utc": "2026-10-24T03:36:07.677386+00:00",
+      "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-terminal-wave-accounting-20261024/RECONCILIATION.json"
+    },
+    {
+      "purpose": "hpc-ops-replica-r2-20261024",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 21.333333333333332,
+      "requested_gpus": 1,
+      "requested_walltime": "00:10:00",
+      "reserved_utc": "2026-10-24T08:05:32.143587+00:00",
+      "job_id": "224460.pbs111",
+      "submitted_utc": "2026-10-24T08:05:32.276195+00:00"
+    },
+    {
+      "purpose": "eagle3-pd-serial-init-r6-20261024",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 682.6666666666666,
+      "requested_gpus": 16,
+      "requested_walltime": "00:20:00",
+      "reserved_utc": "2026-10-24T08:15:54.463371+00:00",
+      "job_id": "224466.pbs111",
+      "submitted_utc": "2026-10-24T08:15:54.600669+00:00"
     }
   ],
   "active_pbs_jobs": [
-    "224277.pbs111",
-    "224278.pbs111"
+    "224466.pbs111"
   ],
-  "unallocated_commissioning_su": 16298.601666666664,
+  "unallocated_commissioning_su": 16391.934999999998,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh own CPU and AI queues and selected AI project credit under the shared CPU-before-AI admission locks. Preserve combined PBS cap3 and one running AI allocation, max16 GPUs/job and45min/job. Reserve maximum charge first; used plus unposted charges and maxima must fit actual64,000 SU grant with owner-authorised zero internal buffer. Keep uncertain attempts/reservations until reconciled; no blind repeats. No background Codex or schedules.",
@@ -3372,7 +3430,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 16298.601666666664,
+  "campaign_headroom_after_reserved_su": 16391.934999999998,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",
