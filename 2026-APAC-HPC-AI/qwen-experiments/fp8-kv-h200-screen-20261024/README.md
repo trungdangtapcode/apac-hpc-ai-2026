@@ -55,3 +55,7 @@ The candidate's observed goodput must exceed the matched S47 control by more tha
 `cpu-fixtures.py` tests source hashes, actual worker argument construction, S41 protocol identity, BF16 graph/capacity parsing, and positive/negative synthetic log fixtures for missing or wrong KV allocation proof. The fixture also deliberately removes `--dtype bfloat16` and asserts that the validator rejects the S44-style omission. These synthetic fixtures test parser behavior only; they are not H200 logs, server starts, KV allocations, NIXL transfers or performance evidence.
 
 No GPU, scheduler queue, budget, submission, or Git operation was used to prepare this pair. Both canonical bundles remain draft and unsubmitted.
+
+## Root conditional submission contract
+
+S47 is submitted as25863 afterany25862. S48 may reserve its position with **afterok:25863**; before starting any model worker it independently replays the actual control raw runtime/protocol/SLA/response gates using the frozen S47 checker and verifies the control source manifest. Thus a missing or failed control cannot launch the candidate. This prospective programmatic gate supersedes the draft wording that waited for a manual post-run review before queueing; no completed control result is claimed in advance. FP8 scale calibration and official accuracy remain unverified.

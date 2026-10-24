@@ -12,7 +12,7 @@
     {
       "bundle": "serving-tuning-10/s48-h200-fp8-kv-screen",
       "kv_cache_dtype_arg": "fp8_e4m3 for both P and D workers",
-      "dependency": "afterok S47, only after a reviewed complete passing control receipt"
+      "dependency": "afterok:25863 plus independently replayed actual control gate before model workers"
     }
   ],
   "resources_each": {
@@ -45,5 +45,6 @@
   },
   "candidate_gate": "Observed candidate goodput must exceed its valid matched control by >1% and all runtime/local quality gates must pass before considering a separate full matched confirmation.",
   "queue_or_budget_accessed": false,
-  "submitted": false
+  "submitted": false,
+  "conditional_control_review": "Programmatic exact submitted control checks; root did not observe a pass before this prospective admission"
 }
