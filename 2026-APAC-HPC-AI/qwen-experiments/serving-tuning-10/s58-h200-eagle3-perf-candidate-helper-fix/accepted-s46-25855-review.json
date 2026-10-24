@@ -1,0 +1,226 @@
+{
+  "job": "25855",
+  "reviewed_utc": "2026-10-24T08:18:44.981374+00:00",
+  "state": "H200_DETERMINISTIC_TARGET_REFERENCE_ACCEPTED",
+  "accepted_reference": true,
+  "terminal_receipt": {
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:08:41",
+    "start": "2026-10-24T08:01:12",
+    "end": "2026-10-24T08:09:53",
+    "source": "independent Slurm sacct -X receipt retained in accounting.psv"
+  },
+  "seal_sha256": "68e8893f4bb00a70fbe19c4367f5466f89f53d76031d7cc2b0b1028cebcad82f",
+  "reference_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/25855/target-reference.json",
+  "reference_sha256": "8161487ef7876603f507be1772e53fb3e58aea99d646c260fb7d1042ab3ef3b9",
+  "actual_experiment_id": "s46-h200-deterministic-reference-25855-b57012e2-98f9-4ed1-aa6b-0bd2314a68ef",
+  "head_replay": {
+    "checker": "S46 check-token-result.py",
+    "result": "H200_TARGET_REFERENCE_SEMANTIC_GATE_PASSED",
+    "all_actual_output_ids_checked": 1600,
+    "cases": 4,
+    "passes": 2,
+    "exact_ids_and_finish_equal": true
+  },
+  "runtime_replay": {
+    "checker": "S46 check-deterministic-runtime.py",
+    "result": "PASS",
+    "role_counts": {
+      "prefill-0": 4,
+      "prefill-1": 4,
+      "decode-0": 8
+    },
+    "dtype": "bfloat16",
+    "deterministic": true,
+    "sampling": "pytorch",
+    "attention": "fa3",
+    "forced_flashinfer_disable_marker": "source-backed enforced-disable path accepted",
+    "KV_allocations_per_rank": 1
+  },
+  "kv_rank_replays": {
+    "prefill-0": "4/4 BF16 and NIXL ranks",
+    "prefill-1": "4/4 BF16 and NIXL ranks",
+    "decode-0": "8/8 BF16 and NIXL ranks"
+  },
+  "geometry_replay": {
+    "state": "PASS",
+    "rank_count": 16,
+    "receipt_count": 32,
+    "receipt_bytes": 898544,
+    "regions": 188,
+    "decode_kv_head_count": "not_collected; not inferred"
+  },
+  "semantic_pd_receipt_replay": {
+    "pair_count": 2,
+    "inventory_sha256": "19be00e226b3945934bf5a54529d9b06c733e07f8da3e760e4c0d1af6b753bab",
+    "run_token": "cbac01ec0759b35b00bc296556d1d876"
+  },
+  "actual_output_ids": 1600,
+  "requests": [
+    {
+      "pass": "target-a",
+      "case": "arithmetic",
+      "input_tokens": 22,
+      "output_ids": 200,
+      "elapsed_s": 3.760365396272391
+    },
+    {
+      "pass": "target-a",
+      "case": "code",
+      "input_tokens": 21,
+      "output_ids": 200,
+      "elapsed_s": 3.4381279880180955
+    },
+    {
+      "pass": "target-a",
+      "case": "unicode",
+      "input_tokens": 22,
+      "output_ids": 200,
+      "elapsed_s": 3.187326337210834
+    },
+    {
+      "pass": "target-a",
+      "case": "long4000",
+      "input_tokens": 4000,
+      "output_ids": 200,
+      "elapsed_s": 5.685632906854153
+    },
+    {
+      "pass": "target-b",
+      "case": "arithmetic",
+      "input_tokens": 22,
+      "output_ids": 200,
+      "elapsed_s": 3.1911043422296643
+    },
+    {
+      "pass": "target-b",
+      "case": "code",
+      "input_tokens": 21,
+      "output_ids": 200,
+      "elapsed_s": 3.185555486008525
+    },
+    {
+      "pass": "target-b",
+      "case": "unicode",
+      "input_tokens": 22,
+      "output_ids": 200,
+      "elapsed_s": 3.1792162698693573
+    },
+    {
+      "pass": "target-b",
+      "case": "long4000",
+      "input_tokens": 4000,
+      "output_ids": 200,
+      "elapsed_s": 4.221283040009439
+    }
+  ],
+  "repeated_ids_stable": true,
+  "historical_25585_comparison": {
+    "identity_match": false,
+    "acceptance_gate": false,
+    "interpretation": "informational comparison only; prior identity mismatch does not affect this actual target reference acceptance"
+  },
+  "phase_elapsed_since_start_s": {
+    "ALL_WORKERS_READY": 324,
+    "ALL_PAIRS_WARM": 428,
+    "TOKEN_REFERENCE_PASS": 514
+  },
+  "resource_sampling": {
+    "prefill-0": {
+      "sample_count": 96,
+      "unique_gpu_uuids": 4,
+      "expected_gpu_count": 4,
+      "sampled_vram": {
+        "min": 0.0,
+        "max": 130504.0,
+        "units": "MiB"
+      },
+      "sampled_gpu_activity": {
+        "min": 0.0,
+        "max": 100.0,
+        "units": "percent"
+      },
+      "sampled_power": {
+        "min": 79.56,
+        "max": 464.46,
+        "units": "W"
+      },
+      "server_http_status_counts": {
+        "URLError": 24,
+        "200": 72
+      }
+    },
+    "prefill-1": {
+      "sample_count": 96,
+      "unique_gpu_uuids": 4,
+      "expected_gpu_count": 4,
+      "sampled_vram": {
+        "min": 0.0,
+        "max": 131082.0,
+        "units": "MiB"
+      },
+      "sampled_gpu_activity": {
+        "min": 0.0,
+        "max": 100.0,
+        "units": "percent"
+      },
+      "sampled_power": {
+        "min": 80.85,
+        "max": 468.58,
+        "units": "W"
+      },
+      "server_http_status_counts": {
+        "URLError": 21,
+        "200": 75
+      }
+    },
+    "decode-0": {
+      "sample_count": 99,
+      "unique_gpu_uuids": 8,
+      "expected_gpu_count": 8,
+      "sampled_vram": {
+        "min": 0.0,
+        "max": 133116.0,
+        "units": "MiB"
+      },
+      "sampled_gpu_activity": {
+        "min": 0.0,
+        "max": 100.0,
+        "units": "percent"
+      },
+      "sampled_power": {
+        "min": 111.06,
+        "max": 339.56,
+        "units": "W"
+      },
+      "server_http_status_counts": {
+        "URLError": 41,
+        "200": 58
+      }
+    }
+  },
+  "scope": {
+    "scored_performance_measured": false,
+    "official_accuracy_verified": false,
+    "eagle3_used": false,
+    "telemetry": "bounded startup and sequential diagnostic samples only; no scored interval or saturation inference",
+    "KV_geometry": "188 regions are validated; decode heads and semantic layer IDs not collected"
+  },
+  "limits": [
+    "Eight sequential diagnostic requests are not a performance load test or official accuracy evaluation.",
+    "The 188-region geometry replay does not establish decode KV head count or layer identity.",
+    "Sampled GPU utilization, VRAM, and power are bounded observations and do not establish a causal bottleneck.",
+    "No EAGLE3 execution or candidate comparison occurred.",
+    "Telemetry sampler URLError polls and decode-step teardown cancellation are retained; endpoint polling gaps do not substitute for serving errors, and teardown cancellation does not override the terminal successful scheduler receipt.",
+    "Some startup/shutdown resource samples report zero VRAM; no interpolation or health inference is made.",
+    "Telemetry sampler URLError polls and decode-step teardown cancellation are retained; endpoint polling gaps do not substitute for serving errors, and teardown cancellation does not override the terminal successful scheduler receipt.",
+    "Some startup/shutdown resource samples report zero VRAM; no interpolation or health inference is made."
+  ],
+  "next_decision": "Bind this exact accepted S46 reference and its sealed review into a separately derived S49 EAGLE3 readiness candidate; retain all draft, deterministic-runtime, semantic P/D, NIXL geometry, and exact 1600-ID gates. No scoring claim.",
+  "runtime_and_telemetry_findings": {
+    "worker_logs": "No NIXL_ERR_ or CUDA out of memory markers in role runtime logs; decode worker has a Slurm step cancellation / wait-timeout record during teardown after the client pass. Slurm terminal receipt reported COMPLETED 0:0 in 521 seconds, and independent reference/runtime/geometry/semantic gates pass. This post-pass cleanup record is retained and not presented as clean kernel telemetry.",
+    "sampler_http_polling": "Sampler records contain HTTP 200 responses plus URLError polls, with the latter counted by role in resource_sampling. Treat as bounded metrics-endpoint collection gaps; do not interpret them as server request failures or healthy zero utilization.",
+    "resource_ranges": "Raw telemetry includes 0 MiB at some startup/shutdown samples and peaks; ranges are retained as sampled values only, not stable memory occupancy or GPU utilization conclusions."
+  }
+}

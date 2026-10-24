@@ -5,3 +5,9 @@ Control **25930** reached all-rank BF16 readiness and both semantic P/D paths, t
 New S57/S58 bundles call the frozen `BUNDLE/summarize.py` directly on both arms. This changes no model setting, workload, quality check or acceptance threshold. The CPU check replays the actual partial export and all three resolved argument records and verifies there is no remaining artifact-directory Python helper reference in the client. It supplies no new GPU result.
 
 Both arms remain unranked N64 performance feasibility, 20/40/30 seconds and fixed 4,000/200 tokens, seed 2026. Official task quality remains unknown, and 25862's strict exact-ID failure remains failed. Candidate admission must bind the actual new control and independently replay its complete passed protocol before model work. No qualified speedup or promotion is in scope.
+
+## Root admission checkpoint
+
+S57 target-only control was submitted as **25940** after root reviewed the actual source and fixed a CPU parser bug: native `CudaGraphConfig(...)` AST values must not be passed to `literal_eval`. Only selected literal arguments are parsed, and both parsers were tested on all three actual roles from 25855 and 25862. No new model quality or performance result follows from this CPU replay.
+
+S58's new sealed guard binds the actual 25940 receipt and manifest. The candidate requires `afterok:25940` and independently replays the actual submitted control and its raw acceptance checks before any model worker. Both stages remain unranked, with official quality unknown and the older exact-ID failure preserved. Sequential placement/time variation remains a limitation.
