@@ -1,0 +1,514 @@
+{
+  "activation_quantization_diagnostic": {
+    "activation_dtype": "torch.float8_e4m3fn",
+    "activation_fp8_absmax_within_cast_limit": true,
+    "activation_fp8_max": 448.0,
+    "activation_fp8_min": -448.0,
+    "activation_quantized_finite": true,
+    "activation_scales_finite_positive": true,
+    "activation_scales_max": 0.00749860517680645,
+    "activation_scales_min": 0.005022321827709675,
+    "activation_values_at_fp8_limits": 49,
+    "actual_vs_direct_division": {
+      "byte_pairs": {
+        "0x69->0x6a": 1,
+        "0x73->0x74": 1,
+        "0xf1->0xf2": 1
+      },
+      "element_count": 4096,
+      "mismatch_count": 3,
+      "mismatch_fraction": 0.000732421875
+    },
+    "actual_vs_reciprocal_multiply": {
+      "byte_pairs": {
+        "0x69->0x6a": 1,
+        "0x73->0x74": 1,
+        "0xf1->0xf2": 1
+      },
+      "element_count": 4096,
+      "mismatch_count": 3,
+      "mismatch_fraction": 0.000732421875
+    },
+    "dequantized_vs_fp32_input": {
+      "max_abs_error": 0.11830377578735352,
+      "relative_l2": 0.02556544728577137,
+      "rms_abs_error": 0.026119044050574303,
+      "rounding_bound": "half the larger adjacent positive E4M3FN spacing around the FP32 normalized input, scaled by the actual group scale, plus 4 FP32 epsilons in normalized space",
+      "rounding_bound_elements": 4096,
+      "rounding_bound_max_abs": 0.11997928470373154,
+      "rounding_bound_violations": 0
+    },
+    "input_absmax": 3.359375,
+    "input_dtype": "torch.bfloat16",
+    "input_shape": [
+      16,
+      256
+    ],
+    "scale_dtype": "torch.float32",
+    "scale_shape": [
+      16,
+      2
+    ]
+  },
+  "checks": {},
+  "device": {
+    "capability": [
+      9,
+      0
+    ],
+    "name": "NVIDIA H100 80GB HBM3",
+    "uuid": "0bc6bd5f-a156-c028-f9d4-417982bc5b56",
+    "visible_devices": "GPU-0bc6bd5f-a156-c028-f9d4-417982bc5b56"
+  },
+  "elapsed_seconds": 24.29178545670584,
+  "finished_unix": 1792834704.3928816,
+  "geometry": {
+    "block_shape": [
+      128,
+      128
+    ],
+    "ep_size": 5,
+    "hidden_size": 256,
+    "intermediate_size": 128,
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "physical_experts_per_virtual_rank": 26,
+    "tokens": 16,
+    "topk": 4
+  },
+  "limitations": [
+    "Five virtual EP ranks execute serially on one H100; summing outputs with a local torch operation is not a communication or collective test.",
+    "Synthetic 256-hidden by 128-intermediate weights do not prove Qwen checkpoint quantization metadata, loader behavior, model accuracy, or model-scale memory fit.",
+    "The fixed deterministic route exercises global physical IDs and copied slots; it does not establish production request routing, EPLB load balance, DP-attention, NIXL, or MNNVL behavior."
+  ],
+  "native_candidate_seconds": 0.007714163977652788,
+  "native_ep1_seconds": 8.063018321990967e-05,
+  "outputs": {
+    "baseline_shape": [
+      16,
+      256
+    ],
+    "candidate_shape": [
+      16,
+      256
+    ],
+    "ep1_vs_oracle_relative_l2": 0.005955388303846121,
+    "ep5_vs_ep1_relative_l2": 0.002326115034520626,
+    "ep5_vs_oracle_relative_l2": 0.006237307097762823,
+    "gate": "PASS; each measured relative L2 <= 0.02, physical-copy oracle <= 1e-7",
+    "native_baseline_dtype": "torch.bfloat16",
+    "native_candidate_dtype_per_rank": [
+      "torch.bfloat16",
+      "torch.bfloat16",
+      "torch.bfloat16",
+      "torch.bfloat16",
+      "torch.bfloat16"
+    ],
+    "oracle_dtype": "torch.bfloat16",
+    "oracle_shape": [
+      16,
+      256
+    ],
+    "physical_map_oracle_relative_l2": 0.0
+  },
+  "outputs_partial": {
+    "ep1_vs_oracle_relative_l2": 0.005955388303846121,
+    "ep5_vs_ep1_relative_l2": 0.002326115034520626,
+    "ep5_vs_oracle_relative_l2": 0.006237307097762823,
+    "oracle_model": "FP32 linear layers using actual quantized input/weights, explicit BF16 first GEMM output, pinned E4M3 blockwise SiLU-product requantization and scale, BF16 down GEMM output, FP32 top-k accumulation and final BF16 cast",
+    "oracle_source_modeled_stages": {
+      "activation_fp8_rows": 64,
+      "down_bf16_rows": 64,
+      "gate_up_bf16_rows": 64
+    },
+    "physical_map_oracle_relative_l2": 0.0
+  },
+  "quantization": {
+    "activation_fp8_max": 448.0,
+    "activation_fp8_min": -448.0,
+    "activation_input_absmax": 3.359375,
+    "activation_input_dtype": "torch.bfloat16",
+    "activation_quantized_dtype": "torch.float8_e4m3fn",
+    "activation_quantized_shape": [
+      16,
+      256
+    ],
+    "activation_quantizer": "pinned sglang_per_token_group_quant_fp8(x, 128); byte differences versus independent quantizers remain diagnostics; the oracle consumes these actual SGLang activations and explicitly models source-pinned native intermediate formats",
+    "activation_scale_dtype": "torch.float32",
+    "activation_scale_max": 0.00749860517680645,
+    "activation_scale_min": 0.005022321827709675,
+    "activation_scale_shape": [
+      16,
+      2
+    ],
+    "activation_values_at_fp8_limits": 49,
+    "w13_fp8_shape_physical": [
+      130,
+      256,
+      256
+    ],
+    "w13_scale_shape_physical_after_padding": [
+      130,
+      2,
+      4
+    ],
+    "w13_scale_shape_physical_before_padding": [
+      130,
+      2,
+      2
+    ],
+    "w2_fp8_shape_physical": [
+      130,
+      256,
+      128
+    ],
+    "w2_scale_shape_physical_after_padding": [
+      130,
+      2,
+      4
+    ],
+    "w2_scale_shape_physical_before_padding": [
+      130,
+      2,
+      1
+    ],
+    "weight_scale_convention": "Pinned SGLang test helper quantizes weight as w / (amax/448) and passes returned amax/448 to hpc.fuse_moe_blockwise; local argument names in hpc_ops.py include scale_inv but source test follows this exact convention."
+  },
+  "route": {
+    "global_physical_topk_ids": [
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        129,
+        127,
+        64
+      ],
+      [
+        128,
+        1,
+        127,
+        64
+      ]
+    ],
+    "logical_topk_ids": [
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ],
+      [
+        0,
+        1,
+        127,
+        64
+      ]
+    ],
+    "physical_to_logical_tail": [
+      126,
+      127,
+      0,
+      1
+    ],
+    "rank_nonzero_output": [
+      true,
+      false,
+      true,
+      false,
+      true
+    ],
+    "topk_weights": [
+      [
+        0.6439142227172852,
+        0.23688283562660217,
+        0.08714431524276733,
+        0.03205860033631325
+      ],
+      [
+        0.6443726420402527,
+        0.2365778684616089,
+        0.08703213930130005,
+        0.03201733157038689
+      ],
+      [
+        0.6448309421539307,
+        0.23627302050590515,
+        0.08691997826099396,
+        0.03197607398033142
+      ],
+      [
+        0.64528888463974,
+        0.2359684258699417,
+        0.08680792897939682,
+        0.03193485736846924
+      ],
+      [
+        0.6457464098930359,
+        0.2356639802455902,
+        0.08669593930244446,
+        0.03189365193247795
+      ],
+      [
+        0.646203875541687,
+        0.23535968363285065,
+        0.08658397942781448,
+        0.031852468848228455
+      ],
+      [
+        0.6466609239578247,
+        0.2350555807352066,
+        0.08647211641073227,
+        0.031811315566301346
+      ],
+      [
+        0.6471177339553833,
+        0.23475170135498047,
+        0.08636032044887543,
+        0.03177018463611603
+      ],
+      [
+        0.6475743055343628,
+        0.23444800078868866,
+        0.08624859899282455,
+        0.0317290835082531
+      ],
+      [
+        0.648030698299408,
+        0.2341444045305252,
+        0.08613690733909607,
+        0.03168799728155136
+      ],
+      [
+        0.6484866738319397,
+        0.23384103178977966,
+        0.08602531254291534,
+        0.03164694085717201
+      ],
+      [
+        0.6489424109458923,
+        0.23353785276412964,
+        0.0859137699007988,
+        0.03160591050982475
+      ],
+      [
+        0.6493980288505554,
+        0.23323482275009155,
+        0.08580228686332703,
+        0.031564898788928986
+      ],
+      [
+        0.6498532295227051,
+        0.23293200135231018,
+        0.08569089323282242,
+        0.031523916870355606
+      ],
+      [
+        0.6503081321716309,
+        0.23262935876846313,
+        0.08557955920696259,
+        0.03148295730352402
+      ],
+      [
+        0.6507628560066223,
+        0.23232683539390564,
+        0.08546826243400574,
+        0.03144201636314392
+      ]
+    ]
+  },
+  "scope": "One-GPU synthetic MoE math only. The five virtual ranks run sequentially on this one H100; no process group, all-reduce, or inter-GPU routing is tested.",
+  "seed": 2026,
+  "software": {
+    "hpc_fuse_moe_blockwise_signature": "(x: torch.Tensor, x_scale: torch.Tensor, gate_up_weight: torch.Tensor, gate_up_weight_scale: torch.Tensor, down_weight: torch.Tensor, down_weight_scale: torch.Tensor, topk_ids: torch.Tensor, topk_scale: torch.Tensor, rank_ep: int, num_expert_total: int, shared_output: torch.Tensor = None, output: torch.Tensor = None) -> torch.Tensor",
+    "hpc_module": "/usr/local/lib/python3.12/dist-packages/hpc/__init__.py",
+    "hpc_ops": "0.0.1.dev0+gab1a402",
+    "native_extension_bytes": 122021936,
+    "native_extension_path": "/usr/local/lib/python3.12/dist-packages/hpc/_C.abi3.so",
+    "source_image_nscc_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh",
+    "torch": "2.11.0+cu130",
+    "upstream_hpc_ops_commit": "ab1a402724635507037426068f6cddc3d30dc0a8",
+    "verified_runtime_source_sha256": {
+      "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/fp8_kernel.py": "c690ea19a6ca401c07e60a835c2470039d8f99e1574196f0d5e14e3c6797c742",
+      "/sgl-workspace/sglang/python/sglang/srt/layers/moe/moe_runner/hpc_ops.py": "c138600761d1aefa039eb1048f94fcfe7e6ecc7e7df02f55390aee9ac569f16f",
+      "/usr/local/lib/python3.12/dist-packages/hpc/fuse_moe.py": "28bb81f0e04e96c921edce31aa8902586ca76c32600a82224848174aa41d0b88"
+    },
+    "verified_upstream_hpc_ops_source_sha256": {
+      "LICENSE.txt": "a55d9fa3d7cc23f33541ec9a770f8b5a5e184e6d96dae2a1cf58adb803bcaffb",
+      "src/activation/activation.cu": "640909706d34593b94ef6c2fd5728b8dc835bfc3ac2f7af0d9e4d32eae4d27c1",
+      "src/fuse_moe/entry.cc": "ef7cdce5302612509b0dba1843bed0bd227f86b0f2bd4fd73d3d4544461729e9",
+      "src/fuse_moe/fuse_moe.cu": "8638744aa3997e726c85a9ec3298c197f735993e0e3564ae150d4caedbcdbe36",
+      "src/fuse_moe/reduce.cu": "e913cc230a8ec030e8654d3defb357712b1f6c69e21ca2802116d41001d57ca5",
+      "src/group_gemm/group_gemm_blockwise_fp8.cu": "c79f33b6ec28b25e7202617b7a7c668bca35b7042eddaa3004ddd764f615ad7f",
+      "src/utils/utils.cuh": "3dd9439441675164c9f66273556c222e14d5b6863cc759ed8316881af6430351"
+    }
+  },
+  "started_unix": 1792834698.8665843,
+  "status": "PASS"
+}
