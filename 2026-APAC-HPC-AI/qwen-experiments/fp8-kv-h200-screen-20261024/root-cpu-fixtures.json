@@ -1,0 +1,46 @@
+{
+  "status": "PASS_CPU_FIXTURES_ONLY",
+  "scope": "Static bundle and parser tests; synthetic logs only. No H200, CUDA, SGLang server, NIXL transfer, benchmark, or GPU performance is emulated.",
+  "checkpoint_preflight_sha256": "eba7df2a5452caffdfbbb2511cbd91ff887f1b62388f742e870cd16ce829bcb2",
+  "checkpoint_kv_scale_keys": 0,
+  "worker_argv_regression": "S44-style omission of explicit --dtype bfloat16 is rejected for both bundles",
+  "fp8_worker_flag": "single worker path injects --kv-cache-dtype fp8_e4m3 for both P and D roles",
+  "synthetic_runtime_parser_cases": [
+    {
+      "mode": "auto",
+      "role": "prefill-0",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    },
+    {
+      "mode": "auto",
+      "role": "prefill-1",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    },
+    {
+      "mode": "auto",
+      "role": "decode-0",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    },
+    {
+      "mode": "fp8_e4m3",
+      "role": "prefill-0",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    },
+    {
+      "mode": "fp8_e4m3",
+      "role": "prefill-1",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    },
+    {
+      "mode": "fp8_e4m3",
+      "role": "decode-0",
+      "status": "PASS_RUNTIME_KV_ALLOCATION"
+    }
+  ],
+  "negative_cases": [
+    "missing actual cache allocation proof",
+    "wrong logical cache allocation dtype"
+  ],
+  "quality_status": "UNKNOWN",
+  "official_accuracy_verified": false
+}

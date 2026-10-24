@@ -1,0 +1,80 @@
+{
+  "schema": "h200-kv-screen-cpu-validation-v1",
+  "state": "CPU_SOURCE_AND_PARSER_FIXTURES_PASS",
+  "gpu_runtime_validation": "not_run",
+  "gpu_submission": false,
+  "model_weights_opened_by_cpu_preflight": false,
+  "checkpoint_kv_scale_preflight": {
+    "checkpoint_kv_scale_key_count": 0,
+    "checkpoint_kv_scale_keys": [],
+    "config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+    "head_dim": 128,
+    "index_sha256": "eba7df2a5452caffdfbbb2511cbd91ff887f1b62388f742e870cd16ce829bcb2",
+    "index_tensor_count": 73417,
+    "kv_cache_quant_algo": null,
+    "kv_cache_quant_algo_key_present": false,
+    "model_path": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "model_type": "qwen3_moe",
+    "num_hidden_layers": 94,
+    "num_key_value_heads": 4,
+    "quality_status": "UNKNOWN; exploratory unranked screen; official >=99% gate not established",
+    "quantization_method": "fp8",
+    "quantization_param_path": null,
+    "runtime_scale_status": "not observed by this CPU preflight; runtime logs must report args and allocation dtype; per-layer backend scale values are not emitted by inspected source",
+    "scale_source_status": "no checkpoint KV scale keys and no quantization parameter file; pinned SGLang source documents default KV scales as 1.0",
+    "scope": "CPU metadata inspection only; config and safetensors index read, tensor weights not opened.",
+    "status": "PASS_METADATA_ONLY",
+    "weight_shards_opened": false
+  },
+  "cpu_fixture_result": {
+    "status": "PASS_CPU_FIXTURES_ONLY",
+    "scope": "Static bundle and parser tests; synthetic logs only. No H200, CUDA, SGLang server, NIXL transfer, benchmark, or GPU performance is emulated.",
+    "checkpoint_preflight_sha256": "eba7df2a5452caffdfbbb2511cbd91ff887f1b62388f742e870cd16ce829bcb2",
+    "checkpoint_kv_scale_keys": 0,
+    "worker_argv_regression": "S44-style omission of explicit --dtype bfloat16 is rejected for both bundles",
+    "fp8_worker_flag": "single worker path injects --kv-cache-dtype fp8_e4m3 for both P and D roles",
+    "synthetic_runtime_parser_cases": [
+      {
+        "mode": "auto",
+        "role": "prefill-0",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      },
+      {
+        "mode": "auto",
+        "role": "prefill-1",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      },
+      {
+        "mode": "auto",
+        "role": "decode-0",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      },
+      {
+        "mode": "fp8_e4m3",
+        "role": "prefill-0",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      },
+      {
+        "mode": "fp8_e4m3",
+        "role": "prefill-1",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      },
+      {
+        "mode": "fp8_e4m3",
+        "role": "decode-0",
+        "status": "PASS_RUNTIME_KV_ALLOCATION"
+      }
+    ],
+    "negative_cases": [
+      "missing actual cache allocation proof",
+      "wrong logical cache allocation dtype"
+    ],
+    "quality_status": "UNKNOWN",
+    "official_accuracy_verified": false
+  },
+  "bundle_sha256sums": {
+    "s47-h200-bf16-kv-control": "6bcbe8e882f1ec9428bb663347096d3104d683e1359b033199f3196e72f3fbeb",
+    "s48-h200-fp8-kv-screen": "01d1a31be4c259cbd2c4e334b871f76eebb27e6cedb87f24a2535e8faad74387"
+  },
+  "quality_status": "UNKNOWN; exploratory unranked screen; official >=99% accuracy not verified"
+}

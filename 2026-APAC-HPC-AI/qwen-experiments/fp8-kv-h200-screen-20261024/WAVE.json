@@ -1,0 +1,49 @@
+{
+  "schema": "h200-kv-screen-wave-v1",
+  "state": "DRAFT_UNSUBMITTED",
+  "created_utc_date": "2026-10-24",
+  "purpose": "Prepare a matched BF16 KV control and FP8 KV unranked performance screen on H200.",
+  "order": [
+    {
+      "bundle": "serving-tuning-10/s47-h200-bf16-kv-control",
+      "kv_cache_dtype_arg": "auto (SGLang source predicts model-dtype BF16 for this checkpoint)",
+      "dependency": null
+    },
+    {
+      "bundle": "serving-tuning-10/s48-h200-fp8-kv-screen",
+      "kv_cache_dtype_arg": "fp8_e4m3 for both P and D workers",
+      "dependency": "afterok S47, only after a reviewed complete passing control receipt"
+    }
+  ],
+  "resources_each": {
+    "nodes": 2,
+    "gpus": 16,
+    "walltime_minutes": 17,
+    "own_slurm_job_cap_respected_by_root_admission": true
+  },
+  "factor": "KV cache dtype only",
+  "measurement": {
+    "platform": "H200",
+    "concurrency": 64,
+    "input_tokens_fixed": 4000,
+    "output_tokens_fixed": 200,
+    "dataset_seed": 2026,
+    "dataset_entries": 12800,
+    "cache_reuse": "disabled by first-turn prefix cache busting",
+    "warmup_seconds": 20,
+    "measurement_seconds": 40,
+    "grace_seconds": 30
+  },
+  "quality": {
+    "screen_unranked": true,
+    "smoke_floor": "at least 7/8 and no new regression against frozen S41 vector",
+    "long_retrieval": "12/12 required",
+    "client_errors": 0,
+    "client_cancellations": 0,
+    "minimum_good_request_fraction": 0.9,
+    "official_accuracy_99_percent": "unknown; not measured by this screen"
+  },
+  "candidate_gate": "Observed candidate goodput must exceed its valid matched control by >1% and all runtime/local quality gates must pass before considering a separate full matched confirmation.",
+  "queue_or_budget_accessed": false,
+  "submitted": false
+}
