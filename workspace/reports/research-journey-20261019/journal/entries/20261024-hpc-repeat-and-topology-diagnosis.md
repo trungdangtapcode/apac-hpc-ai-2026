@@ -17,3 +17,7 @@ Fresh terminal PBS resources at verified CPU rate 1 justify retiring only these 
 Derive a separate bounded diagnostic from the failed payload. Preserve mapping and acceptance gates; collect each rank's pre/post MPI affinity, physical-core lookup and NUMA lookup status before a collective failure decision. Only that evidence can identify the failed subcheck. A local synthetic MPI singleton test passes; a two-CPU mask is rejected. Neither proves a cluster fix. Submit only after safe review and locked fresh capacity/budget checks; no blind solver or proxy-polishing run. Keep the balanced mapping separate and unsubmitted until qualified.
 
 The prior 23 October queue snapshot is historical; all three jobs are terminal in the 24 October query. Submission slides remain their dated snapshot. No background Codex or schedule is enabled.
+
+## Reviewed diagnostic payload checkpoint
+
+The [derived bundle](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-placement512-diagnostic-20261024/PLAN.md) is sealed and root reviewed. Its C probe emits one bounded topology record per rank and uses MPI_Allreduce before a failure decision. The existing 512-rank identity/candidate validators and aggressive assignment are unchanged. Local C uses synthetic MPI declarations only: one CPU passes, two CPUs fail without a mapping record. The unchanged randomized mapping suite passes one positive and rejects seven negatives. No actual cluster fix, candidate mapping, solver speedup or submission is claimed by this preparation checkpoint.

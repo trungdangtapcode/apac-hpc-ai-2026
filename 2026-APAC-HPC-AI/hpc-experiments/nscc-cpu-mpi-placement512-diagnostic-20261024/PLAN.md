@@ -1,0 +1,11 @@
+# Separate the failed topology subchecks before attempting placement again
+
+The completed job 25947168 failed inside its identity C probe, before any candidate ran. Its only error joined three tests: singleton CPU affinity, readable physical core, and readable NUMA domain. The root cause is therefore unknown. A local synthetic-MPI singleton probe runs successfully; that does not identify what happened on the cluster.
+
+This diagnostic holds the aggressive scientific assignment, launcher arguments, module, transport, strict topology gates, 4 x 128 CPUs, 32 GB/node and 3-minute wall limit constant. It changes only diagnostics, collective failure handling and its identifying labels. Each process records affinity before and after MPI_Init and independent lookup status/errno. A collective reduction lets every process emit a bounded record before any topology failure terminates the arm. No gate is weakened. If identity passes, the existing renderer and candidate validator still check the exact older assignment on the observed slots. The balanced candidate is not silently substituted.
+
+Expected information: multiple post-init CPUs would implicate the singleton binding assumption; failed physical-core or NUMA status would identify which local sysfs interface needs investigation. A pre/post change would be observed, not an explanation of why MPI changed it. If all gates pass, that is allocation-specific qualification and a non-reproduction of the failure, not proof that instrumentation fixed the cluster. No solver runs or speedup claims.
+
+Local checks: C compiled against synthetic MPI declarations, singleton positive and multi-CPU negative tests, the unchanged mapping fixtures (one positive and seven negatives), Bash syntax and payload hashes pass. Actual MPI execution remains pending. Preserve the failed parent payload and logs.
+
+Admission: require fresh terminal parent outcomes and reviewed failure, empty own CPU queue, combined CPU/AI PBS count below three, fresh rate/balance report and a locked 25.6-SU reservation within the unchanged cumulative 5,000-SU campaign ceiling. The reviewed reconciliation leaves 311.8 SU before admission; unknown shared reservations remain. Do not retry an existing submission intent or edit a submitted payload.

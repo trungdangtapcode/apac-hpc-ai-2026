@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "payload_sha256": {
+    "payload/README.md": "8aa549ed9041bc4c6fc3db7c9439f8094a90120631d675f2678c7c1a55bca101",
+    "payload/assignment.json": "960ad72c0c2ffd3656af8cc4ee2c95f6b2aa1160c91d1990ac5b6e84fbfcdddb",
+    "payload/batch-lifecycle.py": "f385b5adf102c24304fad8958597cb3e4b22811eb2e71cf1f150705f312bcca5",
+    "payload/mapping_common.py": "49b061252769691d3ca8bca9d02c68ff730e49a325d3fff59f28589194467e93",
+    "payload/mpi-placement512-preflight.pbs": "1ebfff6576ddc839a47ef359169527b20c7b26c246e7fe1f60f0e79ab9042c2c",
+    "payload/mpi-probe.c": "79a61a0af43c38fa97483803f2adc553d15268bb2d4f4dcadd84fc90a37b5fa5",
+    "payload/offline-fixtures.py": "dec0e6b0e380df2d84dcefeb7030630d8cf8fe3393fd46d0072cd1531f32a96b",
+    "payload/record-return.py": "2da56059a998439ad03e764ea43506dbaa6801533218c597b63f55f49182b150",
+    "payload/render-candidate.py": "cc447c0e6dee91a9dd82a4f223bacaf51f9d04b09422c563a967374b7e1d8188",
+    "payload/source-sha256.json": "6a4ab116407b445a159f4b67fc97cbdc1065e44e58799ebaf3927f5d45bb2894",
+    "payload/validate-assignment.py": "2a3747da512ff59e913875326fcfefa0bfd5e84fca8301f55cb3b61a411c297c",
+    "payload/validate-identity.py": "9a70a1ce349e8f766eeb7562860afb3a23b93f9aba3589a1b944f4a5c5e3d724",
+    "payload/validate-mapping.py": "7ced4f2edb2a8f48c8e7c2004236dcadc2372a1899f8a9cf7c7a9dfc6ad4c6f4",
+    "payload/validate-nodefile.py": "581b3710b1c446076443315f44720faa278a697eca4bf6d42637b5d3e67eff62",
+    "payload/verify-payload.py": "70d83abd9ed1617a58259cce7566d0cf810c14a5ef1beec8bc3faafed6658055",
+    "payload/write-identity-order.py": "230bb98d4e06b52b2c502922b85c512d6f474e17f260480cb3f26a1f17af1e31"
+  },
+  "changes_reviewed": [
+    "per-rank pre/post MPI affinity diagnostics",
+    "separate physical-core and NUMA status and errno fields",
+    "collective fail before MAP records or candidate if any rank cannot prove topology",
+    "batch job name and PASS marker distinguish new job",
+    "README explains diagnostic scope"
+  ],
+  "unchanged_gates": [
+    "singleton CPU affinity",
+    "4 hosts x128 unique physical cores",
+    "8 NUMA domains x16 ranks per host",
+    "exact original aggressive assignment",
+    "MPI world identity and candidate checks",
+    "binding, thread controls, SRX, source seals and timeout"
+  ],
+  "synthetic_mapping_fixtures": {
+    "fixture_type": "synthetic MPI records only; no MPI runtime or ASPIRE topology claim",
+    "randomized_identity_control_slots": true,
+    "identity_rank_order_is_not_assumed_to_match_contiguous_hosts": true,
+    "pmi_rank_is_authoritative": false,
+    "positive": [
+      {
+        "name": "randomized identity slots render and validate exact refined mapping",
+        "passed": true,
+        "rank_order_entries": 512,
+        "rank_zero_first": true,
+        "identity_host_sequence_is_interleaved": true,
+        "validator_world_size": 512
+      }
+    ],
+    "negative": [
+      {
+        "name": "expected slot metadata differs from original identity",
+        "rejected": true
+      },
+      {
+        "name": "physically valid permutation breaks selected logical host group",
+        "rejected": true
+      },
+      {
+        "name": "identity NUMA count differs from eight domains by sixteen",
+        "rejected": true
+      },
+      {
+        "name": "duplicate or missing MPI world rank",
+        "rejected": true
+      },
+      {
+        "name": "candidate reports a wrong physical core",
+        "rejected": true
+      },
+      {
+        "name": "candidate rank is on the wrong host",
+        "rejected": true
+      },
+      {
+        "name": "candidate rank is on the wrong NUMA domain",
+        "rejected": true
+      }
+    ]
+  },
+  "local_c_checks": {
+    "passed": true,
+    "scope": "Synthetic MPI stub on local machine only; not Cray MPI build/link/run or four-host topology proof",
+    "checks": [
+      {
+        "affinity_cpus": [
+          0
+        ],
+        "returncode": 0,
+        "diagnostic": {
+          "rank": 0,
+          "pre_init_affinity_status": 0,
+          "pre_init_cpus": [
+            0
+          ],
+          "post_init_affinity_status": 0,
+          "post_init_cpus": [
+            0
+          ],
+          "core_status": 0,
+          "core_errno": 0,
+          "numa_status": 0,
+          "numa_errno": 0,
+          "package": 0,
+          "core": 0,
+          "numa": 0
+        },
+        "rejected_before_MAP_if_multicore": false
+      },
+      {
+        "affinity_cpus": [
+          0,
+          1
+        ],
+        "returncode": 14,
+        "diagnostic": {
+          "rank": 0,
+          "pre_init_affinity_status": 0,
+          "pre_init_cpus": [
+            0,
+            1
+          ],
+          "post_init_affinity_status": 0,
+          "post_init_cpus": [
+            0,
+            1
+          ],
+          "core_status": -99,
+          "core_errno": 0,
+          "numa_status": -99,
+          "numa_errno": 0,
+          "package": -1,
+          "core": -1,
+          "numa": -1
+        },
+        "rejected_before_MAP_if_multicore": true
+      }
+    ]
+  },
+  "not_proven": [
+    "actual Cray MPI execution",
+    "root cause of original combined check failure",
+    "candidate physical mapping",
+    "solver performance"
+  ],
+  "maximum_SU": 25.6
+}

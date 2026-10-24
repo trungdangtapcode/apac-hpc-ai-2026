@@ -1,0 +1,46 @@
+{
+  "fixture_type": "synthetic MPI records only; no MPI runtime or ASPIRE topology claim",
+  "randomized_identity_control_slots": true,
+  "identity_rank_order_is_not_assumed_to_match_contiguous_hosts": true,
+  "pmi_rank_is_authoritative": false,
+  "positive": [
+    {
+      "name": "randomized identity slots render and validate exact refined mapping",
+      "passed": true,
+      "rank_order_entries": 512,
+      "rank_zero_first": true,
+      "identity_host_sequence_is_interleaved": true,
+      "validator_world_size": 512
+    }
+  ],
+  "negative": [
+    {
+      "name": "expected slot metadata differs from original identity",
+      "rejected": true
+    },
+    {
+      "name": "physically valid permutation breaks selected logical host group",
+      "rejected": true
+    },
+    {
+      "name": "identity NUMA count differs from eight domains by sixteen",
+      "rejected": true
+    },
+    {
+      "name": "duplicate or missing MPI world rank",
+      "rejected": true
+    },
+    {
+      "name": "candidate reports a wrong physical core",
+      "rejected": true
+    },
+    {
+      "name": "candidate rank is on the wrong host",
+      "rejected": true
+    },
+    {
+      "name": "candidate rank is on the wrong NUMA domain",
+      "rejected": true
+    }
+  ]
+}
