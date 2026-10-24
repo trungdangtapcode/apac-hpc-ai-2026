@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-h100-kv-bf16-control
+#PBS -l select=2:ngpus=8:mpiprocs=1
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:30:00
+#PBS -j oe
+set -euo pipefail
+export QWEN_ALLOCATION_T0=$(date +%s)
+export QWEN_CPU_ENVELOPE_MODE=legacy QWEN_NODE_PREFETCH=off
+export QWEN_RESOURCE_MONITOR=1 QWEN_TELEMETRY_MAX_S=1740
+export QWEN_BUNDLE=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/h100-kv-bf16-control-20261024
+export SLURM_SUBMIT_DIR=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015
+export SLURM_JOB_ID=$PBS_JOBID SLURM_JOB_NODELIST=from-pbs-nodefile
+export QWEN_PREFILL_EP=1 QWEN_PAIR_TIMEOUT=240 QWEN_TUNE_NS=54 QWEN_DIAGNOSTIC_PROFILE=0
+export QWEN_KV_CACHE_DTYPE=auto
+export QWEN_NIXL_PATCH_SHA256=912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f
+cd "$QWEN_BUNDLE"
+sha256sum --check SHA256SUMS
+source "$QWEN_BUNDLE/pbs-shim.sh"
+exec /bin/bash "$QWEN_BUNDLE/topology-job.sh"
