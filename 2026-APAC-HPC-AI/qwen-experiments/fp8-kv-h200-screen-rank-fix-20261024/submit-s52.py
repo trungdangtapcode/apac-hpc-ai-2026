@@ -8,6 +8,7 @@ B=Path(proof['bundle']);receipt=O/'s52-slurm-receipt.json'
 assert hashlib.sha256((B/'SHA256SUMS').read_bytes()).hexdigest()==proof['manifest_sha256']
 subprocess.run(['sha256sum','--check','SHA256SUMS'],cwd=B,capture_output=True,check=True)
 subprocess.run(['python3','-B',str(B/'preflight-assets.py')],capture_output=True,check=True)
+subprocess.run(['python3','-B',str(B/'verify-matched-control.py'),str(O/'control-replay-before-resubmit.json')],capture_output=True,check=True)
 def save(r):receipt.write_text(json.dumps(r,indent=2)+'\n')
 with (R/'serving-tuning/watcher.lock').open('a') as lock:
  fcntl.flock(lock,fcntl.LOCK_EX);assert not receipt.exists(),'Do not blindly retry any recorded submission'
@@ -16,7 +17,7 @@ with (R/'serving-tuning/watcher.lock').open('a') as lock:
  queue=subprocess.check_output(['squeue','-h','-u','apacsc42','-o','%i|%T|%j'],text=True);(O/'s52-pre-submit.txt').write_text(queue);assert len(queue.splitlines())+1<=5
  row=dict(state='SUBMISSION_IN_PROGRESS',attempted_utc=datetime.now(timezone.utc).isoformat(),bundle=str(B),gpus=16,nodes=2,minutes=17,pbs_su_reserved=0,diagnostic_only=True,purpose='Matched FP8 KV candidate after actual control25863 passes; independent control replay before workers')
  save(row)
- try:r=subprocess.run(['sbatch','--parsable','--dependency=afterok:25863',str(B/'job.sbatch')],cwd=R,capture_output=True,text=True,timeout=30)
+ try:r=subprocess.run(['sbatch','--parsable',str(B/'job.sbatch')],cwd=R,capture_output=True,text=True,timeout=30)
  except BaseException:row['state']='SUBMISSION_UNCERTAIN';save(row);raise
  (O/'s52-submit.stdout').write_text(r.stdout);(O/'s52-submit.stderr').write_text(r.stderr);job=r.stdout.strip().split(';')[0]
  if r.returncode or not job.isdigit():row['state']='SUBMISSION_UNCERTAIN';save(row);raise RuntimeError('Inspect scheduler before another attempt')
