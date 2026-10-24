@@ -1,0 +1,195 @@
+{
+  "experiment": "placement-solver-ab-design-20261024",
+  "status": "design_only_blocked_pending_new_successful_binding_and_mapping_qualification",
+  "created_utc": "2026-10-24",
+  "question": "Does the pinned MPI method-3 candidate rank order change native 512-rank OpenFOAM solver timing relative to method-3 identity order when source, Scotch partition, initialized fields, allocation, runtime, and solver work are matched?",
+  "execution_authority": {
+    "no_submission_created": true,
+    "fresh_project_balance_and_rate_required": true,
+    "fresh_cpu_and_ai_queue_and_combined_cap_check_required": true,
+    "budget_lock_required_at_admission": true,
+    "authorization_context": "Owner separately authorized use of remaining CPU grant before 2026-10-30; this design is not an admission or reservation."
+  },
+  "qualification_gate": {
+    "diagnostic_job": "25956623.pbs101",
+    "current_status_at_design": "25956623 reviewed failure: post-MPI CPU mask expands to0\u2013255 for all512ranks; candidate never launched",
+    "result_assumed": null,
+    "required_terminal_outcome": "PBS Exit 0, payload seals intact, identity and candidate MPI world-rank placement validators pass all strict topology/core/NUMA gates, candidate exact assignment matches pinned hashes",
+    "failed_or_ambiguous_result_action": "Do not start any solver A/B. Preserve the diagnostic and diagnose its failed subcheck.",
+    "required_future_qualification": "A separately sealed affinity and exact MPI mapping qualification must pass; repeat strict mapping on the actual solver allocation. No previous diagnostic satisfies this gate."
+  },
+  "candidate_assignment": {
+    "experiment_payload": "hpc-experiments/nscc-cpu-mpi-placement512-diagnostic-20261024/payload/assignment.json",
+    "assignment_sha256": "960ad72c0c2ffd3656af8cc4ee2c95f6b2aa1160c91d1990ac5b6e84fbfcdddb",
+    "candidate_kind": "older_refined_fixed_host_fixed_numa_assignment_used_by_job_25956623",
+    "source_screen": "hpc-experiments/rank-placement-512-numa-screen-20261023/screen.json",
+    "source_screen_sha256": "7b9532f95708d991ab0543e0263c1b7d5a91aaa9955c3a45e130ecf5a79a3846",
+    "parent_graph": "hpc-experiments/rank-placement-512-screen-20261023/graph.json",
+    "parent_graph_sha256": "3ba8612bf5e0521f2cfb39fdd4c9d0642f689c6e5a86a9bb93accad212b7a209",
+    "parent_screen_sha256": "4c10d37a7a2e7fbf895f37370628e806d0f16bdfbd7c9f978fb8346d4a29bd5b",
+    "refinement_sha256": "a29053ca5a52d853d15bd2c8a565a23963ea3c766f32f520b6f5890e2871bd07",
+    "proxy_cross_host_faces": 261110,
+    "proxy_same_host_cross_numa_faces": 732712,
+    "proxy_comparison_original_contiguous": {
+      "cross_host_faces": 337324,
+      "same_host_cross_numa_faces": 710081
+    },
+    "proxy_caveat": "Face counts are graph proxies, not bytes, traffic, memory locality, runtime, or speedup.",
+    "balanced_whole_group_candidate_substitution_allowed": false
+  },
+  "baseline_source": {
+    "experiment_payload": "hpc-experiments/nscc-cpu-four-node-confirm-20261023/payload",
+    "bundle_manifest_sha256": "d7266f15062a8fb3f81f8b286824734975603554aa6f79e37d9029096266ae4b",
+    "canonical_source_revision": "84c262431117f5c921db8335e368a12d0e9fa3f0",
+    "case": "hpc-experiments/nscc-cpu-four-node-confirm-20261023/payload/case",
+    "mesh_path": "/scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh",
+    "official_mesh_archive_md5": "50393a15d84f53255fda85ac702390e9",
+    "official_mesh_archive_sha256": "ef30fa8405dbaab77185ace2521b1bedc5650f245e40d7451259a5ac773a5376",
+    "mesh_unpacked_member_hashes_required": 8,
+    "required_numerical_invariants": {
+      "decomposition_method": "scotch",
+      "ranks": 512,
+      "nodes": 4,
+      "ranks_per_node": 128,
+      "mesh_cells": 65334765,
+      "control_dict_end_time": 150,
+      "solver": "simpleFoam",
+      "fixed_iterations_per_step": {
+        "Ux": 15,
+        "Uy": 15,
+        "Uz": 15,
+        "p": 12,
+        "omega": 8,
+        "k": 8
+      }
+    },
+    "allowed_source_edits": [],
+    "only_treatment_difference": "MPICH method-3 rank-order file content"
+  },
+  "common_preparation": {
+    "one_fresh_case": true,
+    "stages_once_before_any_solver": [
+      "verify frozen case source hashes and all eight known shared mesh member hashes",
+      "serial decomposePar -constant",
+      "validate exact processor0 through processor511, total 65334765 cells, and actual partition graph identity against pinned graph",
+      "restore0Dir -processor",
+      "mpiexec -n 512 --cpu-bind thread renumberMesh -constant -overwrite -parallel",
+      "mpiexec -n 512 --cpu-bind thread potentialFoam -initialiseUBCs -parallel",
+      "mpiexec -n 512 --cpu-bind thread applyBoundaryLayer -ybl 0.0450244 -parallel"
+    ],
+    "parallel_preparation_rank_order": "method-3 identity order on observed current-allocation slots",
+    "seal_after_initialization": "complete hash inventory of all zero-time processor fields; expected retained inventory reference is 3072 files and about 1.717 GB",
+    "stop_if_partition_graph_or_seal_mismatch": true
+  },
+  "arm_construction": {
+    "arm_sequence": [
+      "A1",
+      "B1",
+      "B2",
+      "A2"
+    ],
+    "paired_blocks": [
+      [
+        "A1",
+        "B1"
+      ],
+      [
+        "B2",
+        "A2"
+      ]
+    ],
+    "pair_order": "AB then BA; identity and candidate each occupy the first position once",
+    "case_origin": "four distinct case copies made only after the common initialized baseline passes all gates",
+    "hard_links_allowed": false,
+    "copy_policy": "Copy-on-write reflink only with filesystem support and distinct inodes; otherwise ordinary full copy after checking scratch capacity. Never hard-link mutable case files.",
+    "input_seal_gate": "Each arm's full zero-time field seal and immutable case input hashes must equal the common baseline immediately before solver launch.",
+    "output_isolation": "Each arm has its own case tree, solver log, function-object output, timer output, force output, lifecycle record, and validation JSON.",
+    "post_solver_gate": "Reseal each arm's zero-time fields and confirm no zero-time mutation; leave solver-generated time directories/postProcessing isolated per arm."
+  },
+  "mpi_and_runtime_controls": {
+    "method": "MPICH_RANK_REORDER_METHOD=3",
+    "control_order_file": "identity sequence 0 through 511",
+    "candidate_order_file": "render pinned candidate assignment against actual identity probe slots on this allocation; rank zero remains in first slot",
+    "order_display": "MPICH_RANK_REORDER_DISPLAY=1 and retain output for all preparation and solver launches",
+    "launcher": "mpiexec -n 512 --cpu-bind thread",
+    "threads": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "WM_NCOMPPROCS": "4"
+    },
+    "transport": {
+      "FI_OFI_RXM_USE_SRX": "0",
+      "all_other_effective_FI_variables": "inherited after one module setup, captured and required identical across arms"
+    },
+    "other_inherited_environment": "Capture and compare module list, OpenFOAM version/precision, Cray MPICH/PALS versions, compiler, launcher, linked MPI libraries, relevant MPICH variables, and relevant WM variables. Explicitly unset or reject conflicting MPICH_RANK_ORDER.",
+    "per_allocation_mapping_gate": "Before each arm, rerun identity and candidate MPI placement probes under the exact arm launcher, binding, and order-file settings. Require four allocated hosts, 128 unique physical cores per host, strict expected physical NUMA-domain counts, and every MPI_COMM_WORLD rank at the intended host/core/NUMA identity slot. Any unprovable component stops before that solver arm.",
+    "diagnostic_probe_scope": "Startup mapping evidence only; not solver-time CPU residency or memory page placement."
+  },
+  "solver_work_and_validation": {
+    "command": "simpleFoam -parallel",
+    "time_interval": [
+      1,
+      150
+    ],
+    "timed_sample_indices": [
+      2,
+      150
+    ],
+    "expected_timed_samples_per_run": 149,
+    "outlier_policy": "Preserve and include every sample; no trim, downweight, warm-up run, shortened endpoint, or quiet retry.",
+    "validator": "hpc-experiments/nscc-cpu-four-node-confirm-20261023/payload/validate-solve.py",
+    "required_per_run_checks": [
+      "OpenFOAM 2512 double precision and native End without fatal/MPI failure",
+      "512 ranks on four native hosts with 128 ranks per host",
+      "Times 1 through 150 exactly once and fixed iteration counts at every step",
+      "149 positive finite solver-log and time-function samples with exact time-index and accumulated-time agreement",
+      "150 finite force-coefficient rows matching solver times",
+      "full mean, median, linear p95, maximum/time, IQR diagnostics, all raw samples, force outputs, and run logs retained"
+    ],
+    "cross_arm_numerics": "Report per-time force/output differences. Rank reordering may change floating-point reduction order. Do not require bitwise-identical final fields or claim numerical equivalence absent a separately preregistered tolerance."
+  },
+  "resource_plan": {
+    "nodes": 4,
+    "cores": 512,
+    "ranks": 512,
+    "gpus": 0,
+    "placement": "scatter:excl",
+    "queue_and_project": "normal / CPU project 59000042",
+    "recommended_walltime_seconds": 3600,
+    "internal_deadline_seconds": 3420,
+    "cleanup_margin_seconds": 180,
+    "core_hour_rate_su_per_core_hour": 1,
+    "maximum_requested_allowance_su": 512,
+    "planning_estimate_seconds": 2781,
+    "planning_estimate_minutes": 46.4,
+    "estimate_basis": "One prior confirmation wrapper 1133.66 s including one 549.16 s solver, plus three additional solver runs at the same 549.16 s each; excludes extra arm copies, per-arm probes, and expanded validation.",
+    "45_minute_option_seconds": 2700,
+    "45_minute_option_max_su": 384,
+    "45_minute_option_recommended": false,
+    "scratch_copy_minimum_for_four_arm_zero_fields_bytes": 6868385060,
+    "scratch_copy_note": "Approximate 1.717 GB initialized zero-field inventory per copy times four arms; mesh, logs, output, baseline, and filesystem metadata add space. Verify actual quota and free space before copying.",
+    "accounting_note": "Allowance is the request-time core-hour ceiling, not posted billing. Final PBS accounting and actual charge require separate review."
+  },
+  "telemetry_and_claim_limits": {
+    "heavy_profiling_in_solver_window": false,
+    "retained_observations": [
+      "phase timestamps",
+      "native stage logs/returns",
+      "rank mapping probes",
+      "effective environment",
+      "native solver and function-object timing",
+      "ordinary PBS terminal records"
+    ],
+    "not_collected_unless_separately_qualified": [
+      "per-rank solver CPU time",
+      "CPU frequency",
+      "NUMA page residency",
+      "NUMA traffic",
+      "network bytes/traffic",
+      "MPI wait time"
+    ],
+    "comparison_summary": "Report all four run distributions and both paired A-minus-B block differences. Time steps are serially correlated; do not treat 298 samples per treatment as independent replications or compute an independent confidence interval from them.",
+    "claim_scope": "One allocation can test an allocation-specific effect of the validated MPI rank ordering under matched controls. It cannot alone establish general speedup, causal bottleneck, cross-allocation stability, or contest acceptance."
+  }
+}
