@@ -1,0 +1,112 @@
+INFO:    squashfs image was compressed with lzo, if it failed to run, please contact image's author
+INFO:    squashfs image was compressed with lzo, if it failed to run, please contact image's author
+INFO:    Mounting image with FUSE.
+WARNING: squashfuse mount failed, falling back to extraction: failed to load image: invalid SIF magic
+INFO:    Converting SIF file to temporary sandbox...
+/usr/local/lib/python3.12/dist-packages/torchao/quantization/quant_api.py:1731: SyntaxWarning: invalid escape sequence '\.'
+  """Configuration class for applying different quantization configs to modules or parameters based on their fully qualified names (FQNs).
+{
+  "activation_quantization_diagnostic": {
+    "activation_dtype": "torch.float8_e4m3fn",
+    "activation_fp8_absmax_within_cast_limit": true,
+    "activation_fp8_max": 448.0,
+    "activation_fp8_min": -448.0,
+    "activation_quantized_finite": true,
+    "activation_scales_finite_positive": true,
+    "activation_scales_max": 0.00749860517680645,
+    "activation_scales_min": 0.005022321827709675,
+    "activation_values_at_fp8_limits": 49,
+    "actual_vs_direct_division": {
+      "byte_pairs": {
+        "0x69->0x6a": 1,
+        "0x73->0x74": 1,
+        "0xf1->0xf2": 1
+      },
+      "element_count": 4096,
+      "mismatch_count": 3,
+      "mismatch_fraction": 0.000732421875
+    },
+    "actual_vs_reciprocal_multiply": {
+      "byte_pairs": {
+        "0x69->0x6a": 1,
+        "0x73->0x74": 1,
+        "0xf1->0xf2": 1
+      },
+      "element_count": 4096,
+      "mismatch_count": 3,
+      "mismatch_fraction": 0.000732421875
+    },
+    "dequantized_vs_fp32_input": {
+      "max_abs_error": 0.11830377578735352,
+      "relative_l2": 0.02556544728577137,
+      "rms_abs_error": 0.026119044050574303,
+      "rounding_bound": "half the larger adjacent positive E4M3FN spacing around the FP32 normalized input, scaled by the actual group scale, plus 4 FP32 epsilons in normalized space",
+      "rounding_bound_elements": 4096,
+      "rounding_bound_max_abs": 0.11997928470373154,
+      "rounding_bound_violations": 0
+    },
+    "input_absmax": 3.359375,
+    "input_dtype": "torch.bfloat16",
+    "input_shape": [
+      16,
+      256
+    ],
+    "scale_dtype": "torch.float32",
+    "scale_shape": [
+      16,
+      2
+    ]
+  },
+  "checks": {},
+  "device": {
+    "capability": [
+      9,
+      0
+    ],
+    "name": "NVIDIA H100 80GB HBM3",
+    "uuid": "f28ea8ef-b4e7-5547-f51e-0bd45cfb6168",
+    "visible_devices": "GPU-f28ea8ef-b4e7-5547-f51e-0bd45cfb6168"
+  },
+  "elapsed_seconds": 22.922406170982867,
+  "error": "relative-L2 gate failed: baseline/oracle=0.0229244, EP5/oracle=0.0229791, EP5/EP1=0.00232612; threshold=0.02; partial metrics persisted",
+  "error_type": "RuntimeError",
+  "geometry": {
+    "block_shape": [
+      128,
+      128
+    ],
+    "ep_size": 5,
+    "hidden_size": 256,
+    "intermediate_size": 128,
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "physical_experts_per_virtual_rank": 26,
+    "tokens": 16,
+    "topk": 4
+  },
+  "outputs_partial": {
+    "ep1_vs_oracle_relative_l2": 0.022924376651644707,
+    "ep5_vs_ep1_relative_l2": 0.002326115034520626,
+    "ep5_vs_oracle_relative_l2": 0.022979117929935455
+  },
+  "scope": "One-GPU synthetic MoE math only; no distributed all-reduce is claimed.",
+  "seed": 2026,
+  "software": {
+    "hpc_fuse_moe_blockwise_signature": "(x: torch.Tensor, x_scale: torch.Tensor, gate_up_weight: torch.Tensor, gate_up_weight_scale: torch.Tensor, down_weight: torch.Tensor, down_weight_scale: torch.Tensor, topk_ids: torch.Tensor, topk_scale: torch.Tensor, rank_ep: int, num_expert_total: int, shared_output: torch.Tensor = None, output: torch.Tensor = None) -> torch.Tensor",
+    "hpc_module": "/usr/local/lib/python3.12/dist-packages/hpc/__init__.py",
+    "hpc_ops": "0.0.1.dev0+gab1a402",
+    "native_extension_bytes": 122021936,
+    "native_extension_path": "/usr/local/lib/python3.12/dist-packages/hpc/_C.abi3.so",
+    "source_image_nscc_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh",
+    "torch": "2.11.0+cu130",
+    "verified_runtime_source_sha256": {
+      "/sgl-workspace/sglang/python/sglang/kernels/ops/quantization/fp8_kernel.py": "c690ea19a6ca401c07e60a835c2470039d8f99e1574196f0d5e14e3c6797c742",
+      "/sgl-workspace/sglang/python/sglang/srt/layers/moe/moe_runner/hpc_ops.py": "c138600761d1aefa039eb1048f94fcfe7e6ecc7e7df02f55390aee9ac569f16f",
+      "/usr/local/lib/python3.12/dist-packages/hpc/fuse_moe.py": "28bb81f0e04e96c921edce31aa8902586ca76c32600a82224848174aa41d0b88"
+    }
+  },
+  "started_unix": 1792829204.7282326,
+  "status": "ERROR",
+  "traceback": "Traceback (most recent call last):\n  File \"/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/hpc-ops-replica-r2-20261024/runs/224460.pbs111/submitted/run_gpu.py\", line 448, in main\n    result = run(args.out)\n             ^^^^^^^^^^^^^\n  File \"/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/hpc-ops-replica-r2-20261024/runs/224460.pbs111/submitted/run_gpu.py\", line 366, in run\n    raise RuntimeError(f\"relative-L2 gate failed: baseline/oracle={oracle_error:.6g}, EP5/oracle={candidate_error:.6g}, EP5/EP1={baseline_pair_error:.6g}; threshold=0.02; partial metrics persisted\")\nRuntimeError: relative-L2 gate failed: baseline/oracle=0.0229244, EP5/oracle=0.0229791, EP5/EP1=0.00232612; threshold=0.02; partial metrics persisted\n"
+}
+INFO:    Cleaning up image...

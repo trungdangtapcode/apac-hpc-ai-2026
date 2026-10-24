@@ -1,0 +1,69 @@
+#!/bin/bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-hpc-replica-r2
+#PBS -l select=1:ncpus=8:ngpus=1:mpiprocs=1
+#PBS -l walltime=00:10:00
+#PBS -j oe
+
+set -euo pipefail
+T0=$(date +%s)
+CONTAINER_DEADLINE=$((T0+480))
+bundle=${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}
+run="$bundle/runs/${PBS_JOBID:?PBS_JOBID is required}"
+image=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+mkdir -p "$run/submitted" "$run/output"
+cp "$bundle/benchmark.pbs" "$bundle/run_gpu.py" "$bundle/cpu_fixture.py" \
+   "$bundle/SOURCE_PROVENANCE.json" "$bundle/SOURCE_SHA256SUMS" \
+   "$bundle/SHA256SUMS" "$bundle/README.md" "$bundle/CPU_FIXTURE_RESULTS.md" \
+   "$bundle/cpu_fixture.json" \
+   "$run/submitted/"
+cp -a "$bundle/pinned-source" "$bundle/hpc-package" "$run/submitted/"
+exec >"$run/job.log" 2>&1
+cd "$run/submitted"
+sha256sum --check SHA256SUMS
+sha256sum --check SOURCE_SHA256SUMS
+printf 'JOB_ID=%s\nSTART_UTC=%s\nHOST=%s\n' "$PBS_JOBID" "$(date -u +%FT%TZ)" "$(hostname -f)"
+[[ -r $image ]] || { echo "FATAL: pinned SGLang image is unreadable: $image"; exit 2; }
+image_bytes=$(stat -c %s "$image")
+[[ $image_bytes == 26476240896 ]] || { echo "FATAL: image size mismatch: $image_bytes"; exit 2; }
+printf 'IMAGE=%s\nIMAGE_BYTES=%s\n' "$image" "$image_bytes"
+printf 'HOST_CUDA_VISIBLE_DEVICES=%s\n' "${CUDA_VISIBLE_DEVICES:-unset}"
+host_visible=${CUDA_VISIBLE_DEVICES:-}
+[[ -n $host_visible ]] || { echo 'FATAL: scheduler did not provide CUDA_VISIBLE_DEVICES; refusing to invent a mask'; exit 2; }
+[[ $(awk -F, '{print NF}' <<<"$host_visible") == 1 ]] || { echo "FATAL: expected one assigned visible GPU, got $host_visible"; exit 2; }
+nvidia-smi -i "$host_visible" --query-gpu=index,uuid,name,driver_version,clocks.sm,clocks.mem,power.draw,memory.used --format=csv > "$run/output/gpu-before.csv"
+
+# Non-login shell: initialize Modules only when needed, then load the exact runtime module.
+if ! type module >/dev/null 2>&1; then
+  source /cm/local/apps/environment-modules/4.5.3/init/bash
+fi
+type module >/dev/null 2>&1 || { echo 'FATAL: module initialization failed'; exit 2; }
+module load singularity/4.1.5
+singularity --version
+
+private_home=$(mktemp -d "${TMPDIR:-/tmp}/ap42-hpc-replica.XXXXXXXX")
+mkdir -p "$private_home/.cache"
+cleanup() {
+  rc=$?
+  trap - EXIT
+  nvidia-smi -i "$host_visible" --query-gpu=index,uuid,name,memory.used --format=csv >"$run/output/gpu-after.csv" 2>"$run/output/cleanup.stderr" || :
+  timeout --kill-after=1s 3s rm -rf -- "$private_home" || :
+  exit "$rc"
+}
+trap cleanup EXIT
+remaining=$((CONTAINER_DEADLINE-$(date +%s)))
+(( remaining > 0 )) || { echo 'FATAL: allocation-relative container deadline expired'; exit 124; }
+# The host-side PBS mask is passed unchanged through the explicit env shim.
+# Do not replace it with an unrestricted host list or assume an ordinal.
+timeout --signal=TERM --kill-after=10s "${remaining}s" singularity exec --nv --cleanenv --no-home \
+  --bind "$bundle:$bundle,$run:$run,/scratch:/scratch,$private_home:/tmp/ap42-hpc-replica-home" "$image" \
+  /usr/bin/env \
+  PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+  LD_LIBRARY_PATH=/.singularity.d/libs:/usr/local/nvidia/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib64:/usr/local/lib \
+  HOME=/tmp/ap42-hpc-replica-home XDG_CACHE_HOME=/tmp/ap42-hpc-replica-home/.cache PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES="$host_visible" QWEN_IMAGE_PATH="$image" \
+  python3 "$run/submitted/run_gpu.py" --out "$run/output/result.json" \
+  > "$run/output/stdout.log" 2> "$run/output/stderr.log"
+
+nvidia-smi -i "$host_visible" --query-gpu=index,uuid,name,driver_version,clocks.sm,clocks.mem,power.draw,memory.used --format=csv > "$run/output/gpu-after.csv"
+printf 'JOB_COMPLETE_UTC=%s\n' "$(date -u +%FT%TZ)"
