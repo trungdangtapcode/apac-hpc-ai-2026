@@ -1,0 +1,7 @@
+# MPI affinity control matrix and strict placement qualification
+
+This derived diagnostic follows observed affinity expansion in job25956623. It runs two advisory controls without a shim: method 0 with explicit thread binding, then method 3 using documented PALS_CPU_BIND=thread in place of the deprecated global bind option. Their return codes and detailed masks remain evidence even if they fail. Each advisory launch has a 25-second deadline and the failing topology probe uses MPI_Abort after all ranks emit diagnostics, avoiding the previously observed shutdown wait. Neither control qualifies the target mapping by itself.
+
+The strict identity and candidate arms use method 3, the original explicit binding and a new opt-in PMPI shim loaded only by the application env after mpiexec. It saves and restores the MPI-calling thread's exact pre-init singleton CPU mask and verifies it after PMPI_Init/PMPI_Init_thread. The C probe independently requires single-CPU affinity plus local core/NUMA proof. Identity must prove four hosts × 128 physical cores, eight domains × 16 ranks. Candidate must implement the exact prior aggressive logical assignment on those measured slots. No gates are weakened; the balanced assignment is not substituted.
+
+The shim is experimental. Synthetic tests establish code behavior only. The job compiles it with actual MPI on the allocated node, retains linked-library evidence and strict actual-world mapping logs. It does not pin MPI helper threads or prove solver-time residency. No OpenFOAM solver or speedup is measured.
