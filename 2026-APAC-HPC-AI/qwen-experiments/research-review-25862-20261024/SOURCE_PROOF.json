@@ -1,0 +1,33 @@
+{
+  "image_path": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+  "image_bytes": 26476240896,
+  "sglang_git_head": "29481685462732237d80d86076d6563e1f658102",
+  "extraction": "Selected source files read-only extracted from the pinned image; no source/candidate file was edited.",
+  "files": [
+    {
+      "path": "sgl-workspace/sglang/python/sglang/srt/speculative/eagle_worker_common.py",
+      "sha256": "df292a8852278c0d2fee146db7859de6f15370b9427b99f8b646f8e0dff85b5f",
+      "lines": "461-588",
+      "finding": "Builds the target verification forward batch from EAGLE draft tokens, runs target_worker.forward_batch_generation(is_verify=True), then calls eagle_sample."
+    },
+    {
+      "path": "sgl-workspace/sglang/python/sglang/srt/speculative/eagle_utils.py",
+      "sha256": "3c71d7ef97a12a345614c5d40cc7a176ab79afa40013cd7fcd4a6c8067fe87bc",
+      "lines": "646-736; 371-395",
+      "finding": "When all requests are greedy, applies torch.argmax to next_token_logits for all verification rows and passes the results through the CUDA verify_tree_greedy kernel."
+    },
+    {
+      "path": "sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py",
+      "sha256": "221032bf7ae57d2ebdb96801150a48d23244840a9b7938dc586e911671c11102",
+      "lines": "1643-1677",
+      "finding": "Ordinary decode uses the normal sampler and per-position decode positions; this is a distinct path from EAGLE batch verification."
+    },
+    {
+      "path": "sgl-workspace/sglang/python/sglang/srt/speculative/eagle_worker_v2.py",
+      "sha256": "c99bf6d52c6477f4afd7019d91de4e5a3845d3331a283bfdac41d8fcb11f9b21",
+      "lines": "1495-1510",
+      "finding": "EAGLE3 worker delegates to shared target verification using configured steps/top-k/draft-token count."
+    }
+  ]
+}
