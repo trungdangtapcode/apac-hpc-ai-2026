@@ -1,0 +1,67 @@
+{
+  "task": "FP8 KV source preflight",
+  "reviewed_at_utc_date": "2026-10-23",
+  "contest_rules": {
+    "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/snapshot/1. Qwen3 AI Task Rules.md",
+    "sha256": "aa0b228ee1090832493f2fda7dfa3eaea098593cf9eb9a18444be934dbf0358a",
+    "lines": [
+      "18-25: task rules",
+      "188-191: weights and KV precision",
+      "217-220: accuracy check"
+    ]
+  },
+  "source_image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "extraction": "Read-only selected-file extraction into ./source-image/",
+  "pinned_image_files": [
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/server_args.py",
+      "sha256": "79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f",
+      "lines": "658-697, 1977-1989"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/mem_cache/kv_cache_dtype.py",
+      "sha256": "1931b22b3e271e0a2fc6b541ba1b3c0b00c01a01c479e6b8034be26ec30c0c41",
+      "lines": "22-92"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/mem_cache/kv_cache_configurator.py",
+      "sha256": "a99b6e25efcd7c56a72c215fcd98ba7fe70bd53a37e8e4b8cec6205d3c45bdaf",
+      "lines": "KV cache quant configurator included for source provenance; no additional runtime conclusion inferred"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/mem_cache/memory_pool.py",
+      "sha256": "29ef7b37d2e12b1a4b674b97c33b3ceb05cd8421a3742eb33cb6a75f52896ddc",
+      "lines": "1575-1606, 1628-1634, 2051-2129, 2193-2212"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/layers/attention/flashinfer_backend.py",
+      "sha256": "3cb0b4d5c4d3e8e94724d07c91130ab69d85e73c84cefaf3f69a5ad7813f5c7e",
+      "lines": "348-360, 899-902, 1284-1294, 1416-1425, 1480-1484, 2416-2422"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+      "sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601",
+      "lines": "2924-2942: native descriptor serialization"
+    },
+    {
+      "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/disaggregation/common/conn.py",
+      "sha256": "ba33d63c6920f87b55cf57f9224bb7d08af67e1476bd70b8e1a70067f33a29d7",
+      "lines": "528-544: P/D page-size and dtype matching"
+    }
+  ],
+  "transport_patch_source": {
+    "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/22294/submitted/nixl-conn.py",
+    "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "lines": "693-724, 748-769, 842-866, 956-983: KV descriptor geometry; 1255-1292: registration; 1868-1904: aux request-slot transfer"
+  },
+  "historical_run_config": {
+    "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-pd-eager-prefill-r3-20261021/collected/223055.pbs111/runs/223055.pbs111/config.json",
+    "sha256": "a8ba77b901282adfaa99e93d511d9baa2daf2eb9ce7ce2b4b47b8a94c039b92d",
+    "use": "Historical configuration evidence only; kv_dtype is auto and no quantization-param path is present."
+  },
+  "scope": {
+    "read_only": true,
+    "gpu_or_model_loaded": false,
+    "claim": "Source qualification only. No runtime, accuracy, or performance result."
+  }
+}
