@@ -1,0 +1,36 @@
+{
+  "job": "25864",
+  "state": "FAILED",
+  "exit_code": "1:0",
+  "elapsed_s": 299,
+  "scope": "Startup validation failure before semantic/client performance stages",
+  "observed_allocation_records": {
+    "prefill-0": [
+      "[2026-10-24 17:55:21 TP3] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:21 TP2] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:21 TP1] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:21 TP0] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB"
+    ],
+    "prefill-1": [
+      "[2026-10-24 17:55:24 TP2] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:24 TP0] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:24 TP3] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB",
+      "[2026-10-24 17:55:24 TP1] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 3062395, K size: 34.32 GB, V size: 34.32 GB"
+    ],
+    "decode-0": [
+      "[2026-10-24 17:54:58 TP7 EP7] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP6 EP6] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP1 EP1] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP3 EP3] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP5 EP5] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP4 EP4] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP2 EP2] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB",
+      "[2026-10-24 17:54:58 TP0 EP0] KV Cache is allocated. dtype: torch.float8_e4m3fn, #tokens: 4296239, K size: 48.14 GB, V size: 48.14 GB"
+    ]
+  },
+  "cause": "Inherited check-kv-ranks.py hardcoded torch.bfloat16 while configured and actual allocations were torch.float8_e4m3fn. This is our checker bug; no measured FP8 loss exists from this failed run.",
+  "evidence": "All16 actual allocation records retained; derivedS52 CPU parser/runtime replay accepts exactFP8 and rejectswrongdtype/missing/duplicatedranks.",
+  "quality": "UNKNOWN",
+  "performance_export_exists": false,
+  "correction": "New frozenS52, actualjob25920, preserves model/benchmark/qualitysettings and fixes checker only. Old raw bytes unchanged."
+}
