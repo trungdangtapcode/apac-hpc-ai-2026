@@ -1,0 +1,19 @@
+{
+  "bundle": "s61-h200-eagle3-decode-only-kvfix",
+  "changes": [
+    "Enable EAGLE3 draft arguments and role-local draft verification only for decode-0.",
+    "Require target-only args and one BF16 KV allocation on both prefill workers.",
+    "Adjust local gate to accept the reviewed S59 control state schema.",
+    "Set candidate prefill KV geometry expectation to the measured S59 target-only value.",
+    "Fix role-aware KV geometry validation: target-only prefill has 188 target regions; decode with EAGLE3 has 188 target plus two draft regions.",
+    "Pass the frozen decode draft flag into KV geometry validation.",
+    "Set unique bundle path and Slurm job name for the fresh retry."
+  ],
+  "created_utc": "2026-10-24",
+  "derived_from": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s61-h200-eagle3-decode-only",
+  "hypothesis": "Decode-only speculation can retain the measured ITL reduction while avoiding added draft initialization and state on prefill workers, improving TTFT tail and joint SLA.",
+  "parent_sha256sums_sha256": "f1d595ff854dfb4796865e12a88b01f637ddda1f64246467e1f5d6d44ef4f115",
+  "quality": "UNKNOWN_NOT_EVALUATED",
+  "ranked": false,
+  "schema": "derived-serving-bundle-v1"
+}
