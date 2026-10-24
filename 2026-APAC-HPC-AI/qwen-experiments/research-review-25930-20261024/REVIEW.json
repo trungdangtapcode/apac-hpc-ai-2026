@@ -1,0 +1,262 @@
+{
+  "actual_change_and_control": "The control used target-only inference. Actual server settings and source identities are recorded under runs/25930/config.json, launch-context.json, and submitted-payload/SOURCE_PROVENANCE.json. The workload requested one N=64 screen using fixed 4000:200 synthetic lengths, seed 2026, warmup 20 s, profile 40 s, and 30 s grace.",
+  "bundle_manifest_sha256": "212b6f392fe22ad000bd7e62634b20ba1d74aebeabbe968205f8c29e46f4016d",
+  "evidence_sha256": {
+    "runs/25930.err": "731e12647df9baf630de078b20fb973c49cc378b2d0bebf3a03fe0c9e33a1c2a",
+    "runs/25930.out": "ee95d89d1d9a4412b1cd6a6ea2953d649cb19d8a89024a73c963c36382a15732",
+    "runs/25930/benchmark-task.log": "d27e3abd3337b90d212a9cb4c7a09e6248353b8ff11d61c9db9a295fa32dc652",
+    "runs/25930/config.json": "49af5ed521b2b9841a1d9bd3d51eefbd61dc9433c107d347365a6776fb26a8c2",
+    "runs/25930/decode-0.log": "cc0dfe54564a39bf40ee67d5541536ce0055adade279124f58f17be165d9079e",
+    "runs/25930/head-performance-check.json": "d90b3e0801ba95791435b547c2c3fdcf17ae129ce33bbcaa95346fcb74b98b6f",
+    "runs/25930/kv-geometry-validation.json": "9451025946144b5e5952cd351dcc9d974c3dcf500f0d3238656c0f3cd1932e74",
+    "runs/25930/launch-context.json": "63a181ea014fecf04d5b2e29656d08fea15512870b2a3ec6ff5302938cb6ed03",
+    "runs/25930/pair-warmup-context.json": "c12481d2dc19ba995edb13f93d025feb48926b6aae137c9d9c2be27bcb765536",
+    "runs/25930/pair-warmup-receipts/receipt-05794e730adec3d7c049e1c0bfedd8abcd5fdbaeb0365d979f79ddb7c488e0c6.json": "29f44c7840c4a68d848de184c4227110be342a259b2f412d7c5983f870c91228",
+    "runs/25930/pair-warmup-receipts/receipt-5e159418d3fb87686af3c2a3322109db9cc14f96ba3ec55ddbb896fdfe58b1c4.json": "04517d5dc47411afc0a29d095ccaf3ecfde32bfd9a653167ffba6855992ef979",
+    "runs/25930/phase-markers.jsonl": "104a84ffd5f2c88347992a2dd541971af6dfe1bcc0e1bb0322c077f235cc2397",
+    "runs/25930/prefill-0.log": "9deb5ebc3e17a354866f9358d0035475e628677c86e757ab9d2ab241434cdb99",
+    "runs/25930/prefill-1.log": "654325e86e521cea5cf88cd04c8192d066e66ed124c5108f2a20e56ab79e260b",
+    "runs/25930/runtime-readiness.json": "a7fbc971b211f2e169ed783d298eeb30d67bac5142933d4e07e6bb6cf886ea3d",
+    "runs/25930/screen/n64/artifacts/profile_export.jsonl": "71f51132f36d1e62c41b1b17df0709a8caa7631009ac73380dccb05cff2beea1",
+    "runs/25930/screen/n64/artifacts/profile_export_aiperf.json": "5c5e07f5f14d3c7082b3ce3338f446636b4e198d04dbf64966db1414b08f9a14",
+    "runs/25930/screen/n64/client.log": "9ff9850c49599f6c430a603991f62c49ec96f3d588f1702076b5f6ec946ca725",
+    "runs/25930/submitted-payload/SHA256SUMS": "212b6f392fe22ad000bd7e62634b20ba1d74aebeabbe968205f8c29e46f4016d",
+    "runs/25930/submitted-payload/SOURCE_PROVENANCE.json": "661d25e5b28d73ebeb938d4451a72ed88a09cf4bfdb3520a3a570e29f859cf9d",
+    "runs/25930/submitted-payload/benchmark.sh": "8f08825e8ec0853c99ea8d80b76abf00dc8790a3e3a4becb0adc57ba2a89907a",
+    "runs/25930/summary.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "experiment_id": "s55-h200-unranked-eagle-perf-25930-acb0f11e-1b87-489e-a4e0-6b5964055cb7",
+  "failure": {
+    "actual_error": "The benchmark log reports that python3 cannot open runs/25930/summarize.py. The submitted immutable bundle contains summarize.py, but submitted-payload/benchmark.sh invokes python3 \"$ART/summarize.py\" where ART is the run-output directory. The file is not copied there. With set -e, the script exits before phase-end, smoke, and retrieval gates. summary.json is zero bytes; head-performance-check.json fails to parse it.",
+    "head_check": {
+      "error": "Expecting value: line 1 column 1 (char 0)",
+      "state": "FAIL"
+    },
+    "missing_outputs": [
+      "output-smoke.json",
+      "long-context-check.json"
+    ],
+    "stage": "after profiling export, before completion of benchmark stage"
+  },
+  "job_id": "25930",
+  "limits": [
+    "No valid completed control score",
+    "No matched candidate result",
+    "No exact-output quality gate or official accuracy evaluation",
+    "No kernel-level causal profile",
+    "Raw input artifact retained in run directory and not copied into this review"
+  ],
+  "next_decision": "Root submitted the independent helper-path fix in S57/S58 (jobs 25940/25941). Do not change the frozen S55 run. A future review must require the complete raw protocol gates before interpreting a control or candidate performance result. Job 25935 was cancelled while pending; no retry is implied by this review.",
+  "partial_profile_only": {
+    "interpretation": "AIPerf captured 367 profiling requests, 0 recorded errors and 0 cancellations, but raw good_request_count=0 and goodput=0 under the configured thresholds. Partial aggregate values below are measurements from the raw export only; they are not a valid completed control protocol or qualified throughput score. The required 8-request smoke and 12-item retrieval checks have no output files and did not run. No official model-quality conclusion is possible.",
+    "raw_metrics": {
+      "benchmark_duration": {
+        "avg": 46.080708352,
+        "unit": "sec"
+      },
+      "error_summary": [],
+      "good_request_count": {
+        "avg": 0.0,
+        "unit": "requests"
+      },
+      "goodput": {
+        "avg": 0.0,
+        "unit": "requests/sec"
+      },
+      "inter_token_latency": {
+        "avg": 29.145435138504357,
+        "count": 367,
+        "max": 31.11193751758794,
+        "min": 23.57909527135678,
+        "p1": 24.898680643718592,
+        "p10": 27.646509102512564,
+        "p25": 28.887097022613062,
+        "p5": 26.60841052613065,
+        "p50": 29.09100175376884,
+        "p75": 29.947150030150755,
+        "p90": 30.32298826130653,
+        "p95": 30.95742707487437,
+        "p99": 31.08118851879397,
+        "std": 1.2220217054847156,
+        "sum": 10696.3746958311,
+        "unit": "ms"
+      },
+      "output_token_count": {
+        "avg": 199.99727520435968,
+        "count": 367,
+        "max": 200.0,
+        "min": 199.0,
+        "p1": 200.0,
+        "p10": 200.0,
+        "p25": 200.0,
+        "p5": 200.0,
+        "p50": 200.0,
+        "p75": 200.0,
+        "p90": 200.0,
+        "p95": 200.0,
+        "p99": 200.0,
+        "std": 0.05212840999920708,
+        "sum": 73399.0,
+        "unit": "tokens"
+      },
+      "output_token_throughput": {
+        "avg": 1592.7340379626733,
+        "unit": "tokens/sec"
+      },
+      "profile_settings": {
+        "concurrency": 64,
+        "grace_seconds": 30,
+        "output_tokens_mean": 200,
+        "output_tokens_stddev": 0,
+        "profiling_seconds_requested": 40,
+        "random_seed": 2026,
+        "source": "actual runs/25930/submitted-payload/benchmark.sh and client log",
+        "synthetic_input_tokens_mean": 4000,
+        "synthetic_input_tokens_stddev": 0,
+        "warmup_seconds": 20
+      },
+      "raw_profile_rows_by_phase": {
+        "profiling": 367,
+        "warmup": 144
+      },
+      "request_count": {
+        "avg": 367.0,
+        "unit": "requests"
+      },
+      "time_to_first_token": {
+        "avg": 1750.5116098746591,
+        "count": 367,
+        "max": 7773.277470999999,
+        "min": 320.51826,
+        "p1": 403.02374992,
+        "p10": 722.1671792,
+        "p25": 956.393573,
+        "p5": 540.2382397,
+        "p50": 1344.041933,
+        "p75": 1586.78651,
+        "p90": 4081.7760344,
+        "p95": 5845.857020299999,
+        "p99": 7510.53485236,
+        "std": 1554.7979756186323,
+        "sum": 642437.760824,
+        "unit": "ms"
+      },
+      "total_isl": {
+        "avg": 1462862.0,
+        "unit": "tokens"
+      },
+      "total_osl": {
+        "avg": 73399.0,
+        "unit": "tokens"
+      },
+      "was_cancelled": false
+    }
+  },
+  "question_and_prior_evidence": "Measure an unranked EAGLE performance pair separately from the unresolved exact-output discrepancy documented in review 25862. Job 25930 is the target-only control arm derived from S55; speculative fields are null in captured arguments. The matched candidate job 25935 remained pending and was cancelled, so no pairwise performance comparison exists.",
+  "related_candidate_terminal": {
+    "elapsed_s": 0,
+    "end": "2026-10-24T14:05:29",
+    "exit_code": "0:0",
+    "job_id": "25935",
+    "node_list": "None assigned",
+    "source": "read-only sacct query covering jobs 25930, 25935, and 25936",
+    "start": null,
+    "state": "CANCELLED by 3042"
+  },
+  "runtime_evidence": {
+    "deterministic_runtime": "PASS from captured source-shaped runtime checker; three roles and all 16 TP ranks recorded BF16 KV and deterministic=true",
+    "full_client_protocol": "FAIL/incomplete; profiler output exists but summarization and post-profile checks did not complete",
+    "kv_geometry": "PASS for 188 prefill KV regions per rank; 32 pre/post receipts retained (16 ranks x 2 snapshots); decode uncertainty remains explicitly not collected",
+    "semantic_warmup": "Two prefill-to-decode receipts, HTTP 200, both retained"
+  },
+  "runtime_log_review": {
+    "kernel_profile": "not collected",
+    "role_logs": "All three role logs retain startup, BF16 KV allocation, deterministic runtime, and NIXL/geometry messages consistent with the passing checkers. The final Slurm lines show steps cancelled by signal Killed after the benchmark task had already failed on the summarize helper path; this is teardown, not evidence of an earlier model/runtime error."
+  },
+  "schema": "actual-run-review-v1",
+  "telemetry": {
+    "roles": {
+      "decode-0-g4.jsonl": {
+        "gpu_utilization_percent_range": [
+          0.0,
+          100.0
+        ],
+        "memory_used_mib_range": [
+          0.0,
+          134924.0
+        ],
+        "power_w_range_raw": [
+          111.33,
+          439.41
+        ],
+        "sample_rows": 100,
+        "sampled_gpu_records": 800,
+        "server_metrics_status_counts": {
+          "None": 61,
+          "URLError": 40
+        },
+        "temperature_c_range": [
+          43.0,
+          64.0
+        ]
+      },
+      "prefill-0-g1.jsonl": {
+        "gpu_utilization_percent_range": [
+          0.0,
+          100.0
+        ],
+        "memory_used_mib_range": [
+          0.0,
+          131626.0
+        ],
+        "power_w_range_raw": [
+          79.49,
+          642.87
+        ],
+        "sample_rows": 97,
+        "sampled_gpu_records": 388,
+        "server_metrics_status_counts": {
+          "None": 76,
+          "URLError": 22
+        },
+        "temperature_c_range": [
+          40.0,
+          68.0
+        ]
+      },
+      "prefill-1-g1.jsonl": {
+        "gpu_utilization_percent_range": [
+          0.0,
+          100.0
+        ],
+        "memory_used_mib_range": [
+          0.0,
+          131626.0
+        ],
+        "power_w_range_raw": [
+          80.63,
+          644.86
+        ],
+        "sample_rows": 96,
+        "sampled_gpu_records": 384,
+        "server_metrics_status_counts": {
+          "None": 77,
+          "URLError": 20
+        },
+        "temperature_c_range": [
+          39.0,
+          70.0
+        ]
+      }
+    },
+    "sampling_scope": "Three role-specific sampler files; sampled GPU records only; no kernel profile was collected. See per-role raw telemetry files. These sample extrema are descriptive only; role process overlap and broad samples prevent causal attribution."
+  },
+  "terminal": {
+    "accounting_source": "accounting.psv",
+    "allocated_gpu_minutes_arithmetic": 140.8,
+    "allocated_gpus": 16,
+    "elapsed_s": 528,
+    "exit_code": "1:0",
+    "state": "FAILED"
+  }
+}
