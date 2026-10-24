@@ -1,0 +1,208 @@
+{
+  "candidate_binding": {
+    "expected_exit_nonzero": true,
+    "state": "UNBOUND_FAIL_CLOSED"
+  },
+  "control_job_25863": {
+    "raw_latency_and_volume": {
+      "completed_output_tokens": 127198.0,
+      "itl_avg_ms": 14.891454227014025,
+      "itl_p95_ms": 15.173383772613064,
+      "raw_output_tokens_per_second": 2934.523412468705,
+      "ttft_avg_ms": 1248.51088988522,
+      "ttft_p95_ms": 2777.02198075
+    },
+    "raw_performance_replay": {
+      "cancelled": 0,
+      "completed": 636,
+      "errors": 0,
+      "good_output_throughput_unit": "tokens/sec",
+      "good_output_tokens_per_second": 2796.146461353221,
+      "good_request_fraction": 0.9528301886792453,
+      "goodput_req_s": 13.980732306766106,
+      "goodput_unit": "requests/sec"
+    },
+    "retrieval": {
+      "errors": 0,
+      "passed": 12,
+      "total": 12
+    },
+    "runtime": {
+      "arm": "control",
+      "prefill_cap": 64,
+      "roles": {
+        "decode-0": {
+          "bf16_kv_records": 8,
+          "decode_graph": "full 1..64",
+          "expected_per_rank": 1,
+          "nixl_rank_records": 8,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "mnnvl",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 8
+        },
+        "prefill-0": {
+          "bf16_kv_records": 4,
+          "decode_graph": "disabled",
+          "expected_per_rank": 1,
+          "nixl_rank_records": 4,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "auto",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 4
+        },
+        "prefill-1": {
+          "bf16_kv_records": 4,
+          "decode_graph": "disabled",
+          "expected_per_rank": 1,
+          "nixl_rank_records": 4,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "auto",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 4
+        }
+      },
+      "scope": "Resolved native arguments, rank-level BF16 KV/NIXL allocations, and startup graph/MNNVL markers only; not a kernel-performance or model-quality proof.",
+      "state": "PASS_FAST_RUNTIME"
+    },
+    "smoke": {
+      "passed": 7,
+      "regressions": [],
+      "total": 8
+    },
+    "source_artifact_sha256": {
+      "decode-0.log": "b0ee787705601572758c00291e5b96c95cf5660a1ca3aa4b5d1611e4815a29ec",
+      "long-context-check.json": "d3cb0740c2a25d88642cc2d926065687ce192336b6bcc8452cb81dfb647056ea",
+      "output-smoke.json": "5fb0dd5cc81f6786bb6001310d2615cf91621bf49be8c8b70254b2315d7c51ab",
+      "prefill-0.log": "d0817a3d0046d55168452fe9d9aa7a3ce7f922832f2b3ce4ba5b1f7a0a64b269",
+      "prefill-1.log": "5c0e1d87f4eb3c32c3db301b30d0820cd8d2accc1cc5ebb513d8087e8d94d800",
+      "screen/n64/artifacts/profile_export.jsonl": "f71b2f639241783744790e0b3809b55406b13426beae185cd75a4ed79e281a24",
+      "screen/n64/artifacts/profile_export_aiperf.json": "680cd05450d7e2bdc525385684177f9f14c69d7060a76aa4fb7e5d8f7cd62b9f",
+      "summary.json": "26caef67c9aa7eb66fbc512e372311fd73fcc842523f160ede746adb8e0c6bd4"
+    }
+  },
+  "historical_candidate_job_25797": {
+    "cap_note": "P cap 48 is the actual historical log state; override is used only to replay parser behavior and is not evidence for prospective P cap 64.",
+    "exact_ID_review": {
+      "comparisons": {
+        "arithmetic": {
+          "candidate_matches_accepted_reference": true,
+          "candidate_repeats_equal": true
+        },
+        "code": {
+          "candidate_matches_accepted_reference": false,
+          "candidate_repeats_equal": true
+        },
+        "long4000": {
+          "candidate_matches_accepted_reference": false,
+          "candidate_repeats_equal": false
+        },
+        "unicode": {
+          "candidate_matches_accepted_reference": false,
+          "candidate_repeats_equal": true
+        }
+      },
+      "geometry_32_receipts": "pass",
+      "job": "25797",
+      "official_accuracy": "not evaluated; this local exact-token failure is not official benchmark disqualification",
+      "runtime_all16": "pass",
+      "semantic_PD_paths": "pass",
+      "state": "FAILED_PREDECLARED_EXACT_TOKEN_DIAGNOSTIC",
+      "token_ids": 1600
+    },
+    "runtime": {
+      "arm": "candidate",
+      "prefill_cap": 48,
+      "roles": {
+        "decode-0": {
+          "bf16_kv_records": 16,
+          "decode_graph": "full 1..64",
+          "expected_per_rank": 2,
+          "nixl_rank_records": 8,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "mnnvl",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 8
+        },
+        "prefill-0": {
+          "bf16_kv_records": 8,
+          "decode_graph": "disabled",
+          "expected_per_rank": 2,
+          "nixl_rank_records": 4,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "auto",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 4
+        },
+        "prefill-1": {
+          "bf16_kv_records": 8,
+          "decode_graph": "disabled",
+          "expected_per_rank": 2,
+          "nixl_rank_records": 4,
+          "prefill_graph": "disabled",
+          "resolved_fast_defaults": {
+            "custom_allreduce_disabled": false,
+            "deterministic": false,
+            "mnnvl_fusion": "auto",
+            "sampling": "flashinfer"
+          },
+          "server_args_records": 1,
+          "tp_ranks": 4
+        }
+      },
+      "scope": "Resolved native arguments, rank-level BF16 KV/NIXL allocations, and startup graph/MNNVL markers only; not a kernel-performance or model-quality proof.",
+      "state": "PASS_FAST_RUNTIME"
+    },
+    "source_log_sha256": {
+      "decode-0": "3c0a9ec4c536cc8592c66fcf1aa7c43142fa1aa3634c1f148a92005ce1d1d854",
+      "prefill-0": "5baed157b82ac578183e1d617ea3d113084fee4ca96f5f23b6235cc21d1eb877",
+      "prefill-1": "efe2ddcf06cec788a8b9182b4993b416c45cd6441c3d56e29254261b38bd194d"
+    }
+  },
+  "negative_runtime_fixtures": {
+    "deterministic_true_rejected": {
+      "error": "ValueError: prefill-0: enable_deterministic_inference=True, expected False",
+      "expected_rejection": true
+    },
+    "missing_native_mnnvl_rank_rejected": {
+      "error": "ValueError: decode-0: native MNNVL initialization missing ranks",
+      "expected_rejection": true
+    },
+    "non_bf16_kv_rejected": {
+      "error": "ValueError: prefill-0: BF16 KV allocation rank/count mismatch: {'1': 2, '3': 2, '2': 2, '0': 2}",
+      "expected_rejection": true
+    }
+  },
+  "raw_metric_units": {
+    "TTFT_and_ITL": "milliseconds; raw AIPerf profile fixture retained at actual run path",
+    "good_output_tokens_per_second": "tokens/sec",
+    "goodput_req_s": "requests/sec"
+  },
+  "schema": "fast-default-pair-cpu-fixtures-v1",
+  "scope": "CPU-only replay of retained actual artifacts and negative parser probes; no H200 run or matched new experiment."
+}
