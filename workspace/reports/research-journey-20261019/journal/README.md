@@ -250,3 +250,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [24 October: remaining CPU grant authorized and MPI affinity failure isolated](entries/20261024-hpc-full-cpu-campaign.md).
 
 - [24 October: real FP8 kernels, speculative output divergence and the owner-approved credit change](entries/20261024-fp8-output-and-credit.md).
+
+- [24 October: five jobs with separate numerical, precision and transport hypotheses](entries/20261024-five-job-hypothesis-wave.md).

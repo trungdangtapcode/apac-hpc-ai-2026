@@ -138,3 +138,7 @@ The first H200 speculative job stopped before the model loaded: a worker's local
 ## 24 October: kernel compatibility and model quality are different tests
 
 A small actual H200 run now confirms that native FP8 KV attention agrees with an independent oracle on the same rounded cache. The full EAGLE attempt also produces real outputs, but its strict token comparison fails. This does not establish an official accuracy failure: the contest compares full benchmark scores. It does require another controlled investigation before any speculative speedup claim. The next target/EAGLE diagnostic will use matched deterministic settings because that flag changes sampling and collectives. [Read the new stage with all results, limits and decisions](../research-journey-20261019/journal/entries/20261024-fp8-output-and-credit.md).
+
+## 24 October: three controlled questions, five queued jobs
+
+The deterministic target now has a real accepted 1,600-token reference. The next speculative run compares with that actual reference. An independent BF16/FP8 KV pair measures performance, while a separate H100 experiment tests serial versus concurrent initialization. The expert-kernel oracle is being corrected from pinned source, with its old failures preserved. [Read the new stage and its limits](../research-journey-20261019/journal/entries/20261024-five-job-hypothesis-wave.md).
