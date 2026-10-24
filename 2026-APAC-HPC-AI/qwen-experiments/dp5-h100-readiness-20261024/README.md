@@ -1,0 +1,7 @@
+# Five-H100 Qwen startup qualification
+
+The native R3 test (224468) passed the original 2% independent numerical threshold at 0.6237% error. It executes five virtual expert partitions serially on one GPU, so it does not prove actual five-rank model loading or collective execution. This new diagnostic starts the real Qwen target with TP5/DP5 and DP attention (effective attention TP1), EP5, 130 physical expert slots and 26 local slots. It checks all five actual map/dtype records and loaded replica row hashes plus native HTTP 200 health. No generation request, full PD service, output accuracy, speed or ranking is measured.
+
+This derives the H200 source candidate, without claiming that its GPU execution passed. Only the hardware contract, cluster paths, PBS/Singularity launcher and portable R3 reference paths change. Runtime source/config/header hashes must match. The observer is enabled only for the model process, after CPU preflights. The image's retained identity comes from prior staging; this controller checks size plus exact relevant runtime source bytes, not a fresh full-image hash. All source/CPU fixtures are prospective, not GPU proof.
+
+Request: one node, five assigned H100 GPUs, at most 17 minutes, maximum 181.333333 SU. Submit after existing AI 224466 to preserve one active AI allocation. Admission must refresh both own PBS queues and project 59010042 credit under CPU-before-AI locks and retain all unposted maxima. Existing 64000 SU owner authorization and zero discretionary buffer remain; no CPU project changes.
