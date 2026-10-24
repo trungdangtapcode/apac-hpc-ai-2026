@@ -1,0 +1,14 @@
+{
+  "schema": "h200-deterministic-target-bundle-validation-v2",
+  "state": "CPU_SOURCE_AND_LOCAL_CHECKS_PASS",
+  "gpu_runtime_validation": "not_run",
+  "gpu_submission": false,
+  "source_contract_test": "pass",
+  "runtime_gate": "requires fresh actual per-role resolved args dtype=bfloat16 and all-rank BF16/NIXL checks; source-backed enforced-disable log branch accepted",
+  "exact_id_gate": "requires 1600 actual IDs and stable target-a/target-b requests, IDs, and finish reasons; old 25585 identity is informational only",
+  "geometry_gate": "16 ranks, two before/after receipts each, 188 target-only KV regions per rank, narrow D unknown-head exception; source-derived expectation pending actual S44 receipts",
+  "prefill_graph_gate": "explicit disabled on both P workers and required in resolved ServerArgs",
+  "repeat_gate_cpu_fixture": "pass; stable output differing from 25585 is accepted, target-a/target-b mismatch fails",
+  "parent_failure": "25807 failed before semantic/reference passes because declared ServerArgs dtype resolved auto",
+  "explicit_dtype": "worker launch command includes --dtype bfloat16 and CPU regression proves S44 omission fails"
+}
