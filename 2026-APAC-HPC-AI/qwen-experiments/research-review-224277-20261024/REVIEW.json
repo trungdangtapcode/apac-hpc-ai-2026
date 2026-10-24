@@ -1,0 +1,940 @@
+{
+  "assessment": {
+    "diagnostics": "Bounded 5-second GPU sampling captured 96-97 samples per role across all 16 GPUs, plus role CPU envelopes and PBS accounting. No NIXL backend/agent trace, NIC counters, RDMA telemetry, or per-operation transfer completion record.",
+    "metadata": "PASS: 16 actual rank receipts across TP4 + TP4 + TP8. All roles have ten matching names/widths/dtypes; P row counts 96 each, D 512. Six loaded-source reports cover conn.py and utils.py on all roles; hashes match across roles.",
+    "native_sends": "Both prefill workers recorded four KV slice and four auxiliary sends per TP rank, each start and non-null handle return. Handle return is not transfer completion.",
+    "output_comparison": "NOT REACHED: exact 1600-ID check against reference job 222761 did not run. No correctness result or benchmark score.",
+    "runtime": "All three workers reached ready; startup ended at 04:02:23Z, warmup began, teardown began after failure at 04:03:28Z. PBS F/exit1/stageout1.",
+    "semantic_warmup": "FAIL: both semantic HTTP calls returned 500; gate reports two missing pair receipts."
+  },
+  "bundle": "eagle3-pd-observed-r5-20261024",
+  "cost": {
+    "actual_posted_charge": "not in qstat evidence; reconcile against canonical ledger separately",
+    "estimate_su": 321.991111,
+    "formula": "566 seconds * 16 GPUs * 128 SU/GPU-hour / 3600 seconds/hour",
+    "reservation_ceiling_su": 1024
+  },
+  "evidence": {
+    "archive_sha256": "986ac121c44d402949d8ca7a6369550257c2bd6194a3cdd84f1aa77366236ea4",
+    "manifest": "collected/evidence-sha256.json",
+    "manifest_file_count": 67,
+    "payload_bytes": 1888474,
+    "payload_file_count": 67,
+    "pbs_accounting": "collected/pbs-accounting.txt",
+    "pbs_stdout": "collected/pbs-stdout.txt",
+    "raw_archive": "raw-evidence.tar.gz"
+  },
+  "hypothesis": "R5 native NIXL on-demand path should provide compatible metadata and semantic output receipts for both P/D routes before exact comparison.",
+  "job_id": "224277.pbs111",
+  "limitations": [
+    "Underlying cause of sender exception/remote disconnect is unresolved.",
+    "Concurrent dual-P ingress to one D worker is a possible confound, not established cause.",
+    "No exact IDs, official accuracy result, throughput score, or completed transfer event.",
+    "GPU aggregates do not localize a transfer failure; do not infer healthy/zero from utilization alone.",
+    "PBS accounting does not provide the posted SU charge."
+  ],
+  "next_hypothesis": "A focused matched control should send P0\u2192D then P1\u2192D sequentially on the same TP4/TP4/TP8 topology, NIXL source, model, and prompt, while retaining per-request NIXL backend diagnostics and completion/error markers. Sequential success would support a same-D concurrent-session interaction; repeated failure would shift priority to NIXL on-demand registration, TP4\u2192TP8 mapping, or backend/network. This is a proposed next test, not an authorized submission.",
+  "observations": {
+    "cpu_envelopes": {
+      "decode-0": {
+        "cpu_budget": 64,
+        "host": "a2ap-dgx028",
+        "memory_policy_changed": false,
+        "mode": "legacy",
+        "model_arguments_changed": false,
+        "native_sglang_numa_binding_changed": false,
+        "physical_cores_selected": 64
+      },
+      "prefill-0": {
+        "cpu_budget": 32,
+        "host": "a2ap-dgx024",
+        "memory_policy_changed": false,
+        "mode": "legacy",
+        "model_arguments_changed": false,
+        "native_sglang_numa_binding_changed": false,
+        "physical_cores_selected": 32
+      },
+      "prefill-1": {
+        "cpu_budget": 32,
+        "host": "a2ap-dgx024",
+        "memory_policy_changed": false,
+        "mode": "legacy",
+        "model_arguments_changed": false,
+        "native_sglang_numa_binding_changed": false,
+        "physical_cores_selected": 32
+      }
+    },
+    "first_failure": {
+      "HTTP_status": 500,
+      "pair_id": "05794e730adec3d7c049e1c0bfedd8abcd5fdbaeb0365d979f79ddb7c488e0c6",
+      "response": "NIXL KVSender Exception",
+      "route": "prefill-1 to decode-0",
+      "task_log": "prefill-1 task log reports NIXL_ERR_REMOTE_DISCONNECT for room 2136013114865100190 at 12:03:15. These are differing surface messages for one unresolved send failure.",
+      "time_local": "2026-10-24 12:03:15"
+    },
+    "loaded_source_reports": [
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+        "module": "sglang.srt.disaggregation.nixl.conn",
+        "report": "224277.pbs111/pd-observer/source-modules/decode-0/conn.json",
+        "role": "decode-0",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/utils.py",
+        "module": "sglang.srt.disaggregation.utils",
+        "report": "224277.pbs111/pd-observer/source-modules/decode-0/utils.json",
+        "role": "decode-0",
+        "sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82"
+      },
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+        "module": "sglang.srt.disaggregation.nixl.conn",
+        "report": "224277.pbs111/pd-observer/source-modules/prefill-0/conn.json",
+        "role": "prefill-0",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/utils.py",
+        "module": "sglang.srt.disaggregation.utils",
+        "report": "224277.pbs111/pd-observer/source-modules/prefill-0/utils.json",
+        "role": "prefill-0",
+        "sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82"
+      },
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+        "module": "sglang.srt.disaggregation.nixl.conn",
+        "report": "224277.pbs111/pd-observer/source-modules/prefill-1/conn.json",
+        "role": "prefill-1",
+        "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+      },
+      {
+        "actual_path": "/sgl-workspace/sglang/python/sglang/srt/disaggregation/utils.py",
+        "module": "sglang.srt.disaggregation.utils",
+        "report": "224277.pbs111/pd-observer/source-modules/prefill-1/utils.json",
+        "role": "prefill-1",
+        "sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82"
+      }
+    ],
+    "native_transfer_events": {
+      "prefill-0": [
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 0
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 1
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 2
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 3
+        }
+      ],
+      "prefill-1": [
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 0
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 1
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 2
+        },
+        {
+          "event_counts": {
+            "send_aux:returned_handle": 2,
+            "send_aux:start": 2,
+            "send_kvcache_slice:returned_handle": 2,
+            "send_kvcache_slice:start": 2
+          },
+          "peer_count": 2,
+          "tp_rank": 3
+        }
+      ]
+    },
+    "nixl_agent_names": {
+      "assessment": "No static hostname/TP-rank agent-name collision is indicated by this run; do not prioritize that hypothesis.",
+      "source": "R5 native conn.py generates agent_name with str(uuid.uuid4()); submitted source sha 912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f.",
+      "task_log_observation": "All 16 NIXL agent initialization lines (4 per prefill process, 8 decode) contain distinct UUIDs; on-demand peer fields are also UUIDs."
+    },
+    "parent_receipt": {
+      "job_id": "224276.pbs111",
+      "passed": true,
+      "sha256": "9b06239b1e70d460b99623bdeea8cce0f5376025954772270cbbebd3bf3032a8"
+    },
+    "phase_markers": [
+      {
+        "detail": [
+          "1792814053",
+          "{\"client_deadline\": 1792815433, \"head_deadline\": 1792815493, \"main_envelope_deadline\": 1792815583, \"startup_deadline\": 1792814953, \"t0\": 1792814053, \"teardown_deadline\": 1792815583, \"warmup_deadline\": 1792815133}",
+          "1530",
+          "1800"
+        ],
+        "event": "controller_t0",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2202673322829979,
+        "utc": "2026-10-24T03:54:13.816230+00:00",
+        "utc_ns": 1792814053816224292
+      },
+      {
+        "detail": [
+          "1792814053",
+          "1792814953"
+        ],
+        "event": "startup_start",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2202673376470920,
+        "utc": "2026-10-24T03:54:13.869871+00:00",
+        "utc_ns": 1792814053869866371
+      },
+      {
+        "detail": [
+          "prefill-0",
+          "1792814501"
+        ],
+        "event": "worker_ready",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203121147448417,
+        "utc": "2026-10-24T04:01:41.640849+00:00",
+        "utc_ns": 1792814501640843629
+      },
+      {
+        "detail": [
+          "prefill-1",
+          "1792814502"
+        ],
+        "event": "worker_ready",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203122183801530,
+        "utc": "2026-10-24T04:01:42.677202+00:00",
+        "utc_ns": 1792814502677196848
+      },
+      {
+        "detail": [
+          "decode-0",
+          "1792814503"
+        ],
+        "event": "worker_ready",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203123219767708,
+        "utc": "2026-10-24T04:01:43.713168+00:00",
+        "utc_ns": 1792814503713162686
+      },
+      {
+        "detail": [
+          "1792814543",
+          "1792814953"
+        ],
+        "event": "startup_end",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203163473357277,
+        "utc": "2026-10-24T04:02:23.966758+00:00",
+        "utc_ns": 1792814543966752250
+      },
+      {
+        "detail": [
+          "1792814544",
+          "1792814723"
+        ],
+        "event": "warmup_start",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203163545278371,
+        "utc": "2026-10-24T04:02:24.038678+00:00",
+        "utc_ns": 1792814544038672797
+      },
+      {
+        "detail": [
+          "1792814607",
+          "1792814697"
+        ],
+        "event": "teardown_start",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203227520072766,
+        "utc": "2026-10-24T04:03:28.013475+00:00",
+        "utc_ns": 1792814608013466108
+      },
+      {
+        "detail": [
+          "1792814608",
+          "1"
+        ],
+        "event": "teardown_end",
+        "host": "a2ap-dgx024",
+        "local_utc_offset_s": 28800,
+        "monotonic_ns": 2203227547618942,
+        "utc": "2026-10-24T04:03:28.041019+00:00",
+        "utc_ns": 1792814608041013866
+      }
+    ],
+    "pre_warmup_gate": {
+      "rank_layout": {
+        "complete": true,
+        "cross_role_names_and_widths_match": true,
+        "receipt_count": 16,
+        "role_rows": {
+          "decode-0": {
+            "item_width_bytes": [
+              64,
+              64,
+              64,
+              64,
+              512,
+              512,
+              64,
+              128,
+              8192,
+              64
+            ],
+            "observed_row_counts": [
+              512
+            ],
+            "tensor_names": [
+              "output_ids",
+              "cached_tokens",
+              "output_token_logprobs_val",
+              "output_token_logprobs_idx",
+              "output_top_logprobs_val",
+              "output_top_logprobs_idx",
+              "output_topk_p",
+              "output_topk_index",
+              "output_hidden_states",
+              "bootstrap_room"
+            ]
+          },
+          "prefill-0": {
+            "item_width_bytes": [
+              64,
+              64,
+              64,
+              64,
+              512,
+              512,
+              64,
+              128,
+              8192,
+              64
+            ],
+            "observed_row_counts": [
+              96
+            ],
+            "tensor_names": [
+              "output_ids",
+              "cached_tokens",
+              "output_token_logprobs_val",
+              "output_token_logprobs_idx",
+              "output_top_logprobs_val",
+              "output_top_logprobs_idx",
+              "output_topk_p",
+              "output_topk_index",
+              "output_hidden_states",
+              "bootstrap_room"
+            ]
+          },
+          "prefill-1": {
+            "item_width_bytes": [
+              64,
+              64,
+              64,
+              64,
+              512,
+              512,
+              64,
+              128,
+              8192,
+              64
+            ],
+            "observed_row_counts": [
+              96
+            ],
+            "tensor_names": [
+              "output_ids",
+              "cached_tokens",
+              "output_token_logprobs_val",
+              "output_token_logprobs_idx",
+              "output_top_logprobs_val",
+              "output_top_logprobs_idx",
+              "output_topk_p",
+              "output_topk_index",
+              "output_hidden_states",
+              "bootstrap_room"
+            ]
+          }
+        },
+        "row_counts_may_differ_between_roles": true,
+        "schema": "eagle3-pd-metadata-validation-v1",
+        "tp_geometry": {
+          "decode_workers": {
+            "decode-0": 8
+          },
+          "prefill_workers": {
+            "prefill-0": 4,
+            "prefill-1": 4
+          }
+        }
+      },
+      "source_module_sha256": {
+        "decode-0/conn": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "decode-0/utils": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82",
+        "prefill-0/conn": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "prefill-0/utils": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82",
+        "prefill-1/conn": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "prefill-1/utils": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82"
+      },
+      "stage": "pre-warmup"
+    },
+    "rank_metadata": {
+      "decode-0": {
+        "all_ranks_match": true,
+        "dtypes": {
+          "bootstrap_room": "torch.uint64",
+          "cached_tokens": "torch.int32",
+          "output_hidden_states": "torch.bfloat16",
+          "output_ids": "torch.int32",
+          "output_token_logprobs_idx": "torch.int32",
+          "output_token_logprobs_val": "torch.float32",
+          "output_top_logprobs_idx": "torch.int32",
+          "output_top_logprobs_val": "torch.float32",
+          "output_topk_index": "torch.int64",
+          "output_topk_p": "torch.float32"
+        },
+        "row_counts": [
+          512
+        ],
+        "row_widths_bytes": {
+          "bootstrap_room": 64,
+          "cached_tokens": 64,
+          "output_hidden_states": 8192,
+          "output_ids": 64,
+          "output_token_logprobs_idx": 64,
+          "output_token_logprobs_val": 64,
+          "output_top_logprobs_idx": 512,
+          "output_top_logprobs_val": 512,
+          "output_topk_index": 128,
+          "output_topk_p": 64
+        },
+        "tensor_count": 10,
+        "tensor_names": [
+          "output_ids",
+          "cached_tokens",
+          "output_token_logprobs_val",
+          "output_token_logprobs_idx",
+          "output_top_logprobs_val",
+          "output_top_logprobs_idx",
+          "output_topk_p",
+          "output_topk_index",
+          "output_hidden_states",
+          "bootstrap_room"
+        ],
+        "tp_rank_count": 8,
+        "tp_ranks": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "prefill-0": {
+        "all_ranks_match": true,
+        "dtypes": {
+          "bootstrap_room": "torch.uint64",
+          "cached_tokens": "torch.int32",
+          "output_hidden_states": "torch.bfloat16",
+          "output_ids": "torch.int32",
+          "output_token_logprobs_idx": "torch.int32",
+          "output_token_logprobs_val": "torch.float32",
+          "output_top_logprobs_idx": "torch.int32",
+          "output_top_logprobs_val": "torch.float32",
+          "output_topk_index": "torch.int64",
+          "output_topk_p": "torch.float32"
+        },
+        "row_counts": [
+          96
+        ],
+        "row_widths_bytes": {
+          "bootstrap_room": 64,
+          "cached_tokens": 64,
+          "output_hidden_states": 8192,
+          "output_ids": 64,
+          "output_token_logprobs_idx": 64,
+          "output_token_logprobs_val": 64,
+          "output_top_logprobs_idx": 512,
+          "output_top_logprobs_val": 512,
+          "output_topk_index": 128,
+          "output_topk_p": 64
+        },
+        "tensor_count": 10,
+        "tensor_names": [
+          "output_ids",
+          "cached_tokens",
+          "output_token_logprobs_val",
+          "output_token_logprobs_idx",
+          "output_top_logprobs_val",
+          "output_top_logprobs_idx",
+          "output_topk_p",
+          "output_topk_index",
+          "output_hidden_states",
+          "bootstrap_room"
+        ],
+        "tp_rank_count": 4,
+        "tp_ranks": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "prefill-1": {
+        "all_ranks_match": true,
+        "dtypes": {
+          "bootstrap_room": "torch.uint64",
+          "cached_tokens": "torch.int32",
+          "output_hidden_states": "torch.bfloat16",
+          "output_ids": "torch.int32",
+          "output_token_logprobs_idx": "torch.int32",
+          "output_token_logprobs_val": "torch.float32",
+          "output_top_logprobs_idx": "torch.int32",
+          "output_top_logprobs_val": "torch.float32",
+          "output_topk_index": "torch.int64",
+          "output_topk_p": "torch.float32"
+        },
+        "row_counts": [
+          96
+        ],
+        "row_widths_bytes": {
+          "bootstrap_room": 64,
+          "cached_tokens": 64,
+          "output_hidden_states": 8192,
+          "output_ids": 64,
+          "output_token_logprobs_idx": 64,
+          "output_token_logprobs_val": 64,
+          "output_top_logprobs_idx": 512,
+          "output_top_logprobs_val": 512,
+          "output_topk_index": 128,
+          "output_topk_p": 64
+        },
+        "tensor_count": 10,
+        "tensor_names": [
+          "output_ids",
+          "cached_tokens",
+          "output_token_logprobs_val",
+          "output_token_logprobs_idx",
+          "output_top_logprobs_val",
+          "output_top_logprobs_idx",
+          "output_topk_p",
+          "output_topk_index",
+          "output_hidden_states",
+          "bootstrap_room"
+        ],
+        "tp_rank_count": 4,
+        "tp_ranks": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "resource_telemetry": {
+      "decode-0-a2ap-dgx028.jsonl": {
+        "host": "a2ap-dgx028",
+        "interval_s": 5.0,
+        "per_gpu": [
+          {
+            "gpu": "0",
+            "memory_used_mib_median_max": [
+              75866.0,
+              78240.0
+            ],
+            "power_w_median_max": [
+              122.795,
+              462.21
+            ],
+            "util_percent_median_max": [
+              0.0,
+              82.0
+            ]
+          },
+          {
+            "gpu": "1",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              120.08,
+              354.44
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "2",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              123.2,
+              358.94
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "3",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              122.53,
+              354.73
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "4",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              130.67000000000002,
+              386.65
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "5",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              118.11,
+              349.64
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "6",
+            "memory_used_mib_median_max": [
+              75928.0,
+              78334.0
+            ],
+            "power_w_median_max": [
+              123.63499999999999,
+              362.05
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "7",
+            "memory_used_mib_median_max": [
+              75448.0,
+              77854.0
+            ],
+            "power_w_median_max": [
+              122.67500000000001,
+              357.65
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          }
+        ],
+        "role": "decode-0",
+        "sample_count": 96,
+        "status_counts": {
+          "ok": 96
+        }
+      },
+      "prefill-0-a2ap-dgx024.jsonl": {
+        "host": "a2ap-dgx024",
+        "interval_s": 5.0,
+        "per_gpu": [
+          {
+            "gpu": "0",
+            "memory_used_mib_median_max": [
+              58700.0,
+              75162.0
+            ],
+            "power_w_median_max": [
+              119.96,
+              493.78
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "1",
+            "memory_used_mib_median_max": [
+              58742.0,
+              75214.0
+            ],
+            "power_w_median_max": [
+              119.2,
+              133.73
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "2",
+            "memory_used_mib_median_max": [
+              58748.0,
+              75214.0
+            ],
+            "power_w_median_max": [
+              120.89,
+              135.48
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "3",
+            "memory_used_mib_median_max": [
+              58502.0,
+              74734.0
+            ],
+            "power_w_median_max": [
+              121.29,
+              135.47
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          }
+        ],
+        "role": "prefill-0",
+        "sample_count": 97,
+        "status_counts": {
+          "ok": 97
+        }
+      },
+      "prefill-1-a2ap-dgx024.jsonl": {
+        "host": "a2ap-dgx024",
+        "interval_s": 5.0,
+        "per_gpu": [
+          {
+            "gpu": "4",
+            "memory_used_mib_median_max": [
+              58700.0,
+              75162.0
+            ],
+            "power_w_median_max": [
+              120.935,
+              227.91
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "5",
+            "memory_used_mib_median_max": [
+              58742.0,
+              75214.0
+            ],
+            "power_w_median_max": [
+              118.525,
+              132.79
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "6",
+            "memory_used_mib_median_max": [
+              58748.0,
+              75214.0
+            ],
+            "power_w_median_max": [
+              125.035,
+              139.73
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "gpu": "7",
+            "memory_used_mib_median_max": [
+              58502.0,
+              74734.0
+            ],
+            "power_w_median_max": [
+              122.625,
+              137.04
+            ],
+            "util_percent_median_max": [
+              0.0,
+              100.0
+            ]
+          }
+        ],
+        "role": "prefill-1",
+        "sample_count": 96,
+        "status_counts": {
+          "ok": 96
+        }
+      }
+    },
+    "second_failure": {
+      "HTTP_status": 500,
+      "pair_id": "5e159418d3fb87686af3c2a3322109db9cc14f96ba3ec55ddbb896fdfe58b1c4",
+      "response": "NIXL_ERR_REMOTE_DISCONNECT",
+      "route": "prefill-0 to decode-0",
+      "task_log": "prefill-0 reports same room error on TP0 and TP2; decoder logs later AbortReq after client cancellation.",
+      "time_local": "2026-10-24 12:03:16"
+    },
+    "secondary_warnings": [
+      "SMG warns P TP4 and D TP8 differ and load-balance methods differ (follow_bootstrap_room versus round_robin); expected TP difference is configured, causal role unproven.",
+      "CUDA graphs are disabled and all workers reached ready.",
+      "Container squashfuse fallback and invalid HTTP/2 preface probes appear in raw logs; no causal link established."
+    ],
+    "semantic_pair_failures": [
+      {
+        "body_prefix": "{\"error\":{\"type\":\"Internal Server Error\",\"code\":\"prefill_internal_error\",\"message\":\"Prefill server error (500 Internal Server Error): {\\\"object\\\":\\\"error\\\",\\\"message\\\":\\\"Prefill transfer failed for request rank=0 req.rid='c047639dafd6436db0db0cce4a9253c1' req.bootstrap_room=2136013114865100190 with exception KVTransferError(bootstrap_room=2136013114865100190): NIXL KVSender Exception\\\",\\\"type\\\":\\\"500\\\",\\\"param\\\":null,\\\"code\\\":500}\"}}",
+        "http_status": 500,
+        "pair_id": "05794e730adec3d7c049e1c0bfedd8abcd5fdbaeb0365d979f79ddb7c488e0c6"
+      },
+      {
+        "body_prefix": "{\"error\":{\"type\":\"Internal Server Error\",\"code\":\"prefill_internal_error\",\"message\":\"Prefill server error (500 Internal Server Error): {\\\"object\\\":\\\"error\\\",\\\"message\\\":\\\"Prefill transfer failed for request rank=0 req.rid='6a9069ddcfe745caa1595e521e855dcc' req.bootstrap_room=5908607357241168810 with exception NIXL_ERR_REMOTE_DISCONNECT\\\",\\\"type\\\":\\\"500\\\",\\\"param\\\":null,\\\"code\\\":500}\"}}",
+        "http_status": 500,
+        "pair_id": "5e159418d3fb87686af3c2a3322109db9cc14f96ba3ec55ddbb896fdfe58b1c4"
+      }
+    ]
+  },
+  "prior_evidence": "224276 passed only a four-rank TP4 H100 prefill observer; no decoder or P/D transfer. R5 parent afterok condition was satisfied and the retained parent receipt is marked passed.",
+  "provenance": {
+    "collection": "Terminal-only collector adapted from review 224276. qstat confirmed F first. Run files came only from runs/224277.pbs111; PBS logs came from exact R5 artifact path because PBS stores them beside the bundle. Initial collector rejected that sibling log path and left a zero-byte partial archive; it was deleted before successful collection. Source run files were not modified. Raw archive and extracted artifacts retained; extracted files verified against SHA256 manifest."
+  },
+  "question": "Can R5 pass actual role metadata observation, both semantic P/D warmup paths, native KV and auxiliary sends, and exact 1600-ID comparison against the accepted H100 reference?",
+  "result": {
+    "cpupercent": "1625",
+    "cput": "02:27:23",
+    "exit_status": 1,
+    "mem": "129115168kb",
+    "obit_local": "Sat Oct 24 12:03:58 2026",
+    "pbs_state": "F",
+    "pbs_walltime": "00:09:26",
+    "pbs_walltime_s": 566,
+    "project": "59010042",
+    "queue": "aiq2",
+    "requested_gpus": 16,
+    "requested_walltime": "00:30:00",
+    "stageout_status": "1",
+    "start_local": "Sat Oct 24 11:54:13 2026"
+  },
+  "reviewed_utc": "2026-10-24",
+  "schema": "h100-eagle3-pd-diagnostic-review-v1",
+  "source_scope": {
+    "frozen_bundle_hashes": {
+      "MANIFEST.json": "470f88fe65cb418cdd84df53949604cacbf367aff58442fd415a6f105d397fc1",
+      "ROOT_SHA256SUMS": "bbc09ebfe0179966f1904c246e56777c868d692da345131edc447c3175cbaf0c",
+      "SOURCE_PROVENANCE.json": "0d6616305773dca480461a8d41e9edc1d85174f33007635d6545489413cbc5eb",
+      "benchmark.pbs": "d17a312441417b5237a02a35f417c5a74bf8ae4375fe6129528024e0051fc9fa",
+      "config.json": "3a166850a7c9aec635523200acc201d0917fc7a84c5fed52bd62e99ab1ffe2cf",
+      "observer-gate.py": "930e3b6295c01ad9304d75f815d9d40d57683c901baaf0145e061ab1646a9d58",
+      "target-reference.json": "a1b5234892b8ccdedb64837f15d2e4357b479565faf0210502e85dada0382e18",
+      "warm-topology.py": "c4a9ecce17260c2795b8ebbbb7da7ba0b827b64c7b232b75a5b28fd9d5fb72ce",
+      "warmup_semantic.py": "0a60144fe3efcf034b1dc40f6c82539c07001d306cf936d6e279937d17aeb1af"
+    },
+    "integrity": "R5 bundle ROOT_SHA256SUMS was checked by PBS stdout; actual loaded-module paths/hashes are in six retained source reports.",
+    "native_nixl_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "native_utils_sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82",
+    "runtime_source_reports": "collected/224277.pbs111/pd-observer/source-modules/{prefill-0,prefill-1,decode-0}/*.json"
+  }
+}
