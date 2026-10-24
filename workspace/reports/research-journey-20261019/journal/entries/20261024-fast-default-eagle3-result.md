@@ -8,6 +8,8 @@
 
 **Assessment.** On this matched short protocol, raw output throughput increased about 1.07% and mean ITL fell about 47.24%, but mean TTFT roughly doubled and the candidate's score fell about 11.40%. Speculative decode counters showed accept length near 2 and accept rate near 0.5. Five-second GPU sampling was broadly similar, but does not identify the cause of TTFT growth. Short 20/40/30 results are not directly ranked against the full 60/120/30 incumbent.
 
+Independent counting of all profiling rows confirms the SLA miss is solely TTFT: control has 30/630 TTFT breaches and zero ITL breaches; EAGLE3 has 106/642 TTFT breaches and zero ITL breaches. The next hypothesis therefore targets unnecessary speculative state on prefill workers while preserving the decode-side ITL reduction.
+
 The frozen incumbent uses no speculative algorithm on either prefill worker or the decode worker. S60 enabled EAGLE3 on all three. The measured evidence supports a narrower next experiment: keep prefill target-only and enable EAGLE3 only on decode. The new S61 payload also fixes the root-review field-schema mismatch and binds its control to actual job 25947. Retain all failed candidate evidence; do not promote EAGLE3 or claim official quality.
 
 **Next decision.** Run one bounded N64 decode-only EAGLE3 screen only after the frozen source, actual S59 control proof, queue, source hashes and role-specific runtime checks pass. Require at least 90% joint success, zero request errors/cancellations, both P/D semantic paths, the 7/8 sanity floor and 12/12 retrieval. Stop the EAGLE3 branch if the short SLA gate fails. Full-set ≥99% reference accuracy remains UNKNOWN.

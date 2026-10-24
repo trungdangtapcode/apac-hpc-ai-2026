@@ -13,7 +13,7 @@ The newly reviewed fast-default short pair **25947/25948** does not replace that
 | 25947 | Target-only control | 2,757.36 | 95.24% | 1,311.60 ms | 14.833 ms | Short-protocol control passed |
 | 25948 | EAGLE3 on all workers | 2,443.00 | 83.49% | 2,631.95 ms | 7.820 ms | ITL improved; TTFT gate failed |
 
-Both arms had zero profiled request errors/cancellations, 7/8 output sanity and 12/12 retrieval. The candidate increased raw output throughput 1.07% and lowered ITL 47.24%, but mean TTFT roughly doubled and good output throughput fell 11.40%. Job 25948 is terminal FAILED 1:0: its post-run checker had a control-review schema mismatch, and independent replay also confirmed the actual 83.49% SLA failure. The 20/40/30 screen cannot be ranked directly against the 60/120/30 incumbent. See [paired review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25947-25948-20261024/REVIEW.md).
+Both arms had zero profiled request errors/cancellations, 7/8 output sanity and 12/12 retrieval. The candidate increased raw output throughput 1.07% and lowered ITL 47.24%, but mean TTFT roughly doubled and good output throughput fell 11.40%. Raw per-request recount: control has 30/630 TTFT breaches and zero ITL breaches; candidate has 106/642 TTFT breaches and zero ITL breaches. Job 25948 is terminal FAILED 1:0: its post-run checker had a control-review schema mismatch, and independent replay also confirmed the actual 83.49% SLA failure. The 20/40/30 screen cannot be ranked directly against the 60/120/30 incumbent. See [paired review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25947-25948-20261024/REVIEW.md).
 
 ## Current H200 job
 

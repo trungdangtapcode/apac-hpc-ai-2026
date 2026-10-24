@@ -32,6 +32,8 @@ Control job 25947 used target-only decoding. Candidate job 25948 used the same l
 
 The candidate increased raw output throughput by about 1.07% and nearly halved mean ITL, but its joint SLA fraction fell below the mandatory 90% gate. Its good output throughput was about 11.40% below the paired control. The 3,044.400475 full-protocol frontier is unchanged.
 
+Recounting every retained profiling row shows the failure is entirely TTFT: the control has 30/630 TTFT breaches and zero ITL breaches; the candidate has 106/642 TTFT breaches and zero ITL breaches. Thus 600/630 control requests and 536/642 candidate requests meet both limits. The candidate's first-token tail, not its inter-token spacing, is the measured SLA problem.
+
 The candidate decode log reported mean speculative accept length near 2.0 and accept rate near 0.5 during sampled batches. These runtime counters are descriptive, not a causal latency attribution. Five-second GPU sampling showed similar sampled role utilization and memory use between the pair; these aggregates do not isolate the TTFT cause.
 
 ## Terminal state and evidence validity
