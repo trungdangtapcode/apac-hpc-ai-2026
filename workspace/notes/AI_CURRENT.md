@@ -1,6 +1,6 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-24T20:05:00Z. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-24T20:31:00Z. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
 ## Latest AI result and actual H200 queue
 
@@ -15,17 +15,19 @@ The newly reviewed fast-default short pair **25947/25948** does not replace that
 
 Both arms had zero profiled request errors/cancellations, 7/8 output sanity and 12/12 retrieval. The candidate increased raw output throughput 1.07% and lowered ITL 47.24%, but mean TTFT roughly doubled and good output throughput fell 11.40%. Raw per-request recount: control has 30/630 TTFT breaches and zero ITL breaches; candidate has 106/642 TTFT breaches and zero ITL breaches. Job 25948 is terminal FAILED 1:0: its post-run checker had a control-review schema mismatch, and independent replay also confirmed the actual 83.49% SLA failure. The 20/40/30 screen cannot be ranked directly against the 60/120/30 incumbent. See [paired review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25947-25948-20261024/REVIEW.md).
 
-## Current H200 job
+## Latest H200 candidate and validator failure
 
-**Job 25988 (S61 decode-only EAGLE3)** was actually submitted on 24 October at 20:04:27 UTC. At the latest 20:22:03 UTC query it remained PENDING (Resources), 16 GPUs/two nodes/17 minutes, no dependency. The two apacsc37 jobs 25982/25983 reached TIMEOUT and released g1/g4. Node g1 is now idle, but g4 is MIXED because shared-partition job 25989 (apacsc43, firmus-smoke-251025) is RUNNING there with one H200 allocated. S61 requests all eight GPUs per node and cannot start until g4's GPU is released. sprio reports priority 943 for 25988 versus 377 for apacsc38 job 25986 and 188 for the displayed apacsc01 jobs; priority does not override an occupied GPU. squeue --start returns N/A. Test-only IDs 25987 and 25985 are virtual and are not submitted jobs. [Definite receipt and root review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-decode-only-20261024/slurm-receipt.json).
+Job **25988** tested S61: two target-only TP4 prefill workers and one TP8/EP8 decode worker with EAGLE3 enabled on decode only. It was submitted 24 October 20:04:27 UTC for 16 H200 GPUs and a 17-minute maximum. Fresh accounting shows `FAILED 1:0` after 6:15. This is a failed validation run, not a completed benchmark: no AIPerf profile was created, so candidate goodput, TTFT, ITL, joint-SLA fraction, request errors and output checks are all **not measured**.
 
-S61 is based on a specific difference in retained native arguments: the full N64 target-only incumbent has speculative settings off on prefill and decode; S60 enabled EAGLE3 on both prefill workers and decode. S61 keeps prefill target-only and enables EAGLE3 only on decode. Its bounded gate is the same short N64 profile with zero errors/cancellations, at least 90% joint SLA, the 7/8 output-sanity floor, both P/D semantic paths and 12/12 retrieval. If it misses the SLA, close this EAGLE3 branch. This is a feasibility run, not an official score or quality evaluation. [Plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-decode-only-20261024/PLAN.md).
+All three workers reached health 200 and `worker_ready`. The draft fingerprint and runtime readiness checks passed. Each prefill worker had four BF16 KV and four NIXL rank records; decode had eight target BF16/NIXL rank records plus draft KV records. The job then failed closed because the old geometry checker assumed 190 regions for every role. Raw evidence has 188 regions on each target-only prefill rank and 190 on each EAGLE3 decode rank. The correct role-aware interpretation is 188 target-model regions plus two decode-side draft registrations. This is a validator bug exposed by changing draft placement, not evidence of an invalid KV allocation.
 
-Three pre-admission guard attempts stopped before actual sbatch because of a review-path mismatch and two differences in Slurm test-only output handling. All were preserved and corrected before the definite job 25988 receipt; those attempts consumed no allocation. The submitted bundle and each completed review/receipt milestone were committed and pushed separately.
+The corrected validator has been replayed against all 32 actual before/after receipts and accepts the role-specific 188/190 counts. Semantic P/D warmup and AIPerf were not reached. Preserve the submitted payload and failed artifacts unchanged; a separate frozen retry is being prepared. Keep **3,044.400475 good output tokens/s** as the H200 full-protocol frontier until a new valid full-protocol result exceeds it. Official full-set accuracy ≥99% remains UNKNOWN. Full review: [job 25988](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25988-20261024/REVIEW.md); complete retained reasoning: [journal entry](../reports/research-journey-20261019/journal/entries/20261024-s61-kv-validator-failure.md).
 
-H100/PBS state has **not** been refreshed in this session. The latest prior observation was H100 job 224561 terminal; do not treat its old queue snapshot as live. The local VPN helper currently reports no live session. H200 Slurm admission does not spend PBS SU.
+The failure reserved 16 H200 GPUs for at most 17 minutes and consumed 6:15 scheduler elapsed; this is Slurm allocation time, not PBS SU. Resource sampler files are preserved but were not used to claim a bottleneck. No profiler or AIPerf request telemetry exists for this run.
 
-Latest H100/PBS credit record remains a dated admission-ledger snapshot, not a live balance: site label 24 October 22:20:02, used 47,327.78 SU, balance 16,330.887 SU, In Doubt 341.333 SU and conservative headroom 14,037.553 SU after retained maxima. The H200 Slurm job does not change that PBS ledger. [Ledger](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/nscc-budget.json).
+## H100/PBS and credit
+
+H100/PBS state has not been refreshed in this session. The H200 Slurm job did not consume PBS SU. Read the live scheduler and budget before any H100/PBS submission; the old ledger figures elsewhere in this note are dated snapshots only.
 
 ## Earlier retained evidence
 
