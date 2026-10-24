@@ -1,49 +1,31 @@
 # Current HPC/OpenFOAM handoff
 
-Updated 2026-10-23T19:09:09.900891+00:00. Session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40 owns HPC/OpenFOAM; AI/Qwen stays with its separate worker. English artifacts, Vietnamese chat. No background Codex, autopilot or schedules.
+Updated 24 October 2026. Session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40 owns HPC only. The AI worker owns its payloads and queues. English artifacts, Vietnamese chat. No background Codex, schedules or autopilot.
 
-## Actual queue and immediate priority
+## New verified native best and completed jobs
 
-The read-only PBS snapshot at **23 October 18:54:23 UTC** shows:
+[24 October collection and independent replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/completed-review-20261024/RESULTS.md) verifies 126 retained files and terminal PBS outcomes:
 
-| Job | State | Purpose |
+| Job | Result | Meaning |
 |---|---|---|
-| 25940700.pbs101 | Q/q5, insufficient node_pool |Independent four-node default Scotch confirmation, 512 ranks, 150 steps. No new result. |
-| 25943865.pbs101 | H/qdev, afterany 25940700 |Three-minute four-rank actual MPI-world reorder preflight. No runtime result. |
-| 25947168.pbs101 | H/q5, afterok both earlier jobs |Three-minute 512-rank/four-host physical core/NUMA mapping qualification, 32 GB/node. No solver. |
+| 25940700 | F / Exit 0, 18:57 allocation wall | Four-node Scotch repeat: **3.364622070 s/step**, 150 steps / 149 samples. |
+| 25943865 | F / Exit 0, 7 seconds | Actual four-rank method-3 reorder and physical-slot check passed. |
+| 25947168 | F / Exit 1, 9 seconds | All 512 ranks failed the combined identity topology gate. Candidate never launched. |
 
-Preserve all three intents, payloads and queue positions. The combined PBS cap 3 is full in the recorded admission; holds count. One active CPU allocation is maintained by dependencies. Check both CPU and AI queues before any later admission. [512-rank receipt/source/status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-placement512-preflight-20261023/STATUS.md), [four-rank source/status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-reorder-preflight-20261023/STATUS.md).
+The repeat's mean is 8.52% lower than the previous 3.677906731 s/step, median 0.51% lower, p95 3.72% higher. The prior 35.88-second maximum did not recur; the new maximum is 5.90 seconds. This is a separate-allocation repeat with the same intended configuration, not a measured placement optimization or organizer-confirmed score. All timings remain included. Native recommended sample count 101, no short-sample warning in this repeat. Zero-time field seals match across 3,072 files; source, initialization, rank/core and numerical-work checks pass. Startup binding is not solver-time residency evidence.
 
-[The scheduler audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/queue-readiness-20261023/README.md) found 182 pool nodes marked free but none with all 128 CPUs unassigned, despite 7,528 free CPU slots spread across fragments. This supports the lack of four whole 128-core chunks, not a scheduler fault or ETA. Do not equate separate aggregate zero-CPU/down counts; their identity was not established. No cancellation, qalter, extra job or new reservation occurred in this continuation.
+## Immediate improvement
 
-## Measurements and proxy candidates
+The failing C probe combined singleton affinity, physical core and NUMA reads into one message. Its exact failing subcheck is unknown. A separately versioned diagnostic is being prepared under `nscc-cpu-mpi-placement512-diagnostic-20261024`: preserve the aggressive mapping and all topology acceptance gates, record affinity before/after MPI_Init and each lookup's status, then make a collective failure decision so all ranks retain diagnostics. Local synthetic MPI tests pass the singleton case and reject a two-CPU mask; they do not prove a cluster fix. Preserve the failed payload and raw logs. No solver A/B before actual qualification.
 
-The lowest retained native four-node mean stays **3.677906731 s/step**, Scotch 128 ranks/node, job 25921488, 149 timed samples from 150 steps. H128 is 3.819929017 s/step. Missing old terminal PBS and submitted-payload evidence prevents us claiming an accepted score; these are native observations. [Six-run review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md). The [894-sample audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-stability-audit-20261023/RESULTS.md) found no sparse output event uniquely explaining the slow steps; master-process CPU/wall deltas do not diagnose a hardware or MPI cause.
+The new balanced whole-group mapping remains offline: host cut 283,819 versus original 337,324, same-host cross-NUMA 710,003 versus 710,081. These are face-count proxies, not bytes or speedup; host cell balance is worse than original. Keep both aggressive and balanced candidates. [Previous detailed reasoning](history/HPC_CURRENT-before-completed-review-20261024T0313.md), [balanced search](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/rank-placement-512-pareto-screen-20261023/RESULTS.md).
 
-All mappings below use the same 512-rank graph. Face counts are logical proxies, not bytes, traffic or speedup:
+A future solver comparison must use identical method-3 identity and candidate launch flags, binding, transport, decomposition and initial fields. The successful default-launch repeat is not automatically that matched control. A single allocation with sequential arms is preferable but order effects remain; budget must permit it.
 
-| Mapping | Cross-host faces | Same-host cross-NUMA faces | Host cell range / mean |
-|---|---:|---:|---:|
-| Original contiguous control | 337,324 | 710,081 | 0.215% |
-| Aggressive two-level | 261,110 | 732,712 | 0.702% |
-| New balanced whole-group option | 283,819 | 710,003 | 0.627% |
+## Budget, access and records
 
-The [new balanced screen](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/rank-placement-512-pareto-screen-20261023/RESULTS.md) holds all 32 refined 16-rank groups intact and moves eight whole groups per host. Fixed intergroup faces 993,822 imply a feasible host-cut interval 283,741–337,324 to avoid either original face-category regression. Seed 2026 / 500,000 proposals found 283,819 / 710,003; root full-edge checks and isolated replay reproduce the exact mapping. Its host reduction is 15.8616%; the NUMA difference is only 78 faces (0.010985%). This is not improvement on every metric: cell balance remains worse than original, and the aggressive option has a lower host cut. Retain both, not a newly declared runtime winner. [Figure](../reports/hpc-research-journey-20261023/figures/placement-options.png).
+The owner-approved CPU campaign ceiling is **5,000 SU** on CPU project 59000042, separate from AI 59010042. [Locked reconciliation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/completed-review-20261024/budget-reconciliation.json) retires only the three now-known terminal maxima, adds a rounded 164-SU conservative allowance, preserves all shared/older unknown maxima and leaves **4,688.2 SU committed / 311.8 SU headroom** before new admission. This is not posted billing. Check a fresh site report/rate, own CPU and AI queues under the CPU budget lock before qsub. One active CPU allocation; combined PBS cap three including holds. All three old jobs are terminal in the 03:04–03:05 UTC queries, not still queued.
 
-The queued 512-rank probe is frozen with the older aggressive mapping. Do not retarget it to the balanced input. A pass qualifies that exact allocation/mapping; the new balanced option remains unsubmitted. Both require fresh adjacency identity and actual MPI_COMM_WORLD host/core/NUMA proof before any future full run. Eight domains per host is still an unverified four-node topology assumption, and page residency/solver-time affinity are not measured.
+VPN and CPU SSH via cpu-r3 worked on 24 October; preserve existing private state and the separate AI connection. Read-only scheduler observation showed three whole unassigned free CPU nodes, not an ETA or full eligibility proof. Scope searches to HPC; never traverse or repair Qwen runtime bind mounts.
 
-## Next decision, budget and access
-
-Review 25940700's complete source/mesh/rank/core/stage/field/timer/force checks and final PBS resources/exit, then the two preflights' actual MPI mapping and command returns. A later full comparison must hold method 3, thread binding, transport and all numerical work constant between identity-control and candidate. The current default-launch confirmation is not automatically a matched control for additional runtime flags. Preserve all 150 steps and 149 samples. Do not spend on tiny improvements to the 78-face proxy boundary before runtime evidence, or launch both candidates merely to fill queues.
-
-The owner-approved CPU campaign ceiling remains **5,000 SU** on project 59000042, separate from AI 59010042. The unchanged ledger has **4,897.533333 SU** committed including consumed allowance and all maxima; **102.466667 SU** remains. Unknown shared maxima 2,389.333333 SU and older own unknown costs remain, with deliberate possible double counting. Four-rank reservation 6.4 SU is conservative versus its nominal 0.2 SU request; the 512-rank reservation is 25.6 SU. These are not posted charges. Fresh locked budget/rate/balance and combined-cap checks are required before further spending; the site's larger grant does not increase this ceiling.
-
-VPN/CPU SSH work through cpu-r3 at the latest checks. Preserve healthy existing sessions and private state; do not reset the separate AI connection. No credentials/session material is retained in research files. Scope HPC discovery to hpc-experiments; unrelated Qwen runtime bind mounts may deny traversal and must not be repaired or swept into this work.
-
-## Learning, presentation and archive
-
-[Learning guide](../reports/hpc-research-journey-20261023/README.md), [whole journey](../reports/hpc-research-journey-20261023/JOURNEY.md), [short presenter script](../reports/hpc-research-journey-20261023/TALK_TRACK.md), [new reasoning entry](../reports/research-journey-20261019/journal/entries/20261023-hpc-balanced-placement-and-queue.md). The prepared submission package remains 40 slides, 32 AI / 8 HPC; no unmeasured proxy is promoted into a solver result or organizer upload. [Delivery](../submission-review/hpc-update-20261023/README.md).
-
-The [previous handoff](history/HPC_CURRENT-before-balanced-placement-20261023T1910.md) is historical. Capture safe source/data/reviews in small commits and push to the authorized private origin; large external historical artifacts still need their off-host copy.
-
-**Latest verified queue:** 2026-10-23T19:24:06.430522Z still 25940700 Q/q5 (node_pool), 25943865 H/qdev and 25947168 H/q5 on their original dependencies. No new solver/MPI result or spending change. Keep the existing queue positions; further proxy polishing is lower priority than the queued runtime evidence. [Latest raw state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/queue-readiness-20261023/jobs-20261023T1924.json). The older node-capacity histogram remains a dated 19:12 snapshot.
+[Learning guide](../reports/hpc-research-journey-20261023/README.md), [journal](../reports/research-journey-20261019/journal/README.md). The existing 40-slide combined submission (32 AI / 8 HPC) remains its dated 23 October snapshot; no changes or organizer upload in this review. Capture, verify, commit and push small explicit checkpoints. External historical large objects still need separate off-host backup.

@@ -244,3 +244,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [23 October: full role-local draft hashing repairs the unsafe cross-node stat assumption](entries/20261023-h200-worker-byte-identity-repair.md).
 
 - [24 October: submit the four-H100 observer qualification](entries/20261024-observer-preflight-submitted.md).
+
+- [24 October: independent HPC repeat and topology diagnosis](entries/20261024-hpc-repeat-and-topology-diagnosis.md).
