@@ -38,7 +38,8 @@ def main():
     partition = run(["scontrol", "show", "partition", "hpcai", "-o"])
     assert len(queue.splitlines()) < 5, "Five-job Slurm cap would be exceeded"
     assert "State=UP" in partition and ("MaxTime=00:17:00" in partition or "MaxTime=UNLIMITED" in partition)
-    test = run(["sbatch", "--test-only", str(B / "job.sbatch")], cwd=R).strip()
+    dry = subprocess.run(["sbatch", "--test-only", str(B / "job.sbatch")], cwd=R, capture_output=True, text=True, check=True)
+    test = (dry.stdout + dry.stderr).strip()
     match = re.search(r"\bJob\s+(\d+)\s+to start at\b", test)
     assert match, f"Slurm test-only admission did not return its expected placement report: {test}"
 
