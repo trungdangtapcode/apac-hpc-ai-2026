@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-23T18:56:04.057529+00:00",
+  "updated_utc": "2026-10-24T03:03:48.190187+00:00",
   "project": "59010042",
   "commissioning_cap_su": 51000.0,
   "cap_interpretation": "Use project credit under the current user instruction; retain the existing13000SU conservative project reserve. Previous16384SU internal campaign cap is historical, not a BTC limit.",
@@ -10,14 +10,14 @@
   "max_charge_per_30min_job_su": 1024,
   "retain_project_su": 13000,
   "ledger": {
-    "as_of": "24/10/2026-02:40:01",
+    "as_of": "24/10/2026-11:00:01",
     "grant_su": 64000.0,
     "used_su": 46518.678,
     "balance_su": 17481.322,
     "in_doubt_su": 0.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224157-20261023/fresh-selected-credit.json",
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-observer-prefill-preflight-20261023/pre-submit.stdout",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-23T18:56:04.057529+00:00",
+    "queried_utc": "2026-10-24T03:03:48.190100+00:00",
     "freshness_note": "Selected AI project only; terminal full-span probe charge assessed separately from passing byte gates and failed PBS exit."
   },
   "jobs": [
@@ -1967,6 +1967,18 @@
       "observed_walltime": "00:08:00",
       "estimated_charge_su": 34.13333333333333,
       "last_checked_utc": "2026-10-23T18:56:04.057529+00:00"
+    },
+    {
+      "job_id": "224275.pbs111",
+      "bundle": "eagle3-observer-prefill-preflight-20261023",
+      "kind": "eagle3_observer_prefill_readiness",
+      "state": "SUBMITTED",
+      "requested_gpus": 4,
+      "requested_walltime": "00:15:00",
+      "max_charge_su": 128.0,
+      "included_in_ledger_used": false,
+      "accounting_pending": true,
+      "submitted_utc": "2026-10-24T03:03:48.330047+00:00"
     }
   ],
   "pending_reservations": [
@@ -3209,10 +3221,22 @@
       "submitted_utc": "2026-10-23T15:49:28.547700+00:00",
       "reconciliation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-224157-20261023/fresh-selected-credit.json",
       "last_checked_utc": "2026-10-23T18:56:04.057529+00:00"
+    },
+    {
+      "purpose": "eagle3-observer-prefill-preflight-20261023",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 128.0,
+      "requested_gpus": 4,
+      "requested_walltime": "00:15:00",
+      "reserved_utc": "2026-10-24T03:03:48.190077+00:00",
+      "job_id": "224275.pbs111",
+      "submitted_utc": "2026-10-24T03:03:48.330047+00:00"
     }
   ],
-  "active_pbs_jobs": [],
-  "unallocated_commissioning_su": 4481.322,
+  "active_pbs_jobs": [
+    "224275.pbs111"
+  ],
+  "unallocated_commissioning_su": 4353.322,
   "next_baseline_max_charge_su": 1024,
   "next_baseline_reserved": false,
   "submission_rule": "Before qsub, refresh all own jobs and project credit. Under budget.lock, reserve the maximum charge and record each returned job ID. Keep used plus unaccounted charges and outstanding reservations within 51,000 SU, retaining a conservative 13,000 SU project reserve. These are planning bounds, not organiser limits. At most three active PBS GPU jobs in an afterany chain, with one running 16-GPU allocation. Retain uncertain reservations and do not retry an uncertain submission.",
@@ -3275,7 +3299,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 4481.322,
+  "campaign_headroom_after_reserved_su": 4353.322,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",
