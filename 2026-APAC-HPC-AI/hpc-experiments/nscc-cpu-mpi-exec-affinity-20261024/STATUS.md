@@ -1,0 +1,7 @@
+# Submitted pre-exec affinity qualification — 25957725.pbs101
+
+The derived job was submitted once after the failed matrix 25957267 was collected, reviewed and reconciled. Fresh locked CPU/AI PBS checks found both own queues empty. No existing intent was repeated. It requests 4 exclusive CPU nodes × 128 ranks/CPUs, 32 GB/node, 0 GPUs and 5 minutes; maximum 42.666667 SU. The 255-second internal deadline applies to all setup, probes and validators.
+
+Capture the actual singleton launcher CPU before exec and restore only that exact CPU through opt-in PMPI wrappers. Strict identity/candidate use MPI_Init_thread(SINGLE); additional identity probes use MPI_Init and MPI_Init_thread(MULTIPLE). Every arm requires 512 captured launch records, 512 PMPI world-rank audits and 512 independent post-init C topology records with matching CPU provenance. Main thread-only scope; no solver, helper-thread or page-residency claim. All scientific assignment and strict topology gates remain unchanged.
+
+The full 30,000-SU CPU grant authorization is separate from AI. Planning commitment after admission 4,752.866667 SU, remaining 25,024.979333 SU within the cumulative 29,777.846 SU campaign allowance. Unknown maxima remain reserved. This is conservative planning, not individual posted billing. Read post-submit-status.json for the exact dated state. Future solver admission requires reviewed actual qualification and fresh same-allocation mapping; local fixtures and exit status alone are insufficient.
