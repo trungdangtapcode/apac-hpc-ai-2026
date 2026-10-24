@@ -1,0 +1,46 @@
+{
+  "actual_receipts": {
+    "before_after_pairs": 16,
+    "job": "25750",
+    "rank_count": 16,
+    "receipt_count": 32,
+    "receipt_sha256_manifest": "actual-job-25750-kv-geometry/SHA256SUMS",
+    "validation": "pass"
+  },
+  "adversarial_tests": {
+    "cases": [
+      "all D ranks accepted only with exact signature",
+      "prefill missing heads rejected",
+      "one missing D head field rejected",
+      "non-VRAM or non-256 stride rejected",
+      "190-region count drift rejected"
+    ],
+    "count": 5,
+    "passed": true
+  },
+  "canonical_bundle_sha256sums": "pass",
+  "checked_utc": "2026-10-24T03:07:17Z",
+  "controller_syntax": "pass",
+  "inherited_tests": {
+    "passed": true,
+    "test_kv_geometry_py": 12
+  },
+  "model_asset_preflight": "pass",
+  "model_config_binding": {
+    "head_dim": 128,
+    "num_hidden_layers": 94,
+    "num_key_value_heads": 4,
+    "realpath": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8/config.json",
+    "sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59"
+  },
+  "passed": true,
+  "schema": "h200-eagle3-geometry-repair-validation-v1",
+  "scope": "CPU receipt validation and local asset identity only; no GPU/runtime experiment",
+  "source_job_25750": {
+    "exit_code": "1:0",
+    "failure_evidence": "source-job-25750-failure.json",
+    "failure_gate": "S42 geometry validator rejected observed D-role empty layer IDs with jointly not_collected head fields",
+    "scheduler_state": "FAILED"
+  },
+  "submission_attempted": false
+}
