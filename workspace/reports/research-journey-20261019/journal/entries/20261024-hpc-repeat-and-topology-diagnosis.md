@@ -21,3 +21,7 @@ The prior 23 October queue snapshot is historical; all three jobs are terminal i
 ## Reviewed diagnostic payload checkpoint
 
 The [derived bundle](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-cpu-mpi-placement512-diagnostic-20261024/PLAN.md) is sealed and root reviewed. Its C probe emits one bounded topology record per rank and uses MPI_Allreduce before a failure decision. The existing 512-rank identity/candidate validators and aggressive assignment are unchanged. Local C uses synthetic MPI declarations only: one CPU passes, two CPUs fail without a mapping record. The unchanged randomized mapping suite passes one positive and rejects seven negatives. No actual cluster fix, candidate mapping, solver speedup or submission is claimed by this preparation checkpoint.
+
+## Admission and next evidence gate
+
+The derived diagnostic was submitted once as **25956623.pbs101**. Locked pre-admission checks found both own CPU and AI PBS queues empty, verified the three terminal outcomes and fresh CPU rate/balance, and reserved 25.6 SU. Post-submit 03:12:23 UTC: Q/q5, insufficient node_pool. The CPU campaign remains below its unchanged 5,000-SU ceiling: 4,713.8 SU committed, 286.2 SU headroom; shared/older unknown maxima remain. No solver, duplicate intent or background schedule was launched. The next step is to review the per-rank categorized diagnostics and actual mapping if the topology gates pass.

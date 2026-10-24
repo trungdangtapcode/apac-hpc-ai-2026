@@ -22,3 +22,5 @@ is historical; no source measurements were deleted by this routing change.
 ## Shared PBS capacity checkpoint — 23 October 2026
 
 At 2026-10-23T18:15:29.209000Z, the HPC CPU worker has three PBS jobs: 25940700 (Q/q5), 25943865 (H/qdev, afterany 25940700), and 25947168 (H/q5, afterok both earlier jobs). The separate AI PBS queue was empty immediately before the third submission. The combined PBS cap 3 is full in that dated observation; holds count too. Both workers must check fresh CPU and AI scheduler state before another qsub. This notice changes no track ownership or AI budget/payload. Read [HPC_CURRENT.md](HPC_CURRENT.md) for receipts and current followup.
+
+HPC followup, **24 October 03:12:23 UTC**: all three jobs in the dated notice above are terminal. The CPU worker admitted only new diagnostic **25956623** (Q/q5); both own PBS queues were empty immediately before that admission. The old full-cap notice is historical. Workers must still query both queues before any new admission. See HPC_CURRENT for the retained failures, new native repeat and unchanged CPU ceiling.
