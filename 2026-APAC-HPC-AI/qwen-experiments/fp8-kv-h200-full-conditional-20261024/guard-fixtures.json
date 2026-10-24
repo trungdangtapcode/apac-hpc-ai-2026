@@ -1,0 +1,56 @@
+{
+  "scope": "CPU-only deterministic guard logic test; no model, GPU, benchmark, runtime, or quality evidence",
+  "cases": {
+    "valid_win": {
+      "expected": "PROCEED",
+      "control": {
+        "status": "pass",
+        "request_errors": 0,
+        "cancellations": 0,
+        "good_request_fraction": 0.95,
+        "good_output_tokens_s": 1000
+      },
+      "candidate": {
+        "status": "pass",
+        "request_errors": 0,
+        "cancellations": 0,
+        "good_request_fraction": 0.95,
+        "good_output_tokens_s": 1020
+      }
+    },
+    "valid_lose": {
+      "expected": "SKIPPED_GUARD_FALSE",
+      "control": {
+        "status": "pass",
+        "request_errors": 0,
+        "cancellations": 0,
+        "good_request_fraction": 0.95,
+        "good_output_tokens_s": 1000
+      },
+      "candidate": {
+        "status": "pass",
+        "request_errors": 0,
+        "cancellations": 0,
+        "good_request_fraction": 0.95,
+        "good_output_tokens_s": 1010
+      }
+    },
+    "error": {
+      "expected": "SKIPPED_GUARD_UNKNOWN",
+      "control": {
+        "status": "fail"
+      },
+      "candidate": null
+    },
+    "missing_artifact": {
+      "expected": "SKIPPED_GUARD_UNKNOWN",
+      "control": null,
+      "candidate": null
+    }
+  },
+  "worker_launch_flags": {
+    "control": "worker.sh receives QWEN_KV_CACHE_DTYPE=auto; no --kv-cache-dtype appended",
+    "candidate": "worker.sh receives QWEN_KV_CACHE_DTYPE=fp8_e4m3; appends --kv-cache-dtype fp8_e4m3",
+    "shared": "--dtype bfloat16 --cuda-graph-backend-prefill disabled"
+  }
+}

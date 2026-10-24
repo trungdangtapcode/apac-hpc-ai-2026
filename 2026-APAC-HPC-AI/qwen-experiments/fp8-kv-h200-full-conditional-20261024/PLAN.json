@@ -1,0 +1,50 @@
+{
+  "id": "fp8-kv-h200-full-conditional-20261024",
+  "state": "DRAFT_FOR_ROOT_REVIEW",
+  "question": "Does a KV-cache dtype switch from BF16 to FP8 retain >1% goodput improvement under a matched full N64 60/120/30 protocol after its short-screen gain is replayed?",
+  "evidence": {
+    "S47_BF16_job": 25863,
+    "S47_status": "passed frozen head check; actual allocation BF16; 2796.146461 good output tokens/s; 636 requests, zero errors/cancellations; local smoke7/8 with no new regression; long checks12/12; quality unknown",
+    "S48_FP8_job": 25864,
+    "S48_status": "submitted afterok S47; review/result not asserted here",
+    "threshold": ">1% short-screen FP8 gain; full pair remains unranked and exploratory"
+  },
+  "pair": {
+    "control": "s50-h200-bf16-kv-full",
+    "candidate": "s51-h200-fp8-kv-full",
+    "control_dependency": "afterok:25864 (root must bind actual receipt; no new IDs invented)",
+    "candidate_dependency": "afterok actual S50 control job ID, root-bound receipt",
+    "matched_factor": "KV-cache dtype only",
+    "fixed": "N64; prompt 4000 tokens / output 200 tokens, seed2026, 60-second warmup, 120-second measurement, 30-second grace; same client image/corpus, placement, graph policy, capacities, backend and transport"
+  },
+  "guard_state_machine": [
+    "At batch start, before any model workers: validate frozen S47/S48 bundle manifests and exact submitted-payload copies, replay their actual checkers for jobs 25863 and 25864, and require zero errors/cancellations, good fraction above 0.90, actual KV allocation proofs, smoke floor/no new regressions, and 12/12 local long diagnostics.",
+    "If evidence is missing, corrupt, or invalid, write FAILED_GUARD_UNKNOWN and exit nonzero before workers. This is not a successful skip.",
+    "If both complete valid screens pass but FP8 good output throughput is at or below 1% above BF16, write SKIPPED_GUARD_FALSE and exit zero before workers. It is not counted as a measured full experiment.",
+    "If screen gain passes, run full BF16 control. Candidate afterok replays the same screen guard and requires an explicit root-bound full-control artifact path, intact manifest-matched submitted payload, full-pair-status.json status=pass, and a passing replay of the full S50 checker. Missing or invalid full control writes FAILED_CONTROL_INVALID and exits nonzero before candidate workers.",
+    "Only the full S50 head checker passing the exact full protocol may create full-pair-status.json with status=pass; job completion alone is insufficient."
+  ],
+  "time_budget_seconds": {
+    "slurm_walltime": 1020,
+    "startup": 480,
+    "semantic_pair_warmup": 120,
+    "client_window": 360,
+    "client_protocol": 210,
+    "local_output_and_long_gates_budget": 120,
+    "client_margin": 30,
+    "head_check": 20,
+    "teardown": 40,
+    "hard_stop": 1020,
+    "overrun_rule": "If production startup or required checks cannot fit, stop/fail within 17 minutes; never shorten 60/120/30 and label it full."
+  },
+  "quality": "UNKNOWN; no official >=99% claim. Local smoke/long gates are not formal accuracy validation.",
+  "causal_limits": "This full pair is conditional and should not be submitted until S48 is independently reviewed as valid and >1% ahead. Comparing the pair only supports this exact short/full protocol and platform; two paired jobs do not establish broad workload generality.",
+  "root_actions_required": [
+    "review configs, scripts, guard implementation and CPU fixture outputs",
+    "populate actual afterok dependency and control artifact path in reviewed receipts",
+    "freeze payloads, then decide queue/budget/submission separately"
+  ],
+  "submission_authorized": false,
+  "gpu_submitted": false,
+  "queue_or_budget_changed": false
+}
