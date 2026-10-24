@@ -10,6 +10,8 @@ The earlier full N64 target-only logs configure no speculative algorithm on eith
 
 EAGLE3 draft execution is useful on decode but unnecessary on prefill. Keeping both prefill workers target-only may reduce prefill-side state and recover TTFT while preserving decode-side speculative ITL gains.
 
+The official SGLang documentation describes prefill and decode as distinct serving phases, and its speculative-decoding description assigns proposal generation to the draft decode path followed by target verification. This supports testing role-specific placement; it does not guarantee that this pinned image and NIXL deployment will accept the mixed role arguments. S61's native startup and two-path semantic gates provide that deployment-specific check. Sources: [SGLang PD disaggregation](https://github.com/sgl-project/sglang/blob/main/docs/docs/advanced_features/pd_disaggregation.mdx), [SGLang speculative hook](https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/arg_groups/speculative_hook.py).
+
 ## Controlled configuration
 
 - Platform: two H200 nodes, 16 GPUs total.
