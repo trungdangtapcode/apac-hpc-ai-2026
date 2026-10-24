@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "ready_for_bounded_probe": true,
+  "utc": "2026-10-24T13:24:01.348054+00:00",
+  "gpus": 5,
+  "minutes": 17,
+  "maximum_su": 181.33333333333334,
+  "parent_failed_job": "224553.pbs111",
+  "parent_manifest_sha256": "55131e6812ee896b4ac30e7ccb39166ffaf354877fcd043b27bff1784062d310",
+  "correction": "R3 adds native --enable-dp-lm-head to avoid globalTP5 vocabulary divisibility, with actual all-rank observer gate. Other R2 model settings and all loaded-copy/health gates remain.",
+  "source_evidence": "Pinned server_args.py native flag plus prerequisite validator; qwen3_moe.py routes LM head to attention group only when enabled; vocab_parallel_embedding.py exact divide matches actual failure. Effective attentionTP1 preserves all vocabulary entries. No manual vocabulary/model editing.",
+  "CPU_checks": {
+    "global_tp_remainder": 1,
+    "attention_tp_remainder": 0,
+    "worker_flag_present": true,
+    "actual_runtime_flag_required_in_headcheck": true
+  },
+  "scope": "Startup qualification only; no model accuracy, PD transfer or performance claim."
+}

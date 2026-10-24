@@ -1,0 +1,76 @@
+{
+  "review_id": "research-review-224468-20261024",
+  "job_id": "224468.pbs111",
+  "bundle": "hpc-ops-replica-r3-20261024",
+  "status": "PASS",
+  "pbs": {
+    "final_state": "F",
+    "exit_status": 0,
+    "stageout_status": 1,
+    "wall_seconds": 82,
+    "program_elapsed_seconds": 24.29178545670584,
+    "host": "a2ap-dgx037",
+    "gpu_count": 1,
+    "estimated_su": 2.9155555555555557,
+    "estimated_su_note": "82 seconds * 128 GPUs / 3600; estimate only, not ledger charge"
+  },
+  "device": {
+    "name": "NVIDIA H100 80GB HBM3",
+    "compute_capability": [9, 0],
+    "uuid": "0bc6bd5f-a156-c028-f9d4-417982bc5b56"
+  },
+  "software": {
+    "torch": "2.11.0+cu130",
+    "hpc_ops": "0.0.1.dev0+gab1a402",
+    "upstream_commit": "ab1a402724635507037426068f6cddc3d30dc0a8",
+    "native_extension_archived": false,
+    "runtime_source_hashes_recorded_and_matched": true,
+    "selected_upstream_source_hashes_recorded_and_matched": true
+  },
+  "geometry": {
+    "tokens": 16,
+    "hidden_size": 256,
+    "intermediate_size": 128,
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "ep_size": 5,
+    "topk": 4,
+    "block_shape": [128, 128]
+  },
+  "metrics": {
+    "ep1_vs_oracle_relative_l2": 0.005955388303846121,
+    "ep5_vs_oracle_relative_l2": 0.006237307097762823,
+    "ep5_vs_ep1_relative_l2": 0.002326115034520626,
+    "physical_map_oracle_relative_l2": 0.0,
+    "relative_l2_threshold": 0.02,
+    "physical_copy_threshold": 1e-7,
+    "rank_output_dtypes": ["torch.bfloat16", "torch.bfloat16", "torch.bfloat16", "torch.bfloat16", "torch.bfloat16"],
+    "output_shape_each_rank": [16, 256],
+    "rank_nonzero_output": [true, false, true, false, true],
+    "candidate_seconds_five_serial_calls": 0.007714163977652788,
+    "ep1_seconds_one_later_call": 0.00008063018321990967,
+    "timing_comparable": false
+  },
+  "activation_quantization_diagnostic": {
+    "mismatches": 3,
+    "elements": 4096,
+    "fraction": 0.000732421875,
+    "source_aware_rounding_bound_violations": 0
+  },
+  "scope": {
+    "claim": "Synthetic one-H100 numerical and physical-copy gate pass for five serial virtual EP ranks using the pinned native operator and source-derived oracle.",
+    "not_established": [
+      "distributed EP, all-reduce, communication or inter-GPU behavior",
+      "Qwen checkpoint behavior, model accuracy or model-scale memory fit",
+      "production routing, EPLB balance, DP attention, NIXL or MNNVL",
+      "serving throughput or comparative performance",
+      "continuous GPU utilization, peak VRAM, kernel, thermal or health telemetry"
+    ]
+  },
+  "artifact_paths": {
+    "raw_archive": "raw-evidence.tar.gz",
+    "raw_files": "collected/",
+    "accounting": "collected/pbs-accounting.txt",
+    "collection_manifest": "collected/evidence-sha256.json"
+  }
+}
