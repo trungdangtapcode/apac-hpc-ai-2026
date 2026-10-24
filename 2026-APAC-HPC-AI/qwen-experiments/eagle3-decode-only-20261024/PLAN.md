@@ -32,4 +32,4 @@ The bundle is derived from the frozen S60 payload, records the parent manifest, 
 
 ## Result status
 
-Prepared after reviewing jobs 25947 and 25948. No job is claimed submitted until a definite Slurm receipt is recorded. Full experiment reasoning is in the [paired review](../research-review-25947-25948-20261024/REVIEW.md).
+Submitted as Slurm job **25988** on 24 October 2026 at 20:04:27 UTC, 16 H200 GPUs across two nodes, 17-minute maximum, no dependency. Initial queue state: PENDING (Resources). Test-only ID 25987 is virtual and was never submitted. Preserve the actual scheduler receipt at [slurm-receipt.json](slurm-receipt.json) and pre-admission review at [ROOT_REVIEW.json](ROOT_REVIEW.json). Full prior-pair reasoning is in the [paired review](../research-review-25947-25948-20261024/REVIEW.md).

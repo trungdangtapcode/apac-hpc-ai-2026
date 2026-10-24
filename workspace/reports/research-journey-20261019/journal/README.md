@@ -22,6 +22,8 @@ Latest methodology review: [20 October observability, missing telemetry and prof
 
 Latest AI continuation: [24 October: fast-default EAGLE3 result and decode-only follow-up](entries/20261024-fast-default-eagle3-result.md).
 
+Latest AI submission: [24 October: decode-only EAGLE3 candidate 25988 submitted](entries/20261024-s61-decode-only-submitted.md).
+
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
 
 Start with **[the journey in 32 stages](JOURNEY.md)**. Each stage explains the question, tested change, observed result, assessment and next decision, with links to the original records. It includes failed attempts, rejected branches, repeated gains, review mistakes and later corrections across both clusters.
