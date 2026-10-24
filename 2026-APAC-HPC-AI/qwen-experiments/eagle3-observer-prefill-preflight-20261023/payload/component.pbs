@@ -1,0 +1,101 @@
+#!/bin/bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-observer-p4
+#PBS -l select=1:ngpus=4:ncpus=56:mem=940gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+set -euo pipefail
+
+T0=$(date +%s)
+STARTUP_DEADLINE=$((T0+720))
+CHECK_DEADLINE=$((T0+780))
+CLEANUP_DEADLINE=$((T0+840))
+cd "$PBS_O_WORKDIR"
+[[ -f payload/SHA256SUMS ]] || { echo 'FATAL: root-reviewed payload freeze manifest is missing' >&2; exit 2; }
+(cd payload && sha256sum --check SHA256SUMS)
+art="$PBS_O_WORKDIR/runs/$PBS_JOBID"
+mkdir -p "$art/submitted" "$art/pd-observer"
+job_uuid=$(tr -d '-' </proc/sys/kernel/random/uuid)
+experiment_id="ap42-observer-prefill-${PBS_JOBID}-${job_uuid}"
+[[ "$experiment_id" =~ ^[A-Za-z0-9_.-]{1,128}$ ]]
+cat >"$art/experiment-context.json" <<CONTEXT
+{
+  "experiment_id": "$experiment_id",
+  "pbs_job_id": "$PBS_JOBID",
+  "t0_epoch_seconds": $T0,
+  "startup_deadline_epoch_seconds": $STARTUP_DEADLINE,
+  "check_deadline_epoch_seconds": $CHECK_DEADLINE,
+  "cleanup_deadline_epoch_seconds": $CLEANUP_DEADLINE
+}
+CONTEXT
+cp payload/{worker.sh,entry.sh,verify-draft.py,check_prefill_observer.py,expected-source.json,asset-contract.json,target-staging-record.json,nixl-conn.py,component.pbs} "$art/submitted/"
+cp -a payload/pd-observer "$art/submitted/"
+if ! type module >/dev/null 2>&1; then
+  source /cm/local/apps/environment-modules/4.5.3/init/bash
+fi
+module load singularity/4.1.5
+image=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+private_tmp=$(mktemp -d "${TMPDIR:-/tmp}/ap42-observer-prefill.XXXXXXXX")
+runner=
+cleanup() {
+  trap - EXIT TERM INT
+  if [[ -n "${runner:-}" ]] && kill -0 "$runner" 2>/dev/null; then
+    kill -TERM "$runner" 2>/dev/null || :
+    stop_end=$(( $(date +%s) + 10 ))
+    (( stop_end > CLEANUP_DEADLINE )) && stop_end=$CLEANUP_DEADLINE
+    while kill -0 "$runner" 2>/dev/null && (( $(date +%s) < stop_end )); do sleep 1; done
+    kill -KILL "$runner" 2>/dev/null || :
+    wait "$runner" 2>/dev/null || :
+  fi
+  timeout --signal=TERM --kill-after=1s 3s rm -rf -- "$private_tmp" || :
+  final_now=$(date +%s)
+  if (( final_now >= CLEANUP_DEADLINE )); then
+    echo "CLEANUP_DEADLINE_EXCEEDED epoch=$final_now" >&2
+    exit 124
+  fi
+}
+trap cleanup EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT
+
+now=$(date +%s)
+remaining=$((STARTUP_DEADLINE-now))
+(( remaining > 0 )) || { echo 'STARTUP_DEADLINE_EXPIRED_BEFORE_LAUNCH' >&2; exit 124; }
+timeout --signal=TERM --kill-after=5s "${remaining}s" singularity exec --nv --cleanenv --no-home \
+  --bind "/scratch:/scratch,$PBS_O_WORKDIR:$PBS_O_WORKDIR,$private_tmp:/tmp,$PBS_O_WORKDIR/payload/nixl-conn.py:/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py:ro" \
+  "$image" /usr/bin/env \
+  PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+  LD_LIBRARY_PATH=/.singularity.d/libs:/usr/local/nvidia/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib64:/usr/local/lib \
+  CUDA_VISIBLE_DEVICES="$CUDA_VISIBLE_DEVICES" HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
+  OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 \
+  QWEN_EXPERIMENT_ID="$experiment_id" QWEN_PBS_JOB_ID="$PBS_JOBID" \
+  QWEN_T0_EPOCH="$T0" QWEN_STARTUP_DEADLINE_EPOCH="$STARTUP_DEADLINE" \
+  QWEN_CHECK_DEADLINE_EPOCH="$CHECK_DEADLINE" QWEN_CLEANUP_DEADLINE_EPOCH="$CLEANUP_DEADLINE" \
+  bash "$PBS_O_WORKDIR/payload/entry.sh" "$PBS_O_WORKDIR/payload" "$art" "$experiment_id" "$PBS_JOBID" \
+  >"$art/prefill.log" 2>&1 &
+runner=$!
+ready=0
+while (( $(date +%s) < STARTUP_DEADLINE )); do
+  status=$(curl -sS --max-time 2 -o "$art/health.json" -w '%{http_code}' \
+    http://127.0.0.1:30100/health 2>"$art/health.stderr" || :)
+  printf '%s\n' "$status" >"$art/health-status.txt"
+  if [[ $status == 200 ]] && grep -q 'The server is fired up and ready to roll!' "$art/prefill.log"; then
+    ready=1
+    break
+  fi
+  kill -0 "$runner" 2>/dev/null || break
+  sleep 5
+done
+if (( ready == 0 )) && kill -0 "$runner" 2>/dev/null; then
+  kill -TERM "$runner" 2>/dev/null || :
+  stop_end=$(( $(date +%s) + 10 ))
+  while kill -0 "$runner" 2>/dev/null && (( $(date +%s) < stop_end )); do sleep 1; done
+  kill -KILL "$runner" 2>/dev/null || :
+  wait "$runner" 2>/dev/null || :
+fi
+check_remaining=$((CHECK_DEADLINE-$(date +%s)))
+(( check_remaining > 0 )) || { echo 'PREFILL_CHECK_DEADLINE_EXPIRED' >&2; exit 124; }
+timeout --signal=TERM --kill-after=3s "${check_remaining}s" \
+  python3 "$PBS_O_WORKDIR/payload/check_prefill_observer.py" "$art" "$ready" "$experiment_id" "$PBS_JOBID" \
+  "$art/experiment-context.json"
