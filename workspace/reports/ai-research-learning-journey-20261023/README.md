@@ -134,3 +134,7 @@ The separate real confirmation 224157 now passes the same byte checks and all ap
 ### Shared files need a portable content identity
 
 The first H200 speculative job stopped before the model loaded: a worker's local filesystem metadata did not equal another node's report. We did not observe which field differed, so we cannot conclude whether that worker saw the same bytes. The repair fully hashes the draft in each role's own node/container view and compares byte counts and publisher hashes. Local before/after metadata remains useful for detecting changes during one read. CPU checks pass; remote verification and model correctness still require the next real job. [Failure and controlled repair](../research-journey-20261019/journal/entries/20261023-h200-worker-byte-identity-repair.md).
+
+## 24 October: kernel compatibility and model quality are different tests
+
+A small actual H200 run now confirms that native FP8 KV attention agrees with an independent oracle on the same rounded cache. The full EAGLE attempt also produces real outputs, but its strict token comparison fails. This does not establish an official accuracy failure: the contest compares full benchmark scores. It does require another controlled investigation before any speculative speedup claim. The next target/EAGLE diagnostic will use matched deterministic settings because that flag changes sampling and collectives. [Read the new stage with all results, limits and decisions](../research-journey-20261019/journal/entries/20261024-fp8-output-and-credit.md).
