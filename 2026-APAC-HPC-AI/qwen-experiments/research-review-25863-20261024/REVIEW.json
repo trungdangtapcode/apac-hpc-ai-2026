@@ -1,0 +1,81 @@
+{
+  "corrected_interpretation": {
+    "issue": "All generated kv-runtime role JSON and head-screen-check repeat physical_store_dtype=torch.uint8 based on an unconditional source-derived string in frozen check-kv-runtime.py. That description is incorrect for this BF16 run. The evidence in the same records and raw role logs establishes logical allocated dtype torch.bfloat16. Pinned SGLang memory-pool behavior uses logical dtype for non-FP8 allocations; uint8 backing applies to FP8 logical cache allocations. Therefore the BF16 control physical storage dtype should be reported as torch.bfloat16. Preserve frozen raw JSON and submitted payload unchanged; this is an erroneous descriptor, not a failure of the actual BF16 allocation evidence or head gate. Correct future derived checker to condition physical store dtype on logical dtype and revalidate source behavior."
+  },
+  "job": {
+    "id": 25863,
+    "interpretation": "Short screening run only; not comparable to full N64 ~3k baseline measurement and not ranked.",
+    "protocol": "unranked N64 target-only, fixed 4000/200 sequence, seed 2026, 20 s warmup / 40 s measurement / 30 s grace; same client corpus and image as paired FP8 screen",
+    "state": "COMPLETED (0:0)",
+    "wall_seconds": 485
+  },
+  "limits_and_next_decision": {
+    "causal_limits": "The result is a 20/40/30 unranked screen. Do not claim a causal speedup or compare directly against full N64 ~3k throughput. It primarily confirms the BF16 control path and produces a matched short-screen comparator. Sampling is too sparse for bandwidth attribution. FP8 screen remains quality-unknown until independent quality validation; passing runtime gates alone is not an accuracy claim.",
+    "next": "Keep S48 job 25864 pending afterok control; its source gate is already cleared per submission record, but no result or independent review is claimed here. Once available, compare only under matched short-screen protocol and retain the >=1% consideration threshold plus local quality gates before any full matched confirmation."
+  },
+  "quality_and_protocol": {
+    "frozen_checker_replay": "PASS",
+    "input_corpus": "636 requests; observed sequence input length average 3986 tokens (nominal 4000 before chat formatting), output average 199.997 tokens; total input 2,535,098 and output 127,198 tokens",
+    "long_context": "12/12 hand-generated retrieval checks pass; diagnostic only, not formal accuracy evaluation",
+    "quality_status": "UNKNOWN; no official >=99% accuracy claim established",
+    "smoke_vector": "7/8 pass; same single known reverse-ASCII failure as existing frozen reference; zero new regressions",
+    "telemetry": "GPU sampler sampled at 5 s: decode 91 samples x 8 GPUs; each prefill role 88/87 samples x 4 GPUs. GPU sampler status ok for every sample. Per GPU values include memory, util, power and temperature. Server HTTP metrics endpoint returned HTTP 200 for 50/91 decode, 63/88 prefill-0, and 67/87 prefill-1; remaining samples have no HTTP status/metric payload. Missing data is not zero/healthy. Sampled GPU median utilization is 0% across roles, max 100%; median memory used 132902 MiB decode, 130614 MiB each prefill, peaks 134354 / 132156 / 132158 MiB; median power 169.755 / 134.105 / 137.07 W; max temperature 65 / 71 / 73 C. Five-second samples are sparse snapshots and do not establish sustained utilization or bottleneck. Host CPU, memory, network counters were recorded in telemetry; not converted into rates because those are cumulative/shared host counters and no isolated measurement was performed.",
+    "warmup": "two pair warmup receipts present; NIXL role logs show UCX initialized and heterogeneous TP4->TP8 geometry ready"
+  },
+  "raw_artifact_policy": "All raw artifacts and submitted payload are preserved in place; this review only references selected files and hashes.",
+  "raw_artifact_root": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/25863",
+  "result": {
+    "cancellations": 0,
+    "concurrency": {
+      "configured": 64,
+      "decode_mean": 43.48,
+      "effective_max": 64,
+      "effective_mean": 61.8,
+      "effective_p50_p90_p95_p99": 64,
+      "prefill_mean": 18.32,
+      "tokens_in_flight_max": 260886,
+      "tokens_in_flight_mean": 251033
+    },
+    "errors": 0,
+    "good_output_tokens_per_second": 2796.146461353221,
+    "good_request_fraction": 0.9528301886792453,
+    "head_gate": "PASS",
+    "itl_ms": {
+      "max": 16.264,
+      "mean": 14.891454,
+      "p50": 15.0262,
+      "p90": 15.1256,
+      "p95": 15.1734,
+      "p99": 15.7399
+    },
+    "raw_output_tokens_per_second": 2934.523412468705,
+    "request_latency_ms": {
+      "max": 7860.54,
+      "mean": 4211.86,
+      "p95": 5636.54,
+      "p99": 7331.24
+    },
+    "requests": 636,
+    "ttft_ms": {
+      "max": 4867.97,
+      "mean": 1248.51089,
+      "p50": 1115.491,
+      "p90": 1531.199,
+      "p95": 2777.022,
+      "p99": 4355.17
+    }
+  },
+  "review_id": "research-review-25863-20261024",
+  "reviewed_at_utc": "2026-10-24",
+  "runtime_configuration": {
+    "actual_allocation": "all 16 allocation rank logs report torch.bfloat16; P: 4+4 ranks, 34.32 GB each K and V, 1,531,197 tokens; D: 8 ranks, 48.14 GB each K and V, 2,148,119 tokens",
+    "kv_cache_dtype_argument": "auto in all role ServerArgs",
+    "roles": {
+      "decode-0": "TP8 EP8, max_running_requests 256, HPC-Ops MoE, FlashInfer decode attention, prefill graph disabled",
+      "prefill-0": "TP4 EP1, max_running_requests 64, DeepGEMM, chunked prefill 8192, prefill graph disabled",
+      "prefill-1": "TP4 EP1, max_running_requests 64, DeepGEMM, chunked prefill 8192, prefill graph disabled"
+    },
+    "scale_provenance": "CPU metadata preflight found no k_scale/v_scale checkpoint keys and no quantization_param_path; pinned-source default 1.0 is inferred, per-layer runtime scales are not logged. For BF16 control the FP8 scale uncertainty does not affect this allocation gate."
+  },
+  "scope": "Independent review of completed H200 BF16 KV control job 25863; no payload/raw artifact edits."
+}
