@@ -1,0 +1,49 @@
+{
+  "schema": "eagle3-pd-observer-source-provenance-v1",
+  "status": "prospective_cpu_tested_only",
+  "container_image": {
+    "path": "/scratch/enroot-images/sglang-harbor.sqsh",
+    "sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "source": "existing validated asset manifest root-target-asset-preflight.json"
+  },
+  "source_inputs": [
+    {
+      "role": "pinned SGLang MetadataBuffers source",
+      "original_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-aux-layout-review-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/disaggregation/utils.py",
+      "retained_copy": "source/pinned-utils.py",
+      "sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82"
+    },
+    {
+      "role": "full derived MetadataBuffers module with append wrapper",
+      "retained_copy": "source/derived-utils.py",
+      "sha256": "a1d690776ff27ffe6ca24d4b8d34fc598d17c7340e3a0720363d387e13998454"
+    },
+    {
+      "role": "pinned image native NIXL module source",
+      "original_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-aux-layout-review-20261023/source-image/sgl-workspace/sglang/python/sglang/srt/disaggregation/nixl/conn.py",
+      "sha256": "28da79ad06baa8c1b725bc98983ca570f82a73b49439873831505ab7f1eef601"
+    },
+    {
+      "role": "full custom native NIXL helper source from prior span probe",
+      "original_path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-production-span-probe-20261023/nixl-conn.py",
+      "retained_copy": "source/derived-nixl-conn-base.py",
+      "sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+    },
+    {
+      "role": "full derived native NIXL module with send markers",
+      "retained_copy": "source/derived-nixl-conn.py",
+      "sha256": "e22a06ae66b0204cda957dc6083a780ce359c32df08bfbf84c5bceeecd136620"
+    }
+  ],
+  "implementation_files": {
+    "observer.py": "source-backed method wrappers and bounded metadata/event serialization",
+    "sitecustomize.py": "post-import wrappers for pinned image modules",
+    "validate_receipts.py": "CPU receipt schema and 16-rank pre-warmup gate",
+    "tests/test_observer.py": "fake-tensor and mocked-transfer CPU tests"
+  },
+  "limitations": [
+    "The image hash was taken from the existing validated asset manifest, not recomputed in this observer task.",
+    "No GPU or live model process was run; no runtime metadata or transfer receipts exist.",
+    "The observer records native method start and return/exception only; a returned handle does not establish transfer completion."
+  ]
+}
