@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-d5r5-h100-unified
+# Scheduling order only: the eight-GPU semantic probe is a separate hypothesis.
+#PBS -W depend=afterany:224560.pbs111
+#PBS -l select=1:ncpus=40:ngpus=5:mpiprocs=1
+#PBS -l walltime=00:17:00
+#PBS -j oe
+set -euo pipefail
+B=${PBS_O_WORKDIR:?PBS_O_WORKDIR is required}
+cd "$B"
+OUT=$B/runs/${PBS_JOBID:?}
+IMAGE=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh
+MODEL=/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8
+cd "$B"
+sha256sum --check SHA256SUMS
+python3 -B "$B/prepare_check.py"
+mkdir -p "$OUT"
+exec >"$OUT/job.log" 2>&1
+python3 -B "$B/prefill_chunk_preflight.py" "$OUT/prefill-chunk-preflight-controller.json"
+printf 'JOB_ID=%s\nSTART_UTC=%s\nHOST=%s\n' "$PBS_JOBID" "$(date -u +%FT%TZ)" "$(hostname -f)"
+[[ $(stat -c %s "$IMAGE") == 26476240896 ]] || { echo 'FATAL: image size mismatch'; exit 2; }
+cp "$B/SHA256SUMS" "$OUT/submitted-manifest.sha256"
+[[ -n ${CUDA_VISIBLE_DEVICES:-} ]] || { echo 'FATAL: scheduler mask missing'; exit 2; }
+[[ $(awk -F, '{print NF}' <<<"$CUDA_VISIBLE_DEVICES") == 5 ]] || { echo 'FATAL: expected five assigned devices'; exit 2; }
+if ! type module >/dev/null 2>&1; then source /cm/local/apps/environment-modules/4.5.3/init/bash; fi
+module load singularity/4.1.5
+PRIVATE_HOME=$(mktemp -d "${TMPDIR:-/tmp}/ap42-d5-home.XXXXXXXX")
+cleanup() { rc=$?; trap - EXIT; timeout --kill-after=1s 3s rm -rf -- "$PRIVATE_HOME" || :; exit "$rc"; }
+trap cleanup EXIT
+mkdir -p "$PRIVATE_HOME/.cache"
+timeout --signal=TERM --kill-after=15s 900s singularity exec --nv --cleanenv --no-home \
+ --bind "/scratch:/scratch:ro,$OUT:$OUT,$PRIVATE_HOME:/tmp/ap42-d5-home" "$IMAGE" \
+ /usr/bin/env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+ LD_LIBRARY_PATH=/.singularity.d/libs:/usr/local/nvidia/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib64:/usr/local/lib \
+ HOME=/tmp/ap42-d5-home XDG_CACHE_HOME=/tmp/ap42-d5-home/.cache PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
+ CUDA_VISIBLE_DEVICES="$CUDA_VISIBLE_DEVICES" D5_BUNDLE="$B" D5_OUTPUT_DIR="$OUT" D5_MODEL_DIR="$MODEL" \
+ bash "$B/worker.sh"
+python3 -B "$B/headcheck.py" --out "$OUT" >"$OUT/independent-headcheck.json"

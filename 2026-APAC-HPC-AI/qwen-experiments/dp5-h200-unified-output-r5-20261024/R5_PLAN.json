@@ -1,0 +1,26 @@
+{
+  "hypothesis": "Explicitly choosing a global prefill chunk divisible through both DP floor-division and page-size alignment removes the R4 native startup assertion while preserving the qualified D5 unified-mode path.",
+  "derived_from": "dp5-h200-unified-output-r4-20261024",
+  "R4_parent_job": "25936",
+  "change": [
+    "set --chunked-prefill-size 10240 globally",
+    "pinned source divides this value by DP size 5, resolving 2048 tokens per rank",
+    "CPU preflight verifies 8192 resolves to invalid 1638 (remainder 38 modulo page 64) and 10240 resolves to valid 2048",
+    "record and require actual per-rank ServerArgs.chunked_prefill_size == 2048 on every rank"
+  ],
+  "preserved": [
+    "R4 root-reviewed unified-mode change and actual mode observer",
+    "TP5, DP5, EP5, DP attention, DP LM head, physical 130/local 26, BF16, page64",
+    "R4 strengthened independent R3 parent proof and prepare gate",
+    "metrics enabled, 900s server/container timeouts, 5s sampler and phase markers",
+    "strict raw output diagnostics: no errors, no known smoke regressions, at least 7/8 smoke and 12/12 retrieval; output gate separate from readiness"
+  ],
+  "limits": [
+    "small local output screen is not official 99% quality or throughput",
+    "R4 H200 25936 failed before model arguments accepted; no model loaded or output produced",
+    "H100 R4 failure requires actual run review; H100 R5 remains blocked on root-bound afterok dependency to the current eight-node probe"
+  ],
+  "controller_wall_minutes": 17,
+  "gpu_count": 5,
+  "requires_root_review": true
+}

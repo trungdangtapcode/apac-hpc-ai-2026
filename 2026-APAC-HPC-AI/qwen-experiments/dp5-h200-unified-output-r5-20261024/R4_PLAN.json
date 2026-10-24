@@ -1,0 +1,35 @@
+{
+  "hypothesis": "A single five-GPU unified Qwen server can pass the D5 startup contract and produce bounded local output diagnostics after DP LM-head support.",
+  "derived_from": "dp5-h200-readiness-r3-20261024",
+  "platform": "H200",
+  "change": [
+    "remove decode disaggregation, NIXL and bootstrap flags; pinned source default is null/unified",
+    "record resolved disaggregation_mode and require null on every rank",
+    "serve model name qwen",
+    "disable prefill CUDA graph; retain decode graph max batch 4"
+  ],
+  "preserved": [
+    "TP5, DP5, EP5, DP attention and DP LM head",
+    "physical expert map 130 slots, 26 local slots, BF16 model and KV cache, page size 64",
+    "R3 assigned-device, map, loaded-weight hashes/scales, KV and native health gates"
+  ],
+  "diagnostics": {
+    "smoke_cases": 8,
+    "known_reference_floor": 7,
+    "retrieval_cases": 12,
+    "readiness_depends_on_exact_response_counts": false,
+    "official_quality": "UNKNOWN",
+    "scored_load": false,
+    "throughput_claim": false
+  },
+  "time_budget_seconds": {
+    "startup_deadline": 660,
+    "smoke_deadline": 60,
+    "retrieval_deadline": 90,
+    "wrapper_walltime": 1020,
+    "expected_teardown_and_setup_reserve": 210
+  },
+  "port": 30150,
+  "resource_sampler_interval_seconds": 5,
+  "requires_root_review": true
+}

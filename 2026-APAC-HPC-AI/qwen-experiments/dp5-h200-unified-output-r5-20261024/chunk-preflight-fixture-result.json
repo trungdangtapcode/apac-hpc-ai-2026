@@ -1,0 +1,42 @@
+{
+  "state": "PASS_CPU_SOURCE_BACKED_CHUNK_PREFLIGHT",
+  "source": "pinned-source/sgl-workspace/sglang/python/sglang/srt/server_args.py",
+  "source_sha256": "79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f",
+  "constraints_verified": [
+    "self.chunked_prefill_size = self.chunked_prefill_size // self.dp_size",
+    "assert self.tp_size % self.dp_size == 0",
+    "self.chunked_prefill_size % self.page_size == 0",
+    "chunked_prefill_size must be divisible by page_size"
+  ],
+  "fixtures": [
+    {
+      "global_chunk": 8192,
+      "dp_size": 5,
+      "resolved_per_rank_chunk": 1638,
+      "page_size": 64,
+      "global_floor_division_remainder": 2,
+      "page_divisibility_remainder": 38,
+      "valid": false
+    },
+    {
+      "global_chunk": 10240,
+      "dp_size": 5,
+      "resolved_per_rank_chunk": 2048,
+      "page_size": 64,
+      "global_floor_division_remainder": 0,
+      "page_divisibility_remainder": 0,
+      "valid": true
+    }
+  ],
+  "candidate": {
+    "global_chunk": 10240,
+    "dp_size": 5,
+    "resolved_per_rank_chunk": 2048,
+    "page_size": 64,
+    "global_floor_division_remainder": 0,
+    "page_divisibility_remainder": 0,
+    "valid": true
+  },
+  "model_imported": false,
+  "gpu_imported": false
+}
