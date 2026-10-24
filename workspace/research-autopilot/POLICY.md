@@ -54,14 +54,6 @@ Edit active sources once in 2026-APAC-HPC-AI or workspace. The sibling apac-hpc-
 
 Retain external-object manifests and hashes. A Git push does not upload sibling artifact bytes; they still need separate off-host backup. End each work turn with a safe checkpoint or name exactly what remains uncaptured/unpushed. Keep CURRENT under 120 lines and POLICY under 100, with historical material linked separately. No automatic sync or background AI service is enabled.
 
-## CPU project verified on 21 October
+## CPU project and current authorization
 
-ASPIRE-2A CPU login is now authenticated and project 59000042 is distinct from
-AI/H100 project 59010042. See notes/HPC_CURRENT.md and the native timing probe
-plan. CPU-only work uses its own budget lock/ledger and actual 1 SU/core-hour
-rate; do not apply GPU rates or spend/change the AI ledger on this worker's
-behalf. The first CPU baseline wave has a planning ceiling of 100 SU, initially
-only an eight-CPU/10-minute native timing probe (maximum 1.333333 SU). Reserve
-before qsub under the CPU lock; check published project/queue, normalization
-and combined own PBS cap. At most one active CPU allocation in this wave.
-No cap/grant increase, automatic schedule or background Codex is authorized.
+CPU project59000042 is separate from AI59010042. On24October the owner authorized using the remaining CPU grant before30October, superseding earlier100/1,000/5,000-SU limits. The campaign ceiling is29,777.846SU (full30,000grant minus retained222.154pre-campaign baseline), with unknown shared maxima retained. CPU-only ledger/lock and verified1SU per allocated CPU hour apply. Fresh balance/rate/combined own PBS cap checks and reservation are mandatory before qsub. One active CPU allocation and combined own queued/held/running cap3 remain. Follow notes/HPC_CURRENT and its current linked decision; historical budget figures are dated. No AI budget changes, automatic schedules or background Codex are authorized.

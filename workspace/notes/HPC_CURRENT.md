@@ -2,6 +2,12 @@
 
 Updated 24 October 2026. Session 01a1508d-26b0-7dd0-9dc1-f217ce0aff40 owns HPC only. The AI worker owns its payloads and queues. English artifacts, Vietnamese chat. No background Codex, schedules or autopilot.
 
+## Current CPU authorization — supersedes earlier 5,000-SU limit
+
+On24October the owner explicitly authorized using the remaining CPU grant before30October. The new cumulative campaign ceiling is **29,777.846SU** (30,000grant minus retained222.154pre-campaign baseline). After the known diagnostic reconciliation, commitment **4,706.2SU**, headroom **25,071.646SU**. Unknown maxima remain. [Full decision, deadline distinction and research sequence](cpu-campaign-before-oct30-20261024.md). One active CPU allocation / combined own PBS cap3 remain; no automation or AI changes.
+
+Job **25956623 is terminal Exit1**. All512 captured records show one-CPU affinity before MPI_Init expanding to CPUs0–255 afterward. Core/NUMA lookups were skipped, not failed. No candidate ran; launch shutdown reached its bounded timeout. Investigate a supported binding control before qualification or solver A/B. [Full collected review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/completed-review-20261024/diagnostic-25956623/RESULTS.md). Later sections retain dated historical budget/queue snapshots.
+
 ## New verified native best and completed jobs
 
 [24 October collection and independent replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/completed-review-20261024/RESULTS.md) verifies 126 retained files and terminal PBS outcomes:
@@ -22,7 +28,7 @@ The new balanced whole-group mapping remains offline: host cut 283,819 versus or
 
 A future solver comparison must use identical method-3 identity and candidate launch flags, binding, transport, decomposition and initial fields. The successful default-launch repeat is not automatically that matched control. A single allocation with sequential arms is preferable but order effects remain; budget must permit it.
 
-## Budget, access and records
+## Historical 5,000-SU budget snapshot, access and records
 
 The owner-approved CPU campaign ceiling is **5,000 SU** on CPU project 59000042, separate from AI 59010042. [Locked reconciliation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/completed-review-20261024/budget-reconciliation.json) retires only the three now-known terminal maxima, adds a rounded 164-SU conservative allowance, preserves all shared/older unknown maxima and leaves **4,688.2 SU committed / 311.8 SU headroom** before new admission. The new 25.6-SU diagnostic reservation brings commitment to **4,713.8 SU / 286.2 SU headroom**. This is not posted billing. Check a fresh site report/rate, own CPU and AI queues under the CPU budget lock before qsub. One active CPU allocation; combined PBS cap three including holds. All three old jobs are terminal in the 03:04–03:05 UTC queries, not still queued.
 

@@ -246,3 +246,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [24 October: submit the four-H100 observer qualification](entries/20261024-observer-preflight-submitted.md).
 
 - [24 October: independent HPC repeat and topology diagnosis](entries/20261024-hpc-repeat-and-topology-diagnosis.md).
+
+- [24 October: remaining CPU grant authorized and MPI affinity failure isolated](entries/20261024-hpc-full-cpu-campaign.md).

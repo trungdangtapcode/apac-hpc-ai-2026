@@ -8,8 +8,8 @@
     "balance_SU": 29777.846,
     "in_doubt_SU": 0
   },
-  "baseline_wave_planning_ceiling_SU": 5000,
-  "reserved_max_SU": 4713.8,
+  "baseline_wave_planning_ceiling_SU": 29777.846,
+  "reserved_max_SU": 4706.200000000001,
   "jobs": [
     {
       "id": "25904725.pbs101",
@@ -185,7 +185,7 @@
       "id": "25956623.pbs101",
       "root": "/scratch/users/industry/ai-hpc/apacsc42/apac2026/tripleu-mpi-placement512-diagnostic-20261024T031159Z",
       "maximum_SU": 25.6,
-      "state": "SUBMITTED",
+      "state": "F_EXIT_1_POST_MPI_AFFINITY_EXPANSION",
       "branch": "four_host_512_rank_topology_failure_diagnostic",
       "dependency_afterok": [],
       "reviewed_terminal_jobs": [
@@ -193,25 +193,32 @@
         "25943865.pbs101",
         "25947168.pbs101"
       ],
-      "observed_utc": "2026-10-24T03:12:09.257845+00:00"
+      "observed_utc": "2026-10-24T03:12:09.257845+00:00",
+      "scheduler_state": "F",
+      "scheduler_exit_status": 1,
+      "elapsed_seconds": 120,
+      "estimated_actual_SU": 17.066666666666666,
+      "conservative_terminal_allowance_SU": 18,
+      "posted_charge_reconciled": false,
+      "reservation_note": "Retired only this terminal known maximum using validated512core rate1 and observedwall; rounded consumed allowance. Originalmax retained, no exactpostedcharge claim."
     }
   ],
   "note": "CPU-only ledger; no AI budget changes. Probe and future stages need locked fresh checks and separate submission receipts.",
   "schema": 2,
-  "updated_utc": "2026-10-24T03:12:09.257854+00:00",
-  "consumed_ceiling_SU": 2213,
-  "outstanding_reserved_max_SU": 2500.8,
-  "planning_committed_SU": 4713.8,
+  "updated_utc": "2026-10-24T03:19:41.680449+00:00",
+  "consumed_ceiling_SU": 2231,
+  "outstanding_reserved_max_SU": 2475.2000000000003,
+  "planning_committed_SU": 4706.200000000001,
   "reservation_semantics": "Always enforce consumed_ceiling_SU + outstanding_reserved_max_SU + new maximum <= current cumulative research ceiling (baseline_wave_planning_ceiling_SU). Original first-wave ceiling remains in ceiling_history.",
   "latest_project_snapshot": {
-    "observed_utc": "2026-10-24T03:07:52.897995+00:00",
+    "observed_utc": "2026-10-24T03:19:41.680449+00:00",
     "used_SU": 2269.938,
     "balance_SU": 27730.062,
     "in_doubt_SU": 0.0,
-    "site_timestamp_limitation": "Raw report retained; not individual posted-job billing."
+    "site_timestamp_limitation": "Retained site report may lag recent jobs; not individual billing."
   },
   "reconciliation_note": "Authorised ceiling expansion and conservative common-cost coverage, not retirement of unknown reservations; reported campaign delta and unresolved maxima may double count intentionally.",
-  "last_reconciliation": "completed-review-20261024/budget-reconciliation.json",
+  "last_reconciliation": "cpu-campaign-20261024/budget-authorization.json",
   "ceiling_history": [
     {
       "observed_utc": "2026-10-21T19:51:40.782003+00:00",
@@ -226,6 +233,15 @@
       "new_cumulative_ceiling_SU": 5000,
       "authorization": "Owner explicitly approved raising cumulative CPU campaign ceiling to 5,000 SU, conservatively including shared use, on 23 October 2026.",
       "scope": "CPU project 59000042 only, cumulative campaign since retained 222.154-SU baseline; one active CPU allocation and combined PBS cap three remain."
+    },
+    {
+      "observed_utc": "2026-10-24T03:19:41.680449+00:00",
+      "previous_ceiling_SU": 5000,
+      "new_cumulative_ceiling_SU": 29777.846,
+      "authorization": "Owner explicitly authorized using the remaining CPU SU before 30 October 2026, replacing the 5,000-SU research ceiling. Use available CPU grant for justified research, not wasteful burn.",
+      "scope": "CPU project59000042 only. Full30000 grant less retained pre-campaign222.154 SU baseline. Fresh balance and reservations still gate every admission; unknown shared maxima retained. One active CPU allocation and combined own PBS cap3 unchanged.",
+      "deadline": "Owner says unused SU expire on30October; campaign planning uses that earlier deadline. Site myprojects currently shows ExpDate2026-11-15; user deadline and site expiry are different evidence, not reconciled.",
+      "automation": "No background Codex, autopilot, schedule or automatic notification enabled."
     }
   ],
   "shared_cost_observations": {
