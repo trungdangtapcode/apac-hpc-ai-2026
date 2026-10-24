@@ -12,7 +12,7 @@ R = Path(__file__).resolve().parents[1]
 O = Path(__file__).resolve().parent
 B = R / "serving-tuning-10/s61-h200-eagle3-decode-only"
 RECEIPT = O / "slurm-receipt.json"
-CONTROL = R / "runs/25947/root-review.json"
+CONTROL = R / "runs/25948/matched-control-verification.json"
 EXPECTED_CONTROL_SHA = "cd91b8b2b05006ed43d48d8b31a24e1df6887041e2f06c7e24b4cde2e66b0a38"
 
 def run(args, **kwargs):
