@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -P 59010042
+#PBS -q normal
+#PBS -N ap42-eagle3-pd-serial-init-r6
+#PBS -l select=2:ngpus=8:mpiprocs=1
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:20:00
+#PBS -j oe
+set -euo pipefail
+export QWEN_ALLOCATION_T0=$(date +%s)
+
+export QWEN_CPU_ENVELOPE_MODE=legacy
+export QWEN_NODE_PREFETCH=off
+export QWEN_RESOURCE_MONITOR=1
+export QWEN_TELEMETRY_MAX_S=920
+export QWEN_BUNDLE=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-pd-serial-init-r6-replacement-20261024
+export SLURM_SUBMIT_DIR=/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015
+export SLURM_JOB_ID=$PBS_JOBID SLURM_JOB_NODELIST=from-pbs-nodefile
+export QWEN_EXPERIMENT_ID=eagle3-pd-serial-init-r6-replacement-20261024
+export QWEN_NIXL_PATCH_SHA256=912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f
+
+cd "$QWEN_BUNDLE"
+sha256sum --check SHA256SUMS
+python3 - "$QWEN_BUNDLE" <<'PARENT'
+import json,hashlib,sys
+from pathlib import Path
+parent=Path('/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-observer-prefill-api-r2-20261024/runs/224276.pbs111/prefill-observer-preflight.json')
+raw=parent.read_bytes();r=json.loads(raw)
+assert r['passed'] is True and r['pbs_job_id']=='224276.pbs111'
+assert r['proof']['metadata_observer']['receipt_count']==4
+assert r['proof']['metadata_observer']['passed'] is True
+out=Path('/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/runs')/ __import__('os').environ['PBS_JOBID']
+out.mkdir(parents=True,exist_ok=True)
+(out/'accepted-parent-observer.json').write_bytes(raw)
+(out/'accepted-parent-observer-sha256.txt').write_text(hashlib.sha256(raw).hexdigest()+'\n')
+print('PARENT_OBSERVER_RUNTIME_PASS_VERIFIED')
+PARENT
+source "$QWEN_BUNDLE/pbs-shim.sh"
+exec /bin/bash "$QWEN_BUNDLE/topology-job.sh"
