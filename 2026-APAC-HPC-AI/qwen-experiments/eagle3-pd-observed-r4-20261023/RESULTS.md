@@ -1,0 +1,7 @@
+# Preparation results — no H100 run
+
+**PREPARED_NOT_SUBMITTED.** This candidate is a source-derived review draft. It has not been uploaded or submitted, and it has no new PBS receipt, runtime observation, H100 output, score, or budget reservation.
+
+The initial CPU preparation record passed eight PBS launcher fixtures (including actual shim status/timeout forwarding), absolute phase-deadline fixtures, semantic warmup receipt replay, exact 1600-ID head fixtures against the accepted H100 target reference, and six observer tests. **Independent review then found that `observer-gate.py` could not import `validate_receipts.py` from its packaged `pd-observer/` directory.** The gate now inserts that exact bundle directory before importing helpers. A regression fixture confirms that pre-warmup reaches the expected missing-16-receipts check rather than failing at import. After the fix, Python compilation, Bash syntax, all eight launcher fixtures, phase fixtures, semantic/head fixtures, the new import regression, six observer tests, and retained R3 source checks pass. `CPU_VALIDATION.json` records the corrected coverage. Source manifests verify the unchanged native NIXL `912b7edb...` source.
+
+These checks do not establish that the observer loads on H100, that native KV or auxiliary sends occur, that remote task exit status propagates, or that the 16-rank output gate passes. The original 223055 failure remains the only observed full-P/D result for this branch; it remains failed with zero completed diagnostic outputs.
