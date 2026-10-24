@@ -1,0 +1,71 @@
+{
+  "allocation_and_device_observations": {
+    "cuda_visible_devices": "0,1,2,3,4",
+    "device_preflight": "PASS_ASSIGNED_CUDA_DEVICES; Python saw exactly 5 NVIDIA H200 devices, compute capability 9.0, each with 150,101,688,320 bytes reported device memory.",
+    "loaded_expert_weights": "No loaded_first_moe_expert_parameter_metadata or loaded_first_moe_expert_weight_hashes observer event exists. Therefore no claim that any expert weights or duplicate weight/scale hashes were loaded or checked.",
+    "observer_records": "Exactly five observer JSONL files, one record each, event expert_metadata_after_init; ranks 0-4 map one-to-one to five distinct H200 UUIDs. All records agree on TP5/DP5/attention TP1/EP5/MoE TP1 and 26 local physical experts.",
+    "physical_expert_layout": "Logical expert count 128, physical expert count 130 after two redundant experts, 26 physical local expert slots per DP/EP rank. All five observer rows reported the same valid physical-to-logical map SHA-256 c9224e794770eafdb9ceecfce2578998360528167bdf8fe75166841ee29cc84c, shape 94x130, with per-layer tail [0,1].",
+    "server_args_observed": "TP5, DP5, enable_dp_attention=true, EP5, DP-attention-derived attention TP1, MoE TP1, moe_dp_size=1, physical experts=130, BF16 model and BF16 KV, HPC-Ops MoE runner, NIXL decode; enable_dp_lm_head=false (default).",
+    "unique_gpu_uuids": 5
+  },
+  "collection_and_inspection": {
+    "inspected": [
+      "actual sacct job, batch, extern, and env-step records",
+      "submitted-payload manifests and root review/reference bindings",
+      "13 pinned source-file digests against retained extracted source",
+      "device inventory and unique UUID mapping",
+      "all five observer records and their full expert-map metadata",
+      "actual ServerArgs and all assertion tracebacks",
+      "model config and header-only preflight",
+      "observer event presence/absence"
+    ],
+    "not_collected_or_not_present": [
+      "GPU utilization, memory, power, temperature, or kernel telemetry",
+      "server metrics or health response",
+      "loaded model/expert tensor evidence",
+      "client corpus or request outcomes",
+      "score, latency, throughput, or SLA data"
+    ],
+    "telemetry_limit": "Observer output is one initialization metadata record per rank, not hardware telemetry. Missing telemetry is not zero and does not imply healthy or idle devices."
+  },
+  "failure_and_interpretation": {
+    "cause": "The checkpoint config reports vocab_size 151936. TP remains 5 for the vocabulary-parallel LM head because enable_dp_lm_head is false; DP attention gives attention TP1 but does not make that LM head dimension divisible by five. Model initialization aborts before weight loading completes.",
+    "classification": "A real model-startup incompatibility for this exact submitted argument set. It does not refute the earlier expert metadata/map checks, which occurred before LM-head construction.",
+    "not_proven": "No successful model load, local expert weight rows, duplicate expert hashes, model health endpoint, serving request, numerical quality, PD correctness, throughput, or performance score.",
+    "observed_exception": "AssertionError: 151936 is not divisible by 5, from vocab_range_from_global_vocab_size during ParallelLMHead initialization. The same assertion appears in each of five rank traces."
+  },
+  "job": {
+    "elapsed": "00:02:08 (128 seconds from sacct)",
+    "exit_code": "1:0",
+    "id": 25923,
+    "name": "ap42-d5r2-h200-ready",
+    "node": "g1",
+    "partition": "hpcai",
+    "requested_resources": "1 node, 5 H200 GPUs, 40 CPUs, 17-minute maximum",
+    "sacct_observation": "The allocation summary reports gres/gpu=8, while the env step reports gres/gpu=5; the submitted batch and srun directives each request 5. Device preflight observed exactly 5 assigned CUDA devices. This discrepancy is recorded without inferring extra visible devices.",
+    "state": "FAILED"
+  },
+  "next_decision": "Treat job 25923 as a failed startup qualification with successful pre-load topology/expert-map metadata and a vocabulary-parallel divisibility blocker. Root reports R3 job 25926 with native enable-dp-lm-head already submitted to address the blocker; its result and readiness remain unreviewed here.",
+  "preservation": "All 25923 raw run artifacts and the frozen submitted payload were left unchanged.",
+  "question_and_prior_context": {
+    "actual_followup": "Root reports new native enable-dp-lm-head R3 job 25926 already submitted. This review did not query or alter that job.",
+    "objective": "Confirm ordinary Qwen3-235B-A22B FP8 target-model startup under the proposed DP5/EP5 mapping on five H200 GPUs; startup readiness only.",
+    "prior_gate": "The submitted payload binds the accepted synthetic R3 primitive prerequisite, but explicitly states that it does not qualify SGLang serving."
+  },
+  "raw_artifact_root": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/25923",
+  "review_id": "research-review-25923-20261024",
+  "reviewed_at_utc": "2026-10-24",
+  "scope": "Read-only local review of failed D5 R2 H200 decode-only readiness job 25923. No parent source, run files, queue, budget, or scheduler state was changed.",
+  "source_and_asset_preflight": {
+    "actual_model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+    "asset_verification": "Asset preflight retained the serving image/model verification manifest and model revision identity; no weights were copied into the review.",
+    "digest_mismatches": 0,
+    "model_header_preflight": "PASS_HEADER_ONLY; 352,848-byte safetensors header inspected; tensor payload not read",
+    "observed_header_tensors": "First-layer expert gate/up/down weights are F8_E4M3; corresponding weight_scale_inv tensors are BF16. This was header metadata only, not loaded model weights.",
+    "pinned_python_source_files": 13,
+    "pinned_source_digests_checked": 13,
+    "source_image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "source_preflight_gpu_import": false,
+    "source_preflight_status": "PASS_PINNED_RUNTIME_SOURCES"
+  }
+}

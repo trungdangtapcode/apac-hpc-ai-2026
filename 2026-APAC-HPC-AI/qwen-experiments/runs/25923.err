@@ -1,0 +1,102 @@
+FATAL: server exited before native health readiness
+    per_partition_vocab_size = divide(global_vocab_size, world_size)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/distributed/utils.py", line 63, in divide
+    ensure_divisibility(numerator, denominator)
+  File "/sgl-workspace/sglang/python/sglang/srt/distributed/utils.py", line 55, in ensure_divisibility
+    assert numerator % denominator == 0, "{} is not divisible by {}".format(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 151936 is not divisible by 5
+
+[2026-10-24 21:17:07 DP1 TP1 EP1] Scheduler hit an exception: Traceback (most recent call last):
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py", line 4931, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py", line 498, in __init__
+    self.init_model_worker()
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py", line 976, in init_model_worker
+    self.init_tp_model_worker()
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py", line 899, in init_tp_model_worker
+    self.tp_worker = TpModelWorker(**worker_kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/tp_worker.py", line 333, in __init__
+    self._init_model_runner()
+  File "/sgl-workspace/sglang/python/sglang/srt/managers/tp_worker.py", line 451, in _init_model_runner
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py", line 399, in __init__
+    self.initialize()
+  File "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py", line 597, in initialize
+    self.load_model()
+  File "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/dp5-h200-readiness-r2-20261024/observer/sitecustomize.py", line 261, in load_wrapper
+    result = original_load(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py", line 1053, in load_model
+    loaded = load_model_with_memory_saver(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/load_model_utils.py", line 294, in load_model_with_memory_saver
+    model = loader.load_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/model_loader/loader.py", line 810, in load_model
+    model = _initialize_model(
+            ^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/model_loader/loader.py", line 330, in _initialize_model
+    return model_class(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_moe.py", line 958, in __init__
+    self.lm_head = ParallelLMHead(
+                   ^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/layers/vocab_parallel_embedding.py", line 618, in __init__
+    super().__init__(
+  File "/sgl-workspace/sglang/python/sglang/srt/layers/vocab_parallel_embedding.py", line 284, in __init__
+    self.shard_indices = self._get_indices(
+                         ^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/layers/vocab_parallel_embedding.py", line 359, in _get_indices
+    vocab_range_from_global_vocab_size(org_vocab_size_padded, tp_rank, tp_size)
+  File "/sgl-workspace/sglang/python/sglang/srt/layers/vocab_parallel_embedding.py", line 73, in vocab_range_from_global_vocab_size
+    per_partition_vocab_size = divide(global_vocab_size, world_size)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/distributed/utils.py", line 63, in divide
+    ensure_divisibility(numerator, denominator)
+  File "/sgl-workspace/sglang/python/sglang/srt/distributed/utils.py", line 55, in ensure_divisibility
+    assert numerator % denominator == 0, "{} is not divisible by {}".format(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 151936 is not divisible by 5
+
+[rank0]:[W1024 21:17:08.788190097 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[2026-10-24 21:17:10] kill_process_tree called: parent_pid=2146917, include_parent=False, pid=2146917
+Traceback (most recent call last):
+  File "/sgl-workspace/sglang/python/sglang/srt/entrypoints/engine.py", line 1702, in _wait_for_scheduler_ready
+    data = scheduler_pipe_readers[i].recv()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/sgl-workspace/sglang/python/sglang/launch_server.py", line 71, in <module>
+    run_server(server_args)
+  File "/sgl-workspace/sglang/python/sglang/launch_server.py", line 52, in run_server
+    launch_server(server_args)
+  File "/sgl-workspace/sglang/python/sglang/srt/entrypoints/http_server.py", line 2746, in launch_server
+    ) = Engine._launch_subprocesses(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/entrypoints/engine.py", line 1178, in _launch_subprocesses
+    scheduler_init_result.wait_for_ready()
+  File "/sgl-workspace/sglang/python/sglang/srt/entrypoints/engine.py", line 913, in wait_for_ready
+    infos = _wait_for_scheduler_ready(scheduler_pipe_readers, scheduler_procs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/entrypoints/engine.py", line 1704, in _wait_for_scheduler_ready
+    raise _scheduler_died_error(i, scheduler_procs[i])
+RuntimeError: Rank 0 scheduler died during initialization (exit code: -3). If exit code is -9 (SIGKILL), a common cause is the OS OOM killer. Run `dmesg -T | grep -i oom` to check.
+srun: error: g1: task 0: Exited with exit code 1
