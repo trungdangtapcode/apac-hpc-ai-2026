@@ -1,0 +1,67 @@
+{
+  "schema": "dp5-h200-readiness-candidate-spec-v1",
+  "candidate_id": "dp5-h200-readiness-r3-20261024",
+  "objective": "Decode-only target-model startup readiness; no model-quality, PD-correctness, or performance claim",
+  "submission_state": "ROOT_REVIEWED_FROZEN_NOT_SUBMITTED",
+  "allocation": {
+    "nodes": 1,
+    "gpu_type": "H200",
+    "gpus": 5,
+    "wall_minutes_max": 17,
+    "scheduler_gpu_mask": "preserve assigned CUDA_VISIBLE_DEVICES; require exactly five entries"
+  },
+  "container": {
+    "path": "/scratch/enroot-images/sglang-harbor.sqsh",
+    "sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "bytes": 26476240896,
+    "private_home_required": true
+  },
+  "model": {
+    "path": "/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+    "type": "ordinary target model, no EAGLE",
+    "preflight": "exact config SHA and safetensors header-only FP8/scale inspection before model load"
+  },
+  "runtime": {
+    "dtype": "bfloat16",
+    "kv_cache_dtype": "bfloat16",
+    "tp_size": 5,
+    "dp_size": 5,
+    "enable_dp_attention": true,
+    "expected_effective_attention_tp": 1,
+    "ep_size": 5,
+    "moe_dp_size": 1,
+    "expected_moe_tp_size": 1,
+    "ep_num_redundant_experts": 2,
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "local_physical_experts_per_rank": 26,
+    "ep_dispatch_algorithm": "dynamic",
+    "moe_a2a_backend": "none",
+    "moe_runner_backend": "hpc_ops",
+    "page_size": 64,
+    "disaggregation_mode": "decode",
+    "disaggregation_transfer_backend": "nixl",
+    "decode_cuda_graph_max_bs": 4,
+    "prefill_worker": false,
+    "generation_request": false,
+    "mnnvl_fusion": "leave pinned source default; effective attention TP1 excludes this fusion path",
+    "enable_dp_lm_head": true
+  },
+  "required_actual_gates": [
+    "all five ranks report resolved TP/DP/attention-TP/EP/MoE-TP contract",
+    "all five ranks report identical full expert map hashes and 94x130 map with per-layer tail [0,1]",
+    "all five ranks report 26 loaded local physical expert rows, FP8 E4M3 weights, FP32 runtime scale parameters, and FP32 HPC-Ops consumed scales",
+    "rank0 local slots 0/1 loaded tensor hashes equal rank4 local slots 24/25 for w13/w2 and runtime/consumed scales",
+    "all ranks resolve four KV heads and BF16 KV cache",
+    "Python CUDA inventory sees exactly five assigned H200/SM90 devices with unique UUIDs, and native /health succeeds",
+    "model config SHA and header-only FP8 metadata preflight pass"
+  ],
+  "forbidden_inference": [
+    "CPU fixture is GPU evidence",
+    "R3 synthetic primitive proves SGLang expert dispatch",
+    "health proves model quality or numerical correctness",
+    "startup readiness proves throughput, latency, or PD correctness"
+  ],
+  "root_correction": "R3 adds native --enable-dp-lm-head to avoid globalTP5 vocabulary divisibility, with actual all-rank observer gate. Other R2 model settings and all loaded-copy/health gates remain."
+}
