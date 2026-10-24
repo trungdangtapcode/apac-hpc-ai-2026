@@ -13,3 +13,7 @@ Next, source-qualify a matched deterministic target and EAGLE pair. SGLang's det
 Runtime/transport logs, phase markers, request responses/counters, role resource samples and geometry receipts are retained. Response-level comparison and logs were inspected; periodic hardware samples are collected but not independently summarized in this review. No AIPerf workload, SLA distribution, score, official full-set accuracy or heavy kernel profile was collected.
 
 For a presentation: “We moved past initialization and transfer tests and obtained real speculative outputs. The strict comparison then exposed differences that need a matched numerical-control experiment. We preserve the failure and do not call the engine faster or accurate yet.”
+
+## Later bounded telemetry inspection
+
+`TELEMETRY_INSPECTION.json` now summarizes the93.913-second native-client phase, eight request durations and periodic role GPU samples. The two prefill query UUID inventories are disjoint, covering eight GPUs on their shared node, and all three query inventories contain16unique GPUs. Per-rank Torch UUID bindings were not collected. GPU activity, sampled allocated VRAM and server-metric availability are retained separately; node CPU/network counters are shared and are not added across P roles. The initial review above described the evidence before this later inspection. No causal hardware bottleneck or AIPerf SLA claim follows.
