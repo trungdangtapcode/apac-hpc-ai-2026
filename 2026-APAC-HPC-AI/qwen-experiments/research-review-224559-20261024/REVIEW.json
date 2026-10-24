@@ -1,0 +1,66 @@
+{
+  "bundle": "dp5-h100-unified-output-r4-20261024",
+  "date": "2026-10-24",
+  "estimated_cost_is_not_ledger_accounting": true,
+  "estimated_wall_su_using_allocated_gpu_count": 1.4222222222222223,
+  "execution_evidence": {
+    "headcheck": false,
+    "health_check": false,
+    "model_loading": false,
+    "output_smoke": false,
+    "retrieval": false,
+    "run_directory_created": false,
+    "semantic_or_quality_result": false,
+    "worker_startup": false
+  },
+  "exit_status": 1,
+  "first_failure": {
+    "cause": "The submitted PBS script hard-codes the source-checkout path as B; the candidate bundle is staged under /scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/dp5-h100-unified-output-r4-20261024 on the remote system. The compute-node-visible path in the failed cd does not exist.",
+    "line": 10,
+    "message": "cd: /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/dp5-h100-unified-output-r4-20261024: No such file or directory",
+    "phase": "batch_script_before_run_directory_creation",
+    "source_file": "raw/remote-bundle/benchmark.pbs",
+    "source_sha256": "14c1f2e3830a9ce65f1cdeac277f863e0299c42e6459a5e52fa9c959931e35bd"
+  },
+  "job": "224559.pbs111",
+  "maximum_su": 181.33333333333334,
+  "pbs_wall_seconds": 8,
+  "raw_evidence": [
+    "raw/terminal/qstat-224559.txt",
+    "raw/terminal/pbs-stdout-224559.txt",
+    "raw/terminal/remote-bundle-inventory.txt",
+    "raw/remote-bundle/benchmark.pbs",
+    "raw/remote-bundle/SHA256SUMS",
+    "raw/remote-bundle/CANDIDATE_SPEC.json",
+    "raw/remote-bundle/R4_PLAN.json",
+    "raw/remote-bundle/R4_ROOT_REVIEW.json",
+    "raw/remote-bundle/SOURCE_PROVENANCE.json"
+  ],
+  "requested_gpus": 5,
+  "requested_wall_seconds": 1020,
+  "scheduler_observations": {
+    "device_nodes": [
+      "/dev/nvidia7",
+      "/dev/nvidia6",
+      "/dev/nvidia5",
+      "/dev/nvidia4",
+      "/dev/nvidia2"
+    ],
+    "exec_host": "a2ap-dgx037/0*70",
+    "resource_discrepancy": "PBS reports five assigned device nodes and vnode ngpus=5, but resources_used.ngpus=0; cost is therefore reported as a wall-time estimate rather than ledger charge.",
+    "resources_used_ngpus": 0,
+    "vnode_ngpus": 5
+  },
+  "schema": "pbs-terminal-run-review-v1",
+  "source_provenance": {
+    "remote_benchmark_matches_local_frozen_benchmark": true,
+    "remote_manifest_entry_matches_sha256": true
+  },
+  "stageout_status": 1,
+  "telemetry": {
+    "collected": false,
+    "finding": "No run directory, generated observer receipts, resource sampler records, or model/server logs exist; only the source observer hook is present in the remote bundle.",
+    "inspected": true
+  },
+  "terminal_state": "F"
+}
