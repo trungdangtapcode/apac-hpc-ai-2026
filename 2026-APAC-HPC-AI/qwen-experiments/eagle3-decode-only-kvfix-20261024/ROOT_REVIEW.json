@@ -1,0 +1,30 @@
+{
+  "state": "ROOT_REVIEWED_READY",
+  "reviewed_utc": "2026-10-24T20:35:34.414962+00:00",
+  "hypothesis": "Decode-only EAGLE3 preserves decode ITL gains while avoiding unnecessary speculative state on prefill and recovering TTFT; this retry changes only the role-aware KV validator after job 25988 failed before scoring.",
+  "validator_replay": "PASS_BOTH_REAL_RECEIPT_SETS: job 25947 target-only control, 32 receipts; job 25988 decode-only EAGLE3 candidate, 32 receipts; prefill 188 target regions/rank, decode 188 target + 2 EAGLE3 draft regions/rank",
+  "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/s61-h200-eagle3-decode-only-kvfix",
+  "bundle_manifest_sha256": "c238ef5d1145b4369fe7bcf6b02d56e51573d3e6c4695b442bc5522228594f98",
+  "control_job": "25947",
+  "control_state": "COMPLETED 0:0 with independent raw protocol pass",
+  "gpus": 16,
+  "nodes": 2,
+  "time_limit": "17 minutes",
+  "protocol": "N64; 4000/200; seed 2026; 20/40/30 seconds",
+  "quality": "UNKNOWN_NOT_EVALUATED",
+  "ranked": false,
+  "queue_before_submit": [],
+  "partition": "PartitionName=hpcai AllowGroups=ALL AllowAccounts=ALL AllowQos=ALL AllocNodes=ALL Default=YES QoS=N/A DefaultTime=00:10:00 DisableRootJobs=NO Exclusive=NODE GraceTime=0 Hidden=NO MaxNodes=UNLIMITED MaxTime=00:17:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED NodeSets=ALL Nodes=g[1,4] PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO OverTimeLimit=NONE PreemptMode=OFF State=UP TotalCPUs=256 TotalNodes=2 SelectTypeParameters=NONE JobDefaults=(null) DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED TRES=cpu=256,mem=4126000M,node=2,billing=256,gres/gpu=16",
+  "test_only_result": "sbatch: Job 25997 to start at 2026-10-24T21:17:26 a using 256 processors on nodes g[1,4] in partition hpcai",
+  "test_only_virtual_job_id": "25997",
+  "required_gates": [
+    "role-specific native args",
+    "BF16 KV and NIXL rank records",
+    "both P/D semantic paths",
+    "zero request errors/cancellations",
+    "joint success >= 0.90",
+    "smoke >= 7/8 without regression",
+    "retrieval 12/12"
+  ],
+  "source_limit": "This short feasibility screen is not directly rankable against the full 60/120/30-second 3044.400475-token/s incumbent."
+}

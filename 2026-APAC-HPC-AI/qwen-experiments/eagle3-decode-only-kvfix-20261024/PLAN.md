@@ -17,3 +17,7 @@ Reservation: 16 H200 GPUs across two nodes, maximum 17 minutes. H200 Slurm use d
 ## Provenance
 
 The new bundle is derived from the exact submitted S61 payload, with its SHA-256 manifest retained as `PARENT_SHA256SUMS`. The checker replay evidence is `validator-replay-25988.json`. Job 25988 raw evidence remains immutable under `runs/25988/`; it is a failed validation run and has no performance metrics.
+
+## Submission status
+
+Job **25998** was submitted at 2026-10-24 20:35:34 UTC. The current post-submit scheduler observation is `PENDING` with reason `Nodes required for job are DOWN, DRAINED or reserved for jobs in higher priority partitions`; no allocation or performance result has started. See `slurm-receipt.json`, `ROOT_REVIEW.json`, and `post-submit-queue.txt` for the admission snapshot. Re-query Slurm before presenting this as live status.
