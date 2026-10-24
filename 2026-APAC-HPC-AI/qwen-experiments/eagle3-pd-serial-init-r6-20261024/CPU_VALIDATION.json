@@ -1,0 +1,13 @@
+{
+  "schema": "eagle3-pd-serial-init-r6-cpu-validation-v1",
+  "passed": true,
+  "checks": {
+    "worker_launch_argv_prefill_and_decode": "PASS; actual worker.sh executed with local command stubs and emitted argv checked, including --dtype bfloat16, EAGLE3 settings, NIXL and graph flags",
+    "serial_concurrent_absolute_deadlines": "PASS; 650/90/90/90 second caps fit within 1200 seconds",
+    "locality_capture_helper": "PASS; source-backed CPU fixtures verified process ownership, namespace GPU PID translation, and missing-locality handling",
+    "observer_gate_packaged_import": "PASS; fail-closed pre-warmup fixture reached the expected missing-16-receipts check",
+    "bash_syntax": "PASS for benchmark.pbs, topology-job.sh, and worker.sh",
+    "python_compilation": "PASS for warm-topology.py, observer-gate.py, phase-controller.py, worker-cpu-envelope.py, and capture-worker-locality.py"
+  },
+  "scope": "CPU preparation only. No PBS submission, scheduler query, GPU run, NIXL transfer, or remote integration test."
+}

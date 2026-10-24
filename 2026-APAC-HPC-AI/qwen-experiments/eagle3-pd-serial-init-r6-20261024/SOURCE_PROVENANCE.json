@@ -1,0 +1,63 @@
+{
+  "schema": "eagle3-pd-serial-init-r6-provenance-v1",
+  "status": "local_prepared_draft_only",
+  "candidate": "eagle3-pd-serial-init-r6-20261024",
+  "derived_from": {
+    "candidate": "eagle3-pd-observed-r5-20261024",
+    "failed_job": "224277.pbs111",
+    "source_inventory": "R5_ROOT_SHA256SUMS",
+    "source_inventory_scope": "Frozen R5 root source checksums copied without modifying R5."
+  },
+  "hypothesis_change": {
+    "file": "warm-topology.py",
+    "change": "Split the same two P-to-D semantic requests into serial P0 then P1 and concurrent P0 plus P1 phases. Each phase has a distinct receipt directory and run token. The request content is unchanged between phases.",
+    "reason": "Both concurrently launched semantic requests in 224277 failed with NIXL sender or remote-disconnect errors after metadata/source gates passed. This diagnostic distinguishes serial initialization from follow-on concurrency within one worker lifetime."
+  },
+  "gate_change": {
+    "file": "observer-gate.py",
+    "change": "Replay serial and concurrent receipt sets independently, then require both sets in the final gate. Keep 16 metadata receipts, six loaded module reports, and native send invocation/outcome checks.",
+    "limit": "A returned transfer handle is not proof of completion; no transport root-cause claim is made."
+  },
+  "native_runtime": {
+    "nixl_source_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "model": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "draft": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09",
+    "topology": "two TP4 prefill workers and one TP8 decode worker on two H100 nodes",
+    "dtype": "bfloat16",
+    "eagle3": "2 steps, top-k 1, 3 draft tokens, unquantized draft",
+    "graphs": "prefill graph disabled; retain R5 decode graph settings",
+    "scoring": "No AIPerf or exact output-ID stage in this focused diagnostic.",
+    "agent_names": "UUIDs created with uuid.uuid4(); R5 task logs showed NIXL_ON_DEMAND peer UUIDs. No static hostname/TP-rank name collision was observed."
+  },
+  "observability_correction": {
+    "file": "capture-worker-locality.py",
+    "sha256": "c4d24551e54ebc1ad6a84b2604b9ef6b7ed3bcd2020ae1b3939569ca6cc62ec6",
+    "source": "eagle3-pd-eager-prefill-r3-20261021",
+    "reason": "R5 worker.sh invoked this helper but the frozen R5 bundle did not contain it; R5 locality logs captured the file-open failure. This restores the already intended role-locality observation without changing model or transport behavior.",
+    "r5_node_pair": [
+      "a2ap-dgx024",
+      "a2ap-dgx028"
+    ],
+    "causal_limit": "PBS does not pin the future R6 allocation to the same pair; this diagnostic contrasts phases within one allocation and cannot attribute cross-job changes to hardware nodes."
+  },
+  "worker_argument_fixture": {
+    "file": "test-worker-args-contract.py",
+    "test_seam": "QWEN_TEST_UCX_IB is optional and only used by the CPU fixture; ordinary runtime still discovers active InfiniBand devices.",
+    "contract": "Execute the actual worker launcher with local command stubs and assert the emitted SGLang argument vector, including target/draft bfloat16, EAGLE3, NIXL, and graph options."
+  },
+  "resource_bounds": {
+    "requested_walltime_seconds": 1200,
+    "gpu_count": 16,
+    "conservative_max_su": 682.666667,
+    "phase_caps_seconds": {
+      "startup": 650,
+      "serial": 90,
+      "concurrent": 90,
+      "teardown": 90
+    },
+    "main_envelope_seconds": 920
+  },
+  "unsubmitted": true,
+  "queue_mutated": false,
+  "budget_ledger_mutated": false
+}
