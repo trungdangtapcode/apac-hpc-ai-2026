@@ -1,0 +1,60 @@
+{
+  "expert_map": {
+    "ep_size": 5,
+    "local_slots_per_rank": [
+      26,
+      26,
+      26,
+      26,
+      26
+    ],
+    "logical_experts": 128,
+    "physical_experts": 130,
+    "rank0_source_local_slots": [
+      0,
+      1
+    ],
+    "rank4_replica_local_slots": [
+      24,
+      25
+    ],
+    "replica_physical_to_logical": {
+      "128": 0,
+      "129": 1
+    }
+  },
+  "fail_closed_binding": {
+    "actual_r3_artifact_binding_verified": true,
+    "guard_exit_code": 0,
+    "unreviewed_candidate_binding_rejected": true
+  },
+  "gpu_evidence": false,
+  "headcheck": {
+    "gpu_evidence": false,
+    "health_only_readiness_rejected": true
+  },
+  "schema": "dp5-h200-readiness-cpu-fixture-v1",
+  "scope": "CPU structural/source contract only; no SGLang import, CUDA, model load, health request, or scheduler action",
+  "serving_evidence": false,
+  "worker_contract": {
+    "generation_request_present": false,
+    "required_worker_arguments_present": [
+      "--dtype bfloat16",
+      "--kv-cache-dtype bfloat16",
+      "--tp-size 5",
+      "--dp-size 5",
+      "--enable-dp-attention",
+      "--ep-size 5",
+      "--moe-dp-size 1",
+      "--ep-num-redundant-experts 2",
+      "--ep-dispatch-algorithm dynamic",
+      "--moe-a2a-backend none",
+      "--moe-runner-backend hpc_ops",
+      "--page-size 64",
+      "--disaggregation-mode decode",
+      "--disaggregation-transfer-backend nixl",
+      "--cuda-graph-max-bs-decode 4",
+      "http://127.0.0.1:$PORT/health"
+    ]
+  }
+}
