@@ -1,0 +1,187 @@
+{
+  "schema": "apac-h100-prefill-observer-review-v1",
+  "job_id": "224276.pbs111",
+  "reviewed_at_utc": "2026-10-24",
+  "source_bundle": "eagle3-observer-prefill-api-r2-20261024",
+  "status": "prefill_observer_readiness_passed_limited_scope",
+  "terminal": {
+    "job_state": "F",
+    "exit_status": 0,
+    "stageout_status": 1,
+    "project": "59010042",
+    "queue": "aiq1",
+    "node": "a2ap-dgx038",
+    "resource_list_ngpus": 4,
+    "walltime_limit_seconds": 900,
+    "resources_used_walltime_seconds": 359,
+    "resources_used_cput": "00:23:44",
+    "resources_used_mem_kb": 39074420,
+    "pbs_stdout_collected": true,
+    "pbs_exit_and_stageout_evidence": "collected/pbs-accounting.txt",
+    "stageout_interpretation": "Output and the complete run artifact tree were available; the collector verified every archived file against its SHA-256 manifest. Stageout_status=1 is consistent with prior completed PBS records, but this review relies on the actual collected files as well."
+  },
+  "cost": {
+    "estimate_su": 51.0578,
+    "formula": "359 elapsed seconds * 4 GPUs * 128 SU per GPU-hour / 3600",
+    "status": "estimate_only_not_ledger_reconciliation"
+  },
+  "collection": {
+    "file_count": 32,
+    "bytes": 606963,
+    "manifest": "collected/evidence-sha256.json",
+    "raw_archive": "raw-evidence.tar.gz",
+    "collection_stderr_bytes": 0,
+    "all_collected_hashes_verified": true
+  },
+  "runtime_gate": {
+    "preflight_artifact_passed": true,
+    "independent_checker_replay_passed": true,
+    "health_status_last": 200,
+    "server_ready_log": true,
+    "actual_visible_h100_count": 4,
+    "cuda_visible_devices_recorded_as_four_gpu_uuids": true,
+    "hpc_ops_prefill_preflight": true,
+    "nixl_ucx_manager_initializations": 4,
+    "prefill_cuda_graph_disabled_per_rank": {
+      "tp0": 2,
+      "tp1": 2,
+      "tp2": 2,
+      "tp3": 2
+    },
+    "prefill_graph_capture_started": false,
+    "external_client_run": false,
+    "decoder_present": false,
+    "p_d_transfer_method_observed": false,
+    "exact_output_id_comparison_performed": false
+  },
+  "source_identity": {
+    "loaded_utils_sha256": "db1b6285e08a6949632d9347f546e1cb290359ca4ad077a1a204af19547caf82",
+    "loaded_patched_nixl_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "pinned_draft_model_safetensors_sha256": "bf226a966868fe413a22e62e471aa1130bd94f17fd2c40d322b1c8b4def1ae86",
+    "image_asset_contract_path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/sglang-harbor.sqsh",
+    "image_asset_contract_bytes": 26476240896,
+    "image_asset_contract_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "image_hash_recomputed_in_this_job": false,
+    "model": {
+      "path": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+      "config_canonical_sha256_from_asset_contract": "0a5872fdd7859e63a5ab5ed5165507dfc77b2f8a3291d402349f9675118fd611",
+      "full_target_weight_rehash_in_this_job": false,
+      "runtime_target_identity_match_to_222761": "not collected by this preflight"
+    }
+  },
+  "metadata_observation": {
+    "role": "prefill-0",
+    "tp_geometry": 4,
+    "actual_rank_receipts": [0, 1, 2, 3],
+    "receipt_count": 4,
+    "source_module_receipts": [
+      "sglang.srt.disaggregation.utils",
+      "sglang.srt.disaggregation.nixl.conn"
+    ],
+    "ordered_tensor_names": [
+      "output_ids",
+      "cached_tokens",
+      "output_token_logprobs_val",
+      "output_token_logprobs_idx",
+      "output_top_logprobs_val",
+      "output_top_logprobs_idx",
+      "output_topk_p",
+      "output_topk_index",
+      "output_hidden_states",
+      "bootstrap_room"
+    ],
+    "per_tensor_measurements_identical_across_ranks": true,
+    "row_counts_per_tensor_per_rank": [96, 96, 96, 96, 96, 96, 96, 96, 96, 96],
+    "measured_item_width_bytes_and_dtypes": [
+      {"name": "output_ids", "bytes": 64, "dtype": "torch.int32"},
+      {"name": "cached_tokens", "bytes": 64, "dtype": "torch.int32"},
+      {"name": "output_token_logprobs_val", "bytes": 64, "dtype": "torch.float32"},
+      {"name": "output_token_logprobs_idx", "bytes": 64, "dtype": "torch.int32"},
+      {"name": "output_top_logprobs_val", "bytes": 512, "dtype": "torch.float32"},
+      {"name": "output_top_logprobs_idx", "bytes": 512, "dtype": "torch.int32"},
+      {"name": "output_topk_p", "bytes": 64, "dtype": "torch.float32"},
+      {"name": "output_topk_index", "bytes": 128, "dtype": "torch.int64"},
+      {"name": "output_hidden_states", "bytes": 8192, "dtype": "torch.bfloat16", "shape": [96, 4096]},
+      {"name": "bootstrap_room", "bytes": 64, "dtype": "torch.uint64"}
+    ],
+    "metadata_tensor_count_per_rank": 10,
+    "total_bytes_per_rank": 933888,
+    "original_source_pointer_span_and_item_length_lists_match_observed_tensors": true,
+    "prefill_observer_preflight_artifact": "collected/runs/224276.pbs111/prefill-observer-preflight.json",
+    "independent_replay": {
+      "shipped_checker": "collected/runs/224276.pbs111/submitted/check_prefill_observer.py",
+      "temporary_copy_used_to_preserve_original_artifact": true,
+      "exit_status": 0,
+      "result": {"passed": true, "health": "200", "receipt_count": 4}
+    }
+  },
+  "bf16_and_runtime_findings": {
+    "server_args_dtype": "bfloat16",
+    "kv_cache_dtype_arg": "auto",
+    "target_kv_allocation_messages": 4,
+    "target_kv_dtype_each_rank": "torch.bfloat16",
+    "target_kv_size_each_rank_k_gb": 6.66,
+    "target_kv_size_each_rank_v_gb": 6.66,
+    "draft_kv_allocation_messages": 4,
+    "draft_kv_dtype_each_rank": "torch.bfloat16",
+    "draft_kv_size_each_rank_k_gb": 0.07,
+    "draft_kv_size_each_rank_v_gb": 0.07,
+    "available_gpu_memory_after_target_pool_log_each_rank_gb": {"tp0": 7.86, "tp1": 7.63, "tp2": 7.63, "tp3": 7.67},
+    "available_gpu_memory_after_draft_pool_log_each_rank_gb": {"tp0": 7.72, "tp1": 7.48, "tp2": 7.48, "tp3": 7.53},
+    "available_gpu_memory_is_not_a_health_or_safety_claim": true
+  },
+  "startup_and_cleanup": {
+    "batch_t0_utc": "2026-10-24T03:13:23Z",
+    "startup_deadline_seconds_after_t0": 720,
+    "check_deadline_seconds_after_t0": 780,
+    "cleanup_deadline_seconds_after_t0": 840,
+    "engine_startup_reported_seconds": {"load_weight": 132.12, "kv_cache_allocation": 1.09, "scheduler_e2e": 149.2, "tokenizer_e2e": 170.11},
+    "server_ready_log_utc": "2026-10-24T03:19:09Z",
+    "server_ready_elapsed_seconds_from_t0": 346,
+    "last_health_200_log_utc": "2026-10-24T03:19:15Z",
+    "shutdown": {
+      "sigterm_logged_after_gate": true,
+      "detokenizer_child_exit_code": -15,
+      "sigquit_logged_after_child_exit": true,
+      "pbs_exit_status": 0,
+      "interpretation": "SIGTERM followed the readiness check and matches the launcher cleanup path. SGLang then logged child termination and SIGQUIT cleanup; its log ends during the five-second crash-diagnostic delay, so complete child shutdown evidence is missing. This does not negate the earlier metadata gate, and it is not evidence of a successful full serving or P/D run."
+    },
+    "observed_startup_warnings": [
+      "Singularity could not FUSE-mount the raw squashfs as SIF and fell back to extraction; the server subsequently ran.",
+      "SGLang skipped NUMA binding for all four GPUs because the task CPU affinity did not include the reported NUMA node cores.",
+      "Custom all-reduce setup could not parse UUID-form CUDA_VISIBLE_DEVICES as integers and logged a warning; server continued.",
+      "Health polling returned 503 during built-in startup warmup before readiness; final observed health status was 200."
+    ],
+    "built_in_startup_warmup": {
+      "logged_generate_requests": 1,
+      "http_status": 200,
+      "logged_new_tokens": 4,
+      "purpose": "SGLang startup disaggregation warmup only",
+      "output_ids_retained_or_compared": false
+    }
+  },
+  "scheduler_gpu_telemetry": {
+    "source": "qstat resources_used.gpu_usage in collected/pbs-accounting.txt",
+    "independent_in_job_gpu_sampler": false,
+    "device_indices_are_not_mapped_to_visible_uuids": true,
+    "raw_highlights": [
+      {"qstat_gpu_index": 4, "energy_j": 14494, "max_gpu_memory_mb": 76228, "sm_utilization_avg_pct": 47, "sm_utilization_max_pct": 100, "memory_utilization_avg_pct": 0, "xid_critical_errors_reported": 0, "overall_health_code_reported": 0, "qstat_gpu_walltime_s": 261},
+      {"qstat_gpu_index": 5, "energy_j": 14375, "max_gpu_memory_mb": 76324, "sm_utilization_avg_pct": 47, "sm_utilization_max_pct": 100, "memory_utilization_avg_pct": 0, "xid_critical_errors_reported": 0, "overall_health_code_reported": 0, "qstat_gpu_walltime_s": 261},
+      {"qstat_gpu_index": 6, "energy_j": 14475, "max_gpu_memory_mb": 76324, "sm_utilization_avg_pct": 47, "sm_utilization_max_pct": 100, "memory_utilization_avg_pct": 0, "xid_critical_errors_reported": 0, "overall_health_code_reported": 0, "qstat_gpu_walltime_s": 260},
+      {"qstat_gpu_index": 7, "energy_j": 14970, "max_gpu_memory_mb": 75850, "sm_utilization_avg_pct": 4, "sm_utilization_max_pct": 100, "memory_utilization_avg_pct": 1, "xid_critical_errors_reported": 0, "overall_health_code_reported": 10, "qstat_gpu_walltime_s": 261}
+    ],
+    "interpretation_limit": "Counter windows and overall_health code semantics were not validated. Some utilization-time counters exceed this allocation's wall time. Preserve the raw scheduler values; do not infer device health, zero errors, or job-only energy/utilization from these fields."
+  },
+  "limits_and_missing_evidence": [
+    "Only prefill-0 TP4 ran; no prefill-1 or decode worker was present.",
+    "No cross-role tensor metadata comparison or measured decoder row counts exist.",
+    "No native send_kvcache_slice or send_aux transfer observation was collected; no P/D transfer completion was tested.",
+    "No accepted-reference target identity was generated by this preflight; no full target-weight rehash was performed during this job.",
+    "No external client response, 1,600-ID equality result, model accuracy result, throughput score, or speedup measurement was collected.",
+    "No independently sampled runtime GPU or CPU telemetry was collected; only scheduler accounting telemetry is present.",
+    "The captured SGLang log ends before final shutdown diagnostics complete."
+  ],
+  "assessment": "Pass for the narrow question that the pinned H100 prefill process loaded the observer, emitted four consistent actual TP metadata receipts and matching source receipts, allocated BF16 target/draft KV, and satisfied its readiness gate. The result does not locate the previous NIXL disconnect because no decoder or remote send path ran.",
+  "next_hypothesis": "Full candidate 224277 should show the same ordered metadata names and item widths on prefill-0, prefill-1 and decode-0 while measuring row counts independently per role. With 16 actual rank/source receipts gating warmup, observe whether the first remote failure occurs after send_kvcache_slice or send_aux starts, then require two independent semantic P/D receipts and the complete 1,600-ID output comparison to accepted target reference 222761. A successful prefill-only result does not predict that P/D hypothesis.",
+  "budget_note": "Estimated SU is informational only; root owns ledger reconciliation."
+}
