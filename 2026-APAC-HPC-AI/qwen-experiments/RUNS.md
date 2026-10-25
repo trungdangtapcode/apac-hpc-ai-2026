@@ -2367,3 +2367,6 @@ S62r3 is an immutable derivative of S62r2 that fixes the undefined unknown-head 
 ## Job 26076 — corrected S62r3 topology retry
 
 Submitted 2026-10-25 05:14 UTC from the existing qwen-experiments run-store parent. It requests two nodes / 16 H200 GPUs / maximum 17 minutes. SHA256 checks passed before admission. Fresh accounting confirms stdout/stderr under qwen-experiments/runs/. Immediate state was PENDING (Resources), zero elapsed, no nodes; --test-only estimated 05:30:52 UTC, not a guarantee. This consumes no PBS SU. No benchmark result exists yet. [Receipt](serving-tuning-11/SUBMISSION-26076.md); [why this retry and its strict gates](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261025-s62r3-topology-retry-submitted.md).\n
+## 25 October: job 26076 failed in semantic route warmup
+
+FAILED 1:0 / 7:33; all four workers ready and 32 KV records passed, then 30-second HTTP timeout before semantic receipt/scoring. No score. [Review](research-review-26076-20261025/REVIEW.md).

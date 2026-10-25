@@ -2,6 +2,10 @@
 
 Updated 2026-10-25 UTC after independently reviewing jobs 26064–26068. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
+## Latest status: 26076 failed before scoring
+
+Fresh accounting on 25 October records job 26076 FAILED 1:0 after 7:33 on g1/g4. All four workers and the 32-record KV gate passed. Semantic HTTP warmup requests then hit the inherited 30-second per-request timeout despite a 180-second overall budget; no semantic receipt or AIPerf export exists. The account queue was empty at this review. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26076-20261025/REVIEW.md). A bounded derived request-timeout correction is being prepared; no retry is yet submitted. Older pending snapshots below are historical.
+
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 
 The N66/N68/N70 profiles now pass independent raw AIPerf/input/response checks, but their good-output rates 2533.33/2465.71/2497.14 tokens/s are 8.12%/10.58%/9.44% below matched short N64 control 25947 (2757.36). N72 scores 2269.48 with 82.33% joint SLA and fails the 90% floor. All four scheduler jobs remain `FAILED 1:0` because our head checker still hardcoded N64 and `screen/n64`; preserve the correct Slurm state and the independently verified profiles separately. All had zero request errors/cancellations, output 7/8 and retrieval 12/12. Close the concurrency-increase branch. Full table and observability limits are in [review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26064-26068-20261025/REVIEW.md) and [journal](../reports/research-journey-20261019/journal/entries/20261025-s63-load-results-and-validator-correction.md).

@@ -286,3 +286,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [25 October: correct the S62 TP4 geometry validator and prepare a bounded topology retry](entries/20261025-s62r3-topology-retry-preparation.md).
 
 - [25 October: submit the corrected S62r3 two-decode topology retry (job 26076)](entries/20261025-s62r3-topology-retry-submitted.md).
+
+Latest AI failure review: [25 October: four ready workers but semantic warmup timed out](entries/20261025-s62r3-semantic-timeout.md).

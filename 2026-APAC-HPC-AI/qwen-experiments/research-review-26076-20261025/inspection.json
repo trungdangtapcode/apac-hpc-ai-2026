@@ -1,0 +1,105 @@
+{
+  "job": 26076,
+  "reviewed_utc": "2026-10-25T05:58:09.425597+00:00",
+  "scheduler": "26076            FAILED      1:0   00:07:33          g[1,4] \n26076.batch      FAILED      1:0   00:07:33              g1 \n26076.extern  COMPLETED      0:0   00:07:38          g[1,4] \n26076.0      CANCELLED+      0:9   00:07:33              g1 \n26076.1      CANCELLED+      0:9   00:07:33              g1 \n26076.2      CANCELLED+      0:9   00:07:33              g4 \n26076.3      CANCELLED+      0:9   00:07:33              g4 \n26076.4      CANCELLED+      0:9   00:02:16              g1 \n26076.5          FAILED      1:0   00:01:45              g1 \n",
+  "geometry": {
+    "experiment_id": "s62r3-h200-two-decode-tp4-26076-34fa5db4-5e33-479c-9817-ef10a77a646f",
+    "layer_identity": "observed_empty; explicit IDs not collected; semantic layer order unproven",
+    "observed_prefill_mha_signature": {
+      "kv_head_num": 1,
+      "kv_regions_per_rank": 188,
+      "page_size_tokens": 1,
+      "role_scope": [
+        "prefill-0",
+        "prefill-1"
+      ],
+      "total_kv_head_num": 4
+    },
+    "passed": true,
+    "rank_count": 16,
+    "receipt_bytes": 898000,
+    "receipt_count": 32,
+    "schema": "h200-kv-geometry-validation-v1",
+    "unknown_d_heads_exceptions": [
+      {
+        "engine_ranks": "0-3; each remains individually receipt-gated",
+        "item_page_token_stride_bytes": 256,
+        "kv_regions": 188,
+        "memory_kind": "VRAM",
+        "observed_heads": "not_collected; not inferred or fabricated",
+        "page_size_tokens": 1,
+        "pp_rank": 0,
+        "role": "decode-0",
+        "tp_size": 4
+      },
+      {
+        "engine_ranks": "0-3; each remains individually receipt-gated",
+        "item_page_token_stride_bytes": 256,
+        "kv_regions": 188,
+        "memory_kind": "VRAM",
+        "observed_heads": "not_collected; not inferred or fabricated",
+        "page_size_tokens": 1,
+        "pp_rank": 0,
+        "role": "decode-1",
+        "tp_size": 4
+      }
+    ]
+  },
+  "semantic_receipts": 0,
+  "aiperf_exports": 0,
+  "runtime": {
+    "state": "PASS_FAST_RUNTIME",
+    "arm": "control",
+    "prefill_cap": 64,
+    "roles": {
+      "prefill-0": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "nixl_rank_records": 4,
+        "decode_graph": "disabled"
+      },
+      "prefill-1": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "nixl_rank_records": 4,
+        "decode_graph": "disabled"
+      },
+      "decode-0": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "nixl_rank_records": 4,
+        "decode_graph": "full 1..64"
+      },
+      "decode-1": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "nixl_rank_records": 4,
+        "decode_graph": "full 1..64"
+      }
+    },
+    "scope": "Resolved native arguments and rank-level BF16 KV, NIXL, graph and MNNVL startup checks; not a kernel-performance or model-quality proof."
+  },
+  "telemetry_files": [
+    {
+      "path": "resource-telemetry/decode-0-g4.jsonl",
+      "bytes": 233105,
+      "lines": 84
+    },
+    {
+      "path": "resource-telemetry/decode-1-g4.jsonl",
+      "bytes": 234015,
+      "lines": 84
+    },
+    {
+      "path": "resource-telemetry/prefill-0-g1.jsonl",
+      "bytes": 226794,
+      "lines": 83
+    },
+    {
+      "path": "resource-telemetry/prefill-1-g1.jsonl",
+      "bytes": 230415,
+      "lines": 83
+    }
+  ],
+  "telemetry_inspection": "File existence and line counts inspected; hardware values not analysed because no scoring phase exists. Missing scoring metrics are not zero."
+}
