@@ -288,3 +288,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [25 October: submit the corrected S62r3 two-decode topology retry (job 26076)](entries/20261025-s62r3-topology-retry-submitted.md).
 
 Latest AI failure review: [25 October: four ready workers but semantic warmup timed out](entries/20261025-s62r3-semantic-timeout.md).
+
+Latest AI repair: [25 October: configured-N profile gate and bounded first-transfer wait](entries/20261025-configured-n-and-first-transfer-fix.md).

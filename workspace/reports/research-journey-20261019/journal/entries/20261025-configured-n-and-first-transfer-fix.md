@@ -1,0 +1,11 @@
+# Configured concurrency and bounded first-transfer initialization
+
+Question: how do we prevent a post-run checker from rejecting valid non-N64 profiles, and let a cold two-decoder topology use its already approved warmup budget?
+
+Prior evidence: jobs 26065–26068 ran at configured N66/N68/N70/N72 but their frozen helper hardcoded N64 and screen/n64. Independent raw audit recovered the first three valid local screens; N72 genuinely missed the 90% SLA floor. Job 26076 passed all four workers and 32 native KV records, then a 30-second request timeout prevented semantic completion despite the 180-second shared limit. Historical 22219 needed up to 150.55 seconds. No AIPerf result exists for 26076.
+
+S62r4 derives from S62r3 without changing topology, model, kernels, precision, workload or acceptance gates. Each initialization request now uses the remaining shared 180-second deadline. The outer 180-second and total 17-minute limits remain, all four semantic routes must pass, and a timed-out request is not retried. Failure at this step closes full-topology retries pending a transport diagnosis. This is a proposed initialization repair, not proof of a working transfer.
+
+The derived performance helper reads concurrency from the exact expected profiling phase, binds it to the copied run configuration, selects screen/n{N} and still verifies the complete exported workload and raw request denominator. CPU regression replays real N64/N66/N68/N70 profiles successfully, rejects the real N72 SLA failure and rejects presenting N66 evidence as N64. Checksums, Python syntax and shell syntax pass. An initial parenthesis typo was caught and corrected on CPU before submission. Scripts and exact replay results are under h200-next-screens-20261025; frozen parents are unchanged.
+
+No new GPU run has been submitted at this preparation checkpoint. Request one 16-H200/two-node job for at most 17 minutes after a fresh queue check; no PBS SU. Advance performance only if every local gate passes and good output throughput exceeds short control 25947 by at least 3% (2840.08 tokens/s). Local output checks do not certify official accuracy. Keep failed-run logs and unresolved telemetry limits in the linked 26076 review.

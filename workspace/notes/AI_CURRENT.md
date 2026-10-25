@@ -4,7 +4,7 @@ Updated 2026-10-25 UTC after independently reviewing jobs 26064–26068. This GP
 
 ## Latest status: 26076 failed before scoring
 
-Fresh accounting on 25 October records job 26076 FAILED 1:0 after 7:33 on g1/g4. All four workers and the 32-record KV gate passed. Semantic HTTP warmup requests then hit the inherited 30-second per-request timeout despite a 180-second overall budget; no semantic receipt or AIPerf export exists. The account queue was empty at this review. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26076-20261025/REVIEW.md). A bounded derived request-timeout correction is being prepared; no retry is yet submitted. Older pending snapshots below are historical.
+Fresh accounting on 25 October records job 26076 FAILED 1:0 after 7:33 on g1/g4. All four workers and the 32-record KV gate passed. Semantic HTTP warmup requests then hit the inherited 30-second per-request timeout despite a 180-second overall budget; no semantic receipt or AIPerf export exists. The account queue was empty at this review. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26076-20261025/REVIEW.md). Frozen S62r4 is prepared with the remaining 180-second HTTP deadline and a configured-N performance gate. CPU replay accepts real N64/N66/N68/N70, rejects N72 SLA failure and rejects wrong-N evidence. No retry is yet submitted. Older pending snapshots below are historical.
 
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 
