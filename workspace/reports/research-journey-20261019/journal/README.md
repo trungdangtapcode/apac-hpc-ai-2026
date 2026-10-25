@@ -302,3 +302,5 @@ Latest AI hypotheses: [25 October: isolate native QK/RoPE fusion on prefill and 
 Latest AI submission: [25 October: phase-isolated fusion 26089/26091 fills the five-job queue](entries/20261025-native-fusion-five-job-admission.md).
 
 Latest AI failure review: [25 October: S62r4 times out with two routes; close full-topology retries](entries/20261025-s62r4-partial-routes-closed.md).
+
+Latest AI component hypothesis: [25 October: source diagnosis and bounded NIXL fanout probe](entries/20261025-s62-source-diagnosis-and-fanout-plan.md).

@@ -1,0 +1,25 @@
+# Failed S62 routes: bounded source diagnosis
+
+Actual 26081 preserves two valid prefill-1→decode routes and two missing prefill-0→decode routes. Four worker/runtime/KV gates passed, but this does not certify KV transfer. Both prefills use the same physical host with distinct bootstrap ports 9000/9001; each decoder is an independent TP4 worker on the other host.
+
+The exact native CommonKVReceiver bootstrap cache key includes bootstrap_addr plus DP/CP/TP identity. Bootstrap URLs use full host:port, so this source does not support blaming a host-only key collision. No live map dump exists; source inspection alone cannot prove actual per-request route choice. Native rank sockets are independently bound dynamic ZMQ ports; raw rank-port maps were not collected. Do not invent a specific port collision.
+
+HTTP/2 probe warnings and initial no-available-worker 503 responses occur across both successful and unsuccessful roles; they are insufficient to explain the selective failure. Final AbortReq KVTransferError logs follow client/deadline termination. They do not identify the initiating fault. Native NIXL agents have UUID names, not a shared role name; this source does not support claiming duplicate agent IDs.
+
+Existing no-model probes 223132 and earlier peer fixtures passed a two-rank/single-peer VRAM/DRAM component on H100. They did not cover the current sixteen-agent/two-prefill/two-decoder fanout or SGLang bootstrap rooms. A separate bounded S68 diagnostic will test direct NIXL registration and fanout with the same four role placements and native prefill 8/decode 0 progress-thread counts, without model loading. This isolates a lower component; even a pass will not repair or validate the failed serving topology. The closed full-topology retry branch remains closed.
+
+Read the S68 PLAN.md and provenance/CPU fixtures. All findings are hypotheses/limits or exact retained source observations; no GPU result, official accuracy or score is claimed. Native sources extracted from /scratch/enroot-images/sglang-harbor.sqsh are hashed in SOURCE-HASHES.json. Raw failed-run evidence remains unchanged in runs/26081.
+
+# S68: four-role, sixteen-agent NIXL component diagnostic
+
+Question: does direct NIXL UCX registration and two-peer fanout succeed on all sixteen actual GPUs when using the same four role placements as failed 26081? Existing evidence has two working prefill-1 routes, two incomplete prefill-0 routes and no benchmark. A two-rank H100 component pass does not settle this concurrency pattern on H200.
+
+This is a separate component investigation. It does not reopen the closed full-model topology retry branch. No model, SGLang bootstrap HTTP/room state, TP collective, NIXL model-pointer mapping, full-span registration or serving score is exercised. A pass narrows a cause investigation only; it cannot qualify an inference configuration. A failure identifies a bounded lower-component problem, not necessarily the root cause of 26081. Do not launch a full model based on this result alone.
+
+Use 16 H200 on two nodes, four containers with four GPU processes each, matching prefill-0/prefill-1 on node 0 and decode-0/decode-1 on node 1. Native agents use eight progress threads for prefill and zero for decode; explicit receiver polling drives notification progress. Bind the native NIXL Python API and unmodified runtime source to the preserved two-rank helper's exact hashes. Retain actual library hashes and GPU UUIDs. All sixteen GPU UUIDs must be unique.
+
+Register 188 small VRAM ranges per agent, 4096 bytes each (roughly 0.735 MiB/GPU). Run p0-only, p1-only and simultaneous fanout, mapping matching TP ranks to both decoder groups. Use disjoint P0/P1 receive slots. Verify all destination bytes and untouched sentinels, 32 exact WRITE handles and 6160384 total write bytes. Native DONE alone is insufficient. Retain per-rank progress/logs/results and independent full result validation. Raw memory addresses and binary metadata remain transient and are removed after job teardown; hashes/identities/results are retained. These are transport descriptors, never VPN/auth state.
+
+Stop after one attempt, regardless of pass or failure; inspect before proposing another experiment. No scoring/accuracy promotion follows. Every child has a common 260-second deadline; the whole job is capped at five minutes, with bounded srun/Slurm teardown. One 16-GPU job uses at most 1.3333 GPU-hours, no PBS SU. Fresh admission must keep total own jobs <=5 and preserve four queued serving experiments. Run sbatch from qwen-experiments to retain correct run-store stdout/stderr paths.
+
+CPU syntax, payload hashes and result-gate fixtures must pass before submission. Fixtures reject duplicate physical GPUs, missing ranks, wrong peers and corrupted byte/sentinel hashes. They do not execute CUDA or prove native NIXL compatibility. Hardware continuous sampling, CPU/IB counters and kernel profiling are not collected in this narrow fixture; peak tensor allocation and exact byte results are different from utilization or throughput. No heavy profiling, model weights, output workaround or background Codex.
