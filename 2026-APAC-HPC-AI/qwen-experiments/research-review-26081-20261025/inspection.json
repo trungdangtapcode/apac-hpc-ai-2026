@@ -1,0 +1,57 @@
+{
+  "reviewed_utc": "2026-10-25T06:19:47.625927+00:00",
+  "job": 26081,
+  "scheduler": "26081            FAILED      1:0   00:08:59          g[1,4] \n26081.batch      FAILED      1:0   00:08:59              g1 \n26081.extern  COMPLETED      0:0   00:09:03          g[1,4] \n26081.0      CANCELLED+      0:9   00:08:57              g1 \n26081.1      CANCELLED+      0:9   00:08:59              g1 \n26081.2      CANCELLED+      0:9   00:08:59              g4 \n26081.3      CANCELLED+      0:9   00:08:59              g4 \n26081.4      CANCELLED+      0:9   00:03:40              g1 \n26081.5      CANCELLED+      0:9   00:03:05              g1 \n",
+  "runtime_state": "PASS_FAST_RUNTIME",
+  "geometry_receipts": 32,
+  "individually_valid_routes": [
+    {
+      "prefill": "prefill-1",
+      "decode": "decode-0",
+      "completion_tokens": 8,
+      "http_status": 200,
+      "raw_response_hash_and_semantics": "PASS"
+    },
+    {
+      "prefill": "prefill-1",
+      "decode": "decode-1",
+      "completion_tokens": 8,
+      "http_status": 200,
+      "raw_response_hash_and_semantics": "PASS"
+    }
+  ],
+  "full_semantic_gate": "FAIL",
+  "full_semantic_gate_error": "missing 2 pair receipt(s)",
+  "aiperf_exports": 0,
+  "unique_sampled_gpus": 16,
+  "telemetry_coverage": [
+    {
+      "file": "decode-0-g4.jsonl",
+      "samples": 100,
+      "gpu_uuid_count": 4,
+      "server_http_200_samples": 61
+    },
+    {
+      "file": "decode-1-g4.jsonl",
+      "samples": 100,
+      "gpu_uuid_count": 4,
+      "server_http_200_samples": 62
+    },
+    {
+      "file": "prefill-0-g1.jsonl",
+      "samples": 99,
+      "gpu_uuid_count": 4,
+      "server_http_200_samples": 72
+    },
+    {
+      "file": "prefill-1-g1.jsonl",
+      "samples": 99,
+      "gpu_uuid_count": 4,
+      "server_http_200_samples": 78
+    }
+  ],
+  "telemetry_limit": "Startup-only coverage inspected; no scored phase, so no scored utilization/CPU/KV/tail/error measurement. No causal bottleneck inferred.",
+  "scored_goodput": "NOT_MEASURED",
+  "official_accuracy": "UNKNOWN",
+  "next_decision": "Close full-topology retries after the bounded S62r4 attempt; retain other queued hypotheses. Diagnose failed prefill-0 routes from existing evidence before any new transport experiment."
+}

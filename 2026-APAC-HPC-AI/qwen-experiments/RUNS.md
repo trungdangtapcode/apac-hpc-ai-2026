@@ -2382,3 +2382,7 @@ Fresh round-robin 26083 and power-of-two 26085 (afterany:26083), each 16 H200/tw
 ## 25 October: phase-isolated fusion 26089/26091; five-job cap full
 
 S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083. Each 16 H200/two nodes/17-minute maximum. At 06:16:53 UTC, 26081 running, 26083 pending Resources, 26085/26089/26091 pending Dependency. No new benchmark score. [Receipts](h200-fused-qk-rope-20261025/submission-receipts.json), [live snapshot](h200-fused-qk-rope-20261025/post-submit-queue.json).
+
+## 25 October 06:20 UTC: S62r4 terminated before scoring
+
+26081 FAILED 1:0 / 8:59, runtime/KV pass but only two of four semantic routes; no AIPerf export or score. Close further full-topology retries. Four jobs 26083/26085/26089/26091 remain queued. [Full failure review](research-review-26081-20261025/REVIEW.md).
