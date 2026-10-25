@@ -1,0 +1,9 @@
+# Phase-isolated native QK normalization and RoPE fusion
+
+S66 enables the existing fused kernel on both prefill workers only. S67 enables it on decode only. Compare both with fresh round-robin control 26083; all three use N64, 4000/200, seed 2026, 20/40/30 and 16 H200 GPUs. Each requests at most 17 minutes. Require >=3% gain and every local gate before full confirmation. Official accuracy remains UNKNOWN.
+
+The exact deployed image source is retained with SHA256 values in verification.json. Qwen3MoeAttention selects this path only for compatible rotary embedding, supported head dimension and successful native BF16 JIT build. Both candidates mount a model source differing solely by two startup observer lines, preserving arithmetic. Per-rank native selection must be true on the intended roles and false elsewhere before scoring. A requested flag alone is insufficient. Actual kernel invocation/timing is not traced and must not be claimed.
+
+The 130-config bounded serving-directory scan found no explicit fusion study; this does not certify all historical artifacts. CPU fixtures replay real 25947 startup logs with clearly synthetic selection markers to verify the gates, including fallback/wrong-flag rejection. No GPU compatibility, output correctness or performance result is inferred from CPU fixtures. Frozen parents are unchanged.
+
+An earlier scheduling-option probe is retained in h200-decode-steps-20261025 but did not justify a submission: the examined native scheduler files did not show an active continuous-decode-steps use. This bounded negative search is not proof of a global no-op. Its first extraction attempt failed because this host's old unsquashfs lacks -cat; selected-file extraction then succeeded. No GPU was allocated for that CPU investigation. We selected native phase-isolated fusion instead.
