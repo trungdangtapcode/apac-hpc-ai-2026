@@ -1,0 +1,11 @@
+# Research milestone — 25 October 2026: corrected S62r3 topology retry submitted
+
+**Hypothesis and control.** S62r3 tests two independent TP4/EP4 decode replicas against the target-only TP8/EP8 N64 fast-default control 25947. It preserves two TP4 prefill workers, model/runtime, N64 fixed 4,000/200 workload, seed 2026 and short 20/40/30-second client protocol. The only source change after S62r2 is a validator repair based on observed TP4 geometry receipts from job 26064; no serving option changed. The predeclared continuation threshold is 3% above control (2,840.08 good output tokens/s) plus every local correctness/SLA gate.
+
+**Admission.** The bundle checksum passed. sbatch --test-only estimated 2026-10-25 05:30:52 UTC, which is not a start promise. At 05:14 UTC, the actual receipt was job 26076. It requests two nodes / 16 H200 GPUs / at most 17 minutes. Slurm recorded WorkDir /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments and log outputs under that parent's existing runs/ directory, avoiding the prior S62 missing-output-path failure. An immediate scheduler query reported PENDING (Resources), zero elapsed, no assigned nodes. The account active-job queue contains only 26076 of the five-job cap. Node g4 was allocated to another team; g1 was idle at the same observation.
+
+**Measurement status.** There is no worker startup, geometry receipt, semantic route warmup, AIPerf profile, score, output check or quality result for 26076 yet. Pending means the job has not begun. The earlier 26064 attempt remains FAILED before scoring; its 32 raw records pass the corrected validator, but they do not constitute an S62 benchmark.
+
+**Next decision.** Preserve this queue position and inspect its actual terminal state. If all gates pass and the short screen reaches at least 2,840.08 good output tokens/s, prepare a matched longer confirmation; otherwise close S62 and preserve the loss/failure. Do not infer official accuracy from short output checks.
+
+**Preservation.** [Definite scheduler receipt](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/SUBMISSION-26076.md), [frozen bundle and checksums](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s62r3-h200-two-decode-tp4/), [previous S63 review](../../../../2026-APAC-HPC-AI/qwen-experiments/research-review-26064-26068-20261025/REVIEW.md).

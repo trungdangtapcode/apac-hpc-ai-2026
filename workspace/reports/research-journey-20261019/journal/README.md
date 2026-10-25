@@ -284,3 +284,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [25 October: the N66–N72 sweep underperformed N64; recover valid profiles after checker correction](entries/20261025-s63-load-results-and-validator-correction.md).
 
 - [25 October: correct the S62 TP4 geometry validator and prepare a bounded topology retry](entries/20261025-s62r3-topology-retry-preparation.md).
+
+- [25 October: submit the corrected S62r3 two-decode topology retry (job 26076)](entries/20261025-s62r3-topology-retry-submitted.md).
