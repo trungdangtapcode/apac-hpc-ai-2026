@@ -1,0 +1,14 @@
+# 25 October: prepare a modern-runtime two-replica TP4 decode screen
+
+**Question and prior evidence.** The latest matched modern short control is target-only job 25947 at N64: 2,757.36 good output tokens/s and 95.24% joint latency success. EAGLE3 decode-only job 25998 passed the short SLA but scored 4.74% lower, so the unchanged speculative path is closed. Historical H200 job 22219 selected a two-TP4-decode topology at N40 (1,666.01 tokens/s), but it used an earlier runtime and protocol; it motivates a fresh modern-runtime test rather than serving as a numerical control.
+
+**Hypothesis and change.** S62 preserves two TP4 prefill workers and replaces one TP8/EP8 decode worker with two TP4/EP4 replicas. Each new decode worker is capped at 128 running requests, retaining an aggregate cap of 256. The model/image, NIXL, kernel and graph settings, request shape (4,000/200), seed 2026, N64, cold prefix cache and short 20/40/30-second protocol stay fixed. The planned one-factor comparison is against target-only 25947. The test uses 16 H200 GPUs across two nodes and no PBS SU.
+
+**Pre-admission checks.** The immutable candidate bundle is [`s62-h200-two-decode-tp4`](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s62-h200-two-decode-tp4/). Its worker, shell and Python files passed syntax parsing. Exact placement is 4/4 GPUs on each of two nodes; the launch allows only that four-worker map. Before AIPerf, all workers must pass health, rank-local BF16 KV, NIXL/runtime and native registration gates; there must be 32 valid before/after receipts; and every one of the four P/D semantic paths must pass. The performance gate requires a complete request denominator, at least 90% joint TTFT/ITL success, zero profile errors/cancellations, 7/8 output smoke and 12/12 retrieval.
+
+**Decision rule and limits.** Proceed to longer confirmation only if the screen passes all gates and exceeds target-only control 25947 by at least 3%, or 2,840.08 good output tokens/s. Otherwise preserve the evidence and close the topology branch. A short screen is not ranked and does not certify accuracy; official full-set model quality remains UNKNOWN. Five-second hardware samples will be interpreted as sparse telemetry, not causal proof.
+
+**Admission status.** At the 25 October 03:00 UTC scheduler check, apacsc42 had no queued job, node g1 was idle, and g4 was allocated to another user's job. That snapshot is not a current guarantee; refresh both queue and node state immediately before submission. No S62 scheduler receipt existed when this plan was written.
+
+**Preservation.** The 25998 result and raw logs were committed and pushed in `report(ai): review decode-only EAGLE3 short screen 25998` (archive commit `5afd3ba6`). S62 remains a separate prepared hypothesis until its own bundle checkpoint and, if admitted, scheduler receipt.
+
