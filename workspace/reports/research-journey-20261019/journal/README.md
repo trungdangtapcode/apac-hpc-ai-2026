@@ -32,6 +32,8 @@ Latest AI result: [25 October: decode-only EAGLE3 passes the short SLA but loses
 
 Latest AI hypothesis: [25 October: prepare a modern-runtime two-replica TP4 decode screen](entries/20261025-s62-two-decode-topology-plan.md).
 
+Latest AI submission: [25 October: S62 two-replica TP4 decode screen queued as 26055](entries/20261025-s62-two-decode-topology-submitted.md).
+
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
 
 Start with **[the journey in 32 stages](JOURNEY.md)**. Each stage explains the question, tested change, observed result, assessment and next decision, with links to the original records. It includes failed attempts, rejected branches, repeated gains, review mistakes and later corrections across both clusters.

@@ -1,0 +1,9 @@
+# 25 October: S62 two-replica TP4 decode screen queued as 26055
+
+**Hypothesis and control.** The frozen target-only S62 plan compares two TP4/EP4 decode replicas against current target-only TP8/EP8 control 25947, holding two TP4 prefill workers, 16 H200 GPUs, model/image, NIXL, kernel settings, request shape, seed, N64 and 20/40/30-second screen constant. The aggregate decoder running-request cap remains 256 (128 per replica). Historical topology job 22219 is motivation only because it used an older runtime and N40.
+
+**Admission.** Job **26055** was submitted at 2026-10-25 03:04:07 UTC to Slurm partition `hpcai`, requesting two nodes, 16 H200 GPUs and a maximum 17 minutes. The fresh pre-submit query showed no apacsc42 jobs, while both nodes g1 and g4 were occupied by another two-node job. The test-only estimate said 03:19:32 UTC; it does not guarantee a start time. Immediate state was `PENDING (Resources)`, elapsed zero, and no node allocated. This H200 job uses no PBS SU.
+
+**Expected measurement and gates.** This is an unranked short N64 screen. All four workers, 32 per-rank before/after KV receipts, NIXL/runtime gates, four semantic P/D routes, raw AIPerf request accounting, at least 90% joint SLA success, 7/8 smoke, 12/12 retrieval and zero request errors/cancellations must pass before the score is valid. Longer confirmation requires at least 2,840.08 good output tokens/s (3% above control 25947). A pending job has no result; preserve that distinction.
+
+**Preservation.** Frozen bundle and hashes: [`serving-tuning-11/s62-h200-two-decode-tp4`](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s62-h200-two-decode-tp4/). Separate receipt: [`SUBMISSION-26055.md`](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/SUBMISSION-26055.md). This is a distinct submission checkpoint; the bundle was not edited after submission.
