@@ -298,3 +298,5 @@ Latest AI hypothesis: [25 October: matched H200 routing screen](entries/20261025
 Latest AI submission: [25 October: H200 routing pair 26083→26085](entries/20261025-routing-pair-submitted.md).
 
 Latest AI hypotheses: [25 October: isolate native QK/RoPE fusion on prefill and decode](entries/20261025-native-fusion-phase-plan.md).
+
+Latest AI submission: [25 October: phase-isolated fusion 26089/26091 fills the five-job queue](entries/20261025-native-fusion-five-job-admission.md).

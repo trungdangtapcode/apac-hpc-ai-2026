@@ -2378,3 +2378,7 @@ FAILED 1:0 / 7:33; all four workers ready and 32 KV records passed, then 30-seco
 ## 25 October 06:03 UTC: matched H200 routing pair 26083→26085
 
 Fresh round-robin 26083 and power-of-two 26085 (afterany:26083), each 16 H200/two nodes/17-minute maximum. Immediate PENDING Resources/Dependency. Existing 26081 remains PENDING Resources; three own jobs within cap 5. No new benchmark result. [Receipts and actual scheduler paths](h200-next-screens-20261025/receipts-routing.json), [fresh queue](h200-next-screens-20261025/post-submit-queue.json).
+
+## 25 October: phase-isolated fusion 26089/26091; five-job cap full
+
+S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083. Each 16 H200/two nodes/17-minute maximum. At 06:16:53 UTC, 26081 running, 26083 pending Resources, 26085/26089/26091 pending Dependency. No new benchmark score. [Receipts](h200-fused-qk-rope-20261025/submission-receipts.json), [live snapshot](h200-fused-qk-rope-20261025/post-submit-queue.json).

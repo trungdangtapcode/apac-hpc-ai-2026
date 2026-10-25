@@ -1,0 +1,11 @@
+# Native fusion screens admitted; five own H200 jobs
+
+On 25 October 2026, submitted frozen S66 prefill-only native QK norm/RoPE fusion as 26089 and S67 decode-only fusion as 26091. Both have afterany:26083, the actual fresh round-robin control. Submission held the Slurm admission lock, required current count+2<=5, checked parent/control ownership/state, verified each sealed payload, ran scheduler test-only admission and retained every definite receipt immediately. No uncertain retry occurred.
+
+At the live 06:16:53 UTC check, 26081 was RUNNING on g1/g4, 26083 PENDING (Resources), and 26085/26089/26091 PENDING (Dependency). The initial 26089/26091 Reason briefly showed Resources even though scontrol already retained afterany:26083(unfulfilled); the next queue query showed Dependency. Dependency is normal and satisfiable after control termination. A failed control still invalidates a candidate comparison; no historical replacement or speedup claim is allowed.
+
+Each candidate requests 16 H200 GPUs/two nodes/17-minute maximum, zero PBS SU. They differ from the actual S65 control only by phase-selected native fusion and two startup-only model-selection observer lines. Every selected role must report native selected=True at head_dim 128 on every rank before scoring; unselected roles must report False. Native JIT/fallback, model output and performance are not proven by CPU fixtures. All workload/runtime/KV/semantic/SLA/error/output gates remain. Require >=3% gain above control 26083 and independent full confirmation before adoption. Official full-set accuracy remains unknown.
+
+Partial live evidence for 26081: prefill-1/decode-0 and prefill-1/decode-1 returned semantic PASS with 8 completion tokens; the full four-route gate was not yet complete at the snapshot. This shows progress beyond 26076's 30-second HTTP timeout, not a benchmark result or a complete transport fix. Preserve the live log in post-submit-queue.json and wait for terminal raw evidence before assessment.
+
+Receipts, exact scontrol paths, payload hashes and timestamps: qwen-experiments/h200-fused-qk-rope-20261025/submission-receipts.json. Fresh status/partial warmup: post-submit-queue.json. The full-protocol H200 frontier remains 3044.400475 good output tokens/s. No HPC payload/queue, PBS budget, auth session, background Codex or schedule was changed.
