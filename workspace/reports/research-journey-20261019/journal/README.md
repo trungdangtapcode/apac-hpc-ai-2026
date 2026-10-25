@@ -28,6 +28,8 @@ Latest AI failure review: [24 October: decode-only EAGLE3 exposes a KV geometry 
 
 Latest AI submission: [24 October: submit the role-aware KV validation retry 25998](entries/20261024-s61-kvfix-retry-submitted.md).
 
+Latest AI result: [25 October: decode-only EAGLE3 passes the short SLA but loses throughput](entries/20261025-s61-kvfix-result.md).
+
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
 
 Start with **[the journey in 32 stages](JOURNEY.md)**. Each stage explains the question, tested change, observed result, assessment and next decision, with links to the original records. It includes failed attempts, rejected branches, repeated gains, review mistakes and later corrections across both clusters.

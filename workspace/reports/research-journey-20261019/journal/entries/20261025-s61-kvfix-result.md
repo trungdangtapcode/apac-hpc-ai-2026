@@ -1,0 +1,14 @@
+# 25 October: decode-only EAGLE3 passes the short SLA but loses throughput
+
+**Question and prior evidence.** All-worker EAGLE3 (25948) had lower ITL but failed the joint TTFT/ITL gate. The proposed decode-only placement aimed to recover TTFT. The first attempt, 25988, failed before benchmarking because a validator applied the draft-enabled KV region count to target-only prefill. The role-aware retry corrected that validator and preserved the original failure.
+
+**Change and control.** H200 jobs 25947 (target-only) and 25998 (EAGLE3 decode only) both used 16 GPUs, two TP4 prefill workers, one TP8/EP8 decode worker, N64, 4,000/200 tokens, seed 2026, cold prefix cache and 20/40/30 seconds. This was an unranked short screen.
+
+**Measurement.** Job 25998 completed 0:0 and passed the independent performance check. Across 601 requests it achieved 13.133553 good requests/s, or **2,626.71 good output tokens/s** after multiplying by 200. Joint SLA success was 94.84%; TTFT mean/p95 1,182.33/2,812.08 ms; mean/p95 ITL 16.428/17.778 ms; errors and cancellations were both zero. Thirty requests exceeded TTFT and one exceeded ITL. Control 25947 achieved 2,757.36 good output tokens/s and 95.24% success, with mean TTFT 1,311.60 ms and mean ITL 14.833 ms. EAGLE3 therefore lost 4.74% good output throughput; its TTFT improved but ITL worsened. Logs showed only about 0.12–0.15 draft acceptance. See [complete run review](../../../../2026-APAC-HPC-AI/qwen-experiments/research-review-25998-20261025/REVIEW.md).
+
+**Inspection and limits.** Sampled decode GPU-active time averaged 68.6% across the 18 five-second benchmark-window observations (median 94%); prefill averaged 61.6% and 57.1%. Sampled decode memory averaged 136.1 GiB/GPU; prefill about 131.7 GiB/GPU. These are sparse activity and allocation samples, not FLOP utilisation or proof of a bottleneck. Server telemetry was independently sampled, but AIPerf had no metrics endpoints configured. At one decode sample, TP0 reported 28 running requests, queue 0, token usage 0.05. Output smoke remained 7/8 on both candidate and control; retrieval was 12/12. Official quality is unknown.
+
+**Assessment and next decision.** Close this unchanged EAGLE3 placement/draft branch: it passes the short SLA but loses to matched target-only. Preserve the full-protocol H200 frontier separately at 3,044.40 good output tokens/s; the short protocol cannot replace it. Prepare a modern-runtime target-only topology confirmation for two TP4/EP4 decode replicas against the current one TP8/EP8 decode control. Historical job 22219 only motivates the trial; its old-runtime N40 result is not comparable. Validate support for four workers, each KV receipt and all four P/D warmup paths before requesting a job.
+
+**Preservation.** Raw evidence remains under `qwen-experiments/runs/25998/`; the role-aware KV retry remains frozen. This entry records the actual 25 October review, not a reconstruction of the original experiment date.
+

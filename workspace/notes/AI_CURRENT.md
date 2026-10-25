@@ -1,12 +1,22 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-24T20:36:06Z. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-25 UTC after reviewing job 25998. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+
+## Latest result: 25998 passed the short gate but lost to control
+
+Job 25998 completed 0:0 in 9:44 and produced a valid short N64 profile: 2,626.71 good output tokens/s, 94.84% joint SLA success, TTFT mean/p95 1,182.33/2,812.08 ms, ITL mean/p95 16.428/17.778 ms, zero request errors/cancellations. Matched target-only 25947 scored 2,757.36 tokens/s and 95.24%, so decode-only EAGLE3 lost 4.74%; TTFT improved while ITL worsened 10.76%. The branch is closed for this pinned draft/runtime. Draft acceptance in the decode logs was only about 0.12–0.15. The full-protocol frontier remains 3,044.400475 at N64; the short screen does not replace it. [Complete result and observability review](../2026-APAC-HPC-AI/qwen-experiments/research-review-25998-20261025/REVIEW.md); [journey entry](../reports/research-journey-20261019/journal/entries/20261025-s61-kvfix-result.md).
+
+The sampled benchmark-window telemetry found decode GPU-active time mean/median/max 68.6/94/99%, prefill role means 61.6% and 57.1%, sampled VRAM allocation around 136.1 GiB per decode GPU and 131.7 GiB per prefill GPU. These sparse samples are not FLOP utilization or proof of a bottleneck. AIPerf embedded server metrics were unconfigured; separate SGLang samples exist. Official full-set accuracy remains UNKNOWN.
+
+At the fresh Slurm query on 25 October, the AI queue was empty, g1 was IDLE with 8 H200 GPUs, and g4 was ALLOCATED with 8 H200 GPUs to another job. Thus a new two-node/16-GPU topology candidate can wait in queue but cannot start immediately. Check scheduler state again before admission and retain the active-job cap.
+
+The next proposed distinct question is a modern-runtime confirmation of target-only `P8-TP4 / D8-2x(TP4, EP4)` against `P8-TP4 / D8-TP8-EP8`. Historical 22219 is a reason to revisit the topology, not a comparable result: it used an earlier runtime and N40. Do not submit the old runner unchanged. The derived bundle must support four worker endpoints, validate all four worker/rank geometries, warm all four P/D pairs, and preserve the 16-GPU placement. No new job receipt exists yet.
 
 ## Latest AI result and actual H200 queue
 
 H200 full-protocol frontier remains **3,044.400475 good output tokens/s** at N64 (jobs 25366, 25373 and 25487; 60/120/30-second protocol). It has not increased. Official full-set accuracy ≥99% of the reference remains UNKNOWN.
 
-The newly reviewed fast-default short pair **25947/25948** does not replace that frontier. Both used N64, 4,000/200 tokens, seed 2026, 20/40/30-second protocol, and 16 H200 GPUs:
+The previously reviewed fast-default short pair **25947/25948** does not replace that frontier. Both used N64, 4,000/200 tokens, seed 2026, 20/40/30-second protocol, and 16 H200 GPUs:
 
 | Job | Arm | Good output tokens/s | Joint latency success | Mean TTFT | Mean ITL | Finding |
 |---|---|---:|---:|---:|---:|---|
@@ -15,13 +25,13 @@ The newly reviewed fast-default short pair **25947/25948** does not replace that
 
 Both arms had zero profiled request errors/cancellations, 7/8 output sanity and 12/12 retrieval. The candidate increased raw output throughput 1.07% and lowered ITL 47.24%, but mean TTFT roughly doubled and good output throughput fell 11.40%. Raw per-request recount: control has 30/630 TTFT breaches and zero ITL breaches; candidate has 106/642 TTFT breaches and zero ITL breaches. Job 25948 is terminal FAILED 1:0: its post-run checker had a control-review schema mismatch, and independent replay also confirmed the actual 83.49% SLA failure. The 20/40/30 screen cannot be ranked directly against the 60/120/30 incumbent. See [paired review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25947-25948-20261024/REVIEW.md).
 
-## Latest H200 candidate and validator failure
+## Historical H200 candidate and validator failure
 
 Job **25988** tested S61: two target-only TP4 prefill workers and one TP8/EP8 decode worker with EAGLE3 enabled on decode only. It was submitted 24 October 20:04:27 UTC for 16 H200 GPUs and a 17-minute maximum. Fresh accounting shows `FAILED 1:0` after 6:15. This is a failed validation run, not a completed benchmark: no AIPerf profile was created, so candidate goodput, TTFT, ITL, joint-SLA fraction, request errors and output checks are all **not measured**.
 
 All three workers reached health 200 and `worker_ready`. The draft fingerprint and runtime readiness checks passed. Each prefill worker had four BF16 KV and four NIXL rank records; decode had eight target BF16/NIXL rank records plus draft KV records. The job then failed closed because the old geometry checker assumed 190 regions for every role. Raw evidence has 188 regions on each target-only prefill rank and 190 on each EAGLE3 decode rank. The correct role-aware interpretation is 188 target-model regions plus two decode-side draft registrations. This is a validator bug exposed by changing draft placement, not evidence of an invalid KV allocation.
 
-The corrected validator passes both real receipt sets: 32 records from target-only control 25947 with 188 decode regions and 32 from 25988 with 188 target-only prefill / 190 draft-enabled decode regions. The new immutable retry bundle passed model/image and AIPerf client identity checks. Slurm job **25998** was submitted at 20:35:34 UTC for 16 H200 GPUs across two nodes and a 17-minute cap. At the fresh 20:36:06 UTC query it is `PENDING` with reason `Nodes required for job are DOWN, DRAINED or reserved for jobs in higher priority partitions`; elapsed is zero. The test-only prediction was 21:17:26, not a start guarantee. No retry benchmark result exists yet. Keep **3,044.400475 good output tokens/s** as the H200 full-protocol frontier until a new valid full-protocol result exceeds it. Official full-set accuracy ≥99% remains UNKNOWN. [Job 25988 failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25988-20261024/REVIEW.md); [retry plan and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-decode-only-kvfix-20261024/); [failure journal](../reports/research-journey-20261019/journal/entries/20261024-s61-kv-validator-failure.md); [retry journal](../reports/research-journey-20261019/journal/entries/20261024-s61-kvfix-retry-submitted.md).
+The corrected validator passed both real receipt sets: 32 records from target-only control 25947 with 188 decode regions and 32 from 25988 with 188 target-only prefill / 190 draft-enabled decode regions. Job 25998's measured result and the full-protocol frontier are recorded above. [Job 25988 failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25988-20261024/REVIEW.md); [retry plan and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/eagle3-decode-only-kvfix-20261024/); [failure journal](../reports/research-journey-20261019/journal/entries/20261024-s61-kv-validator-failure.md); [retry journal](../reports/research-journey-20261019/journal/entries/20261024-s61-kvfix-retry-submitted.md).
 
 The failure reserved 16 H200 GPUs for at most 17 minutes and consumed 6:15 scheduler elapsed; this is Slurm allocation time, not PBS SU. Resource sampler files are preserved but were not used to claim a bottleneck. No profiler or AIPerf request telemetry exists for this failed attempt.
 
