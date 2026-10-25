@@ -1,0 +1,448 @@
+#!/bin/bash
+#PBS -N cpu-placement-abba
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=01:30:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?PBS_JOBID is required}" "${PBS_O_WORKDIR:?Submit from the experiment root}" "${PBS_NODEFILE:?PBS_NODEFILE is required}"
+ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
+PAYLOAD="$ROOT/payload"
+RANKS=512
+NODES=4
+CPUS=512
+SHARED_MESH=/scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+export PYTHONDONTWRITEBYTECODE=1
+test ! -e "$RUN"
+mkdir -p "$RUN/logs" "$RUN/identity" "$RUN/candidate" "$RUN/probes/identity_initial" \
+    "$RUN/probes/candidate_initial" "$RUN/arms"
+BATCH_START=$(date +%s)
+INTERNAL_DEADLINE=5220
+SOLVER_RESERVE_SECONDS=1020
+PROBE_RESERVE_SECONDS=30
+CLEANUP_RESERVE_SECONDS=180
+SOLVER_TIMEOUT_SECONDS=900
+PROBE_TIMEOUT_SECONDS=30
+python3 "$PAYLOAD/batch-lifecycle.py" start "$RUN"
+
+finish_wrapper() {
+    local rc=$? hash_rc=0
+    set +e
+    python3 "$PAYLOAD/verify-outer-payload.py" --root "$ROOT" \
+        >"$RUN/source-validation-after.json" 2>"$RUN/source-validation-after.stderr"
+    hash_rc=$?
+    if [ "$rc" -eq 0 ] && [ "$hash_rc" -ne 0 ]; then rc=1; fi
+    if [ -d "$RUN/baseline" ] && [ -f "$RUN/initialized-zero-fields.json" ]; then
+        python3 "$PAYLOAD/field-seal.py" "$RUN/baseline" "$RUN/baseline-zero-fields-after.json" \
+            "$RUN/initialized-zero-fields.json" >"$RUN/baseline-zero-fields-after.stdout" \
+            2>"$RUN/baseline-zero-fields-after.stderr"
+        if [ "$?" -ne 0 ] && [ "$rc" -eq 0 ]; then rc=1; fi
+    fi
+    python3 "$PAYLOAD/batch-lifecycle.py" finish "$RUN" "$rc" "$hash_rc"
+    exit "$rc"
+}
+trap finish_wrapper EXIT
+
+remaining_seconds() { echo $((INTERNAL_DEADLINE - ($(date +%s) - BATCH_START))); }
+phase() { printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$1" "$2" >>"$RUN/phases.tsv"; }
+record_rc() { python3 "$PAYLOAD/record-return.py" "$RUN/command-return-codes.json" "$1" "$2"; }
+require_time() {
+    local seconds
+    seconds=$(remaining_seconds)
+    test "$seconds" -gt "$1"
+    echo "$seconds"
+}
+
+run_logged() {
+    local label=$1 cwd=$2 stdout=$3 stderr=$4 max_seconds=$5 seconds rc
+    shift 5
+    seconds=$(remaining_seconds)
+    test "$seconds" -gt 5
+    if [ "$max_seconds" -gt 0 ] && [ "$max_seconds" -lt "$seconds" ]; then
+        seconds=$max_seconds
+    fi
+    phase start "$label"
+    if [ "$stdout" = "$stderr" ]; then
+        if (cd "$cwd" && /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" \
+            timeout --signal=TERM --kill-after=10s "${seconds}s" "$@" >"$stdout" 2>&1); then rc=0; else rc=$?; fi
+    else
+        if (cd "$cwd" && /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" \
+            timeout --signal=TERM --kill-after=10s "${seconds}s" "$@" >"$stdout" 2>"$stderr"); then rc=0; else rc=$?; fi
+    fi
+    record_rc "$label" "$rc"
+    phase "exit=$rc" "$label"
+    test "$rc" -eq 0
+}
+
+run_mpi_app() {
+    local label=$1 cwd=$2 order_file=$3 stdout=$4 stderr=$5 max_seconds=$6
+    shift 6
+    run_logged "$label" "$cwd" "$stdout" "$stderr" "$max_seconds" \
+        env MPICH_RANK_REORDER_METHOD=3 MPICH_RANK_REORDER_FILE="$order_file" \
+        MPICH_RANK_REORDER_DISPLAY=1 \
+        mpiexec -n "$RANKS" --cpu-bind thread \
+        python3 "$PAYLOAD/capture-affinity-exec.py" \
+        --library "$RUN/libpreserve-affinity.so" -- "$@"
+}
+
+ensure_solver_capacity() {
+    local future_arms=$1 seconds required
+    seconds=$(remaining_seconds)
+    required=$((future_arms * (SOLVER_RESERVE_SECONDS + PROBE_RESERVE_SECONDS) + CLEANUP_RESERVE_SECONDS))
+    test "$seconds" -ge "$required"
+    printf '%s\tdeadline_guard\tremaining=%s required_for_%s_arms=%s\n' \
+        "$(date -u +%FT%TZ)" "$seconds" "$future_arms" "$required" >>"$RUN/phases.tsv"
+}
+
+solver_timeout_for() {
+    local current_and_future=$1 seconds reserve_future allowed
+    seconds=$(remaining_seconds)
+    reserve_future=$(((current_and_future - 1) * (SOLVER_RESERVE_SECONDS + PROBE_RESERVE_SECONDS) + CLEANUP_RESERVE_SECONDS))
+    allowed=$((seconds - reserve_future))
+    test "$allowed" -ge "$SOLVER_RESERVE_SECONDS"
+    if [ "$allowed" -gt "$SOLVER_TIMEOUT_SECONDS" ]; then allowed=$SOLVER_TIMEOUT_SECONDS; fi
+    echo "$allowed"
+}
+
+copy_order_into() {
+    local order_source=$1 target_case=$2
+    cp "$order_source" "$target_case/rank-order.txt"
+    sha256sum "$target_case/rank-order.txt" >>"$RUN/arm-order-files.sha256"
+}
+
+validate_affinity() {
+    local label=$1 diagnostics=$2 mapping_probe=$3 expected_entry=$4
+    run_logged "validate_affinity_${label}" "$ROOT" "$RUN/logs/validate-affinity-${label}.stdout.json" \
+        "$RUN/logs/validate-affinity-${label}.stderr.txt" 0 \
+        python3 "$PAYLOAD/validate-affinity-records.py" --diagnostics "$diagnostics" \
+        --mapping-probe "$mapping_probe" --require-entry "$expected_entry" \
+        --output "$RUN/logs/affinity-${label}.json"
+}
+validate_rank_display() {
+    local label=$1 log=$2 probe=$3
+    run_logged "validate_rank_display_${label}" "$ROOT" \
+        "$RUN/logs/rank-display-${label}.stdout.txt" "$RUN/logs/rank-display-${label}.stderr.txt" 0 \
+        python3 "$PAYLOAD/validate-rank-display.py" --log "$log" --probe "$probe" \
+        --output "$RUN/logs/rank-display-${label}.json"
+}
+
+phase start wrapper
+phase start payload_and_input_guards
+run_logged payload_hash_before "$ROOT" "$RUN/source-validation-before.json" \
+    "$RUN/logs/payload-hash-before.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-outer-payload.py" --root "$ROOT"
+run_logged validate_frozen_source_case "$ROOT" "$RUN/frozen-case-validation.json" \
+    "$RUN/logs/frozen-case-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode case --case "$PAYLOAD/case"
+run_logged validate_assignment "$ROOT" "$RUN/assignment-validation.json" \
+    "$RUN/logs/assignment-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-assignment.py" "$PAYLOAD/assignment.json"
+run_logged copy_pbs_nodefile "$ROOT" "$RUN/pbs-nodefile-copy.stdout.txt" \
+    "$RUN/logs/copy-pbs-nodefile.stderr.txt" 0 cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+run_logged validate_pbs_nodefile "$ROOT" "$RUN/nodefile-validation.json" \
+    "$RUN/logs/nodefile-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-nodefile.py" "$RUN/pbs-nodefile.txt"
+run_logged validate_shared_mesh_before "$ROOT" "$RUN/mesh-validation-before.json" \
+    "$RUN/logs/mesh-validation-before.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$SHARED_MESH"
+phase complete payload_and_input_guards
+
+phase start module_setup
+if . /app/apps/resetmodule; then rc=0; else rc=$?; fi
+record_rc site_module_reset "$rc"; test "$rc" -eq 0
+if module load openfoam/2512; then rc=0; else rc=$?; fi
+record_rc load_openfoam_2512 "$rc"; test "$rc" -eq 0
+test "$WM_PROJECT_VERSION" = 2512
+test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4
+export FI_OFI_RXM_USE_SRX=0
+unset PALS_CPU_BIND MPICH_RANK_ORDER
+test -z "${LD_PRELOAD:-}"
+if module list >"$RUN/logs/module-list.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc module_list "$rc"; test "$rc" -eq 0
+{
+    date -u
+    hostname
+    module list 2>&1
+    printf 'WM_PROJECT_VERSION=%s\nWM_PRECISION_OPTION=%s\nWM_PROJECT_DIR=%s\n' \
+        "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION" "$WM_PROJECT_DIR"
+    command -v cc
+    command -v mpiexec
+    command -v simpleFoam
+    env | sort | grep -E '^(FI_[A-Za-z0-9_]*|MPICH_[A-Za-z0-9_]*|CRAY_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*|MKL_[A-Za-z0-9_]*|OPENBLAS_[A-Za-z0-9_]*|WM_[A-Za-z0-9_]*|PALS_CPU_BIND)=' || true
+} >"$RUN/environment.log"
+phase complete module_setup
+
+run_logged compiler_version "$ROOT" "$RUN/logs/compiler-version.stdout.txt" \
+    "$RUN/logs/compiler-version.stderr.txt" 0 cc --version
+run_logged launcher_version "$ROOT" "$RUN/logs/mpiexec-version.stdout.txt" \
+    "$RUN/logs/mpiexec-version.stderr.txt" 0 mpiexec --version
+run_logged compile_mpi_probe "$ROOT" "$RUN/logs/compile-probe.stdout.txt" \
+    "$RUN/logs/compile-probe.stderr.txt" 0 cc -O0 -g -o "$RUN/mpi-probe" "$PAYLOAD/mpi-probe.c"
+run_logged compile_affinity_shim "$ROOT" "$RUN/logs/compile-affinity-shim.stdout.txt" \
+    "$RUN/logs/compile-affinity-shim.stderr.txt" 0 \
+    cc -O0 -g -fPIC -shared -o "$RUN/libpreserve-affinity.so" "$PAYLOAD/preserve-affinity.c"
+run_logged linked_mpi_probe "$ROOT" "$RUN/logs/linked-probe.stdout.txt" \
+    "$RUN/logs/linked-probe.stderr.txt" 0 ldd "$RUN/mpi-probe"
+grep -Ei 'libmpi|libmpich' "$RUN/logs/linked-probe.stdout.txt" >"$RUN/logs/selected-mpi-libraries.txt"
+grep -Fq '/mpich/8.1.15/' "$RUN/logs/selected-mpi-libraries.txt"
+run_logged linked_simpleFoam "$ROOT" "$RUN/logs/linked-simpleFoam.stdout.txt" \
+    "$RUN/logs/linked-simpleFoam.stderr.txt" 0 ldd "$(command -v simpleFoam)"
+grep -Fq '/mpich/8.1.15/' "$RUN/logs/linked-simpleFoam.stdout.txt"
+run_logged linked_affinity_shim "$ROOT" "$RUN/logs/linked-shim.stdout.txt" \
+    "$RUN/logs/linked-shim.stderr.txt" 0 ldd "$RUN/libpreserve-affinity.so"
+sha256sum "$RUN/libpreserve-affinity.so" >"$RUN/affinity-shim.sha256"
+phase complete application_build_and_link_guards
+
+run_logged write_identity_order "$ROOT" "$RUN/logs/write-identity-order.stdout.txt" \
+    "$RUN/logs/write-identity-order.stderr.txt" 0 \
+    python3 "$PAYLOAD/write-identity-order.py" "$RUN/identity/rank-order.txt"
+cp "$RUN/identity/rank-order.txt" "$RUN/probes/identity_initial/rank-order.txt"
+phase start strict_identity_probe
+run_mpi_app probe_identity_initial "$RUN/probes/identity_initial" rank-order.txt \
+    "$RUN/logs/probe-identity-initial.stdout.txt" "$RUN/logs/probe-identity-initial.stderr.txt" \
+    "$PROBE_TIMEOUT_SECONDS" "$RUN/mpi-probe"
+validate_affinity identity_initial "$RUN/logs/probe-identity-initial.stderr.txt" \
+    "$RUN/logs/probe-identity-initial.stdout.txt" MPI_Init_thread
+cat "$RUN/logs/probe-identity-initial.stdout.txt" "$RUN/logs/probe-identity-initial.stderr.txt" \
+    >"$RUN/logs/probe-identity-initial.combined.txt"
+validate_rank_display identity_initial "$RUN/logs/probe-identity-initial.combined.txt" \
+    "$RUN/logs/probe-identity-initial.stdout.txt"
+run_logged validate_identity "$ROOT" "$RUN/identity-validation.stdout.txt" \
+    "$RUN/logs/identity-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-identity.py" "$RUN/logs/probe-identity-initial.stdout.txt" \
+    "$RUN/pbs-nodefile.txt" --output "$RUN/identity-validation.json"
+phase complete strict_identity_probe
+
+phase start render_and_validate_strict_candidate
+run_logged render_candidate "$ROOT" "$RUN/logs/render-candidate.stdout.txt" \
+    "$RUN/logs/render-candidate.stderr.txt" 0 \
+    python3 "$PAYLOAD/render-candidate.py" "$RUN/logs/probe-identity-initial.stdout.txt" \
+    "$RUN/pbs-nodefile.txt" "$PAYLOAD/assignment.json" \
+    --order-file "$RUN/candidate/rank-order.txt" --expected-file "$RUN/candidate/expected-mapping.json"
+cp "$RUN/candidate/rank-order.txt" "$RUN/probes/candidate_initial/rank-order.txt"
+run_mpi_app probe_candidate_initial "$RUN/probes/candidate_initial" rank-order.txt \
+    "$RUN/logs/probe-candidate-initial.stdout.txt" "$RUN/logs/probe-candidate-initial.stderr.txt" \
+    "$PROBE_TIMEOUT_SECONDS" "$RUN/mpi-probe"
+validate_affinity candidate_initial "$RUN/logs/probe-candidate-initial.stderr.txt" \
+    "$RUN/logs/probe-candidate-initial.stdout.txt" MPI_Init_thread
+cat "$RUN/logs/probe-candidate-initial.stdout.txt" "$RUN/logs/probe-candidate-initial.stderr.txt" \
+    >"$RUN/logs/probe-candidate-initial.combined.txt"
+validate_rank_display candidate_initial "$RUN/logs/probe-candidate-initial.combined.txt" \
+    "$RUN/logs/probe-candidate-initial.stdout.txt"
+run_logged validate_candidate_mapping "$ROOT" "$RUN/mapping-validation.stdout.txt" \
+    "$RUN/logs/mapping-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-mapping.py" "$RUN/logs/probe-identity-initial.stdout.txt" \
+    "$RUN/logs/probe-candidate-initial.stdout.txt" "$RUN/pbs-nodefile.txt" \
+    "$PAYLOAD/assignment.json" "$RUN/candidate/expected-mapping.json" \
+    --output "$RUN/mapping-validation.json"
+phase complete render_and_validate_strict_candidate
+
+phase start prepare_common_initialized_baseline
+run_logged copy_initialized_baseline "$ROOT" "$RUN/logs/copy-baseline.json" \
+    "$RUN/logs/copy-baseline.stderr.txt" 0 \
+    python3 "$PAYLOAD/copy-case.py" "$PAYLOAD/case" "$RUN/baseline" --reserve-bytes 536870912
+run_logged verify_baseline_copy_isolation "$ROOT" "$RUN/logs/baseline-copy-isolation.stdout.txt" \
+    "$RUN/logs/baseline-copy-isolation.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-copy-isolation.py" "$PAYLOAD/case" "$RUN/baseline" \
+    --output "$RUN/logs/baseline-copy-isolation.json"
+run_logged verify_baseline_case_sources "$ROOT" "$RUN/baseline-source-validation-before.stdout.txt" \
+    "$RUN/logs/baseline-source-validation-before.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-case-sources.py" --source "$PAYLOAD/case" --case "$RUN/baseline" \
+    --accepted "$PAYLOAD/accepted-source-manifest.json" --output "$RUN/baseline-source-validation-before.json"
+test ! -e "$RUN/baseline/constant/polyMesh" && test ! -L "$RUN/baseline/constant/polyMesh"
+ln -s "$SHARED_MESH" "$RUN/baseline/constant/polyMesh"
+test "$(readlink "$RUN/baseline/constant/polyMesh")" = "$SHARED_MESH"
+run_logged verify_baseline_mesh_link "$ROOT" "$RUN/baseline-mesh-validation.json" \
+    "$RUN/logs/baseline-mesh-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$RUN/baseline/constant/polyMesh"
+
+run_logged decomposePar "$RUN/baseline" "$RUN/logs/decomposePar.log" \
+    "$RUN/logs/decomposePar.log" 0 decomposePar -constant
+run_logged validate_decomposePar "$ROOT" "$RUN/logs/decomposePar-validation.json" \
+    "$RUN/logs/decomposePar-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-stage.py" "$RUN/logs/decomposePar.log" decompose
+test -f "$PAYLOAD/verify-graph.py" && test -f "$PAYLOAD/graph.json"
+run_logged verify_actual_scotch_graph "$ROOT" "$RUN/graph-validation.stdout.txt" \
+    "$RUN/logs/graph-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-graph.py" "$RUN/baseline" "$RUN/logs/decomposePar.log" \
+    "$PAYLOAD/graph.json" --output "$RUN/graph-validation.json"
+run_logged processor_layout "$ROOT" "$RUN/processor-layout-validation.json" \
+    "$RUN/logs/processor-layout.stderr.txt" 0 python3 - "$RUN/baseline" <<'PY_LAYOUT'
+from pathlib import Path
+import json,sys
+case=Path(sys.argv[1])
+dirs={p.name for p in case.glob('processor*') if p.is_dir()}
+expected={'processor'+str(i) for i in range(512)}
+assert dirs==expected,(len(dirs),sorted(dirs-expected)[:5],sorted(expected-dirs)[:5])
+assert all((case/('processor'+str(i))/'constant/polyMesh').is_dir() for i in range(512))
+print(json.dumps({'passed':True,'processor_directories':512,'total_cells':65334765},indent=2))
+PY_LAYOUT
+
+run_logged restore0Dir "$RUN/baseline" "$RUN/logs/restore0Dir.stdout.txt" \
+    "$RUN/logs/restore0Dir.stderr.txt" 0 bash -ec '. "$WM_PROJECT_DIR/bin/tools/RunFunctions"; restore0Dir -processor'
+run_logged restored_zero_field_seal "$ROOT" "$RUN/restored-zero-fields.stdout.txt" \
+    "$RUN/logs/restored-zero-fields.stderr.txt" 0 \
+    python3 "$PAYLOAD/field-seal.py" "$RUN/baseline" "$RUN/restored-zero-fields.json"
+cp "$RUN/identity/rank-order.txt" "$RUN/baseline/rank-order.txt"
+run_mpi_app renumberMesh "$RUN/baseline" rank-order.txt "$RUN/logs/renumberMesh.log" \
+    "$RUN/logs/renumberMesh.log" 0 renumberMesh -constant -overwrite -parallel
+run_logged validate_renumberMesh "$ROOT" "$RUN/logs/renumberMesh-validation.json" \
+    "$RUN/logs/renumberMesh-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-stage.py" "$RUN/logs/renumberMesh.log" renumberMesh "$RANKS"
+validate_affinity renumberMesh "$RUN/logs/renumberMesh.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt" MPI_Init_thread
+validate_rank_display renumberMesh "$RUN/logs/renumberMesh.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt"
+run_mpi_app potentialFoam "$RUN/baseline" rank-order.txt "$RUN/logs/potentialFoam.log" \
+    "$RUN/logs/potentialFoam.log" 0 potentialFoam -initialiseUBCs -parallel
+run_logged validate_potentialFoam "$ROOT" "$RUN/logs/potentialFoam-validation.json" \
+    "$RUN/logs/potentialFoam-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-stage.py" "$RUN/logs/potentialFoam.log" potentialFoam "$RANKS"
+validate_affinity potentialFoam "$RUN/logs/potentialFoam.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt" MPI_Init_thread
+validate_rank_display potentialFoam "$RUN/logs/potentialFoam.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt"
+run_mpi_app applyBoundaryLayer "$RUN/baseline" rank-order.txt "$RUN/logs/applyBoundaryLayer.log" \
+    "$RUN/logs/applyBoundaryLayer.log" 0 applyBoundaryLayer -ybl 0.0450244 -parallel
+run_logged validate_applyBoundaryLayer "$ROOT" "$RUN/logs/applyBoundaryLayer-validation.json" \
+    "$RUN/logs/applyBoundaryLayer-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/validate-stage.py" "$RUN/logs/applyBoundaryLayer.log" applyBoundaryLayer "$RANKS"
+validate_affinity applyBoundaryLayer "$RUN/logs/applyBoundaryLayer.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt" MPI_Init_thread
+validate_rank_display applyBoundaryLayer "$RUN/logs/applyBoundaryLayer.log" \
+    "$RUN/logs/probe-identity-initial.stdout.txt"
+run_logged verify_baseline_sources_after_init "$ROOT" "$RUN/baseline-source-validation-after-init.stdout.txt" \
+    "$RUN/logs/baseline-source-validation-after-init.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-case-sources.py" --source "$PAYLOAD/case" --case "$RUN/baseline" \
+    --accepted "$PAYLOAD/accepted-source-manifest.json" --output "$RUN/baseline-source-validation-after-init.json"
+if [ -e "$RUN/baseline/postProcessing" ]; then
+    test -d "$RUN/baseline/postProcessing" && test ! -L "$RUN/baseline/postProcessing"
+    mv "$RUN/baseline/postProcessing" "$RUN/preparation-postProcessing"
+fi
+run_logged initialized_zero_field_seal "$ROOT" "$RUN/initialized-zero-fields.stdout.txt" \
+    "$RUN/logs/initialized-zero-fields.stderr.txt" 0 \
+    python3 "$PAYLOAD/field-seal.py" "$RUN/baseline" "$RUN/initialized-zero-fields.json"
+run_logged verify_baseline_case_sources "$ROOT" "$RUN/baseline-source-validation.stdout.txt" \
+    "$RUN/logs/baseline-source-validation.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-case-sources.py" --source "$PAYLOAD/case" --case "$RUN/baseline" \
+    --accepted "$PAYLOAD/accepted-source-manifest.json" --output "$RUN/baseline-source-validation.json"
+phase complete prepare_common_initialized_baseline
+
+ensure_solver_capacity 4
+
+run_arm() {
+    local arm=$1 arm_order=$2 arm_type=$3 future_count=$4
+    local case_dir="$RUN/arms/$arm/case" probe_dir="$RUN/probes/$arm" solver_limit
+    ensure_solver_capacity "$future_count"
+    mkdir -p "$RUN/arms/$arm" "$probe_dir"
+    run_logged "copy_${arm}" "$ROOT" "$RUN/arms/$arm/copy.json" \
+        "$RUN/arms/$arm/copy.stderr.txt" 0 \
+        python3 "$PAYLOAD/copy-case.py" "$RUN/baseline" "$case_dir" --reserve-bytes 536870912
+    run_logged verify_copy_isolation "$ROOT" "$RUN/arms/$arm/copy-isolation.stdout.txt" \
+        "$RUN/arms/$arm/copy-isolation.stderr.txt" 0 \
+        python3 "$PAYLOAD/verify-copy-isolation.py" "$RUN/baseline" "$case_dir" \
+        --output "$RUN/arms/$arm/copy-isolation.json"
+    copy_order_into "$arm_order" "$case_dir"
+    run_logged verify_arm_sources_before "$ROOT" "$RUN/arms/$arm/source-validation-before.stdout.txt" \
+        "$RUN/arms/$arm/source-validation-before.stderr.txt" 0 \
+        python3 "$PAYLOAD/verify-case-sources.py" --source "$PAYLOAD/case" --case "$case_dir" \
+        --accepted "$PAYLOAD/accepted-source-manifest.json" \
+        --output "$RUN/arms/$arm/source-validation-before.json"
+    run_logged arm_zero_fields_before "$ROOT" "$RUN/arms/$arm/zero-fields-before.stdout.txt" \
+        "$RUN/arms/$arm/zero-fields-before.stderr.txt" 0 \
+        python3 "$PAYLOAD/field-seal.py" "$case_dir" "$RUN/arms/$arm/zero-fields-before.json" \
+        "$RUN/initialized-zero-fields.json"
+    test "$(readlink "$case_dir/constant/polyMesh")" = "$SHARED_MESH"
+    run_logged arm_mesh_before "$ROOT" "$RUN/arms/$arm/mesh-validation-before.json" \
+        "$RUN/arms/$arm/mesh-validation-before.stderr.txt" 0 \
+        python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$case_dir/constant/polyMesh"
+
+    cp "$arm_order" "$probe_dir/rank-order.txt"
+    ensure_solver_capacity "$future_count"
+    run_mpi_app "probe_${arm}" "$probe_dir" rank-order.txt \
+        "$RUN/logs/probe-${arm}.stdout.txt" "$RUN/logs/probe-${arm}.stderr.txt" \
+        "$PROBE_TIMEOUT_SECONDS" "$RUN/mpi-probe"
+    validate_affinity "probe_${arm}" "$RUN/logs/probe-${arm}.stderr.txt" \
+        "$RUN/logs/probe-${arm}.stdout.txt" MPI_Init_thread
+    cat "$RUN/logs/probe-${arm}.stdout.txt" "$RUN/logs/probe-${arm}.stderr.txt" \
+        >"$RUN/logs/probe-${arm}.combined.txt"
+    validate_rank_display "probe_${arm}" "$RUN/logs/probe-${arm}.combined.txt" \
+        "$RUN/logs/probe-${arm}.stdout.txt"
+    if [ "$arm_type" = identity ]; then
+        run_logged "validate_identity_${arm}" "$ROOT" "$RUN/arms/$arm/mapping-validation.stdout.txt" \
+            "$RUN/arms/$arm/mapping-validation.stderr.txt" 0 \
+            python3 "$PAYLOAD/validate-identity.py" "$RUN/logs/probe-${arm}.stdout.txt" \
+            "$RUN/pbs-nodefile.txt" --output "$RUN/arms/$arm/mapping-validation.json"
+        run_logged "compare_identity_slots_${arm}" "$ROOT" "$RUN/arms/$arm/slot-comparison.stdout.txt" \
+            "$RUN/arms/$arm/slot-comparison.stderr.txt" 0 \
+            python3 "$PAYLOAD/compare-probes.py" "$RUN/logs/probe-identity-initial.stdout.txt" \
+            "$RUN/logs/probe-${arm}.stdout.txt" --output "$RUN/arms/$arm/slot-comparison.json"
+    else
+        run_logged "validate_candidate_${arm}" "$ROOT" "$RUN/arms/$arm/mapping-validation.stdout.txt" \
+            "$RUN/arms/$arm/mapping-validation.stderr.txt" 0 \
+            python3 "$PAYLOAD/validate-mapping.py" "$RUN/logs/probe-identity-initial.stdout.txt" \
+            "$RUN/logs/probe-${arm}.stdout.txt" "$RUN/pbs-nodefile.txt" \
+            "$PAYLOAD/assignment.json" "$RUN/candidate/expected-mapping.json" \
+            --output "$RUN/arms/$arm/mapping-validation.json"
+    fi
+    solver_limit=$(solver_timeout_for "$future_count")
+    cp "$arm_order" "$case_dir/rank-order.txt"
+    mkdir -p "$case_dir/logFiles"
+    phase start "solver_${arm}"
+    run_mpi_app "simpleFoam_${arm}" "$case_dir" rank-order.txt \
+        "$case_dir/logFiles/simpleFoam.log" "$case_dir/logFiles/simpleFoam.log" \
+        "$solver_limit" simpleFoam -parallel
+    phase complete "solver_${arm}"
+    run_logged "validate_native_${arm}" "$ROOT" "$RUN/arms/$arm/native-solver-review.stdout.json" \
+        "$RUN/arms/$arm/native-solver-review.stderr.txt" 0 \
+        python3 "$PAYLOAD/validate-solve.py" "$case_dir" \
+        --output "$RUN/arms/$arm/native-solver-review.json"
+    validate_affinity "simpleFoam_${arm}" "$case_dir/logFiles/simpleFoam.log" \
+        "$RUN/logs/probe-${arm}.stdout.txt" MPI_Init_thread
+    validate_rank_display "simpleFoam_${arm}" "$case_dir/logFiles/simpleFoam.log" \
+        "$RUN/logs/probe-${arm}.stdout.txt"
+    run_logged "validate_simpleFoam_stage_${arm}" "$ROOT" "$RUN/arms/$arm/simpleFoam-stage-validation.json" \
+        "$RUN/arms/$arm/simpleFoam-stage-validation.stderr.txt" 0 \
+        python3 "$PAYLOAD/validate-stage.py" "$case_dir/logFiles/simpleFoam.log" simpleFoam "$RANKS"
+    run_logged "arm_zero_fields_after_${arm}" "$ROOT" "$RUN/arms/$arm/zero-fields-after.stdout.txt" \
+        "$RUN/arms/$arm/zero-fields-after.stderr.txt" 0 \
+        python3 "$PAYLOAD/field-seal.py" "$case_dir" "$RUN/arms/$arm/zero-fields-after.json" \
+        "$RUN/initialized-zero-fields.json"
+    run_logged "verify_arm_sources_after_${arm}" "$ROOT" "$RUN/arms/$arm/source-validation-after.stdout.txt" \
+        "$RUN/arms/$arm/source-validation-after.stderr.txt" 0 \
+        python3 "$PAYLOAD/verify-case-sources.py" --source "$PAYLOAD/case" --case "$case_dir" \
+        --accepted "$PAYLOAD/accepted-source-manifest.json" \
+        --output "$RUN/arms/$arm/source-validation-after.json"
+    run_logged "arm_mesh_after_${arm}" "$ROOT" "$RUN/arms/$arm/mesh-validation-after.json" \
+        "$RUN/arms/$arm/mesh-validation-after.stderr.txt" 0 \
+        python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$case_dir/constant/polyMesh"
+    phase complete "arm_${arm}_review_gates"
+}
+
+run_arm A1 "$RUN/identity/rank-order.txt" identity 4
+run_arm B1 "$RUN/candidate/rank-order.txt" candidate 3
+run_arm B2 "$RUN/candidate/rank-order.txt" candidate 2
+run_arm A2 "$RUN/identity/rank-order.txt" identity 1
+
+run_logged summarize_abba "$ROOT" "$RUN/abba-summary.stdout.json" "$RUN/abba-summary.stderr.txt" 0 \
+    python3 "$PAYLOAD/summarize-abba.py" --arms-root "$RUN/arms" --output "$RUN/abba-summary.json"
+run_logged compare_force_traces "$ROOT" "$RUN/force-trace-differences.stdout.json" \
+    "$RUN/force-trace-differences.stderr.txt" 0 \
+    python3 "$PAYLOAD/compare-force-traces.py" --arms-root "$RUN/arms" \
+    --output "$RUN/force-trace-differences.json"
+run_logged baseline_zero_fields_after_all_arms "$ROOT" "$RUN/baseline-zero-fields-after-all.stdout.txt" \
+    "$RUN/logs/baseline-zero-fields-after-all.stderr.txt" 0 \
+    python3 "$PAYLOAD/field-seal.py" "$RUN/baseline" "$RUN/baseline-zero-fields-after-all.json" \
+    "$RUN/initialized-zero-fields.json"
+run_logged verify_shared_mesh_after "$ROOT" "$RUN/mesh-validation-after.json" \
+    "$RUN/logs/mesh-validation-after.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-inputs.py" --root "$ROOT" --mode mesh --mesh "$SHARED_MESH"
+run_logged payload_hash_before_finish "$ROOT" "$RUN/source-validation-before-finish.json" \
+    "$RUN/logs/payload-hash-before-finish.stderr.txt" 0 \
+    python3 "$PAYLOAD/verify-outer-payload.py" --root "$ROOT"
+phase complete all_arms_validated
+printf 'CPU_PLACEMENT_METHOD3_ABBA_NATIVE_PASS\n'
