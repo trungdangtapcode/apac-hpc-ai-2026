@@ -2370,3 +2370,7 @@ Submitted 2026-10-25 05:14 UTC from the existing qwen-experiments run-store pare
 ## 25 October: job 26076 failed in semantic route warmup
 
 FAILED 1:0 / 7:33; all four workers ready and 32 KV records passed, then 30-second HTTP timeout before semantic receipt/scoring. No score. [Review](research-review-26076-20261025/REVIEW.md).
+
+## 25 October: bounded S62r4 retry 26081
+
+16 H200/two nodes/17-minute maximum. Immediate PENDING (Resources); no new score. [Receipt](h200-next-screens-20261025/receipt-s62r4.json).

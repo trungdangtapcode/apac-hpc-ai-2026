@@ -290,3 +290,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 Latest AI failure review: [25 October: four ready workers but semantic warmup timed out](entries/20261025-s62r3-semantic-timeout.md).
 
 Latest AI repair: [25 October: configured-N profile gate and bounded first-transfer wait](entries/20261025-configured-n-and-first-transfer-fix.md).
+
+Latest AI submission: [25 October: bounded S62r4 retry 26081](entries/20261025-s62r4-submitted.md).
