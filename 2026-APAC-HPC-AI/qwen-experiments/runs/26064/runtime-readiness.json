@@ -1,0 +1,32 @@
+{
+  "state": "PASS_FAST_RUNTIME",
+  "arm": "control",
+  "prefill_cap": 64,
+  "roles": {
+    "prefill-0": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "nixl_rank_records": 4,
+      "decode_graph": "disabled"
+    },
+    "prefill-1": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "nixl_rank_records": 4,
+      "decode_graph": "disabled"
+    },
+    "decode-0": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "nixl_rank_records": 4,
+      "decode_graph": "full 1..64"
+    },
+    "decode-1": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "nixl_rank_records": 4,
+      "decode_graph": "full 1..64"
+    }
+  },
+  "scope": "Resolved native arguments and rank-level BF16 KV, NIXL, graph and MNNVL startup checks; not a kernel-performance or model-quality proof."
+}
