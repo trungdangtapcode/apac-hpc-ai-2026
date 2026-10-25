@@ -2331,3 +2331,5 @@ Submitted S62 as **26055** at 03:04:07 UTC after a fresh queue check: apacsc42 h
 
 
 Corrected bundle `serving-tuning-11/s62r2-h200-two-decode-tp4` preserves the same experiment and raises route warmup capacity to four concurrent checks / 180 seconds, based on the 150.55-second historical four-route startup. Local syntax and all payload hashes pass. Its performance settings and 3% advancement threshold are unchanged; no revised Slurm receipt exists yet. [Corrected hypothesis](serving-tuning-11/s62r2-h200-two-decode-tp4/PLAN.md), [correction journal](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261025-s62r2-warmup-correction.md).
+
+Submitted corrected bundle as **26057** at 03:08:26 UTC. Fresh queue: no apacsc42 jobs; both g1 and g4 were still allocated to job 26015. Immediate status `PENDING (Resources)`, zero elapsed, no assigned node. Test-only start estimate 03:19:32 is not a guarantee. No benchmark result or PBS SU charge at admission. [Receipt](serving-tuning-11/SUBMISSION-26057.md), [submission journal](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261025-s62r2-topology-submitted.md).

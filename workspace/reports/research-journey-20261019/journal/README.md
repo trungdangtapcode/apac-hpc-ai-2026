@@ -36,6 +36,8 @@ Latest AI submission: [25 October: S62 two-replica TP4 decode screen queued as 2
 
 Latest AI correction: [25 October: correct S62 route warmup before GPU allocation](entries/20261025-s62r2-warmup-correction.md).
 
+Latest AI submission: [25 October: submit corrected two-replica TP4 topology as 26057](entries/20261025-s62r2-topology-submitted.md).
+
 Latest continuation: [20 October runner confirmation, collective screens and next attention trial](entries/20261020-serving-and-collective.md).
 
 Start with **[the journey in 32 stages](JOURNEY.md)**. Each stage explains the question, tested change, observed result, assessment and next decision, with links to the original records. It includes failed attempts, rejected branches, repeated gains, review mistakes and later corrections across both clusters.
