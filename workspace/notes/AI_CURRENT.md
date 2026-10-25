@@ -37,7 +37,7 @@ The failure reserved 16 H200 GPUs for at most 17 minutes and consumed 6:15 sched
 
 ## H100/PBS and credit
 
-H100/PBS state has not been refreshed in this session. The H200 Slurm job did not consume PBS SU. Read the live scheduler and budget before any H100/PBS submission; the old ledger figures elsewhere in this note are dated snapshots only.
+Access check at 2026-10-25 03:04 UTC: the existing-access helper reported no live VPN namespace, so it did not run the remote SSH/PBS commands. No authentication or DUO was attempted. H100/PBS queue and credit remain UNKNOWN in this session; dated ledger figures elsewhere are not live. H200 Slurm job 26055 does not consume PBS SU. Do not submit H100/PBS work until the owner-requested VPN access is restored and both the live PBS queue and AI ledger are refreshed under the documented admission locks.
 
 ## Earlier retained evidence
 
