@@ -282,3 +282,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [25 October: five H200 jobs admitted—S62r2 retry plus S63 concurrency sweep](entries/20261025-s63-load-sweep-submitted.md).
 
 - [25 October: the N66–N72 sweep underperformed N64; recover valid profiles after checker correction](entries/20261025-s63-load-results-and-validator-correction.md).
+
+- [25 October: correct the S62 TP4 geometry validator and prepare a bounded topology retry](entries/20261025-s62r3-topology-retry-preparation.md).

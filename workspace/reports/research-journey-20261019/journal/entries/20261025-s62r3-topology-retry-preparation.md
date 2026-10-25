@@ -1,0 +1,13 @@
+# Research milestone — 25 October 2026: prepare corrected S62r3 topology screen
+
+**Question and prior evidence.** S62 asks whether two TP4/EP4 decode replicas improve N64 good output throughput over the modern target-only TP8/EP8 decode baseline while keeping two TP4 prefill workers. Its first allocated attempt, job 26064, reached all four workers and captured 32 rank-local before/after KV registration records. It did not reach semantic warmup or AIPerf because the observer crashed on an undefined role constant.
+
+**Evidence-based correction.** After fixing the constant in a separate reviewer, the original fail-closed TP8-only unknown-head whitelist rejected the newly observed TP4 decode records. Inspection of all retained receipts shows both decode roles at TP4, all 8 decode ranks individually represented before and after registration, 188 VRAM regions per rank, and exact 256-byte item/page/token strides. Head count, dtype, explicit layer IDs and semantic layer order remain uncollected. The new validator adds only decode TP4 to the existing TP8 exception and retains all per-rank identity, region, registration, and before/after invariants. It passes the full 32-file 26064 set. No semantic or model-quality claim follows.
+
+**Change and control.** Frozen derivative [S62r3](../../../../2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s62r3-h200-two-decode-tp4/) changes the experiment identity and the geometry validator only; topology, model/runtime settings, workload, startup budget, route warmup and score gates stay as planned in S62. The measured control is modern short N64 target-only job 25947 at 2,757.36 good output tokens/s. The candidate must pass every worker/runtime/geometry/route/request/output gate and exceed it by at least 3% (2,840.08 tokens/s) to justify a longer topology confirmation. It uses two nodes / 16 H200 GPUs for at most 17 minutes; H200 Slurm does not consume PBS SU.
+
+**Admission status.** This is a prepared bundle, not a job receipt. No S62r3 job ID or benchmark result exists yet. Submit one bounded retry only after checking the live account queue, cluster state, parent run-store path and bundle checksum. Preserve the failed 26064 record and do not edit either frozen parent.
+
+**Next decision.** If the launch gates pass, interpret AIPerf only after raw profile and all local output gates validate. Otherwise preserve the failure and stop this exact retry path. Do not promote from one short screen; use the predeclared 3% threshold and retain official full-set accuracy as unknown.
+
+**Preservation.** This preparation and the failed run remain separately archived with hashes; see RUNS.md and the S62r3 bundle.
