@@ -274,3 +274,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [24 October: separate H200 token identity, KV screening, and H100 R3 numerical evidence](entries/20261024-h200-eagle-kv-and-h100-r3-review.md).
 
 - [24 October: close the measured cache loss and repair the five-rank vocabulary constraint](entries/20261024-cache-loss-and-five-rank-repairs.md).
+
+- [25 October: bounded H200 load sweep plan N66–N72](entries/20261025-s63-load-sweep-plan.md).

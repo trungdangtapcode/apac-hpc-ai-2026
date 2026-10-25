@@ -2,6 +2,10 @@
 
 Updated 2026-10-25 UTC after reviewing job 25998. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
+## New follow-up prepared: S63 closed-loop load sweep
+
+The N64-to-N68 short sweep previously improved good output throughput by 2.273457% while meeting the local latency gate. Four frozen, one-factor target-only bundles now test concurrency N66/N68/N70/N72 against modern N64 control 25947, holding serving settings and synthetic workload fixed. The admission checkpoint will record job IDs and actual live states; no candidate is measured yet. Each point must pass joint SLA ≥90%, zero request errors/cancellations, output smoke 7/8 and retrieval 12/12. This is unranked short screening; official accuracy remains UNKNOWN. [Plan and limits](../reports/research-journey-20261019/journal/entries/20261025-s63-load-sweep-plan.md); [bundle ledger](../2026-APAC-HPC-AI/qwen-experiments/RUNS.md).
+
 ## Latest result: 25998 passed the short gate but lost to control
 
 Job 25998 completed 0:0 in 9:44 and produced a valid short N64 profile: 2,626.71 good output tokens/s, 94.84% joint SLA success, TTFT mean/p95 1,182.33/2,812.08 ms, ITL mean/p95 16.428/17.778 ms, zero request errors/cancellations. Matched target-only 25947 scored 2,757.36 tokens/s and 95.24%, so decode-only EAGLE3 lost 4.74%; TTFT improved while ITL worsened 10.76%. The branch is closed for this pinned draft/runtime. Draft acceptance in the decode logs was only about 0.12–0.15. The full-protocol frontier remains 3,044.400475 at N64; the short screen does not replace it. [Complete result and observability review](../2026-APAC-HPC-AI/qwen-experiments/research-review-25998-20261025/REVIEW.md); [journey entry](../reports/research-journey-20261019/journal/entries/20261025-s61-kvfix-result.md).
