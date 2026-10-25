@@ -294,3 +294,5 @@ Latest AI repair: [25 October: configured-N profile gate and bounded first-trans
 Latest AI submission: [25 October: bounded S62r4 retry 26081](entries/20261025-s62r4-submitted.md).
 
 Latest AI hypothesis: [25 October: matched H200 routing screen](entries/20261025-h200-router-matched-plan.md).
+
+Latest AI submission: [25 October: H200 routing pair 26083→26085](entries/20261025-routing-pair-submitted.md).

@@ -1,0 +1,37 @@
+{
+  "recorded_utc": "2026-10-25T06:03:42.732676+00:00",
+  "queue_before": "26081 PENDING ap42-s62r4-two-d4 (Resources)\n",
+  "gpus_per_job": 16,
+  "max_minutes_per_job": 17,
+  "pbs_su": 0,
+  "jobs": [
+    {
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s65-h200-router-rr-control",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26082 to start at 2026-10-25T06:35:15 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [],
+      "submit_returncode": 0,
+      "submit_stdout": "26083\n",
+      "submit_stderr": "",
+      "job_id": "26083",
+      "scontrol": "JobId=26083 JobName=ap42-s65-rr\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=(null)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-25T06:03:42 EligibleTime=2026-10-25T06:03:42\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-25T06:03:42 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:1860998\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s65-h200-router-rr-control/job.sbatch\n   SubmitLine=sbatch --parsable /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s65-h200-router-rr-control/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26083.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26083.out\n   TresPerNode=gres/gpu:8\n\n",
+      "scontrol_returncode": 0
+    },
+    {
+      "bundle": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s64-h200-prefill-power-of-two",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26084 to start at 2026-10-25T06:52:15 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26083"
+      ],
+      "submit_returncode": 0,
+      "submit_stdout": "26085\n",
+      "submit_stderr": "",
+      "job_id": "26085",
+      "scontrol": "JobId=26085 JobName=ap42-s64-pow2\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=afterany:26083(unfulfilled)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-25T06:03:42 EligibleTime=Unknown\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-25T06:03:42 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:1860998\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s64-h200-prefill-power-of-two/job.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterany:26083 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s64-h200-prefill-power-of-two/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26085.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26085.out\n   TresPerNode=gres/gpu:8\n\n",
+      "scontrol_returncode": 0
+    }
+  ]
+}

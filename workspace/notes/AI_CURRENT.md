@@ -1,14 +1,14 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-25 UTC after independently reviewing jobs 26064–26068. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-25 06:04 UTC after reviewing 26076 and admitting 26081/26083/26085. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
 ## Latest status: 26076 failed before scoring
 
 Fresh accounting on 25 October records job 26076 FAILED 1:0 after 7:33 on g1/g4. All four workers and the 32-record KV gate passed. Semantic HTTP warmup requests then hit the inherited 30-second per-request timeout despite a 180-second overall budget; no semantic receipt or AIPerf export exists. The account queue was empty at this review. [Failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26076-20261025/REVIEW.md). Frozen S62r4 is prepared with the remaining 180-second HTTP deadline and a configured-N performance gate. CPU replay accepts real N64/N66/N68/N70, rejects N72 SLA failure and rejects wrong-N evidence. S62r4 was submitted as job 26081; immediate PENDING (Resources), no allocation or score. [Receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-next-screens-20261025/receipt-s62r4.json). Older pending snapshots below are historical.
 
-## Prepared matched H200 routing pair
+## Actual queued H200 follow-ups
 
-S65 fresh round-robin control and S64 power-of-two candidate are frozen and CPU-checked, not submitted at this checkpoint. They match target-only N64 / 4000:200 / seed 2026 / 20:40:30 / 16 H200 settings and preserve all gates. Require >=3% candidate gain over the actual fresh control before full confirmation. H100's prior 4.865% power-of-two loss remains a negative prior, not an H200 measurement. [Plan](../reports/research-journey-20261019/journal/entries/20261025-h200-router-matched-plan.md).
+Fresh 06:04 UTC queue: 26081 S62r4 PENDING (Resources); 26083 S65 round-robin PENDING (Resources); 26085 S64 power-of-two PENDING (Dependency), afterany:26083. Three own jobs / cap 5, each 16 H200 / two nodes / at most 17 minutes. None allocated or measured. The dependency is normal; a failed control will still invalidate a candidate comparison. [Receipts](../reports/research-journey-20261019/journal/entries/20261025-routing-pair-submitted.md). S65 and S64 are frozen and CPU-checked. They match target-only N64 / 4000:200 / seed 2026 / 20:40:30 / 16 H200 settings and preserve all gates. Require >=3% candidate gain over the actual fresh control before full confirmation. H100's prior 4.865% power-of-two loss remains a negative prior, not an H200 measurement. [Plan](../reports/research-journey-20261019/journal/entries/20261025-h200-router-matched-plan.md).
 
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 

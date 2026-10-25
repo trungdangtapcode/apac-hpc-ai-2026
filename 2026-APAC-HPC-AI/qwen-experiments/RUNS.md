@@ -2374,3 +2374,7 @@ FAILED 1:0 / 7:33; all four workers ready and 32 KV records passed, then 30-seco
 ## 25 October: bounded S62r4 retry 26081
 
 16 H200/two nodes/17-minute maximum. Immediate PENDING (Resources); no new score. [Receipt](h200-next-screens-20261025/receipt-s62r4.json).
+
+## 25 October 06:03 UTC: matched H200 routing pair 26083→26085
+
+Fresh round-robin 26083 and power-of-two 26085 (afterany:26083), each 16 H200/two nodes/17-minute maximum. Immediate PENDING Resources/Dependency. Existing 26081 remains PENDING Resources; three own jobs within cap 5. No new benchmark result. [Receipts and actual scheduler paths](h200-next-screens-20261025/receipts-routing.json), [fresh queue](h200-next-screens-20261025/post-submit-queue.json).
