@@ -278,3 +278,5 @@ Scheduler statements in the linked documents are dated. The initial 19 October d
 - [25 October: bounded H200 load sweep plan N66–N72](entries/20261025-s63-load-sweep-plan.md).
 
 - [25 October: S62r2 job 26057 failed before worker startup because its relative log destination was missing](entries/20261025-s62r2-output-path-failure.md).
+
+- [25 October: five H200 jobs admitted—S62r2 retry plus S63 concurrency sweep](entries/20261025-s63-load-sweep-submitted.md).

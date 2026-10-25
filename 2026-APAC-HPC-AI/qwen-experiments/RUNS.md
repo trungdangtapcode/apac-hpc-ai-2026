@@ -2345,3 +2345,8 @@ Bundles: [N66](serving-tuning-11/s63-h200-load-n66/), [N68](serving-tuning-11/s6
 ## Job 26057 — S62r2 scheduler output-path failure (2026-10-25)
 
 Accounting reports `FAILED 0:53`, one second elapsed on g1/g4. `sacct` records relative stdout/stderr paths under the immutable S62r2 bundle's missing `runs/` directory. No worker, model, benchmark, request, score or output-check artifact exists. The exact Slurm layer's diagnostic is unavailable; the missing log destination is the leading cause, not a proven low-level explanation. Preserve this as an admission/launch failure, not a topology result. Re-submit the unchanged bundle from the existing `qwen-experiments` directory so `runs/%j.out` resolves to its existing run store. [Complete correction](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261025-s62r2-output-path-failure.md).
+
+
+## Jobs 26064–26068 — S62 retry and S63 load wave (2026-10-25)
+
+After job 26057 failed before worker startup due to its relative log path, the unchanged S62r2 bundle was submitted from its parent run-store directory as 26064. Four one-factor load points followed: 26065 N66, 26066 N68, 26067 N70 and 26068 N72. All five jobs request 16 H200 GPUs / two nodes / maximum 17 minutes. Fresh scheduler accounting places their stdout/stderr at `qwen-experiments/runs/<job>.out|err`, and all were `PENDING (Resources)` at 03:24:20 UTC with zero elapsed. The five-job account cap is full. No benchmark results exist yet. [Full receipt and states](serving-tuning-11/SUBMISSION-26064-26068.md); [research reasoning and review protocol](/home/apacsc42/workspace/reports/research-journey-20261019/journal/entries/20261025-s63-load-sweep-submitted.md).
