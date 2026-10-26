@@ -360,3 +360,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: H100 full N24 EAGLE benchmark225306 admitted and running](entries/20261026-h100-eagle-n24-225306-submitted.md).
 
 - [26 October: completed xyz/zyx screen, apparent gain, resource evidence and reverse-order decision](entries/20261026-hpc-axis-screen-result.md).
+
+- [26 October: reverse-order xyz/zyx control admitted as Iris 2294132](entries/20261026-hpc-reverse-axis-submitted.md).

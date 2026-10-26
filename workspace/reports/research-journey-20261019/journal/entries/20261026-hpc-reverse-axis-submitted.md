@@ -1,0 +1,13 @@
+# 26 October: reverse the order before promoting the apparent gain
+
+**Prior evidence and hypothesis.** Iris 2294099 measured xyz then zyx at 32.592668524 and 23.811097072 seconds per step. The apparent 26.94% reduction is large but the control lacks its native recommended sample count; page faults and filesystem input differ. Hypothesis: the direction may depend on execution order or first-touch state rather than solely the decomposition. Run zyx first and xyz second to test this ambiguity.
+
+**Exact change and control.** New frozen [bundle](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-reverse30-20261026/README.md) retains the same initialized sources, copies, one-node 56-rank allocation, 30 steps / 29 timings and fixed numerical work. It reverses order, extends each native cap from 1,050 to 1,150 seconds inside the same 45-minute allocation, and records bounded memory/VM metadata outside solver timing. Snapshots record duration and failures; they do not measure bandwidth or prove per-process attribution. Offline review checks native output, exact clone handling, named-arm association, payload integrity, one-own-job admission and snapshot interfaces. Root review caught and corrected a prepared queue-cap relaxation before deployment or reservation; no extra jobs were admitted.
+
+**Actual admission.** Scheduler receipt is **2294132**, submitted once at **16:30:14 UTC**. The queue was empty before admission. At 16:30:35 UTC Slurm reports RUNNING on iris001. No result exists yet. The independently replayed parent and sealed 49 runtime files gate admission; an uncertain intent must be reconciled, never blindly retried.
+
+**Budget.** Reserve 42 allocated CPU-hours against the existing shared Iris ledger. Commitment is now 211 of 224: 169 rounded consumed allowance and 42 maximum outstanding. Headroom is 13 until this known job is terminal and reconciled. Iris SU rate and posted charge remain unknown; no NSCC project is debited.
+
+**Decision after completion.** Validate both complete outputs, source and copy seals, work, Cd, samples, tails, dynamic compilation messages and resource evidence. If the advantage follows second position, reject a decomposition-only gain claim. If zyx remains faster in both orders, retain it as a promising screened candidate with order, sample and accuracy limits. A full 150-step comparison and official score remain unproven. Keep earlier failure and losing-branch evidence.
+
+**Preservation.** Parent result review, prepared hypothesis and actual submission are separate capture/commit checkpoints. No AI payload, submission package, VPN session or background schedule changed for this admission.
