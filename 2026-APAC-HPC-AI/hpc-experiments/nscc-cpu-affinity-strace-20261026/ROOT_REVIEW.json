@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "payload_sha256": {
+    "payload/affinity-strace.pbs": "b261a0a2b635ab48ff3fdea42d128076041c226be2f020b0b1ff927fe31a4367",
+    "payload/mpi-init-probe.c": "722784029cfc7034872aaa02ff4cef5b01a1bbd3a4dff9c0ddac4ac4c555fb14",
+    "payload/offline-fixtures.py": "0dd2bd8731254cae787d73d664c458e0d8c43c08c614d323499e261680aa905b",
+    "payload/rank-exec.py": "d51078e3586c09f4991937239dc5ddadc23fcd1b77a633691599dfa1ad379496",
+    "payload/worker.sh": "3fcbff03d79c54d26995944487e62ca776e5a340c9a48e46697e6edfba45c3e3"
+  },
+  "checks": [
+    "Bash syntax and Python 3.6 grammar pass",
+    "Native probe bytes equal the actual compiled parent job 25999546",
+    "Wrapper fixture selects strace only for PMI rank zero in the observed arm and rejects duplicate identity records",
+    "Two common method-zero 512-rank arms; no affinity mutation or preload",
+    "Five-minute PBS request, 255-second worker deadline, 45-second native arm caps and outer275-second watchdog",
+    "Native Pstream path uses FOAM_LIBBIN/FOAM_MPI and excludes dummy transport",
+    "Only affinity syscalls and rank-zero process descendants are traced; no full environment or syscall data dumps",
+    "Both before and after source hashes gate worker success"
+  ],
+  "limits": [
+    "Actual ptrace permission, stack unwinding and observer runtime are unverified until this allocation",
+    "The observer may perturb MPI startup; no ranked timing or solver result",
+    "Other processes outside the traced subtree can change affinity without appearing in this trace",
+    "One observed rank cannot establish a global caller for all512 ranks"
+  ]
+}

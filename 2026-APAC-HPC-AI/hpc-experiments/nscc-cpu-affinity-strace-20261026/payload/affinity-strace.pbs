@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N cpu-affinity-strace
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=32gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:05:00
+#PBS -j oe
+set -euo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}" "${PBS_NODEFILE:?}"
+ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
+PAYLOAD="$ROOT/payload"
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$RUN" || { echo "run path already exists" >&2; exit 2; }
+umask 077
+mkdir -p "$RUN/logs" "$RUN/arms"
+cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+# The worker timeout leaves 20 seconds inside the five-minute PBS wall.
+if timeout --signal=TERM --kill-after=5s 275s bash "$PAYLOAD/worker.sh" "$ROOT" "$RUN"; then
+    exit 0
+else
+    rc=$?
+    printf 'WORKER_EXIT=%s\n' "$rc" >>"$RUN/outer-status.txt"
+    exit "$rc"
+fi
