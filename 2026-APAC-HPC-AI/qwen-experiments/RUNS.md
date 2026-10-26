@@ -2425,3 +2425,7 @@ COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profi
 ## H100 225227/225228 terminal review
 
 225227 F/0: 2399.186728 good tokens/s, 98.015873% joint SLA, no errors/cancellations, smoke 7/8 without regression/retrieval 12/12. 225228 F/0: actual equal-TP EAGLE functional and all-rank observer gates pass, no throughput claim. [Independent review](h100-review-225227-225228-20261026/REVIEW.md).
+
+## H100 EAGLE full N24 submitted 2026-10-26T14:50:26.434276+00:00
+
+225306.pbs111 is RUNNING on a2ap-dgx013, eight H100/one node/30-minute maximum, 512 SU reserved. Same-node P4/D4 EAGLE full N24 feasibility with native semantic/observer checks before scoring and local output gates after scoring. No score yet; no claimed 16-GPU scaling or official accuracy. [Admission review](h100-equal-tp-bench-admission-20261026/REVIEW.md).
