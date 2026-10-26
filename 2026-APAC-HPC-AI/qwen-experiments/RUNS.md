@@ -2402,3 +2402,7 @@ S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083.
 ## 26 October: full legacy 26313 passes at 2830.923547
 
 COMPLETED 0:0 / 11:12, 98.427850% SLA, zero scored errors/cancellations, smoke 7/8, retrieval 12/12. Actual incumbent runtime reproduced, but throughput is -7.012% below historical three-run mean. No promotion/unchanged rerun; four matched/component jobs remain queued. [Review](research-review-26313-20261026/REVIEW.md).
+
+## 26 October 08:18 UTC: factorial S73 submitted 26347
+
+Graph-disabled/native-admission completes four full modern cells; afterany:26319, 16 H200/two nodes/17-minute maximum/no PBS SU. With 26315/26317/26319/26337, five own studies are queued. [Receipt](h200-incumbent-recovery-20261026/S73-SUBMISSION.json).
