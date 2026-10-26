@@ -326,3 +326,5 @@ Latest AI runtime checkpoint: [26 October: running 26313 matches actual incumben
 - [26 October: dual CPU work, reviewed Iris Scotch cut and corrected NSCC launcher evidence](entries/20261026-hpc-dual-cluster-next-tests.md).
 
 Latest AI full result: [26 October: legacy 26313 passes at 2830.92, lower than the historical 3k cluster](entries/20261026-legacy-26313-full-result.md).
+
+Latest AI treatment: [26 October: missing graph-off/native-admission cell](entries/20261026-s73-complete-factorial-prepared.md).
