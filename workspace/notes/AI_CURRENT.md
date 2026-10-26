@@ -1,18 +1,18 @@
 # Current AI / Qwen handoff
 
-Updated 2026-10-26T14:50:26.434276+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
+Updated 2026-10-26T17:36:54.029874+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
 
-## Actual active research
+## Current jobs and dispatch handoff
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26436|Full native runtime, N62|PENDING: resources / unavailable higher-priority nodes|
-|H200 / Slurm|26438|Same runtime, N66|PENDING afterany 26436|
-|H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit, full N24 feasibility|RUNNING on a2ap-dgx013|
+|H200 / Slurm|26473|Full native N64, prefill chunk 6144|SUBMITTED / PENDING resources|
+|H200 / Slurm|26475|Full native N64, prefill chunk 4096|SUBMITTED afterany 26473|
+|H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
 
 These are dated snapshots; query actual queues before action. H200 serving jobs request 16 GPUs/two nodes/17 minutes maximum, own cap 5. The H100 job requests eight GPUs/one node/30 minutes, maximum 512 SU; combined CPU+AI PBS cap 3 and maximum one running AI allocation. The separate CPU queue was empty immediately after PBS admission; do not infer it remains empty. Preserve queue positions and frozen payloads.
 
-[H200 load-bracket plans and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md). [H100 full N24 admission, controls and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-equal-tp-bench-admission-20261026/REVIEW.md). No score exists yet for these three jobs.
+[H200 load-bracket plans and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md). [H100 full N24 admission, controls and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-equal-tp-bench-admission-20261026/REVIEW.md). No score exists yet for new jobs 26473/26475. Job 225306 never ran AIPerf; preserve the launcher failure. [Actual chunk receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-prefill-chunk-full-20261026/ADMISSION.md).
 
 ## Latest reviewed performance
 
@@ -30,7 +30,7 @@ The complete four-arm H200 graph/admission study passes all local gates: disable
 
 ## Distinct current hypotheses
 
-N62/N66 now bracket full native N64, changing only closed-loop client concurrency and corresponding workers. Earlier losing N66–N70 sweeps used short graph-disabled/cap 64 controls; this is an explicitly different runtime/protocol. Keep those losses. Review both actual results before widening; >1% useful valid gain versus contemporary N64 is needed before proposing independent confirmation. Full fixed-workload/source/runtime/semantic/raw-denominator/error/output gates remain.
+Full N62/N66 now completed at 2823.776622 / 2826.104466 good tokens/s, both complete local gates PASS, zero errors/cancellations, smoke 7/8 and retrieval 12/12. Neither beats contemporary N64; close the immediate concurrency branch. [Full raw review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-review-20261026/REVIEW.md). New jobs 26473/26475 change only prefill chunk to 6144/4096 at full native N64. Earlier subthreshold N56 chunk gains remain visible; one attempt each in the declared different runtime, no widening before actual review. All original gates and >1% useful-gain condition remain.
 
 H100 225228 F/0 in 6:39 passed eight distinct H100 device/source/metadata receipts, one independent eight-token semantic response and actual equal-TP send_kvcache/send_aux start/return markers on all four sender ranks without exceptions. Old 224560 lacked KV observer evidence because the checker watched a heterogeneous method; original failure remains. The new functional prerequisite is not a throughput or official accuracy pass. [Independent H100 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-review-225227-225228-20261026/REVIEW.md).
 
@@ -40,7 +40,7 @@ H100 225228 F/0 in 6:39 passed eight distinct H100 device/source/metadata receip
 
 ## Access, credit and admission
 
-VPN and existing AI/CPU authenticated SSH channels worked at the latest admission. No phone-side DUO approval or exact session lifetime is claimed. Preserve healthy private session state; never capture it or restart it gratuitously. Selected AI project 59010042 snapshot label 26/10/2026-22:40:01: grant 64000, used 48199.780, balance 15800.220, In Doubt negative zero SU. Retain all 4000 SU old unreconciled maxima, including terminal 225227/225228, plus 512 SU for 225306; conservative planning headroom 11288.220 SU. Do not release reservations from runtime alone. Owner's earlier 30 October planning deadline remains.
+AI SSH and VPN are working. CPU read-only SSH currently times out or returns authentication failure; a separate channel authentication did not establish access. Preserve other worker channels and do not restart VPN. Fresh CPU queue availability is UNKNOWN, so PBS R2 admission has not occurred. No phone-side DUO approval or exact session lifetime is claimed. Preserve healthy private session state; never capture it or restart it gratuitously. Selected AI project 59010042 snapshot label 27/10/2026-00:20:07: grant 64000, used 48313.842, balance 15686.158, In Doubt negative zero SU. The owner explicitly removed internal withholding: all 4512 SU of terminal local holdbacks are released; historical maxima and charge-attribution limits remain audit metadata. Actual available balance is 15686.158 SU with zero discretionary/terminal buffer. Count genuinely active/uncertain commitments once, net of site prepayment. Owner's earlier 30 October planning deadline remains.
 
 PBS admission checks both own queues and selected project credit under CPU-before-AI locks. A parser initially rejected signed negative zero before any reservation/qsub; it was fixed/tested, remote checksums reverified and exactly one definite new receipt obtained. No uncertain attempt remains. No budget increase or other worker spending occurred. Read nscc-budget.json and actual receipts before another admission.
 
@@ -54,8 +54,10 @@ Edit active sources once. Capture explicit safe small milestones, screen/verify,
 
 ## New owner steering and actual admissions — 2026-10-26T17:31:58.694229+00:00
 
-Owner removed all AI internal SU buffers. Twelve terminal local holdbacks totaling4512SU are released; historical maxima/terminal receipts remain audit metadata, without claiming individual charge reconciliation. Fresh selected AI balance15686.158SU, internal buffer0. [Policy proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-no-buffer-policy-20261026/POLICY-APPLIED.json).
+Owner removed all AI internal SU buffers. Twelve terminal local holdbacks totaling 4512 SU are released; historical maxima/terminal receipts remain audit metadata, without claiming individual charge reconciliation. Fresh selected AI balance 15686.158 SU, internal buffer 0. [Policy proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-no-buffer-policy-20261026/POLICY-APPLIED.json).
 
-H20026436 N62 and26438 N66 completed0:0 with2823.776622 and2826.104466 good tokens/s; both full local gates pass but no gain againstN64. Earlier active snapshots are historical. Actual next Slurm jobs26473 chunk6144 and26475 chunk4096 are submitted, 16H200/two nodes/17minutes each, fullN64;26475 afterany26473.
+H200 26436 N62 and 26438 N66 completed 0:0 with 2823.776622 and2826.104466 good tokens/s; both full local gates pass but no gain against N64. Earlier active snapshots are historical. Actual next Slurm jobs 26473 chunk 6144 and 26475 chunk 4096 are submitted, 16 H200/two nodes/17 minutes each, full N64; 26475 afterany 26473.
 
-H100225306 F/127 after6:41: source/device/metadata/semantic gates pass, but external timeout cannot directly execute the PBS srun shell function. No benchmark ran. Root added that faulty boundary; derived R2 runs sourced shim inside timed Bash. Actual shim isolated-PATH regression reproduces127 and corrected0. R2 prepared, not yet submitted. Existing CPU read-only SSH command times out; one separate auth attempt did not establish a working channel. AI SSH works. Do not claim CPU queue is empty or restart VPN. No HPC payload/ledger changed.
+H100 225306 F/127 after 6:41: source/device/metadata/semantic gates pass, but external timeout cannot directly execute the PBS srun shell function. No benchmark ran. Root added that faulty boundary; derived R2 runs sourced shim inside timed Bash. Actual shim isolated-PATH regression reproduces 127 and corrected 0. R2 prepared, not yet submitted. Existing CPU read-only SSH command times out; one separate auth attempt did not establish a working channel. AI SSH works. Do not claim CPU queue is empty or restart VPN. No HPC payload/ledger changed.
+
+Dispatch correction from owner: after payload checks pass, submit the justified ready followup promptly; do not prolong redundant review while the research queue is empty. This does not remove source/output gates, queue caps or permit blind duplicates. Actual new Slurm receipts are 26473/26475. PBS repair remains prepared pending a fresh CPU queue check. No background Codex or schedules.
