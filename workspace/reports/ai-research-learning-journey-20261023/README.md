@@ -148,3 +148,5 @@ The deterministic target now has a real accepted 1,600-token reference. The next
 ### Cache capacity, speed and model partitions are different questions
 
 The 24 October cache comparison teaches why a smaller element format is not automatically faster serving: FP8 doubled token capacity, but good output throughput fell 3.52% at the same short N64 workload. Separately, a native expert-kernel test passed while real five-rank model startup failed at vocabulary partitioning. Attention heads, expert slots and the LM head each have their own geometry. The next native flag is a source-backed proposed repair, not a proven speed improvement. The [new illustrated journal entry](../research-journey-20261019/journal/entries/20261024-cache-loss-and-five-rank-repairs.md) records the controls, failed attempts, telemetry, units and decisions in presentation order.
+
+- [26 October: why the full-workload controls closed and the EAGLE branch advanced](FULL_WORKLOAD_CHECKPOINT_20261026.md).
