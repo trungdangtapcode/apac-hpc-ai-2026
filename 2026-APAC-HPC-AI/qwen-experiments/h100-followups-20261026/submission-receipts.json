@@ -1,0 +1,60 @@
+{
+  "created_utc": "2026-10-26T12:31:48.134842+00:00",
+  "jobs": [
+    {
+      "bundle": "h100-incumbent-n54-refresh-20261026",
+      "command": "cd /scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/h100-incumbent-n54-refresh-20261026 && qsub benchmark.pbs",
+      "max_charge_su": 1024.0,
+      "attempt_utc": "2026-10-26T12:32:34.595079+00:00",
+      "state": "SUBMITTED",
+      "returncode": 0,
+      "stdout": "225227.pbs111\n",
+      "stderr": "",
+      "returned_utc": "2026-10-26T12:32:34.779631+00:00",
+      "job_id": "225227.pbs111",
+      "dependency_afterany": null
+    },
+    {
+      "bundle": "eagle3-h100-equal-tp-observer-r2-20261026",
+      "command": "cd /scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-h100-equal-tp-observer-r2-20261026 && qsub -W depend=afterany:225227.pbs111 benchmark.pbs",
+      "max_charge_su": 341.3333333333333,
+      "attempt_utc": "2026-10-26T12:32:36.071896+00:00",
+      "state": "SUBMITTED",
+      "returncode": 0,
+      "stdout": "225228.pbs111\n",
+      "stderr": "",
+      "returned_utc": "2026-10-26T12:32:36.332603+00:00",
+      "job_id": "225228.pbs111",
+      "dependency_afterany": "225227.pbs111"
+    }
+  ],
+  "uploads": [
+    {
+      "bundle": "h100-incumbent-n54-refresh-20261026",
+      "remote": "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/h100-incumbent-n54-refresh-20261026",
+      "manifest_sha256": "22c2ead724902bb5339899e6bf2e50a6b93a27c3c8f484d47c6c2c047357a48d",
+      "verified_files": 32,
+      "utc": "2026-10-26T12:31:48.348225+00:00"
+    },
+    {
+      "bundle": "eagle3-h100-equal-tp-observer-r2-20261026",
+      "remote": "/scratch/users/industry/ai-hpc/apacsc42/qwen-pbs-20261015/eagle3-h100-equal-tp-observer-r2-20261026",
+      "manifest_sha256": "c4c51a576835c02b956c4ae531f292fc95339446b58c0c2cd19d5f8dd8984f09",
+      "verified_files": 54,
+      "utc": "2026-10-26T12:31:48.612704+00:00"
+    }
+  ],
+  "resumed_before_any_qsub_utc": "2026-10-26T12:32:33.277351+00:00",
+  "post_submit": {
+    "hostname": "a2ap-login01\n",
+    "ai_jobs": "225227.pbs111\n225228.pbs111\n",
+    "credit": "Project 59010042 balance as of 26/10/2026-20:20:02\n+--------+---------------------+---------------------+---------------------+---------------------+\n| Unit   |               Grant |                Used |             Balance |            In Doubt |\n+--------+---------------------+---------------------+---------------------+---------------------+\n| SU     |           64000.000 |           47552.669 |           16447.331 |               0.000 |\n+--------+---------------------+---------------------+---------------------+---------------------+\nIn doubt - SU deducted for current running jobs (Prepaid)\n",
+    "cpu_queue": "asp2a-login-nscc02\n",
+    "cpu_jobs": [],
+    "ai_job_ids": [
+      "225227.pbs111",
+      "225228.pbs111"
+    ],
+    "checked_utc": "2026-10-26T12:32:37.710803+00:00"
+  }
+}

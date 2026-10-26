@@ -2406,3 +2406,10 @@ COMPLETED 0:0 / 11:12, 98.427850% SLA, zero scored errors/cancellations, smoke 7
 ## 26 October 08:18 UTC: factorial S73 submitted 26347
 
 Graph-disabled/native-admission completes four full modern cells; afterany:26319, 16 H200/two nodes/17-minute maximum/no PBS SU. With 26315/26317/26319/26337, five own studies are queued. [Receipt](h200-incumbent-recovery-20261026/S73-SUBMISSION.json).
+
+## H100 admission on 26 October
+
+- 225227.pbs111: fresh full N54 incumbent reference, 16 H100/30-minute bound, max 1024 SU. Q/aiq2 at admission; no result.
+- 225228.pbs111: equal-TP EAGLE observer correction, 8 H100/20-minute bound, max 341.333333 SU; H/afterany 225227. No result.
+
+[Question, control, checks and receipt](h100-followups-20261026/REVIEW.md). Old unreconciled maxima retained; no official accuracy or new score claimed.

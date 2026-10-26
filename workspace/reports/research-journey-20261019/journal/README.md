@@ -334,3 +334,5 @@ Latest AI submission: [26 October: complete factorial cell 26347 restores five q
 Latest AI access check: [26 October: no local VPN path; H100 queue/credit remain unknown](entries/20261026-h100-existing-access-unavailable.md).
 
 Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered terminal evidence](entries/20261026-h100-restored-budget-and-recovered-results.md).
+
+- [26 October: actual H100 reference and corrected equal-TP observer admissions](entries/20261026-h100-followups-225227-225228.md).

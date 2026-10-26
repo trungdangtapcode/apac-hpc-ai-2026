@@ -1,6 +1,6 @@
 # Current AI / Qwen research handoff
 
-Updated 26 October 2026, 08:19 UTC. This GPU fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe; it owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. Chat Vietnamese; artifacts English. No background Codex, schedules or automatic chat notifications.
+Updated 2026-10-26T12:33:36.727174+00:00. This GPU fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe; it owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. Chat Vietnamese; artifacts English. No background Codex, schedules or automatic chat notifications.
 
 ## Latest measured result: legacy full replay is lower today
 
@@ -46,3 +46,9 @@ Existing CPU SSH read-only queue has one job 25999546.pbs101. Preserve other wor
 
 
 H100 retained full N54 best individual is 2433.019859 tokens/s (222048), separate from H200. Packaged AI primary remains N62 pending reviewed authorized promotion; official full-set accuracy remains unverified. Continue the authorized distinct-hypothesis loop when capacity/evidence permit; this never enables background Codex.
+
+## H100 followups actually submitted — 2026-10-26T12:33:36.727174+00:00
+
+225227.pbs111 is Q/aiq2: full accepted N54 reference refresh, 16 H100/two nodes/30 minutes, 1024 SU maximum. 225228.pbs111 is H/afterany 225227: corrected native equal-TP EAGLE observer, 8 H100/one node/20 minutes, 341.333333 SU maximum. Fresh separate CPU queue is empty; combined count is two. Earlier empty AI/one CPU snapshot is historical. Fresh project balance 16447.331 SU; retained old maxima 2634.666667 plus new maxima 1365.333333 leave conservative headroom 12447.331 SU. Neither job has a result. [Reviewed admission](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-followups-20261026/REVIEW.md).
+
+The separate CPU read-only SSH channel required one echo-disabled authentication before queue verification; healthy AI SSH/VPN was preserved. No phone-side DUO approval or exact lifetime is claimed. First upload-only attempt stopped before reservation/qsub; resumed admission reverified manifests and obtained unambiguous receipts. No HPC payload/ledger or schedule was changed.

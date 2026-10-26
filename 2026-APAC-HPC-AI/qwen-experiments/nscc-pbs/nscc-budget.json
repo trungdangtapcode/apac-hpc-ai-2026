@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-26T08:51:28.080202+00:00",
+  "updated_utc": "2026-10-26T12:32:36.067331+00:00",
   "project": "59010042",
   "commissioning_cap_su": 64000.0,
   "cap_interpretation": "Owner explicitly authorised unrestricted use of remaining AI H100 credit on 24 October and stated a 30 October usable deadline. The former 51,000 SU internal cap /13,000 SU buffer is superseded. Do not exceed actual project grant; retain all uncertain or unposted reservations.",
@@ -15,10 +15,10 @@
     "used_su": 47552.669,
     "balance_su": 16447.331,
     "in_doubt_su": 0.0,
-    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-access-restored-20261026/access-and-accounting.json",
+    "source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-followups-20261026/pre-admission-eagle3-h100-equal-tp-observer-r2-20261026.json",
     "balance_semantics": "Reported balance already excludes any shown In Doubt prepayment; outstanding local max-charge reserve remains a conservative campaign bound until ledger reconciliation.",
-    "queried_utc": "2026-10-26T08:46:40.192882+00:00",
-    "freshness_note": "Fresh selected AI account read after restored VPN/SSH. All unreconciled maxima retained; no unique per-job charge release or new reservation."
+    "queried_utc": "2026-10-26T12:32:36.062858+00:00",
+    "freshness_note": "Fresh before admission; old unreconciled maximum reservations retained."
   },
   "jobs": [
     {
@@ -2179,6 +2179,30 @@
       "exit_status": 0,
       "observed_walltime": "00:10:09",
       "latest_terminal_observation_source": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-access-restored-20261026/access-and-accounting.json"
+    },
+    {
+      "job_id": "225227.pbs111",
+      "bundle": "h100-incumbent-n54-refresh-20261026",
+      "state": "SUBMITTED",
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "max_charge_su": 1024.0,
+      "accounting_pending": true,
+      "included_in_ledger_used": false,
+      "submitted_utc": "2026-10-26T12:32:34.782241+00:00",
+      "dependency_afterany": null
+    },
+    {
+      "job_id": "225228.pbs111",
+      "bundle": "eagle3-h100-equal-tp-observer-r2-20261026",
+      "state": "SUBMITTED",
+      "requested_gpus": 8,
+      "requested_walltime": "00:20:00",
+      "max_charge_su": 341.3333333333333,
+      "accounting_pending": true,
+      "included_in_ledger_used": false,
+      "submitted_utc": "2026-10-26T12:32:36.335010+00:00",
+      "dependency_afterany": "225227.pbs111"
     }
   ],
   "pending_reservations": [
@@ -3567,12 +3591,37 @@
       "reserved_utc": "2026-10-24T14:28:30.157931+00:00",
       "job_id": "224561.pbs111",
       "submitted_utc": "2026-10-24T14:28:30.318338+00:00"
+    },
+    {
+      "purpose": "h100-incumbent-n54-refresh-20261026",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 1024.0,
+      "requested_gpus": 16,
+      "requested_walltime": "00:30:00",
+      "reserved_utc": "2026-10-26T12:32:34.590335+00:00",
+      "dependency_afterany": null,
+      "job_id": "225227.pbs111",
+      "submitted_utc": "2026-10-26T12:32:34.782231+00:00"
+    },
+    {
+      "purpose": "eagle3-h100-equal-tp-observer-r2-20261026",
+      "state": "SUBMITTED_PENDING_ACCOUNTING",
+      "max_charge_su": 341.3333333333333,
+      "requested_gpus": 8,
+      "requested_walltime": "00:20:00",
+      "reserved_utc": "2026-10-26T12:32:36.067301+00:00",
+      "dependency_afterany": "225227.pbs111",
+      "job_id": "225228.pbs111",
+      "submitted_utc": "2026-10-26T12:32:36.335001+00:00"
     }
   ],
-  "active_pbs_jobs": [],
-  "unallocated_commissioning_su": 13812.66433333333,
+  "active_pbs_jobs": [
+    "225227.pbs111",
+    "225228.pbs111"
+  ],
+  "unallocated_commissioning_su": 12447.330999999996,
   "next_baseline_max_charge_su": 1024,
-  "next_baseline_reserved": false,
+  "next_baseline_reserved": true,
   "submission_rule": "Before qsub, refresh own CPU and AI queues and selected AI project credit under the shared CPU-before-AI admission locks. Preserve combined PBS cap3 and one running AI allocation, max16 GPUs/job and45min/job. Reserve maximum charge first; used plus unposted charges and maxima must fit actual64,000 SU grant with owner-authorised zero internal buffer. Keep uncertain attempts/reservations until reconciled; no blind repeats. No background Codex or schedules.",
   "reconciliation_note": "Reserve one no-model two-node/2H100/10-minute native registration/DRAM auxiliary probe; max42.666667SU, no full-model retry or budget increase.",
   "evidence": [
@@ -3633,7 +3682,7 @@
     "organiser_limit": false
   },
   "max_charge_per_45min_job_su": 1536,
-  "campaign_headroom_after_reserved_su": 13812.66433333333,
+  "campaign_headroom_after_reserved_su": 12447.330999999996,
   "max_gpu_jobs_running": 1,
   "queue_amendment": {
     "user_instruction": "r\u1ed3i submit nhi\u1ec1u v\u00e0o, t\u1eadn d\u1ee5ng th\u1eddi gian gi\u00fap t\u00f4i",
@@ -3643,7 +3692,10 @@
     "enforcement": "PBS afterany chain; each job16GPU, no simultaneous allocations",
     "total_max_new_su": 4608
   },
-  "active_pbs_jobs_verified": [],
+  "active_pbs_jobs_verified": [
+    "225227.pbs111",
+    "225228.pbs111"
+  ],
   "uncertain_pbs_jobs": [],
   "previous_internal_campaign_cap_su": 16384,
   "active_gpu_queue_scope": "qselect -u apacsc42 -P59010042; no other project queried",
