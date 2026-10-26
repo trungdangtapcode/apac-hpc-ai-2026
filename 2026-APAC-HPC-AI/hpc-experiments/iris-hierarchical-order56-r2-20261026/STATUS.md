@@ -1,5 +1,5 @@
-# Four-order native cut screen admitted
+# Four-order cut screen completed
 
-**2294097** was admitted on 26 October 2026 with a definite sbatch receipt. It screens a fresh xyz control and xzy/yxz/zyx alternatives, hierarchical factors (7 4 2), 56 partitions each. One exclusive 56-CPU node, 40-minute maximum, 37.333333 allocated CPU-hours reserved.
+**2294097: COMPLETED 0:0**, 363 seconds. All four native cuts pass. Select zyx against fresh xyz for initialization: fewer total interface faces, lower maximum rank face count and fewer maximum neighbors. No solver gain is claimed.
 
-This is native decomposition and restored initial fields only. No configuration has completed initialization or a new solver measurement. Inspect every cut, source/mesh seals and resource evidence before selecting a next candidate. The earlier failed Scotch solver pair remains a failure.
+[Results and full structural comparison](completed-2294097/RESULTS.md). Original uninitialized cuts stay preserved; the next stage uses independent copies.
