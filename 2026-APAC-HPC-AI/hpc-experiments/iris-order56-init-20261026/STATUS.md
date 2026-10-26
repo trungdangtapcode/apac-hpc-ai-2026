@@ -1,5 +1,3 @@
-# Fresh xyz and zyx initialization running
+# Fresh copies initialized
 
-**2294098** was admitted once. At 26 October 13:41:44 UTC it was RUNNING on iris001, elapsed 3:43. Its xyz copy had reached the required native utilities and source checks; final READY and zyx completion were still pending. Do not count both cases initialized yet.
-
-One exclusive 56-CPU node, 40-minute maximum, 37.333333 allocated CPU-hours reserved. Original four-cut artifacts remain unchanged; initialization operates on independent copies. No solver measurement runs in this job.
+**2294098: COMPLETED 0:0**, 455 seconds. Fresh xyz and zyx are both READY; all required utilities, source/copy/field/mesh checks pass. Original cuts are preserved. No solver result yet. [Full review](completed-2294098/RESULTS.md).
