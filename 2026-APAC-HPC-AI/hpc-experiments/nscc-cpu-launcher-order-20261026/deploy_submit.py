@@ -113,7 +113,8 @@ def submit(members):
         queued = re.findall(r'^(\d+\.\S+)\s+apacsc42\b', queue, re.M)
         assert not queued, 'One active CPU allocation: review any unexpected CPU work first'
         raw = {}
-        ai = subprocess.run(['bash', str(H / 'workspace/vpn-rootless/vpn.sh'), 'enter', 'ssh', '-F', '/dev/null', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8', '-o', 'ControlPath=/home/apacsc42/workspace/vpn-rootless/run/gc6-%C', '-o', 'StrictHostKeyChecking=yes', '-o', 'UserKnownHostsFile=/home/apacsc42/workspace/vpn-rootless/known_hosts', '-o', 'PubkeyAuthentication=no', 'apacsc42@aspire2p.nscc.sg', "bash -lc 'qstat -u apacsc42'"], capture_output=True,
+        ai = subprocess.run(['bash', str(H / 'workspace/vpn-rootless/vpn.sh'), 'ssh-batch',
+                             "bash -lc 'qstat -u apacsc42'"], capture_output=True,
                             text=True, timeout=30, check=True)
         ai_count = len(re.findall(r'^\d+\S*\s+apacsc42\b', ai.stdout, re.M))
         assert len(queued) + ai_count + 1 <= 3, 'Preserve combined PBS cap'
