@@ -51,3 +51,11 @@ Inspect tails/errors/concurrency, role-local queues/KV, transport/runtime, CPU/G
 [Readable illustrated learning checkpoint](../reports/ai-research-learning-journey-20261023/FULL_WORKLOAD_CHECKPOINT_20261026.md), [complete journal](../reports/research-journey-20261019/journal/README.md), [preceding handoff with older losses/corrections](history/20261026-ai-before-1450-condense.md). Earlier snapshots in history are not live.
 
 Edit active sources once. Capture explicit safe small milestones, screen/verify, commit with actual dates and push the existing private origin. Frozen raw evidence and large-object hashes are preserved; GitHub push does not upload the sibling external artifact store. No slide/submission/HPC payload changed in this continuation. Continue justified research when queue/budget/evidence permit; this never enables background Codex or schedules.
+
+## New owner steering and actual admissions — 2026-10-26T17:31:58.694229+00:00
+
+Owner removed all AI internal SU buffers. Twelve terminal local holdbacks totaling4512SU are released; historical maxima/terminal receipts remain audit metadata, without claiming individual charge reconciliation. Fresh selected AI balance15686.158SU, internal buffer0. [Policy proof](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-no-buffer-policy-20261026/POLICY-APPLIED.json).
+
+H20026436 N62 and26438 N66 completed0:0 with2823.776622 and2826.104466 good tokens/s; both full local gates pass but no gain againstN64. Earlier active snapshots are historical. Actual next Slurm jobs26473 chunk6144 and26475 chunk4096 are submitted, 16H200/two nodes/17minutes each, fullN64;26475 afterany26473.
+
+H100225306 F/127 after6:41: source/device/metadata/semantic gates pass, but external timeout cannot directly execute the PBS srun shell function. No benchmark ran. Root added that faulty boundary; derived R2 runs sourced shim inside timed Bash. Actual shim isolated-PATH regression reproduces127 and corrected0. R2 prepared, not yet submitted. Existing CPU read-only SSH command times out; one separate auth attempt did not establish a working channel. AI SSH works. Do not claim CPU queue is empty or restart VPN. No HPC payload/ledger changed.

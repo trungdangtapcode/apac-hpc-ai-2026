@@ -415,3 +415,7 @@ The owner explicitly requested a commit on 21 October and then asked to record t
 ## CPU remaining-grant authorization — 24 October 2026
 
 The owner explicitly replaced the5,000-SU CPU research limit with permission to use the remaining CPU grant before30October. The CPU-only campaign ceiling is29,777.846SU after retaining the222.154pre-campaign baseline outside the full30,000grant. Fresh balance/rate/cap checks and reservations remain mandatory; unknown maxima are retained. One active CPU allocation and combined own PBS cap3 remain. No AI budget or background automation authorization. User deadline30October differs from site ExpDate15November; plan for the earlier user deadline without asserting a verified billing expiry. [Decision and research sequence](cpu-campaign-before-oct30-20261024.md).
+
+## 2026-10-26T17:31:58.694229+00:00 — Use the full actual AI H100 balance
+
+Owner explicitly removed any internal SU buffer and requested maximum justified research use. Remove terminal local holdbacks; retain maxima as audit evidence, not withheld credit. Fresh AI balance15686.158 SU is available. Count genuinely committed active/uncertain allocations once, net of site prepayment; preserve actual64000SU grant, queue caps, separate HPC budget and disabled autopilot. [Applied policy](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-no-buffer-policy-20261026/POLICY.md).
