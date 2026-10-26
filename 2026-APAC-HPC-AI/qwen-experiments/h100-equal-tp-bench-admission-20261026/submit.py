@@ -65,7 +65,7 @@ for name,gpus,minutes in PLANS:
   snap=snapshot();save(S/('pre-admission-'+name+'.json'),snap)
   assert len(snap['cpu_jobs'])+len(snap['ai_job_ids'])+1<=3,'Combined PBS cap full'
   assert not snap['ai_job_ids'] or (last and set(snap['ai_job_ids'])<={last}),'Unserialized existing AI allocation'
-  nums=re.search(r'\| SU\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)',snap['credit']);assert nums,'No selected credit row'
+  nums=re.search(r'\| SU\s*\|\s*([-+]?\d+(?:\.\d+)?)\s*\|\s*([-+]?\d+(?:\.\d+)?)\s*\|\s*([-+]?\d+(?:\.\d+)?)\s*\|\s*([-+]?\d+(?:\.\d+)?)',snap['credit']);assert nums,'No selected credit row'
   grant,used,balance,doubt=map(float,nums.groups());budget=json.loads(BUDGET.read_text())
   assert grant==64000 and budget['commissioning_cap_su']==64000 and not budget.get('uncertain_pbs_jobs')
   outstanding=sum(float(x['max_charge_su']) for x in budget['pending_reservations'] if x['state']!='RECONCILED_IN_LEDGER')
