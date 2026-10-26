@@ -1,7 +1,5 @@
-# Iris initialization admitted
+# Iris Scotch initialization status
 
-Job **2294046** was admitted on 26 October 2026 with a definite sbatch receipt. It runs the mandatory renumberMesh, potentialFoam and applyBoundaryLayer stages for the reviewed Scotch cut 2294040, before any solver measurement. One exclusive 56-CPU Iris node, 20-minute maximum, 18.666667 allocated CPU-hours reserved once.
+**2294046: COMPLETED 0:0; mandatory initialization review passed.** All three utilities completed with 56 ranks in a 100-second allocation. Native logs, source seals, 336 before/after field seals, resources and READY evidence are retained.
 
-Source hashes, cut accounting and live queue checks passed at admission. Runtime stage validation and initialized-field evidence are still pending. Do not report this as a solver result. The existing NSCC diagnostic is prepared but not submitted because the VPN reconnect failed.
-
-The first local admission assertion stopped before sbatch; ADMISSION_CORRECTION.md and preflight-reconciliation.json preserve the review and explicit resume. Remote exclusive intent and definite receipt show one submitted job. The frozen init payload was unchanged by the admission-tool fix.
+[Completed review](RESULTS.md). The earlier admitted/pending snapshot is historical. No new Scotch solver result exists yet. A matched 150-step hierarchical/Scotch experiment is being prepared separately.
