@@ -1,0 +1,9 @@
+# Repair equal-TP native observation without inventing old KV markers
+
+Actual 224560 returned one independently replayable semantic response across same-node P4/D4 EAGLE, but final checker wrongly required heterogeneous send_kvcache_slice. Exact native transfer_worker dispatch chooses send_kvcache when decode_tp_size==attn_tp_size. Old observer wrapped only slice/send_aux, so equal-TP KV invocation was not collected. Original scheduler FAILED and missing observation remain; do not manufacture a past pass.
+
+This derivative wraps native send_kvcache in addition to the existing methods and indexes its dst_kv_indices at positional argument 3, unlike slice argument 2. The final checker requires send_kvcache and send_aux start/return markers on each actual prefill rank 0–3 in the semantic interval, no observed exceptions, plus the original independently replayed semantic response, 8 disjoint H100 UUIDs, native module pins and eight role metadata receipts. Native function return/exception/arguments remain unchanged; no arithmetic, model weights, draft, precision, NIXL source or transfer behavior is patched. Returned handles are not proof of completion; the actual semantic response remains independently required.
+
+One 8-H100/one-node/20-minute maximum, 341.333333 SU bound. Same P4/D4EP4 EAGLE steps 2/topk1/draft 3 and one semantic request. This is no full 16-GPU ranked score, exact-target-ID pass, official accuracy or throughput improvement. If the correct-path gate fails, stop and inspect; no unchanged retry. Fresh queue/credit/combined cap 3/one running AI mandatory; run afterany the independent full N54 reference. Existing HPC CPU job stays untouched.
+
+The old run is used for source/metadata/semantic replay only. CPU synthetic method-event fixtures validate rejection and wrapper transparency; they do not prove the newly instrumented GPU invocation. Actual new observations require this bounded allocation.
