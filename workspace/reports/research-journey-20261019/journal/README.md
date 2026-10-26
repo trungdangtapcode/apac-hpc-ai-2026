@@ -344,3 +344,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: all-rank launcher evidence and the bounded syscall observer](entries/20261026-hpc-affinity-order-loss-and-syscall-observer.md).
 
 - [26 October: four fresh cut results and separate xyz/zyx initialization](entries/20261026-hpc-order-cut-result-and-initialization.md).
+
+- [26 October: verified fresh initialization and matched xyz/zyx short screen](entries/20261026-hpc-fresh-initialization-and-matched-short-screen.md).
