@@ -1,0 +1,37 @@
+{
+  "experiment_id": "eagle3-h100-single-node-equal-tp-20261024",
+  "status": "source-only-not-submitted",
+  "question": "Whether one semantic EAGLE3 P-to-D path passes with equal TP4 roles sharing one eight-H100 node",
+  "platform": "NSCC ASPIRE2A+, PBS, one H100 node, eight GPUs",
+  "allocation": {
+    "gpus": 8,
+    "wall_seconds": 1200,
+    "max_su": 341.3333333333333,
+    "su_rate_per_gpu_hour": 128,
+    "node_exclusive": true
+  },
+  "topology": {
+    "workers": [
+      {"name": "prefill-0", "node_index": 0, "gpu_offset": 0, "gpu_count": 4, "tp_size": 4, "ep_size": 1, "mode": "prefill"},
+      {"name": "decode-0", "node_index": 0, "gpu_offset": 4, "gpu_count": 4, "tp_size": 4, "ep_size": 4, "mode": "decode"}
+    ],
+    "same_node": true,
+    "equal_tp": true,
+    "semantic_pairs": 1,
+    "concurrent_phase": false
+  },
+  "model": {
+    "target": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8",
+    "dtype": "bfloat16",
+    "draft": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09",
+    "eagle3": {"steps": 2, "topk": 1, "draft_tokens": 3, "draft_quantization": "unquant"},
+    "nixl_patch_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f"
+  },
+  "phase_seconds": {"startup": 850, "semantic": 240, "teardown": 80},
+  "phase_envelope_seconds": 1170,
+  "output_id_comparison": false,
+  "aiperf_score": false,
+  "official_quality_verified": false,
+  "causal_locality_or_tp_claim": false,
+  "explicit_confounds": ["node locality", "decode TP8 to TP4", "decode EP8 to EP4", "one P/D path instead of two"]
+}

@@ -332,3 +332,5 @@ Latest AI treatment: [26 October: missing graph-off/native-admission cell](entri
 Latest AI submission: [26 October: complete factorial cell 26347 restores five queued studies](entries/20261026-s73-submitted-26347.md).
 
 Latest AI access check: [26 October: no local VPN path; H100 queue/credit remain unknown](entries/20261026-h100-existing-access-unavailable.md).
+
+Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered terminal evidence](entries/20261026-h100-restored-budget-and-recovered-results.md).
