@@ -322,3 +322,5 @@ Latest AI learning supplement: [26 October: actual graph-use evidence and explan
 Latest AI review tooling: [26 October: prepare strict offline full recovery checks](entries/20261026-recovery-offline-reviewer-prepared.md).
 
 Latest AI runtime checkpoint: [26 October: running 26313 matches actual incumbent runtime](entries/20261026-legacy-26313-runtime-confirmed.md).
+
+- [26 October: dual CPU work, reviewed Iris Scotch cut and corrected NSCC launcher evidence](entries/20261026-hpc-dual-cluster-next-tests.md).

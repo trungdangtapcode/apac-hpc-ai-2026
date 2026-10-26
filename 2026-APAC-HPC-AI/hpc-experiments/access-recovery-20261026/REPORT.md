@@ -7,3 +7,9 @@ The CPU queue was empty in the retained query. The site report displayed 27,532.
 Installed mpirun resolves to the same PALS 1.1.6 mpiexec executable. Merely renaming mpiexec to mpirun is not a new implementation hypothesis. A controlled test of global versus command-specific binding syntax and a bare launcher is being prepared.
 
 Iris also remains reachable through an interactive gateway auto-jump. One initial bridge connection failed before the Iris prompt; a fresh interactive connection and later bridge attempts succeeded. This is not evidence that Iris scheduler access is unavailable.
+
+## Later correction at 08:08 UTC
+
+The 06:11 UTC IKE expiry is now verified in the private client log, approximately 24 hours after establishment. A later authorized reconnect returned Authentication failed. Do not attribute this response specifically to DUO, an incorrect password, or server policy without evidence. Existing private state was preserved. The NSCC diagnostic deployment failed before namespace routing and no qsub was called; its budget has not changed. Iris jobs use separate SSH access and remain available.
+
+The first read-only GPU SSH master attempt authenticated but could not create its Unix socket because the path was too long. A shorter separate path succeeded, and a login-shell qstat found no own PBS jobs at that dated observation. The socket creation failure must not be described as an authentication rejection. No AI payload or job was changed. Those connections predate the later VPN expiry and are not current access evidence.
