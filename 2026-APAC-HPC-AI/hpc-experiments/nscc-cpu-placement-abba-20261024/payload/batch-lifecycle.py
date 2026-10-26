@@ -12,9 +12,9 @@ if mode == 'start':
     status_file.write_text(json.dumps({'utc_start': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                                        'monotonic_start': time.monotonic(),
                                        'requested_nodes': 4, 'requested_ranks': 512,
-                                       'requested_walltime_seconds': 3600,
-                                       'maximum_requested_SU': 512 * 3600 / 3600,
-                                       'internal_deadline_seconds': 3420,
+                                       'requested_walltime_seconds': 5400,
+                                       'maximum_requested_SU': 512 * 5400 / 3600,
+                                       'internal_deadline_seconds': 5220,
                                        'scope': 'Wrapper status and elapsed time only; not final PBS state or billed SU.'}, indent=2) + '\n')
 elif mode == 'finish':
     data = json.loads(status_file.read_text())

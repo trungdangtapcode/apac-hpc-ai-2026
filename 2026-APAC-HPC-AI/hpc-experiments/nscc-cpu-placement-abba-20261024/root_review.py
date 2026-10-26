@@ -7,6 +7,13 @@ def run(args):return subprocess.run(args,capture_output=True,text=True,env=ENV)
 checks=[]
 for file in P.rglob('*.py'):ast.parse(file.read_text(),feature_version=(3,6))
 checks.append('Python3.6 grammar for every payload script')
+with tempfile.TemporaryDirectory(prefix='hpc-lifecycle-review-') as tmp:
+ result=run(['python3',str(P/'batch-lifecycle.py'),'start',tmp]);assert result.returncode==0,result.stderr
+ state=json.loads((Path(tmp)/'batch-lifecycle.json').read_text())
+ assert (state['requested_walltime_seconds'],state['maximum_requested_SU'],state['internal_deadline_seconds'])==(5400,768,5220)
+ script=(P/'mpi-placement-abba.pbs').read_text()
+ assert '#PBS -l walltime=01:30:00' in script and 'INTERNAL_DEADLINE=5220' in script
+checks.append('Lifecycle metadata matches PBS90minute request and87minute internal deadline')
 with tempfile.TemporaryDirectory(prefix='hpc-ab-rootreview-') as tmp:
  tmp=Path(tmp);case=tmp/'case';shutil.copytree(P/'case',case);(case/'logFiles').mkdir();(case/'logFiles/log').write_text('runtime');(case/'rank-order.txt').write_text('0\n')
  args=['python3',str(P/'verify-case-sources.py'),'--source',str(P/'case'),'--case',str(case),'--accepted',str(P/'accepted-source-manifest.json')]
