@@ -2421,3 +2421,7 @@ COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profi
 ## Full native load bracket admitted 2026-10-26T14:33:12.134495+00:00
 
 26436: N62, 26438: N66 afterany26436. Both16 H200/two nodes/17-minute bounds. New full control26319=2827.996286 tokens/s; graph/admission gains below1% closed. [Rationale and receipt](h200-full-load-followups-20261026/REVIEW.md). No result yet.
+
+## H100 225227/225228 terminal review
+
+225227 F/0: 2399.186728 good tokens/s, 98.015873% joint SLA, no errors/cancellations, smoke 7/8 without regression/retrieval 12/12. 225228 F/0: actual equal-TP EAGLE functional and all-rank observer gates pass, no throughput claim. [Independent review](h100-review-225227-225228-20261026/REVIEW.md).

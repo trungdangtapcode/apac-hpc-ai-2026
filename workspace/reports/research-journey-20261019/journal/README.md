@@ -352,3 +352,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: xyz completes, zyx continues, and the short control is below its native sample recommendation](entries/20261026-hpc-short-screen-in-progress.md).
 
 - [26 October: four full graph/admission arms reviewed; small NIXL component passes](entries/20261026-h200-factorial-and-nixl-reviewed.md).
+
+- [26 October: contemporary H100 N54 control and actual equal-TP EAGLE functional pass](entries/20261026-h100-control-and-equal-tp-functional-pass.md).
