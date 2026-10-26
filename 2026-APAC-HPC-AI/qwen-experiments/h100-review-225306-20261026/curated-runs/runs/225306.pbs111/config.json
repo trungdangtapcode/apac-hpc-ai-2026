@@ -1,0 +1,107 @@
+{
+  "aiperf_score": true,
+  "allocation": {
+    "gpus": 8,
+    "max_su": 512.0,
+    "node_exclusive": true,
+    "su_rate_per_gpu_hour": 128,
+    "wall_seconds": 1800
+  },
+  "benchmark": {
+    "concurrency": 24,
+    "good_fraction_min": 0.9,
+    "grace_seconds": 30,
+    "input_tokens": 4000,
+    "mean_request_itl_max_ms": 20,
+    "measure_seconds": 120,
+    "output_tokens": 200,
+    "random_seed": 2026,
+    "score_unit": "good_output_tokens_per_second = AIPerf Goodput requests_per_second * 200",
+    "ttft_max_ms": 3000,
+    "warmup_seconds": 60
+  },
+  "benchmark_phase": "confirm",
+  "causal_locality_or_tp_claim": false,
+  "concurrency": 24,
+  "experiment_id": "eagle3-h100-equal-tp-bench-n24-20261026",
+  "explicit_confounds": [
+    "node locality",
+    "decode TP8 to TP4",
+    "decode EP8 to EP4",
+    "one P/D path instead of two"
+  ],
+  "input_tokens": 4000,
+  "model": {
+    "draft": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/drafts/nebius-eagle3-qwen235b-ff0f0c09",
+    "dtype": "bfloat16",
+    "eagle3": {
+      "draft_quantization": "unquant",
+      "draft_tokens": 3,
+      "steps": 2,
+      "topk": 1
+    },
+    "nixl_patch_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "target": "/scratch/users/industry/ai-hpc/apacsc42/qwen-assets/Qwen3-235B-A22B-Instruct-2507-FP8"
+  },
+  "necessary_per_replica_threshold_tokens_s": 1235.581165,
+  "notes": [
+    "One replica feasibility only; not comparable as a leaderboard score against16-GPU reference.",
+    "Requires all eight native metadata receipts, corrected observer send_kvcache/send_aux markers, and independent successful semantic response before scoring.",
+    "Independent per-rank method returned handles do not prove transfer completion; the semantic receipt is the functional completion evidence.",
+    "No full-set99%-reference accuracy evaluation is run."
+  ],
+  "official_quality_verified": false,
+  "output_id_comparison": false,
+  "output_tokens": 200,
+  "parent_failed_job": "224560.pbs111",
+  "parent_observer_repair_job": "225228.pbs111",
+  "parent_semantic_pass": true,
+  "parent_sources": {
+    "bundle": "eagle3-h100-equal-tp-observer-r2-20261026",
+    "sha256sums_sha256": "c4c51a576835c02b956c4ae531f292fc95339446b58c0c2cd19d5f8dd8984f09"
+  },
+  "phase_envelope_margin_seconds": 80,
+  "phase_envelope_seconds": 1720,
+  "phase_seconds": {
+    "quality": 250,
+    "scoring": 300,
+    "semantic": 240,
+    "startup": 850,
+    "teardown": 80
+  },
+  "platform": "NSCC ASPIRE2A+, PBS, one H100 node, eight GPUs",
+  "quality": "UNKNOWN_NOT_EVALUATED",
+  "question": "Can one same-node P4/D4 EAGLE3 replica pass the complete fixed-length profile and local output gates at client N24, before any replicated 16-GPU scale-up?",
+  "random_seed": 2026,
+  "ranked": false,
+  "reference_score_good_output_tokens_s": 2399.186728,
+  "reference_score_job": "225227.pbs111",
+  "status": "PREPARED_NOT_SUBMITTED",
+  "threshold_formula": "2399.186728*1.03/2; necessary if two identical independent replicas are to exceed the fresh16-H100 reference by3%, not sufficient to prove aggregate scaling.",
+  "topology": {
+    "concurrent_phase": false,
+    "equal_tp": true,
+    "same_node": true,
+    "semantic_pairs": 1,
+    "workers": [
+      {
+        "ep_size": 1,
+        "gpu_count": 4,
+        "gpu_offset": 0,
+        "mode": "prefill",
+        "name": "prefill-0",
+        "node_index": 0,
+        "tp_size": 4
+      },
+      {
+        "ep_size": 4,
+        "gpu_count": 4,
+        "gpu_offset": 4,
+        "mode": "decode",
+        "name": "decode-0",
+        "node_index": 0,
+        "tp_size": 4
+      }
+    ]
+  }
+}

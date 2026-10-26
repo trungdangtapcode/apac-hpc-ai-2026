@@ -366,3 +366,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: owner removes H100 internal/terminal holdbacks](entries/20261026-owner-removes-h100-local-holdbacks.md).
 
 - [26 October: full prefill chunk jobs26473/26475 submitted](entries/20261026-full-prefill-chunk-jobs-26473-26475.md).
+
+- [26 October: H100225306 launcher failure and actual-shim regression repair](entries/20261026-h100-225306-launcher-failure-and-repair.md).

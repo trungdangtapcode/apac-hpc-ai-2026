@@ -1,0 +1,38 @@
+{
+  "state": "PREPARED_NOT_SUBMITTED",
+  "parent_bundle": "eagle3-h100-equal-tp-observer-r2-20261026",
+  "parent_manifest_sha256": "c4c51a576835c02b956c4ae531f292fc95339446b58c0c2cd19d5f8dd8984f09",
+  "baseline_job": "225227.pbs111",
+  "observer_pass_job": "225228.pbs111",
+  "source_baseline_expected_input_from": "225227.pbs111 AIPerf export input_config; only concurrency/workers changed to24",
+  "max_su": 512.0,
+  "cpu_tests_to_run": [
+    "Python AST/shell syntax",
+    "hash manifest and tar agreement",
+    "replay strict scoring gates against recovered full N54 run with expected N54 schema; reject mutated summary concurrency",
+    "replay corrected pre/post semantic gates against225228 raw evidence"
+  ],
+  "never_claim": "Leaderboard improvement,16-GPU scaleup, official accuracy, or distributed replica aggregate from one8-GPU result.",
+  "controller_phase_order": [
+    "startup",
+    "semantic",
+    "scoring",
+    "quality",
+    "teardown"
+  ],
+  "scored_profile_timeout_seconds": 250,
+  "output_check_timeouts_seconds": {
+    "smoke": 200,
+    "retrieval": 200,
+    "concurrent": true
+  },
+  "cpu_validation_state": "PASS_CPU_PREPARATION_ONLY",
+  "cpu_validation_checks": [
+    "parent serving/device/observer source parity",
+    "30-minute stage-deadline arithmetic",
+    "synthetic configured N24 score+smoke+retrieval gates accepted",
+    "wrong N54 workload rejected under N24 recipe",
+    "recovered N54 control accepted by same parameterized raw score gate when using its own N54 recipe"
+  ],
+  "cpu_validation_limits": "Synthetic N24 fixture validates parser/controller behavior only, not GPU execution or measured score."
+}
