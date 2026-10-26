@@ -1,0 +1,9 @@
+# Controlled Iris hierarchical versus Scotch test
+
+The reviewed Scotch cut has 21.97% fewer interface faces than the old hierarchical cut, with roughly 1% maximum cell imbalance and more neighbor patches. Both initialization chains have native completion evidence. The question is whether reduced interface work improves actual solver time on this Iris hardware.
+
+Run H then S in one exclusive 56-CPU allocation with the same modules, thread limits, 150 time steps, unchanged fixed linear-solver iterations and no-write controls. Each arm receives an independent copy from its own initialized source. Preserve all 149 per-step timings, native WCT series and Cd samples. Compare mean, median, p95, maximum and numerical-work counters; report both absolute times and the ratio. Do not compare the new mean to a different machine or the old 40-step mean as a controlled speedup.
+
+One pair is a screening result: order, cache and thermal drift remain. Keep a favorable result provisional until independent confirmation; preserve a losing result and close this unchanged decomposition branch if the complete native comparison clearly loses. If source, runtime, field or numerical-work gates fail, retain the failed artifact and diagnose it rather than scoring it. No candidate is globally optimal on this evidence.
+
+Maximum admission is 140 allocated CPU-hours (56 CPUs × 2.5 hours) under the 224-hour Iris branch envelope. Seven planning CPU-hours remain charged for the completed preparation; no prior outstanding reservation remains before this admission. The SU charging rate is unavailable. An 8,700-second internal deadline and a 3,900-second per-solver cap are separate from the Slurm maximum; each solver requires an additional 300-second reserve before starting. Do not start another own Iris allocation concurrently.
