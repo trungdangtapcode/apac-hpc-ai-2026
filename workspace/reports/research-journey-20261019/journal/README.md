@@ -354,3 +354,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: four full graph/admission arms reviewed; small NIXL component passes](entries/20261026-h200-factorial-and-nixl-reviewed.md).
 
 - [26 October: contemporary H100 N54 control and actual equal-TP EAGLE functional pass](entries/20261026-h100-control-and-equal-tp-functional-pass.md).
+
+- [26 October: H100 score-window GPU/CPU/queue inspection, distinct from startup averages](entries/20261026-h100-scored-resource-window.md).
