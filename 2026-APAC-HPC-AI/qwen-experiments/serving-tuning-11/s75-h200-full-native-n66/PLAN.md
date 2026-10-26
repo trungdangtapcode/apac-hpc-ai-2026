@@ -1,0 +1,11 @@
+# Full native-runtime load bracket: N66
+
+All four full graph/admission observations pass local gates. Graph gains 0.79–0.91%, below the declared >1% useful-gain gate; admission changes are near zero. Close that tuning branch without confirming a subthreshold peak. Full native N64 job 26319 scores 2827.996286 good output tokens/s, 98.424311% joint SLA, no errors/cancellations, smoke 7/8 and retrieval 12/12. Its mean ITL 14.659ms leaves headroom but 28 TTFT failures prevent assuming unlimited concurrency.
+
+Hypothesis: a small closed-loop load change can trade prefill queueing against decoder batch utilization under the recovered full native runtime. This arm uses N66, compared with fixed N64 control 26319 and the other bracket arm. Prior N66–N70 losses used short graph-disabled/cap64 controls, so they do not answer this exact full breakable/native question. This is one bounded protocol correction, not a retry of unchanged losing settings. Keep the original losses visible. No future widening beyond this bracket without reviewing these actual results.
+
+Only client N and corresponding worker count change. Keep full 60/120/30, 4000/200, seed2026, cold prefix, target FP8 weights/BF16 activation and native BF16 KV, P4+P4/D8EP8, round robin, prefill breakable graphs/native admission, same image/transport/geometry and local output gates. The server decode graph list remains 1..64: N66 client concurrency is not a demand to capture server batch 66, because requests occupy different serving stages. The actual runtime checker remains unchanged.
+
+Require independently replayed configured-N input/raw denominator, joint TTFT<=3000ms and mean request ITL<=20ms for >=90%, zero errors/cancellations, smoke>=7/8 without regression and retrieval 12/12. Inspect tails, role queue/running/KV gauges, CPU/GPU/VRAM and transport evidence. Need >1% useful gain versus contemporary N64 before proposing an independent matched confirmation; a single deployment does not prove a winner. Official full-set 99%-reference accuracy stays UNKNOWN. No submitted package promotion.
+
+One 16-H200/two-node/17-minute bound, no PBS SU. Fresh Slurm cap 5 and unambiguous receipts required. Two bracket jobs may be admitted sequentially with afterany; scheduling success never substitutes for acceptance. Frozen parents unchanged. No background Codex or automatic retry.
