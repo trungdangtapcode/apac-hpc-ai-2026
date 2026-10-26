@@ -2417,3 +2417,7 @@ Graph-disabled/native-admission completes four full modern cells; afterany:26319
 ## H200 full modern control 26315 reviewed on 26 October
 
 COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profiling requests, zero errors/cancellations, smoke 7/8, retrieval 12/12. No improvement or official accuracy certification. [Full interpretation and next decision](research-review-26315-20261026/REVIEW.md).
+
+## Full native load bracket admitted 2026-10-26T14:33:12.134495+00:00
+
+26436: N62, 26438: N66 afterany26436. Both16 H200/two nodes/17-minute bounds. New full control26319=2827.996286 tokens/s; graph/admission gains below1% closed. [Rationale and receipt](h200-full-load-followups-20261026/REVIEW.md). No result yet.

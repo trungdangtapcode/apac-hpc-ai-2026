@@ -58,3 +58,9 @@ The separate CPU read-only SSH channel required one echo-disabled authentication
 26315 COMPLETED 0:0/10:10: 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profiling requests, zero errors/cancellations, smoke 7/8 and retrieval 12/12. Independent full raw/runtime gates pass; official accuracy remains UNKNOWN. This is 0.8336% below recent legacy 26313, with multiple runtime changes; not an isolated graph effect or improvement. Four jobs remain pending: 26317/26319/26347 serving arms and 26337 component. Keep these positions and await valid matched comparisons before confirmation. [Detailed review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26315-20261026/REVIEW.md).
 
 Observability unit correction: inherited offline helper divided host KiB by 1024 squared but used TiB labels. Values are GiB (about 2014.874 GiB total/host), corrected in current reviewer/report; earlier snapshots retain the historical mislabel. Raw data, score and decisions unchanged.
+
+## Full graph/admission review and actual next jobs — 2026-10-26T14:33:12.134495+00:00
+
+All four arms pass full local gates: 26315 disabled/cap64=2807.325653; 26317 breakable/cap64=2829.604300; 26319 breakable/native=2827.996286; 26347 disabled/native=2802.498990 good tokens/s. Graph gains0.79–0.91% remain below prospective1% gate; native admission has negligible gain. No new-best or official accuracy claim. Close this tuning branch. Earlier pending snapshots are historical.
+
+Actual new Slurm jobs26436 N62 and26438 N66 (afterany26436) bracket full breakable/native N64 with only client load changed; both16 H200/two nodes/17-minute bounds. Previous short graph-disabled/cap64 sweep is a different runtime. Full local gates and >1% useful-gain condition remain; do not widen before actual review. [Plans and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md).
