@@ -1,6 +1,8 @@
 # Why an older run reached 3k while recent screens reached 2.56k
 
-*Retrospective learning supplement written 26 October 2026. New recovery jobs are not measured yet.*
+*Retrospective learning supplement written 26 October 2026; initial preparation narrative below preceded the first recovery result. Latest result is updated here.*
+
+**Later update, 08:15 UTC:** 26313 completed and passed local full checks at 2830.92 good output tokens/s, 98.43% SLA, smoke 7/8 and retrieval 12/12, with no scored errors/cancellations. The actual legacy runtime was recovered, but the old 3044 mean was not reproduced today (difference -7.01%). Keep the lower repeat; graph/admission causes still await the other full arms. [Complete result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26313-20261026/REVIEW.md).
 
 The useful result is still the retained full N64 reference: three runs scored 3044.49, 3044.07 and3044.64 good output tokens/s, averaging 3044.400475. We did not establish that the current architecture is exhausted. We found that newer experiments drifted away from that reference while investigating EAGLE and correctness. Their lower scores therefore do not by themselves show that the earlier result disappeared.
 

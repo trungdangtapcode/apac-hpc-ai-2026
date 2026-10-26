@@ -1,6 +1,12 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-26 08:05 UTC after native-mount failure review and S68r2 admission 26337; legacy 26313 running. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-26 08:15 UTC after full replay 26313 terminal review; following studies remain queued. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+
+## Latest full incumbent replay — 26 October 08:15 UTC
+
+26313 COMPLETED 0:0 / 11:12 and independently passes exact full N64/4000:200/seed 2026/60:120:30/raw denominator/output gates at 2830.923547 good output tokens/s, 98.427850% joint SLA, zero errors/cancellations, smoke 7/8, retrieval 12/12. All 15 legacy operational files and actual native runtime match 25487 except internal random seeds; graph captures complete. This is -7.012% below the frozen historical three-run mean 3044.400475, not a new 3k replication. Descriptive all-four mean 2991.031243; preserve the lower repeat and uncertainty. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26313-20261026/REVIEW.md).
+
+Four following jobs remain pending/running: 26315 full modern control, 26317 graph arm, 26319 admission arm and 26337 corrected NIXL component. Refresh actual queue. No unchanged duplicate is justified; graph/admission causal attribution awaits those matched results. Sparse resource samples do not establish a cause; post-score profiler stop 500 remains separate from zero scored errors. Official full-set accuracy UNKNOWN.
 
 ## New terminal prerequisite review — 26 October 08:03 UTC
 
