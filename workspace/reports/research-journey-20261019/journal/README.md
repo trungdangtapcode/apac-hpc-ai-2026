@@ -316,3 +316,5 @@ Latest AI prerequisite failure: [26 October: S68 source guard detects our missin
 Latest AI prerequisite repair: [26 October: pin and mount the exact native source in S68r2](entries/20261026-s68r2-source-mount-repair.md).
 
 Latest AI submission: [26 October: source-corrected component 26337 and running legacy recovery](entries/20261026-s68r2-submitted-26337.md).
+
+Latest AI learning supplement: [26 October: actual graph-use evidence and explanation for the presenter](entries/20261026-actual-graph-use-and-learning-supplement.md).

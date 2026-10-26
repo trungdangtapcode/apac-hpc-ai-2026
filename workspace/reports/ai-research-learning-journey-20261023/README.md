@@ -4,6 +4,8 @@
 
 This is a guide to the reasoning, not a list of folders or every job. It explains why the experiments changed, what they taught us, and what is still unknown. The older [32-stage journal](../research-journey-20261019/journal/JOURNEY.md) and its [individual job index](../research-journey-20261019/journal/JOBS.md) contain the full retained history through 19 October and link the individual records. The sources linked here extend that story through 23 October. Start with the [glossary](GLOSSARY.md) when a term is unfamiliar, then use the [speaker notes](SPEAKER_NOTES.md) to practice explaining the decisions. Not every old conversation or discarded edit can be reconstructed; where evidence is thin, this account says so.
 
+Later supplement: [26 October: why 3k and 2.56k were different experiments, with recovery diagram](INCUMBENT_RECOVERY_20261026.md). This explains the runtime drift, corrected interpretation and the pending controlled tests; the dated narrative below remains historical.
+
 ## The route, in one picture
 
 ```mermaid
@@ -142,3 +144,7 @@ A small actual H200 run now confirms that native FP8 KV attention agrees with an
 ## 24 October: three controlled questions, five queued jobs
 
 The deterministic target now has a real accepted 1,600-token reference. The next speculative run compares with that actual reference. An independent BF16/FP8 KV pair measures performance, while a separate H100 experiment tests serial versus concurrent initialization. The expert-kernel oracle is being corrected from pinned source, with its old failures preserved. [Read the new stage and its limits](../research-journey-20261019/journal/entries/20261024-five-job-hypothesis-wave.md).
+
+### Cache capacity, speed and model partitions are different questions
+
+The 24 October cache comparison teaches why a smaller element format is not automatically faster serving: FP8 doubled token capacity, but good output throughput fell 3.52% at the same short N64 workload. Separately, a native expert-kernel test passed while real five-rank model startup failed at vocabulary partitioning. Attention heads, expert slots and the LM head each have their own geometry. The next native flag is a source-backed proposed repair, not a proven speed improvement. The [new illustrated journal entry](../research-journey-20261019/journal/entries/20261024-cache-loss-and-five-rank-repairs.md) records the controls, failed attempts, telemetry, units and decisions in presentation order.

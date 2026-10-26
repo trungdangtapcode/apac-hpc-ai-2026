@@ -1,0 +1,283 @@
+{
+  "scope": "Retrospective comparison of actual legacy full25487 versus modern short26083. Workload duration and runtime differ; observations are not a matched causal experiment.",
+  "results": [
+    {
+      "job": 25487,
+      "profiling_requests": 1901,
+      "first_request_start_ns": 1792695777142104479,
+      "last_request_start_ns": 1792695897078728151,
+      "observed_admission_span_seconds": 119.936623672,
+      "role_graph_logs": {
+        "prefill-0": {
+          "logged_graph_use_counts": {
+            "True": 462
+          },
+          "logged_batch_rows": 462,
+          "new_sequence_counts": {
+            "3": 424,
+            "4": 21,
+            "2": 12,
+            "1": 5
+          },
+          "log_offset_seconds": 28800,
+          "limits": "TP0 batch logging is sparse/implementation-dependent, whole-second timestamps; boundary seconds excluded. Counts are logs, not every kernel invocation or every request."
+        },
+        "prefill-1": {
+          "logged_graph_use_counts": {
+            "True": 470
+          },
+          "logged_batch_rows": 470,
+          "new_sequence_counts": {
+            "3": 357,
+            "4": 5,
+            "2": 96,
+            "1": 12
+          },
+          "log_offset_seconds": 28800,
+          "limits": "TP0 batch logging is sparse/implementation-dependent, whole-second timestamps; boundary seconds excluded. Counts are logs, not every kernel invocation or every request."
+        }
+      },
+      "telemetry_in_observed_admission_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 24,
+            "gpu_sample_count": 192,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 131.106
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.625,
+            "mean_vram_gib": 130.207
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 97.01,
+            "mean_vram_gib": 130.208
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.85,
+            "available_memory_TiB_at_start": 1826.029,
+            "total_memory_TiB": 2014.874
+          },
+          "g1": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.51,
+            "available_memory_TiB_at_start": 1857.31,
+            "total_memory_TiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 72
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 54.0,
+              "mean": 51.1667
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.1192
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 3.0
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 0.5833
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.02
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.5
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 2.0,
+              "mean": 0.2083
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0179
+            }
+          }
+        },
+        "all_role_gpu_samples": 384,
+        "all_role_mean_gpu_active_pct": 98.409,
+        "all_role_mean_vram_gib": 130.656,
+        "limits": "Samples are inside first-to-last profiling REQUEST START envelope. This excludes warmup and final drain but is not an exact AIPerf phase clock; host skew not calibrated. Gauge series remain rank-local. Samples do not prove causal bottlenecks."
+      }
+    },
+    {
+      "job": 26083,
+      "profiling_requests": 596,
+      "first_request_start_ns": 1792910527604246452,
+      "last_request_start_ns": 1792910567595480185,
+      "observed_admission_span_seconds": 39.991233733,
+      "role_graph_logs": {
+        "prefill-0": {
+          "logged_graph_use_counts": {
+            "False": 137
+          },
+          "logged_batch_rows": 137,
+          "new_sequence_counts": {
+            "1": 1,
+            "3": 130,
+            "4": 6
+          },
+          "log_offset_seconds": 28800,
+          "limits": "TP0 batch logging is sparse/implementation-dependent, whole-second timestamps; boundary seconds excluded. Counts are logs, not every kernel invocation or every request."
+        },
+        "prefill-1": {
+          "logged_graph_use_counts": {
+            "False": 169
+          },
+          "logged_batch_rows": 169,
+          "new_sequence_counts": {
+            "1": 51,
+            "3": 24,
+            "4": 1,
+            "2": 93
+          },
+          "log_offset_seconds": 28800,
+          "limits": "TP0 batch logging is sparse/implementation-dependent, whole-second timestamps; boundary seconds excluded. Counts are logs, not every kernel invocation or every request."
+        }
+      },
+      "telemetry_in_observed_admission_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 8,
+            "gpu_sample_count": 64,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 130.867
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 8,
+            "gpu_sample_count": 32,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.938,
+            "mean_vram_gib": 128.912
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 8,
+            "gpu_sample_count": 32,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 97.781,
+            "mean_vram_gib": 128.912
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 8,
+            "estimated_cpu_busy_pct": 12.91,
+            "available_memory_TiB_at_start": 1807.632,
+            "total_memory_TiB": 2014.874
+          },
+          "g1": {
+            "samples": 8,
+            "estimated_cpu_busy_pct": 14.68,
+            "available_memory_TiB_at_start": 1854.069,
+            "total_memory_TiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 24
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 8,
+              "max": 48.0,
+              "mean": 43.75
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 8,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 8,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 8,
+              "max": 3.0,
+              "mean": 3.0
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 8,
+              "max": 8.0,
+              "mean": 6.75
+            },
+            "sglang:token_usage": {
+              "samples": 8,
+              "max": 0.02,
+              "mean": 0.02
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 8,
+              "max": 4.0,
+              "mean": 2.0
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 8,
+              "max": 8.0,
+              "mean": 1.125
+            },
+            "sglang:token_usage": {
+              "samples": 8,
+              "max": 0.02,
+              "mean": 0.0138
+            }
+          }
+        },
+        "all_role_gpu_samples": 128,
+        "all_role_mean_gpu_active_pct": 98.68,
+        "all_role_mean_vram_gib": 129.89,
+        "limits": "Samples are inside first-to-last profiling REQUEST START envelope. This excludes warmup and final drain but is not an exact AIPerf phase clock; host skew not calibrated. Gauge series remain rank-local. Samples do not prove causal bottlenecks."
+      }
+    }
+  ],
+  "next": "Use submitted26313/26315/26317/26319 full controlled study before attributing the score gap."
+}
