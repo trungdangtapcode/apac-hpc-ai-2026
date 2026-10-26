@@ -338,3 +338,7 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: actual H100 reference and corrected equal-TP observer admissions](entries/20261026-h100-followups-225227-225228.md).
 
 - [26 October: full modern H200 control 26315, current baseline and observation limits](entries/20261026-s70-full-control-26315.md).
+
+- [26 October: Iris pair loss, retained H reference and fresh hierarchical controls](entries/20261026-hpc-pair-loss-and-controlled-orders.md).
+
+- [26 October: all-rank launcher evidence and the bounded syscall observer](entries/20261026-hpc-affinity-order-loss-and-syscall-observer.md).
