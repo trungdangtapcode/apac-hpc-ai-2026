@@ -1,0 +1,7 @@
+# Prepare an offline full-run reviewer before recovery results arrive
+
+A queued/running run must not become a passing result from exit status or a printed success message. The recovery reviewer requires terminal COMPLETED 0:0, no live allocation, sealed submitted-file hashes, raw AIPerf 4000/200/N64/seed 2026/full 60/120/30 input binding, full per-request denominator and joint SLA, zero errors/cancellations, response-level smoke no-regression and retrieval checks. Modern arms replay their frozen head gates. Legacy 26313 must match every retained 25487 operational file and actual ServerArgs except internal random server seed. It separately records transport/error/profile limits and request-admission-envelope telemetry.
+
+The audit adapter accepts only the two documented concurrency encodings: legacy [64] and modern 64, bound to the same exact expected input. It does not modify frozen job gates or permit a different workload. CPU replay against historical 25487 confirms 1901 request rows, 3044.637094 good output tokens/s, smoke 7/8 and retrieval 12/12. This is historical function validation, not an execution/result for 26313. The reviewer refuses an active run and cannot promote a new best automatically.
+
+Sources: qwen-experiments/h200-incumbent-recovery-20261026/review-full.py and reviewer-preflight.json. At this checkpoint legacy 26313 is still running; no result file for it has been produced.
