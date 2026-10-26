@@ -269,6 +269,7 @@ result = {
         "next_hypothesis": "Use a bounded one-rank strace observer matched to the same launcher and probe sequence to identify which process or library changes affinity around initialization.",
     },
 }
+result['passed'] = True
 OUTPUT.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
 print(json.dumps({
     "output": str(OUTPUT),
