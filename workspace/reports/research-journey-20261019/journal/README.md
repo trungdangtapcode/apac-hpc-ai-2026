@@ -320,3 +320,5 @@ Latest AI submission: [26 October: source-corrected component 26337 and running 
 Latest AI learning supplement: [26 October: actual graph-use evidence and explanation for the presenter](entries/20261026-actual-graph-use-and-learning-supplement.md).
 
 Latest AI review tooling: [26 October: prepare strict offline full recovery checks](entries/20261026-recovery-offline-reviewer-prepared.md).
+
+Latest AI runtime checkpoint: [26 October: running 26313 matches actual incumbent runtime](entries/20261026-legacy-26313-runtime-confirmed.md).
