@@ -1,0 +1,101 @@
+{
+  "reviewed_utc": "2026-10-26T14:30:33.638967+00:00",
+  "job": 26337,
+  "scheduler_accounting": "JobID|State|ExitCode|Elapsed|NodeList\n26337|COMPLETED|0:0|00:01:58|g[1,4]\n",
+  "rank_count": 16,
+  "distinct_h200_uuid_count": 16,
+  "runtime_identity": {
+    "nixl_api_path": "/usr/local/lib/python3.12/dist-packages/nixl_cu13/_api.py",
+    "nixl_api_sha256": "27c3ce3c4fe58480aa3bce5e5c158c7659821a3bf1e84680778645adfdaa1bea",
+    "nixl_bindings_path": "/usr/local/lib/python3.12/dist-packages/nixl_cu13/_bindings.cpython-312-x86_64-linux-gnu.so",
+    "nixl_bindings_sha256": "ffff36c4be1edceabb30988ff25581f7940ca5c6db3407200d66581c2564878c",
+    "nixl_version": "1.3.2",
+    "runtime_source_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "torch_file_sha256": "0387d8b811b289287479c8bfdf4e1dac3a71b246f938d82da1331cf2dc8bf001",
+    "torch_path": "/usr/local/lib/python3.12/dist-packages/torch/__init__.py",
+    "torch_version": "2.11.0+cu130"
+  },
+  "phase_results": [
+    {
+      "phase": "p0_only",
+      "write_handles": 8,
+      "write_bytes": 1540096,
+      "sender_ranks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "receiver_ranks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "verified_receiver_rank_count": 8
+    },
+    {
+      "phase": "p1_only",
+      "write_handles": 8,
+      "write_bytes": 1540096,
+      "sender_ranks": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "receiver_ranks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "verified_receiver_rank_count": 8
+    },
+    {
+      "phase": "both",
+      "write_handles": 16,
+      "write_bytes": 3080192,
+      "sender_ranks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "receiver_ranks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "verified_receiver_rank_count": 8
+    }
+  ],
+  "actual_log_error_scan": "All 16 retained rank logs show rank start, NIXL agent initialization, UCX backend and all three phase-ready markers; no error/traceback text. Three role logs only contain the verified mount marker; rank logs carry the runtime evidence.",
+  "source_mount": "Submitted payload verifies the exact read-only 912b7edb NIXL source. Each rank reports the same 912b7e runtime source hash and 27c3ce API hash.",
+  "scope_limits": [
+    "No model or SGLang bootstrap/room exchange",
+    "No TP collective or production KV layout/full-span transfer",
+    "No serving benchmark, output quality, accuracy or goodput",
+    "No continuous CPU/GPU/IB/resource sampling; peak allocated tensor bytes are not utilization",
+    "Native DONE handles were accompanied by full receiver-buffer and untouched-sentinel hashes; this is stronger than DONE alone but only for the small synthetic layout"
+  ],
+  "next_hypothesis": "The previous all-prefill-0 semantic failure is not explained by basic sixteen-agent UCX registration or this small two-peer routing pattern. If independently justified work remains after the four full-serving controls, derive one model-free SGLang-compatible metadata/room and actual production-pointer descriptor handoff probe focused on prefill-0 versus prefill-1, with strict exact source identity, actual one-request KV completion and bounded timeout. Do not launch the full model from this result.",
+  "components_only_gate": "PASS_COMPONENT_ONLY; not a production or competition result"
+}

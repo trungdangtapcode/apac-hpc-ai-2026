@@ -1,0 +1,72 @@
+{
+  "experiment": "s68r2-h200-nixl-four-role-probe",
+  "schema": "nixl-four-role-component-v1",
+  "platform": "H200",
+  "gpus": 16,
+  "nodes": 2,
+  "walltime_minutes": 5,
+  "rank_deadline_seconds": 260,
+  "roles": {
+    "prefill-0": {
+      "node": 0,
+      "ranks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "native_agent_threads": 8
+    },
+    "prefill-1": {
+      "node": 0,
+      "ranks": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "native_agent_threads": 8
+    },
+    "decode-0": {
+      "node": 1,
+      "ranks": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "native_agent_threads": 0
+    },
+    "decode-1": {
+      "node": 1,
+      "ranks": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "native_agent_threads": 0
+    }
+  },
+  "regions": 188,
+  "bytes_per_region": 4096,
+  "write_bytes_per_region": 1024,
+  "phases": [
+    "p0_only",
+    "p1_only",
+    "both"
+  ],
+  "expected_write_handles": 32,
+  "expected_write_bytes": 6160384,
+  "image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+  "base_helper_source": "nixl-peer-probe-20261021/probe.py",
+  "base_helper_sha256": "ecca5d8f5b746b0bcee0941dbcc9e1f1be0ab6fef44119f7f34b1bfb79f549e3",
+  "pbs_su": 0,
+  "ranked": false,
+  "accuracy": "NOT_EVALUATED",
+  "goodput": "NOT_MEASURED",
+  "model_loaded": false,
+  "failed_parent_job": 26308,
+  "prerequisite_fix": "Mount exact pinned native patched conn.py before peer helper source identity; no gate/API/hash/data algorithm changes."
+}

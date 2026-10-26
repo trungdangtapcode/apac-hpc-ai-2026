@@ -61,6 +61,12 @@ Observability unit correction: inherited offline helper divided host KiB by 1024
 
 ## Full graph/admission review and actual next jobs — 2026-10-26T14:33:12.134495+00:00
 
-All four arms pass full local gates: 26315 disabled/cap64=2807.325653; 26317 breakable/cap64=2829.604300; 26319 breakable/native=2827.996286; 26347 disabled/native=2802.498990 good tokens/s. Graph gains0.79–0.91% remain below prospective1% gate; native admission has negligible gain. No new-best or official accuracy claim. Close this tuning branch. Earlier pending snapshots are historical.
+All four arms pass full local gates: 26315 disabled/cap64=2807.325653; 26317 breakable/cap64=2829.604300; 26319 breakable/native=2827.996286; 26347 disabled/native=2802.498990 good tokens/s. Graph gains 0.79–0.91% remain below prospective 1% gate; native admission has negligible gain. No new-best or official accuracy claim. Close this tuning branch. Earlier pending snapshots are historical.
 
-Actual new Slurm jobs26436 N62 and26438 N66 (afterany26436) bracket full breakable/native N64 with only client load changed; both16 H200/two nodes/17-minute bounds. Previous short graph-disabled/cap64 sweep is a different runtime. Full local gates and >1% useful-gain condition remain; do not widen before actual review. [Plans and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md).
+Actual new Slurm jobs 26436 N62 and 26438 N66 (afterany 26436) bracket full breakable/native N64 with only client load changed; both 16 H200/two nodes/17-minute bounds. Previous short graph-disabled/cap64 sweep is a different runtime. Full local gates and >1% useful-gain condition remain; do not widen before actual review. [Plans and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md).
+
+## Reviewed full study and bounded transport result
+
+[Four full-arm review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-factorial-review-20261026/REVIEW.md): all pass local gates, graph gains +0.793590% / +0.909806%, native admission changes -0.171931% / -0.056828%. One ordered run per cell limits causality; close this subthreshold treatment without unchanged confirmation. Raw evidence is terminal-sealed.
+
+[26337 component review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26337-20261026/REVIEW.md): 16 distinct H200 UUIDs, native source/API pins, 32 small synthetic writes and all receiver buffers/sentinels pass. Total 6,160,384 bytes across three phases. No model, SGLang bootstrap, production KV or throughput evidence. Do not infer the earlier full-route failure is fixed or launch it unchanged.
