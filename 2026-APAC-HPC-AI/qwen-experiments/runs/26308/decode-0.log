@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/research/serving-tuning-11/s68-h200-nixl-four-role-probe/probe.py", line 152, in <module>
+    elif a.role:launch(a.role,a.art,a.exchange,a.deadline)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/research/serving-tuning-11/s68-h200-nixl-four-role-probe/probe.py", line 117, in launch
+    if time.time()>=deadline or any(p.poll() not in (None,0) for p in children):raise RuntimeError('role child failed or reached deadline; inspect per-rank logs')
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: role child failed or reached deadline; inspect per-rank logs
+srun: error: g4: task 0: Exited with exit code 1

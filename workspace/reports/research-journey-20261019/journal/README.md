@@ -310,3 +310,5 @@ Latest AI review: [26 October: routing/fusion losses and actual graph/admission 
 Latest AI controlled study: [26 October: recover the incumbent and isolate graph/admission effects](entries/20261026-incumbent-recovery-full-study.md).
 
 Latest AI submission: [26 October: full incumbent recovery 26313→26315→26317→26319](entries/20261026-incumbent-recovery-submitted.md).
+
+Latest AI prerequisite failure: [26 October: S68 source guard detects our missing mount](entries/20261026-s68-missing-native-mount.md).

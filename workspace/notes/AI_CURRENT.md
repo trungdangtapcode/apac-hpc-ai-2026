@@ -2,6 +2,10 @@
 
 Updated 2026-10-26 06:07 UTC after reviewing results and admitting 26308/26313/26315/26317/26319. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
+## New terminal prerequisite review — 26 October 08:03 UTC
+
+S68 component 26308 FAILED 1:0 after 1:54. All 16 ranks rejected native source hash mismatch before agent creation/VRAM registration/transfer; our job omitted the required patched-source mount. This is a packaging error, not measured transport failure. The API source pin independently matches. Prepare one frozen S68r2 prerequisite repair retaining all pins/gates; no full-model topology rerun follows from it. [Evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26308-20261026/REVIEW.md). Actual 26313 legacy full replay started on g1/g4 at the fresh query; 26315/26317/26319 remain pending. No new inference score yet.
+
 ## Latest result and configuration correction — 26 October
 
 26083 fresh round-robin control passes short N64 at 2558.14 good output tokens/s, 94.63% SLA. Power-of-two 26085 fails the real SLA (89.12%, 2337.35 tokens/s). Prefill fusion 26089 and decode fusion 26091 pass local gates but gain only 0.484%/0.273%, below 3%; close all three intervention branches. All have zero profiling errors/cancellations, smoke 7/8, retrieval 12/12. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26083-26091-20261026/REVIEW.md).
