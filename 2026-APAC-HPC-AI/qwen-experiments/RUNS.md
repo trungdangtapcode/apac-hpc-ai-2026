@@ -2394,3 +2394,7 @@ S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083.
 ## 26 October: five active slots include full incumbent recovery
 
 26308 NIXL component; 26313 exact legacy 3k replay; 26315 full modern control; 26317 graph-enabled; 26319 graph-enabled/native admission. Last three form afterany chain from 26313. Each serving run 16 H200/two nodes/17-minute cap; no PBS SU. All pending at receipt, no score. [Admission](h200-incumbent-recovery-20261026/submission-receipts.json).
+
+## 26 October 08:05 UTC: corrected NIXL component 26337
+
+26308 failed before NIXL agent/registration/transfer due missing strict-source mount; correct derivative 26337 submitted with unchanged pins/data algorithm. 16 H200/two nodes/five-minute cap; immediate PENDING Resources. 26313 legacy recovery running; total five own jobs. [Failure](research-review-26308-20261026/REVIEW.md), [receipt](h200-s62-bootstrap-diagnosis-20261025/S68R2-SUBMISSION.json).

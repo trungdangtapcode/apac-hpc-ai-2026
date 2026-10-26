@@ -314,3 +314,5 @@ Latest AI submission: [26 October: full incumbent recovery 26313→26315→26317
 Latest AI prerequisite failure: [26 October: S68 source guard detects our missing mount](entries/20261026-s68-missing-native-mount.md).
 
 Latest AI prerequisite repair: [26 October: pin and mount the exact native source in S68r2](entries/20261026-s68r2-source-mount-repair.md).
+
+Latest AI submission: [26 October: source-corrected component 26337 and running legacy recovery](entries/20261026-s68r2-submitted-26337.md).
