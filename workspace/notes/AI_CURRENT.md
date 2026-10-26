@@ -12,6 +12,10 @@ Important correction: the retained 3044.400475 full N64 mean comes from 60/120/3
 
 Four prior serving jobs are terminal. At 26 October 06:00 UTC, the own queue was empty; submitted previously prepared S68 as 26308, immediate PENDING (Resources), 16 H200/two nodes/five-minute cap/no PBS SU. It is a no-model sixteen-agent registration/fanout component, not a model score or full-topology retry. [Definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-s62-bootstrap-diagnosis-20261025/S68-SUBMISSION.json). Refresh live state before further admission.
 
+## Prepared full incumbent recovery study
+
+S69 exact legacy operational replay plus S70 modern full graph-disabled/cap 64, S71 full breakable/cap 64 and S72 full breakable/native-cap are frozen and CPU-checked. No new serving job IDs at this preparation checkpoint. All use full 60/120/30 and N64. S70/S71 isolate graph; S71/S72 isolate admission; S69 checks historical reproducibility but cross-harness attribution remains limited. Require strict local gates and >1% useful paired gain before independent confirmation, no official accuracy claim. [Study](../reports/research-journey-20261019/journal/entries/20261026-incumbent-recovery-full-study.md).
+
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 
 The N66/N68/N70 profiles now pass independent raw AIPerf/input/response checks, but their good-output rates 2533.33/2465.71/2497.14 tokens/s are 8.12%/10.58%/9.44% below matched short N64 control 25947 (2757.36). N72 scores 2269.48 with 82.33% joint SLA and fails the 90% floor. All four scheduler jobs remain `FAILED 1:0` because our head checker still hardcoded N64 and `screen/n64`; preserve the correct Slurm state and the independently verified profiles separately. All had zero request errors/cancellations, output 7/8 and retrieval 12/12. Close the concurrency-increase branch. Full table and observability limits are in [review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26064-26068-20261025/REVIEW.md) and [journal](../reports/research-journey-20261019/journal/entries/20261025-s63-load-results-and-validator-correction.md).

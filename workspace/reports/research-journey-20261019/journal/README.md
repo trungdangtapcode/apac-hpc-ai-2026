@@ -306,3 +306,5 @@ Latest AI failure review: [25 October: S62r4 times out with two routes; close fu
 Latest AI component hypothesis: [25 October: source diagnosis and bounded NIXL fanout probe](entries/20261025-s62-source-diagnosis-and-fanout-plan.md).
 
 Latest AI review: [26 October: routing/fusion losses and actual graph/admission drift from 3k](entries/20261026-routing-fusion-results-and-incumbent-drift.md).
+
+Latest AI controlled study: [26 October: recover the incumbent and isolate graph/admission effects](entries/20261026-incumbent-recovery-full-study.md).
