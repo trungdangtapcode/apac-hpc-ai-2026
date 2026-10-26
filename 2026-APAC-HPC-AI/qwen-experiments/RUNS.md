@@ -2429,3 +2429,7 @@ COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profi
 ## H100 EAGLE full N24 submitted 2026-10-26T14:50:26.434276+00:00
 
 225306.pbs111 is RUNNING on a2ap-dgx013, eight H100/one node/30-minute maximum, 512 SU reserved. Same-node P4/D4 EAGLE full N24 feasibility with native semantic/observer checks before scoring and local output gates after scoring. No score yet; no claimed 16-GPU scaling or official accuracy. [Admission review](h100-equal-tp-bench-admission-20261026/REVIEW.md).
+
+## Full chunk followups26473/26475
+
+Submitted chunk6144/4096 under full native N64,16H200/two nodes/17-minute bound, afterany chain. [Hypothesis, gates and exact receipts](h200-prefill-chunk-full-20261026/ADMISSION.md). No result yet.

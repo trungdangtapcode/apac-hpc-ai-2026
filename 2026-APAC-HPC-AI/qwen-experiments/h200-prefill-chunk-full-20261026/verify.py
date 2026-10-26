@@ -77,8 +77,10 @@ def verify_arm(name: str, chunk: int) -> dict:
             path = fixture / f"{role}.log"
             text = path.read_text(errors="replace")
             old = "chunked_prefill_size=8192"
-            assert text.count(old) == 1
-            path.write_text(text.replace(old, f"chunked_prefill_size={chunk}", 1))
+            records=[line for line in text.splitlines() if "server_args=ServerArgs(" in line]
+            assert len(records)==1 and old in records[0]
+            updated=records[0].replace(old, f"chunked_prefill_size={chunk}")
+            path.write_text(text.replace(records[0],updated,1))
         accepted = run_checker(bundle, fixture)
         assert accepted.returncode == 0, accepted.stderr[-2000:]
         parsed = json.loads(accepted.stdout)
