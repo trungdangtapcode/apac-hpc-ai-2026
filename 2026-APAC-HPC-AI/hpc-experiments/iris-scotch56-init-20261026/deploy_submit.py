@@ -51,28 +51,41 @@ result={'root':str(root),'kit':str(kit),'files':EXPECTED,'state':'DEPLOYED_NOT_S
     save(E/'deployment.json',result,exclusive=True)
     print(json.dumps({'kit':result['kit'],'files':len(members)}))
 
-def submit(members):
+def submit(members,resume=False):
     assert json.loads((C/'cut-review.json').read_text())['passed']
     review=json.loads((E/'ROOT_REVIEW.json').read_text());assert review['passed'] and review['payload_sha256']==members
     deployment=json.loads((E/'deployment.json').read_text());assert deployment['files']==members
     maximum=56*20/60;intent=E/'submission-intent.json'
     with (C/'budget.lock').open('a') as lock:
-        fcntl.flock(lock,fcntl.LOCK_EX);assert not intent.exists(),'Inspect existing intent; never retry blindly'
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        if not resume:assert not intent.exists(),'Inspect existing intent; never retry blindly'
+        else:
+            proof=json.loads((E/'preflight-reconciliation.json').read_text())
+            assert proof['remote_intent_exists'] is False and proof['remote_receipt_exists'] is False
+            assert proof['root']==deployment['root'] and proof['failed_before_sbatch'] is True
         budget=json.loads((C/'budget.json').read_text())
-        assert budget['consumed_planning_allowance_allocated_CPU_hours']+budget['reserved_maximum_allocated_CPU_hours']+maximum<=budget['branch_planning_ceiling_allocated_CPU_hours']
+        assert budget['consumed_planning_allowance_allocated_CPU_hours']+budget['reserved_maximum_allocated_CPU_hours']+(0 if resume else maximum)<=budget['branch_planning_ceiling_allocated_CPU_hours']
         preflight=run_json("""import subprocess,socket
 result={'host':socket.gethostname(),'queue':subprocess.check_output(['squeue','-u','rdmaworkshop30','-h','-o','%i|%j|%T'],universal_newlines=True)}
 """,timeout=55)
         assert not any('|tu-' in line for line in preflight['queue'].splitlines()),preflight
-        record={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'state':'RESERVED_SUBMISSION_UNCERTAIN','root':deployment['root'],'maximum_allocated_CPU_hours':maximum,'preflight':preflight,'stage':'mandatory_scotch56_initialization'}
-        save(intent,record,exclusive=True);budget['reserved_maximum_allocated_CPU_hours']+=maximum;budget['jobs'].append(record);save(C/'budget.json',budget)
+        if resume:
+            prior=json.loads(intent.read_text())
+            matches=[j for j in budget['jobs'] if j.get('utc')==prior['utc'] and j.get('stage')==prior['stage']]
+            assert len(matches)==1 and matches[0]['state']=='RESERVED_SUBMISSION_UNCERTAIN'
+            record=matches[0];assert record['maximum_allocated_CPU_hours']==maximum
+            record['resumed_after_reviewed_preflight_assertion']=True
+        else:
+            record={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'state':'RESERVED_SUBMISSION_UNCERTAIN','root':deployment['root'],'maximum_allocated_CPU_hours':maximum,'preflight':preflight,'stage':'mandatory_scotch56_initialization'}
+            save(intent,record,exclusive=True);budget['reserved_maximum_allocated_CPU_hours']+=maximum;budget['jobs'].append(record);save(C/'budget.json',budget)
         body='ROOT='+repr(deployment['root'])+'\nEXPECTED='+repr(members)+'''\nimport pathlib,subprocess,hashlib,json,datetime
 root=pathlib.Path(ROOT);kit=root/'init-kit'
 queue=subprocess.check_output(['squeue','-u','rdmaworkshop30','-h','-o','%i|%j|%T'],universal_newlines=True)
 assert not any('|tu-' in line for line in queue.splitlines()),queue
 for name,digest in EXPECTED.items():assert hashlib.sha256((kit/name).read_bytes()).hexdigest()==digest,name
 accounting=subprocess.check_output(['sacct','-j','2294040','-n','-P','-o','JobIDRaw,State,ExitCode,AllocCPUS'],universal_newlines=True)
-assert '2294040|COMPLETED|0:0|56|' in accounting
+rows=[line.strip().split('|') for line in accounting.splitlines() if line.strip()]
+assert [row for row in rows if row[0]=='2294040']==[['2294040','COMPLETED','0:0','56']]
 case=root/'artifacts/ready-N56-scotch'
 for marker in ['READY','INIT_COMPLETE','INIT_COMPLETE.json','.INIT_IN_PROGRESS','.INIT_STARTED']:assert not (case/marker).exists(),marker
 with (root/'init-submission-intent.json').open('x') as target:json.dump({'state':'CALLING_SBATCH','queue_before':queue,'cut_accounting':accounting},target)
@@ -87,7 +100,7 @@ result={'utc':datetime.datetime.utcnow().isoformat()+'Z','returncode':p.returnco
         print(json.dumps({'job_id':job,'maximum_allocated_CPU_hours':maximum,'root':deployment['root']}))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['seal','deploy','submit']);args=parser.parse_args();members=seal()
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['seal','deploy','submit','resume-submit']);args=parser.parse_args();members=seal()
     if args.action=='deploy':deploy(members)
-    elif args.action=='submit':submit(members)
+    elif args.action in ('submit','resume-submit'):submit(members,resume=args.action=='resume-submit')
     else:print(json.dumps({'files':len(members),'sealed':True}))
