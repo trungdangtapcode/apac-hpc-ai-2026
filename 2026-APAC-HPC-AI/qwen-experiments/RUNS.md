@@ -2413,3 +2413,7 @@ Graph-disabled/native-admission completes four full modern cells; afterany:26319
 - 225228.pbs111: equal-TP EAGLE observer correction, 8 H100/20-minute bound, max 341.333333 SU; H/afterany 225227. No result.
 
 [Question, control, checks and receipt](h100-followups-20261026/REVIEW.md). Old unreconciled maxima retained; no official accuracy or new score claimed.
+
+## H200 full modern control 26315 reviewed on 26 October
+
+COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profiling requests, zero errors/cancellations, smoke 7/8, retrieval 12/12. No improvement or official accuracy certification. [Full interpretation and next decision](research-review-26315-20261026/REVIEW.md).

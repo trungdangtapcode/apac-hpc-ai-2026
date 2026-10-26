@@ -57,6 +57,11 @@ def review(job):
  prior=module(Q/'research-review-26064-26068-20261025/audit-results.py','telemetry_helper')
  lo=min(r['metadata']['request_start_ns'] for r in raw_requests);hi=max(r['metadata']['request_start_ns'] for r in raw_requests)
  telemetry=prior.telemetry(a,lo,hi);telemetry['limits']='Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.'
+ # The historical helper divided KiB by 1024**2: these values are GiB, not TiB.
+ for host in telemetry['hosts'].values():
+  for key in ('available_memory_TiB_at_start','total_memory_TiB'):
+   if key in host:host[key.replace('TiB','GiB')]=host.pop(key)
+ telemetry['host_memory_unit_correction']='Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected.'
  result={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'job':job,'state':'LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY','scheduler':status[0],'legacy':legacy,'raw_fixed_workload':profile,'smoke':smoke,'retrieval':retrieval,'runtime':runtime,'legacy_operational_files_identical':identical,'ttft_breaches':ttft_bad,'itl_breaches':itl_bad,'summary':next(r for r in json.loads((a/'summary.json').read_text()) if r['phase']=='confirm' and r['concurrency']==64),'telemetry_in_admission_envelope':telemetry,'official_accuracy':'UNKNOWN','new_best_or_promotion':False,'limits':'Terminal gate review is one run. No automatic score promotion or causal attribution. Request IDs not retained as actual generated model token IDs.'}
  return result
 

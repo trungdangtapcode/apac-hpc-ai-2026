@@ -336,3 +336,5 @@ Latest AI access check: [26 October: no local VPN path; H100 queue/credit remain
 Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered terminal evidence](entries/20261026-h100-restored-budget-and-recovered-results.md).
 
 - [26 October: actual H100 reference and corrected equal-TP observer admissions](entries/20261026-h100-followups-225227-225228.md).
+
+- [26 October: full modern H200 control 26315, current baseline and observation limits](entries/20261026-s70-full-control-26315.md).
