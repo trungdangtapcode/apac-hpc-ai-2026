@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-26T06:06:41.317839+00:00",
+  "queue_before": "26308 PENDING ap42-s68-nixl-fanout (Priority)\n",
+  "gpus_per_job": 16,
+  "max_minutes_per_job": 17,
+  "pbs_su": 0,
+  "jobs": [
+    {
+      "bundle": "s69-h200-legacy-n64-replay",
+      "manifest_sha256": "5093b87c2c31d7c59c7b3a119cb3e6becb18fc15e291049aee3f977fb000c22d",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26312 to start at 2026-10-26T08:27:41 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [],
+      "submit_returncode": 0,
+      "submit_stdout": "26313\n",
+      "submit_stderr": "",
+      "job": "26313",
+      "submitted_utc": "2026-10-26T06:06:41.362225+00:00",
+      "scontrol": "JobId=26313 JobName=ap42-s69-legacy-n64\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=(null)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-26T06:06:41 EligibleTime=2026-10-26T06:06:41\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-26T06:06:41 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:4164207\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s69-h200-legacy-n64-replay/job.sbatch\n   SubmitLine=sbatch --parsable /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s69-h200-legacy-n64-replay/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26313.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26313.out\n   TresPerNode=gres/gpu:8\n\n"
+    },
+    {
+      "bundle": "s70-h200-full-pgraph-disabled-cap64",
+      "manifest_sha256": "879ad0d2db60648d2a647ca6ed5898dd0464ff86c1e5a73a308f52d710f8387b",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26314 to start at 2026-10-26T08:44:41 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26313"
+      ],
+      "submit_returncode": 0,
+      "submit_stdout": "26315\n",
+      "submit_stderr": "",
+      "job": "26315",
+      "submitted_utc": "2026-10-26T06:06:41.431850+00:00",
+      "scontrol": "JobId=26315 JobName=ap42-s70-full-dis\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=afterany:26313(unfulfilled)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-26T06:06:41 EligibleTime=Unknown\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-26T06:06:41 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:4164207\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s70-h200-full-pgraph-disabled-cap64/job.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterany:26313 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s70-h200-full-pgraph-disabled-cap64/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26315.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26315.out\n   TresPerNode=gres/gpu:8\n\n"
+    },
+    {
+      "bundle": "s71-h200-full-pgraph-breakable-cap64",
+      "manifest_sha256": "e0d62d43630a64b0780ef5392d093d1d58c17f99aea992e264fe457fb4995268",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26316 to start at 2026-10-26T09:01:41 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26315"
+      ],
+      "submit_returncode": 0,
+      "submit_stdout": "26317\n",
+      "submit_stderr": "",
+      "job": "26317",
+      "submitted_utc": "2026-10-26T06:06:41.493572+00:00",
+      "scontrol": "JobId=26317 JobName=ap42-s71-full-bre\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=afterany:26315(unfulfilled)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-26T06:06:41 EligibleTime=Unknown\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-26T06:06:41 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:4164207\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s71-h200-full-pgraph-breakable-cap64/job.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterany:26315 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s71-h200-full-pgraph-breakable-cap64/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26317.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26317.out\n   TresPerNode=gres/gpu:8\n\n"
+    },
+    {
+      "bundle": "s72-h200-full-pgraph-breakable-capnative",
+      "manifest_sha256": "5c7223873572d48c833d065ff1cecac50e9d6389dd7aa9554cb6597e4266571c",
+      "test_returncode": 0,
+      "test_stdout": "",
+      "test_stderr": "sbatch: Job 26318 to start at 2026-10-26T09:18:41 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26317"
+      ],
+      "submit_returncode": 0,
+      "submit_stdout": "26319\n",
+      "submit_stderr": "",
+      "job": "26319",
+      "submitted_utc": "2026-10-26T06:06:41.557296+00:00",
+      "scontrol": "JobId=26319 JobName=ap42-s72-full-bre\n   UserId=apacsc42(3042) GroupId=apacsc42(3042) MCS_label=N/A\n   Priority=754 Nice=0 Account=hpcai QOS=normal\n   JobState=PENDING Reason=Resources Dependency=afterany:26317(unfulfilled)\n   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:17:00 TimeMin=N/A\n   SubmitTime=2026-10-26T06:06:41 EligibleTime=Unknown\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-26T06:06:41 Scheduler=Main\n   Partition=hpcai AllocNode:Sid=login:4164207\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=2-2 NumCPUs=2 NumTasks=2 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=2,mem=4126000M,node=2,billing=2,gres/gpu=16\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=NO Exclusive=NODE Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s72-h200-full-pgraph-breakable-capnative/job.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterany:26317 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-11/s72-h200-full-pgraph-breakable-capnative/job.sbatch\n   WorkDir=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments\n   StdErr=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26319.err\n   StdIn=/dev/null\n   StdOut=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/26319.out\n   TresPerNode=gres/gpu:8\n\n"
+    }
+  ],
+  "queue_after": "       JOBID                     NAME      STATE       TIME NODE NODELIST(REASON)\n       26319        ap42-s72-full-bre    PENDING       0:00    2 (Resources)\n       26317        ap42-s71-full-bre    PENDING       0:00    2 (Resources)\n       26315        ap42-s70-full-dis    PENDING       0:00    2 (Resources)\n       26313      ap42-s69-legacy-n64    PENDING       0:00    2 (Resources)\n       26308     ap42-s68-nixl-fanout    PENDING       0:00    2 (Priority)\n"
+}

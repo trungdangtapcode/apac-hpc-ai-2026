@@ -2390,3 +2390,7 @@ S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083.
 ## 26 October: review routing/fusion and submit component 26308
 
 26083 control 2558.14; 26085 actual SLA failure; 26089/26091 gains 0.484%/0.273% miss 3% gate. Runtime drift from accepted 3k includes prefill graphs and admission caps, not only benchmark duration. [Review](research-review-26083-26091-20261026/REVIEW.md). Separate no-model S68 definitely submitted 26308.
+
+## 26 October: five active slots include full incumbent recovery
+
+26308 NIXL component; 26313 exact legacy 3k replay; 26315 full modern control; 26317 graph-enabled; 26319 graph-enabled/native admission. Last three form afterany chain from 26313. Each serving run 16 H200/two nodes/17-minute cap; no PBS SU. All pending at receipt, no score. [Admission](h200-incumbent-recovery-20261026/submission-receipts.json).

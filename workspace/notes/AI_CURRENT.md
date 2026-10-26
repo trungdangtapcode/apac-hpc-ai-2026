@@ -1,6 +1,6 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-26 UTC after terminal routing/fusion review and S68 admission. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-26 06:07 UTC after reviewing results and admitting 26308/26313/26315/26317/26319. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
 ## Latest result and configuration correction — 26 October
 
@@ -12,9 +12,9 @@ Important correction: the retained 3044.400475 full N64 mean comes from 60/120/3
 
 Four prior serving jobs are terminal. At 26 October 06:00 UTC, the own queue was empty; submitted previously prepared S68 as 26308, immediate PENDING (Resources), 16 H200/two nodes/five-minute cap/no PBS SU. It is a no-model sixteen-agent registration/fanout component, not a model score or full-topology retry. [Definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-s62-bootstrap-diagnosis-20261025/S68-SUBMISSION.json). Refresh live state before further admission.
 
-## Prepared full incumbent recovery study
+## Full incumbent recovery study: definite submissions
 
-S69 exact legacy operational replay plus S70 modern full graph-disabled/cap 64, S71 full breakable/cap 64 and S72 full breakable/native-cap are frozen and CPU-checked. No new serving job IDs at this preparation checkpoint. All use full 60/120/30 and N64. S70/S71 isolate graph; S71/S72 isolate admission; S69 checks historical reproducibility but cross-harness attribution remains limited. Require strict local gates and >1% useful paired gain before independent confirmation, no official accuracy claim. [Study](../reports/research-journey-20261019/journal/entries/20261026-incumbent-recovery-full-study.md).
+S69 exact legacy operational replay plus S70 modern full graph-disabled/cap 64, S71 full breakable/cap 64 and S72 full breakable/native-cap are frozen and CPU-checked. Submitted 26313 (S69) → 26315(S70) → 26317(S71) → 26319(S72) via afterany. With component 26308, the own queue has five jobs, all PENDING at 06:07 UTC. Preserve cap 5 and positions. [Definite receipts](../reports/research-journey-20261019/journal/entries/20261026-incumbent-recovery-submitted.md). All use full 60/120/30 and N64. S70/S71 isolate graph; S71/S72 isolate admission; S69 checks historical reproducibility but cross-harness attribution remains limited. Require strict local gates and >1% useful paired gain before independent confirmation, no official accuracy claim. [Study](../reports/research-journey-20261019/journal/entries/20261026-incumbent-recovery-full-study.md).
 
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 

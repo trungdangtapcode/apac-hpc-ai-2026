@@ -308,3 +308,5 @@ Latest AI component hypothesis: [25 October: source diagnosis and bounded NIXL f
 Latest AI review: [26 October: routing/fusion losses and actual graph/admission drift from 3k](entries/20261026-routing-fusion-results-and-incumbent-drift.md).
 
 Latest AI controlled study: [26 October: recover the incumbent and isolate graph/admission effects](entries/20261026-incumbent-recovery-full-study.md).
+
+Latest AI submission: [26 October: full incumbent recovery 26313→26315→26317→26319](entries/20261026-incumbent-recovery-submitted.md).
