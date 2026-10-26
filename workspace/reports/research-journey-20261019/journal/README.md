@@ -342,3 +342,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: Iris pair loss, retained H reference and fresh hierarchical controls](entries/20261026-hpc-pair-loss-and-controlled-orders.md).
 
 - [26 October: all-rank launcher evidence and the bounded syscall observer](entries/20261026-hpc-affinity-order-loss-and-syscall-observer.md).
+
+- [26 October: four fresh cut results and separate xyz/zyx initialization](entries/20261026-hpc-order-cut-result-and-initialization.md).
