@@ -1,9 +1,5 @@
-# Iris Scotch cut status
+# Iris Scotch56 status
 
-Job **2294040** was admitted on 26 October 2026 and was RUNNING on iris005 at 2026-10-26T06:05:36.213683Z. It requests one exclusive 56-CPU node for at most 40 minutes (37.333333 allocated CPU-hours maximum). This is mesh decomposition only; no new solver timing or speedup exists yet.
+**2294040: COMPLETED 0:0; native cut review passed.** One exclusive 56-CPU node, 267 seconds, 56 partitions and 65,334,765 cells. Serial mesh identity and source seals pass; 336 restored initial fields are present. No solver has run on this new Scotch partition yet.
 
-The full eight-member serial mesh SHA-256 check passed before decomposition, and the frozen source check passed. Hardware metadata was collected. Native decomposition output and peak process memory are pending. The site SU charging rate is not exposed; this reservation is separate from NSCC project 59000042.
-
-Review the cut and its restored zero-time fields before admitting initialization. Preserve any failure and every existing artifact. The older Iris hierarchical mean is 21.9653538363 seconds/step; it is a dated baseline, not a matched speedup control.
-
-See deployment.json, submission-intent.json, submission-receipt.json, budget.json, and status-20261026.json for exact paths and observations.
+[Results and next decision](RESULTS.md), [machine-readable replay](cut-review.json), [original collection](completed-2294040.json). The older RUNNING snapshots are historical. Initialization is being prepared in a separate derived kit.
