@@ -1,7 +1,5 @@
-# Iris matched pair submitted and running
+# Iris pair status
 
-**2294047** was submitted with a definite receipt and was RUNNING on iris009 at 26 October 08:57:50 UTC. It runs hierarchical then Scotch, 150 time steps each, in one exclusive 56-CPU allocation. Maximum 2 hours 30 minutes / 140 allocated CPU-hours reserved under the Iris branch envelope. No Iris SU rate is inferred.
+**2294047: FAILED 124:0.** H completed 150 steps; S stopped during step 143 at its per-arm timeout. The complete pair is invalid. On equal completed intervals, S took 24.06% longer. Close this unchanged S branch.
 
-Both 41-pin source checks passed. The H arm's 1,040 regular inputs and canonical serial-mesh symlink passed full copy/hash/inode validation, and the startup probe verified exactly 56 ranks. H solver measurement has started; the S arm is pending within the same job. No complete pair or improvement exists yet.
-
-See PLAN.md, ROOT_REVIEW.json, submission-receipt.json and live-status.json. Preserve the queue position and original initialized sources. A single H-then-S pair cannot separate ordering and thermal effects.
+[Full failure review and retained H reference](completed-2294047/RESULTS.md). All earlier RUNNING snapshots are historical. A fresh xyz control and three hierarchical split orders are prepared in ../iris-hierarchical-order56-r2-20261026/.

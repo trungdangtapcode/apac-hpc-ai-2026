@@ -14,3 +14,7 @@ A processor face is a mesh face on a boundary between MPI partitions. Fewer such
 The hypothesis is that lower interface work outweighs the extra neighbor count and roughly 1% worst cell imbalance. It remains a hypothesis until a controlled solver comparison completes. Neither a 21.97% speedup nor a quality improvement follows from these static counts. Complete the mandatory initialization first.
 
 Replay with `python3 compare-partitions.py`; exact log hashes and counts are in partition-comparison.json. The parser distinguishes indented per-rank face counts from the unindented global summary, and requires their sum to equal twice the unique interface count. An initial whitespace pattern also consumed blank newlines and included the summary; the consistency assertion rejected that local parser error before reporting a result.
+
+## Historical mesh identity limit and later correction
+
+The old H cut used the same intended mesh path and cell count, but a complete serial-mesh checksum was not retained at its 21 October creation. The original phrase “same mesh” is therefore an intended-provenance statement, not an independently verified historical byte identity. New canonical checks prove the current S input, not past group-file contents. The next order screen includes a fresh xyz control to close this gap. Later pair 2294047 also failed before S completed, and its equal completed prefix showed S taking 24.06% longer. Static interface counts did not establish solver speedup.
