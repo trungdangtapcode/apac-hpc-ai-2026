@@ -312,3 +312,5 @@ Latest AI controlled study: [26 October: recover the incumbent and isolate graph
 Latest AI submission: [26 October: full incumbent recovery 26313→26315→26317→26319](entries/20261026-incumbent-recovery-submitted.md).
 
 Latest AI prerequisite failure: [26 October: S68 source guard detects our missing mount](entries/20261026-s68-missing-native-mount.md).
+
+Latest AI prerequisite repair: [26 October: pin and mount the exact native source in S68r2](entries/20261026-s68r2-source-mount-repair.md).

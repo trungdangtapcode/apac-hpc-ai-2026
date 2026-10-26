@@ -1,0 +1,9 @@
+# S68r2: correct the native source mount before another allocation
+
+Question: can the already prepared sixteen-agent NIXL component get past its genuine source identity prerequisite? Parent 26308 did not create NIXL agents because the image's original conn.py (28da79…) differs from its helper's required patched 912b7e. This is a packaging defect, not measured network/VRAM transfer behavior.
+
+The derivative mounts the exact retained 912b7e source read-only at the native runtime path and verifies that effective file before launching child ranks. All original source/API pins remain; probe.py and base-peer.py are byte-identical. Correct selected-file image extraction proves native nixl_cu13/_api.py SHA 27c3ce matches the existing helper. CPU source/mount checks and byte-result fixture gates pass; wrong GPU/peer/hash/missing-rank fixture cases still fail. None establishes actual new GPU/native execution.
+
+One prerequisite-corrected attempt remains bounded to 16 H200/two nodes/five minutes, no PBS SU; four existing full-recovery serving jobs retain their positions. This is a reviewed revision to the component's one-attempt plan after a pre-agent identity failure, not an unreported repeat or gate relaxation. Require exact 32 WRITE handles, sixteen distinct actual GPU UUIDs and all byte/sentinel hashes before a component pass. No serving performance/accuracy or full-model topology repair follows from a component pass. Stop and inspect after this derivative.
+
+Sources: qwen-experiments/serving-tuning-11/s68r2-h200-nixl-four-role-probe/PARENT_BUNDLE.json, MOUNT-VERIFICATION.json, CPU-VERIFICATION.json, PLAN.md; derivation h200-s62-bootstrap-diagnosis-20261025/derive-r2.py; parent failure research-review-26308-20261026/REVIEW.md. At this preparation checkpoint S68r2 is not submitted.

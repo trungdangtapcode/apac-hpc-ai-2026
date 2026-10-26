@@ -4,7 +4,7 @@ Updated 2026-10-26 06:07 UTC after reviewing results and admitting 26308/26313/2
 
 ## New terminal prerequisite review — 26 October 08:03 UTC
 
-S68 component 26308 FAILED 1:0 after 1:54. All 16 ranks rejected native source hash mismatch before agent creation/VRAM registration/transfer; our job omitted the required patched-source mount. This is a packaging error, not measured transport failure. The API source pin independently matches. Prepare one frozen S68r2 prerequisite repair retaining all pins/gates; no full-model topology rerun follows from it. [Evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26308-20261026/REVIEW.md). Actual 26313 legacy full replay started on g1/g4 at the fresh query; 26315/26317/26319 remain pending. No new inference score yet.
+S68 component 26308 FAILED 1:0 after 1:54. All 16 ranks rejected native source hash mismatch before agent creation/VRAM registration/transfer; our job omitted the required patched-source mount. This is a packaging error, not measured transport failure. The API source pin independently matches. S68r2 is frozen and CPU-checked with the exact native source mount, unchanged probe/helper bytes and verified API pin. Not submitted at this preparation checkpoint; no full-model topology rerun follows from it. [Evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26308-20261026/REVIEW.md). Actual 26313 legacy full replay started on g1/g4 at the fresh query; 26315/26317/26319 remain pending. No new inference score yet.
 
 ## Latest result and configuration correction — 26 October
 
