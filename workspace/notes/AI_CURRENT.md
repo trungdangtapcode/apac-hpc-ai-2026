@@ -1,20 +1,16 @@
 # Current AI / Qwen research handoff
 
-Updated 2026-10-25 06:20 UTC after S62r4 terminal review; routing/fusion jobs remain queued. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
+Updated 2026-10-26 UTC after terminal routing/fusion review and S68 admission. This GPU fork (`01a166eb-33cb-7ce0-9699-ec65de26689a`) continues the AI parent `01a15dd3-3094-7712-a991-8ce55b15cbfe`. It owns AI/Qwen only. The separate worker owns HPC/OpenFOAM. English artifacts, Vietnamese chat. No background Codex, schedules or automatic notification.
 
-## Latest terminal review: S62r4 stops after partial route success
+## Latest result and configuration correction — 26 October
 
-Job 26081 FAILED 1:0 after 8:59 on g1/g4. All four workers/runtime and 32 KV records passed; the 180-second warmup produced two independently replayed semantic responses (prefill-1 to both decoders, 8 tokens each), while both prefill-0 routes remained incomplete. No AIPerf export or scored metric exists. This is a pre-scoring route-initialization failure, not a measured throughput/accuracy loss. Close further full-topology retries as planned; inspect existing transport evidence before another scoped diagnostic. [Review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26081-20261025/REVIEW.md).
+26083 fresh round-robin control passes short N64 at 2558.14 good output tokens/s, 94.63% SLA. Power-of-two 26085 fails the real SLA (89.12%, 2337.35 tokens/s). Prefill fusion 26089 and decode fusion 26091 pass local gates but gain only 0.484%/0.273%, below 3%; close all three intervention branches. All have zero profiling errors/cancellations, smoke 7/8, retrieval 12/12. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26083-26091-20261026/REVIEW.md).
 
-## Current H200 queue: four follow-ups remain
+Important correction: the retained 3044.400475 full N64 mean comes from 60/120/30 and breakable prefill CUDA graphs with native max_running_requests=None. Modern short controls use 20/40/30, disabled prefill graphs and explicit cap 64. Duration alone does not explain the gap; actual ServerArgs prove runtime drift too. Prepare full controlled comparisons and an exact legacy operational replay before calling the architecture exhausted. Official accuracy stays UNKNOWN. Outer-client telemetry in this wave includes warmup and grace; it is not exact scoring-only sampling.
 
-At 06:20 UTC, 26083 fresh round-robin control is PENDING (Resources), while 26085 power-of-two, 26089 prefill-only fusion and 26091 decode-only fusion are PENDING (Dependency), all afterany:26083. Five jobs were admitted; 26081 has now terminated, leaving four within cap 5. Each requests 16 H200/two nodes/at most 17 minutes, no PBS SU. Another account occupies g1/g4 with two one-node jobs at that query. Preserve our queued positions. [Live snapshot and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-26081-20261025/queue-snapshot.json).
+## Current queue and separate transport diagnostic
 
-All candidates retain N64/4000:200/seed 2026/20:40:30 and strict local gates. Require >=3% gain over actual fresh control 26083 before full independent confirmation; control failure invalidates comparison. Fusion requires native per-rank selected=True only on intended roles before scoring; CPU fixtures do not prove GPU execution. [Fusion admission](../reports/research-journey-20261019/journal/entries/20261025-native-fusion-five-job-admission.md), [fusion plan](../reports/research-journey-20261019/journal/entries/20261025-native-fusion-phase-plan.md), [routing plan](../reports/research-journey-20261019/journal/entries/20261025-h200-router-matched-plan.md). No new scored result exists yet.
-
-## Prepared separate transport component
-
-Source review does not support a host-only bootstrap-cache collision: the native key includes the full bootstrap address. Shared HTTP/2 warnings and final AbortReq errors do not establish the selective failure cause. S68 is CPU-prepared as a no-model sixteen-agent/four-role NIXL registration/fanout probe, one attempt, 16 H200/two nodes/five-minute cap/no PBS SU. It does not exercise SGLang bootstrap/rooms/TP/model serving and cannot promote a configuration. It is not yet submitted. [Source findings and exact plan](../reports/research-journey-20261019/journal/entries/20261025-s62-source-diagnosis-and-fanout-plan.md).
+Four prior serving jobs are terminal. At 26 October 06:00 UTC, the own queue was empty; submitted previously prepared S68 as 26308, immediate PENDING (Resources), 16 H200/two nodes/five-minute cap/no PBS SU. It is a no-model sixteen-agent registration/fanout component, not a model score or full-topology retry. [Definite receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-s62-bootstrap-diagnosis-20261025/S68-SUBMISSION.json). Refresh live state before further admission.
 
 ## Latest completed wave: checker-corrected review of jobs 26064–26068
 

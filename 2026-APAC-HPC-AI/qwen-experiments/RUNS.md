@@ -2386,3 +2386,7 @@ S66 prefill-only and S67 decode-only native QK/RoPE fusion, both afterany:26083.
 ## 25 October 06:20 UTC: S62r4 terminated before scoring
 
 26081 FAILED 1:0 / 8:59, runtime/KV pass but only two of four semantic routes; no AIPerf export or score. Close further full-topology retries. Four jobs 26083/26085/26089/26091 remain queued. [Full failure review](research-review-26081-20261025/REVIEW.md).
+
+## 26 October: review routing/fusion and submit component 26308
+
+26083 control 2558.14; 26085 actual SLA failure; 26089/26091 gains 0.484%/0.273% miss 3% gate. Runtime drift from accepted 3k includes prefill graphs and admission caps, not only benchmark duration. [Review](research-review-26083-26091-20261026/REVIEW.md). Separate no-model S68 definitely submitted 26308.
