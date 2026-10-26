@@ -22,6 +22,8 @@ The preceding **25999546 completed F / Exit 0 in 13 seconds**. All three launche
 
 **Iris 2294099** was admitted at 14:09:11 UTC for a matched xyz-then-zyx short screen: 30 steps / 29 timed intervals each, unchanged numerical work per step, one node / 56 CPUs, 45-minute maximum. It preserves both initialized sources through independent copies. This is not a full 150-step or officially scored result; retain order/thermal limits and all observations. [Source and actual receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-screen30-20261026/STATUS.md).
 
+**In-progress check, approximately 14:33 UTC:** 2294099 is RUNNING on iris001 (1,433 seconds elapsed). xyz completed 30 steps / 29 intervals at mean **32.592668524 seconds/step**, median 31.978769372, p95 33.104158664 and maximum 48.177250648. Its native recommendation is **82 measured samples**, so 29 is insufficient for the stated native confidence target. zyx has entered step 7; do not quote an early interval as its completed mean. No final comparison or new qualified best exists. NSCC 26004608 remains Q/q5 waiting for node_pool in the fresh PBS check. Preserve both jobs and reservations. [Checkpoint interpretation](../reports/research-journey-20261019/journal/entries/20261026-hpc-short-screen-in-progress.md).
+
 The NSCC ABBA solver remains unsealed and unsubmitted: binding qualification failed. Its lifecycle metadata now matches a 90-minute request and an 87-minute internal deadline. Offline tests are not a site qualification.
 
 ## Budget and access

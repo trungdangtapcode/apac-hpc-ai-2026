@@ -348,3 +348,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: verified fresh initialization and matched xyz/zyx short screen](entries/20261026-hpc-fresh-initialization-and-matched-short-screen.md).
 
 - [26 October: full native N62/N66 load bracket, jobs26436/26438](entries/20261026-full-native-load-bracket-26436-26438.md).
+
+- [26 October: xyz completes, zyx continues, and the short control is below its native sample recommendation](entries/20261026-hpc-short-screen-in-progress.md).
