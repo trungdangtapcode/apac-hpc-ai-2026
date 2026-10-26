@@ -1,0 +1,96 @@
+#!/bin/bash
+#PBS -N pals-launcher-order
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=32gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=00:05:00
+#PBS -j oe
+set -euo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}" "${PBS_NODEFILE:?}"
+ROOT=$(cd "$PBS_O_WORKDIR" && pwd -P)
+PAYLOAD="$ROOT/payload"
+RUN="$ROOT/runs/${PBS_JOBID%%.*}"
+test ! -e "$RUN" || { echo "run path exists: $RUN" >&2; exit 2; }
+umask 077
+mkdir -p "$RUN/logs" "$RUN/arms"
+cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+START=$(date +%s)
+DEADLINE=$((START + 255))
+export PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1
+
+phase() { printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$1" "$2" >>"$RUN/phases.tsv"; }
+remaining() { echo $((DEADLINE - $(date +%s))); }
+record_rc() {
+    printf '{"time_utc":"%s","command":"%s","return_code":%s}\n' \
+        "$(date -u +%FT%TZ)" "$1" "$2" >>"$RUN/command-return-codes.jsonl"
+}
+hash_payload() {
+    (cd "$PAYLOAD" && find . -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum) >"$1"
+}
+phase start payload_hash_before
+(cd "$ROOT" && sha256sum -c payload-sha256.txt) > "$RUN/pinned-source-before.txt"
+hash_payload "$RUN/payload-sha256-before.txt"; record_rc payload_hash_before $?
+phase complete payload_hash_before
+
+phase start module_setup
+if . /app/apps/resetmodule >"$RUN/logs/module-reset.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc module_reset "$rc"; phase "exit=$rc" module_reset; test "$rc" -eq 0
+if module load openfoam/2512 >"$RUN/logs/module-load.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc module_load_openfoam_2512 "$rc"; phase "exit=$rc" module_load_openfoam_2512; test "$rc" -eq 0
+test -z "${LD_PRELOAD:-}"
+unset PALS_CPU_BIND MPICH_RANK_ORDER MPICH_RANK_REORDER_FILE
+export MPICH_RANK_REORDER_METHOD=0
+if command -v cc >"$RUN/logs/compiler-path.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc compiler_lookup "$rc"
+if command -v mpiexec >"$RUN/logs/launcher-path.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc launcher_lookup "$rc"
+if command -v mpirun >"$RUN/logs/mpirun-path.txt" 2>&1; then rc=0; else rc=$?; fi
+record_rc mpirun_lookup "$rc"
+{ date -u; hostname; module list 2>&1; readlink -f "$(command -v mpiexec)" 2>&1; mpiexec --version 2>&1; } >"$RUN/logs/site-runtime.txt"
+env | LC_ALL=C sort | grep -E '^(PALS_[A-Za-z0-9_]*|MPICH_[A-Za-z0-9_]*|PMI_[A-Za-z0-9_]*|FI_[A-Za-z0-9_]*|OMP_[A-Za-z0-9_]*)=' >"$RUN/logs/runtime-environment-whitelist.txt" || true
+phase complete module_setup
+
+if [ -f "$PAYLOAD/mpi-init-probe.c" ] && command -v cc >/dev/null 2>&1; then
+    if timeout --signal=TERM --kill-after=3s 45s cc -O0 -Wall -Wextra -o "$RUN/mpi-init-probe" "$PAYLOAD/mpi-init-probe.c" >"$RUN/logs/compile.stdout.txt" 2>"$RUN/logs/compile.stderr.txt"; then rc=0; else rc=$?; fi
+else rc=127; fi
+record_rc compile_native_probe "$rc"
+
+run_arm() {
+    local arm=$1 style=$2 rankarg rc seconds dir
+    dir="$RUN/arms/$arm"
+    mkdir -p "$dir/python" "$dir/native/pre"
+    case "$style" in
+        bare) set -- mpiexec -n 512 ;;
+        global) set -- mpiexec --cpu-bind thread -n 512 ;;
+        local) set -- mpiexec -n 512 --cpu-bind thread ;;
+    esac
+    phase start "${arm}_python_capture"
+    seconds=$(remaining)
+    if [ "$seconds" -le 0 ]; then rc=124
+    else
+        [ "$seconds" -gt 20 ] && seconds=20
+        if (cd "$dir/python" && /usr/bin/time -v -o "$RUN/logs/${arm}_python.time.txt" timeout --signal=TERM --kill-after=2s "${seconds}s" "$@" python3 "$PAYLOAD/rank-capture.py" "$dir/python"); then rc=0; else rc=$?; fi
+    fi
+    record_rc "${arm}_python_capture" "$rc"; phase "exit=$rc" "${arm}_python_capture"
+    phase start "${arm}_mpi_init_probe"
+    seconds=$(remaining)
+    if [ "$seconds" -le 0 ]; then rc=124
+    elif [ -x "$RUN/mpi-init-probe" ]; then
+        [ "$seconds" -gt 20 ] && seconds=20
+        if (cd "$dir/native" && /usr/bin/time -v -o "$RUN/logs/${arm}_native.time.txt" timeout --signal=TERM --kill-after=2s "${seconds}s" "$@" "$RUN/mpi-init-probe" "$dir/native"); then rc=0; else rc=$?; fi
+    else rc=127; fi
+    record_rc "${arm}_mpi_init_probe" "$rc"; phase "exit=$rc" "${arm}_mpi_init_probe"
+}
+run_arm bare bare
+run_arm global global
+run_arm command_specific local
+
+phase start payload_hash_after
+hash_payload "$RUN/payload-sha256-after.txt"; rc=$?; record_rc payload_hash_after "$rc"
+if diff -u "$RUN/payload-sha256-before.txt" "$RUN/payload-sha256-after.txt" >"$RUN/payload-hash-diff.txt"; then rc=0; else rc=$?; fi
+record_rc payload_hash_compare "$rc"; test "$rc" -eq 0
+(cd "$ROOT" && sha256sum -c payload-sha256.txt) > "$RUN/pinned-source-after.txt"
+phase complete payload_hash_after
+printf 'COLLECTION_FINISHED\n'
+exit 0

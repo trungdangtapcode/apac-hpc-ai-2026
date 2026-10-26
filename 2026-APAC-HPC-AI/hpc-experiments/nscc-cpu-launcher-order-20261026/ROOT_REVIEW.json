@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "review_date": "2026-10-26",
+  "checks": [
+    "Bash syntax and Python3.6 grammar",
+    "512 requested PBS process slots match 512-rank launches",
+    "Five-minute wall and 255-second internal deadline",
+    "Python entry retains actual affinity without singleton rejection",
+    "Exclusive rank files reject a duplicate; missing PMI identity rejected",
+    "C syntax against declarations only, not real MPI compile/link",
+    "Pinned payload hashes before and after; common method0/no preload"
+  ],
+  "payload_sha256": {
+    "payload/launcher-order-diagnostic.pbs": "ac4922c1b2641a03e1ad7af27fa4c35814da7d73e21b41c1be2efa5457d01806",
+    "payload/mpi-init-probe.c": "722784029cfc7034872aaa02ff4cef5b01a1bbd3a4dff9c0ddac4ac4c555fb14",
+    "payload/rank-capture.py": "05f4480093e0bd228c1b3c33f6f58403019679ca5a3fdd2d21cffb53c2346008"
+  },
+  "root_corrections": [
+    "Changed mistaken 32 mpiprocs to 128 per node before sealing",
+    "Write native pre-init observation before MPI_Init_thread, indexed by original PMI rank",
+    "Reject module setup and sealed source failures",
+    "Treat collection completion separately from successful affinity qualification"
+  ],
+  "evidence_basis": "25957725 retained 128 successful preexec records, 17 wide-mask rejections, 367 absent; no MPI audit. mpirun and mpiexec are the same installed PALS binary.",
+  "limitations": [
+    "Real site MPI compilation/linking and execution pending",
+    "Observational diagnostic only; no solver or placement qualification",
+    "Filesystem per-rank writes are monitoring overhead and cannot be used as ranked solver timings"
+  ]
+}
