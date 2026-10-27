@@ -1,0 +1,11 @@
+# 27 October: later-step behavior survives the 50-step horizon
+
+**Question and control.** zyx won both 30-step execution orders, but a longer candidate horizon had not been observed. Job 2294148 extends only that same initialized zyx source to 50 steps, retaining fixed numerical work and all source/copy checks. There is no matched 50-step xyz control.
+
+**Complete observation.** Slurm COMPLETED 0:0, 1,224 seconds on iris009, 56 allocated CPUs. Independent replay validates 122 artifacts and all 50 numerical steps / 49 timing intervals. Mean 21.112004724, median 21.062013150, p95 21.248222475 and maximum 21.251439360 seconds per step. Early 2–30 mean is 21.068213278; later 31–50 mean is 21.175502321 seconds, a 0.509246% increase. All first 30 Cd rows exactly reproduce prior zyx; final step-50 Cd is 0.400779301. Fifteen bounding-omega messages remain retained. [Full evidence and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-zyx50-20261027/completed-2294148/RESULTS.md).
+
+**Assessment and correction.** Timing remains stable within this horizon. Different node and run length prevent attributing its lower mean versus earlier runs to a configuration change. This is not full-length convergence, a matched speedup or official score. The native minimum-sample recommendation zero comes from rounding an unrounded formula value of 0.167091137; variance is nonzero. Never translate it into a claim that zero samples or independent repeats are sufficient. Hardware counters not collected remain unknown, while resource and VM scopes remain separate.
+
+**Budget and next decision.** Estimated cost 19.04 CPU-hours, rounded allowance 20. Retire only this job's 24.266667-hour reservation: cumulative Iris allowance 219/224, no outstanding reservation, 5 hours remaining. Full 150-step or another matched short solver pair does not fit. Preserve the remainder for a justified bounded validation; no arbitrary queue-filling run is proposed. Continue the active optimization loop on NSCC CPU using its distinct project and budget. zyx remains the preferred screened Iris candidate, with full-length confirmation unresolved.
+
+**Preservation.** Archive, manifest, independent replay, interpretation and one-job ledger reconciliation form a separate small result checkpoint. Existing frozen payloads, AI work and submission materials remain unchanged.

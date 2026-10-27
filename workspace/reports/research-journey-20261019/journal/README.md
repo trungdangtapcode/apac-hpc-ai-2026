@@ -384,3 +384,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [27 October: explicit post-MPI calling-thread placement qualification submitted as NSCC 26016270](entries/20261027-hpc-postinit-pin-submitted.md).
 
 - [27 October: native runtime proof, relative GPU correction and four actual submissions](entries/20261027-native-relative-gpu-map-four-submissions.md).
+
+- [27 October: zyx completes 50 steps with stable timing; zero native sample recommendation explained](entries/20261027-hpc-zyx50-result.md).
