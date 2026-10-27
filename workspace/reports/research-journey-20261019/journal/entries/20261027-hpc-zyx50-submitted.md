@@ -1,0 +1,11 @@
+# 27 October: extend the preferred zyx candidate to later steps
+
+**Prior evidence and hypothesis.** zyx was faster in both 30-step orders: 26.94% and 21.42% lower mean time than its respective xyz control. This does not establish the full 150-step result. The next question is whether the candidate's complete fixed numerical work and observed throughput persist beyond step 30.
+
+**Change and control limits.** New job **2294148**, submitted at **2026-10-27T03:13:49.240741Z**, extends the same initialized zyx source to 50 steps / 49 native timings. No xyz arm is included, so this cannot estimate a matched 50-step speedup. All 49 intervals are retained; descriptive windows 2–30 and 31–50 show drift without excluding observations. The 49-file sealed runtime preserves exact source/copy checks, 56-rank affinity probe, fixed iterations, full Cd output and memory snapshots outside native timing.
+
+**Validation and cost.** Positive/negative fixtures reject incomplete steps, WCT mismatch, missing Cd and changed iteration counts; local unresolved-ledger and actual own-queue gates protect admission. Root review restored explicit startFrom startTime to match parent restart semantics. The first local seal attempt failed with Remote I/O because shared /home was 100% full. Only 5,224 duplicate extracted files were removed after byte-for-byte and SHA verification against retained compressed archives; no original evidence archive was removed. Sealing then succeeded. The retained cleanup inventory names every archive and directory.
+
+Maximum 26minutes at 56 allocated CPUs reserves 24.266667 CPU-hours against the remaining 25. Commitment is 223.266667/224, with 0.733333 uncommitted until terminal usage is known. Internal/global and native per-arm timeouts remain fail-closed. No ceiling increase is inferred.
+
+**Next decision.** Inspect every interval, the early/later windows, sample recommendation, output/work and snapshot/resource evidence after completion. Treat any timeout as incomplete work. Do not claim full-length convergence, a matched 50-step gain or official accuracy. Further Iris allocations depend on actual terminal reconciliation and useful work fitting the original envelope.
