@@ -19,3 +19,9 @@ The first read-only GPU SSH master attempt authenticated but could not create it
 A later read-only check found an already live VPN namespace and a live VPN terminal. The reconnect helper's dead-pane guard refused to respawn it, preserving the active session. A fresh separate CPU master, cpu-r8, then authenticated and returned asp2a-login-nscc02. The standard read-only GPU helper returned a2ap-login01 and an empty own PBS queue. The CPU helper now selects cpu-r8. These are later verified observations; the earlier rejection remains historical. No active VPN was restarted and no AI job or payload was changed.
 
 This enabled the locked admission of CPU diagnostic 25999546.pbs101. Its exact receipt and budget are under nscc-cpu-launcher-order-20261026; no submitted diagnostic payload was modified during recovery.
+
+## 27 October continuation: separate CPU SSH restored without restarting VPN
+
+The earlier r8 SSH master was present but timed out even for hostname. The VPN namespace remained live and a TCP connection to the CPU SSH endpoint succeeded. A fresh CPU-only r9 master authenticated using the existing owner-authorized credential held in memory; no credential or session material was copied into research files. The actual endpoint returned asp2a-login-nscc01, another CPU login host. A local assertion expecting only nscc02 was overly strict and failed after a successful filtered PBS query; that did not indicate an authentication or scheduler failure. The helper now selects the verified r9 master. The previous VPN and r8 state were preserved.
+
+The saved 26 October 16:31 UTC scheduler response reports job26004608.pbs101 finished with Exit_status0 and walltime11seconds. This dated terminal evidence is retained separately; retrieve fresh history when available and inspect actual arm results before declaring the diagnostic successful. No new CPU or GPU allocation was requested by access recovery.

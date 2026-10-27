@@ -374,3 +374,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [27 October: smaller chunks reviewed;4096 correctly fails the joint SLA](entries/20261027-small-chunks-reviewed.md).
 
 - [27 October: storage failures, actual Pyxis correction and conditional native-runtime jobs](entries/20261027-storage-failures-and-conditional-native-serving.md).
+
+- [27 October: zyx remains faster after order reversal; fault association corrected and later-step test selected](entries/20261027-hpc-reverse-order-result.md).
