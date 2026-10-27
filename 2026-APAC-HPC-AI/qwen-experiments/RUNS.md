@@ -2433,3 +2433,7 @@ COMPLETED 0:0/10:10, 2807.325653 good tokens/s, 98.248588% joint SLA, 1770 profi
 ## Full chunk followups26473/26475
 
 Submitted chunk6144/4096 under full native N64,16H200/two nodes/17-minute bound, afterany chain. [Hypothesis, gates and exact receipts](h200-prefill-chunk-full-20261026/ADMISSION.md). No result yet.
+
+## Four-job native GPU-map repair dispatch 2026-10-27T03:41:21.453640+00:00
+
+26574 split4+4 prerequisite;26579 full N64 chunk8192 control;26581 chunk10240;26583 chunk12288. Three serving arms16H200/two nodes/17minutes, dependent chain and actual proof guard. Original26545/26547 failed NVIDIA visible-index mapping; no scores. [Full assessment and actual receipts](native-gpu-map-r2-20261027/REVIEW.md).

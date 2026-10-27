@@ -6,9 +6,10 @@ Updated 2026-10-27T02:31:10.224549+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26538|One-GPU direct Enroot/CUDA runtime prerequisite|PENDING Resources|
-|H200 / Slurm|26545|Direct-runtime full N64 chunk 8192 control|PENDING afterany 26538; actual prerequisite gate|
-|H200 / Slurm|26547|Same runtime, chunk 12288 candidate|PENDING afterany 26545; actual prerequisite gate|
+|H200 / Slurm|26574|Two-by-four native CUDA and eight distinct UUID prerequisite|SUBMITTED / PENDING|
+|H200 / Slurm|26579|Full N64 chunk 8192 control, relative-GPU repair|SUBMITTED afterany 26574 + actual proof guard|
+|H200 / Slurm|26581|Same runtime, chunk 10240 intermediate|SUBMITTED afterany 26579 + actual proof guard|
+|H200 / Slurm|26583|Same runtime, chunk 12288 larger batch|SUBMITTED afterany 26581 + actual proof guard|
 |H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
 
 These are dated snapshots; query actual queues before action. H200 serving jobs request 16 GPUs/two nodes/17 minutes maximum, own cap 5. The H100 job requests eight GPUs/one node/30 minutes, maximum 512 SU; combined CPU+AI PBS cap 3 and maximum one running AI allocation. The separate CPU queue was empty immediately after PBS admission; do not infer it remains empty. Preserve queue positions and frozen payloads.
@@ -70,3 +71,9 @@ Dispatch correction from owner: after payload checks pass, submit the justified 
 The standalone Enroot variable fixture passed, but actual Pyxis filters ENROOT_DATA_PATH. Preserve the failed deployment and this correction; do not repeat that override. The next supported user-level route runs native Enroot under unchanged Slurm allocation/cgroup, with explicit source mounts and correct global-versus-relative GPU ID handling. Actual one-GPU prerequisite 26538 remains pending. Conditional full jobs 26545/26547 are queued; explicit actual CUDA proof required before a model starts. [Review and source references](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/native-enroot-serving-20261027/REVIEW.md). No throughput improvement or official accuracy is claimed.
 
 H100 AI SSH still works, queue empty; fresh selected site label 27/10/2026-10:00:01 retains used 48313.842/balance 15686.158 SU, zero discretionary/terminal buffer. CPU SSH authentication is still unavailable, so the fresh combined PBS queue gate cannot be met. Prepared EAGLE R2 has NOT been submitted. No VPN restart or repeated credential guessing; no HPC queue/budget change.
+
+## Actual four-job dispatch — 2026-10-27T03:41:21.453640+00:00
+
+26538 completed 0:0 in 39 seconds: real Harbor image executes CUDA on one H200 using native node-local Enroot. Full 26545/26547 then failed in the second prefill NVIDIA hook, which rejects global device4 while the step-visible CUDA indices are0–3. The global-versus-relative distinction was logged but the CLI expectation was wrong. Preserve both failures; no AIPerf score exists.
+
+Actual new jobs26574/26579/26581/26583 provide one split8 prerequisite and three full N64 arms (8192 control,10240 intermediate,12288 larger). The owner explicitly requested3–4 queued jobs; all four were admitted under cap5 and definite IDs retained. All original acceptance/quality/runtime gates remain, and actual eight-distinct-GPU CUDA proof is mandatory before model steps. No background Codex, blind duplicate, fixed-source edit or HPC action. [Review and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/native-gpu-map-r2-20261027/REVIEW.md).
