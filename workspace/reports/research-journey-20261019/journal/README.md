@@ -370,3 +370,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [26 October: H100225306 launcher failure and actual-shim regression repair](entries/20261026-h100-225306-launcher-failure-and-repair.md).
 
 - [26 October: full N62/N66 results and closure](entries/20261026-full-native-load-bracket-reviewed.md).
+
+- [27 October: smaller chunks reviewed;4096 correctly fails the joint SLA](entries/20261027-small-chunks-reviewed.md).
