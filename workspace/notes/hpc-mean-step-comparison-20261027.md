@@ -21,3 +21,17 @@ The **21.112004724 seconds/step** Iris observation is a different machine and a 
 Obtain the job ID, submitted script, native solver log and `wallClockTime.dat`. Compare actual platform/hosts, nodes/ranks/threads, official mesh and OpenFOAM build/precision, decomposition, mandatory initialization, fixed solver iterations, endpoint, included timing rows, final Cd and errors. A different decomposition can be legitimate; changed numerical work requires separate rule and accuracy assessment. No such change is assumed here.
 
 Until those artifacts arrive, the exact reason for the teammate result and whether their averaging differs remain unknown. No teammate optimization is credited or dismissed. No scheduler state was refreshed and no jobs or reservations were changed during this clarification.
+
+## Direct provenance of the organiser 3.21-second observation
+
+Rechecked against both the retained original file and the public upstream source on 27 October. This is **job 25710718.pbs101**, full-chain `nosrx-scotch-4node`, dated **7 October 2026**, OpenFOAM v2512, four ASPIRE-2A CPU nodes, 128 ranks each, default Scotch, 150 steps. Its original solver log prints `Average wall-clock time per time step = 3.210832547664429`; independent recalculation of all 149 per-step samples agrees.
+
+[Original public solver log](https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/4.3-aspire2a-logs/nosrx-scotch-4node/50_simpleFoam.2026-10-07_10-11-20.log#L2419). [Official ASPIRE application notes](https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/4.3%20OpenFOAM%20Application%20Notes%20-%20ASPIRE-2A.md#where-the-signal-7-comes-from) list this observation rounded to 3.211, the runtime setting and the job ID.
+
+The relevant setting is `FI_OFI_RXM_USE_SRX=0`, an MPI/libfabric transport setting used as a workaround for shutdown faults in the documented environment. **Our 25940700 payload already uses this same setting** (`nscc-cpu-four-node-confirm-20261023/payload/pair.pbs`, line 79); discovering the organiser log does not add a new tuning switch to our configuration. The two observed means therefore do not isolate this setting's effect.
+
+The retained organiser PBS output `nosrx-scot-n4.o25710718` records zero returns from decomposePar, renumberMesh, potentialFoam, applyBoundaryLayer and simpleFoam. That strengthens the original-log evidence, but is not a fresh terminal scheduler query. The precise cause of the timing gap to our run remains unmeasured; lower tail latency is descriptive evidence, not proof of a network or placement cause.
+
+The official notes additionally list a 3.176–3.387 s/step range for four SRX-off Scotch runs, including solver-only reuse. Thus **3.21 is one selected full-chain reference, not the organisers' minimum or a proven hardware limit**. Reuse runs must retain their different preparation provenance.
+
+[Our historical progress and limits](../reports/hpc-research-journey-20261023/PROGRESS_THROUGH_20261027.md) separates own results from these references.
