@@ -53,3 +53,7 @@ The actual precheck failed before PBS access because no live VPN namespace exist
 ## Fresh status — 2026-10-27T15:51:08.540644+00:00
 
 No live VPN namespace is present. The new admission precheck remains BLOCKED before PBS/credit queries. All 61 frozen native payload hashes and the root review still match; no deployment, intent or submission receipt exists. New job IDs: none. New reservation: 0 SU. No new authentication was attempted during this status check; the owner was asked whether the DUO holder is now ready for an immediate approval. Earlier queued CPU jobs and project balance remain unrefreshed. The reviewed first native triple remains ready for access restoration and safe admission.
+
+## Vietnam-time clarification — 2026-10-27T17:10:05.753742+00:00
+
+The owner reports requesting submission at 15:00 Vietnam time. Retained observations establish VPN unavailable at 17:28, two failed authentication attempts recorded by 17:41, native offline review passed 17:55, and admission still blocked 22:51 (all 27 October, UTC+7). The current local session records its explicit submit-all message 17:36; this does not negate earlier authorization. Actual VPN disconnection time and access at 15:00 remain unestablished, so the entire delay must not be blamed on VPN. No new PBS receipt exists around midnight. [Exact retained timeline](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-transfer-campaign-20261027/launch/vietnam-timeline-20261027T1709.json).
