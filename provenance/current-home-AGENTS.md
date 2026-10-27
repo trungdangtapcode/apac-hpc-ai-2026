@@ -22,7 +22,7 @@ Track ownership is session-specific. The owner explicitly corrected this on
 21 October after a shared instruction caused the GPU chat to select HPC:
 
 - GPU / AI / Qwen: session `01a15dd3-3094-7712-a991-8ce55b15cbfe`, named
-  `Nghiên cứu 2026-APAC-HPC-AI, commit, GPU`. Read notes/AI_CURRENT.md.
+  `Nghiên cứu 2026-APAC-HPC-AI, commit, GPU, fork`. Read notes/AI_CURRENT.md.
 - HPC / OpenFOAM: session `01a1508d-26b0-7dd0-9dc1-f217ce0aff40`, named
   `Nghiên cứu 2026-APAC-HPC-AI, commit, HPC`. Read notes/HPC_CURRENT.md.
 
@@ -124,6 +124,44 @@ active-job caps. Do not submit blind duplicates solely to fill a queue.
 This does not re-enable background Codex, autopilot, schedules or automatic
 chat notifications.
 
+## Execute ready measurements without repeated owner reminders
+
+The owner reaffirmed this requirement on 28 October 2026, Vietnam time, after
+the HPC worker spent too long diagnosing placement and then waited on NSCC
+DUO while Iris was usable. Apply the [research execution contract](/home/apacsc42/workspace/notes/research-execution-contract-20261027.md)
+within the current worker's track and current authorisation.
+
+- If one cluster is inaccessible, check another already authorised cluster and
+  continue the useful work that fits its resources and budget. For HPC, check
+  Iris when NSCC VPN/DUO blocks access. Keep each platform's measurements and
+  accounting separate. An access failure is not a global research stop.
+- Keep independent native performance trials off an optional diagnostic's
+  critical path. A failed pinning/interposition experiment must not block a
+  native decomposition trial that does not use it. Prioritise measured solver
+  comparisons over additional framework work, documentation or repeated checks
+  that do not resolve a live concern.
+- A request to submit is fulfilled only by a definite scheduler acceptance and
+  recorded job ID, frozen payload, reservation and receipt. Distinguish prepared,
+  deployed, submitted, running, terminal and reviewed states. A plan or passing
+  offline test is not a submission; a terminal error is not a valid measurement.
+- Before ending an active research turn with no new submission, check whether
+  any distinct, ready trial can run on an accessible authorised cluster. If one
+  can, submit it within current gates and caps. If none can, report the concrete
+  blocker and what was actually tried. Preserve old jobs and queue positions;
+  an unavailable queue is unknown, never empty.
+- Preserve site limits, owner-set budgets, shared-account locks and track
+  ownership. Distinguish an agent-created stage envelope from an owner limit;
+  resolve a newly authorised stage transparently with a bounded request rather
+  than silently inventing either extra spending or a permanent research stop.
+  Failed authentication does not authorise repeated DUO prompts.
+- Attribute results precisely: organiser reference, our baseline reproduction,
+  new candidate, and matched improvement are different claims. Keep short runs,
+  partial results and cross-machine comparisons explicitly qualified. Use
+  Vietnam time for owner-facing timelines, with the date and timezone stated.
+
+This requirement governs active authorised work. It does not re-enable
+background Codex, schedules, unsolicited messages or automatic chat wake-ups.
+
 ## Commit small checkpoints and push promptly
 
 The user explicitly requires frequent backup commits. Split work into small,
@@ -217,4 +255,17 @@ and evidence limits. Never change already submitted payloads in place.
 - Run relevant targeted tests and checks before declaring completion.
 - Report unresolved errors, assumptions, and verification gaps.
 - Optimize for total task quality, latency, and resource usage rather than agent count.
+
+## Token-Efficient Delegation
+- Optimize total quota consumption, not agent count.
+- Prefer Luna for bounded implementation tasks.
+- Keep Sol focused on planning and final review.
+- Delegate independent tasks concurrently.
+- Start with 3-5 workers; scale up only when useful.
+- Avoid duplicate repository exploration.
+- Give workers relevant file paths and context.
+- Require concise reports instead of verbose logs.
+- Avoid unnecessary recursive delegation.
+- Escalate difficult tasks to Sol when needed.
+- Do not repeat completed subagent work.
   

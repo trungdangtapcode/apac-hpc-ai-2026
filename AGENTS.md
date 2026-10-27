@@ -2,7 +2,7 @@
 
 Read `workspace/notes/README.md`, `workspace/notes/CURRENT.md`, the latest linked review, and `REPRODUCIBILITY.md` before APAC work. Treat scheduler, VPN, credit and performance statements as dated snapshots until checked live.
 
-Chat with the owner in Vietnamese; write new code, comments, notes and work artifacts in English. Preserve historical source files and failure evidence byte-for-byte. Work on the Qwen track and keep submission HPC_Task directories empty. Never turn a failed allocation into an accepted measurement or equate local synthetic output checks with official accuracy.
+Chat with the owner in Vietnamese; write new code, comments, notes and work artifacts in English. Preserve historical source files and failure evidence byte-for-byte. Resolve AI versus HPC ownership from the current session and its fork metadata through the routing notes; preserve the other worker’s queues, payloads and budget. Update HPC_Task only when its HPC worker has reviewed real work and current submission authorisation. Never turn a failed allocation into an accepted measurement or equate local synthetic output checks with official accuracy.
 
 Do not modify frozen submitted payloads for portability; create derived bundles with explicit changes and new hashes. Research and actual runtime/output/cost evidence must justify submissions. Respect the documented queue and credit bounds. Never infer current authorisation from a dated proposed plan.
 
@@ -25,3 +25,8 @@ wait for GPU completion or a whole wave; do not create artificial empty commits
 or rewrite history. End a turn with a safe checkpoint or state exact remaining
 uncaptured/unpushed work. Full source instruction is recorded in
 provenance/current-home-AGENTS.md and docs/GITHUB_WORKFLOW.md.
+
+
+## Mandatory research execution contract
+
+Read [workspace/notes/research-execution-contract-20261027.md](workspace/notes/research-execution-contract-20261027.md) and [provenance/current-home-AGENTS.md](provenance/current-home-AGENTS.md) before continuing authorised research. A blocked cluster must not idle a feasible authorised alternative; optional diagnostics must not block independent ready measurements. Submission requires an actual scheduler receipt and job ID. Distinguish preparation, deployment, submission, running and reviewed results; preserve old jobs, budgets, locks, caps and track ownership. This does not enable background Codex or schedules.

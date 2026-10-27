@@ -30,6 +30,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Historical questions and explanations | [Conversation handbook](../tutorial/14-so-tay-hoi-dap.md) |
 | Tutorials by topic | [Tutorial index](../tutorial/README.md) |
 | User requirements and decisions | [Decisions](DECISIONS.md) |
+| Mandatory dispatch, fallback and truthful status rules | [Research execution contract](research-execution-contract-20261027.md) |
 | Important milestones and corrections | [Timeline](TIMELINE.md) |
 | Dated session reports | [Latest reports](../research-autopilot/LATEST.md), [history](../research-autopilot/HISTORY.md) |
 | Execution policy and budget rules | [Policy](../research-autopilot/POLICY.md) |

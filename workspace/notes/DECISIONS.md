@@ -419,3 +419,7 @@ The owner explicitly replaced the5,000-SU CPU research limit with permission to 
 ## 2026-10-26T17:31:58.694229+00:00 — Use the full actual AI H100 balance
 
 Owner explicitly removed any internal SU buffer and requested maximum justified research use. Remove terminal local holdbacks; retain maxima as audit evidence, not withheld credit. Fresh AI balance15686.158 SU is available. Count genuinely committed active/uncertain allocations once, net of site prepayment; preserve actual64000SU grant, queue caps, separate HPC budget and disabled autopilot. [Applied policy](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-no-buffer-policy-20261026/POLICY.md).
+
+## Research execution must not need repeated reminders — 2026-10-27T17:45:44.251052+00:00
+
+The owner requires preventing repeated dispatch failures in this repository. Canonical home AGENTS.md now requires switching to an already authorised accessible cluster, keeping independent native benchmarks off optional diagnostic critical paths, obtaining actual submission receipts, preserving old jobs and distinguishing prepared/submitted/running/terminal/reviewed states. Read the [execution contract](research-execution-contract-20261027.md). Budgets, track ownership, queue caps and disabled background Codex remain in force. The archive entrypoint is corrected to route AI and HPC by session rather than imposing its stale Qwen-only/HPC-empty snapshot. This is a persistent operating correction, not an additional job or spending authorization.

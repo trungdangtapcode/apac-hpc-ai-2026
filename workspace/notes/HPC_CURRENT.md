@@ -34,8 +34,12 @@ Inspect actual 2294234 progress, then collect/replay both complete native output
 
 Capture safe explicit checkpoints, verify, commit and push promptly. The payload is backed up; large processor meshes/fields remain remote with seals/rebuild sources and are not uploaded by Git. No slide or submission-package change is made by this job.
 
-[Prior detailed handoff and corrections](history/HPC_CURRENT-before-iris-full 150-20261027T1730.md) retain the VPN chronology and older branches. [Journal](../reports/research-journey-20261019/journal/README.md) retains the full reasoning.
+[Prior detailed handoff and corrections](history/HPC_CURRENT-before-iris-full150-20261027T1730.md) retain the VPN chronology and older branches. [Journal](../reports/research-journey-20261019/journal/README.md) retains the full reasoning.
 
 ## First solver progress — 17:34 UTC / 00:34 Vietnam
 
 Fresh Slurm confirms 2294234 RUNNING on iris024. Both source and clone checks returned zero; zyx solver started at 17:30:32 UTC with an effective 4192-second cap and has reached Time 9/150. This is partial progress, not a completed mean or accuracy result. xyz remains the second arm. [Retained phase snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/early-progress.json).
+
+## Mandatory execution rule
+
+The owner requires that this dispatch failure not need another reminder. Read [research-execution-contract-20261027.md](research-execution-contract-20261027.md) and the new canonical AGENTS.md section before continuation. If NSCC is blocked, use authorised feasible Iris work; optional pinning diagnostics must not block independent native solver tests. Actual submission requires a receipt/job ID. Keep budgets, locks, caps and disabled automation unchanged.
