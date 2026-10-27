@@ -1,6 +1,6 @@
 # Close smaller chunks after one slower pass and one actual SLA failure
 
-Question: does smaller prefill work reduce queue latency under full native N64? Chunk6144 passes at2661.889812 good tokens/s but is slower than the earlier8192 reference. Chunk4096 produces677 TTFT breaches in1580 profiling requests and only57.151899% qualify; its raw1437.120127 good tokens/s is not an eligible score. Both local output checks pass, so output sanity is separate from latency acceptance. The original strict failure remains.
+Question: does smaller prefill work reduce queue latency under full native N64? Chunk 6144 passes at 2661.889812 good tokens/s but is slower than the earlier 8192 reference. Chunk 4096 produces 677 TTFT breaches in 1580 profiling requests and only 57.151899% qualify; its raw 1437.120127 good tokens/s is not an eligible score. Both local output checks pass, so output sanity is separate from latency acceptance. The original strict failure remains.
 
 [Detailed observations with units, resource inspection, limits and next decision](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-small-chunk-review-20261027/REVIEW.md).
 
