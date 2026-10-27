@@ -1,0 +1,107 @@
+#!/bin/bash
+#PBS -N native-wave-3arm
+#PBS -P 59000042
+#PBS -q normal
+#PBS -l select=4:ncpus=128:mpiprocs=128:mem=440gb:ngpus=0
+#PBS -l place=scatter:excl
+#PBS -l walltime=01:30:00
+#PBS -j oe
+set -eo pipefail
+: "${PBS_JOBID:?}" "${PBS_O_WORKDIR:?}"
+ROOT=$PBS_O_WORKDIR
+P="$ROOT/payload"; RUN="$ROOT/runs/${PBS_JOBID%%.*}"; RANKS=512; DEADLINE=5100
+START=$(date +%s)
+test ! -e "$RUN"; mkdir -p "$RUN/logs" "$RUN/arms"
+python3 "$P/batch-lifecycle.py" start "$RUN" 5400 5100
+finish_wrapper() { local rc=$?; set +e; python3 "$P/batch-lifecycle.py" finish "$RUN" "$rc"; exit "$rc"; }; trap finish_wrapper EXIT
+left() { echo $(( DEADLINE - ($(date +%s)-START) )); }
+phase() { printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$1" "$2" >> "$RUN/phases.tsv"; }
+rc_record() { python3 - "$RUN/command-return-codes.json" "$1" "$2" <<'PY'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1]); a=json.loads(p.read_text()) if p.exists() else []
+a.append({'stage':sys.argv[2],'return_code':int(sys.argv[3])}); p.write_text(json.dumps(a,indent=2)+'\n')
+PY
+}
+run_cmd() {
+ local label=$1 log=$2; shift 2; local n rc
+ n=$(left); test "$n" -gt 60; phase start "$label"
+ if /usr/bin/time -v -o "$RUN/logs/$label.resource.txt" timeout --signal=TERM --kill-after=15s "${n}s" "$@" >"$log" 2>&1; then rc=0; else rc=$?; fi
+ rc_record "$label" "$rc"; phase "exit=$rc" "$label"; test "$rc" -eq 0
+}
+phase start module_setup
+if . /app/apps/resetmodule; then :; else exit 1; fi
+module load openfoam/2512
+test "$WM_PROJECT_VERSION" = 2512; test "$WM_PRECISION_OPTION" = DP
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 WM_NCOMPPROCS=4 FI_OFI_RXM_USE_SRX=0
+test -z "${LD_PRELOAD:-}"
+{ date -u; hostname; module list 2>&1; lscpu
+  printf 'WM_PROJECT_VERSION=%s\nWM_PRECISION_OPTION=%s\nLD_PRELOAD=%s\n' "$WM_PROJECT_VERSION" "$WM_PRECISION_OPTION" "${LD_PRELOAD:-<unset>}"
+  env | sort | grep -E '^(FI_(OFI_RXM_USE_SRX|VERBS_PREFER_XRC|PROVIDER|PROVIDER_PATH|LOG_LEVEL)|OMP_NUM_THREADS|MKL_NUM_THREADS|OPENBLAS_NUM_THREADS|WM_PROJECT_VERSION|WM_PRECISION_OPTION|WM_NCOMPPROCS|MPICH_RANK_REORDER_METHOD|MPICH_RANK_REORDER_FILE|MPICH_RANK_ORDER|PALS_CPU_BIND|MPICH_SMP_SINGLE_COPY_MODE|UCX_NET_DEVICES|UCX_TLS)=' || true
+} > "$RUN/environment.log"
+run_cmd runtime_identity_before "$RUN/runtime-before.json" python3 "$P/runtime-hashes.py"
+run_cmd payload_validation_before "$RUN/payload-validation.json" python3 "$P/verify-inputs.py" bundle --root "$ROOT"
+run_cmd mesh_validation_before "$RUN/mesh-validation.json" python3 "$P/verify-inputs.py" mesh --root "$ROOT" --mesh /scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh
+test -n "${PBS_NODEFILE:-}"; cp "$PBS_NODEFILE" "$RUN/pbs-nodefile.txt"
+run_cmd pbs_nodefile_validation "$RUN/pbs-nodefile-validation.json" python3 "$P/validate-allocation.py" nodefile "$PBS_NODEFILE"
+phase complete allocation_and_input_gates
+run_cmd rank_host_capture "$RUN/rank-hosts.raw" mpirun -np "$RANKS" hostname
+run_cmd rank_host_validation "$RUN/rank-hosts-validation.json" python3 "$P/validate-allocation.py" rank-hosts "$RUN/rank-hosts.raw" "$PBS_NODEFILE"
+NODE_DIAG_STATUS=passed
+NODE_DIAG_RC=0
+if ! command -v pbsdsh >/dev/null 2>&1; then
+ NODE_DIAG_STATUS=unavailable_pbsdsh_missing; NODE_DIAG_RC=127
+else
+ : > "$RUN/node-cpu-snapshot.txt"
+ for idx in 0 1 2 3; do
+  if timeout --signal=TERM --kill-after=5s 25s pbsdsh -n "$idx" bash -lc 'hostname; date -u; lscpu; printf "prelaunch_pid=%s mask=" "$$"; taskset -pc "$$" 2>&1' >> "$RUN/node-cpu-snapshot.txt" 2>&1; then :; else NODE_DIAG_STATUS=partial_or_failed; NODE_DIAG_RC=1; fi
+ done
+fi
+printf '%s\n' 'Diagnostic-only pbsdsh launch, not an MPI rank probe; no solver-affinity claim.' >> "$RUN/node-cpu-snapshot.txt"
+python3 - "$RUN/node-cpu-snapshot-status.json" "$NODE_DIAG_STATUS" "$NODE_DIAG_RC" <<'PY'
+import json,sys
+from pathlib import Path
+Path(sys.argv[1]).write_text(json.dumps({'optional_diagnostic':True,'status':sys.argv[2],'return_code':int(sys.argv[3]),'solver_launch_gate':False,'claim_scope':'PBS-dispatched diagnostic shell only; does not establish OpenFOAM solver rank or helper-thread affinity.'},indent=2)+'\n')
+PY
+run_cmd sequence_definition "$RUN/sequence.txt" python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert set(d)=={"arms"} and isinstance(d["arms"],list); print(",".join(d["arms"]))' "$P/sequence.json"
+SEQUENCE=$(cat "$RUN/sequence.txt")
+run_cmd sequence_validation "$RUN/sequence-validation.json" python3 "$P/validate-sequence.py" "$SEQUENCE"
+IFS=, read -r -a METHODS <<< "$SEQUENCE"
+for method in "${METHODS[@]}"; do
+ ARM="$RUN/arms/$method"; CASE="$ARM/case"; mkdir -p "$ARM/logs"
+ run_cmd "${method}_arm_time_guard" "$ARM/arm-time-guard.json" python3 -c 'import json,sys; remaining=int(sys.argv[1]); print(json.dumps({"remaining_seconds":remaining,"minimum_before_fresh_arm_seconds":1500})); assert remaining >= 1500,"Insufficient bounded time to start another full-work arm"' "$(left)"
+ run_cmd "${method}_space_preflight" "$ARM/space-preflight.json" python3 -c 'import json,shutil,sys; d=shutil.disk_usage(sys.argv[1]); print(json.dumps({"filesystem_free_bytes":d.free,"required_free_bytes":16*1024**3,"scope":"Filesystem free space only; not a user quota or a space reservation."})); assert d.free >= 16*1024**3,"Less than 16 GiB filesystem free before fresh case"' "$ROOT"
+ phase start "${method}_fresh_case_copy"
+ run_cmd "${method}_fresh_case_copy" "$ARM/case-variant-validation.json" python3 "$P/make-variant.py" --template "$P/case" --case "$CASE" --method "$method"
+ run_cmd "${method}_source_control_before" "$ARM/source-control-validation.json" python3 "$P/verify-inputs.py" case --case "$CASE" --method "$method" --template "$P/case"
+ run_cmd "${method}_case_source_hashes" "$ARM/case-source-sha256.txt" bash -c 'cd "$1" && find . -type f -not -path "./processor*/*" -print0 | sort -z | xargs -0 sha256sum' bash "$CASE"
+ test ! -e "$CASE/constant/polyMesh"; ln -s /scratch/users/industry/ai-hpc/apacsc42/apac2026/hpc/shared/polyMesh "$CASE/constant/polyMesh"
+ run_cmd "${method}_linked_mesh_validation" "$ARM/linked-mesh-validation.json" python3 "$P/verify-inputs.py" mesh --root "$ROOT" --mesh "$CASE/constant/polyMesh"
+ phase complete "${method}_fresh_case_copy"
+ cd "$CASE"; . "$WM_PROJECT_DIR/bin/tools/RunFunctions"; mkdir -p "$CASE/logFiles"
+ run_cmd "${method}_decomposePar" "$ARM/logs/10_decomposePar.log" decomposePar -constant
+ run_cmd "${method}_decomposePar_validation" "$ARM/logs/10_decomposePar.validation.json" python3 "$P/validate-stage.py" "$ARM/logs/10_decomposePar.log" decompose none "$([ "$method" = S0 ] && echo scotch || echo hierarchical)"
+ run_cmd "${method}_decomposition_layout_validation" "$ARM/decomposition-layout-validation.json" python3 "$P/validate-decomposition-layout.py" "$CASE"
+ run_cmd "${method}_restore0Dir" "$ARM/logs/15_restore0Dir.log" bash -ec '. "$WM_PROJECT_DIR/bin/tools/RunFunctions"; restore0Dir -processor'
+ run_cmd "${method}_restored_field_seal" "$ARM/logs/restored-field-seal.stdout.log" python3 "$P/field-seal.py" "$CASE" "$ARM/restored-zero-fields.json"
+ run_cmd "${method}_renumberMesh" "$ARM/logs/20_renumberMesh.log" mpirun -np "$RANKS" renumberMesh -constant -overwrite -parallel
+ run_cmd "${method}_renumberMesh_validation" "$ARM/logs/20_renumberMesh.validation.json" python3 "$P/validate-stage.py" "$ARM/logs/20_renumberMesh.log" renumberMesh "$RANKS"
+ run_cmd "${method}_potentialFoam" "$ARM/logs/30_potentialFoam.log" mpirun -np "$RANKS" potentialFoam -initialiseUBCs -parallel
+ run_cmd "${method}_potentialFoam_validation" "$ARM/logs/30_potentialFoam.validation.json" python3 "$P/validate-stage.py" "$ARM/logs/30_potentialFoam.log" potentialFoam "$RANKS"
+ run_cmd "${method}_applyBoundaryLayer" "$ARM/logs/40_applyBoundaryLayer.log" mpirun -np "$RANKS" applyBoundaryLayer -ybl 0.0450244 -parallel
+ run_cmd "${method}_applyBoundaryLayer_validation" "$ARM/logs/40_applyBoundaryLayer.validation.json" python3 "$P/validate-stage.py" "$ARM/logs/40_applyBoundaryLayer.log" applyBoundaryLayer "$RANKS"
+ run_cmd "${method}_presolve_field_seal" "$ARM/logs/presolve-field-seal.stdout.log" python3 "$P/field-seal.py" "$CASE" "$ARM/initialized-zero-fields-before-solve.json"
+ run_cmd "${method}_solver_time_guard" "$ARM/solver-time-guard.json" python3 -c 'import json,sys; remaining=int(sys.argv[1]); print(json.dumps({"remaining_seconds":remaining,"minimum_before_full_solver_seconds":900})); assert remaining >= 900,"Insufficient bounded time for a full 150-step solve"' "$(left)"
+ run_cmd "${method}_simpleFoam" "$CASE/logFiles/simpleFoam.log" mpirun -np "$RANKS" simpleFoam -parallel
+ run_cmd "${method}_simpleFoam_validation" "$ARM/logs/50_simpleFoam.validation.json" python3 "$P/validate-stage.py" "$CASE/logFiles/simpleFoam.log" simpleFoam "$RANKS"
+ run_cmd "${method}_actual_solver_host_validation" "$ARM/actual-solver-hosts.json" python3 "$P/validate-solver-hosts.py" "$CASE/logFiles/simpleFoam.log" "$PBS_NODEFILE"
+ run_cmd "${method}_fixed_work_validation" "$ARM/native-solver-review.stdout.json" python3 "$P/validate-solve.py" "$CASE" --output "$ARM/native-solver-review.json"
+ run_cmd "${method}_postsolve_field_seal" "$ARM/logs/postsolve-field-seal.stdout.log" python3 "$P/field-seal.py" "$CASE" "$ARM/initialized-zero-fields-after-solve.json" "$ARM/initialized-zero-fields-before-solve.json"
+ run_cmd "${method}_source_control_after" "$ARM/source-control-after.json" python3 "$P/verify-inputs.py" case --case "$CASE" --method "$method" --template "$P/case" --allow-run-output
+ phase complete "${method}_complete_solve"
+done
+run_cmd runtime_identity_after "$RUN/runtime-after.json" python3 "$P/runtime-hashes.py"
+run_cmd runtime_identity_unchanged "$RUN/runtime-comparison.txt" cmp "$RUN/runtime-before.json" "$RUN/runtime-after.json"
+cd "$ROOT"; run_cmd payload_validation_after "$RUN/payload-validation-after.json" python3 "$P/verify-inputs.py" bundle --root "$ROOT"
+printf 'NATIVE_WAVE_WRAPPER_SUCCESS\n'
+

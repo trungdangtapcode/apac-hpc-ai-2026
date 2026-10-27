@@ -1,0 +1,15 @@
+"""Check native command completion and OpenFOAM precision/process labels."""
+from pathlib import Path
+import json,re,sys
+p=Path(sys.argv[1]);kind=sys.argv[2];rank=(int(sys.argv[3]) if len(sys.argv)>3 and sys.argv[3]!='none' else None);expected_method=sys.argv[4] if len(sys.argv)>4 else 'scotch';s=p.read_text(errors='replace')
+assert re.search(r'^End\s*$',s,re.M),'native End marker missing'
+assert not re.search(r'FOAM FATAL|FATAL ERROR|MPI_ABORT|died from signal|terminated by signal',s,re.I),'native failure marker present'
+assert 'OPENFOAM=2512' in s and 'version=v2512' in s and 'Arch   : "LSB;label=32;scalar=64"' in s
+if rank is not None: assert re.search(rf'(?m)^nProcs\s*:\s*{rank}\s*$',s),f'nProcs mismatch: expected {rank}'
+if kind=='decompose':
+ assert re.search(r'Decomposition method\s+'+re.escape(expected_method)+r'\s+\[512\]',s),f'native decomposition is not {expected_method} [512]'
+ cells=[int(x) for x in re.findall(r'^\s+Number of cells\s*=\s*(\d+)',s,re.M)]
+ assert len(cells)==512 and sum(cells)==65334765,(len(cells),sum(cells))
+ out={'passed':True,'stage':kind,'decomposition':expected_method,'ranks':512,'cell_records':len(cells),'total_cells':sum(cells)}
+else:out={'passed':True,'stage':kind,'nProcs':rank}
+print(json.dumps(out,indent=2))

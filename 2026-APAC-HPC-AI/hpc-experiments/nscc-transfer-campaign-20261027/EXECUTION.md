@@ -9,3 +9,7 @@ Two authorised VPN attempts returned Authentication failed and their client term
 Current queues and balance could not be queried. Four CPU jobs from the earlier 07:48 snapshot still require provenance and reservation reconciliation. Do not assume they are finished, owned by this bundle or free capacity. The old integration job is not qualified merely because a previous query showed terminal F.
 
 No job has been submitted by this new campaign yet. Payload preparation and local validation continue independently; actual receipts, ledger updates and completed-run reviews will be separate checkpoints.
+
+## Reviewed first bundle — 2026-10-27T10:58:19.047506+00:00
+
+[Native first-wave status](native-wave/STATUS.md) records 61 sealed payload files and independent root review. The 9 financial/idempotency tests and native source/actual retained log parser checks pass. Frozen sequence S0/Hxyz/Hzyx requests 90 minutes / 768 SU. The actual precheck is BLOCKED; no deploy receipt, intent, reservation or PBS ID exists. Native tests are ready offline; runtime/performance remains unmeasured.
