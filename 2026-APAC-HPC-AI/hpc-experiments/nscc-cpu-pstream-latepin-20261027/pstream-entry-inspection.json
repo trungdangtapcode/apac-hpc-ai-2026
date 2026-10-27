@@ -1,0 +1,297 @@
+{
+  "utc": "2026-10-27T05:02:06.971108+00:00",
+  "source_path": "/app/apps/openfoam/2512/OpenFOAM-v2512/src/Pstream/mpi/UPstream.C",
+  "source_exists": true,
+  "library_path": "/app/apps/openfoam/2512/OpenFOAM-v2512/platforms/linux64GccDPInt32Opt/lib/cray-mpich/libPstream.so",
+  "selected_source_lines": [
+    {
+      "line": 134,
+      "text": "// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //"
+    },
+    {
+      "line": 135,
+      "text": ""
+    },
+    {
+      "line": 136,
+      "text": "// NOTE:"
+    },
+    {
+      "line": 137,
+      "text": "// valid parallel options vary between implementations, but flag common ones."
+    },
+    {
+      "line": 138,
+      "text": "// if they are not removed by MPI_Init(), the subsequent argument processing"
+    },
+    {
+      "line": 139,
+      "text": "// will notice that they are wrong"
+    },
+    {
+      "line": 140,
+      "text": "void Foam::UPstream::addValidParOptions(HashTable<string>& validParOptions)"
+    },
+    {
+      "line": 141,
+      "text": "{"
+    },
+    {
+      "line": 142,
+      "text": "    validParOptions.insert(\"np\", \"\");"
+    },
+    {
+      "line": 143,
+      "text": "    validParOptions.insert(\"p4pg\", \"PI file\");"
+    },
+    {
+      "line": 151,
+      "text": "bool Foam::UPstream::initNull()"
+    },
+    {
+      "line": 152,
+      "text": "{"
+    },
+    {
+      "line": 153,
+      "text": "    int flag = 0;"
+    },
+    {
+      "line": 154,
+      "text": ""
+    },
+    {
+      "line": 155,
+      "text": "    MPI_Finalized(&flag);"
+    },
+    {
+      "line": 156,
+      "text": "    if (flag)"
+    },
+    {
+      "line": 157,
+      "text": "    {"
+    },
+    {
+      "line": 158,
+      "text": "        // Already finalized - this is an error"
+    },
+    {
+      "line": 159,
+      "text": "        FatalErrorInFunction"
+    },
+    {
+      "line": 160,
+      "text": "            << \"MPI was already finalized - cannot perform MPI_Init\\n\""
+    },
+    {
+      "line": 174,
+      "text": "    else"
+    },
+    {
+      "line": 175,
+      "text": "    {"
+    },
+    {
+      "line": 176,
+      "text": "        // Not already initialized"
+    },
+    {
+      "line": 177,
+      "text": ""
+    },
+    {
+      "line": 178,
+      "text": "        MPI_Init_thread"
+    },
+    {
+      "line": 179,
+      "text": "        ("
+    },
+    {
+      "line": 180,
+      "text": "            nullptr,    // argc"
+    },
+    {
+      "line": 181,
+      "text": "            nullptr,    // argv"
+    },
+    {
+      "line": 182,
+      "text": "            MPI_THREAD_SINGLE,"
+    },
+    {
+      "line": 183,
+      "text": "            &flag       // provided_thread_support"
+    },
+    {
+      "line": 196,
+      "text": "{"
+    },
+    {
+      "line": 197,
+      "text": "    int flag = 0;"
+    },
+    {
+      "line": 198,
+      "text": "    int provided_thread_support = 0;"
+    },
+    {
+      "line": 199,
+      "text": ""
+    },
+    {
+      "line": 200,
+      "text": "    MPI_Finalized(&flag);"
+    },
+    {
+      "line": 201,
+      "text": "    if (flag)"
+    },
+    {
+      "line": 202,
+      "text": "    {"
+    },
+    {
+      "line": 203,
+      "text": "        // Already finalized - this is an error"
+    },
+    {
+      "line": 204,
+      "text": "        FatalErrorInFunction"
+    },
+    {
+      "line": 205,
+      "text": "            << \"MPI was already finalized - cannot perform MPI_Init\" << endl"
+    },
+    {
+      "line": 239,
+      "text": "          ? MPI_THREAD_MULTIPLE"
+    },
+    {
+      "line": 240,
+      "text": "          : MPI_THREAD_SINGLE"
+    },
+    {
+      "line": 241,
+      "text": "        );"
+    },
+    {
+      "line": 242,
+      "text": ""
+    },
+    {
+      "line": 243,
+      "text": "        MPI_Init_thread"
+    },
+    {
+      "line": 244,
+      "text": "        ("
+    },
+    {
+      "line": 245,
+      "text": "            &argc,"
+    },
+    {
+      "line": 246,
+      "text": "            &argv,"
+    },
+    {
+      "line": 247,
+      "text": "            required_thread_support,"
+    },
+    {
+      "line": 248,
+      "text": "           &provided_thread_support"
+    },
+    {
+      "line": 657,
+      "text": "        // MPI not initialized - we have nothing to do"
+    },
+    {
+      "line": 658,
+      "text": "        return;"
+    },
+    {
+      "line": 659,
+      "text": "    }"
+    },
+    {
+      "line": 660,
+      "text": ""
+    },
+    {
+      "line": 661,
+      "text": "    MPI_Finalized(&flag);"
+    },
+    {
+      "line": 662,
+      "text": "    if (flag)"
+    },
+    {
+      "line": 663,
+      "text": "    {"
+    },
+    {
+      "line": 664,
+      "text": "        // MPI already finalized - we have nothing to do"
+    },
+    {
+      "line": 665,
+      "text": "        if (ourMpi)"
+    },
+    {
+      "line": 666,
+      "text": "        {"
+    },
+    {
+      "line": 739,
+      "text": "    // Free any user data types"
+    },
+    {
+      "line": 740,
+      "text": "    PstreamGlobals::deinitDataTypes();"
+    },
+    {
+      "line": 741,
+      "text": "    PstreamGlobals::deinitOpCodes();"
+    },
+    {
+      "line": 742,
+      "text": ""
+    },
+    {
+      "line": 743,
+      "text": "    MPI_Finalize();"
+    },
+    {
+      "line": 744,
+      "text": "}"
+    },
+    {
+      "line": 745,
+      "text": ""
+    },
+    {
+      "line": 746,
+      "text": ""
+    },
+    {
+      "line": 747,
+      "text": "void Foam::UPstream::exit(int errNo)"
+    },
+    {
+      "line": 748,
+      "text": "{"
+    }
+  ],
+  "source_sha256": "1fab0b01b5526c6c17b15147105ab2729ec97bc670ae6f801645363a76a2c291",
+  "nm_returncode": 0,
+  "nm_stderr": "",
+  "MPI_entry_symbols": [
+    "                 U MPI_Finalize",
+    "                 U MPI_Finalized",
+    "                 U MPI_Initialized",
+    "                 U MPI_Init_thread"
+  ]
+}
