@@ -1,15 +1,15 @@
 # Current AI / Qwen handoff
 
-Updated 2026-10-27T02:31:10.224549+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
+Updated 2026-10-27T17:56:03.194845+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
 
 ## Current jobs and dispatch handoff
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26574|Two-by-four native CUDA and eight distinct UUID prerequisite|SUBMITTED / PENDING|
-|H200 / Slurm|26579|Full N64 chunk 8192 control, relative-GPU repair|SUBMITTED afterany 26574 + actual proof guard|
-|H200 / Slurm|26581|Same runtime, chunk 10240 intermediate|SUBMITTED afterany 26579 + actual proof guard|
-|H200 / Slurm|26583|Same runtime, chunk 12288 larger batch|SUBMITTED afterany 26581 + actual proof guard|
+|H200 / Slurm|26764|Real AIPerf entrypoint override and owned terminal-root scan|COMPLETED 0:0, 5 seconds; no stale roots found|
+|H200 / Slurm|26766|Full N64 chunk 8192 control, explicit exec rc|PENDING Resources|
+|H200 / Slurm|26768|Same runtime, chunk 10240 intermediate|PENDING afterany 26766|
+|H200 / Slurm|26770|Same runtime, chunk 12288 larger batch|PENDING afterany 26768|
 |H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
 
 These are dated snapshots; query actual queues before action. H200 serving jobs request 16 GPUs/two nodes/17 minutes maximum, own cap 5. The H100 job requests eight GPUs/one node/30 minutes, maximum 512 SU; combined CPU+AI PBS cap 3 and maximum one running AI allocation. The separate CPU queue was empty immediately after PBS admission; do not infer it remains empty. Preserve queue positions and frozen payloads.
@@ -42,7 +42,7 @@ H100 225228 F/0 in 6:39 passed eight distinct H100 device/source/metadata receip
 
 ## Access, credit and admission
 
-AI SSH and VPN are working. CPU read-only SSH currently times out or returns authentication failure; a separate channel authentication did not establish access. Preserve other worker channels and do not restart VPN. Fresh CPU queue availability is UNKNOWN, so PBS R2 admission has not occurred. No phone-side DUO approval or exact session lifetime is claimed. Preserve healthy private session state; never capture it or restart it gratuitously. Selected AI project 59010042 snapshot label 27/10/2026-00:20:07: grant 64000, used 48313.842, balance 15686.158, In Doubt negative zero SU. The owner explicitly removed internal withholding: all 4512 SU of terminal local holdbacks are released; historical maxima and charge-attribution limits remain audit metadata. Actual available balance is 15686.158 SU with zero discretionary/terminal buffer. Count genuinely active/uncertain commitments once, net of site prepayment. Owner's earlier 30 October planning deadline remains.
+At 2026-10-27T17:56:03.194845+00:00, both authorised AI and CPU SSH helpers report no live VPN session. Both PBS queues are UNKNOWN; no new authentication prompt was sent. Earlier working AI access and CPU-only authentication failures below are historical. Preserve other worker channels and do not restart VPN. Fresh CPU queue availability is UNKNOWN, so PBS R2 admission has not occurred. No phone-side DUO approval or exact session lifetime is claimed. Preserve healthy private session state; never capture it or restart it gratuitously. Selected AI project 59010042 snapshot label 27/10/2026-00:20:07: grant 64000, used 48313.842, balance 15686.158, In Doubt negative zero SU. The owner explicitly removed internal withholding: all 4512 SU of terminal local holdbacks are released; historical maxima and charge-attribution limits remain audit metadata. Actual available balance is 15686.158 SU with zero discretionary/terminal buffer. Count genuinely active/uncertain commitments once, net of site prepayment. Owner's earlier 30 October planning deadline remains.
 
 PBS admission checks both own queues and selected project credit under CPU-before-AI locks. A parser initially rejected signed negative zero before any reservation/qsub; it was fixed/tested, remote checksums reverified and exactly one definite new receipt obtained. No uncertain attempt remains. No budget increase or other worker spending occurred. Read nscc-budget.json and actual receipts before another admission.
 
@@ -77,3 +77,9 @@ H100 AI SSH still works, queue empty; fresh selected site label 27/10/2026-10:00
 26538 completed 0:0 in 39 seconds: real Harbor image executes CUDA on one H200 using native node-local Enroot. Full 26545/26547 then failed in the second prefill NVIDIA hook, which rejects global device4 while the step-visible CUDA indices are0–3. The global-versus-relative distinction was logged but the CLI expectation was wrong. Preserve both failures; no AIPerf score exists.
 
 Actual new jobs26574/26579/26581/26583 provide one split8 prerequisite and three full N64 arms (8192 control,10240 intermediate,12288 larger). The owner explicitly requested3–4 queued jobs; all four were admitted under cap5 and definite IDs retained. All original acceptance/quality/runtime gates remain, and actual eight-distinct-GPU CUDA proof is mandatory before model steps. No background Codex, blind duplicate, fixed-source edit or HPC action. [Review and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/native-gpu-map-r2-20261027/REVIEW.md).
+
+## Actual runtime R3 continuation — 2026-10-28T00:56:03.194845+07:00, Vietnam time
+
+The four previous jobs are terminal: 26574 split-eight CUDA PASS; 26579 FAILED 1:0 after 8:54 because the native AIPerf image entrypoint interpreted env as a subcommand; 26581 FAILED 1:0 after 5:24 on router local-space guard; 26583 FAILED 1:0 after 6 seconds on initial prefill local-space guard. No profile score was produced. Native worker/source/KV and both semantic routes passed in 26579 before the client launch failed.
+
+New 26764 completed 0:0 and verified the actual AIPerf exec-rc repair. Both node scans found no matching own native rootfs leftovers. Do not claim old rootfs leakage caused the transient capacity failures, or that the probe exercised removal. Actual frozen full arms 26766/26768/26770 are queued, preserving full protocol, source and output gates. [Repair, actual receipts and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/native-runtime-r3-20261027/REVIEW.md). Historical results remain unchanged; no new performance gain or official accuracy is claimed. H100 access currently has no live VPN session, so R2 is not submitted. No HPC action or background Codex.
