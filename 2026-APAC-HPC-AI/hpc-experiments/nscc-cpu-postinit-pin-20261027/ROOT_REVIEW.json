@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "review_scope": "Preparation and offline static review only; root must review before deploy or admission.",
+  "payload_sha256": {
+    "payload/mpi-init-probe.c": "722784029cfc7034872aaa02ff4cef5b01a1bbd3a4dff9c0ddac4ac4c555fb14",
+    "payload/nscc-postinit-pin.pbs": "766a9bc4c42bbf069d7eb5c5ee363030ba369e408fd6c99321ec4d4a8ea9f5d5",
+    "payload/offline-fixtures.py": "f88a4f38317c65ae41615f11cbbcdf5d7da1c4a388afbdfc49755130aeef5ddd",
+    "payload/offline_checks.py": "1a065faa3b04a5c11f6c18fa68af9f917863611ada4c08315493efb32fdaec68",
+    "payload/postinit-pin-probe.c": "34e475d39a306f3506e790847958e67ab53bbd2ff22ac5db4e62a01d0ebd3eef",
+    "payload/worker.sh": "4cb8211c80316902446b8f7b1e7b16c08eedb4f7db26972eb1d7fab8ff8552c5"
+  },
+  "payload_bytes": 45264,
+  "supporting_files_sha256": {
+    "README.md": "87308d72c773a13ebac0ec0d029d63b95391955893bbf498356c12cf0d382ad1",
+    "deploy_submit.py": "c2621f3a901ddfb05297fbc7fe5d05d7b58fb1c1142438ea41f0c1106665cbb2",
+    "collect_completed.py": "104d3425fb0fd02f7a4374b8b6655cb5c1408a844e31ddc9fbb9fbe78f4f428b",
+    "review.py": "daa9816346f07e72392465639e5c475570058f780e59e7e0b9e8624514a91734",
+    "offline-checks.json": "e1455baba79d24bcff2387d06ed93620fff8b1c241557f3bc7329ad135b74b83",
+    "offline/include/mpi.h": "b4910c721280444f6cf49d06acec1ba06484828fa31b858ce35c55a16dc11ea8"
+  },
+  "objective": "Compare the existing native MPI-init probe to a fail-closed post-init per-host core-topology-selected main-thread pin audit.",
+  "checks": [
+    "Baseline probe bytes exactly match the collected payload source from completed job 26004608.",
+    "Candidate requires world 512, four processor-name groups of 128, shared communicator size 128, and local/world host membership agreement.",
+    "Only each local communicator rank zero reads sysfs for CPUs in its own post-init allowed mask; missing, negative, offline, or ambiguous package/core/NUMA mappings fail the local gate.",
+    "Exactly 128 distinct physical package/core identities are required; the lowest allowed logical CPU per core is selected in deterministic package/core order and the complete per-host sysfs map is retained.",
+    "Every rank verifies its selected CPU is in its own observed post-init allowed mask and online before the all-rank gate permits sched_setaffinity(0).",
+    "The call is explicitly a main-thread binding; immediate, post-Allreduce, post-two-second monotonic wait, and post-final-Allreduce masks are recorded.",
+    "The worker records and propagates each arm exit status, caps each arm at 60 seconds, enforces 255 seconds internally, and preserves 25 seconds before the 275-second outer timeout within a 300-second PBS request.",
+    "Synthetic positive topology/512-rank replay and 15 negative topology, slot, identity, target-mask and phase cases pass.",
+    "Both native C files pass strict warning syntax checks with a narrow local MPI declaration shim; this is not an MPI build or runtime claim.",
+    "PBS request maximum is 42.666667 SU at 1 SU per CPU-hour; a fresh queue/project/budget gate remains in the deployment/admission code."
+  ],
+  "primary_sources": [
+    {
+      "title": "MPI Forum MPI 3.1 Communicator Constructors",
+      "url": "https://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node156.htm",
+      "application": "MPI_Comm_split_type grouping and key-based local rank order."
+    },
+    {
+      "title": "Linux sched_setaffinity(2)",
+      "url": "https://man7.org/linux/man-pages/man2/sched_setaffinity.2.html",
+      "application": "PID zero addresses the calling thread; effective mask is restricted by online CPUs and cpuset permissions."
+    }
+  ],
+  "known_limits": [
+    "No mpicc is installed locally, so real Cray compilation/linking and runtime remain unverified.",
+    "sched_setaffinity with pid zero binds only the calling thread; MPI helper/progress threads are unqualified.",
+    "The diagnostic has no solver, Pstream interposition, performance endpoint, or official result.",
+    "Synthetic topology cases do not prove NSCC physical topology or scheduler masks.",
+    "No remote deployment, scheduler query, budget mutation, reservation, or submission occurred."
+  ],
+  "remote_actions_performed": false,
+  "root_review_required_before_remote": true,
+  "utc": "2026-10-27T03:26:17.791848+00:00",
+  "root_integration": [
+    "Unchanged native baseline matches parent source exactly",
+    "Reviewed collective preflight and target subset checks; zero mutation until all ranks pass",
+    "Reject unknown negative package, core and NUMA IDs",
+    "Only calling thread is pinned; no helper thread or NIC placement qualification",
+    "Reran strict C syntax checks using declared-only offline MPI header, not real MPI ABI/runtime",
+    "Both shell syntax checks and Python 3.9 grammar pass",
+    "Offline topology and mask fixtures: two positive and fifteen rejection cases pass",
+    "Explicit method0 and cleared launcher variables match parent control",
+    "Durable uncertain submission entry is recorded before qsub; accepted job updates the same entry",
+    "Shared project usage conservatively updates allowance before checking unchanged ceiling",
+    "Only PBS shutdown comment changed after draft seal; original prepared manifest and PBS retained before integration",
+    "Four nodes,512 CPUs,zero GPUs,300-second maximum and42.666667-SU maximum; real queues and rate checked under CPU then AI locks"
+  ]
+}
