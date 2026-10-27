@@ -1,0 +1,11 @@
+# One larger prefill batch under the current HPC-Ops decode runtime
+
+Completed full N64 chunk 6144 job 26473 passes local gates at 2661.889812 good tokens/s but loses to chunk 8192 control 26319 at 2827.996286. Chunk 4096 job 26475 has a real joint-SLA failure: only 57.151899% qualify; p95 TTFT 3922.50 ms while p95 ITL remains 15.07 ms, no request errors. Close the smaller-chunk branch. Do not repeat it.
+
+Test one larger chunk of 12288 with all current full-runtime settings fixed. The new evidence is the direction-specific TTFT degradation as prefill chunks shrink, while decoder token latency stays stable. This motivates testing whether packing about three 4000-token prompts instead of two improves prefill service and queue time. It is a hypothesis, not a bottleneck proof.
+
+Retain old losing 24723: chunk 12288 at N58 with auto decode lost 2.3789%. It is not hidden or called successful. The current treatment uses N64 and HPC-Ops decode. The retained 19 October experiment demonstrated a chunk/decode-runner interaction: HPC-Ops gained 5.69% at chunk 8192 but only about 0.21% at chunk 4096. Therefore an auto-decode result does not settle the interaction under HPC-Ops. This is exactly one declared current-runtime test, not an unchanged retry or permission for a large sweep. Old 16384 lost substantially in another runtime; do not add it blindly.
+
+Source parent is frozen S72 / actual 26319. Change only chunk size and its exact checker expectation; native graph geometry is generated from the chunk. Keep full N64/60:120:30, fixed 4000/200, seed 2026, cold prefixes, all 16 H200, FP8 weights/BF16 runtime and KV, prefill DeepGEMM/breakable/native admission, decode HPC-Ops, transport/semantic/geometry/output gates. Require at least 90% joint SLA, no errors/cancellations, smoke 7/8 without regression and retrieval 12/12. Official full-set accuracy stays unknown. Need >1% useful gain without material tail regression before independent confirmation. If subthreshold or failed, close this exact branch; no automatic widening or repeated favorable-peak hunt.
+
+One 16-H200/two-node/17-minute job, no PBS SU. Fresh queue lock/cap 5 and an unambiguous receipt are mandatory. No background Codex or package promotion. Source evidence: research-followup-20261019-0600/RESULTS.md and the actual current raw runs 26319/26473/26475.
