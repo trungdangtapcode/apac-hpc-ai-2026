@@ -396,3 +396,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 Measurement clarification, 27 October: [Reported teammate 3.39-second mean and native timing definition](../../../notes/hpc-mean-step-comparison-20261027.md). Teammate evidence is pending; no new measured gain is claimed.
 
 HPC progress explanation, 27 October: [Why a mean below 3.36 seconds is plausible, what our journey actually established, and the next matched test](../../hpc-research-journey-20261023/PROGRESS_THROUGH_20261027.md). Separates measured replication from tuning gains and organiser references from our own runs.
+
+HPC contribution audit, 27 October: [Concrete own findings, measured Iris candidate, losing branches, native mechanism and unfinished NSCC performance objective](../../hpc-research-journey-20261023/OWN_FINDINGS_THROUGH_20261027.md).
