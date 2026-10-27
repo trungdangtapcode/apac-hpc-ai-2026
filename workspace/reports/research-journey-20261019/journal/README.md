@@ -380,3 +380,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [27 October: single zyx 50-step horizon extension submitted as Iris 2294148](entries/20261027-hpc-zyx50-submitted.md).
 
 - [27 October: rank-zero trace finds a query, not a setter; post-initialization binding qualification selected](entries/20261027-hpc-affinity-trace-result.md).
+
+- [27 October: explicit post-MPI calling-thread placement qualification submitted as NSCC 26016270](entries/20261027-hpc-postinit-pin-submitted.md).

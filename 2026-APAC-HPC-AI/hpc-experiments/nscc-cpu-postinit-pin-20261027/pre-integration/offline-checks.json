@@ -1,0 +1,123 @@
+{
+  "observed_at_utc": "2026-10-27T03:23:58.615917+00:00",
+  "passed": true,
+  "local_mpicc_available": false,
+  "C_check": {
+    "method": "cc -std=gnu11 -Wall -Wextra -Werror -fsyntax-only using offline/include/mpi.h declaration shim",
+    "scope": "C syntax and warnings only; no real MPI headers, ABI, library, MPI initialization, or site runtime",
+    "sources": [
+      {
+        "source": "payload/mpi-init-probe.c",
+        "returncode": 0,
+        "stderr": ""
+      },
+      {
+        "source": "payload/postinit-pin-probe.c",
+        "returncode": 0,
+        "stderr": ""
+      }
+    ]
+  },
+  "bash_n_passed": true,
+  "python_ast_passed": true,
+  "offline_fixtures": {
+    "passed": true,
+    "fixture_type": "synthetic CPU/sysfs topology and MPI record data only",
+    "positive": [
+      {
+        "name": "128 physical cores select lowest online allowed sibling in socket/core order",
+        "passed": true
+      },
+      {
+        "name": "512 rank records retain unique world/PMI identities and every pin phase",
+        "passed": true,
+        "records": 512,
+        "hosts": {
+          "compute0": 128,
+          "compute1": 128,
+          "compute2": 128,
+          "compute3": 128
+        },
+        "pmi_nonidentity_pairs": 496
+      }
+    ],
+    "negative": [
+      {
+        "name": "only 127 physical cores",
+        "rejected": true
+      },
+      {
+        "name": "129 physical cores exceed strict gate",
+        "rejected": true
+      },
+      {
+        "name": "selected logical CPU is offline",
+        "rejected": true
+      },
+      {
+        "name": "NUMA node mapping is missing",
+        "rejected": true
+      },
+      {
+        "name": "negative physical package ID",
+        "rejected": true
+      },
+      {
+        "name": "negative physical core ID",
+        "rejected": true
+      },
+      {
+        "name": "negative NUMA node ID",
+        "rejected": true
+      },
+      {
+        "name": "siblings disagree on NUMA node",
+        "rejected": true
+      },
+      {
+        "name": "duplicate local physical slot",
+        "rejected": true
+      },
+      {
+        "name": "mask widened after global allreduce",
+        "rejected": true
+      },
+      {
+        "name": "target outside process post-init allowed mask",
+        "rejected": true
+      },
+      {
+        "name": "after-two-second phase reports syscall failure",
+        "rejected": true
+      },
+      {
+        "name": "bounded two-second observation is missing",
+        "rejected": true
+      },
+      {
+        "name": "duplicate PMI rank",
+        "rejected": true
+      },
+      {
+        "name": "missing world rank record",
+        "rejected": true
+      }
+    ]
+  },
+  "baseline_source_sha256": "722784029cfc7034872aaa02ff4cef5b01a1bbd3a4dff9c0ddac4ac4c555fb14",
+  "baseline_bytes_match_parent_job_26004608": true,
+  "payload_file_count": 6,
+  "payload_bytes": 45264,
+  "pbs_shape": {
+    "nodes": 4,
+    "ranks": 512,
+    "cpus": 512,
+    "gpus": 0,
+    "walltime_seconds": 300,
+    "worker_deadline_seconds": 255,
+    "outer_timeout_seconds": 275,
+    "each_arm_cap_seconds": 60,
+    "maximum_SU": 42.666666666666664
+  },
+  "remote_or_scheduler_actions_performed": false
+}

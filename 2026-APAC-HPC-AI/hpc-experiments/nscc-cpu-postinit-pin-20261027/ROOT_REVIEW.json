@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "review_scope": "Preparation and offline static review only; root must review before deploy or admission.",
+  "review_scope": "Root-reviewed frozen payload and current support files before qsub; original preparation attestation retained in pre-integration.",
   "payload_sha256": {
     "payload/mpi-init-probe.c": "722784029cfc7034872aaa02ff4cef5b01a1bbd3a4dff9c0ddac4ac4c555fb14",
     "payload/nscc-postinit-pin.pbs": "766a9bc4c42bbf069d7eb5c5ee363030ba369e408fd6c99321ec4d4a8ea9f5d5",
@@ -9,13 +9,13 @@
     "payload/postinit-pin-probe.c": "34e475d39a306f3506e790847958e67ab53bbd2ff22ac5db4e62a01d0ebd3eef",
     "payload/worker.sh": "4cb8211c80316902446b8f7b1e7b16c08eedb4f7db26972eb1d7fab8ff8552c5"
   },
-  "payload_bytes": 45264,
+  "payload_bytes": 45273,
   "supporting_files_sha256": {
-    "README.md": "87308d72c773a13ebac0ec0d029d63b95391955893bbf498356c12cf0d382ad1",
-    "deploy_submit.py": "c2621f3a901ddfb05297fbc7fe5d05d7b58fb1c1142438ea41f0c1106665cbb2",
+    "README.md": "62436e563e4944ed93f6368fc1ee1c1bed268df78cb2f8dfe3a2f74ecc704310",
+    "deploy_submit.py": "5a0f95d3f07562dc292bc78d51abced21bb619cb81d1ca0b635dfeab12a23aab",
     "collect_completed.py": "104d3425fb0fd02f7a4374b8b6655cb5c1408a844e31ddc9fbb9fbe78f4f428b",
     "review.py": "daa9816346f07e72392465639e5c475570058f780e59e7e0b9e8624514a91734",
-    "offline-checks.json": "e1455baba79d24bcff2387d06ed93620fff8b1c241557f3bc7329ad135b74b83",
+    "offline-checks.json": "84d0a41c41fdf003f36b1c4c3ad5f4dc810a148d852dc6a57cc394e75e2ba86c",
     "offline/include/mpi.h": "b4910c721280444f6cf49d06acec1ba06484828fa31b858ce35c55a16dc11ea8"
   },
   "objective": "Compare the existing native MPI-init probe to a fail-closed post-init per-host core-topology-selected main-thread pin audit.",
@@ -50,8 +50,8 @@
     "Synthetic topology cases do not prove NSCC physical topology or scheduler masks.",
     "No remote deployment, scheduler query, budget mutation, reservation, or submission occurred."
   ],
-  "remote_actions_performed": false,
-  "root_review_required_before_remote": true,
+  "remote_actions_performed": true,
+  "root_review_required_before_remote": false,
   "utc": "2026-10-27T03:26:17.791848+00:00",
   "root_integration": [
     "Unchanged native baseline matches parent source exactly",
@@ -66,5 +66,9 @@
     "Shared project usage conservatively updates allowance before checking unchanged ceiling",
     "Only PBS shutdown comment changed after draft seal; original prepared manifest and PBS retained before integration",
     "Four nodes,512 CPUs,zero GPUs,300-second maximum and42.666667-SU maximum; real queues and rate checked under CPU then AI locks"
-  ]
+  ],
+  "root_review_completed": true,
+  "remote_actions_performed_at_initial_review": false,
+  "current_remote_state": "SUBMITTED_26016270.pbs101",
+  "updated_utc": "2026-10-27T03:28:59.933575+00:00"
 }
