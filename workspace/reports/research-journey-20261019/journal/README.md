@@ -390,3 +390,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [27 October: native post-MPI pinning qualifies all 512 main threads and reproduces entry placement](entries/20261027-hpc-native-pin-qualified.md).
 
 - [27 October: prepare actual PMPI/Pstream integration with matched native controls and a tiny diagnostic mesh](entries/20261027-hpc-pstream-adapter-plan.md).
+
+- [27 October: actual Pstream PMPI qualification admitted as NSCC 26019383](entries/20261027-hpc-pstream-adapter-submitted.md).
