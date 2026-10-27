@@ -1,0 +1,431 @@
+{
+  "created_utc": "2026-10-27T10:33:22.706355+00:00",
+  "scope": "HPC CPU on NSCC ASPIRE-2A; this is a logical adaptive queue, not a PBS queue or executable dispatcher",
+  "targets": {
+    "own_full_mean_s_step": 3.364622069697988,
+    "organizer_reference_s_step": 3.210832547664429
+  },
+  "budget": {
+    "proposed_campaign_envelope_SU": 8000,
+    "sum_conditional_request_maxima_SU": 7253.333333333335,
+    "existing_cpu_ceiling_SU": 29777.846,
+    "dated_commitment_SU": 4857.2,
+    "dated_headroom_SU": 24920.646666666664,
+    "fresh_balance_verified": false,
+    "reservation_created": false,
+    "semantics": "All branch maxima are conditional and planning-only; shared jobs, accepted receipts and current spending must be reconciled before admission. No top-up or implicit increase."
+  },
+  "queue_limits": {
+    "own_cpu_queued_or_running": 1,
+    "combined_own_cpu_ai_pbs": 3,
+    "holds_count": true,
+    "latest_actual_queue": "UNKNOWN: 2026-10-27T10:28:19Z VPN wrapper reported no live session",
+    "historical_unreconciled_cpu_job_ids": [
+      "26023372",
+      "26023373",
+      "26023382",
+      "26023383"
+    ],
+    "historical_snapshot_utc": "2026-10-27T07:48:24Z"
+  },
+  "candidates": [
+    {
+      "id": "S0",
+      "tier": "Basic",
+      "method": "scotch",
+      "rank_count": 512,
+      "change": "Native default-Scotch control; SRX off; no injection",
+      "status": "planned"
+    },
+    {
+      "id": "Hxyz",
+      "tier": "Basic",
+      "method": "hierarchical",
+      "factors": [
+        16,
+        8,
+        4
+      ],
+      "order": "xyz",
+      "rank_count": 512,
+      "change": "Matched native hierarchy control",
+      "status": "planned"
+    },
+    {
+      "id": "Hzyx",
+      "tier": "Basic",
+      "method": "hierarchical",
+      "factors": [
+        16,
+        8,
+        4
+      ],
+      "order": "zyx",
+      "rank_count": 512,
+      "change": "Transfer the Iris cut-order hypothesis; only order differs from Hxyz",
+      "status": "planned"
+    },
+    {
+      "id": "Spin",
+      "tier": "Bonus",
+      "method": "scotch",
+      "rank_count": 512,
+      "change": "Post-init identity main-thread pin through qualified PMPI adapter; no graph permutation",
+      "status": "gated_application_integration"
+    },
+    {
+      "id": "Sbalanced",
+      "tier": "Bonus",
+      "method": "scotch",
+      "rank_count": 512,
+      "change": "Qualified actual rank/host assignment from balanced graph candidate; preserve partition and work",
+      "status": "gated_mapping_and_application"
+    },
+    {
+      "id": "Saggressive",
+      "tier": "Bonus",
+      "method": "scotch",
+      "rank_count": 512,
+      "change": "Qualified aggressive graph candidate with lower host cut and worse NUMA proxy",
+      "status": "gated_mapping_and_application"
+    },
+    {
+      "id": "Hzyx_pin",
+      "tier": "Bonus",
+      "method": "hierarchical",
+      "factors": [
+        16,
+        8,
+        4
+      ],
+      "order": "zyx",
+      "rank_count": 512,
+      "change": "Combine cut order and pin only after their separate trials justify combination",
+      "status": "conditional_on_component_findings"
+    },
+    {
+      "id": "Hshape888",
+      "tier": "Basic",
+      "method": "hierarchical",
+      "factors": [
+        8,
+        8,
+        8
+      ],
+      "order": "selected_by_prior_order_trial",
+      "rank_count": 512,
+      "change": "Fallback shape hypothesis, not an existing measured Iris winner",
+      "status": "conditional_new_hypothesis"
+    },
+    {
+      "id": "Hshape1648",
+      "tier": "Basic",
+      "method": "hierarchical",
+      "factors": [
+        16,
+        4,
+        8
+      ],
+      "order": "selected_by_prior_order_trial",
+      "rank_count": 512,
+      "change": "Fallback shape hypothesis, change factors only relative to the selected hierarchy control",
+      "status": "conditional_new_hypothesis"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "Q00",
+      "purpose": "Restore verified access; reconcile existing jobs and receipts; review 26019383 and storage",
+      "prerequisites": [],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "read_only_reconciliation",
+      "candidates": [],
+      "allocation_cpus": 0,
+      "pbs_walltime_minutes_per_allocation": 0,
+      "maximum_allocations": 1,
+      "planning_max_SU": 0.0,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q01",
+      "purpose": "Fresh full native Scotch reference and exact recipe/environment comparison",
+      "prerequisites": [
+        "Q00"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "S0"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 40,
+      "maximum_allocations": 1,
+      "planning_max_SU": 341.3333333333333,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q02",
+      "purpose": "Matched full native hierarchy xyz then zyx; fresh required preparation per decomposition",
+      "prerequisites": [
+        "Q00",
+        "Q01"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "Hxyz",
+        "Hzyx"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 70,
+      "maximum_allocations": 1,
+      "planning_max_SU": 597.3333333333334,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q03",
+      "purpose": "Reverse full pair zyx then xyz if Q02 gives a valid target hit or meaningful matched advantage",
+      "prerequisites": [
+        "Q02_review"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "Hzyx",
+        "Hxyz"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 70,
+      "maximum_allocations": 1,
+      "planning_max_SU": 597.3333333333334,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q04",
+      "purpose": "Review submitted integration; allow at most two log-derived tiny repair tests if needed",
+      "prerequisites": [
+        "Q00"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "conditional_qualification",
+      "candidates": [],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 10,
+      "maximum_allocations": 2,
+      "planning_max_SU": 170.66666666666666,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q05",
+      "purpose": "Full native Scotch versus identity pin in A-B-B-A order",
+      "prerequisites": [
+        "Q04_actual_pass"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "S0",
+        "Spin"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 90,
+      "maximum_allocations": 1,
+      "planning_max_SU": 768.0,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q06",
+      "purpose": "Fresh balanced-map qualification then full matched identity/candidate A-B-B-A",
+      "prerequisites": [
+        "Q05_review",
+        "balanced_actual_mapping_pass"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "S0",
+        "Sbalanced"
+      ],
+      "allocation_cpus": 512,
+      "planning_max_SU": 853.3333333333334,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan",
+      "allocation_components": [
+        {
+          "kind": "mapping_qualification",
+          "maximum_allocations": 1,
+          "cpus": 512,
+          "walltime_minutes": 10,
+          "planning_max_SU": 85.33333333333333
+        },
+        {
+          "kind": "full_ABBA_after_qualification_and_review",
+          "maximum_allocations": 1,
+          "cpus": 512,
+          "walltime_minutes": 90,
+          "planning_max_SU": 768
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "purpose": "Fresh aggressive-map qualification then matched A-B-B-A if trade-off remains informative",
+      "prerequisites": [
+        "Q05_review",
+        "aggressive_actual_mapping_pass"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "S0",
+        "Saggressive"
+      ],
+      "allocation_cpus": 512,
+      "planning_max_SU": 853.3333333333334,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan",
+      "allocation_components": [
+        {
+          "kind": "mapping_qualification",
+          "maximum_allocations": 1,
+          "cpus": 512,
+          "walltime_minutes": 10,
+          "planning_max_SU": 85.33333333333333
+        },
+        {
+          "kind": "full_ABBA_after_qualification_and_review",
+          "maximum_allocations": 1,
+          "cpus": 512,
+          "walltime_minutes": 90,
+          "planning_max_SU": 768
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "purpose": "Combine measured useful hierarchy and pin findings, compare matched unpinned hierarchy",
+      "prerequisites": [
+        "Q03_review",
+        "Q05_review",
+        "combination_justification"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "Hzyx",
+        "Hzyx_pin"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 90,
+      "maximum_allocations": 1,
+      "planning_max_SU": 768.0,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q09",
+      "purpose": "Only if needed: two bounded matched hierarchy-factor trials, reviewed sequentially",
+      "prerequisites": [
+        "primary_branch_reviews",
+        "new_shape_hypothesis"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "Hshape888",
+        "Hshape1648"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 70,
+      "maximum_allocations": 2,
+      "planning_max_SU": 1194.6666666666667,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q10",
+      "purpose": "Two independent full winner repeats on fresh allocations",
+      "prerequisites": [
+        "winner_selected_and_validated"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "full_solver",
+      "candidates": [
+        "selected_winner"
+      ],
+      "allocation_cpus": 512,
+      "pbs_walltime_minutes_per_allocation": 40,
+      "maximum_allocations": 2,
+      "planning_max_SU": 682.6666666666666,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q11",
+      "purpose": "If Bonus selected: paired pre-change/change at one node40 steps and two nodes80 steps",
+      "prerequisites": [
+        "bonus_winner_review"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "bonus_scaling_self_proof",
+      "candidates": [],
+      "allocation_cpus": 128,
+      "pbs_walltime_minutes_per_allocation": 60,
+      "maximum_allocations": 1,
+      "planning_max_SU": 128.0,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    },
+    {
+      "id": "Q12",
+      "purpose": "Two-node Bonus self-proof pair, 80 steps each",
+      "prerequisites": [
+        "Q11_review"
+      ],
+      "status": "planned_not_submitted",
+      "job_ids": [],
+      "kind": "bonus_scaling_self_proof",
+      "candidates": [],
+      "allocation_cpus": 256,
+      "pbs_walltime_minutes_per_allocation": 70,
+      "maximum_allocations": 1,
+      "planning_max_SU": 298.6666666666667,
+      "admission": "Fresh VPN, both queues, ownership, budget, rate, locks and frozen payload review required; no reservation created by this plan"
+    }
+  ],
+  "control_rules": {
+    "primary_hierarchy_factors": [
+      16,
+      8,
+      4
+    ],
+    "iris_source_factors": [
+      7,
+      4,
+      2
+    ],
+    "native_Basic_requires_PMPi": false,
+    "injection_tier": "Bonus",
+    "bonus_proof_endpoints": [
+      [
+        1,
+        40
+      ],
+      [
+        2,
+        80
+      ],
+      [
+        4,
+        150
+      ]
+    ],
+    "queued_not_submitted": true
+  }
+}

@@ -398,3 +398,5 @@ Measurement clarification, 27 October: [Reported teammate 3.39-second mean and n
 HPC progress explanation, 27 October: [Why a mean below 3.36 seconds is plausible, what our journey actually established, and the next matched test](../../hpc-research-journey-20261023/PROGRESS_THROUGH_20261027.md). Separates measured replication from tuning gains and organiser references from our own runs.
 
 HPC contribution audit, 27 October: [Concrete own findings, measured Iris candidate, losing branches, native mechanism and unfinished NSCC performance objective](../../hpc-research-journey-20261023/OWN_FINDINGS_THROUGH_20261027.md).
+
+HPC execution plan, 27 October: [Native NSCC transfer first, conditional placement branches, full-run gates and bounded queue](entries/20261027-hpc-nscc-transfer-plan.md). All new entries planned, not submitted; fresh VPN/queue/credit admission is pending.
