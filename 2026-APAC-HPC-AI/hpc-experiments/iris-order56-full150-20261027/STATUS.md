@@ -21,3 +21,7 @@ Iris is a practice machine. Its raw seconds/step cannot be ranked against the fo
 Remote root: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-orderfull150-20261027T172755Z`. Frozen kit: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-orderfull150-20261027T172755Z/kit`. Worker logs/results are under `root/runs/2294234` and independent cases under `root/cases/zyx` and `root/cases/xyz`; Slurm stdout/stderr are `kit/runs/2294234.out/.err`. Keep the 49 source hashes unchanged. No runtime-cache, credentials or private authentication state belongs in the archive.
 
 The payload and all admission receipts are captured in Git. Large remote processor meshes/fields are not uploaded by Git. After terminal completion, derive the existing Iris collector/replay against this exact root and compare raw native output with recorded summaries before retiring the reservation once. Do not cancel or requeue solely because it takes time. No background Codex or automatic chat notifications are enabled.
+
+## Early solver progress
+
+At 17:34 UTC / 00:34 Vietnam, job 2294234 remains RUNNING on iris024. zyx reached Time 9/150 after successful source and isolated-copy checks. Effective zyx solver cap 4192 seconds. No full-arm mean or speedup is claimed. [Exact early snapshot](early-progress.json).

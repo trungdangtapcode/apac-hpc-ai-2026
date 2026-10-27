@@ -4,15 +4,15 @@ Updated 2026-10-27T17:33:06.657738+00:00. Vietnam time is UTC+7. This fork 01a17
 
 ## Live Iris job
 
-**Job 2294234 is RUNNING on iris024**,verified 17:29:25 UTC 27 October / 00:29:25 Vietnam 28 October. Actual submission confirmation was 00:28:44 Vietnam. One exclusive CPU node, 56 ranks, zero GPUs, QoS low, 3-hour maximum. It runs zyx then xyz, each 150 steps with 149 native timer samples, on the same allocation. [Receipt,source and exact live progress](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full 150-20261027/STATUS.md).
+**Job 2294234 is RUNNING on iris024**,verified 17:29:25 UTC 27 October / 00:29:25 Vietnam 28 October. Actual submission confirmation was 00:28:44 Vietnam. One exclusive CPU node, 56 ranks, zero GPUs, QoS low, 3-hour maximum. It runs zyx then xyz, each 150 steps with 149 native timer samples, on the same allocation. [Receipt,source and exact live progress](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/STATUS.md).
 
 The 49-file runtime kit is sealed. Both source cases were READY, with 56 processor directories. Root review includes actual retained full 150 parser replay, source/copy/physics/iteration/force gates, zero-time latestTime checks, stable executable/library identities and all command exits. First runtime source-hash gate passed 31.46 s and zyx clone began. No new mean or speedup exists yet. A partial first arm is not a completed matched pair.
 
-Remote root: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-orderfull 150-20261027T172755Z`. Worker results are `root/runs/2294234`, cases are `root/cases/zyx` and `root/cases/xyz`, Slurm output is `root/kit/runs/2294234.out/.err`. Use the verified forced-TTY `tools/iris_bridge.py` for access. Do not cancel/requeue just because it takes time. Preserve shared-login other teams' jobs; own names use tu-. One own queued/running Iris allocation is the cap.
+Remote root: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-orderfull150-20261027T172755Z`. Worker results are `root/runs/2294234`, cases are `root/cases/zyx` and `root/cases/xyz`, Slurm output is `root/kit/runs/2294234.out/.err`. Use the verified forced-TTY `tools/iris_bridge.py` for access. Do not cancel/requeue just because it takes time. Preserve shared-login other teams' jobs; own names use tu-. One own queued/running Iris allocation is the cap.
 
 ## Budget
 
-Same Iris ledger: `iris-scotch56-20261025/budget.json`, lock sibling budget.lock. Latest explicit owner instruction redirects measurements to Iris instead of waiting for DUO. Root transparently extended the original agent-defined 224-hour envelope by one bounded 168-hour request to 392 CPU-hours. **Consumed 219 + reserved 168 = 387**, headroom 5. Preserve all old jobs/history; no NSCC debit and no inferred SU rate or balance. [Rationale](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full 150-20261027/budget-authorisation.json). Do not retire the reservation before actual terminal/resource review.
+Same Iris ledger: `iris-scotch56-20261025/budget.json`, lock sibling budget.lock. Latest explicit owner instruction redirects measurements to Iris instead of waiting for DUO. Root transparently extended the original agent-defined 224-hour envelope by one bounded 168-hour request to 392 CPU-hours. **Consumed 219 + reserved 168 = 387**, headroom 5. Preserve all old jobs/history; no NSCC debit and no inferred SU rate or balance. [Rationale](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/budget-authorisation.json). Do not retire the reservation before actual terminal/resource review.
 
 ## Retained performance and meaning
 
@@ -35,3 +35,7 @@ Inspect actual 2294234 progress, then collect/replay both complete native output
 Capture safe explicit checkpoints, verify, commit and push promptly. The payload is backed up; large processor meshes/fields remain remote with seals/rebuild sources and are not uploaded by Git. No slide or submission-package change is made by this job.
 
 [Prior detailed handoff and corrections](history/HPC_CURRENT-before-iris-full 150-20261027T1730.md) retain the VPN chronology and older branches. [Journal](../reports/research-journey-20261019/journal/README.md) retains the full reasoning.
+
+## First solver progress — 17:34 UTC / 00:34 Vietnam
+
+Fresh Slurm confirms 2294234 RUNNING on iris024. Both source and clone checks returned zero; zyx solver started at 17:30:32 UTC with an effective 4192-second cap and has reached Time 9/150. This is partial progress, not a completed mean or accuracy result. xyz remains the second arm. [Retained phase snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/early-progress.json).
