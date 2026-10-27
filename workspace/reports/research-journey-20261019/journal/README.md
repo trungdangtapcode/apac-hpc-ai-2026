@@ -392,3 +392,5 @@ Latest AI access recovery: [26 October: H100 restored, fresh SU and recovered te
 - [27 October: prepare actual PMPI/Pstream integration with matched native controls and a tiny diagnostic mesh](entries/20261027-hpc-pstream-adapter-plan.md).
 
 - [27 October: actual Pstream PMPI qualification admitted as NSCC 26019383](entries/20261027-hpc-pstream-adapter-submitted.md).
+
+Measurement clarification, 27 October: [Reported teammate 3.39-second mean and native timing definition](../../../notes/hpc-mean-step-comparison-20261027.md). Teammate evidence is pending; no new measured gain is claimed.
