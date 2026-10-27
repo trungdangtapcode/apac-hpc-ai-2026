@@ -35,3 +35,13 @@ The retained organiser PBS output `nosrx-scot-n4.o25710718` records zero returns
 The official notes additionally list a 3.176–3.387 s/step range for four SRX-off Scotch runs, including solver-only reuse. Thus **3.21 is one selected full-chain reference, not the organisers' minimum or a proven hardware limit**. Reuse runs must retain their different preparation provenance.
 
 [Our historical progress and limits](../reports/hpc-research-journey-20261023/PROGRESS_THROUGH_20261027.md) separates own results from these references.
+
+## Correction: external reference is not our measured baseline
+
+Recorded 2026-10-27T08:05:48.801261+00:00. The owner challenged why the organiser 3.2108 result was called a baseline after a week without exceeding it. The earlier conversational answer “yes, baseline is 3.2108” was too broad. Use **external organiser reference observation** for 3.210832548, and **our independently reviewed baseline observation** for 3.364622070. A causal optimization claim needs a fresh comparable control, preferably matched arms, rather than replacement of our measured control with somebody else's favorable run.
+
+The organiser example is default Scotch on 512 ranks with SRX disabled, not an identified proprietary optimization. Our retained repeat already uses the same SRX setting. The available evidence does not identify the physical cause of the timing difference. Do not blame node allocation, queue, placement, network, cache or noise as though their causal contribution had been measured.
+
+The research has produced workload validation, failed-branch findings, reproducibility evidence and placement-mechanism qualification, but **no demonstrated repeatable four-node solver-speed improvement over that organiser reference**. Prolonged mechanism diagnostics are supporting work, not evidence that the performance objective has been met. Reporting the independent 3.6779 to 3.3646 change as a tuning achievement would be incorrect; it is the same intended configuration on separate allocations, with a much smaller change in median than mean.
+
+The performance objective remains open. A reasonable next milestone is an actually measured matched native-versus-qualified-pin solver comparison, after the integration gate is reviewed, within existing queue/budget ownership rules. Reject or revise the hypothesis if it does not produce a repeatable useful gain; do not substitute a growing diagnostic count for solver improvement. No new job, budget or payload change is authorized merely by this explanation, and no claim about a live queue is added.
