@@ -29,32 +29,59 @@ def main():
     attempt.mkdir(exist_ok=False)
     fresh = subprocess.run(['bash', str(SSH), f'qstat -fx -F json {shlex.quote(job_id)}'],
                            capture_output=True, text=True, timeout=35)
-    (attempt / 'fresh-qstat.stdout.json').write_text(fresh.stdout)
     (attempt / 'fresh-qstat.stderr.txt').write_text(fresh.stderr)
     (attempt / 'fresh-qstat.exit-code.txt').write_text(str(fresh.returncode) + '\n')
     terminal = None
     source = None
+    sanitized_fresh_stdout = None
     if fresh.returncode == 0:
         try:
-            terminal = json.loads(fresh.stdout)['Jobs'][job_id]
+            fresh_document = json.loads(fresh.stdout)
+            fresh_document = json.loads(json.dumps(fresh_document))
+            for job_record in fresh_document.get('Jobs', {}).values():
+                job_record.pop('Variable_List', None)
+                job_record.pop('environment', None)
+                job_record.pop('Environment', None)
+            sanitized_fresh_stdout = json.dumps(fresh_document, indent=2) + '\n'
+            terminal = fresh_document['Jobs'][job_id]
             assert terminal['job_state'] == 'F'
             source = 'fresh qstat query collected at ' + utc()
         except Exception:
             terminal = None
+            sanitized_fresh_stdout = json.dumps({
+                'sanitization_status': 'response not saved because successful qstat output could not be safely parsed',
+                'stdout_bytes': len(fresh.stdout.encode()),
+                'stdout_sha256': hashlib.sha256(fresh.stdout.encode()).hexdigest()
+            }, indent=2) + '\n'
     if terminal is None:
         fallback = E / 'terminal-status-snapshot.json'
         if fallback.exists():
             snap = json.loads(fallback.read_text())
             terminal = snap['job']
-            source = f"dated terminal-status-snapshot.json at {snap['observed_at_utc']}; fresh qstat exit={fresh.returncode}; preserve query files"
-            shutil.copyfile(fallback, out / fallback.name)
+            observed = snap.get('observed_at_utc') or snap.get('utc')
+            assert observed, 'Fallback snapshot must carry its observation time'
+            source = f"dated terminal-status-snapshot.json at {observed}; fresh qstat exit={fresh.returncode}; preserve query evidence"
+            sanitized_fresh_stdout = json.dumps({
+                'fresh_query_exit_code': fresh.returncode,
+                'stdout_bytes': len(fresh.stdout.encode()),
+                'stdout_sha256': hashlib.sha256(fresh.stdout.encode()).hexdigest(),
+                'note': 'Raw stdout omitted to prevent runtime environment capture.'
+            }, indent=2) + '\n'
         else:
+            # Preserve a failed query's digest and error text without retaining unparsed output.
+            (attempt / 'fresh-qstat.stdout-evidence.json').write_text(json.dumps({
+                'exit_code': fresh.returncode,
+                'stdout_bytes': len(fresh.stdout.encode()),
+                'stdout_sha256': hashlib.sha256(fresh.stdout.encode()).hexdigest(),
+                'note': 'Raw stdout omitted; no runtime environment is retained.'
+            }, indent=2) + '\n')
             raise RuntimeError(f'PBS history unavailable and no dated terminal snapshot supplied; preserved failed query in {attempt}; do not infer status')
     assert terminal['job_state'] == 'F'
     out = E / ('completed-' + short)
     out.mkdir(exist_ok=False)
+    (attempt / 'fresh-qstat.stdout.json').write_text(sanitized_fresh_stdout or '{}\n')
     for name in ('fresh-qstat.stdout.json', 'fresh-qstat.stderr.txt', 'fresh-qstat.exit-code.txt'):
-        shutil.copyfile(attempt / name, out / name)
+        (out / name).write_bytes((attempt / name).read_bytes())
     batch = f'postinit-pin-qual.o{short}'
     remote_cmd = (f'cd {shlex.quote(root)} && tar --exclude={shlex.quote("runs/"+short+"/mpi-init-probe")} '
                   f'--exclude={shlex.quote("runs/"+short+"/postinit-pin-probe")} -czf - '
@@ -84,6 +111,7 @@ def main():
     terminal = {key: terminal[key] for key in terminal_keys if key in terminal}
     document = {'collected_at_utc': utc(), 'job_id': job_id, 'remote_root': root,
                 'terminal_evidence_source': source,
+                'deployed_payload_sha256': deployment['files'],
                 'fresh_qstat': {'exit_code': fresh.returncode, 'stdout_file': 'fresh-qstat.stdout.json',
                                 'stderr_file': 'fresh-qstat.stderr.txt'},
                 'terminal': terminal, 'archive': 'raw-records.tar.gz',
@@ -91,6 +119,7 @@ def main():
                 'files': manifest,
                 'scope': 'Native tar of only this job run directory and explicitly selected PBS stdout; compiled probes excluded before transfer. Full archive and per-member byte/SHA-256 inventory retained; replay reads from the archive without extracting thousands of files.'}
     (out / 'collection.json').write_text(json.dumps(document, indent=2) + '\n')
+    shutil.rmtree(attempt)
     print(json.dumps({'job_id': job_id, 'files': len(manifest), 'archive_bytes': archive_path.stat().st_size,
                       'archive_sha256': document['archive_sha256'], 'terminal_evidence_source': source}, indent=2))
 
