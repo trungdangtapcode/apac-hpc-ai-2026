@@ -37,3 +37,9 @@ The owner requested moving promising candidates to NSCC and then requested a pla
 At 10:28 UTC on 27 October, both fresh scheduler queries failed before SSH because the VPN wrapper found no live session. Do not read the earlier Q snapshot above as current. Integration 26019383 was seen terminal F at 07:48, but its exit status and application replay remain unreviewed. Four other shared-account CPU jobs 26023372/26023373/26023382/26023383 were queued then, with unresolved ownership/reservations. Reconcile them before any new qsub; preserve their positions and frozen payloads.
 
 The plan proposes an 8000-SU conditional wave, with 7253.333333 SU of listed maxima and 1536 SU in the initial native/reverse stage. This is planning only: no reservation, budget increase, authentication attempt, background schedule or new PBS receipt was created. Current posted balance and cap availability remain unknown.
+
+## Transfer execution authorised — 2026-10-27T10:41:50.657111+00:00
+
+The owner now explicitly requests submitting all justified ready candidates to beat the baseline. [Execution checkpoint](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-transfer-campaign-20261027/EXECUTION.md). Native S0/Hxyz/Hzyx preparation is proceeding for one four-node/512-rank/90-minute allocation, maximum 768 SU. Every arm retains 150 steps and the mandatory chain.
+
+Two authorised VPN attempts ended with Authentication failed; the owner reported a pending DUO notification between attempts, but approval is unconfirmed. No working tunnel, current queue/credit or new PBS receipt is verified. No new reservation, credential capture, background Codex or change to AI occurred. Existing shared-account CPU jobs still require reconciliation before admission.
