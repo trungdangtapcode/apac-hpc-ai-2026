@@ -1,3 +1,5 @@
+> 29 October 2026 update: the portable GPU/model/client replay completed, but job27136 failed in postprocessing because of an unhandled AIPerf output namespace. Readers are corrected and actual raw performance rechecks pass. See artifact-path-fix-20261029.md and portable-replay-27136-20261029.json. Full end-to-end repeat and official quality remain unverified.
+
 # Latest AI results and submission point
 
 Updated 28 October 2026, Vietnam time. Primary submission is one N64 point on two H200 nodes: two TP4 prefill workers and one TP8/EP8 decode worker. The official FP8 checkpoint uses BF16 activation and KV dtype auto, resolved to BF16 in measured job 26766, DeepGEMM prefill with chunk8192 and breakable prefill graphs, HPC-Ops/FlashInfer/MNNVL decode with full graphs 1–64, round-robin routing, and no EAGLE or dynamic tokenization. The deployment remains a conventional Slurm/Pyxis job.

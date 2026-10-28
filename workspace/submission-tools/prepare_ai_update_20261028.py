@@ -158,6 +158,12 @@ readme = readme.replace('run N64 once', 'run N64 once')
 readme += '''\n\n## Semantic warmup and evidence update\n\nBefore scoring, the primary job starts two independent P/D routers and sends one semantic request through each route. It validates both response bodies and writes replayable receipts tied to the endpoint inventory and current run token. The warmup has a 13-minute absolute deadline from submit start, leaving at least four minutes for scoring and cleanup, and fails closed on a missing, stale or invalid receipt. The official AIPerf command is invoked once after both paths pass.\n\nThe selected primary point is reproduced by H200 job 26766 at 3045.501509 good output tokens/s. See `../logs/measured/latest-results.md` for comparison with the historical three-run N64 mean, losing larger-chunk controls, run limits and accuracy status. The measured patch is the base 912b7 NIXL change; no diagnostic observer wrapper is shipped.\n'''
 (S/'README.md').write_text(readme)
 
+# The real default-output replay exposed a nested AIPerf namespace. Keep the
+# current postprocessor correction in every subsequent package rebuild.
+postprocess_fix = R / 'portable-artifact-path-fix-20261029'
+for name in ('artifact_paths.py', 'score-gate.py', 'summarize.py'):
+    shutil.copy2(postprocess_fix / name, S / name)
+
 # Regenerate deterministic hashes for all submission scripts.
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 files=[p for p in sorted(S.rglob('*')) if p.is_file() and p.name!='SHA256SUMS']

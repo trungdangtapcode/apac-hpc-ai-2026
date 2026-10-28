@@ -1,15 +1,17 @@
 """Read raw AIPerf exports without replacing measured metrics."""
 import json,re,sys
 from pathlib import Path
+from artifact_paths import resolve_artifacts
 root=Path(sys.argv[1])
 rows=[]
-for p in sorted(root.glob('*/n*/artifacts/profile_export_aiperf.json')):
+for art in sorted(root.glob('*/n*/artifacts')):
+    p, requests_path = resolve_artifacts(art)
     d=json.loads(p.read_text())
     def metric(k):
         v=d.get(k)
         return v.get('avg') if isinstance(v,dict) else None
     goodput=metric('goodput'); frac=metric('good_request_fraction')
-    client=p.parent.parent/'client.log'
+    client=art.parent/'client.log'
     phase_text=client.read_text(errors='replace') if client.exists() else ''
     # AIPerf renders thousands separators (completed=1,049).
     log=p.parent/'logs'/'aiperf.log'

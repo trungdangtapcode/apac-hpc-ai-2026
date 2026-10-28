@@ -7,13 +7,15 @@ import math
 import re
 import sys
 from pathlib import Path
+from artifact_paths import resolve_artifacts
 
 root = Path(sys.argv[1])
 n = int(sys.argv[2])
 run = root / 'official' / ('n' + str(n))
 art = run / 'artifacts'
 try:
-    export = json.loads((art / 'profile_export_aiperf.json').read_text())
+    export_path, requests_path = resolve_artifacts(art)
+    export = json.loads(export_path.read_text())
     text = (run / 'client.log').read_text()
     log = art / 'logs/aiperf.log'
     if log.exists():
@@ -25,7 +27,7 @@ try:
     assert completed > 0 and cancelled == errors == 0, 'Incomplete or failed requests'
     assert not export.get('was_cancelled') and not export.get('error_summary'), 'Export reports failure'
     count = good = bad = 0
-    with (art / 'profile_export.jsonl').open() as stream:
+    with requests_path.open() as stream:
         for line in stream:
             row = json.loads(line)
             meta = row['metadata']
