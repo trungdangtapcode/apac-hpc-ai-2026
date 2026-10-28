@@ -1,0 +1,9 @@
+# Portable N64 end-to-end confirmation after reader repair
+
+Recorded 29 October 2026 Vietnam time. Original GPU/model/client replay 27136 completed the exact official AIPerf command and both semantic routes, then failed 1:0 because postprocessors assumed a flat output directory. Actual exports were in the default single namespace. Repaired readers pass eight adversarial tests and the full retained raw denominator: 1906 requests, 1880 good, 98.635887%, 3050.225487 good output tokens/s. Preserve the original scheduler failure; do not relabel it.
+
+This separate frozen R2 changes only artifact_paths.py, score-gate.py, summarize.py and their manifest. Model/worker/entry/semantic/NIXL/official benchmark bytes remain identical to 27136. It is an end-to-end integration confirmation, not a new optimization hypothesis. Run from the exact path containing spaces, retain live in-allocation Enroot capacity checks and the same complete 17-minute scheduler envelope. The external guard is attributed separately; the packaged clock starts after it. No script in a submitted payload is changed.
+
+Reserve 16 H200/two nodes/17 minutes, maximum 4.533334 GPU-hours, no PBS SU, cap 5 and existing queue positions. Require the patched gate to pass in the actual job, retain full raw artifacts and semantic receipts, and inspect runtime/logs/errors. No separate hardware sampler or smoke/retrieval suite is added; official full-set accuracy remains UNKNOWN. The 3050.225487 individual protocol observation is only 0.155% above separate 26766 and is not an established new optimization.
+
+Published package readers were already corrected and its 265 HPC files/modes/ZIP attributes and entire PPTX hash preserved. This R2 keeps an independent frozen source. No organiser upload, new MFA request or background schedule.
