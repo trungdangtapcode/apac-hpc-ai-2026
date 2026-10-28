@@ -414,3 +414,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October: updated AI slides and N64 submission, with all HPC preserved](entries/20261028-ai-slide-submission-update-hpc-preserved.md).
 
 - [28 October: full Iris pair shows 21.24% lower zyx timing; reversed full pair submitted as 2294262](entries/20261028-hpc-full150-result-and-reverse-submitted.md).
+
+- [28 October: NSCC target criteria, bounded access attempts and partial reversed-order progress](entries/20261028-hpc-nscc-target-access-and-partial-order-check.md).
