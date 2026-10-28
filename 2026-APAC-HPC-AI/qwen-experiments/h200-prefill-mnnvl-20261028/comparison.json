@@ -1,0 +1,345 @@
+{
+  "date": "2026-10-28",
+  "job": 27138,
+  "experiment": "s97-h200-prefill-mnnvl",
+  "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+  "scheduler": {
+    "JobID": "27138",
+    "State": "COMPLETED",
+    "ExitCode": "0:0",
+    "Elapsed": "00:11:38",
+    "NodeList": "g[1,4]"
+  },
+  "matched_control_job": 26949,
+  "matched_control_score_tokens_s": 3034.761103639248,
+  "score_tokens_s": 3038.09348433939,
+  "change_vs_control_pct": 0.10980701894940381,
+  "workload": {
+    "platform": "H200",
+    "N": 64,
+    "input_tokens": 4000,
+    "output_tokens": 200,
+    "seed": 2026,
+    "warmup_measure_drain_seconds": [
+      60,
+      120,
+      30
+    ],
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "dtype": "bfloat16",
+    "page_size": 1
+  },
+  "single_intended_change": {
+    "requested_prefill_allreduce_fusion_backend": "mnnvl",
+    "matched_control_actual_backend": "trtllm",
+    "candidate_actual_backend": "mnnvl",
+    "rank_startup_evidence": {
+      "prefill-0": {
+        "observed_initialization_lines": 8,
+        "backend_by_rank": {
+          "0": 2,
+          "1": 2,
+          "2": 2,
+          "3": 2
+        },
+        "required_backend": "mnnvl",
+        "world_size": 4,
+        "max_token_num": 2048,
+        "hidden_dim": 4096
+      },
+      "prefill-1": {
+        "observed_initialization_lines": 8,
+        "backend_by_rank": {
+          "0": 2,
+          "1": 2,
+          "2": 2,
+          "3": 2
+        },
+        "required_backend": "mnnvl",
+        "world_size": 4,
+        "max_token_num": 2048,
+        "hidden_dim": 4096
+      }
+    }
+  },
+  "other_actual_configuration": {
+    "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "client_image_sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+    "model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+    "native_nixl_patch_base_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+    "nixl_conn_wrapper_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8",
+    "source_bundle": "serving-tuning-11/s65-h200-router-rr-control",
+    "runtime": "Standalone unprivileged Enroot within existing Slurm steps/cgroups",
+    "topology": "P8-TP4_D8-TP8-EP8",
+    "prefill_tp": 4,
+    "decode_tp": 8,
+    "prefill_attention_backend": "fa3",
+    "decode_attention_backend": "flashinfer",
+    "prefill_chunked_prefill_size": 8192,
+    "prefill_graph": "breakable",
+    "decode_graph": "full",
+    "transfer": "nixl"
+  },
+  "local_gate": {
+    "result": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+    "raw_fixed_workload": {
+      "completed": 1900,
+      "errors": 0,
+      "cancelled": 0,
+      "good_request_fraction": 0.9852631578947368,
+      "goodput_req_s": 15.190467421696951,
+      "good_output_tokens_per_second": 3038.09348433939,
+      "goodput_unit": "requests/sec",
+      "good_output_throughput_unit": "tokens/sec"
+    },
+    "smoke": {
+      "passed": 7,
+      "total": 8,
+      "regressions": []
+    },
+    "retrieval": {
+      "passed": 12,
+      "total": 12,
+      "errors": 0
+    },
+    "ttft_breaches_over_3000ms": 28,
+    "itl_breaches_over_20ms": 0,
+    "official_accuracy": "UNKNOWN"
+  },
+  "performance": {
+    "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/27138/confirm/n64/artifacts/profile_export_aiperf.json",
+    "phase": "confirm",
+    "concurrency": 64,
+    "good_request_fraction": 0.9852631578947368,
+    "sla_pass": true,
+    "good_output_tokens_s": 3038.09348433939,
+    "raw_output_tokens_s": 3083.518824417734,
+    "ttft_avg_ms": 1117.5987668947366,
+    "itl_avg_ms": 14.99445719244008,
+    "ttft_p95_ms": 1340.1179071,
+    "itl_p95_ms": 15.160631086180903,
+    "requests": 1900.0,
+    "errors": 0,
+    "cancelled_requests": 0
+  },
+  "runtime_review": {
+    "prefill-0": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    },
+    "prefill-1": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    },
+    "decode-0": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    }
+  },
+  "kv_geometry": {
+    "experiment_id": "s97-h200-prefill-mnnvl-27138-cd490e2b-2d89-485b-b411-70aac8093d44",
+    "layer_identity": "observed_empty; explicit IDs not collected; semantic layer order unproven",
+    "observed_prefill_mha_signature": {
+      "kv_head_num": 1,
+      "kv_regions_per_rank": 188,
+      "page_size_tokens": 1,
+      "role_scope": [
+        "prefill-0",
+        "prefill-1"
+      ],
+      "total_kv_head_num": 4
+    },
+    "passed": true,
+    "rank_count": 16,
+    "receipt_bytes": 898224,
+    "receipt_count": 32,
+    "schema": "h200-kv-geometry-validation-v1",
+    "unknown_d_heads_exception": {
+      "engine_ranks": "0-7; each remains individually receipt-gated",
+      "item_page_token_stride_bytes": 256,
+      "kv_regions": 188,
+      "memory_kind": "VRAM",
+      "observed_heads": "not_collected; not inferred or fabricated",
+      "page_size_tokens": 1,
+      "pp_rank": 0,
+      "role": "decode-0",
+      "tp_size": 8
+    }
+  },
+  "runtime_readiness": {
+    "state": "PASS_FAST_RUNTIME",
+    "arm": "control",
+    "prefill_cap": null,
+    "roles": {
+      "prefill-0": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 4,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "mnnvl"
+        },
+        "prefill_graph": "breakable",
+        "decode_graph": "disabled",
+        "server_args_records": 1
+      },
+      "prefill-1": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 4,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "mnnvl"
+        },
+        "prefill_graph": "breakable",
+        "decode_graph": "disabled",
+        "server_args_records": 1
+      },
+      "decode-0": {
+        "tp_ranks": 8,
+        "bf16_kv_records": 8,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 8,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "mnnvl"
+        },
+        "prefill_graph": "disabled",
+        "decode_graph": "full 1..64",
+        "server_args_records": 1
+      }
+    },
+    "scope": "Resolved native arguments, rank-level BF16 KV/NIXL allocations, and startup graph/MNNVL markers only; not a kernel-performance or model-quality proof."
+  },
+  "telemetry_in_request_start_envelope": {
+    "roles": {
+      "decode-0": {
+        "host": "g4",
+        "samples": 24,
+        "gpu_sample_count": 192,
+        "uuid_count": 8,
+        "mean_gpu_active_pct": 100.0,
+        "mean_vram_gib": 131.309
+      },
+      "prefill-0": {
+        "host": "g1",
+        "samples": 24,
+        "gpu_sample_count": 96,
+        "uuid_count": 4,
+        "mean_gpu_active_pct": 96.146,
+        "mean_vram_gib": 130.705
+      },
+      "prefill-1": {
+        "host": "g1",
+        "samples": 24,
+        "gpu_sample_count": 96,
+        "uuid_count": 4,
+        "mean_gpu_active_pct": 94.792,
+        "mean_vram_gib": 130.708
+      }
+    },
+    "hosts": {
+      "g4": {
+        "samples": 24,
+        "estimated_cpu_busy_pct": 13.26,
+        "available_memory_GiB_at_start": 1757.688,
+        "total_memory_GiB": 2014.874
+      },
+      "g1": {
+        "samples": 24,
+        "estimated_cpu_busy_pct": 12.57,
+        "available_memory_GiB_at_start": 1829.516,
+        "total_memory_GiB": 2014.874
+      }
+    },
+    "server_http_and_error_poll_counts": {
+      "http=200,error=None": 72
+    },
+    "rank_local_server_gauges": {
+      "decode-0": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 55.0,
+          "mean": 49.7083
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.12,
+          "mean": 0.12
+        }
+      },
+      "prefill-0": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 4.0,
+          "mean": 2.9583
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 2.0,
+          "mean": 0.3333
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.02,
+          "mean": 0.0192
+        }
+      },
+      "prefill-1": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 4.0,
+          "mean": 2.6667
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 1.0,
+          "mean": 0.2083
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.02,
+          "mean": 0.0183
+        }
+      }
+    },
+    "all_role_gpu_samples": 384,
+    "all_role_mean_gpu_active_pct": 97.734,
+    "all_role_mean_vram_gib": 131.008,
+    "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+    "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+  },
+  "raw_and_source_integrity": {
+    "submitted_payload_manifest_sha256": "160e18472a004d52a92f033c6d6ac1653ba8a6fa2c9db03dc3d509aa57c59a41",
+    "config_sha256": "3f3875fb9d09aa93d2b481455e8d0b1ce1d14cad459f577faec85cfde4659308",
+    "payload_checksum_validation": "sha256sum -c submitted-payload/SHA256SUMS passed for every listed file",
+    "raw_run_manifest": "runs/27138/artifact-manifest.json",
+    "stdout": "runs/27138.out",
+    "stderr": "runs/27138.err",
+    "payload_modified": false
+  },
+  "limits": [
+    "One full performance trial; <1% gain does not clear the predeclared useful-gain threshold.",
+    "Local performance pass is not official accuracy; generated request IDs are not retained as actual model token IDs.",
+    "Telemetry is sparse 5-second sampling over request-start envelope only; excludes warmup/final drain and has uncalibrated host clock skew.",
+    "GPU active percentage is not FLOPS and sampled VRAM is not KV-token occupancy. MNNVL rank startup confirmation is not proof of a causal performance bottleneck.",
+    "KV validator records 188 one-token BF16 regions per prefill rank and all 16 ranks; explicit semantic layer identity was not collected, and decoder D-head counts remain unknown."
+  ],
+  "assessment": "Job 27138 confirms actual MNNVL initialization on all four TP ranks of each prefill worker. It passes all unchanged local gates, but its 3038.093484 good output tokens/s is only +0.1098% over matched control 26949 (3034.761104), below the >1% useful-gain threshold. Close this unchanged prefill-collective branch; do not promote the result or claim MNNVL caused an improvement."
+}
