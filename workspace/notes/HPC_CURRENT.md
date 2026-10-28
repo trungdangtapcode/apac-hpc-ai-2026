@@ -30,3 +30,7 @@ The native 61-file S0/Hxyz/Hzyx bundle remains ready but unsubmitted/unreserved.
 ## Preservation and execution
 
 Use [execution contract](research-execution-contract-20261027.md), [target criteria](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-transfer-campaign-20261027/TARGET_3_3646.md) and actual scheduler state. Capture, screen, verify, commit and push small explicit milestones. Large meshes/fields remain remote; selected raw evidence is retained. No submission material or AI payload was changed. [Previous full handoff](history/HPC_CURRENT-before-reverse-review-20261029.md).
+
+## Actual bounded qualification submission — 29 October, 02:41 Vietnam
+
+Slurm accepted **2294358** at 02:41:16 Vietnam, five-minute / 56 CPU / zero GPU maximum. A 4.666667 CPU-hour reservation is recorded under the existing 505 ceiling; consumed 456 plus reserved 4.666667 leaves 44.333333 headroom. The frozen five-file source observes pre/post-MPI_Init main-thread masks for default, explicit core fill and core span ranking. No solver runs here and no performance result is implied. [Receipt and status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-mpi-affinity-20261029/STATUS.md). Query actual state and collect text evidence before deciding whether any distinct solver placement test is supported. NSCC access remains blocked; preserve its independent native trial readiness.
