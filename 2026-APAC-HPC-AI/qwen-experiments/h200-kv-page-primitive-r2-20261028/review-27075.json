@@ -1,0 +1,65 @@
+{
+  "reviewed_vietnam": "2026-10-28T21:50:42.944096+07:00",
+  "job": 27075,
+  "scheduler": "JobID|State|ExitCode|Elapsed|NodeList\n27075|COMPLETED|0:0|00:01:16|g4\n",
+  "state": "COMPLETE_DIAGNOSTIC_NOT_CORRECTNESS_ACCEPTANCE",
+  "constructed_cases": 28,
+  "numerically_identical_page_pairs": 14,
+  "page_pairs": 14,
+  "maximum_page16_vs_page1_relative_L2": 0.0,
+  "strict_original_threshold_failures": [
+    [
+      4,
+      1,
+      15
+    ],
+    [
+      4,
+      1,
+      16
+    ],
+    [
+      4,
+      1,
+      17
+    ],
+    [
+      4,
+      16,
+      15
+    ],
+    [
+      4,
+      16,
+      16
+    ],
+    [
+      4,
+      16,
+      17
+    ]
+  ],
+  "maximum_relative_L2_vs_FP32": 0.0030734329484403133,
+  "maximum_absolute_error_vs_FP32": 0.007483720779418945,
+  "maximum_absolute_error_vs_BF16_rounded_oracle": 0.0078125,
+  "maximum_local_BF16_ULP_metric": 2823.0,
+  "scope": "Native BF16 NHD pool writes/descriptors + FlashInfer fa2 paged decode for constructed one-layer local heads; not full-role P/D, prefill, performance or accuracy. Stored metrics audited; original output tensors were not retained to recompute attention independently.",
+  "collected_inspected": [
+    "28 native pool geometry/write and attention case records",
+    "source and model hashes",
+    "GPU identity",
+    "TF32-disabled oracle flag",
+    "stdout lifecycle and manifest validation",
+    "stderr setup warnings",
+    "terminal scheduler receipt"
+  ],
+  "not_collected": [
+    "hardware utilization and time series",
+    "kernel profile",
+    "whole-model P/D registration and transport",
+    "actual production D head/layer registry",
+    "prefill attention execution",
+    "throughput/TTFT/ITL or official accuracy"
+  ],
+  "decision": "Preserve original threshold failures. Page-pair equivalence supports this constructed decoding subcase only. No production gate relaxation; require prospective numerical criteria plus prefill and actual P/D geometry/transfer before a full page16 trial."
+}
