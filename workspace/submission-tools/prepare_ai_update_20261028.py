@@ -9,7 +9,7 @@ W = Path('/home/apacsc42/workspace')
 R = Path('/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments')
 O = W / 'submission-review/ai-update-20261028'
 S = O / 'AI_Task/job_scripts'
-SRC = W / 'VNUHCM - TripleU/AI_Task'
+SRC = O / 'inputs/AI_Task-before'
 
 O.mkdir(parents=True, exist_ok=True)
 owned_stage = O / 'AI_Task'
