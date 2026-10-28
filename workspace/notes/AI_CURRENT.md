@@ -1,26 +1,29 @@
 # Current AI / Qwen handoff
 
-Updated 2026-10-27T17:56:03.194845+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
+Updated 2026-10-28T01:59:13.515328+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
 
 ## Current jobs and dispatch handoff
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26764|Real AIPerf entrypoint override and owned terminal-root scan|COMPLETED 0:0, 5 seconds; no stale roots found|
-|H200 / Slurm|26766|Full N64 chunk 8192 control, explicit exec rc|PENDING Resources|
-|H200 / Slurm|26768|Same runtime, chunk 10240 intermediate|PENDING afterany 26766|
-|H200 / Slurm|26770|Same runtime, chunk 12288 larger batch|PENDING afterany 26768|
+|H200 / Slurm|26847|CPU-only exact dynamic tokenizer-ID check|Proof PASS; query terminal state separately|
+|H200 / Slurm|26849|Full N64 same-runtime tokenizer-off control|SUBMITTED / PENDING|
+|H200 / Slurm|26851|Prefill dynamic tokenizer, max32, wait200microseconds|SUBMITTED afterany26849 + actual ID proof guard|
+|H200 / Slurm|26853|Same, wait2milliseconds|SUBMITTED afterany26851 + actual ID proof guard|
 |H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
 
 These are dated snapshots; query actual queues before action. H200 serving jobs request 16 GPUs/two nodes/17 minutes maximum, own cap 5. The H100 job requests eight GPUs/one node/30 minutes, maximum 512 SU; combined CPU+AI PBS cap 3 and maximum one running AI allocation. The separate CPU queue was empty immediately after PBS admission; do not infer it remains empty. Preserve queue positions and frozen payloads.
 
-[H200 load-bracket plans and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md). [H100 full N24 admission, controls and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-equal-tp-bench-admission-20261026/REVIEW.md). 26473 passed at 2661.889812 good tokens/s but lost; 26475 correctly failed the joint SLA at 57.151899% (677 TTFT breaches). No score exists for the new direct-runtime serving pair. Job 225306 never ran AIPerf; preserve the launcher failure. [Actual chunk receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-prefill-chunk-full-20261026/ADMISSION.md).
+[H200 load-bracket plans and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-followups-20261026/REVIEW.md). [H100 full N24 admission, controls and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-equal-tp-bench-admission-20261026/REVIEW.md). 26473 passed at 2661.889812 good tokens/s but lost; 26475 correctly failed the joint SLA at 57.151899% (677 TTFT breaches). All R3 chunk arms now pass locally; see the latest result table and continuation below. Job 225306 never ran AIPerf; preserve the launcher failure. [Actual chunk receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-prefill-chunk-full-20261026/ADMISSION.md).
 
 ## Latest reviewed performance
 
 | Observation | Good output tokens/s | Joint latency pass | Interpretation |
 |---|---:|---:|---|
-|Historical H200 25366/25373/25487 mean|3044.400475|Retained passing observations|Historical cluster; not reproduced today|
+|H200 R3 chunk8192, 26766|3045.501509|98.580442%|New full local pass; recovers historical level, not a matched runtime gain|
+|H200 R3 chunk10240, 26768|3034.088251|98.523985%|Full local pass; lower than fresh8192|
+|H200 R3 chunk12288, 26770|3020.943099|98.310454%|Full local pass; lower than fresh8192|
+|Historical H200 25366/25373/25487 mean|3044.400475|Retained passing observations|Historical mean; approximately reproduced by new8192, no causal runtime attribution|
 |H200 exact legacy replay 26313|2830.923547|98.427850%|Actual operational parity; 7.012117% below old mean|
 |H200 full modern graph/cap 64, 26317|2829.604300|98.426966%|Valid local full observation; no useful new gain|
 |H200 full modern graph/native, 26319|2827.996286|98.424311%|Control for current N62/N66 bracket|
@@ -83,3 +86,9 @@ Actual new jobs26574/26579/26581/26583 provide one split8 prerequisite and three
 The four previous jobs are terminal: 26574 split-eight CUDA PASS; 26579 FAILED 1:0 after 8:54 because the native AIPerf image entrypoint interpreted env as a subcommand; 26581 FAILED 1:0 after 5:24 on router local-space guard; 26583 FAILED 1:0 after 6 seconds on initial prefill local-space guard. No profile score was produced. Native worker/source/KV and both semantic routes passed in 26579 before the client launch failed.
 
 New 26764 completed 0:0 and verified the actual AIPerf exec-rc repair. Both node scans found no matching own native rootfs leftovers. Do not claim old rootfs leakage caused the transient capacity failures, or that the probe exercised removal. Actual frozen full arms 26766/26768/26770 are queued, preserving full protocol, source and output gates. [Repair, actual receipts and limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/native-runtime-r3-20261027/REVIEW.md). Historical results remain unchanged; no new performance gain or official accuracy is claimed. H100 access currently has no live VPN session, so R2 is not submitted. No HPC action or background Codex.
+
+## Full chunk review and new tokenizer branch — 2026-10-28T08:59:13.515328+07:00, Vietnam time
+
+26766/26768/26770 all completed0:0 and independently pass full raw protocol, actual runtime/KV/semantic and local output gates. Scores3045.501509/3034.088251/3020.943099 good output tokens/s; all have zero profiling errors/cancellations, smoke7/8 and retrieval12/12. Larger chunks lose and worsen p95 TTFT, so close the current chunk branch. The new8192 observation recovers the historical score level; it is not evidence that native Enroot caused a speedup. Official accuracy remains UNKNOWN. Actual batch-level cleanup removed four own rootfs trees in each full allocation after workers stopped; unlike the earlier zero-root probe, deletion is now exercised successfully.
+
+New accepted jobs26847/26849/26851/26853 test prefill-only native dynamic tokenizer batching: CPU exact-ID proof plus fresh disabled control and max32 at200microseconds/2milliseconds. Both waits already returned exact equality for64 concurrent and one single input; full candidate jobs still require the proof and resolved runtime flags. This is a bounded frontend hypothesis, not proof of a CPU bottleneck or repeated N68 sweep. [Plan, native source and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-dynamic-tokenizer-20261028/PLAN.md). H100 helper again reports no live VPN session; no qsub or MFA request. No HPC action, package promotion or background Codex.
