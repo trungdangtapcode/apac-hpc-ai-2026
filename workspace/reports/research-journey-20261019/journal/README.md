@@ -422,3 +422,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October: correct namespace-only VPN readiness and assess the first reversed full arm](entries/20261028-hpc-retry-health-correction-and-xyz-arm.md).
 
 - [28 October: fresh tokenizer control, complete BF16 page diagnostic and independent prefill backend control](entries/20261028-tokenizer-control-bf16-diagnostic-and-backend-control.md).
+
+- [29 October Vietnam: reverse full pair rejects robust 21% hierarchy gain; retain all outputs](entries/20261029-hpc-reversed-full-pair-result.md).
