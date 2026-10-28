@@ -27,4 +27,4 @@ esac
    assert r.returncode==wanted,rows[-1]
   finally:
    if root.exists():root.rmdir()
-(D/'timeout-fixture.json').write_text(json.dumps({'state':'PASS','scope':'Actual wrapper; simulated filesystem delays and five-times-shorter toy semantic timeout. No real GPU/image performance claim.','cases':rows},indent=2)+'\n');print('PASS: combined deadline fails after valid command; split passes; actual semantic timeout still fails')
+(D/'timeout-fixture.json').write_text(json.dumps({'state':'PASS','scope':'Actual wrapper; simulated filesystem delays and shortened toy semantic timeout (0.2 seconds; production remains 120 seconds). No real GPU/image performance claim.','cases':rows},indent=2)+'\n');print('PASS: combined deadline fails after valid command; split passes; actual semantic timeout still fails')
