@@ -418,3 +418,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October: NSCC target criteria, bounded access attempts and partial reversed-order progress](entries/20261028-hpc-nscc-target-access-and-partial-order-check.md).
 
 - [28 October: portable replay capacity gate and one-H200 KV page prerequisite](entries/20261028-portable-replay-preflight-and-kv-page-prerequisite.md).
+
+- [28 October: correct namespace-only VPN readiness and assess the first reversed full arm](entries/20261028-hpc-retry-health-correction-and-xyz-arm.md).
