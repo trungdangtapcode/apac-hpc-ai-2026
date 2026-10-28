@@ -1,0 +1,29 @@
+{
+  "state": "PASS_SOURCE_AST_POLICY_ONLY",
+  "source_hashes": {
+    "server_args.py": "79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f",
+    "arg_groups/speculative_hook.py": "6ffb0b4066e92257ac88c03627df28f7e226fef25eae63a5d2771a74f656bac1"
+  },
+  "cli_fields_present": [
+    "disaggregation_mode",
+    "disaggregation_transfer_backend",
+    "dtype",
+    "ep_size",
+    "speculative_algorithm",
+    "speculative_draft_attention_backend",
+    "speculative_draft_model_path",
+    "speculative_draft_model_quantization",
+    "speculative_eagle_topk",
+    "speculative_num_draft_tokens",
+    "speculative_num_steps",
+    "tp_size"
+  ],
+  "eagle_slot_policy": "topk=1 requires draft_tokens=steps+1; proposed (steps=1,tokens=2) is already canonical and avoids that hook's adjustment branch",
+  "proposal": {
+    "algorithm": "EAGLE3",
+    "steps": 1,
+    "topk": 1,
+    "draft_tokens": 2
+  },
+  "scope": "Static AST checks over retained source files with hashes matching recorded native server_args/hook evidence. No argparse invocation, ServerArgs construction, CUDA/device/TP validation, draft/target metadata read, model load, KV, distributed state, P/D, output, or performance proof."
+}
