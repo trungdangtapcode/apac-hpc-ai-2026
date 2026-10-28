@@ -100,6 +100,13 @@ class ArtifactPathTests(unittest.TestCase):
         self.assertEqual({r['phase'] for r in rows}, {'legacy', 'official'})
         self.assertTrue(all(r['good_output_tokens_s'] == 3000 for r in rows))
         self.assertTrue(all(r['cancelled_requests'] == 0 for r in rows))
+        alias = self.base / 'compute-mount-alias'
+        alias.symlink_to(root, target_is_directory=True)
+        aliased = subprocess.run([sys.executable, str(HERE / 'summarize.py'), str(alias)], capture_output=True, text=True, check=True)
+        alias_rows = json.loads(aliased.stdout)
+        self.assertEqual(alias_rows, rows)
+        relative = subprocess.run([sys.executable, str(HERE / 'summarize.py'), alias.name], cwd=self.base, capture_output=True, text=True, check=True)
+        self.assertEqual(json.loads(relative.stdout), rows)
 
 
 if __name__ == '__main__':

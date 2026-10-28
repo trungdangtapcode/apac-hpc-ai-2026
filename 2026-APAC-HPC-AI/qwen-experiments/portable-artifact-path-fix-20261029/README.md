@@ -23,3 +23,7 @@ These checks validate the corrected local readers. They do not change the actual
 - `SHA256SUMS`: hashes for these five reviewable files (excluding the hash file itself).
 
 Root review additionally binds the summary client log to the run directory rather than the selected export parent; the flat/nested fixture now checks cancellation counts from that log. This prevents nested namespaces from silently losing phase-completion evidence.
+
+## Second real replay: compute mount alias correction
+
+27145 completed the official GPU client but ended1:0 while summarizing: the resolver returned canonical /scratch/home paths while the summary calculated relative paths against lexical /home. The root is now canonicalized consistently; new assertions cover an absolute mount alias and a relative alias. Original27145 files stay unchanged. Validate both retained raw runs on an actual compute CPU job before spending another full GPU allocation on this reader.

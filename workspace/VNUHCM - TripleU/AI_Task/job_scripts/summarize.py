@@ -2,7 +2,7 @@
 import json,re,sys
 from pathlib import Path
 from artifact_paths import resolve_artifacts
-root=Path(sys.argv[1])
+root=Path(sys.argv[1]).resolve(strict=True)
 rows=[]
 for art in sorted(root.glob('*/n*/artifacts')):
     p, requests_path = resolve_artifacts(art)
