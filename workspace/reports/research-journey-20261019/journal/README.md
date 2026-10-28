@@ -412,3 +412,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October: valid semantic responses, outer warmup timeout and repaired full submissions](entries/20261028-tokenizer-warmup-boundary-failure-and-repair.md).
 
 - [28 October: updated AI slides and N64 submission, with all HPC preserved](entries/20261028-ai-slide-submission-update-hpc-preserved.md).
+
+- [28 October: full Iris pair shows 21.24% lower zyx timing; reversed full pair submitted as 2294262](entries/20261028-hpc-full150-result-and-reverse-submitted.md).
