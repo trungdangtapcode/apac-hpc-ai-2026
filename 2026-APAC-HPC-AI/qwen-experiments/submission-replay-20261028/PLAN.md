@@ -1,3 +1,5 @@
+> Current status, 29 October 2026 Vietnam time: capacity job 26988 passed; real GPU replay **27136** is SUBMITTED, not yet reviewed. See CAPACITY_REVIEW.md and gpu-replay-receipt.json. The original dated planning snapshot below is historical. Frozen script bytes and published package are unchanged.
+
 # GPU replay of the published N64 primary: frozen, capacity gate submitted
 
 Recorded 2026-10-28T16:26:04.625384+07:00, Vietnam time. Actual new job **26988** requests two nodes, zero GPUs, two CPUs per node and at most two minutes for a read-only storage preflight. The real 16-GPU package replay is **NOT_SUBMITTED**. Five own Slurm slots are now occupied after the separate page primitive admission; preserve earlier model positions.
