@@ -2,7 +2,8 @@
 """Replay semantic receipts and resolved tokenizer flags for pre-score failures."""
 from pathlib import Path
 from datetime import datetime,timezone
-import ast,hashlib,importlib.util,json,subprocess
+import ast,hashlib,importlib.util,json,subprocess,sys
+sys.dont_write_bytecode=True
 D=Path(__file__).resolve().parent;Q=D.parent;reviews=[]
 for job in [26849,26851,26853]:
  A=Q/f'runs/{job}';B=A/'submitted-payload';cfg=json.loads((A/'config.json').read_text())
@@ -24,7 +25,7 @@ for job in [26849,26851,26853]:
   for f in (A/'resource-telemetry').glob(role+'-g*.jsonl'):
    telemetry+=[json.loads(x) for x in f.read_text().splitlines() if x]
   samples=[x for x in telemetry if x.get('kind')=='sample'];last=samples[-1] if samples else {}
-  roles[role]={'resolved_tokenizer_fields':selected,'selected_transport_errors':[x[:300] for x in text.splitlines() if any(w in x for w in ['KVTransferError','CUDA out of memory','NIXL transport error'])],'traceback_count':text.count('Traceback (most recent last)'),'startup_warmup_samples':len(samples),'last_sample_gpu_activity_percent':[float(x['utilization.gpu']) for x in last.get('gpus',[])],'last_sample_server_metrics':last.get('server_metrics',[]),'limitations':'No scored request window exists. Startup hardware values do not establish a serving bottleneck.'}
+  roles[role]={'resolved_tokenizer_fields':selected,'selected_transport_errors':[x[:300] for x in text.splitlines() if any(w in x for w in ['KVTransferError','CUDA out of memory','NIXL transport error'])],'traceback_count':text.count('Traceback (most recent call last)'),'startup_warmup_samples':len(samples),'last_sample_gpu_activity_percent':[float(x['utilization.gpu']) for x in last.get('gpus',[])],'last_sample_server_metrics':last.get('server_metrics',[]),'limitations':'No scored request window exists. Startup hardware values do not establish a serving bottleneck.'}
  readiness=json.loads((A/'runtime-readiness.json').read_text());assert readiness['state']=='PASS_FAST_RUNTIME'
  err=(Q/f'runs/{job}.err').read_text();assert 'semantic pair warmup failed status=124' in err
  log=(A/'pair-warmup.log').read_text();assert 'ALL 2 P/D paths semantically initialized' in log

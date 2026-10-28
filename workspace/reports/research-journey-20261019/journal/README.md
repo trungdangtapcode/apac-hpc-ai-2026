@@ -408,3 +408,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October Vietnam time: native entrypoint repair, failed chunk trials and three new full jobs](entries/20261027-native-entrypoint-and-space-repair.md).
 
 - [28 October: full native chunk results, reproduced score level and new tokenizer hypothesis](entries/20261028-full-native-chunk-results-and-tokenizer-hypothesis.md).
+
+- [28 October: valid semantic responses, outer warmup timeout and repaired full submissions](entries/20261028-tokenizer-warmup-boundary-failure-and-repair.md).

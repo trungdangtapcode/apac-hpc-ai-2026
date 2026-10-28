@@ -1,3 +1,7 @@
+## 28 October 2026 14:44 Vietnam time: tokenizer arms failed before scoring
+
+26849/26851/26853 are FAILED 1:0 at the outer warmup timeout, although all six semantic P/D response receipts and actual requested tokenizer flags replay correctly. No benchmark score exists. Actual repaired jobs 26947/26949/26951/26953 are accepted. The semantic 120-second budget, existing absolute warmup deadline and 17-minute full-job hard stop remain. [Failure review, uncertainty and exact repair](h200-tokenizer-warmup-repair-20261028/REVIEW.md). Earlier dated snapshots below are historical. Last reproduced full local result remains 26766 at 3045.501509 good output tokens/s; official accuracy is UNKNOWN.
+
 ## 28 October2026: full R3 chunk comparison
 
 Full local passes:26766 chunk8192=3045.501509;26768 chunk10240=3034.088251;26770 chunk12288=3020.943099 good output tokens/s. All have zero profiling errors/cancellations, smoke7/8 non-regression and retrieval12/12. Larger chunks lose and worsen TTFT tails; close this bounded branch. This reproduces the historical approximately3044.4 level, without claiming native runtime caused a matched improvement. Official full-set accuracy is UNKNOWN. [Complete review, units, exact runs and telemetry](h200-native-chunk-review-20261028/REVIEW.md). New accepted26847/26849/26851/26853 test native prefill tokenization with exact-ID prerequisite; no new candidate result yet. Earlier dated queue/credit snapshots below are historical.
