@@ -1,15 +1,15 @@
 # Current AI / Qwen handoff
 
-Updated 2026-10-28T01:59:13.515328+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
+Updated 2026-10-28T07:41:37.153755+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65de26689a continues AI parent 01a15dd3-3094-7712-a991-8ce55b15cbfe and owns AI/Qwen only. Preserve the separate HPC worker. Chat Vietnamese; work artifacts English. No background Codex, schedules or automatic chat notification.
 
 ## Current jobs and dispatch handoff
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26847|CPU-only exact dynamic tokenizer-ID check|COMPLETED 0:0 in 1:31; exact IDs PASS|
-|H200 / Slurm|26849|Full N64 same-runtime tokenizer-off control|RUNNING; setup, no score yet|
-|H200 / Slurm|26851|Prefill dynamic tokenizer, max32, wait200microseconds|SUBMITTED afterany26849 + actual ID proof guard|
-|H200 / Slurm|26853|Same, wait2milliseconds|SUBMITTED afterany26851 + actual ID proof guard|
+|H200 / Slurm|26947|Optional CPU-only native create/command/remove timing|SUBMITTED / PENDING|
+|H200 / Slurm|26949|Full tokenizer-off control, warmup lifecycle repair|SUBMITTED / PENDING|
+|H200 / Slurm|26951|Prefill tokenizer 200 microseconds, same repair|SUBMITTED afterany 26949|
+|H200 / Slurm|26953|Prefill tokenizer 2 milliseconds, same repair|SUBMITTED afterany 26951|
 |H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
 
 These are dated snapshots; query actual queues before action. H200 serving jobs request 16 GPUs/two nodes/17 minutes maximum, own cap 5. The H100 job requests eight GPUs/one node/30 minutes, maximum 512 SU; combined CPU+AI PBS cap 3 and maximum one running AI allocation. The separate CPU queue was empty immediately after PBS admission; do not infer it remains empty. Preserve queue positions and frozen payloads.
@@ -94,3 +94,9 @@ New 26764 completed 0:0 and verified the actual AIPerf exec-rc repair. Both node
 New accepted jobs26847/26849/26851/26853 test prefill-only native dynamic tokenizer batching: CPU exact-ID proof plus fresh disabled control and max32 at200microseconds/2milliseconds. Both waits already returned exact equality for64 concurrent and one single input; full candidate jobs still require the proof and resolved runtime flags. This is a bounded frontend hypothesis, not proof of a CPU bottleneck or repeated N68 sweep. [Plan, native source and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-dynamic-tokenizer-20261028/PLAN.md). H100 helper again reports no live VPN session; no qsub or MFA request. No HPC action, package promotion or background Codex.
 
 [Full R3 chunk results, units, run IDs and observability](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md). Raw terminal artifacts are sealed and selected for the separate report checkpoint. New CPU prerequisite26847 is now COMPLETED 0:0 in 1:31; full26849 has started,26851/26853 retain dependent queue positions.
+
+## Warmup boundary correction and four accepted jobs — 2026-10-28T14:41:37.153755+07:00, Vietnam time
+
+26849/26851/26853 all FAILED 1:0 before AIPerf, despite actual resolved tokenizer settings and six independently valid semantic P/D response receipts. Outer native step timeout124 occurred after the semantic success marker. The uninstrumented boundary cannot distinguish Python/router shutdown from rootfs removal; cleanup delay is a hypothesis, not established cause. No throughput, request SLA or scoring output result exists for those arms. Retain original failures; the last valid performance observation remains 26766 at3045.501509 good output tokens/s.
+
+Actual new26947/26949/26951/26953 provide a CPU lifecycle probe plus three repaired full arms. The semantic logic/120-second command budget, absolute warmupT0+720 and full17-minute hard cap remain. Only the outer native step uses the remaining existing global warmup allowance, with create/command/remove markers. A local actual-wrapper fixture verifies setup/cleanup delay no longer consumes the inner command timeout, while an actual semantic timeout still fails. The optional diagnostic does not gate the independent full control. [Exact repair, retained gates and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-tokenizer-warmup-repair-20261028/REVIEW.md). H100 access check still reports no live VPN session; no MFA prompt or PBS submission. No HPC or background action.

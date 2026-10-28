@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-28T07:38:17.399245+00:00",
+  "queue_before": "",
+  "jobs": [
+    {
+      "payload": "h200-tokenizer-warmup-repair-20261028/lifecycle.sbatch",
+      "returncode": 0,
+      "stdout": "26947\n",
+      "stderr": "",
+      "test_only": "sbatch: Job 26946 to start at 2026-10-28T10:43:15 a using 128 processors on nodes g1 in partition hpcai\n",
+      "dependency": [],
+      "job": 26947
+    },
+    {
+      "payload": "serving-tuning-11/s93-h200-tokenizer-off-warmfix/job.sbatch",
+      "returncode": 0,
+      "stdout": "26949\n",
+      "stderr": "",
+      "test_only": "sbatch: Job 26948 to start at 2026-10-28T10:45:15 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [],
+      "job": 26949
+    },
+    {
+      "payload": "serving-tuning-11/s94-h200-tokenizer-200us-warmfix/job.sbatch",
+      "returncode": 0,
+      "stdout": "26951\n",
+      "stderr": "",
+      "test_only": "sbatch: Job 26950 to start at 2026-10-28T11:02:15 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26949"
+      ],
+      "job": 26951
+    },
+    {
+      "payload": "serving-tuning-11/s95-h200-tokenizer-2ms-warmfix/job.sbatch",
+      "returncode": 0,
+      "stdout": "26953\n",
+      "stderr": "",
+      "test_only": "sbatch: Job 26952 to start at 2026-10-28T11:19:15 a using 256 processors on nodes g[1,4] in partition hpcai\n",
+      "dependency": [
+        "--dependency=afterany:26951"
+      ],
+      "job": 26953
+    }
+  ],
+  "queue_after": "             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)\n             26953     hpcai ap42-s95 apacsc42 PD       0:00      2 (Resources)\n             26951     hpcai ap42-s94 apacsc42 PD       0:00      2 (Resources)\n             26949     hpcai ap42-s93 apacsc42 PD       0:00      2 (Resources)\n             26947     hpcai ap42-nat apacsc42 PD       0:00      1 (Resources)\n"
+}
