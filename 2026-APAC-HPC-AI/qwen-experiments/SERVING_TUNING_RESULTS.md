@@ -611,3 +611,7 @@ The failure is specifically first-token latency: raw rows show 30/630 control TT
 
 The reproduced full-protocol frontier is unchanged at **3,044.400475 good output tokens/s** (H200, N64; 60/120/30-second protocol). The short screen above is not directly comparable with it. Next test: [S61 EAGLE3 on decode only](eagle3-decode-only-20261024/PLAN.md), preserving target-only prefill based on the incumbent's actual resolved arguments.
 
+
+## Full fresh tokenizer-off control 26949 — 28 October 2026
+
+Valid full N64/4000:200/seed2026/cold/60:120:30: **3034.761104 good output tokens/s**, joint **98.627968%** (1869/1895), TTFT mean/p95 **1128.132630/1423.390839 ms**, request-mean ITL mean/p95 **14.979481/15.147206 ms**, zero errors/cancellations. Smoke7/8 without regression, retrieval12/12; official accuracy UNKNOWN. Reproduced runtime is P4+P4/D8EP8, DeepGEMM chunk8192/breakable prefill, HPC-Ops/FlashInfer/MNNVL/full1..64 decode, FP8 weights/BF16 activation+KV, native Enroot. This is 0.35% below separate 26766, not a new frontier. [Full review](h200-tokenizer-review-20261028/REVIEW.md). Pending tokenizer arms are 26951/26953; separate full page1-prefill-FlashInfer control is 27077.

@@ -420,3 +420,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [28 October: portable replay capacity gate and one-H200 KV page prerequisite](entries/20261028-portable-replay-preflight-and-kv-page-prerequisite.md).
 
 - [28 October: correct namespace-only VPN readiness and assess the first reversed full arm](entries/20261028-hpc-retry-health-correction-and-xyz-arm.md).
+
+- [28 October: fresh tokenizer control, complete BF16 page diagnostic and independent prefill backend control](entries/20261028-tokenizer-control-bf16-diagnostic-and-backend-control.md).

@@ -2445,3 +2445,11 @@ Submitted chunk6144/4096 under full native N64,16H200/two nodes/17-minute bound,
 ## Four-job native GPU-map repair dispatch 2026-10-27T03:41:21.453640+00:00
 
 26574 split4+4 prerequisite;26579 full N64 chunk8192 control;26581 chunk10240;26583 chunk12288. Three serving arms16H200/two nodes/17minutes, dependent chain and actual proof guard. Original26545/26547 failed NVIDIA visible-index mapping; no scores. [Full assessment and actual receipts](native-gpu-map-r2-20261027/REVIEW.md).
+
+## 28 October: fresh full control reviewed; two distinct followups accepted
+
+26949 completed 0:0/11:44 and independent full/raw/runtime/output audit passes: 3034.761104 good output tokens/s,98.627968% joint,1895 requests/1869 good,26 TTFT breaches/0 ITL,0 errors/cancellations,smoke7/8 and retrieval12/12. It is the fresh control for pending 26951/26953, not a promoted speedup. [Review](h200-tokenizer-review-20261028/REVIEW.md).
+
+27075 definitely accepted for bounded complete BF16 diagnostic, then completed 0:0/1:16. All 28 constructed decode cases collected,14/14 page pairs numerically identical, but six original strict FP32-absolute limits fail equally for both pages; diagnostic completion is not correctness acceptance. [Analysis](h200-kv-page-primitive-r2-20261028/RESULTS.md).
+
+27077 definitely accepted for full 16-H200/two-node/17-minute page1 prefill FlashInfer control. Same N64/full60/120/30/native runtime/strict gates; only prefill attention selection changes, decode unchanged. Source Hopper regression warning retained. No score or gain yet. [Plan/receipt](h200-prefill-flashinfer-page1-20261028/PLAN.md). Old fusion 26089/26091 are already closed and were not repeated. Four own jobs pending at the dated 14:49 UTC check. H100 helper reports no live VPN; queues/credit unknown, no qsub or new MFA request. Published AI/HPC package unchanged.
