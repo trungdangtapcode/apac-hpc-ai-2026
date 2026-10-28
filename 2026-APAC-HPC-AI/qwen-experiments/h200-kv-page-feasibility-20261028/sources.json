@@ -1,0 +1,18 @@
+{
+  "task": "H200 KV page-size feasibility review",
+  "date": "2026-10-28",
+  "mode": "read_only_cpu_source_review",
+  "decision": "conditional_go_one_gpu_primitive_then_same_gpu_pd_geometry_probe; no_full_model_retry",
+  "pinned_image": "/scratch/enroot-images/sglang-harbor.sqsh",
+  "preflight_report": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/REPORT.md",
+  "source_manifest": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/fp8-kv-source-preflight-20261023/SOURCE_MANIFEST.json",
+  "files": [
+    {"path": "runs/26766/submitted-payload/nixl-conn.py", "sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8"},
+    {"path": "runs/26766/submitted-payload/kv_geometry.py", "sha256": "bc7972ac2207b12d479e6d46df092486ffe792a18497305a1b3f88971b45e18a"},
+    {"path": "runs/26766/submitted-payload/validate_kv_geometry.py", "sha256": "08a3ce36db9ba031ed8d2df0003e68e1d7d222483e544eb1b36afaf170c3a47e"},
+    {"path": "source-image/sgl-workspace/sglang/python/sglang/srt/server_args.py", "sha256": "79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f", "lines": [5658, 5663, 8758, 8763]},
+    {"path": "source-image/sgl-workspace/sglang/python/sglang/srt/mem_cache/memory_pool.py", "sha256": "29ef7b37d2e12b1a4b674b97c33b3ceb05cd8421a3742eb33cb6a75f52896ddc", "lines": [1798, 1834, 2051, 2129, 2198, 2212]},
+    {"path": "source-image/sgl-workspace/sglang/python/sglang/srt/disaggregation/common/conn.py", "sha256": "ba33d63c6920f87b55cf57f9224bb7d08af67e1476bd70b8e1a70067f33a29d7", "lines": [528, 544]}
+  ],
+  "limitations": ["No GPU or model runtime used", "No accuracy or performance evidence", "Actual D-role KV heads and semantic layer IDs remain uncollected", "Page-size-1 validator exception not relaxed"]
+}
