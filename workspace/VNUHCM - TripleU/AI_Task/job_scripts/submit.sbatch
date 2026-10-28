@@ -9,10 +9,11 @@
 #SBATCH --output=../logs/slurm/%j.out
 #SBATCH --error=../logs/slurm/%j.err
 set -euo pipefail
+export TRIPLEU_JOB_START_EPOCH=$(date +%s)
 # Run setup.sh first, then submit from AI_Task/job_scripts (or use --chdir).
 TASK_SCRIPTS=${SLURM_SUBMIT_DIR:?Submit this script through Slurm}
 cd "$TASK_SCRIPTS"
 sha256sum --check SHA256SUMS
-export TRIPLEU_CONCURRENCY=62
+export TRIPLEU_CONCURRENCY=64
 export QWEN_NIXL_PATCH_SHA256=912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f
 exec bash "$TASK_SCRIPTS/deploy-and-benchmark.sh"

@@ -1,0 +1,25 @@
+# Repair the native warmup lifecycle without changing the measured workload
+
+Recorded 2026-10-28T14:41:37.153755+07:00, Vietnam time. Actual new accepted jobs are 26947 (optional CPU lifecycle diagnostic), 26949 (full disabled control), 26951 (prefill tokenizer wait 0.0002 seconds) and 26953 (wait 0.002 seconds). Exact frozen payloads, dependencies and scheduler acceptance are in submission-receipts.json. Each full trial retains 16 H200/two nodes/17 minutes and own active-job cap 5. The independent full control has no dependency on the optional diagnostic; only the three full arms are serialised.
+
+## What actually failed
+
+26849/26851/26853 are FAILED 1:0 after 8:18/9:11/8:44, not valid measurements. All three passed actual source/runtime/BF16 KV registration and resolved intended tokenizer flags, and all six semantic P/D routes independently replay PASS against their frozen response receipts. The outer warmup Slurm/container step nevertheless returned timeout 124. No AIPerf export, measured request-level SLA, TTFT, ITL, error denominator or scoring smoke/retrieval check exists. Do not call any arm faster, slower or correct at official accuracy on this evidence.
+
+The outer 120-second timer covered native rootfs extraction, the Python semantic command, command/process shutdown and rootfs removal. The native wrapper had no per-boundary timestamps, so the exact delayed part after semantic success is unknown. Slow removal is plausible but unproven. Both the disabled control and candidates failed at the same boundary; there is no evidence that dynamic tokenization itself caused the failure. Hardware/server telemetry and logs cover startup/warmup only, with selected transport errors and final gauges retained in failure-review.json. Missing scoring data is not zero or healthy.
+
+## Exact repair and limits
+
+The original Python semantic logic, response validation, 120-second command budget and absolute T0+720-second warmup deadline remain. The outer native step is bounded by the remaining time to that existing absolute deadline; the inner semantic command has its own 120-second timeout. This separates container setup/removal from the fixed semantic command while retaining all prior global stage and 1020-second job deadlines. The full 60-second warmup, 120-second measurement, 30-second grace and every raw source/runtime/KV/workload/SLA/output gate remain unchanged. No GPU allocation or walltime increase is introduced.
+
+Lifecycle markers now record root creation begin/end, command return status and root removal begin/end, on both the optional CPU probe and all model/client steps. A local fixture executes the actual new wrapper against deliberately delayed disposable Enroot stubs: the old combined timer returns 124 after a valid command, the split timer passes, and a genuinely excessive inner command still returns 124. The recorded tiny timing values are illustrative CPU regression cases, not a GPU result or proof of the original culprit. A first real CPU-only lifecycle job will measure the real image boundaries. Do not let it block the ready full control.
+
+The three frozen derived arms are s93/s94/s95 under serving-tuning-11. Only lifecycle/timing instrumentation and required metadata differ from s90/s91/s92. Worker flags, benchmark, expected inputs, semantic logic, model/source/geometry and strict gate bytes were compared with their parents. All shell syntax, Python AST, manifests and sbatch test-only checks pass. No frozen failed payload was edited. The new candidates retain the actual exact-tokenizer-ID proof 26847 and actual requested runtime settings; both sides still use P4+P4/D8 EP8, FP8 weights/BF16 activation and KV, chunk 8192, N64, cold prefixes, fixed 4000/200 and seed 2026.
+
+## Decision and preservation
+
+Keep the tokenizer question open until the full raw measurements exist. Close the unchanged boundary failure; rerun only with this explicit repair. Require a useful same-runtime gain above 1% without material tail regression, followed by independent confirmation, before promoting a candidate. Current reproduced baseline remains 26766 = 3045.501509 good output tokens/s; historical higher individual N68 remains retained. Official full-set accuracy stays UNKNOWN. This repair does not show an inference speedup.
+
+The existing H100 SSH helper was tried again and reports no live VPN session. Current PBS queue and credit are unknown; no qsub or authentication prompt was sent. No HPC payload, budget, submission package, slide, background Codex or schedule changed. Preserve raw failures and their immutable submitted payloads in a separate report checkpoint; new frozen scripts and actual receipts form this admission checkpoint. Git push does not upload large sibling artifact objects.
+
+Offline review correction: the initial selected traceback count used a misspelled Python marker. review-failures.py now uses the exact `Traceback (most recent call last)` marker and was rerun for the terminal-failure checkpoint. Raw logs were not changed; the earlier draft count must not be treated as an independent absence-of-errors claim.

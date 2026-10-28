@@ -9,6 +9,7 @@ SGLANG=${TRIPLEU_SGLANG_IMAGE:-/scratch/enroot-images/sglang-harbor.sqsh}
 AIPERF=${TRIPLEU_AIPERF_IMAGE:-/scratch/enroot-images/aiperf.sqsh}
 MODEL=${TRIPLEU_MODEL_PATH:-/scratch/models/Qwen3-235B-A22B-Instruct-2507-FP8}
 mkdir -p "$ART"
+JOB_START_EPOCH=${TRIPLEU_JOB_START_EPOCH:?submit.sbatch must set the immutable job-start epoch}
 cp -r "$TASK_SCRIPTS" "$ART/submitted"
 cp "$TASK_SCRIPTS/config.json" "$ART/config.json"
 mapfile -t NODES < <(scontrol show hostnames "$SLURM_JOB_NODELIST")
@@ -57,14 +58,14 @@ while read -r name node tp port bootstrap; do
   pids+=("$!")
 done <"$TASK_SCRIPTS/placement.tsv"
 wait_http() {
-  local url=$1 deadline=$((SECONDS+600))
+  local url=$1 deadline=$((JOB_START_EPOCH+600))
   while ! curl -sf --max-time 2 -o /dev/null "$url"; do
     for pid in "${pids[@]}"; do
       if ! kill -0 "$pid" 2>/dev/null; then
         echo "FATAL: worker/router step $pid exited before readiness" >&2; return 1
       fi
     done
-    if (( SECONDS>=deadline )); then echo "FATAL: readiness timeout $url" >&2; return 1; fi
+    if (( $(date +%s)>=deadline )); then echo "FATAL: readiness timeout $url" >&2; return 1; fi
     sleep 2
   done
 }
@@ -77,13 +78,22 @@ pids+=("$!")
 wait_http "http://${IPS[0]}:8000/health"
 curl -fsS "http://${IPS[0]}:8000/v1/models" >"$ART/gateway-models.json"
 echo "ALL_WORKERS_READY after ${SECONDS}s"
-# These are short, separate setup prompts, not the official dataset or seed.
-# Every scored request still traverses the main gateway and a prefill/decode pair.
+# Two independent semantic P/D warmups must pass before official scoring.
+# The absolute deadline is measured from job start, leaving four minutes for
+# the official workload and cleanup inside the 17-minute allocation.
+WARMUP_DEADLINE=$(( JOB_START_EPOCH + 780 ))
+EXPERIMENT_ID="tripleu-n64-${SLURM_JOB_ID}-$(date +%s)-$$"
 srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
   --container-image="$SGLANG" --container-mounts="$(mounts pair-warmup)" \
-  env QWEN_PAIR_TIMEOUT=480 QWEN_PAIR_PARALLELISM=8 python3 "$TASK_SCRIPTS/warm-topology.py" "${IPS[0]}" "$ART" >"$ART/pair-warmup.log" 2>&1
-echo "ALL_PAIRS_WARM after ${SECONDS}s"
-# No parameter sweep in the declared job: run N62 once with the locked command.
+  env QWEN_EXPERIMENT_ID="$EXPERIMENT_ID" QWEN_WARMUP_DEADLINE_EPOCH="$WARMUP_DEADLINE" \
+  python3 "$TASK_SCRIPTS/warm-topology.py" "${IPS[0]}" "$ART" >"$ART/pair-warmup.log" 2>&1
+python3 "$TASK_SCRIPTS/warmup_semantic.py" --check --endpoints "$ART/endpoints.tsv" \
+  --receipt-dir "$ART/pair-warmup-receipts" \
+  --run-token "$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest()[:32])' "$EXPERIMENT_ID")" \
+  >"$ART/pair-warmup-validation.json"
+(( $(date +%s) - JOB_START_EPOCH <= 780 )) || { echo 'FATAL: semantic warmup exceeded the job-start deadline' >&2; exit 1; }
+echo "ALL_PAIRS_SEMANTICALLY_WARM after ${SECONDS}s"
+# No parameter sweep in the declared job: run N64 once with the locked command.
 srun --overlap -N1 -n1 -w "${NODES[0]}" --gres=gpu:0 --cpus-per-task=4 \
   --container-image="$AIPERF" --container-mounts="$(mounts aiperf)" \
   bash "$TASK_SCRIPTS/official-benchmark.sh" "${IPS[0]}:8000" "$ART" "$TASK_SCRIPTS"

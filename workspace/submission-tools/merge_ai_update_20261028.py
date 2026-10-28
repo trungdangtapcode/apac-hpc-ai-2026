@@ -8,7 +8,7 @@ from pptx import Presentation
 import fitz
 from PIL import Image,ImageDraw
 W=Path('/home/apacsc42/workspace');O=W/'submission-review/ai-update-20261028'
-BASE=W/'VNUHCM - TripleU/Presentation/TripleU_APAC2026_Presentation.pptx'
+BASE=O/'inputs/combined-before-ai-update.pptx'
 FRESH=O/'slides/TripleU_APAC2026_Presentation.pptx'
 NSP='http://schemas.openxmlformats.org/presentationml/2006/main';NSR='http://schemas.openxmlformats.org/officeDocument/2006/relationships';PKG='http://schemas.openxmlformats.org/package/2006/relationships';CT='http://schemas.openxmlformats.org/package/2006/content-types'
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -63,7 +63,10 @@ if credits in src:
 dst['ppt/presentation.xml']=enc(pres);dst['ppt/_rels/presentation.xml.rels']=enc(rels);dst['[Content_Types].xml']=enc(types)
 # Global metadata changes do not alter HPC slide content.
 core=xml(old['docProps/core.xml']);dct='http://purl.org/dc/terms/';modified=core.find('{'+dct+'}modified')
-if modified is not None:modified.text=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+if modified is not None:modified.text=datetime.fromisoformat(json.loads((O/'slides/presentation-data.json').read_text())['snapshot_utc']).strftime('%Y-%m-%dT%H:%M:%SZ')
+for name,value in [('title','TripleU — APAC HPC-AI 2026'),('subject','AI research through 28 October 2026; existing HPC section preserved')]:
+ node=core.find('{http://purl.org/dc/elements/1.1/}'+name)
+ if node is not None:node.text=value
 dst['docProps/core.xml']=enc(core)
 # Use the exact audited protected list, regardless of its descriptive metadata.
 protected=before['presentation']['hpc_dependency_closure_parts']

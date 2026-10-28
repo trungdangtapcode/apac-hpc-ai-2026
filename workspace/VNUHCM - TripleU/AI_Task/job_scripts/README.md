@@ -1,6 +1,6 @@
 # TripleU Qwen Basic deployment
 
-The declared point is **N62 on two 8-GPU H200 nodes**. Two TP4/EP1 prefill
+The declared point is **N64 on two 8-GPU H200 nodes**. Two TP4/EP1 prefill
 workers on the first node feed one TP8/EP8 decode worker on the second.
 Prefill uses DeepGEMM and chunk8192. Decode uses HPC-Ops, FlashInfer attention,
 MNNVL collectives and dense CUDA graph sizes 1–64. Routing is round-robin.
@@ -34,13 +34,13 @@ sbatch submit.sbatch
 Submit from this directory, or use sbatch --chdir with its absolute path.
 The single job allocates all 16 GPUs for at most 17 minutes, deploys all workers
 and the gateway, warms each transfer path with separate setup prompts, and
-runs the official AIPerf command once at N62. It retains closed-loop 4000/200,
+runs the official AIPerf command once at N64. It retains closed-loop 4000/200,
 seed 2026, cold-prefix cache busting, 60s warmup / 120s scoring / 30s grace,
 and the original TTFT 3000 ms / request-mean ITL 20 ms goodput thresholds.
 The exported goodput in requests/s multiplied by 200 is the score in good
 output tokens/s; the joint good fraction must be at least 0.90.
 
-Output: ../logs/slurm/<job>.out/.err and ../logs/reruns/<job>/official/n62/.
+Output: ../logs/slurm/<job>.out/.err and ../logs/reruns/<job>/official/n64/.
 performance-gate.json independently rejects missing/incomplete/error/SLA-failed
 artifacts even when a client or scheduler reports exit 0. It reads existing
 exports and requests after the unchanged client command; it does not modify
@@ -48,9 +48,9 @@ benchmark traffic or recalculate goodput from a guessed window duration.
 
 ## Evidence and limits
 
-Reviewed source job 24915: 3022.034919 good output tokens/s, 1860/1884 good
-requests (98.726115%), zero errors/cancellations. This is one local N62
-observation. Its independent repeat 24962 was still pending at packaging.
+Reviewed source job 26766: 3045.501509 good output tokens/s, 1875/1902 good
+requests (98.580442%), zero errors/cancellations. This is one local N64
+observation. The 26766 native-runtime run reproduces the historical N64 score level; this is not a matched runtime gain.
 N60 independently repeated at 2990.150791 and 2989.174711; see the retained raw
 exports and results table for exact values. All platform comparisons remain
 separate. The portable entry point is statically checked and exercised with
@@ -61,3 +61,10 @@ unverified. Small output checks and SLA acceptance do not certify it.
 See ../logs/README.md for measured evidence, review scope and reproduction status.
 
 Rules: https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/1.%20Qwen3%20AI%20Task%20Rules.md
+
+
+## Semantic warmup and evidence update
+
+Before scoring, the primary job starts two independent P/D routers and sends one semantic request through each route. It validates both response bodies and writes replayable receipts tied to the endpoint inventory and current run token. The warmup has a 13-minute absolute deadline from submit start, leaving at least four minutes for scoring and cleanup, and fails closed on a missing, stale or invalid receipt. The official AIPerf command is invoked once after both paths pass.
+
+The selected primary point is reproduced by H200 job 26766 at 3045.501509 good output tokens/s. See `../logs/measured/latest-results.md` for comparison with the historical three-run N64 mean, losing larger-chunk controls, run limits and accuracy status. The measured patch is the base 912b7 NIXL change; no diagnostic observer wrapper is shipped.
