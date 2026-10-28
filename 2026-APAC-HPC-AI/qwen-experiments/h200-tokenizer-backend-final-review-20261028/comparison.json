@@ -1,0 +1,1131 @@
+{
+  "created_date": "2026-10-28",
+  "study": "H200 N64 full-load tokenizer wait and prefill attention backend final review",
+  "unit_note": "Good output tokens/s is raw AIPerf Goodput requests/s multiplied by 200 generated output tokens/request.",
+  "matched_control_job": 26949,
+  "native_runtime_reference_job": 26766,
+  "reference_metrics": {
+    "26949_good_output_tokens_per_second": 3034.761103639248,
+    "26766_good_output_tokens_per_second": 3045.501509,
+    "26766_joint_sla_fraction": 0.98580442
+  },
+  "acceptance_gates_unchanged": {
+    "workload": "N64, exact 4000 input / 200 output tokens, seed 2026, full 60 s warmup / 120 s measurement / 30 s drain",
+    "runtime": "same frozen source/runtime/image/model/native NIXL hashes and P8-TP4_D8-TP8-EP8 geometry, except explicitly selected prefill attention backend for 27077",
+    "correctness_and_outputs": "raw fixed-workload denominator and output checks; native runtime and KV geometry; two semantic P/D routes; zero profiling errors and cancellations; smoke >=7/8 with no regression; retrieval 12/12",
+    "joint_sla": "TTFT <=3000 ms and request-mean ITL <=20 ms, with >=90% of requests including errors",
+    "performance_claim": "No official score or quality claim; >1% is the useful-gain threshold for a candidate worth independent confirmation."
+  },
+  "runs": [
+    {
+      "job": 26949,
+      "experiment": "s93-h200-tokenizer-off-warmfix",
+      "label": "s93-h200-tokenizer-off-warmfix",
+      "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+      "scheduler": {
+        "JobID": "26949",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:44",
+        "NodeList": "g[1,4]"
+      },
+      "config_sha256": "7c5075019100264a63a9cd334a6451e080c910a9b225b37e485c608da7db33c7",
+      "frozen_payload_tree_sha256_manifest": "7612ed20c58d32fda0a9b033813cb1086ca8b25013e4af15c42e5f6164d812dd",
+      "change": "Matched tokenizer-off control",
+      "control_config": {
+        "prefill_dynamic_tokenizer": false,
+        "prefill_tokenizer_batch_size": 32,
+        "prefill_tokenizer_batch_timeout": 0.002,
+        "prefill_attention_backend": null,
+        "page_size": null,
+        "decode_attention_backend": "flashinfer",
+        "prefill_cuda_graph": "breakable",
+        "prefill_chunked_prefill_size": 8192,
+        "topology": "P8-TP4_D8-TP8-EP8",
+        "container_runtime": "Standalone unprivileged Enroot within existing Slurm steps/cgroups",
+        "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+        "client_image_sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+        "model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+        "native_nixl_patch_base_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl_conn_wrapper_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8"
+      },
+      "workload": {
+        "N": 64,
+        "input_tokens_mean": 4000,
+        "output_tokens_mean": 200,
+        "seed": 2026,
+        "measurement_seconds": 120,
+        "warmup_seconds": 60,
+        "context_length": 8192,
+        "gpus": 16,
+        "topology": "P8-TP4_D8-TP8-EP8"
+      },
+      "full_local_gate": {
+        "result": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+        "requests": 1895,
+        "errors": 0,
+        "cancelled": 0,
+        "good_request_fraction": 0.9862796833773088,
+        "joint_sla_pass": true,
+        "ttft_over_3000ms": 26,
+        "itl_over_20ms": 0,
+        "smoke": {
+          "passed": 7,
+          "total": 8,
+          "regressions": []
+        },
+        "retrieval": {
+          "passed": 12,
+          "total": 12,
+          "errors": 0
+        },
+        "official_accuracy": "UNKNOWN"
+      },
+      "performance": {
+        "good_output_tokens_per_second": 3034.761103639248,
+        "change_vs_26949_pct": 0.0,
+        "change_vs_native_26766_pct": -0.35266458837771575,
+        "good_requests_per_second": 15.173805518196241,
+        "good_request_fraction": 0.9862796833773088,
+        "ttft_mean_ms": 1128.1326302511873,
+        "ttft_p95_ms": 1423.3908393,
+        "itl_mean_ms": 14.979480521816432,
+        "itl_p95_ms": 15.147206095477387,
+        "raw_output_tokens_per_second": 3076.9619816936006
+      },
+      "scheduler_allocation": {
+        "JobID": "26949",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:44",
+        "NodeList": "g[1,4]"
+      },
+      "runtime_checks": {
+        "prefill-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "prefill-1": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "decode-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        }
+      },
+      "telemetry_in_request_start_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 24,
+            "gpu_sample_count": 192,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 131.334
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.156,
+            "mean_vram_gib": 130.207
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.927,
+            "mean_vram_gib": 130.209
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 13.14,
+            "available_memory_GiB_at_start": 1757.352,
+            "total_memory_GiB": 2014.874
+          },
+          "g1": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.53,
+            "available_memory_GiB_at_start": 1829.384,
+            "total_memory_GiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 72
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 54.0,
+              "mean": 50.625
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 2.7083
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 16.0,
+              "mean": 1.3333
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.03,
+              "mean": 0.0187
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.625
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 16.0,
+              "mean": 0.875
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0183
+            }
+          }
+        },
+        "all_role_gpu_samples": 384,
+        "all_role_mean_gpu_active_pct": 98.271,
+        "all_role_mean_vram_gib": 130.771,
+        "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+        "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+      },
+      "telemetry_collected": {
+        "resource_samples_per_host": {
+          "g4": 24,
+          "g1": 24
+        },
+        "host_estimated_cpu_busy_pct": {
+          "g4": 13.14,
+          "g1": 12.53
+        },
+        "mean_all_role_gpu_active_pct": 98.271,
+        "mean_vram_gib": 130.771,
+        "role_local_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 54.0,
+              "mean": 50.625
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 2.7083
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 16.0,
+              "mean": 1.3333
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.03,
+              "mean": 0.0187
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.625
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 16.0,
+              "mean": 0.875
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0183
+            }
+          }
+        }
+      },
+      "review_file": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-review-20261026/review-26949.json",
+      "review_sha256": "62bac077bee5ab7a74ed5dd90003f207afbcdc6d21ecbb5927a74fde373f3c8f"
+    },
+    {
+      "job": 26951,
+      "experiment": "s94-h200-tokenizer-200us-warmfix",
+      "label": "s94-h200-tokenizer-200us-warmfix",
+      "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+      "scheduler": {
+        "JobID": "26951",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:57",
+        "NodeList": "g[1,4]"
+      },
+      "config_sha256": "e5b74407f84aa1f77099a930da7a7e9ebe6b3b2e37555d545933abe3a64b195f",
+      "frozen_payload_tree_sha256_manifest": "d6499ce03023c901f7f57c588a4a8dc0f1fcd2dd2d1338d9adad923942ee3a84",
+      "change": "Prefill dynamic tokenizer enabled; batch wait 200 microseconds",
+      "control_config": {
+        "prefill_dynamic_tokenizer": true,
+        "prefill_tokenizer_batch_size": 32,
+        "prefill_tokenizer_batch_timeout": 0.0002,
+        "prefill_attention_backend": null,
+        "page_size": null,
+        "decode_attention_backend": "flashinfer",
+        "prefill_cuda_graph": "breakable",
+        "prefill_chunked_prefill_size": 8192,
+        "topology": "P8-TP4_D8-TP8-EP8",
+        "container_runtime": "Standalone unprivileged Enroot within existing Slurm steps/cgroups",
+        "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+        "client_image_sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+        "model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+        "native_nixl_patch_base_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl_conn_wrapper_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8"
+      },
+      "workload": {
+        "N": 64,
+        "input_tokens_mean": 4000,
+        "output_tokens_mean": 200,
+        "seed": 2026,
+        "measurement_seconds": 120,
+        "warmup_seconds": 60,
+        "context_length": 8192,
+        "gpus": 16,
+        "topology": "P8-TP4_D8-TP8-EP8"
+      },
+      "full_local_gate": {
+        "result": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+        "requests": 1900,
+        "errors": 0,
+        "cancelled": 0,
+        "good_request_fraction": 0.9863157894736843,
+        "joint_sla_pass": true,
+        "ttft_over_3000ms": 26,
+        "itl_over_20ms": 0,
+        "smoke": {
+          "passed": 7,
+          "total": 8,
+          "regressions": []
+        },
+        "retrieval": {
+          "passed": 12,
+          "total": 12,
+          "errors": 0
+        },
+        "official_accuracy": "UNKNOWN"
+      },
+      "performance": {
+        "good_output_tokens_per_second": 3040.5918868269077,
+        "change_vs_26949_pct": 0.192133185728105,
+        "change_vs_native_26766_pct": -0.16120898835819686,
+        "good_requests_per_second": 15.202959434134538,
+        "good_request_fraction": 0.9863157894736843,
+        "ttft_mean_ms": 1117.468876095263,
+        "ttft_p95_ms": 1349.1527997,
+        "itl_mean_ms": 14.99783822818986,
+        "itl_p95_ms": 15.154720725879397,
+        "raw_output_tokens_per_second": 3082.7366969978407
+      },
+      "scheduler_allocation": {
+        "JobID": "26951",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:11:57",
+        "NodeList": "g[1,4]"
+      },
+      "runtime_checks": {
+        "prefill-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "prefill-1": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "decode-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        }
+      },
+      "telemetry_in_request_start_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 24,
+            "gpu_sample_count": 192,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 131.205
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.458,
+            "mean_vram_gib": 130.207
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.875,
+            "mean_vram_gib": 130.207
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.82,
+            "available_memory_GiB_at_start": 1756.764,
+            "total_memory_GiB": 2014.874
+          },
+          "g1": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.53,
+            "available_memory_GiB_at_start": 1829.029,
+            "total_memory_GiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 72
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 54.0,
+              "mean": 50.7083
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 3.0417
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 12.0,
+              "mean": 0.75
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0196
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.6667
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 0.7917
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          }
+        },
+        "all_role_gpu_samples": 384,
+        "all_role_mean_gpu_active_pct": 98.333,
+        "all_role_mean_vram_gib": 130.706,
+        "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+        "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+      },
+      "telemetry_collected": {
+        "resource_samples_per_host": {
+          "g4": 24,
+          "g1": 24
+        },
+        "host_estimated_cpu_busy_pct": {
+          "g4": 12.82,
+          "g1": 12.53
+        },
+        "mean_all_role_gpu_active_pct": 98.333,
+        "mean_vram_gib": 130.706,
+        "role_local_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 54.0,
+              "mean": 50.7083
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 3.0417
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 12.0,
+              "mean": 0.75
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0196
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.6667
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 0.7917
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          }
+        }
+      },
+      "review_file": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-review-20261026/review-26951.json",
+      "review_sha256": "240842bed47faf3f4bd8963aef98ad6fa790e5e6d41fbcb8bc6f95d2c7664ef6"
+    },
+    {
+      "job": 26953,
+      "experiment": "s95-h200-tokenizer-2ms-warmfix",
+      "label": "s95-h200-tokenizer-2ms-warmfix",
+      "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+      "scheduler": {
+        "JobID": "26953",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:12:05",
+        "NodeList": "g[1,4]"
+      },
+      "config_sha256": "6c60cb62983a64a65c76f02546b4a766bf828e17655d79fca5a7da771971ba07",
+      "frozen_payload_tree_sha256_manifest": "373dadec349c8d778f83f683fecc7da9acf1386d3464b330c18ba4d4d4fb6569",
+      "change": "Prefill dynamic tokenizer enabled; batch wait 2 milliseconds",
+      "control_config": {
+        "prefill_dynamic_tokenizer": true,
+        "prefill_tokenizer_batch_size": 32,
+        "prefill_tokenizer_batch_timeout": 0.002,
+        "prefill_attention_backend": null,
+        "page_size": null,
+        "decode_attention_backend": "flashinfer",
+        "prefill_cuda_graph": "breakable",
+        "prefill_chunked_prefill_size": 8192,
+        "topology": "P8-TP4_D8-TP8-EP8",
+        "container_runtime": "Standalone unprivileged Enroot within existing Slurm steps/cgroups",
+        "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+        "client_image_sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+        "model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+        "native_nixl_patch_base_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl_conn_wrapper_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8"
+      },
+      "workload": {
+        "N": 64,
+        "input_tokens_mean": 4000,
+        "output_tokens_mean": 200,
+        "seed": 2026,
+        "measurement_seconds": 120,
+        "warmup_seconds": 60,
+        "context_length": 8192,
+        "gpus": 16,
+        "topology": "P8-TP4_D8-TP8-EP8"
+      },
+      "full_local_gate": {
+        "result": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+        "requests": 1900,
+        "errors": 0,
+        "cancelled": 0,
+        "good_request_fraction": 0.9863157894736843,
+        "joint_sla_pass": true,
+        "ttft_over_3000ms": 26,
+        "itl_over_20ms": 0,
+        "smoke": {
+          "passed": 7,
+          "total": 8,
+          "regressions": []
+        },
+        "retrieval": {
+          "passed": 12,
+          "total": 12,
+          "errors": 0
+        },
+        "official_accuracy": "UNKNOWN"
+      },
+      "performance": {
+        "good_output_tokens_per_second": 3042.9639884443286,
+        "change_vs_26949_pct": 0.27029754649365856,
+        "change_vs_native_26766_pct": -0.08332028561380822,
+        "good_requests_per_second": 15.214819942221643,
+        "good_request_fraction": 0.9863157894736843,
+        "ttft_mean_ms": 1117.50477944,
+        "ttft_p95_ms": 1309.00196495,
+        "itl_mean_ms": 14.992863680759974,
+        "itl_p95_ms": 15.160308672613064,
+        "raw_output_tokens_per_second": 3085.1335587644458
+      },
+      "scheduler_allocation": {
+        "JobID": "26953",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:12:05",
+        "NodeList": "g[1,4]"
+      },
+      "runtime_checks": {
+        "prefill-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "prefill-1": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "decode-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        }
+      },
+      "telemetry_in_request_start_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 24,
+            "gpu_sample_count": 192,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 131.203
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 95.979,
+            "mean_vram_gib": 130.207
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.792,
+            "mean_vram_gib": 130.208
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 13.22,
+            "available_memory_GiB_at_start": 1757.557,
+            "total_memory_GiB": 2014.874
+          },
+          "g1": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.56,
+            "available_memory_GiB_at_start": 1827.26,
+            "total_memory_GiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 72
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 55.0,
+              "mean": 52.125
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.1196
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.8333
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 23.0,
+              "mean": 1.4167
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.75
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 23.0,
+              "mean": 1.0833
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          }
+        },
+        "all_role_gpu_samples": 384,
+        "all_role_mean_gpu_active_pct": 98.193,
+        "all_role_mean_vram_gib": 130.706,
+        "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+        "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+      },
+      "telemetry_collected": {
+        "resource_samples_per_host": {
+          "g4": 24,
+          "g1": 24
+        },
+        "host_estimated_cpu_busy_pct": {
+          "g4": 13.22,
+          "g1": 12.56
+        },
+        "mean_all_role_gpu_active_pct": 98.193,
+        "mean_vram_gib": 130.706,
+        "role_local_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 55.0,
+              "mean": 52.125
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.1196
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.8333
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 23.0,
+              "mean": 1.4167
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.75
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 23.0,
+              "mean": 1.0833
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0187
+            }
+          }
+        }
+      },
+      "review_file": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-review-20261026/review-26953.json",
+      "review_sha256": "9bcc43f72c14c3ff690c467bc86884c6d49a7fa945ee3375bda6d606e43edeed"
+    },
+    {
+      "job": 27077,
+      "experiment": "s96-h200-prefill-flashinfer-page1",
+      "label": "Page-1 FlashInfer prefill attention compatibility/control",
+      "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+      "scheduler": {
+        "JobID": "27077",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:12:12",
+        "NodeList": "g[1,4]"
+      },
+      "config_sha256": "73b3665a000d7b120b258463b17aed1c7c55adecc644ab8abff02b98d6f6572f",
+      "frozen_payload_tree_sha256_manifest": "d4e4b7855e412320d27f81734f5ff6806af213ba8f52f58e6ff4813337a426de",
+      "change": "Prefill attention backend explicitly FlashInfer on both prefill workers; page size 1; decode unchanged",
+      "control_config": {
+        "prefill_dynamic_tokenizer": false,
+        "prefill_tokenizer_batch_size": 32,
+        "prefill_tokenizer_batch_timeout": 0.002,
+        "prefill_attention_backend": "flashinfer",
+        "page_size": 1,
+        "decode_attention_backend": "flashinfer",
+        "prefill_cuda_graph": "breakable",
+        "prefill_chunked_prefill_size": 8192,
+        "topology": "P8-TP4_D8-TP8-EP8",
+        "container_runtime": "Standalone unprivileged Enroot within existing Slurm steps/cgroups",
+        "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+        "client_image_sha256": "58fc1cbc2aec897fe39bf74d8f38f055b63c3690429162134f818d9597d22c0a",
+        "model_config_sha256": "f056921e486d3e22aed125b5218b87146ea2ac838ccf1521dea5b08f809e8d59",
+        "native_nixl_patch_base_sha256": "912b7edb95b03604354cc0137f111756ed5bb0eaa91345e713afa53b5bf5024f",
+        "nixl_conn_wrapper_sha256": "45096e831735362c7de5b37b485d02f1f55fc291f3f3876115f6da37aefd63b8"
+      },
+      "workload": {
+        "N": 64,
+        "input_tokens_mean": 4000,
+        "output_tokens_mean": 200,
+        "seed": 2026,
+        "measurement_seconds": 120,
+        "warmup_seconds": 60,
+        "context_length": 8192,
+        "gpus": 16,
+        "topology": "P8-TP4_D8-TP8-EP8"
+      },
+      "full_local_gate": {
+        "result": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+        "requests": 1789,
+        "errors": 0,
+        "cancelled": 0,
+        "good_request_fraction": 0.9832308552263834,
+        "joint_sla_pass": true,
+        "ttft_over_3000ms": 30,
+        "itl_over_20ms": 0,
+        "smoke": {
+          "passed": 7,
+          "total": 8,
+          "regressions": []
+        },
+        "retrieval": {
+          "passed": 12,
+          "total": 12,
+          "errors": 0
+        },
+        "official_accuracy": "UNKNOWN"
+      },
+      "performance": {
+        "good_output_tokens_per_second": 2841.0041073106386,
+        "change_vs_26949_pct": -6.384588101391531,
+        "change_vs_native_26766_pct": -6.7147365084218595,
+        "good_requests_per_second": 14.205020536553192,
+        "good_request_fraction": 0.9832308552263834,
+        "ttft_mean_ms": 1480.1650223370598,
+        "ttft_p95_ms": 1886.0849329999996,
+        "itl_mean_ms": 14.498533931674212,
+        "itl_p95_ms": 14.658878562814069,
+        "raw_output_tokens_per_second": 2889.4013148578606
+      },
+      "scheduler_allocation": {
+        "JobID": "27077",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "Elapsed": "00:12:12",
+        "NodeList": "g[1,4]"
+      },
+      "runtime_checks": {
+        "prefill-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "prefill-1": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        },
+        "decode-0": {
+          "selected_transport_error_lines": [],
+          "traceback_count": 0,
+          "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+        }
+      },
+      "telemetry_in_request_start_envelope": {
+        "roles": {
+          "decode-0": {
+            "host": "g4",
+            "samples": 24,
+            "gpu_sample_count": 192,
+            "uuid_count": 8,
+            "mean_gpu_active_pct": 100.0,
+            "mean_vram_gib": 130.959
+          },
+          "prefill-0": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 94.562,
+            "mean_vram_gib": 130.759
+          },
+          "prefill-1": {
+            "host": "g1",
+            "samples": 24,
+            "gpu_sample_count": 96,
+            "uuid_count": 4,
+            "mean_gpu_active_pct": 96.51,
+            "mean_vram_gib": 130.76
+          }
+        },
+        "hosts": {
+          "g4": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.86,
+            "available_memory_GiB_at_start": 1757.43,
+            "total_memory_GiB": 2014.874
+          },
+          "g1": {
+            "samples": 24,
+            "estimated_cpu_busy_pct": 12.66,
+            "available_memory_GiB_at_start": 1829.278,
+            "total_memory_GiB": 2014.874
+          }
+        },
+        "server_http_and_error_poll_counts": {
+          "http=200,error=None": 72
+        },
+        "rank_local_server_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 51.0,
+              "mean": 45.9583
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 3.0417
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 4.1667
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.02
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.7917
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 1.1667
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0196
+            }
+          }
+        },
+        "all_role_gpu_samples": 384,
+        "all_role_mean_gpu_active_pct": 97.768,
+        "all_role_mean_vram_gib": 130.859,
+        "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+        "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+      },
+      "telemetry_collected": {
+        "resource_samples_per_host": {
+          "g4": 24,
+          "g1": 24
+        },
+        "host_estimated_cpu_busy_pct": {
+          "g4": 12.86,
+          "g1": 12.66
+        },
+        "mean_all_role_gpu_active_pct": 97.768,
+        "mean_vram_gib": 130.859,
+        "role_local_gauges": {
+          "decode-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 51.0,
+              "mean": 45.9583
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 0.0,
+              "mean": 0.0
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.12,
+              "mean": 0.12
+            }
+          },
+          "prefill-0": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 4.0,
+              "mean": 3.0417
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 4.1667
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.02
+            }
+          },
+          "prefill-1": {
+            "sglang:num_running_reqs": {
+              "samples": 24,
+              "max": 3.0,
+              "mean": 2.7917
+            },
+            "sglang:num_queue_reqs": {
+              "samples": 24,
+              "max": 14.0,
+              "mean": 1.1667
+            },
+            "sglang:token_usage": {
+              "samples": 24,
+              "max": 0.02,
+              "mean": 0.0196
+            }
+          }
+        }
+      },
+      "review_file": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-full-load-review-20261026/review-27077.json",
+      "review_sha256": "6d6f3146ea0e52ceafd2e36cbecc332aa97818ad8650cfeabfb5dfd6d9481166"
+    }
+  ],
+  "assessment": {
+    "tokenizer": "Both tokenizer candidates passed the unchanged full local gate. 200 microseconds gained 0.192% and 2 milliseconds gained 0.270% over fresh control 26949, both below 1%. Their margin over the older 26766 native-runtime observation is negative (-0.161% and -0.083%). Do not call either a new best or attribute a causal tokenizer gain from one run per setting.",
+    "prefill_flashinfer": "Job 27077 passed the same local gate but delivered 6.365% less good output throughput than matched control 26949. Mean/p95 ITL improved (14.499/14.659 ms vs 14.979/15.147 ms), while mean/p95 TTFT worsened (1480/1886 ms vs 1128/1423 ms). This is a throughput/latency tradeoff in one run, not a whole-system improvement or a causal best.",
+    "other_observations": "All four runs had zero profiling errors/cancellations, 7/8 smoke with no regression, 12/12 retrieval and no selected transport errors or tracebacks in role logs. The tokenizer arms have 26 TTFT breaches and zero ITL breaches each; FlashInfer has 30 TTFT breaches and zero ITL breaches. These remain within the unchanged joint >=90% request gate. All three server roles, rank-local queue/running/token gauges, GPU activity and sampled VRAM, host CPU/memory and HTTP/error polls are recorded in per-run review JSON. Telemetry is sparse five-second sampling within request-start envelope; it omits warmup/final drain, has uncalibrated host clock skew, and is not causal evidence. Official full-set accuracy is UNKNOWN; request IDs are not actual model token IDs."
+  },
+  "preservation": {
+    "raw_run_directories": [
+      "runs/26949",
+      "runs/26951",
+      "runs/26953",
+      "runs/27077"
+    ],
+    "stdout_stderr": [
+      "runs/26949.out",
+      "runs/26949.err",
+      "runs/26951.out",
+      "runs/26951.err",
+      "runs/26953.out",
+      "runs/26953.err",
+      "runs/27077.out",
+      "runs/27077.err"
+    ],
+    "seal_script": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-tokenizer-backend-final-review-20261028/seal.py",
+    "seal_result": "terminal accounting and artifact manifests verified; submitted payloads were not modified"
+  },
+  "note": "The 26766 value is a prior native-runtime N64 observation, not the matched control for this study. Comparisons across single runs are descriptive and do not establish a causal effect."
+}
