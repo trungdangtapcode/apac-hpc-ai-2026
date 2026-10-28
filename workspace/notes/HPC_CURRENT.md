@@ -2,17 +2,17 @@
 
 Updated 2026-10-27T17:33:06.657738+00:00. Vietnam time is UTC+7. This fork 01a17c4b-65e6-75e0-be95-c5bea1b25502 continues HPC parent 01a1508d-26b0-7dd0-9dc1-f217ce0aff40. AI/Qwen belongs to its separate mapped worker. No background Codex, schedules or automatic chat notifications.
 
-## Live Iris job
+## Latest terminal Iris job
 
-**Job 2294234 is RUNNING on iris024**,verified 17:29:25 UTC 27 October / 00:29:25 Vietnam 28 October. Actual submission confirmation was 00:28:44 Vietnam. One exclusive CPU node, 56 ranks, zero GPUs, QoS low, 3-hour maximum. It runs zyx then xyz, each 150 steps with 149 native timer samples, on the same allocation. [Receipt,source and exact live progress](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/STATUS.md).
+**Job 2294234 is COMPLETED, exit 0:0, on iris024**, verified 08:33:13 UTC / 15:33:13 Vietnam on 28 October 2026. Slurm elapsed is 7,585 seconds (2:06:25). Actual submission confirmation was 00:28:44 Vietnam. One exclusive CPU node, 56 ranks, zero GPUs, QoS low, 3-hour maximum. It runs zyx then xyz, each 150 steps with 149 native timer samples, on the same allocation. [Receipt,source and exact live progress](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/STATUS.md).
 
-The 49-file runtime kit is sealed. Both source cases were READY, with 56 processor directories. Root review includes actual retained full 150 parser replay, source/copy/physics/iteration/force gates, zero-time latestTime checks, stable executable/library identities and all command exits. First runtime source-hash gate passed 31.46 s and zyx clone began. No new mean or speedup exists yet. A partial first arm is not a completed matched pair.
+The 49-file runtime kit is sealed. Both source cases were READY, with 56 processor directories. Root review includes actual retained full 150 parser replay, source/copy/physics/iteration/force gates, zero-time latestTime checks, stable executable/library identities and all command exits. Runtime comparison reports both full arms passed: zyx 21.229593669 s/step, xyz 26.953798643 s/step (149 timings each), a 21.24% reduction in this Iris allocation. Independent raw-output replay is underway; this does not establish an NSCC gain.
 
 Remote root: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-orderfull150-20261027T172755Z`. Worker results are `root/runs/2294234`, cases are `root/cases/zyx` and `root/cases/xyz`, Slurm output is `root/kit/runs/2294234.out/.err`. Use the verified forced-TTY `tools/iris_bridge.py` for access. Do not cancel/requeue just because it takes time. Preserve shared-login other teams' jobs; own names use tu-. One own queued/running Iris allocation is the cap.
 
 ## Budget
 
-Same Iris ledger: `iris-scotch56-20261025/budget.json`, lock sibling budget.lock. Latest explicit owner instruction redirects measurements to Iris instead of waiting for DUO. Root transparently extended the original agent-defined 224-hour envelope by one bounded 168-hour request to 392 CPU-hours. **Consumed 219 + reserved 168 = 387**, headroom 5. Preserve all old jobs/history; no NSCC debit and no inferred SU rate or balance. [Rationale](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/budget-authorisation.json). Do not retire the reservation before actual terminal/resource review.
+Same Iris ledger: `iris-scotch56-20261025/budget.json`, lock sibling budget.lock. Latest explicit owner instruction redirects measurements to Iris instead of waiting for DUO. Root transparently extended the original agent-defined 224-hour envelope by one bounded 168-hour request to 392 CPU-hours. **Consumed 337 + reserved 0 = 337 CPU-hours**, headroom 55 under the recorded 392-hour internal ceiling. Job 2294234 used 117.988889 allocated CPU-hours; conservatively charged 118 to the planning allowance, retiring its 168-hour maximum once. Preserve all old jobs/history; no NSCC debit and no inferred SU rate or balance. [Rationale](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/budget-authorisation.json). Do not retire the reservation before actual terminal/resource review.
 
 ## Retained performance and meaning
 
@@ -43,3 +43,7 @@ Fresh Slurm confirms 2294234 RUNNING on iris024. Both source and clone checks re
 ## Mandatory execution rule
 
 The owner requires that this dispatch failure not need another reminder. Read [research-execution-contract-20261027.md](research-execution-contract-20261027.md) and the new canonical AGENTS.md section before continuation. If NSCC is blocked, use authorised feasible Iris work; optional pinning diagnostics must not block independent native solver tests. Actual submission requires a receipt/job ID. Keep budgets, locks, caps and disabled automation unchanged.
+
+## 28 October continuation — 15:33 Vietnam
+
+Fresh Iris queue has no own tu- allocation. Slurm confirms completed 2294234 and raw collection is in progress. The existing NSCC CPU SSH reuse attempt immediately reported no live VPN session; no new MFA prompt was sent. NSCC jobs remain unknown, not absent. The next justified Iris hypothesis is a full reversed xyz-then-zyx pair to test ordering confounding. It needs a documented bounded stage beyond the remaining 55 CPU-hours; it is not yet submitted.
