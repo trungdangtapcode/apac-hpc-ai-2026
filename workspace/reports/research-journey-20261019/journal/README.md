@@ -406,3 +406,5 @@ HPC execution checkpoint, 27 October: [Native full-work three-arm bundle sealed 
 Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched zyx/xyz job 2294234 is running](entries/20261027-hpc-iris-full150-submitted.md). One 168 CPU-hour reservation; no solver result yet.
 
 - [28 October Vietnam time: native entrypoint repair, failed chunk trials and three new full jobs](entries/20261027-native-entrypoint-and-space-repair.md).
+
+- [28 October: full native chunk results, reproduced score level and new tokenizer hypothesis](entries/20261028-full-native-chunk-results-and-tokenizer-hypothesis.md).

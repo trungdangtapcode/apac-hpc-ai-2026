@@ -6,8 +6,8 @@ Updated 2026-10-28T01:59:13.515328+00:00. This fork 01a166eb-33cb-7ce0-9699-ec65
 
 | Cluster | Job | Purpose | Last verified state |
 |---|---|---|---|
-|H200 / Slurm|26847|CPU-only exact dynamic tokenizer-ID check|Proof PASS; query terminal state separately|
-|H200 / Slurm|26849|Full N64 same-runtime tokenizer-off control|SUBMITTED / PENDING|
+|H200 / Slurm|26847|CPU-only exact dynamic tokenizer-ID check|COMPLETED0:0 in1:31; exact IDs PASS|
+|H200 / Slurm|26849|Full N64 same-runtime tokenizer-off control|RUNNING; setup, no score yet|
 |H200 / Slurm|26851|Prefill dynamic tokenizer, max32, wait200microseconds|SUBMITTED afterany26849 + actual ID proof guard|
 |H200 / Slurm|26853|Same, wait2milliseconds|SUBMITTED afterany26851 + actual ID proof guard|
 |H100 / PBS|225306.pbs111|One same-node P4/D4 EAGLE unit|FAILED 127 before AIPerf; R2 prepared, not submitted|
@@ -92,3 +92,5 @@ New 26764 completed 0:0 and verified the actual AIPerf exec-rc repair. Both node
 26766/26768/26770 all completed0:0 and independently pass full raw protocol, actual runtime/KV/semantic and local output gates. Scores3045.501509/3034.088251/3020.943099 good output tokens/s; all have zero profiling errors/cancellations, smoke7/8 and retrieval12/12. Larger chunks lose and worsen p95 TTFT, so close the current chunk branch. The new8192 observation recovers the historical score level; it is not evidence that native Enroot caused a speedup. Official accuracy remains UNKNOWN. Actual batch-level cleanup removed four own rootfs trees in each full allocation after workers stopped; unlike the earlier zero-root probe, deletion is now exercised successfully.
 
 New accepted jobs26847/26849/26851/26853 test prefill-only native dynamic tokenizer batching: CPU exact-ID proof plus fresh disabled control and max32 at200microseconds/2milliseconds. Both waits already returned exact equality for64 concurrent and one single input; full candidate jobs still require the proof and resolved runtime flags. This is a bounded frontend hypothesis, not proof of a CPU bottleneck or repeated N68 sweep. [Plan, native source and actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-dynamic-tokenizer-20261028/PLAN.md). H100 helper again reports no live VPN session; no qsub or MFA request. No HPC action, package promotion or background Codex.
+
+[Full R3 chunk results, units, run IDs and observability](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md). Raw terminal artifacts are sealed and selected for the separate report checkpoint. New CPU prerequisite26847 is now COMPLETED0:0 in1:31; full26849 has started,26851/26853 retain dependent queue positions.

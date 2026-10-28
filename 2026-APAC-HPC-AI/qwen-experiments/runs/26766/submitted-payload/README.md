@@ -1,0 +1,5 @@
+# Full N64 chunk 8192, native runtime R3
+
+This derives s84-h200-native-r2-chunk8192. Previous job 26579 reached workers and semantic routes but the AIPerf image entrypoint interpreted the intended env command as an AIPerf subcommand. Jobs 26581/26583 hit the local rootfs capacity guard. R3 explicitly executes the intended argv with Enroot --rc and reclaims only this user's disposable native roots from terminal jobs. A new batch-level cleanup covers steps killed before their EXIT trap completes. All cleanup remains inside the existing 17-minute allocation. Raw failed evidence is retained.
+
+Both actual split-eight CUDA proof 26574 and actual entrypoint/cleanup proof 26764 are mandatory. The model, source pins, read-only patched mounts, precision, GPU layout, full 60/120/30-second N64 workload and strict raw SLA/output gates remain. Across these three arms only prefill chunk differs. Official quality remains UNKNOWN. No gain is claimed before a qualified same-runtime comparison, then independent confirmation for a useful gain above 1%.

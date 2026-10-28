@@ -1,3 +1,7 @@
+## 28 October2026: full R3 chunk comparison
+
+Full local passes:26766 chunk8192=3045.501509;26768 chunk10240=3034.088251;26770 chunk12288=3020.943099 good output tokens/s. All have zero profiling errors/cancellations, smoke7/8 non-regression and retrieval12/12. Larger chunks lose and worsen TTFT tails; close this bounded branch. This reproduces the historical approximately3044.4 level, without claiming native runtime caused a matched improvement. Official full-set accuracy is UNKNOWN. [Complete review, units, exact runs and telemetry](h200-native-chunk-review-20261028/REVIEW.md). New accepted26847/26849/26851/26853 test native prefill tokenization with exact-ID prerequisite; no new candidate result yet. Earlier dated queue/credit snapshots below are historical.
+
 ## 23 October: full N68 gain does not clear the repeat gate
 
 Fresh full N64 control 25487=3044.637094 versus N68 candidate 25488=3047.165853 good output tokens/s (**+0.083056%**). Both pass local protocol/SLA/output checks, with zero errors/cancellations. N68 has the highest single observed score but misses the 1% practical repeat gate and raises mean TTFT 1113.595→1347.105 ms; joint SLA 98.632299%→98.430141%. Retain N64 as the reproduced operating choice, three-run mean 3044.400475. Close unchanged N68 replication and pursue separately gated EAGLE3 rather than extrapolate the short +2.27% result. Official accuracy remains unverified. [Raw/sealed full review](research-review-25487-25488-20261023/REVIEW.md).

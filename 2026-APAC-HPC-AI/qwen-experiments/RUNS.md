@@ -1,3 +1,7 @@
+## 28 October2026: full R3 chunk comparison
+
+Full local passes:26766 chunk8192=3045.501509;26768 chunk10240=3034.088251;26770 chunk12288=3020.943099 good output tokens/s. All have zero profiling errors/cancellations, smoke7/8 non-regression and retrieval12/12. Larger chunks lose and worsen TTFT tails; close this bounded branch. This reproduces the historical approximately3044.4 level, without claiming native runtime caused a matched improvement. Official full-set accuracy is UNKNOWN. [Complete review, units, exact runs and telemetry](h200-native-chunk-review-20261028/REVIEW.md). New accepted26847/26849/26851/26853 test native prefill tokenization with exact-ID prerequisite; no new candidate result yet. Earlier dated queue/credit snapshots below are historical.
+
 ## 23 October: H200 EAGLE3 exact-output candidate 25682
 
 Definite native Slurm 25682, `s39-h200-eagle3-correctness`, 16 H200/two nodes/17-minute maximum/no PBS SU. Requires all 1600 candidate IDs equal accepted H200 reference 25585, native speculative counters, per-rank runtime/geometry and semantic P/D receipts. No score or EAGLE3 speedup exists yet. [Receipt](eagle3-h200-candidate-20261023/RESULTS.md).
