@@ -1,0 +1,13 @@
+# 29 October: corrected source-pinned observer admitted as 27340
+
+Written 2026-10-29T16:28:43.941147+07:00, Vietnam time (UTC+7). This is an actual new scheduler acceptance, not a fixture pass or a full model run.
+
+**Prior failure and hypothesis.** Original tiny prerequisite 27338 failed before compilation because the observer hashed the stdlib contextmanager wrapper instead of the underlying SGLang module. Pinned image extraction confirms both original module hash and observed contextlib hash. A real stdlib-decorator regression reproduction on the login CPU, without importing Torch/CUDA, confirms inspect.unwrap restores the original function source.
+
+**Exact derived change.** R2 hashes the unwrapped generator and SGLang module against the same original digest, verifies module ownership, and separately pins the expected Python contextlib wrapper. All tiny BF16 shapes 1/52/64, numerical limits, compiler-counter distinction, native wrapper, PyTorch graph interfaces and deadlines remain. Original submitted R1 source/raw evidence is unchanged. Full source/configuration review was captured and pushed in 21b03713 before admission.
+
+**Actual acceptance.** After fresh own queue/cap-5 admission under the Slurm lock, frozen hash validation and sbatch test, **27340** was accepted. The queue reports **PENDING** at this dated observation. One H200, four CPUs, one node, at most four minutes, maximum reservation 0.066667 GPU-hours and no PBS SU. Original 27338 FAILED 1:0 remains preserved in eddd84d5. Existing interval 4 job 27274 is not cancelled, requeued or changed. No automatic dependency or background submission service is created. [Definite receipt and frozen payload](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-compile-observer-probe-r2-20261029/STATUS.md).
+
+**Next decision and limits.** Inspect actual terminal fixture, source pin, wrapper/call events, numerical compiler activity, graph replay and cleanup. A returned compile wrapper alone does not prove materialization; unsupported counters remain unproven. No tiny result certifies Qwen/HPC-Ops, eight-rank startup, production capture, performance or official accuracy. Real-model startup qualification remains before a scored candidate. Preserve the official workload/gates and >1% useful-gain threshold. This corrected diagnostic is useful because it fixes a demonstrated measurement bug; it is not a blind unchanged queue filler.
+
+**Preservation.** Capture safe actual receipt, reservation and reasoning separately from the source fix. Avoid capturing live-growing runtime logs as terminal evidence. HPC/submission/authentication/background automation are unchanged. External artifact bytes are not uploaded by Git.
