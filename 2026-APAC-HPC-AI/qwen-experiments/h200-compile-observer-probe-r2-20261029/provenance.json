@@ -1,0 +1,55 @@
+{
+  "schema": "h200-torch-compile-observer-probe-r2-v1",
+  "prepared_utc_date": "2026-10-29",
+  "state": "DERIVED_STAGED_AWAITING_PARENT_REVIEW",
+  "gpu_job_submitted": false,
+  "budget": {
+    "gpus": 1,
+    "cpus": 4,
+    "wall_time_seconds": 240,
+    "internal_python_deadline_seconds": 195,
+    "outer_native_timeout_seconds": 205,
+    "cleanup_margin_seconds": 35
+  },
+  "pinned_image": {
+    "path": "/scratch/enroot-images/sglang-harbor.sqsh",
+    "sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "hash_basis": "Existing job/source provenance; image not rehashed for this staging step."
+  },
+  "native_source": {
+    "torch_compile_decoration.py_sha256": "77b1e38dba14788800b6b6351af1b5b8a80d9e42b91b57e9484ea4561d33a48c",
+    "contextlib.py_sha256": "8b7a477f978a8532852fd81e241c78182516bc4975d672d580a5848a76e11eb6",
+    "source_path_resolution": "inspect.getfile(decorated patch_model) identifies contextlib.py; R2 hashes inspect.unwrap(patch_model) source separately and verifies the SGLang module hash.",
+    "parallel_state.py_sha256_source_inspection_only": "49e8810c5e63ec2f154b543ce694aa58822d149d26cee4b259e966b42a7b6cbe",
+    "parallel_state_capture_review": "graph_capture() calls get_tp_group().graph_capture() and get_pp_group().graph_capture(); the one-GPU fixture deliberately avoids this distributed context."
+  },
+  "derived_from": {
+    "bundle": "h200-compile-observer-probe-20261029",
+    "failed_job": 27338,
+    "failure": "Source hash guard inspected the contextmanager wrapper file before compilation; source mismatch only.",
+    "raw_result_preserved_at": "../h200-compile-observer-probe-20261029/runtime/observer-27338.json"
+  },
+  "immutable_container_launcher": {
+    "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-kv-page-primitive-r2-20261028/native-container.sh",
+    "sha256": "a478c3d2483dc8962c17a7fd34eb8c6d58b0054e9e9b94e4cf0ca78a86daced3"
+  },
+  "immutable_enroot_exec_rc": {
+    "path": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-kv-page-primitive-r2-20261028/exec.rc",
+    "sha256": "2e124b30113dd2abbe684d922c097aa498ce5a8a5f2255a941ff2c1e05d4e196"
+  },
+  "fixture": {
+    "model": "Synthetic two-layer BF16 MLP, hidden size 32, no weights from disk.",
+    "batch_sizes": [1, 52, 64],
+    "checks": [
+      "Native set_torch_compile_config and patch_model call path.",
+      "torch.compile wrapper return, callable fields and invocation are observed; a returned wrapper alone is not treated as compilation proof.",
+      "Dynamo counters and available Inductor metrics are snapshotted before and after warmup and graph capture; missing runtime fields remain unsupported/unproven.",
+      "PyTorch CUDA graph capture plus two replays for each shape.",
+      "Eager-versus-replay max absolute error <= 0.02 and relative L2 <= 0.01."
+    ],
+    "non_claims": [
+      "No SGLang distributed parallel_state.graph_capture invocation; that source path calls initialized TP and PP groups.",
+      "No Qwen/HPC-Ops compatibility, production startup timing, multi-rank capture, accuracy, throughput or performance claim."
+    ]
+  }
+}
