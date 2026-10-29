@@ -33,3 +33,7 @@ The native 61-file S0/Hxyz/Hzyx NSCC bundle remains ready and independent of opt
 Query actual 2294390. On terminal, run its dynamic `collect_completed.py` and `review_completed.py`, inspect all four arms jointly with parent ABBA, tails/errors/Cd/resource limits and source/mapping/runtime identity, then reconcile once. Select a distinct next measurement from that evidence within limits; preserve queue positions. NSCC native trials remain first when access and admission recover. [New journal](../reports/research-journey-20261019/journal/entries/20261029-hpc-abba-review-and-baab-submitted.md); [previous detailed handoff](history/HPC_CURRENT-before-baab-2294390-20261029.md).
 
 Capture only reviewed safe selections, verify, commit and push. Selected text and rebuild provenance are retained; large meshes/fields remain remote and external artifacts are not uploaded by Git. No submission or other-track payload was changed.
+
+## Fresh progress — 29 October, 10:42:35 Vietnam
+
+2294390 is RUNNING on iris005. All accepted-source, frozen graph-boundary and exact post-MPI rankfile mapping gates pass. First B1 graph solver reached Time 3/14, with no observed fatal marker or scheduler stderr. Preserve the running allocation and full reservation; partial timing is not a new result. [Retained live snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/post-submit-status.json).

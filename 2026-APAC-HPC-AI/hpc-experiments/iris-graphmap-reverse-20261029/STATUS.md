@@ -11,3 +11,7 @@ Maximum resources: one exclusive Iris node, 56 CPUs, zero GPUs and 50 minutes (*
 Remote root: `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-gmap14r-20261029T033908Z`. Kit and run records: `root/kit/runs/2294390`; scheduler text: `root/kit/runs/2294390.out/.err`. `collect_completed.py` reads only owned selected text after terminal state; it excludes meshes, binary fields and compiled binaries. `review_completed.py` replays all native outputs and retains tails, force rows, resource limits and drift metrics. Final interpretation must compare BAAB jointly with parent ABBA.
 
 Do not decide from one arm, filter slow samples, alter the frozen source, or cancel/requeue the running job. One own queued/running Iris allocation is the cap. The NSCC native Scotch/xyz/zyx trial stays separate and ready; verified VPN/SSH, fresh queues and credit still block it. The target below 3.364622070 seconds per step on NSCC remains unmet.
+
+## Verified first solver progress
+
+At **2026-10-29T10:42:35.681091+07:00**, Slurm confirms 2294390 RUNNING on iris005. Accepted source, graph boundary and exact native identity/candidate mapping gates all pass; the first B1 solver has reached Time 3/14 with no observed fatal marker or scheduler stderr. This is partial progress only, not a completed arm mean or a matched result.
