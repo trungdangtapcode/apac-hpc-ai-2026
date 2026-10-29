@@ -2485,3 +2485,5 @@ Fresh interval 1 control **27270** completed 0:0/11:30 at **3039.053386 good out
 ## 29 October 2026: compile observer prerequisite accepted
 
 **27338** is an actual Slurm acceptance for a tiny BF16 observer/capture interface probe, one H200/four CPUs/four minutes, maximum 0.066667 GPU-hours and zero PBS SU. PENDING at admission; no Qwen serving score, model startup qualification or accuracy proof. It separates a returned torch.compile wrapper from actual numerical compiler activity, with missing counters marked unproven. Existing 27274 stays pending and unchanged. [Exact payload, receipt and limits](h200-compile-observer-probe-20261029/STATUS.md).
+
+Compile prerequisite correction, 29 October: **27338 FAILED 1:0/76 seconds** before compilation because its observer pinned the contextmanager wrapper file rather than the underlying SGLang module. No model or compiler verdict follows. Actual allocation occupancy 0.021111 GPU-hours, no PBS SU. Original payload/error is sealed; derive R2 with module plus unwrapped-function source pinning, preserving the same expected hash. [Failure review](h200-compile-observer-probe-20261029/RESULTS-27338.md).

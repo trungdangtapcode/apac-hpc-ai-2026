@@ -442,3 +442,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: explain client token counts and qualify decode compilation prerequisites](entries/20261029-token-count-source-and-compile-prerequisites.md).
 
 - [29 October: submit the bounded native compile observer prerequisite](entries/20261029-compile-observer-prerequisite-submitted.md).
+
+- [29 October: preserve the compile observer source-location failure and exact repair rationale](entries/20261029-compile-observer-source-location-failure.md).

@@ -1,3 +1,9 @@
+# Current result: 27338 failed before compilation
+
+29 October 2026, Vietnam time: actual scheduler state is **FAILED 1:0 in 76 seconds**. The source guard inspected the stdlib contextmanager wrapper instead of the SGLang module; no compile or model measurement occurred. Original source/hash checks remain unchanged. [Failure review and bounded derived fix](RESULTS-27338.md). The earlier pending sentence below was inaccurate at publication: its own recorded queue already showed RUNNING. Preserve that historical record and use actual terminal accounting now.
+
+## Historical admission record
+
 # Actual compile-observer prerequisite admission
 
 Observed 2026-10-29T16:22:41.638538+07:00, Vietnam time (UTC+7). Slurm accepted **27338** for this exact frozen payload. It is PENDING at this observation; no actual probe result exists yet. Definite receipt, manifest and reservation are retained separately. Preparation checkpoint is 924dd6ce.
