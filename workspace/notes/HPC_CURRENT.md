@@ -37,3 +37,9 @@ Capture only reviewed safe selections, verify, commit and push. Selected text an
 ## Fresh progress — 29 October, 10:42:35 Vietnam
 
 2294390 is RUNNING on iris005. All accepted-source, frozen graph-boundary and exact post-MPI rankfile mapping gates pass. First B1 graph solver reached Time 3/14, with no observed fatal marker or scheduler stderr. Preserve the running allocation and full reservation; partial timing is not a new result. [Retained live snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/post-submit-status.json).
+
+## Two completed arms — 2026-10-29T10:53:21.145299+07:00
+
+Actual Slurm confirms 2294390 RUNNING on iris005, elapsed 13:49. Runtime review has completed B1 graph (21.051168942 seconds per step) and A1 identity (23.241964834 seconds per step), each with 14 steps and 13 timings. A2 is starting its isolated copy and B2 remains pending within the same allocation. Source/mapping gates pass, both completed arms have End markers, and no scheduler stderr or observed fatal marker is present. This is a partial BAAB observation, not a completed matched result or proof of a mapping gain; wait for all four arms and independent terminal replay. No reservation is retired while running.
+
+The read-only NSCC transport check at 10:53 Vietnam still reports namespace unavailable. No new authentication was triggered by this status request; current NSCC queues and credit remain unknown. The own Iris cap is occupied by this running measurement, so preserve its position and do not add a duplicate allocation.
