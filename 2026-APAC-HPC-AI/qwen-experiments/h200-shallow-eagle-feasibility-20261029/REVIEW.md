@@ -1,3 +1,7 @@
+# Status correction: prerequisite and full measurement complete
+
+29 October 2026, Vietnam time: native argument prerequisite 27153 passed configuration only. Source-backed graph policy and all fresh model/runtime/geometry/output checks subsequently passed in full S98 job **27238**, COMPLETED 0:0 in 13:12. It measured 2971.628430 good output tokens/s, 2.080318% below matched 26949. Close the unchanged setting. [Full result](../h200-shallow-eagle-full-20261029/RESULTS.md). The original NOT_READY review below is retained as the earlier state, not the current admission status.
+
 # Shallower decode-only EAGLE: distinct lead, not ready for GPU admission
 
 Recorded 29 October 2026 Vietnam time. The old short screen 25998 uses two speculative steps and three draft tokens. It loses 4.74% against its short matched control 25947, with about 1.24–1.29 accepted output tokens per verification. The unchanged branch is closed. A shallower one-step/two-token arm is a different hypothesis: spend less on rejected draft work, even if fewer tokens are accepted. This is a hypothesis, not a measured gain.

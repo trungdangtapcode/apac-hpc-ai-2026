@@ -1,3 +1,13 @@
+# Actual compute confirmation — 29 October 2026
+
+**27152 completed 0:0 in 3 seconds on compute g1, with zero GPUs.** It reproduces the old mount-alias error and executes both corrected postprocessors successfully on both real raw datasets (27136 and 27145). State: `PASS_COMPUTE_POSTPROCESS_ONLY`. This independently verifies the exact reader tail on the compute mount, but does not rewrite the original failed GPU jobs or claim a new single-allocation end-to-end pass.
+
+The actual team folder and ZIP now include that positive compute receipt. Current ZIP: **78,621,011 bytes**, SHA256 `d3686c36a0262301f8733214740a44ebac4135eb514a831f5ea2ef87a31dd88e`. Publication validation confirms all 265 HPC files/modes/ZIP attributes and the entire PPTX are unchanged. No organiser upload. [Validation](../submission-review/ai-compute-alias-fix-20261029/publication-validation.json), [actual compute result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/portable-postprocess-compute-check-20261029/RESULTS.md). Checkpoint `30f438eb` preserves this publication and its recovery metadata. Large external bytes are not uploaded by Git push.
+
+The older pending labels and ZIP hashes below are historical.
+
+## Historical second correction before compute confirmation
+
 # Current compute-alias correction — 29 October 2026
 
 Second real run **27145** completed the official GPU client and both semantic routes, then ended **FAILED 1:0** in summary. The namespace resolver returned canonical `/scratch/home/...` paths while the summary used lexical `/home/...` paths. Canonicalizing the input root fixes that mismatch; absolute and relative alias regression assertions now pass locally, along with both real retained datasets. The original failure remains unchanged.

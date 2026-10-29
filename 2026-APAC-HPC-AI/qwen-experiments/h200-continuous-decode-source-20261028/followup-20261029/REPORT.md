@@ -1,0 +1,9 @@
+# Continuous decode setting: full-package consumer check
+
+**Review date:** 29 October 2026 UTC. **Scope:** the exact SGLang image used by the new H200 candidate; no workload or code was changed.
+
+The image SHA-256 is `b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5`. I selectively extracted the image's complete `sglang/python/sglang` package and searched every Python source file. `num_continuous_decode_steps` appears only in `srt/server_args.py:957-961`, where it is declared with default `1`; there is no consumer in the package. The incumbent decode worker's actual `ServerArgs` line in `runs/27238/decode-0.log` resolves it to `1`.
+
+The dispatch at `srt/managers/scheduler.py:4805-4811` selects `event_loop_overlap_disagg_decode` for decode disaggregation when overlap is enabled. That loop at `srt/disaggregation/decode.py:2143-2190` repeatedly receives requests, schedules a decode batch, runs it, and overlaps batch-result processing. It never reads `num_continuous_decode_steps`. SHA-256 values of those two pinned source files match the earlier extraction manifest: scheduler `1d4a7683e32f0862cf5b03be33e5ec23f9d112e59546d391e28fa222fcd1619b`; decode loop `7d7d715013d5a72c1505f9a3a784f87a48938d8d52db6938102865cbd63e954b`. The declaration file SHA-256 is `79d9bbb61b429574e31e7a7e319831fcd129a83a475e6ffe2b7e8a5e8eb06b0f`.
+
+**Decision: close this lead for this pinned image; do not submit a GPU trial that only changes this field.** Inference from the full Python-package search and active loop: setting it to `2` would currently be inert on this path. The repository search does not rule out a native extension or generated component that consumes the parsed value without naming the field, so this is a pinned-source finding rather than a universal SGLang claim. A future trial needs a demonstrated data-flow consumer in the exact runtime first.

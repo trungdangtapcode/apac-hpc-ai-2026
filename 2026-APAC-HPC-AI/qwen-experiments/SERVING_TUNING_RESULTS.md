@@ -623,3 +623,11 @@ Full matched control 26949=3034.761104 good tokens/s. Tokenizer 200µs 26951=304
 Portable 27136 retains FAILED1:0 after full official client completed. Corrected artifact readers independently recover 3050.225487 good tokens/s and 98.635887% joint (1880/1906), 0 errors/cancellations; mean/p95 TTFT 1102.185717/1297.447714 ms and ITL 15.011058/15.165369 ms. No separate smoke/retrieval/hardware series in this allocation; official full-set accuracy UNKNOWN. Not a proven optimization or successful original job. Frozen patched confirmation 27145 is running, no result yet. [Full repair and interpretation](portable-artifact-path-fix-20261029/REPLAY_REVIEW.md).
 
 Later 29 October correction: original 27145 is FAILED1:0 after the official GPU client, caused by summary's compute mount alias mismatch. Fixed local readers recover 3055.330517 good tokens/s, 98.636602% joint, 1881/1907 good, zero errors/cancels. This is recovered protocol data, not a successful original job or a matched improvement. Actual compute reader check 27152 is pending; original failures remain sealed. See [alias correction](portable-artifact-path-fix-20261029/ALIAS_CORRECTION.md).
+
+## 29 October 2026: actual compute reader confirmation and shallow EAGLE loss
+
+Actual CPU job 27152 completed 0:0 in 3 seconds, using zero GPUs. Fixed readers pass both real datasets on compute and reproduce the old alias error. Actual 27153 completed 0:0 in 72 seconds: native one-step/two-token arguments only, without model inference.
+
+Full S98 **27238** completed 0:0 in 13:12 using 16 H200. All local gates pass: **2971.628430 good output tokens/s**, 1825/1851 good requests (98.595354%), zero errors/cancellations, 26 TTFT and zero ITL breaches, smoke 7/8 and retrieval 12/12. It loses 2.080318% to matched 26949 at 3034.761104; close unchanged. Mean/p95 ITL is 15.776/17.084 ms versus 14.979/15.147 ms. Low displayed draft acceptance around 1.25 supports closing the arm, but is not a causal kernel profile. Official accuracy remains UNKNOWN. [Complete result, telemetry limits and raw seal](h200-shallow-eagle-full-20261029/RESULTS.md).
+
+Portable 27145 raw 3055.330517 remains recovered evidence from original FAILED 1:0, not a newly successful original job or established optimization. The compute-confirmed publication preserves all HPC and PPTX bytes.

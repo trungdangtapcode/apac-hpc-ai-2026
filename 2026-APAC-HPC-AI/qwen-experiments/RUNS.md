@@ -2465,3 +2465,11 @@ New 27141 one-H200/six-minute prefill prerequisite completed 0:0/96 seconds: 42 
 ### Same-turn later correction: 27145 terminal failure, fixed alias and two prerequisite receipts
 
 27145 ended FAILED1:0/10:13 after full official client: summary mixed canonical /scratch/home with lexical /home. Root canonicalization plus absolute/relative alias tests fixes readers locally; original failure retained. Corrected raw gate recovers 3055.330517 good tokens/s, 1881/1907 good, 98.636602%, zero errors/cancels. Published folder/ZIP patched again; 265 HPC files/modes and PPTX preserved. Current explicit actual compute regression 27152 is PENDING Resources, 0 GPU/2 CPU/2 min. Independent shallow EAGLE source policy is canonical 1/2; actual native-argument prerequisite 27153 PENDING Resources, 1 H200/8 CPU/4 min, no model/distributed/perf claim. No third full replay solely for a reader; six new actual admissions this turn, not six valid measurements. [Alias correction](portable-artifact-path-fix-20261029/ALIAS_CORRECTION.md).
+
+## 29 October 2026: actual compute reader confirmation and shallow EAGLE loss
+
+Actual CPU job 27152 completed 0:0 in 3 seconds, using zero GPUs. Fixed readers pass both real datasets on compute and reproduce the old alias error. Actual 27153 completed 0:0 in 72 seconds: native one-step/two-token arguments only, without model inference.
+
+Full S98 **27238** completed 0:0 in 13:12 using 16 H200. All local gates pass: **2971.628430 good output tokens/s**, 1825/1851 good requests (98.595354%), zero errors/cancellations, 26 TTFT and zero ITL breaches, smoke 7/8 and retrieval 12/12. It loses 2.080318% to matched 26949 at 3034.761104; close unchanged. Mean/p95 ITL is 15.776/17.084 ms versus 14.979/15.147 ms. Low displayed draft acceptance around 1.25 supports closing the arm, but is not a causal kernel profile. Official accuracy remains UNKNOWN. [Complete result, telemetry limits and raw seal](h200-shallow-eagle-full-20261029/RESULTS.md).
+
+Portable 27145 raw 3055.330517 remains recovered evidence from original FAILED 1:0, not a newly successful original job or established optimization. The compute-confirmed publication preserves all HPC and PPTX bytes.
