@@ -1,3 +1,7 @@
+> Current correction status: compute CPU job27152 reproduced the old failure and passed both fixed postprocessors on both retained raw runs. Original GPU jobs27136/27145 remainFAILED1:0; their recovered protocol data are retained without a single-allocation end-to-end claim. Earlier pending updates below are historical.
+
+> 29 October 2026 compute-alias correction: original27145 completed the official GPU client but failed in summary path handling. Canonical root repair and alias regression fixtures pass locally; recovered raw protocol score3055.330517. Compute-only regression27152 is pending. See compute-alias-fix-20261029.md; previous updates below are historical.
+
 > 29 October 2026 compute-alias correction: original27145 completed the official GPU client but failed in summary path handling. Canonical root repair and alias regression fixtures pass locally; recovered raw protocol score3055.330517. Compute-only regression27152 is pending. See compute-alias-fix-20261029.md; previous updates below are historical.
 
 > 29 October 2026 update: the portable GPU/model/client replay completed, but job27136 failed in postprocessing because of an unhandled AIPerf output namespace. Readers are corrected and actual raw performance rechecks pass. See artifact-path-fix-20261029.md and portable-replay-27136-20261029.json. Full end-to-end repeat and official quality remain unverified.
