@@ -430,3 +430,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October Vietnam: actual MPI affinity closes duplicates; measured source graphs select a balanced placement candidate](entries/20261029-hpc-native-affinity-and-graph-placement.md).
 
 - [29 October Vietnam: reviewed graph placement submitted as balanced 14-step screen 2294366](entries/20261029-hpc-graphmap14-submitted.md).
+
+- [29 October: replay ABBA with sharp control drift; submit reversed graph confirmation 2294390](entries/20261029-hpc-abba-review-and-baab-submitted.md).

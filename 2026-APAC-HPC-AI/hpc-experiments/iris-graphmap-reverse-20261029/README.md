@@ -9,9 +9,9 @@ proxy from 129,700 to 90,953 for the zyx order (29.8743%) while preserving the
 existing 28/28 rank split and the same cell loads. The proxy is a reason to
 screen the candidate, not evidence that the solver will run faster.
 
-The experiment uses one prepared zyx case with hierarchy `(7 4 2)` and runs an
-BAAB order: default-equivalent identity mapping, graph mapping, graph mapping,
-then identity mapping. Each arm runs 14 native solver steps and retains 13
+The experiment uses one prepared zyx case with hierarchy `(7 4 2)` and runs a
+BAAB order: graph mapping, identity mapping, identity mapping,
+then graph mapping. Each arm runs 14 native solver steps and retains 13
 positive wall-time samples. This is one allocation and one BAAB cycle, so any
 favorable result is only a short screening signal. A separately reviewed full
 run is required before claiming an improvement.
