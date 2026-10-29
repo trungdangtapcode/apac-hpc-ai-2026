@@ -1,0 +1,15 @@
+# Full Qwen compile exposes an unsupported RoPE/KV interface
+
+Recorded 2026-10-29T23:04:43.349902+07:00, Vietnam time (UTC+7). This records the actual terminal failure, not a performance measurement.
+
+The prior evidence was a passing tiny one-H200 compiler observer fixture 27340. Its explicit limit was that a small BF16 module cannot prove full Qwen model compatibility. Full S105 job 27383 tested the real model on 16 H200, enabling decode compile up to batch 54 while retaining full graph buckets 1 through 64, native target-only prefills, FP8 weights/BF16 KV, topology, cap 256, polling interval 1 and all canonical N64 workload/output checks. Actual distributed/source-bound compiler receipts were required before any benchmark.
+
+27383 ended FAILED 1:0 in 3:35 on g1/g4. Ordinary captures for larger noncompiled shapes preceded the first compiled shape 54. The actual trace enters Qwen attention, apply_qk_norm_rope and rotary_embedding.forward_native, then asserts: fused_set_kv_buffer_arg is not supported for native implementation. This occurred well before the 600-second startup budget. Eight current rank receipts are retained; no ALL_WORKERS_READY marker or AIPerf export exists. Score, good fraction, request tails and output acceptance are unmeasured, not zero.
+
+Inspection included exact traceback, frozen payload hashes, per-rank compiler/capture/source/job/experiment metadata, all worker startup and cleanup evidence, absent benchmark artifacts and terminal accounting. Startup hardware collection is retained but is not a ranked-phase health or performance result. Actual allocation occupancy is 0.955556 GPU-hours, within the 4.533334 GPU-hour maximum; no PBS SU. The entire failed allocation is sealed.
+
+This changes the planned sparse compile branch: fewer graph buckets address startup work but cannot fix the observed native fused-KV interface error. Block unchanged S108 and close unchanged S105. Continue source investigation of an explicit supported compatibility setting before another compiled Qwen attempt. Any serving-behavior change requires a corresponding matched control and model/output qualification. An independent compile-off sparse graph trial still asks a valid startup/memory-versus-padding question and can proceed once reviewed. No frozen job is modified and no performance improvement is claimed.
+
+The simultaneous CPU C++ prerequisite 27387 separately failed its 90-second process window after 76 seconds of container creation. That result does not prove an unsupported C++ library; its actual CPU fixture did not finish. It remains blocked from qualifying S106. A new bounded zero-GPU envelope and better cleanup are being prepared separately, without extending the failed payload. No HPC payload, published submission, authentication or background automation was changed.
+
+[Machine and narrative failure review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-decode-compile-full-20261029/FAILURE-27383.md) links the preserved scope and decision. Small screened Git checkpoints preserve this reasoning and raw recovery metadata; external object bytes require separate off-host backup.
