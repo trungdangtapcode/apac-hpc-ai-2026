@@ -450,3 +450,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: submit full decode cap64 and verify the tiny compile prerequisite](entries/20261029-decode-cap64-submitted-and-compile-observer-positive.md).
 
 - [29 October: submit the cold-prefill cache intervention and fresh control](entries/20261029-cold-prefill-cache-pair-submitted.md).
+
+- [29 October: submit real-model decode compilation with mandatory pre-client startup qualification](entries/20261029-real-qwen-compile-startup-conditional-benchmark-submitted.md).

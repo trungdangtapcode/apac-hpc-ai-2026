@@ -2497,3 +2497,7 @@ Corrected compile prerequisite **27340** is actually accepted on 29 October: sam
 ## 29 October: cold-prefill pair actually submitted
 
 **27376** is the fresh RadixCache control; **27378** disables radix on both prefills and requires native ChunkCache. Decode cap 256/polling 1 and all original N64 gates remain. Each is 16 H200/two nodes/17 minutes maximum, 4.533334 GPU-hours/no PBS SU. These are accepted jobs, not measured gains. [Receipt and stopping rule](h200-cold-prefill-cache-study-20261029/STATUS.md).
+
+## 29 October: actual real-model compile/startup qualification accepted
+
+**27383** is accepted for16H200/two nodes/17minutes, maximum4.533334GPU-hours/noPBS_SU. Decode compile cap54 and full graph batches1..64; exact eight-rank current-source/job/experiment/capture/compiler evidence must pass before any conditional N64 client. Original raw/runtime/KV/semantic/output gates remain. No model success or improvement yet. [Receipt, bounds and independent replay gate](h200-decode-compile-full-20261029/STATUS.md).
