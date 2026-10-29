@@ -31,3 +31,5 @@ Có sẵn bài tập nhỏ: [script Slurm](examples/hello-gpu.sbatch) gọi [ch�
 Các thông tin máy dưới đây được kiểm tra ngày 27/09/2026; trạng thái queue có thể thay đổi. Hướng dẫn này dành cho cluster GPU đang truy cập, không phải hướng dẫn OpenFOAM trên Gadi.
 
 - [SSH, Slurm/PBS, MPI and OpenFOAM](hpc-openfoam-and-schedulers.md).
+
+- [Requested workload, client-reported token counts and the fixed official multiplier](20-requested-and-reported-token-counts.md).

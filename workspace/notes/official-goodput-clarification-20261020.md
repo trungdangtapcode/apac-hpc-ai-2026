@@ -42,3 +42,7 @@ These checked artifacts match the supplied settings. This is not a fresh audit o
 ## Direct public repository corroboration
 
 The later [pinned upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md) directly checks public Qwen rules at 3d050964d1008b97fb6d0d7ec5160087cd6883d9: the official command and addendum corroborate the supplied workload and Goodput × 200 explanations. The rules file is byte-unchanged from the earlier retained September revision. This is stronger direct source provenance, not a newly changed metric.
+
+## 29 October: requested workload versus client-reported lengths
+
+Pinned AIPerf source and actual 27270/27272 configurations show server token counting disabled by default, with client text tokenization instead. A few rows report 199 output tokens even though min/max200 were requested, and reported input counts are 3986/3987. Those are client text counts; actual generated IDs and authoritative per-request server usage are not retained. The exact per-row cause remains unknown. This does not redefine the organiser's fixed Goodput ×200 formula or change frozen gates. [Beginner explanation](../tutorial/20-requested-and-reported-token-counts.md), [pinned source and hashes](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/aiperf-token-accounting-20261029/REPORT.md).
