@@ -647,3 +647,5 @@ Fresh interval 1 control **27270** completed 0:0/11:30 at **3039.053386 good out
 ## 29 October: actual real-model compile/startup qualification accepted
 
 **27383** is accepted for16H200/two nodes/17minutes, maximum4.533334GPU-hours/noPBS_SU. Decode compile cap54 and full graph batches1..64; exact eight-rank current-source/job/experiment/capture/compiler evidence must pass before any conditional N64 client. Original raw/runtime/KV/semantic/output gates remain. No model success or improvement yet. [Receipt, bounds and independent replay gate](h200-decode-compile-full-20261029/STATUS.md).
+
+Final polling review,29October: all three full local passes; interval1=3039.053386,interval2=3028.279635(−0.354510%),interval4=3016.700285(−0.735528%) good output tokens/s. No useful>1%gain; close intervals2/4, keep1, no extra sweep. Actual engine seeds vary while workload seed2026 stays fixed. [Complete runtime/hardware/output/cost review and raw seal](h200-transfer-poll-final-20261029/RESULTS.md).
