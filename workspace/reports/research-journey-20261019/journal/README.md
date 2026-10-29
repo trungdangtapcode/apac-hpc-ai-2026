@@ -436,3 +436,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: full shallow EAGLE loss and actual compute reader confirmation](entries/20261029-shallow-eagle-full-loss-and-compute-confirmation.md).
 
 - [29 October: fresh control and two full KV completion polling candidates submitted](entries/20261029-transfer-completion-polling-bracket-submitted.md).
+
+- [29 October: close interval 2, preserve interval 4 and inspect hardware/accounting](entries/20261029-poll-interval2-loss-and-extended-hardware-review.md).

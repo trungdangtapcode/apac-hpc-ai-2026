@@ -1,0 +1,56 @@
+{
+  "state": "PASS_FAST_RUNTIME",
+  "arm": "control",
+  "prefill_cap": null,
+  "roles": {
+    "prefill-0": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "expected_per_rank": 1,
+      "nixl_rank_records": 4,
+      "resolved_fast_defaults": {
+        "deterministic": false,
+        "sampling": "flashinfer",
+        "custom_allreduce_disabled": false,
+        "mnnvl_fusion": "auto"
+      },
+      "prefill_graph": "breakable",
+      "decode_graph": "disabled",
+      "server_args_records": 1,
+      "decode_transfer_polling_interval": 1
+    },
+    "prefill-1": {
+      "tp_ranks": 4,
+      "bf16_kv_records": 4,
+      "expected_per_rank": 1,
+      "nixl_rank_records": 4,
+      "resolved_fast_defaults": {
+        "deterministic": false,
+        "sampling": "flashinfer",
+        "custom_allreduce_disabled": false,
+        "mnnvl_fusion": "auto"
+      },
+      "prefill_graph": "breakable",
+      "decode_graph": "disabled",
+      "server_args_records": 1,
+      "decode_transfer_polling_interval": 1
+    },
+    "decode-0": {
+      "tp_ranks": 8,
+      "bf16_kv_records": 8,
+      "expected_per_rank": 1,
+      "nixl_rank_records": 8,
+      "resolved_fast_defaults": {
+        "deterministic": false,
+        "sampling": "flashinfer",
+        "custom_allreduce_disabled": false,
+        "mnnvl_fusion": "mnnvl"
+      },
+      "prefill_graph": "disabled",
+      "decode_graph": "full 1..64",
+      "server_args_records": 1,
+      "decode_transfer_polling_interval": 2
+    }
+  },
+  "scope": "Resolved native arguments, rank-level BF16 KV/NIXL allocations, and startup graph/MNNVL markers only; not a kernel-performance or model-quality proof."
+}
