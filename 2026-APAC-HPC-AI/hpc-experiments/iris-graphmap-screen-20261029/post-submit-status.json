@@ -1,25 +1,25 @@
 {
-  "observed_utc": "2026-10-28T20:05:49.431435+00:00",
+  "observed_utc": "2026-10-29T03:33:12.573136+00:00",
   "job_id": "2294366",
   "root": "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-gmap14-20261028T200415Z",
   "queue": {
-    "returncode": 0,
-    "stdout": "2294366|tu-iris-gmap14|RUNNING|0:51|56|iris009\n",
-    "stderr": ""
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "slurm_load_jobs error: Invalid job id specified\n"
   },
   "accounting": {
     "returncode": 0,
-    "stdout": "JobID|JobName|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294366|tu-iris-gmap14|RUNNING|0:0|51|56|iris009\n2294366.batch|batch|RUNNING|0:0|51|56|iris009\n",
+    "stdout": "JobID|JobName|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294366|tu-iris-gmap14|COMPLETED|0:0|1758|56|iris009\n2294366.batch|batch|COMPLETED|0:0|1758|56|iris009\n",
     "stderr": ""
   },
   "recent_phases": [
-    "{\"cap_seconds\": 20, \"phase\": \"probe-binary-ldd\", \"state\": \"start\", \"utc\": \"2026-10-28T20:05:33.949211+00:00\"}",
-    "{\"elapsed_seconds\": 0.03427185397595167, \"phase\": \"probe-binary-ldd\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:05:33.984638+00:00\"}",
-    "{\"cap_seconds\": 30, \"phase\": \"rankfile-build\", \"state\": \"start\", \"utc\": \"2026-10-28T20:05:37.261886+00:00\"}",
-    "{\"elapsed_seconds\": 0.06651330646127462, \"phase\": \"rankfile-build\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:05:37.329470+00:00\"}",
-    "{\"cap_seconds\": 30, \"phase\": \"rankmap-validation\", \"state\": \"start\", \"utc\": \"2026-10-28T20:05:43.779279+00:00\"}",
-    "{\"elapsed_seconds\": 0.11701346654444933, \"phase\": \"rankmap-validation\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:05:43.897508+00:00\"}",
-    "{\"cap_seconds\": 150, \"phase\": \"A1-default-copy\", \"state\": \"start\", \"utc\": \"2026-10-28T20:05:43.898790+00:00\"}"
+    "{\"cap_seconds\": 90, \"phase\": \"A2-default-copy-check\", \"state\": \"start\", \"utc\": \"2026-10-28T20:25:08.353700+00:00\"}",
+    "{\"elapsed_seconds\": 27.349368282593787, \"phase\": \"A2-default-copy-check\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:25:35.704394+00:00\"}",
+    "{\"mean_seconds_per_step\": 32.867340840846154, \"phase\": \"A2-default\", \"solver_elapsed_seconds\": 488.0476874411106, \"state\": \"reviewed\", \"utc\": \"2026-10-28T20:33:48.118931+00:00\"}",
+    "{\"cap_seconds\": 80, \"phase\": \"source-tree-unchanged\", \"state\": \"start\", \"utc\": \"2026-10-28T20:33:48.956145+00:00\"}",
+    "{\"elapsed_seconds\": 27.750489658676088, \"phase\": \"source-tree-unchanged\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:34:16.707813+00:00\"}",
+    "{\"cap_seconds\": 40, \"phase\": \"payload-hash-after\", \"state\": \"start\", \"utc\": \"2026-10-28T20:34:16.723617+00:00\"}",
+    "{\"elapsed_seconds\": 0.06681964546442032, \"phase\": \"payload-hash-after\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-28T20:34:16.791487+00:00\"}"
   ],
   "gates": {
     "rankmap-validation.json": {
@@ -217,9 +217,41 @@
       "order": "zyx",
       "passed": true,
       "processor_graph_sha256": "bbdd0e7308a782923d28ed2c95c47227cc3f4edbc70ed786848854f8f991c33c"
+    },
+    "final-status.json": {
+      "completed_arms": [
+        "A1-default",
+        "B1-graph",
+        "B2-graph",
+        "A2-default"
+      ],
+      "passed": true,
+      "scored_result": false,
+      "terminal": "IRIS_GRAPHMAP_ABBA14_REVIEWED"
     }
   },
-  "arms": {},
+  "arms": {
+    "A1-default": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
+    },
+    "B1-graph": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
+    },
+    "B2-graph": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
+    },
+    "A2-default": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
+    }
+  },
   "scheduler_stderr": {
     "runs/2294366.err": ""
   }
