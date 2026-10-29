@@ -2493,3 +2493,7 @@ Corrected compile prerequisite **27340** is actually accepted on 29 October: sam
 ## 29 October 2026: full cap64 admitted and compile fixture positive
 
 **27365** is the actual accepted full N64 decode cap256→64 trial:16H200/two nodes/17minutes, maximum4.533334GPU-hours,noPBS_SU. It is exploratory with low expected benefit, not a measured improvement. All original gates remain and final scheduler cap64 is required. [Receipt](h200-decode-cap64-20261029/STATUS.md). **27340** separately completed0:0/97seconds on oneH200, passing tiny BF16 native compile observation and PyTorch graph interfaces at1/52/64, not Qwen performance/startup. [Actual fixture review](h200-compile-observer-probe-r2-20261029/RESULTS-27340.md). Interval4job27274 completed0:0/11:34 with3016.700285good tokens/s; final bracket inspection follows separately.
+
+## 29 October: cold-prefill pair actually submitted
+
+**27376** is the fresh RadixCache control; **27378** disables radix on both prefills and requires native ChunkCache. Decode cap 256/polling 1 and all original N64 gates remain. Each is 16 H200/two nodes/17 minutes maximum, 4.533334 GPU-hours/no PBS SU. These are accepted jobs, not measured gains. [Receipt and stopping rule](h200-cold-prefill-cache-study-20261029/STATUS.md).

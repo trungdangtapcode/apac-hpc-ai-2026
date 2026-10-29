@@ -1,0 +1,13 @@
+# 29 October: cold-prefill cache candidate and fresh control submitted
+
+Written 2026-10-29T21:45:47.454741+07:00, Vietnam time (UTC+7), before either result.
+
+**Question and source evidence.** The fixed cold workload offers little shared prefix reuse, while control 27270 uses RadixCache on every prefill rank. Removing lookup/insertion/eviction may help overhead, but removing small formatting-prefix matches may add work. No bottleneck or speedup is established. The pinned builder/registry select ChunkCache when radix is disabled with chunked prefill. That cache keeps current-request/chunk KV but no shared prefix tree. The P/D inflight path calls release only after successful transfer. Fresh physical-KV, semantic and output evidence still must pass.
+
+**Controlled pair.** S103 keeps RadixCache on both prefills. S104 adds only --disable-radix-cache there and requires ChunkCache on all four ranks of each. Decode already uses ChunkCache; cap 256 and polling 1 stay. No combination with cap64. Keep images, FP8 target/BF16 activation and KV/page1, topology, graph sets, requested N64 cold 4000/200 seed 2026/full 60/120/30 and all original gates/telemetry. Explicitly reject physical-KV disabling. Twenty-two meaningful CPU fixtures pass, not GPU proof. Source/configuration is captured in 248a201d.
+
+**Actual acceptance.** Under the Slurm admission lock, fresh own queue/cap 5, manifest and sbatch validation, Slurm accepted **27376** control and **27378** candidate. Each is 16 H200/two nodes/17 minutes, maximum 4.533334 GPU-hours; pair maximum 9.066667, no PBS SU. Existing jobs/positions remain. [Actual receipt and observed queue](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/STATUS.md).
+
+**Assessment and next decision.** These are submitted hypotheses, not improvements. Compare complete local passes to the fresh control after intervening machine activity. Require >1% useful gain with acceptable tails before independent confirmation; otherwise close unchanged. Inspect all ranks/classes/flags, physical KV/NIXL/two routes, full raw denominator/errors, smoke/retrieval, latency tails, queues/inflight/KV, sparse hardware/CPU/cost and cleanup. Official accuracy remains unknown; fixed Goodput ×200 is unchanged. Independent cap64 job 27365 and the compile-startup investigation do not block this ready pair.
+
+**Preservation.** Frozen hashes, exact receipts/reservations and reasoning are captured separately from preparation. No dependency, background service, HPC/submission or authentication change. Git does not upload sibling external object bytes.

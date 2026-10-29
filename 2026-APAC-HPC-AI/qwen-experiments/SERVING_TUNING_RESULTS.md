@@ -639,3 +639,7 @@ Portable 27145 raw 3055.330517 remains recovered evidence from original FAILED 1
 ## 29 October 2026: first polling pair reviewed
 
 Fresh interval 1 control **27270** completed 0:0/11:30 at **3039.053386 good output tokens/s**; interval 2 **27272** completed 0:0/11:45 at **3028.279635**, −0.354510%. Both pass all original local gates, zero errors/cancellations, smoke 7/8 and retrieval 12/12; official accuracy UNKNOWN. Close interval 2 unchanged. Interval 4 job 27274 remains pending. Extended review includes latency p99/max, GPU power/temperature/clocks/memory activity and explicit missing telemetry. Newly inspected raw token accounting differs slightly from requested lengths; diagnostic failure and source investigation are retained without changing frozen gates. [Complete partial review](h200-transfer-poll-study-20261029/PARTIAL_RESULTS.md).
+
+## 29 October: cold-prefill pair actually submitted
+
+**27376** is the fresh RadixCache control; **27378** disables radix on both prefills and requires native ChunkCache. Decode cap 256/polling 1 and all original N64 gates remain. Each is 16 H200/two nodes/17 minutes maximum, 4.533334 GPU-hours/no PBS SU. These are accepted jobs, not measured gains. [Receipt and stopping rule](h200-cold-prefill-cache-study-20261029/STATUS.md).
