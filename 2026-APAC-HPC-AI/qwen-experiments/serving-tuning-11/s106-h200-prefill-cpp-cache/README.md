@@ -21,3 +21,7 @@ The allocation remains the matched 16-H200, two-node, 17-minute protocol (maximu
 No score exists for S106. The pending CPU job is a prerequisite, not a speed result. A CPU fixture pass verifies only the isolated radix tree and toolchain; full P allocator integration, distributed ownership, startup and semantics are qualified here only if the model gates pass. Official full-set accuracy remains unknown. Compare a complete candidate pass to job 27376; require more than 1% useful gain plus acceptable latency tails before spending on a matched confirmation. A startup or semantic failure is a failed candidate, not a scored result.
 
 The full source pin is in `CPP_SOURCE_HASHES.json`, with byte-preserving excerpts in `source-evidence/`. `SHA256SUMS` covers the frozen candidate payload; `CPP_SOURCE_SHA256SUMS` covers the retained C++ source excerpts. `PARENT_PAYLOAD_PROVENANCE.json` binds this derivation to job 27376's actual submitted payload. `check-cpu-prerequisite.py` is a fail-closed admission guard. No job receipt or performance measurement is present.
+
+## Historical ancestor files
+
+The inherited derive.py and ancestor provenance describe older stages and are retained for history. They are not the S106 generator. PLAN.md describes the current trial; DERIVATION_REVIEW.json compares every retained parent file against the exact 27376 submitted payload, and SHA256SUMS binds the current candidate. No original submitted payload was changed.
