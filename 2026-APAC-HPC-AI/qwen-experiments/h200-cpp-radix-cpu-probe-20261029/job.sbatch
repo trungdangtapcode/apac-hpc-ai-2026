@@ -5,6 +5,7 @@
 #SBATCH -N 1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
+#SBATCH --mem=16G
 #SBATCH --gres=gpu:0
 #SBATCH --propagate=NONE
 #SBATCH --time=00:02:00

@@ -2507,3 +2507,7 @@ Final polling review,29October: all three full local passes; interval1=3039.0533
 ## Final cap64 review — 29 October 2026
 
 **27365** completed 0:0/11:43, full local pass at **3046.890454 good output tokens/s**, 1877/1903 good (98.633736%), zero errors/cancellations, smoke7/8 and retrieval12/12. Final scheduler cap64 is observed. +0.257879% versus 27270 is below the prospective >1% gate; close unchanged with no repeat/128 sweep/default promotion. Tiny +0.045606% over old native26766 is not an established gain. One initial idle sample explains the 95.833% activity average; actual engine seeds vary. Official accuracy UNKNOWN. [Full result, distributions, limits and raw seal](h200-decode-cap64-20261029/RESULTS.md).
+
+## 29 October: fresh control complete and C++ metadata prerequisite accepted
+
+**27376** is a full reviewed local pass at3041.119598good tokens/s,1874/1900good,zero errors/cancellations,smoke7/8/retrieval12/12; official accuracy UNKNOWN. **27387** is newly accepted0GPU/2CPU/16GiB/2minutes for cold C++ radix JIT and CPU metadata fixtures, not a model run. Existing27378and27383 retain positions. [Control review](h200-cold-prefill-cache-study-20261029/CONTROL_RESULTS.md), [actual CPU receipt](h200-cpp-radix-cpu-probe-20261029/STATUS.md).

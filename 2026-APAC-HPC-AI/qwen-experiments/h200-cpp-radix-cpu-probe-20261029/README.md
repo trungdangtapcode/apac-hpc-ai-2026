@@ -8,7 +8,7 @@ The experimental cache path is usable only if the native C++ extension builds fr
 
 ## Frozen trial
 
-- One node, one task, two CPU cores, zero requested GPUs, 2-minute scheduler wall limit.
+- One node, one task, two CPU cores, 16 GiB memory, zero requested GPUs, 2-minute scheduler wall limit.
 - Reuse the pinned native Enroot runner and `exec.rc` from `h200-kv-page-primitive-r2-20261028`, guarded by their recorded SHA-256 values.
 - Set private job-local `HOME`, `TORCH_EXTENSIONS_DIR`, and temporary directories; cap `MAX_JOBS=2` and `OMP_NUM_THREADS=2`.
 - Set the absolute process deadline to batch-start + 90 seconds. `timeout` sends TERM at that deadline and allows up to 30 seconds for native-container cleanup. The Slurm allocation itself is capped at 2 minutes.

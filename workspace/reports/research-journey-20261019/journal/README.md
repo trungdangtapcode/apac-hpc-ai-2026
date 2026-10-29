@@ -456,3 +456,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: finish the full polling bracket and close unchanged losing arms](entries/20261029-polling-bracket-final-no-useful-gain.md).
 
 - [29 October: cap64 passes with a small sub-threshold gain; preserve the sampling/seed limits](entries/20261029-cap64-valid-small-gain-close-unchanged.md).
+
+- [29 October: fresh control reviewed, C++ CPU preflight accepted, delayer lead rejected locally](entries/20261029-fresh-control-cpp-prerequisite-and-delayer-decision.md).

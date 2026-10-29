@@ -1,17 +1,18 @@
 # Current AI / Qwen handoff
 
-Updated 2026-10-29T22:07:24.607744+07:00, Vietnam time (UTC+7). AI fork 01a166eb-33cb-7ce0-9699-ec65de26689a of parent 01a15dd3-3094-7712-a991-8ce55b15cbfe. Preserve the independent HPC worker, payloads, queue and budget. English artifacts; Vietnamese chat. No background Codex, schedules or automatic notifications.
+Updated 2026-10-29T22:42:29.439775+07:00, Vietnam time (UTC+7). AI fork 01a166eb-33cb-7ce0-9699-ec65de26689a of parent 01a15dd3-3094-7712-a991-8ce55b15cbfe. Preserve independent HPC payloads, queues and budget. English artifacts; Vietnamese chat. No background Codex or schedules.
 
 ## Actual queue and next decisions
 
-Four full H200 jobs were admitted this turn. Cap64 job 27365 has already completed; the fresh control is now running and two candidates remain queued at the dated observation. Preserve their positions and own cap 5.
+Four full H200 jobs were admitted this turn. Cap64 job 27365 has already completed; fresh control27376 has now completed; candidate27378 is running and27383 remains queued at the dated observation. A new zero-GPU CPU/JIT prerequisite27387 is also accepted. Preserve their positions and own cap 5.
 
 | Job | Hypothesis | Actual reviewed/observed state |
 |---|---|---|
 | 27365 | Decode running-request cap 256→64 | COMPLETED 0:0/11:43; full local pass, 3046.890454 good output tokens/s; +0.257879% versus 27270, below useful gate |
-| 27376 | Fresh native control, prefill RadixCache | RUNNING allocation; no completed measurement yet |
-| 27378 | Disable prefill radix prefix cache, require ChunkCache | PENDING Resources |
+| 27376 | Fresh native control, prefill RadixCache | REVIEWED full local pass:3041.119598 good tokens/s;COMPLETED0:0/12:39 |
+| 27378 | Disable prefill radix prefix cache, require ChunkCache | RUNNING allocation; measurement pending |
 | 27383 | Real Qwen decode compile cap 54 and startup proof before conditional N64 | PENDING Resources |
+| 27387 | Cold native C++ radix build and CPU metadata fixtures | SUBMITTED0GPU/2CPU/16GiB/2min; result pending |
 
 The actual queried queue is retained in [cap review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-decode-cap64-20261029/RESULTS.md) and the admission records. Query fresh scheduler state before acting. Each full job is 16 H200/two nodes/17 minutes maximum, 4.533334 GPU-hours; no new PBS SU. No prior job was cancelled/requeued, no dependency chain or submit service created.
 
@@ -24,6 +25,12 @@ Cap64 decode mean GPU activity 95.833% is one idle sample at 0.161 seconds after
 **27383:** enable compile only on decode, cap 54 covering observed high-load shapes 50–54, while retaining ordinary full graph batches 1..64. Startup may not fit. The unchanged 600-second startup, 720-second warmup and 1020-second hard stop remain. Before any official client, require exact eight-rank current job/experiment/role/source-bound receipts, actual calls/captures for target shapes and per-rank Dynamo/FX/Inductor activity, plus original runtime/KV/semantic checks. Missing proof or timeout is a failed diagnostic, not a scored run. System sitecustomize is preserved; unsupported memory-saver mode is rejected. Independent raw receipt replay is required after measurement. [Plan, guards and acceptance](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-decode-compile-full-20261029/STATUS.md).
 
 Compare only complete local passes to fresh control 27376 once reviewed. Require >1% useful gain and acceptable tails before independent matched confirmation; otherwise close unchanged settings. No new optimum, official ranking or accuracy claim.
+
+**27376 fresh control** is reviewed:3041.119598 good output tokens/s,1874/1900good(98.631579%),zero errors/cancellations,26TTFT/0ITL breaches,smoke7/8 without regression,retrieval12/12. Native RadixCacheP/ChunkCacheD all-rank flags/classes,physicalKV and both semantic routes pass. This same-setting repeat is only+0.068% above27270, not an optimization. [Complete control review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/CONTROL_RESULTS.md).
+
+**27387 CPU prerequisite** tests the native experimental C++ radix extension build and tiny index-map invariants with no GPU. It precedes a possible prefill-only C++ cache candidate, preserving prefix caching instead of disabling it. Future S106 is preparation only, blocked until actual27387 passes; no production proof or performance claim. [Receipt and exact limits](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cpp-radix-cpu-probe-20261029/STATUS.md).
+
+A separate prefill-delayer source review is complete. Its queue trigger requires running requests; current pure-prefill logs show0 and slot capacity4096 is far above observed batch≤4. Max-delay passes are loop counts, not milliseconds. No active batching trigger is established, so no GPU run is justified for this topology. This is a local source/topology decision, not a universal claim. [Source evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-prefill-delayer-source-20261029/REPORT.md).
 
 ## Closed branches and retained evidence
 
