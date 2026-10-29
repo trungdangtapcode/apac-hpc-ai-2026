@@ -458,3 +458,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: cap64 passes with a small sub-threshold gain; preserve the sampling/seed limits](entries/20261029-cap64-valid-small-gain-close-unchanged.md).
 
 - [29 October: fresh control reviewed, C++ CPU preflight accepted, delayer lead rejected locally](entries/20261029-fresh-control-cpp-prerequisite-and-delayer-decision.md).
+
+- [29 October: cold-prefill cache pair, full pass but only +0.24%, close unchanged](entries/20261029-cold-prefill-cache-pair-result.md).

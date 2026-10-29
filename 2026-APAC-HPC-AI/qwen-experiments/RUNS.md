@@ -2511,3 +2511,7 @@ Final polling review,29October: all three full local passes; interval1=3039.0533
 ## 29 October: fresh control complete and C++ metadata prerequisite accepted
 
 **27376** is a full reviewed local pass at3041.119598good tokens/s,1874/1900good,zero errors/cancellations,smoke7/8/retrieval12/12; official accuracy UNKNOWN. **27387** is newly accepted0GPU/2CPU/16GiB/2minutes for cold C++ radix JIT and CPU metadata fixtures, not a model run. Existing27378and27383 retain positions. [Control review](h200-cold-prefill-cache-study-20261029/CONTROL_RESULTS.md), [actual CPU receipt](h200-cpp-radix-cpu-probe-20261029/STATUS.md).
+
+## 2026-10-29T22:52:15.630166+07:00: cold-prefill cache pair reviewed
+
+27378 completed 0:0 in 11:41 on g1/g4, full local pass at 3048.446289 good output tokens/s, +0.240921% versus fresh control 27376 (3041.119598). Candidate 1879/1905 good requests, no errors/cancellations, 26 TTFT and zero ITL breaches, smoke 7/8 without regression and retrieval 12/12. Actual all-rank P ChunkCache and unchanged D ChunkCache, physical KV and both semantic routes pass. P95 TTFT increased, one observation per arm and engine seeds differ. Close unchanged treatment under 1% useful-gain gate; no default/submission promotion or blind combination. Full raw/telemetry/source/runtime/tail/cost review: h200-cold-prefill-cache-study-20261029/RESULTS.md and comparison.json; candidate artifacts sealed. Pending 27383 and 27387 retain positions. Official accuracy UNKNOWN; HPC untouched.
