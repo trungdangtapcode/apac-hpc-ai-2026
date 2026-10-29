@@ -1,0 +1,44 @@
+{
+  "schema": "h200-qwen-compile-startup-observer-stage-v1",
+  "date": "2026-10-29",
+  "state": "DERIVED_AWAITING_PARENT_REVIEW",
+  "gpu_job_submitted": false,
+  "commit_created": false,
+  "track": "AI / Qwen",
+  "hypothesis": "A bounded compile startup observer can establish, on every decode rank, whether graph-capture batches 50-54 actually pass through enabled compiled wrappers and whether startup caused numeric compiler activity before scored traffic.",
+  "target_precision": "FP8 weights with BF16 activations",
+  "implementation_scope": [
+    "Observe native SGLang patch_model without editing its source.",
+    "Write atomic rank/PID-local startup receipts with no request-level logging.",
+    "Fail closed before AIPerf unless all 8 ranks and shapes 50-54 meet receipt gates with the active job ID, immutable experiment ID, decode-0 role, and initialized distributed process group.",
+    "Exercise receipt decisions using CPU-only fixtures."
+  ],
+  "native_source_sha256": "77b1e38dba14788800b6b6351af1b5b8a80d9e42b91b57e9484ea4561d33a48c",
+  "pinned_source_review": {
+    "image_sha256": "b74ae77446bfedd6c5d72820b45be255cc513cf7c7c039d1bf63679c8178bfe5",
+    "native_sitecustomize_path": "/etc/python3.12/sitecustomize.py",
+    "native_sitecustomize_sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e",
+    "source_files": {
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/runner_backend/full_cuda_graph_backend.py": "141ed3003b076191f9a0b35e4d633c6e00d3ed520411a31e034446180a040194",
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/runner_backend/utils.py": "c0deb930798f6fd63e4a7955a850c0b6f866868502da1f45269f63b796c1c124",
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_cuda_graph_runner.py": "ab5de94b6461d46b87de91afc9fc54c2717c710fa9a015418cc4851e75a14ff5",
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_runner.py": "bf9233fadba3d7c38aa9073a0668b36dc2caabacfcb0bad3c5772b602945866a",
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py": "c21e3535041c5f07ac466d77f156d81b28737ed96c8a8fcf1cd3f48e7f7c44cd",
+      "sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py": "221032bf7ae57d2ebdb96801150a48d23244840a9b7938dc586e911671c11102",
+      "sgl-workspace/sglang/python/sglang/srt/utils/torch_memory_saver_adapter.py": "196266b5ac6c7a805b36c9953fcdd9cafb0dcc3ac7a9e25aae6edf34a8c6fba9"
+    },
+    "observer_hook_evidence": "Pinned decode capture enters torch_compile_decoration.patch_model with each capture shape and invokes capture_one_shape. FullCudaGraphBackend captures through self._device_module.graph; BaseRunner obtains device_module with torch.get_device_module(self.device). The observer wraps torch.cuda.graph for the target CUDA worker. A conditional memory-saver branch delegates to its adapter and is explicitly outside proven observer coverage."
+  },
+  "source_evidence": {
+    "bundle": "h200-compile-observer-probe-r2-20261029",
+    "job_id": 27340,
+    "result": "tiny synthetic BF16 fixture passed for token counts 1, 52 and 64; numeric compiler activity and CUDA graph replay observed",
+    "observed_positive_generated_kernel_count": {"1": 24, "52": 35, "64": 35},
+    "limits": "One H200 and synthetic MLP only; no Qwen weights, HPC-Ops distributed startup, eight-rank capture, quality or performance validation."
+  },
+  "readiness": {
+    "production_trial_ready": false,
+    "reason": "Requires parent wiring into decode workers and a real eight-rank startup receipt pass before AIPerf; compile time may exceed current startup limits."
+  },
+  "files": ["observer_module.py", "sitecustomize.py", "check_compile_receipts.py", "test_check_compile_receipts.py", "REPORT.md", "pinned-source/etc/python3.12/sitecustomize.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_backend/full_cuda_graph_backend.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_backend/utils.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_cuda_graph_runner.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_runner.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py", "pinned-source/sgl-workspace/sglang/python/sglang/srt/utils/torch_memory_saver_adapter.py"]
+}
