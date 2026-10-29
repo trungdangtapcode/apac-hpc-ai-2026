@@ -1,0 +1,7 @@
+# Actual native shallow argument configuration passed
+
+Reviewed 29 October 2026 Vietnam time. Job 27153 completed 0:0 in 72 seconds on g4, one H200/eight CPUs under 4 minutes (maximum 0.066667 GPU-hour). Actual parser and ServerArgs construction preserve EAGLE3 steps 1/top-k 1/tokens 2, TP8/EP8 intent, BF16 dtype, unquantized draft resolved None, FlashInfer draft/decode attention and MNNVL communication. Zero CUDA tensor bytes were allocated and no distributed group initialized. Python binary-weight-file reads were forbidden; no model worker was constructed.
+
+This is real pinned-runtime argument-configuration evidence only. One visible device cannot establish eight-rank graph/KV/NIXL/P-D operation, numerical/model quality or throughput. Official accuracy remains UNKNOWN. Native source SHA 79d9bbb... matches the pinned ServerArgs. Scheduler/stdout/stderr and the exact fields in arguments.json are inspected and sealed.
+
+The distinct next experiment is admitted as 27238, full native S98 with one-step/two-token decode-only EAGLE and unchanged S93 full N64 workload. It must freshly pass all runtime/graph/descriptor/semantic/output checks before measurement acceptance. Source review additionally found that one-step does not capture the unused draft-decode graph; pinned native policy and runtime expectations are aligned. No gate is relaxed merely because this configuration probe passes. Raw files and manifest are in runs/27153.
