@@ -1,5 +1,7 @@
 # Bilingual slide learning transcripts
 
+**Current edition:** the owner subsequently requested the four-question reasoning structure. Follow [the current deck and remapped guides](ai-problem-driven-presentation-20261030.md). The earlier main/backup boundaries, slide numbers, deck hash and 89-page PDF descriptions below are historical records of prior editions; current source/output hashes and PDF page counts are in transcript validation.
+
 Prepared 30 October 2026, Vietnam time (UTC+7). Research remains stopped. The owner explicitly requested one Vietnamese and one English Markdown transcript, including each slide's purpose, notation, axes, units, colors, tradeoffs and a script they can explain themselves.
 
 The [Vietnamese guide](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md) and [English guide](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md) cover the frozen 40-slide presentation: 24 main AI slides, eight AI backup slides and eight existing HPC slides. These are proposed scripts and explanations, not a verbatim recording of an already delivered talk. The 15–20 minute AI allowance applies to a rehearsed selection, not all explanatory text or the independent HPC segment.

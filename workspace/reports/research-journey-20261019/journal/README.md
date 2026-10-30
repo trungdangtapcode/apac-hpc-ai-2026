@@ -10,6 +10,8 @@ Latest AI presenter clarification: [30 October hardware labels and mixed-result 
 
 Latest AI document export: [30 October bilingual transcript PDFs](entries/20261030-ai-transcript-pdfs.md).
 
+Latest AI presentation revision: [30 October four research questions and explicit technical reasoning](entries/20261030-ai-problem-driven-presentation.md).
+
 Latest model continuation: [H100 HPC-Ops prefill/chunk interaction](entries/20261020-h100-hpc-prefill-chunk.md).
 
 Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).

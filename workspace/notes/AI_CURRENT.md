@@ -1,12 +1,12 @@
 # Current AI / Qwen handoff
 
-**Transcript PDFs:** [Vietnamese](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf) and [English](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf), 89 pages each, with embedded slide images/fonts, hardware labels, quick briefs, clickable contents and bookmarks. [Rendering and validation](ai-bilingual-transcripts-20261030.md#pdf-editions). Markdown content, deck and submission remain unchanged; research remains stopped.
+**Current presentation:** [four research questions and technical reasoning](ai-problem-driven-presentation-20261030.md). 20 main AI slides + 12 AI backups + eight unchanged HPC slides. The main talk explains observations, hypotheses, test choices, evidence and causal limits; chronology is supporting backup. Current PPTX/ZIP are published and protected HPC bytes preserved. No new research or jobs.
 
-**Presenter learning guides:** [bilingual transcripts for all 40 slides](ai-bilingual-transcripts-20261030.md), now with a 10–20 second spoken brief before every slide's purpose. Briefs explain the main point, standout result and necessary terms, including what repeated measurements mean. Detailed technical explanations remain below. The Vietnamese companion remains a narrow requested exception; deck and HPC payloads are unchanged.
+**Current transcripts:** [Vietnamese Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md), [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf). All are remapped to the new deck, with hardware labels and 10–20 second briefs before purpose. PDF validation records current page counts; earlier 89-page editions are historical. The requested Vietnamese exception remains limited to these guides/source data.
 
-**Hardware reminders:** every transcript slide now starts with H200/Firmus, H100/NSCC, shared/mixed evidence, or CPU attribution. Slides 16–18 are H100; the approximately 3044-good-token/s series is H200. Mixed slides 19/20/26/27/31 also identify each result's platform. This is a guide update, not a new measurement or deck change.
+**Hardware reminders in the new order:** H200 is the primary 16-GPU experiment; slide 16 is the mixed H100-input/H200-verification forecast. H100-only details are now backups 26–27. Slide 12 compares separate H200 and H100 interventions, slide 29 mixes GPU/CPU evidence and slide 30 shows both recipes. HPC 33–40 remains CPU. The approximately 3044-good-token/s series is H200.
 
-**Latest presentation:** [journey coverage and panel preparation](ai-journey-presentation-20261030.md), following the owner’s 15–20 minute AI allowance. No research resumed.
+**Previous presentation:** [chronological journey/panel edition](ai-journey-presentation-20261030.md) is historical. The current 15–20 minute route is the four-question edition above. No research resumed.
 
 **Final report and delivery:** [30 October update](ai-final-delivery-20261030.md). Report-only work is complete; research remains stopped.
 

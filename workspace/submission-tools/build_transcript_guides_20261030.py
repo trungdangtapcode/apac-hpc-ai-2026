@@ -8,6 +8,7 @@ from urllib.parse import unquote
 
 WORKSPACE = Path(__file__).resolve().parents[1]
 REPORT = WORKSPACE / 'reports/ai-final-report-20261030'
+REVIEW = WORKSPACE / 'submission-review/ai-reasoning-update-20261030'
 DECK = WORKSPACE / 'VNUHCM - TripleU/Presentation/TripleU_APAC2026_Presentation.pptx'
 
 GLOSSARY = [
@@ -60,15 +61,15 @@ def introduction(lang, digest):
 
 **Cách dùng:** mỗi slide mở đầu bằng **“Nói nhanh · 10–20 giây”**, có thể nói ngay: ý chính, số liệu nổi bật và ý nghĩa của chúng. Các từ cần thiết được giải thích ngay trong đoạn ngắn, ví dụ “repeated” là chạy lại benchmark để kiểm tra kết quả có tái lập. Thời lượng là mục tiêu để luyện, không phải bản ghi đã bấm giờ. Khi cần hiểu sâu hoặc trả lời câu hỏi, đọc tiếp “Slide muốn nói gì”, phần lập luận, thuật ngữ và lời nói mẫu dài bên dưới.
 
-- **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
-- **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
+- **Slide 1–20:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết mọi lời nói mẫu nếu vượt thời gian.
+- **Slide 21–32:** phần AI dự phòng khi được hỏi. Phần chính đi theo bốn câu hỏi nghiên cứu; lịch sử chi tiết ở phần dự phòng.
 - **Slide 33–40:** giải thích phần HPC đang có trong cùng deck, chỉ đọc và diễn giải. Trạng thái job trên các slide này là **ảnh chụp ngày 23/10**, không phải trạng thái trực tiếp ngày 30/10. Hướng dẫn này không cập nhật hay xác nhận kết quả HPC mới. Thời lượng AI không bao gồm mặc định phần HPC.
 - Mỗi slide có nhãn **Phần cứng** ngay dưới tiêu đề. H200 là Firmus, H100 là NSCC ASPIRE 2A+; slide có cả hai hoặc có phép kiểm tra CPU sẽ ghi riêng. Nhãn “chung” chỉ quy tắc hoặc bố trí dùng trên cả hai hệ thống, không biến chúng thành một phép so hiệu năng cùng điều kiện.
 - Màu sắc có ý nghĩa **theo từng slide**. Cam không luôn là “thắng” hay “thua”. Ảnh nền, gradient và đường trang trí cuối slide không biểu diễn dữ liệu.
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
 - Nghiên cứu đã dừng theo yêu cầu. Các việc “tiếp theo” trong slide là đề xuất hoặc câu chuyện tại thời điểm đó, không phải job mới đã chạy.
 
-Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `{digest}`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
+Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-reasoning-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `{digest}`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
 ## Những cách gọi cần hiểu trước khi thuyết trình
 
@@ -97,15 +98,15 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 
 **How to use it:** each slide starts with a **“Quick brief · 10–20 seconds”** that can be spoken directly: the main point, a standout result and its meaning. Essential terminology is explained within the brief, such as repeated meaning rerunning a benchmark to check reproducibility. Timing is a rehearsal target, not a timed recording. Continue with the purpose, technical interpretation, terms and longer script for deeper preparation or questions.
 
-- **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
-- **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
+- **Slides 1–20:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
+- **Slides 21–32:** AI backup material. The main argument follows four research questions; the detailed historical journey is supporting backup.
 - **Slides 33–40:** read-only explanation of the existing HPC section. Its scheduler statements are **23 October snapshots**, not live 30 October status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
 - Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Research has stopped at the owner's request. Future actions shown on slides are proposals or historical next decisions, not newly executed jobs.
 
-Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `{digest}`. This guide describes that version; recheck it if the deck changes.
+Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-reasoning-update-20261030/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `{digest}`. This guide describes that version; recheck it if the deck changes.
 
 ## Understand the claims before presenting them
 
@@ -143,7 +144,7 @@ def render(records, lang, digest):
     evidence = [('observation', 'Quan sát', 'Observation'), ('hypothesis', 'Giả thuyết', 'Hypothesis'), ('conclusion', 'Kết luận được hỗ trợ', 'Supported conclusion'), ('unknown', 'Chưa biết / giới hạn', 'Unknown / limitation')]
     for s in records:
         n = s['slide']; d = s[lang]
-        image_path = f'../../submission-review/ai-journey-update-20261030/slides/assets/slide-{n:02d}.png' if n <= 32 else f'transcript-assets/slide-{n:02d}.png'
+        image_path = f'../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-{n:02d}.png' if n <= 32 else f'transcript-assets/slide-{n:02d}.png'
         out.append(f'\n---\n\n<a id="slide-{n:02d}"></a>\n\n## Slide {n:02d} — {s["title"]}\n\n')
         hardware_label = 'Phần cứng' if vi else 'Hardware'
         out.append(f'**{hardware_label}: {d["hardware"]}**\n\n')
@@ -155,7 +156,7 @@ def render(records, lang, digest):
                 out.append(f'- {detail}\n')
             out.append('\n')
         out.append(f'![Slide {n:02d}]({image_path})\n\n')
-        if n == 25:
+        if n == 21:
             out.append('**Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**\n\n' if vi else '**AI backup section: open when a deeper explanation is needed.**\n\n')
         if n >= 33:
             out.append('**Phần HPC giữ nguyên: diễn giải slide hiện có, không phải cập nhật trạng thái hay kết quả mới.**\n\n' if vi else '**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**\n\n')
@@ -179,9 +180,7 @@ def main():
     source = json.loads((REPORT / 'transcript-slide-source.json').read_text())
     digest = hashlib.sha256(DECK.read_bytes()).hexdigest()
     assert digest == source['presentation_sha256'], 'Deck changed: review the transcripts before rendering.'
-    records = []
-    for path in sorted((REPORT / 'transcript-parts').glob('*.json')):
-        records.extend(json.loads(path.read_text()))
+    records = json.loads((REPORT / 'reasoning-transcript.json').read_text())
     records.sort(key=lambda s: s['slide'])
     assert [s['slide'] for s in records] == list(range(1, 41)), 'Need exactly 40 unique slides.'
     for s in records:
@@ -208,7 +207,7 @@ def main():
             if not target.startswith(('#', 'https://', 'http://')):
                 assert (REPORT / unquote(target)).is_file(), f'Missing local link: {target}'
         (REPORT / f'TRANSCRIPT_{lang.upper()}.md').write_text(body)
-    summary = dict(deck_sha256=digest, slides=40, ai_main=list(range(1, 25)), ai_backup=list(range(25, 33)), existing_hpc=list(range(33, 41)), languages=['vi', 'en'], scope='Standalone learning transcripts; no deck, package, HPC payload, research or scheduler mutation.', checks=['40 unique source-matched titles in both languages', 'All per-slide explanatory fields populated', '40 concise spoken briefs per language before detailed slide purpose', 'Brief word counts bounded for rehearsal; speaking duration is an estimate', 'All relative document and image links resolve', 'No truncated ellipsis placeholders', 'Deck identity unchanged'], files={})
+    summary = dict(deck_sha256=digest, slides=40, ai_main=list(range(1, 21)), ai_backup=list(range(21, 33)), existing_hpc=list(range(33, 41)), languages=['vi', 'en'], scope='Standalone learning transcripts; no deck, package, HPC payload, research or scheduler mutation.', checks=['40 unique source-matched titles in both languages', 'All per-slide explanatory fields populated', '40 concise spoken briefs per language before detailed slide purpose', 'Brief word counts bounded for rehearsal; speaking duration is an estimate', 'All relative document and image links resolve', 'No truncated ellipsis placeholders', 'Deck identity unchanged'], files={})
     for lang in ['VI', 'EN']:
         p = REPORT / f'TRANSCRIPT_{lang}.md'
         summary['files'][p.name] = dict(sha256=hashlib.sha256(p.read_bytes()).hexdigest(), bytes=p.stat().st_size)

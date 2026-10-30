@@ -228,9 +228,7 @@ def check_pdf(path, source, pages):
     assert all(len(p.get_text().strip()) > 30 for p in document), 'Blank page'
     for n, page in pages.items():
         assert f'Slide {n:02d}' in document[page-1].get_text()
-    records = []
-    for p in (REPORT / 'transcript-parts').glob('*.json'):
-        records.extend(json.loads(p.read_text()))
+    records = json.loads((REPORT / 'reasoning-transcript.json').read_text())
     lang = 'vi' if '_VI' in path.name else 'en'
     for record in records:
         brief = ' '.join(record[lang]['brief'].split())

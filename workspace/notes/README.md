@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Current presentation: four research questions, reasoning and supported decisions | [Question-led deck and guides](ai-problem-driven-presentation-20261030.md) |
 | Read or print the complete presenter transcripts as PDFs | [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf) |
 | Understand and rehearse every current slide: purpose, notation, axes, units, colors and tradeoffs | [Vietnamese transcript](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English transcript](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md) |
 | Learn the AI journey and explain it in a presentation | [Beginner narrative](../reports/ai-research-learning-journey-20261023/README.md), [speaker notes](../reports/ai-research-learning-journey-20261023/SPEAKER_NOTES.md), [glossary](../reports/ai-research-learning-journey-20261023/GLOSSARY.md) |
