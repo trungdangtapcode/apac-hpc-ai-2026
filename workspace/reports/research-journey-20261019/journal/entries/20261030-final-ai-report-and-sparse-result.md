@@ -1,0 +1,13 @@
+# Final report: close sparse graph trial and retain the reproduced service
+
+Recorded 30 October 2026, Vietnam time (UTC+7). The owner stopped research, then requested the best result, updated slides/submission and the final report. No new job was submitted by this reporting work.
+
+The prior question was whether reducing decode CUDA graph buckets from64 to12 could reduce startup cost without sacrificing useful throughput. Already accepted job27510 completed0:0 in13:15 on g1/g4,16H200. Its independent frozen raw/runtime/KV/two-route/semantic/output gate passes at3029.861122 good output tokens/s,1870/1896 good requests(98.628692%),zero errors/cancellations,26TTFT and zeroITL breaches,smoke7/8 without regression and retrieval12/12. Mean/p95TTFT is1102.404/1240.481ms; request-meanITL15.136/15.324ms.
+
+Against earlier full-list control27376 at3041.119598 tokens/s, the point is−0.370208%. Per-rank native capture logs show1.15GB to0.36GB memory and101.46–101.49s to95.98–96.05s capture elapsed time. Lower capture memory did not improve goodput. Different times, generated engine seeds and candidate-only startup observation limit causal interpretation. Keep dense graphs and close the unchanged sparse list; no follow-up is scheduled.
+
+Inspection includes all eight source/job/experiment-bound capture receipts, original physical BF16KV, both semantic paths, raw request/tail/error data, role queue/running/KV gauges, GPU/VRAM and hostCPU/memory samples and72 successful server polls. Sparse request-start-envelope sampling does not establish a causal bottleneck; calibrated clocks/final drain/heavy kernel/hot-thread/Xid/throttling proof is absent. Actual occupancy3.533333GPU-hours, maximum4.533334, noPBS_SU. Full terminal artifacts and the narrative/machine review are sealed.
+
+Final evidence classes remain distinct: highest complete local pass27378=3048.446289(+0.240921% in its cache pair, no promotion), selected historical replicatedN64 mean3044.400475, separate native26766=3045.501509, and recovered portable raw27145=3055.330517 from a failed original job. CPU27152 verifies corrected readers only. Official full-set accuracy remainsUNKNOWN.
+
+The final report and32 updated English AI slides present the journey, decisions and failures; the primary serving implementation remains unchanged. Eight HPC slides and their68 transitive parts are preserved. Current live HPC folder and old ZIP already differ due independent unpublished work, so each HPC surface is preserved rather than silently merged. Global manifests are surface-specific. No other track payload, budget, authentication or background schedule was changed. See notes/ai-final-delivery-20261030.md and reports/ai-final-report-20261030/REPORT.md for delivery links and limits.
