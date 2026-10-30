@@ -1,7 +1,3 @@
-# R2 status
+# Actual C++ CPU R2 admission
 
-**Prepared, not submitted.** The frozen R1 attempt is retained as a failed diagnostic, not a C++ compatibility verdict. R1 job 27387 exited `124:0` after 93 seconds. The actual host timing shows 76 seconds in Enroot creation and approximately 12 seconds remaining after PyTorch import before the batch-start+90-second deadline. R1 had no completed radix fixture and no native cleanup marker.
-
-R2 changes only the diagnostic resource/time envelope and deadline/cleanup supervision: one node, four CPUs, 16 GiB, zero GPUs, six-minute Slurm wall limit; absolute batch-start+300-second fixture deadline plus up to 60 seconds for cleanup. The cold source-pinned extension build and page-1/page-16 CPU invariants remain the same. A CPU JIT timeout remains a failed preflight. This does not authorize or imply the later 16-GPU S106 candidate.
-
-See `README.md`, `READY.json`, and `VALIDATION.json`. Await root review; no receipt or result exists.
+Observed 2026-10-30T12:43:33.275263+07:00, Vietnam time (UTC+7). Slurm accepted **27506**, zero GPUs, four CPUs, 16 GiB and six minutes. This is an actual submitted prerequisite, not a C++ pass or performance result. Frozen pin: 7fcc98055dd1388681c0e31e23af3018269b39b7aab1324cad2be37e6de03807. Source/fixture and seven stdlib launcher checks passed before admission. Original27387 and all other payloads remain unchanged. Inner300-second deadline retains up to60seconds for cleanup; no old rootfs cleanup is claimed. Maximum0.4CPU-hours,0allocatedGPU-hours and0PBS_SU. Read submission-receipt.json/reservation.json for definite acceptance; query scheduler before treating this snapshot as live.
