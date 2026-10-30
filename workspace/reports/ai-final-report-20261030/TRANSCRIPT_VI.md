@@ -2,7 +2,7 @@
 
 Đây là **lời thuyết trình mẫu và tài liệu học**, không phải bản chép lại một buổi nói đã diễn ra. Tài liệu đi theo đúng 40 slide của bản trình chiếu hiện tại. Bản tiếng Việt được tạo theo yêu cầu riêng của bạn; mã nguồn và các báo cáo khác vẫn dùng tiếng Anh.
 
-**Cách dùng:** đọc phần “Slide muốn nói gì” và “Giải thích kết quả và lập luận”, sau đó luyện phần “Lời nói mẫu”. Các phần thuật ngữ và bằng chứng giúp trả lời câu hỏi tại sao. Đây là tài liệu giải thích kỹ thuật, không phải lời đọc bố cục slide. Không cần đọc toàn bộ hướng dẫn thành tiếng.
+**Cách dùng:** mỗi slide mở đầu bằng **“Nói nhanh · 10–20 giây”**, có thể nói ngay: ý chính, số liệu nổi bật và ý nghĩa của chúng. Các từ cần thiết được giải thích ngay trong đoạn ngắn, ví dụ “repeated” là chạy lại benchmark để kiểm tra kết quả có tái lập. Thời lượng là mục tiêu để luyện, không phải bản ghi đã bấm giờ. Khi cần hiểu sâu hoặc trả lời câu hỏi, đọc tiếp “Slide muốn nói gì”, phần lập luận, thuật ngữ và lời nói mẫu dài bên dưới.
 
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
@@ -121,6 +121,10 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 ## Slide 01 — Qwen serving: from topology to reproduced performance
 
+### Nói nhanh · 10–20 giây
+
+Chúng tôi tối ưu dịch vụ Qwen trên 16 GPU, từ cách chia model đến truyền dữ liệu và chọn cách thực thi. Trọng tâm là tìm cấu hình chạy đúng, nhanh và cho kết quả gần nhau khi đo lại, thay vì chỉ chọn một lần có điểm cao.
+
 ![Slide 01](../../submission-review/ai-journey-update-20261030/slides/assets/slide-01.png)
 
 ### Slide muốn nói gì
@@ -167,6 +171,10 @@ Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cá
 <a id="slide-02"></a>
 
 ## Slide 02 — Highest observation and strongest recommendation
+
+### Nói nhanh · 10–20 giây
+
+Ở mức 64 request đồng thời, nhóm chạy lại ba lần đo đầy đủ, đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Điểm đơn cao nhất là 3.048,45, nhưng chỉ tăng 0,24% so với đối chứng. Nhóm giữ cấu hình có bằng chứng tái lập tốt hơn.
 
 ![Slide 02](../../submission-review/ai-journey-update-20261030/slides/assets/slide-02.png)
 
@@ -219,6 +227,10 @@ Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặ
 
 ## Slide 03 — Optimise useful throughput under a latency gate
 
+### Nói nhanh · 10–20 giây
+
+Một request phải chờ token đầu không quá 3.000 mili giây và có khoảng cách token trung bình không quá 20 mili giây; ít nhất 90% request phải đạt cả hai. Điểm chỉ tính thông lượng của request đạt chuẩn, nên sinh nhiều token nhưng trả lời quá chậm vẫn không có lợi.
+
 ![Slide 03](../../submission-review/ai-journey-update-20261030/slides/assets/slide-03.png)
 
 ### Slide muốn nói gì
@@ -270,6 +282,10 @@ Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọ
 
 ## Slide 04 — One workload, two deployment systems
 
+### Nói nhanh · 10–20 giây
+
+Chúng tôi đo trên hai hệ thống, mỗi hệ thống 16 GPU: H200 tại Firmus và H100 tại NSCC. Phần cứng và môi trường chạy khác nhau, nên phải tối ưu và ghi kết quả riêng. Cùng model không có nghĩa lấy hai điểm so trực tiếp là công bằng.
+
 ![Slide 04](../../submission-review/ai-journey-update-20261030/slides/assets/slide-04.png)
 
 ### Slide muốn nói gì
@@ -320,6 +336,10 @@ Tiếp theo, ta xem topology H200 mười sáu GPU đã chọn và lần theo y�
 <a id="slide-05"></a>
 
 ## Slide 05 — Separate prompt processing from token generation
+
+### Nói nhanh · 10–20 giây
+
+Trên 16 GPU, hai nhóm bốn GPU xử lý prompt, còn một nhóm tám GPU sinh câu trả lời. Dữ liệu ngữ cảnh KV được chuyển giữa hai giai đoạn. Cách tách này cho phép tối ưu riêng từng phần, nhưng cũng thêm công truyền dữ liệu cần kiểm tra.
 
 ![Slide 05](../../submission-review/ai-journey-update-20261030/slides/assets/slide-05.png)
 
@@ -373,6 +393,10 @@ Slide tiếp theo cho thấy các thử nghiệm topology ban đầu dẫn đế
 
 ## Slide 06 — Topology search established the serving layout
 
+### Nói nhanh · 10–20 giây
+
+Nhóm thử nhiều cách chia GPU và chọn hai nhóm xử lý prompt, mỗi nhóm bốn GPU, cùng một nhóm sinh token tám GPU. Mốc này đạt khoảng 1.912 token đạt chuẩn mỗi giây ở 48 request đồng thời; tải giữa các mốc khác nhau nên chưa tách riêng tác dụng của bố trí.
+
 ![Slide 06](../../submission-review/ai-journey-update-20261030/slides/assets/slide-06.png)
 
 ### Slide muốn nói gì
@@ -424,6 +448,10 @@ Trở ngại kế tiếp không chỉ là chọn mức song song: khởi động
 
 ## Slide 07 — Make KV-transfer setup scale with the request
 
+### Nói nhanh · 10–20 giây
+
+Cách cũ chuẩn bị mô tả vùng nhớ cho toàn bộ kho KV, khoảng 403,8 triệu mục mỗi tiến trình GPU. Cách sửa chỉ mô tả vùng của một request, còn 188 dải đã gộp. Đây là giảm công chuẩn bị truyền, không phải bằng chứng suy luận nhanh hơn theo cùng tỷ lệ.
+
 ![Slide 07](../../submission-review/ai-journey-update-20261030/slides/assets/slide-07.png)
 
 ### Slide muốn nói gì
@@ -474,6 +502,10 @@ Lần khôi phục EP2 cũng làm lộ một điều kiện tiên quyết khác:
 <a id="slide-08"></a>
 
 ## Slide 08 — FP8 block geometry constrains parallelism
+
+### Nói nhanh · 10–20 giây
+
+Lỗi đến từ cách chia trọng số: mỗi phần có 192 phần tử, không chia hết cho block 128 mà cách thực thi yêu cầu. Đổi cách phân phối expert cho 384 phần tử, vừa ba block. Điều này sửa tính tương thích để thử tiếp, chưa chứng minh hiệu năng tăng.
 
 ![Slide 08](../../submission-review/ai-journey-update-20261030/slides/assets/slide-08.png)
 
@@ -527,6 +559,10 @@ Khi đường triển khai đã khả thi, slide kế tiếp mô tả cách bi�
 
 ## Slide 09 — A repeatable experiment loop
 
+### Nói nhanh · 10–20 giây
+
+Mỗi ý tưởng được so với cấu hình đối chứng, kiểm tra chạy đúng rồi đo lại nếu có lợi. Phép đo đầy đủ gồm 60 giây chạy làm nóng, 120 giây thu số liệu và 30 giây chờ request còn lại. Job kết thúc chưa đủ để kết luận có cải tiến.
+
 ![Slide 09](../../submission-review/ai-journey-update-20261030/slides/assets/slide-09.png)
 
 ### Slide muốn nói gì
@@ -577,6 +613,10 @@ Tiếp theo, tôi tóm tắt tiến trình H200, đồng thời lưu ý đây kh
 <a id="slide-10"></a>
 
 ## Slide 10 — H200 journey: recover, specialise, then reproduce
+
+### Nói nhanh · 10–20 giây
+
+Hành trình H200 đi từ khoảng 1.297 lên 3.044 token đầu ra đạt chuẩn mỗi giây. “Repeated” ở các mốc sau nghĩa là đã chạy lại để kiểm tra kết quả. Các mốc thay cả cấu hình lẫn tải, nên biểu đồ cho thấy tiến trình, không tách riêng đóng góp từng tối ưu.
 
 ![Slide 10](../../submission-review/ai-journey-update-20261030/slides/assets/slide-10.png)
 
@@ -631,6 +671,10 @@ Slide tiếp theo phóng to một so sánh có kiểm soát hơn: tổ hợp bac
 
 ## Slide 11 — Backend combinations matter
 
+### Nói nhanh · 10–20 giây
+
+Kết hợp FlashInfer cho attention với MNNVL cho giao tiếp đạt khoảng 2.631 token đạt chuẩn mỗi giây, hơn đối chứng giao tiếp MNNVL khoảng 1,43%. Hai cách thực thi dùng chung tài nguyên nên phải đo tổ hợp trực tiếp, không cộng mức tăng từ các phép thử riêng.
+
 ![Slide 11](../../submission-review/ai-journey-update-20261030/slides/assets/slide-11.png)
 
 ### Slide muốn nói gì
@@ -682,6 +726,10 @@ Các slide tiếp theo kiểm tra sâu hơn các kết quả backend này, gồm
 <a id="slide-12"></a>
 
 ## Slide 12 — H200: the N62-to-N64 step survives a full repeat
+
+### Nói nhanh · 10–20 giây
+
+Tăng số request đồng thời từ 62 lên 64 giúp thông lượng đạt chuẩn tăng 1,08%. Chạy lại bằng một job đầy đủ khác vẫn đạt khoảng 3.044 token mỗi giây. Đây là ý nghĩa của “repeat”: kiểm tra kết quả có tái lập, thay vì chọn một lần đo cao.
 
 ![Slide 12](../../submission-review/ai-journey-update-20261030/slides/assets/slide-12.png)
 
@@ -735,6 +783,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 13 — Profile the deployed interaction
 
+### Nói nhanh · 10–20 giây
+
+Profile ghi lại hoạt động GPU để tìm hướng thử tiếp. Nhóm giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là đầu mối điều tra, không phải 23,48% thời gian chờ của request, vì các kernel có thể chạy chồng lấp.
+
 ![Slide 13](../../submission-review/ai-journey-update-20261030/slides/assets/slide-13.png)
 
 ### Slide muốn nói gì
@@ -786,6 +838,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 <a id="slide-14"></a>
 
 ## Slide 14 — The N60 gain survives an independent deployment
+
+### Nói nhanh · 10–20 giây
+
+Đổi cách thực thi decode giúp thông lượng đạt chuẩn tăng 5,30%, và một lần triển khai khác cho kết quả gần như cũ. Tuy nhiên, token đầu chậm thêm khoảng 125 mili giây, còn khoảng cách token ngắn hơn. Đây là đánh đổi đã đo, không phải mọi chỉ số đều tốt hơn.
 
 ![Slide 14](../../submission-review/ai-journey-update-20261030/slides/assets/slide-14.png)
 
@@ -839,6 +895,10 @@ Mũi tên xuống ở hàng TTFT chỉ hướng mong muốn; TTFT thực tế t�
 <a id="slide-15"></a>
 
 ## Slide 15 — The reproduced N64 service still loses first-token tails
+
+### Nói nhanh · 10–20 giây
+
+Mỗi chấm là một request: xanh đạt cả hai giới hạn độ trễ, cam trượt ít nhất một. Tổng cộng 98,58% đạt; cả 27 request trượt đều chờ token đầu quá lâu. Vì vậy điểm trung bình cao vẫn cần xem phần request chậm nhất.
 
 ![Slide 15](../../submission-review/ai-journey-update-20261030/slides/assets/slide-15.png)
 
@@ -894,6 +954,10 @@ Dải xanh chỉ đánh dấu TTFT, không phải vùng đạt đồng thời. G
 
 ## Slide 16 — H100 has its own operating point and uncertainty
 
+### Nói nhanh · 10–20 giây
+
+H100 có cấu hình tối ưu riêng: điểm cao nhất từng đo khoảng 2.433 token đầu ra đạt chuẩn mỗi giây; lần đối chứng đầy đủ mới khoảng 2.399. Hai số cho thấy có biến động giữa lần chạy, và không thể lấy thẳng để kết luận tối ưu H200 tốt hơn bao nhiêu.
+
 ![Slide 16](../../submission-review/ai-journey-update-20261030/slides/assets/slide-16.png)
 
 ### Slide muốn nói gì
@@ -948,6 +1012,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 17 — FA3: faster first token does not guarantee goodput
 
+### Nói nhanh · 10–20 giây
+
+FA3 giúp token đầu tới sớm hơn khoảng 119 mili giây, nhưng khoảng cách token dài hơn tích lũy suốt câu trả lời. Thông lượng đạt chuẩn giảm 0,81%. Vì mục tiêu tổng thể xấu đi, chúng tôi giữ FlashInfer cho cấu hình decode này.
+
 ![Slide 17](../../submission-review/ai-journey-update-20261030/slides/assets/slide-17.png)
 
 ### Slide muốn nói gì
@@ -1001,6 +1069,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 18 — Test the cost hypothesis, then reverse the order
 
+### Nói nhanh · 10–20 giây
+
+Đọc trọng số trước lúc khởi động ban đầu tiết kiệm 18,74% thời gian job. Nhưng khi đảo thứ tự chạy để kiểm tra lại, mức tiết kiệm chỉ còn 9,84%, dưới ngưỡng 10% nhóm đã đặt. Vì vậy nhóm không chọn cách này chỉ dựa vào cặp đo thuận lợi đầu tiên.
+
 ![Slide 18](../../submission-review/ai-journey-update-20261030/slides/assets/slide-18.png)
 
 ### Slide muốn nói gì
@@ -1052,6 +1124,10 @@ Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải
 <a id="slide-19"></a>
 
 ## Slide 19 — A local N52 calibration, not a universal multiplier
+
+### Nói nhanh · 10–20 giây
+
+Ở cùng cấu hình và 52 request đồng thời, thông lượng H200 đo được bằng khoảng 1,188 lần H100. Nhóm dùng tỷ số này làm mốc thử dự báo ở tải gần đó. Nó không phải hệ số đổi mọi kết quả H100 sang H200, nhất là khi cấu hình khác.
 
 ![Slide 19](../../submission-review/ai-journey-update-20261030/slides/assets/slide-19.png)
 
@@ -1108,6 +1184,10 @@ Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần tră
 
 ## Slide 20 — Freeze the forecast, then test it on H200
 
+### Nói nhanh · 10–20 giây
+
+Nhóm ghi dự báo trước khi thấy phép đo: khoảng 2.642 token đạt chuẩn mỗi giây, thực tế khoảng 2.602. Sai lệch âm 1,54% nằm trong dung sai 2% đã đặt. Tuy nhiên, khoảng bất định trước đó còn thiếu; một lần dự báo gần đúng chưa chứng minh quy đổi luôn đúng.
+
 ![Slide 20](../../submission-review/ai-journey-update-20261030/slides/assets/slide-20.png)
 
 ### Slide muốn nói gì
@@ -1160,6 +1240,10 @@ Dự báo được ghi lại trước khi xem kết quả H200 held-out (phép �
 
 ## Slide 21 — Use source evidence to test one small hypothesis
 
+### Nói nhanh · 10–20 giây
+
+Đọc source giúp biết thay đổi nào thực sự được thực thi; benchmark mới cho biết có ích không. Đổi cache chỉ tăng 0,24%, còn một thay đổi attention làm mất 6,39% thông lượng đạt chuẩn. Vì vậy bật được tính năng hay cải thiện một chỉ số chưa đủ để thay cấu hình chính.
+
 ![Slide 21](../../submission-review/ai-journey-update-20261030/slides/assets/slide-21.png)
 
 ### Slide muốn nói gì
@@ -1211,6 +1295,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 <a id="slide-22"></a>
 
 ## Slide 22 — Latency acceptance is separate from model accuracy
+
+### Nói nhanh · 10–20 giây
+
+Dịch vụ nhanh và câu trả lời đúng là hai việc phải kiểm tra riêng. Các bộ kiểm tra nhỏ đạt 7/8 và 12/12, nhưng chưa chứng nhận yêu cầu ít nhất 99% điểm chất lượng tham chiếu của BTC. Vì vậy nhóm chỉ báo điều đã đo, chưa khẳng định đạt chất lượng chính thức.
 
 ![Slide 22](../../submission-review/ai-journey-update-20261030/slides/assets/slide-22.png)
 
@@ -1266,6 +1354,10 @@ Smoke và retrieval không phải chứng nhận accuracy đầy đủ.
 
 ## Slide 23 — EAGLE3: follow the failed hypothesis through its repairs
 
+### Nói nhanh · 10–20 giây
+
+EAGLE3 dùng model phụ đề xuất token để model chính kiểm tra. Nhóm sửa lỗi triển khai để chạy được, nhưng cấu hình đo đầy đủ vẫn giảm 2,08% thông lượng đạt chuẩn. Bài học là tích hợp thành công chưa đồng nghĩa tăng tốc; nhóm không chọn nhánh đã đo này.
+
 ![Slide 23](../../submission-review/ai-journey-update-20261030/slides/assets/slide-23.png)
 
 ### Slide muốn nói gì
@@ -1318,6 +1410,10 @@ Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.
 <a id="slide-24"></a>
 
 ## Slide 24 — Topology → transport → kernels → replication
+
+### Nói nhanh · 10–20 giây
+
+Cấu hình 64 request đồng thời đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây qua ba lần đo đầy đủ. “Repeated” nghĩa là đã chạy lại benchmark để kiểm tra khả năng tái lập. Nhóm ưu tiên bằng chứng này thay vì một điểm cao đơn lẻ; chất lượng chính thức vẫn chưa xác minh.
 
 ![Slide 24](../../submission-review/ai-journey-update-20261030/slides/assets/slide-24.png)
 
@@ -1373,6 +1469,10 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 25 — Appendix · diagnose performance drift with controlled cells
 
+### Nói nhanh · 10–20 giây
+
+Ba lần đo đầy đủ với 64 request đồng thời đạt khoảng 3.044 token đạt chuẩn mỗi giây; một đối chứng ngắn sau đó chỉ khoảng 2.560. Nhưng thời lượng và cài đặt khác nhau. Nhóm thử lại để tìm nguyên nhân, chưa chứng minh một thay đổi riêng nào giải thích chênh lệch.
+
 ![Slide 25](../../submission-review/ai-journey-update-20261030/slides/assets/slide-25.png)
 
 **Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**
@@ -1423,6 +1523,10 @@ Tiếp theo, phân biệt probe thành phần tiềm năng với bằng chứng 
 <a id="slide-26"></a>
 
 ## Slide 26 — Appendix · profiles and source also close attractive detours
+
+### Nói nhanh · 10–20 giây
+
+Gói attention mới đạt khoảng 2.549 token đạt chuẩn mỗi giây ở 52 request đồng thời, nhưng đổi nhiều yếu tố nên không tách được nguyên nhân. Các thử nghiệm tính toán nhỏ chưa chứng minh cả model nhanh hơn; lần biên dịch model thật bị lỗi trước khi có điểm.
 
 ![Slide 26](../../submission-review/ai-journey-update-20261030/slides/assets/slide-26.png)
 
@@ -1475,6 +1579,10 @@ Slide sau mô tả cấu hình serving H200 được chọn và cấu hình H100
 
 ## Slide 27 — Appendix · the selected AI deployment is N64
 
+### Nói nhanh · 10–20 giây
+
+Cấu hình H200 được chọn giữ tối đa 64 request đồng thời, dùng hai nhóm bốn GPU xử lý prompt và một nhóm tám GPU sinh token. H100 dùng cấu hình riêng. Đây là cách triển khai có bằng chứng đo, chưa phải chứng nhận chất lượng câu trả lời của BTC.
+
 ![Slide 27](../../submission-review/ai-journey-update-20261030/slides/assets/slide-27.png)
 
 ### Slide muốn nói gì
@@ -1524,6 +1632,10 @@ Tiếp theo, so sánh tài nguyên capture graph decode thưa đã tiết kiệm
 <a id="slide-28"></a>
 
 ## Slide 28 — Appendix · sparse graphs save memory, not goodput
+
+### Nói nhanh · 10–20 giây
+
+Giảm số dạng đồ thị GPU lưu để phát lại giúp bộ nhớ capture mỗi tiến trình giảm từ 1,15 xuống 0,36 GB. Tuy nhiên, thông lượng đạt chuẩn lại giảm khoảng 0,37%. Tiết kiệm phần bộ nhớ này chưa giúp dịch vụ nhanh hơn, nên nhóm giữ cấu hình cũ.
 
 ![Slide 28](../../submission-review/ai-journey-update-20261030/slides/assets/slide-28.png)
 
@@ -1575,6 +1687,10 @@ Tiếp theo là phạm vi của điểm serving tổng hợp và các kiểm tra
 
 ## Slide 29 — Appendix · what the benchmark actually measures
 
+### Nói nhanh · 10–20 giây
+
+Benchmark dùng prompt tổng hợp 4.000 token và yêu cầu sinh 200 token để đo tốc độ phục vụ, không chấm nội dung trả lời. Chất lượng phải được đánh giá riêng so với điểm tham chiếu của BTC; yêu cầu đạt ít nhất 99% điểm tham chiếu vẫn chưa được xác minh.
+
 ![Slide 29](../../submission-review/ai-journey-update-20261030/slides/assets/slide-29.png)
 
 ### Slide muốn nói gì
@@ -1624,6 +1740,10 @@ Tiếp theo, so sánh các lần chạy chunk bằng cùng protocol chấm đi�
 
 ## Slide 30 — Appendix · larger prefill chunks did not help
 
+### Nói nhanh · 10–20 giây
+
+Tăng số token xử lý trong mỗi phần prompt không giúp nhanh hơn: thông lượng đạt chuẩn giảm từ khoảng 3.045 xuống 3.021 token mỗi giây, đồng thời phần request chậm token đầu xấu hơn. Mỗi cài đặt mới đo một lần, nên nhóm giữ chunk 8.192 token cho cấu hình này.
+
 ![Slide 30](../../submission-review/ai-journey-update-20261030/slides/assets/slide-30.png)
 
 ### Slide muốn nói gì
@@ -1672,6 +1792,10 @@ Slide sau tách một lần chạy serving GPU hoàn tất khỏi hậu xử lý
 <a id="slide-31"></a>
 
 ## Slide 31 — A real replay can invalidate a static deployment claim
+
+### Nói nhanh · 10–20 giây
+
+Hai job GPU đã chạy xong benchmark nhưng lỗi chương trình đọc kết quả. Sửa chương trình giúp đọc lại điểm khoảng 3.055 token đạt chuẩn mỗi giây từ dữ liệu đã lưu. Job gốc vẫn thất bại; kiểm tra lại trên CPU chưa thay thế việc chạy toàn bộ triển khai sau sửa.
 
 ![Slide 31](../../submission-review/ai-journey-update-20261030/slides/assets/slide-31.png)
 
@@ -1723,6 +1847,10 @@ Slide cuối tách phát hiện được giữ lại khỏi công việc xác mi
 
 ## Slide 32 — What the evidence supports next
 
+### Nói nhanh · 10–20 giây
+
+Nhóm giữ cấu hình 64 request đồng thời có kết quả đã chạy lại, thay vì chọn một đỉnh đơn lẻ. Hai việc còn thiếu là chấm chất lượng chính thức và chạy lại toàn bộ bản triển khai đóng gói sau sửa chương trình đọc. Đây là đề xuất kiểm chứng, chưa phải kết quả mới.
+
 ![Slide 32](../../submission-review/ai-journey-update-20261030/slides/assets/slide-32.png)
 
 ### Slide muốn nói gì
@@ -1771,6 +1899,10 @@ Dừng tại đây. Khi trả lời, tách quan sát đo được, kết luận 
 <a id="slide-33"></a>
 
 ## Slide 33 — The task: same 65-million-cell airflow calculation
+
+### Nói nhanh · 10–20 giây
+
+Bài toán được giữ cố định với 65,3 triệu ô lưới, bốn nút và 512 MPI rank. Chúng tôi chạy đủ 150 bước bộ giải, trong đó 149 bước được tính giờ. Chỉ số là số giây trung bình mỗi bước; thấp hơn là tốt hơn.
 
 ![Slide 33](transcript-assets/slide-33.png)
 
@@ -1822,6 +1954,10 @@ Tiếp theo, trình bày các bước chuẩn bị cần giữ nguyên để m�
 
 ## Slide 34 — The whole required pipeline comes before the score
 
+### Nói nhanh · 10–20 giây
+
+So sánh hợp lệ phải giữ mọi bước chuẩn bị và đủ 150 bước bộ giải. Phân rã gán ô lưới cho rank; CPU affinity gán rank vào CPU. Đây là hai lựa chọn riêng và cả hai đều có thể ảnh hưởng thời gian chạy.
+
 ![Slide 34](transcript-assets/slide-34.png)
 
 **Phần HPC giữ nguyên: diễn giải slide hiện có, không phải cập nhật trạng thái hay kết quả mới.**
@@ -1871,6 +2007,10 @@ Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm t
 <a id="slide-35"></a>
 
 ## Slide 35 — A smaller partition cut did not make the solver faster
+
+### Nói nhanh · 10–20 giây
+
+Phân vùng NUMA giảm proxy graph cut 10,63%, nhưng thời gian bộ giải trung bình xấu đi 3,4416%, từ 13,881 lên 14,359 giây mỗi bước. Chỉ số đại diện này không dự báo được runtime; phép đo cũng chưa xác định nguyên nhân khiến lần chạy chậm hơn.
 
 ![Slide 35](transcript-assets/slide-35.png)
 
@@ -1925,6 +2065,10 @@ Tiếp theo, ta xem cách phân rã quan sát tốt hơn có thay đổi theo s�
 
 ## Slide 36 — Observed scaling changed which decomposition led
 
+### Nói nhanh · 10–20 giây
+
+Phương pháp dẫn đầu thay đổi theo cấp phát: Hierarchical thấp hơn ở một và hai nút, còn Scotch thấp hơn ở bốn nút. Vì độ dài lần chạy và cấp phát khác nhau, đây là các quan sát mô tả, không phải kết quả mở rộng nhân quả.
+
 ![Slide 36](transcript-assets/slide-36.png)
 
 **Phần HPC giữ nguyên: diễn giải slide hiện có, không phải cập nhật trạng thái hay kết quả mới.**
@@ -1975,6 +2119,10 @@ Có thể tách kết quả bốn nút theo số rank mỗi nút; đó là phép
 
 ## Slide 37 — At four nodes, the winner depends on ranks per node
 
+### Nói nhanh · 10–20 giây
+
+Trên bốn nút, Hierarchical có trung bình thấp hơn ở 64 và 96 rank mỗi nút; Scotch thấp hơn ở 128. Giá trị 3,678 giây mỗi bước của Scotch-128 là trung bình thấp nhất đã xem xét, nhưng vẫn là quan sát ứng viên cần xác nhận.
+
 ![Slide 37](transcript-assets/slide-37.png)
 
 **Phần HPC giữ nguyên: diễn giải slide hiện có, không phải cập nhật trạng thái hay kết quả mới.**
@@ -2024,6 +2172,10 @@ Slide kế tiếp xem phân bố thời gian đầy đủ của trung bình Scot
 <a id="slide-38"></a>
 
 ## Slide 38 — Keep the slow step in the mean; inspect the tail
+
+### Nói nhanh · 10–20 giây
+
+Phần lớn bước mất khoảng 3,3 đến 3,8 giây, nhưng một bước lên tới 35,884 giây. Chúng tôi giữ cả 149 mẫu trong trung bình số học; đột biến có trong lần chạy này, còn nguyên nhân vẫn chưa rõ.
 
 ![Slide 38](transcript-assets/slide-38.png)
 
@@ -2076,6 +2228,10 @@ Sự bất định đó dẫn tới yêu cầu ở slide sau: chạy lặp độ
 <a id="slide-39"></a>
 
 ## Slide 39 — A reproducible candidate needs more than a fast log
+
+### Nói nhanh · 10–20 giây
+
+Scotch với 128 tiến trình mỗi nút đạt khoảng 3,678 giây mỗi bước. Tuy nhiên, tại thời điểm ghi trên slide ngày 23 tháng 10, job chạy lại vẫn đang chờ tài nguyên, chưa có kết quả. Vì vậy đây là ứng viên cần xác nhận, chưa phải điểm chính thức.
 
 ![Slide 39](transcript-assets/slide-39.png)
 
@@ -2130,6 +2286,10 @@ Slide cuối tổng kết nguyên tắc bằng chứng và quyết định xem x
 <a id="slide-40"></a>
 
 ## Slide 40 — What we learned — and the next measurement
+
+### Nói nhanh · 10–20 giây
+
+Nhóm chọn ứng viên theo thời gian thực chạy, giữ cả bước chậm và yêu cầu chạy lại để xác nhận. Ứng viên thấp nhất khoảng 3,678 giây mỗi bước; ngày 23 tháng 10 lần xác nhận vẫn chưa có kết quả. Bài học là điểm nhanh cần đi cùng bằng chứng đủ.
 
 ![Slide 40](transcript-assets/slide-40.png)
 

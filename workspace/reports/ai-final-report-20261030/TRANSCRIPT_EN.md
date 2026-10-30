@@ -2,7 +2,7 @@
 
 This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 40 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
-**How to use it:** read the purpose and technical interpretation, then rehearse the spoken script. Use the terminology and evidence sections to prepare answers to why questions. This guide explains the research, rather than narrating slide decoration. Do not read every explanatory paragraph aloud.
+**How to use it:** each slide starts with a **“Quick brief · 10–20 seconds”** that can be spoken directly: the main point, a standout result and its meaning. Essential terminology is explained within the brief, such as repeated meaning rerunning a benchmark to check reproducibility. Timing is a rehearsal target, not a timed recording. Continue with the purpose, technical interpretation, terms and longer script for deeper preparation or questions.
 
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
@@ -121,6 +121,10 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 ## Slide 01 — Qwen serving: from topology to reproduced performance
 
+### Quick brief · 10–20 seconds
+
+This talk follows our Qwen serving work from topology to repeatable measurement. These are team measurements through 30 October 2026; official model accuracy remains unverified.
+
 ![Slide 01](../../submission-review/ai-journey-update-20261030/slides/assets/slide-01.png)
 
 ### Purpose
@@ -167,6 +171,10 @@ First I will state what counts as a useful result and how to read the headline n
 <a id="slide-02"></a>
 
 ## Slide 02 — Highest observation and strongest recommendation
+
+### Quick brief · 10–20 seconds
+
+At 64 concurrent requests, three full benchmarks average about 3,044 qualifying output tokens per second. The highest individual score is 3,048.45, but its change gains only 0.24% over control. We therefore retain the configuration with repeat evidence.
 
 ![Slide 02](../../submission-review/ai-journey-update-20261030/slides/assets/slide-02.png)
 
@@ -219,6 +227,10 @@ To understand what good output tokens per second means, we need the workload and
 
 ## Slide 03 — Optimise useful throughput under a latency gate
 
+### Quick brief · 10–20 seconds
+
+A request counts only when TTFT is at most 3,000 milliseconds and mean ITL at most 20 milliseconds; at least 90% must pass both. Goodput counts qualifying requests, not raw output.
+
 ![Slide 03](../../submission-review/ai-journey-update-20261030/slides/assets/slide-03.png)
 
 ### Purpose
@@ -270,6 +282,10 @@ With the objective fixed, the next slide shows why platform details must travel 
 
 ## Slide 04 — One workload, two deployment systems
 
+### Quick brief · 10–20 seconds
+
+We used two sixteen-GPU systems: H200 on Firmus and H100 on NSCC. Shared workload and model do not erase platform differences, so every comparison must name its hardware and deployment.
+
 ![Slide 04](../../submission-review/ai-journey-update-20261030/slides/assets/slide-04.png)
 
 ### Purpose
@@ -320,6 +336,10 @@ Now we can look inside the selected sixteen-GPU H200 topology and follow the req
 <a id="slide-05"></a>
 
 ## Slide 05 — Separate prompt processing from token generation
+
+### Quick brief · 10–20 seconds
+
+We split prompt processing across two TP4/EP1 workers and token generation onto one TP8/EP8 worker. NIXL carries each request’s KV state between the two nodes.
 
 ![Slide 05](../../submission-review/ai-journey-update-20261030/slides/assets/slide-05.png)
 
@@ -373,6 +393,10 @@ The next slide shows how earlier topology trials led to this split, while keepin
 
 ## Slide 06 — Topology search established the serving layout
 
+### Quick brief · 10–20 seconds
+
+Topology search selected two TP4 prefill workers and one TP8/EP8 decode worker. It measured 1,912 good tokens/s at N48, but varying loads mean this is an architecture milestone, not a causal sweep.
+
 ![Slide 06](../../submission-review/ai-journey-update-20261030/slides/assets/slide-06.png)
 
 ### Purpose
@@ -424,6 +448,10 @@ The next obstacle was not just choosing parallelism: cold request setup examined
 
 ## Slide 07 — Make KV-transfer setup scale with the request
 
+### Quick brief · 10–20 seconds
+
+Request-scoped KV setup reduced the illustrated descriptor count from 403.8 million pool entries per rank to 188 ranges per request. These are geometry counts, not an inference speedup.
+
 ![Slide 07](../../submission-review/ai-journey-update-20261030/slides/assets/slide-07.png)
 
 ### Purpose
@@ -474,6 +502,10 @@ That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks m
 <a id="slide-08"></a>
 
 ## Slide 08 — FP8 block geometry constrains parallelism
+
+### Quick brief · 10–20 seconds
+
+With TP8/EP1, 1,536 elements split into 192, leaving a 64-element remainder outside the 128-wide FP8 block. EP2 gives 384, or three full blocks; compatibility still needs service testing.
 
 ![Slide 08](../../submission-review/ai-journey-update-20261030/slides/assets/slide-08.png)
 
@@ -527,6 +559,10 @@ With the deployment path made workable, the next slide lays out how we turn each
 
 ## Slide 09 — A repeatable experiment loop
 
+### Quick brief · 10–20 seconds
+
+Our loop forms a hypothesis, changes a defined factor, validates runtime and output, then replicates or closes. Full measurements use 60 seconds warmup, 120 seconds measurement, and 30 seconds grace.
+
 ![Slide 09](../../submission-review/ai-journey-update-20261030/slides/assets/slide-09.png)
 
 ### Purpose
@@ -577,6 +613,10 @@ Now I will use that evidence framework to summarize the H200 progression, while 
 <a id="slide-10"></a>
 
 ## Slide 10 — H200 journey: recover, specialise, then reproduce
+
+### Quick brief · 10–20 seconds
+
+The H200 journey rises from about 1,297 to 3,044 qualifying output tokens per second. Repeated means we reran those later benchmarks to check reproducibility. Settings and load change between milestones, so the chart does not isolate each optimization’s contribution.
 
 ![Slide 10](../../submission-review/ai-journey-update-20261030/slides/assets/slide-10.png)
 
@@ -631,6 +671,10 @@ The next slide zooms into one more controlled comparison: attention and collecti
 
 ## Slide 11 — Backend combinations matter
 
+### Quick brief · 10–20 seconds
+
+At H200 N52, MNNVL plus FlashInfer reached 2,631 good tokens/s versus 2,594 for a fresh MNNVL control, about 1.43% higher. This single comparison motivates measuring the combination directly.
+
 ![Slide 11](../../submission-review/ai-journey-update-20261030/slides/assets/slide-11.png)
 
 ### Purpose
@@ -682,6 +726,10 @@ The following slides test these backend observations more deeply, including prof
 <a id="slide-12"></a>
 
 ## Slide 12 — H200: the N62-to-N64 step survives a full repeat
+
+### Quick brief · 10–20 seconds
+
+Raising client concurrency from 62 to 64 improved qualifying throughput by 1.08%. A separate full run returned about 3,044 good output tokens per second again. That repeat supports N64; the promising shorter N68 test did not hold up.
 
 ![Slide 12](../../submission-review/ai-journey-update-20261030/slides/assets/slide-12.png)
 
@@ -735,6 +783,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 13 — Profile the deployed interaction
 
+### Quick brief · 10–20 seconds
+
+Profiling records GPU operations to identify what deserves testing. Communication and normalization account for about 23.48% of summed recorded kernel duration here. That is a diagnostic clue, not a quarter of request latency or a guaranteed speedup.
+
 ![Slide 13](../../submission-review/ai-journey-update-20261030/slides/assets/slide-13.png)
 
 ### Purpose
@@ -786,6 +838,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 <a id="slide-14"></a>
 
 ## Slide 14 — The N60 gain survives an independent deployment
+
+### Quick brief · 10–20 seconds
+
+Changing the decode implementation improved qualifying throughput by 5.30%, and another deployment reproduced the result. But first-token delay increased by about 125 milliseconds while token gaps shortened. The improvement is a measured tradeoff, not faster everything.
 
 ![Slide 14](../../submission-review/ai-journey-update-20261030/slides/assets/slide-14.png)
 
@@ -840,6 +896,10 @@ The down arrow beside TTFT states the desired direction; actual TTFT rises in th
 
 ## Slide 15 — The reproduced N64 service still loses first-token tails
 
+### Quick brief · 10–20 seconds
+
+Each dot represents one request: teal meets both latency limits and orange misses at least one. Overall, 98.58% qualify. All 27 failures are first-token delays, showing why a high average score still needs request-level tail inspection.
+
 ![Slide 15](../../submission-review/ai-journey-update-20261030/slides/assets/slide-15.png)
 
 ### Purpose
@@ -892,6 +952,10 @@ The green band marks TTFT only. Do not treat it as the joint pass region; every 
 <a id="slide-16"></a>
 
 ## Slide 16 — H100 has its own operating point and uncertainty
+
+### Quick brief · 10–20 seconds
+
+H100 has a separate tuned configuration: its historical peak is about 2,433 good output tokens per second, while a fresh full control measures about 2,399. These are H100 observations, not directly comparable treatments of the H200 result.
 
 ![Slide 16](../../submission-review/ai-journey-update-20261030/slides/assets/slide-16.png)
 
@@ -947,6 +1011,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 17 — FA3: faster first token does not guarantee goodput
 
+### Quick brief · 10–20 seconds
+
+FA3 makes the first token arrive about 119 milliseconds sooner, but slightly longer gaps accumulate across the answer. Goodput falls 0.81%. We retain FlashInfer for this decode setting because the overall objective gets worse.
+
 ![Slide 17](../../submission-review/ai-journey-update-20261030/slides/assets/slide-17.png)
 
 ### Purpose
@@ -1000,6 +1068,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 18 — Test the cost hypothesis, then reverse the order
 
+### Quick brief · 10–20 seconds
+
+Reading weights before startup initially saved 18.74% of job time. Reversing the trial order reduced that saving to 9.84%, below our predeclared 10% threshold. We therefore did not select it based on the favorable first pair.
+
 ![Slide 18](../../submission-review/ai-journey-update-20261030/slides/assets/slide-18.png)
 
 ### Purpose
@@ -1036,7 +1108,7 @@ Compare the second pair after reversing which condition ran first. The first pai
 
 ### Spoken script
 
-“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than đưa vào cấu hình chính its favorable first result.”
+“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than select its favorable first result.”
 
 ### Avoid this interpretation
 
@@ -1044,13 +1116,17 @@ Do not report only the favorable first order. Unknown cache state limits causal 
 
 ### Transition
 
-“A separate question asks whether a do nhóm tự chạy trên cluster được cấp hardware ratio can forecast a nearby load.”
+“A separate question asks whether a team-measured hardware ratio can forecast a nearby load.”
 
 ---
 
 <a id="slide-19"></a>
 
 ## Slide 19 — A local N52 calibration, not a universal multiplier
+
+### Quick brief · 10–20 seconds
+
+At the same configuration and 52 concurrent requests, measured H200 throughput is about 1.188 times H100 throughput. We use this as a limited prediction anchor, not a universal conversion rule for different loads, backends or latency metrics.
 
 ![Slide 19](../../submission-review/ai-journey-update-20261030/slides/assets/slide-19.png)
 
@@ -1091,7 +1167,7 @@ The ratio is H200 mean goodput divided by H100 mean goodput for one matched mode
 
 ### Spoken script
 
-“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a do nhóm tự chạy trên cluster được cấp system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”
+“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a team-measured system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”
 
 ### Avoid this interpretation
 
@@ -1099,13 +1175,17 @@ This ratio applies only to the stated load and configuration; it is not a percen
 
 ### Transition
 
-“We now check a forecast fixed before seeing held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 data.”
+“We now check a forecast fixed before seeing held-out H200 data.”
 
 ---
 
 <a id="slide-20"></a>
 
 ## Slide 20 — Freeze the forecast, then test it on H200
+
+### Quick brief · 10–20 seconds
+
+We fixed the forecast before testing: about 2,642 good output tokens per second predicted versus 2,602 measured. The error is minus 1.54%, within our 2% tolerance, but our earlier uncertainty estimate was incomplete. This is one bounded forecast check.
 
 ![Slide 20](../../submission-review/ai-journey-update-20261030/slides/assets/slide-20.png)
 
@@ -1115,7 +1195,7 @@ Show an honest forecast test: freeze the prediction, test a held-out point, and 
 
 ### Technical interpretation and reasoning
 
-The forecast was recorded before the held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 result was examined. Its −1.5371% signed error is within the predeclared ±2% operational tolerance. The earlier sensitivity range varied selected inputs but omitted model error, so it was not a complete prediction-uncertainty interval; being outside it is a real limitation, not a reason to alter the frozen forecast.
+The forecast was recorded before the held-out H200 result was examined. Its −1.5371% signed error is within the predeclared ±2% operational tolerance. The earlier sensitivity range varied selected inputs but omitted model error, so it was not a complete prediction-uncertainty interval; being outside it is a real limitation, not a reason to alter the frozen forecast.
 
 ### Terms and symbols to understand
 
@@ -1129,10 +1209,10 @@ The forecast was recorded before the held-out (phép đo được giữ riêng �
 
 ### Interpreting the evidence or diagram
 
-- Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out (phép đo được giữ riêng để kiểm tra dự báo) pass supports only this do nhóm tự chạy trên cluster được cấp check, not broad predictive validity.
+- Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out pass supports only this team-measured check, not broad predictive validity.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
 - The minus sign means the measurement is below the forecast: 2601.629 versus 2642.244 good output tokens/s. The signed percentage is (measured − predicted) / predicted × 100; ± means a symmetric allowed tolerance, not a measurement error bar.
-- The prediction is held out because the H200 N50 result was not used to calculate it. The ±2% band is an operational acceptance rule selected before the measurement. A sensitivity interval asks how a calculation changes as chosen inputs change; it becomes a prediction uncertainty interval only if it also represents important errors and variation. This earlier range omitted model error, so the held-out (phép đo được giữ riêng để kiểm tra dự báo) observation exposed a limitation even though it passed the practical tolerance.
+- The prediction is held out because the H200 N50 result was not used to calculate it. The ±2% band is an operational acceptance rule selected before the measurement. A sensitivity interval asks how a calculation changes as chosen inputs change; it becomes a prediction uncertainty interval only if it also represents important errors and variation. This earlier range omitted model error, so the held-out observation exposed a limitation even though it passed the practical tolerance.
 
 ### Tradeoff and strength of evidence
 
@@ -1147,7 +1227,7 @@ The forecast was recorded before the held-out (phép đo được giữ riêng �
 
 ### Avoid this interpretation
 
-±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out (phép đo được giữ riêng để kiểm tra dự báo) data.
+±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out data.
 
 ### Transition
 
@@ -1158,6 +1238,10 @@ The forecast was recorded before the held-out (phép đo được giữ riêng �
 <a id="slide-21"></a>
 
 ## Slide 21 — Use source evidence to test one small hypothesis
+
+### Quick brief · 10–20 seconds
+
+Source inspection tells us which changes can actually run; benchmarks decide whether they help. Cache tuning gained only 0.24%, while one attention change lost 6.39% goodput. Plausible code changes and better isolated metrics do not justify replacing the baseline.
 
 ![Slide 21](../../submission-review/ai-journey-update-20261030/slides/assets/slide-21.png)
 
@@ -1195,7 +1279,7 @@ For each row ask three questions: did source inspection predict a real code path
 
 ### Spoken script
 
-“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not đưa vào cấu hình chínhd; a better ITL that costs 6.39 percent goodput is also not a win.”
+“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not selected; a better ITL that costs 6.39 percent goodput is also not a win.”
 
 ### Avoid this interpretation
 
@@ -1210,6 +1294,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 <a id="slide-22"></a>
 
 ## Slide 22 — Latency acceptance is separate from model accuracy
+
+### Quick brief · 10–20 seconds
+
+Fast service and answer quality are separate checks. Our small tests score seven of eight and twelve of twelve, but do not certify the official requirement of at least 99% of reference quality. That evaluation remains unverified.
 
 ![Slide 22](../../submission-review/ai-journey-update-20261030/slides/assets/slide-22.png)
 
@@ -1238,7 +1326,7 @@ Latency acceptance asks how quickly requests are served; model quality asks whet
 ### Interpreting the evidence or diagram
 
 - Local smoke is 7/8 with no new regression; retrieval is 12/12. These small local checks do not certify the official quality requirement of at least 99% of reference. The primary retains FP8 weights and BF16 activation/KV; it does not use quantized KV or speculative decoding. Terms: SLA is service-level latency acceptance; reference is organiser's quality comparator. Conclusion: report service performance separately, and leave official quality explicitly unverified.
-- The latency result is a performance result: it measures request service time and pass fraction. The 99%-of-reference requirement is a quality result: it compares generated answers with the organiser's specified reference evaluation. Smoke and retrieval suites check a limited set of regressions; they do not estimate the full-set quality score. Those checks therefore support “no detected do nhóm tự chạy trên cluster được cấp regression,” not “official accuracy passed.”
+- The latency result is a performance result: it measures request service time and pass fraction. The 99%-of-reference requirement is a quality result: it compares generated answers with the organiser's specified reference evaluation. Smoke and retrieval suites check a limited set of regressions; they do not estimate the full-set quality score. Those checks therefore support “no detected team-measured regression,” not “official accuracy passed.”
 
 ### Tradeoff and strength of evidence
 
@@ -1249,7 +1337,7 @@ Latency acceptance asks how quickly requests are served; model quality asks whet
 
 ### Spoken script
 
-“The service meets its do nhóm tự chạy trên cluster được cấp latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”
+“The service meets its team-measured latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”
 
 ### Avoid this interpretation
 
@@ -1264,6 +1352,10 @@ Smoke and retrieval checks are not full accuracy certification.
 <a id="slide-23"></a>
 
 ## Slide 23 — EAGLE3: follow the failed hypothesis through its repairs
+
+### Quick brief · 10–20 seconds
+
+We tried EAGLE3, which proposes several tokens before the target model checks them. Repairing deployment checks allowed it to run, but the tested full setting still lost 2.08% goodput. Successful integration did not become a performance improvement.
 
 ![Slide 23](../../submission-review/ai-journey-update-20261030/slides/assets/slide-23.png)
 
@@ -1310,13 +1402,17 @@ Do not erase the validator failure or confuse short and full protocols.
 
 ### Transition
 
-“The summary returns to replicated N64 and the small unđưa vào cấu hình chínhd cache result.”
+“The summary returns to replicated N64 and the small unselected cache result.”
 
 ---
 
 <a id="slide-24"></a>
 
 ## Slide 24 — Topology → transport → kernels → replication
+
+### Quick brief · 10–20 seconds
+
+Our selected N64 service averages about 3,044 qualifying output tokens per second across three full runs. Repeated means we reran the benchmark to check reproducibility. We prefer that evidence over a slightly higher isolated point; official quality remains unverified.
 
 ![Slide 24](../../submission-review/ai-journey-update-20261030/slides/assets/slide-24.png)
 
@@ -1356,7 +1452,7 @@ The selected reference is the mean of three historical full N64 runs. The later 
 
 ### Spoken script
 
-“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not đưa vào cấu hình chínhd. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”
+“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not selected. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”
 
 ### Avoid this interpretation
 
@@ -1371,6 +1467,10 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 <a id="slide-25"></a>
 
 ## Slide 25 — Appendix · diagnose performance drift with controlled cells
+
+### Quick brief · 10–20 seconds
+
+The replicated full N64 mean was 3,044 good tokens per second; the later short control was about 2,560. Different protocols and settings explain why this is a drift signal, not proof of a cause.
 
 ![Slide 25](../../submission-review/ai-journey-update-20261030/slides/assets/slide-25.png)
 
@@ -1423,6 +1523,10 @@ Next, distinguish a promising component probe from evidence about full-model ser
 
 ## Slide 26 — Appendix · profiles and source also close attractive detours
 
+### Quick brief · 10–20 seconds
+
+The attention package scored 2,549.20 at N52, but changed several factors together. Kernel probes and CPU fixtures did not establish faster full-model serving; the real compile attempt failed before producing a score.
+
 ![Slide 26](../../submission-review/ai-journey-update-20261030/slides/assets/slide-26.png)
 
 ### Purpose
@@ -1474,6 +1578,10 @@ The next slide describes the actual selected H200 and separate H100 serving conf
 
 ## Slide 27 — Appendix · the selected AI deployment is N64
 
+### Quick brief · 10–20 seconds
+
+The selected H200 service uses N64, two TP4 prefill workers, and one TP8/EP8 decode worker. H100 is a separate operating point, not a matched hardware comparison; official accuracy remains unverified.
+
 ![Slide 27](../../submission-review/ai-journey-update-20261030/slides/assets/slide-27.png)
 
 ### Purpose
@@ -1523,6 +1631,10 @@ Now compare what sparse decode-graph capture saved with what it did to goodput.
 <a id="slide-28"></a>
 
 ## Slide 28 — Appendix · sparse graphs save memory, not goodput
+
+### Quick brief · 10–20 seconds
+
+Sparse graphs cut logged capture memory from 1.15 to 0.36 GB per rank, but goodput fell 0.370208%. We retain dense graphs; one earlier control does not establish a causal explanation.
 
 ![Slide 28](../../submission-review/ai-journey-update-20261030/slides/assets/slide-28.png)
 
@@ -1574,6 +1686,10 @@ Next, see what the synthetic serving score includes and what separate model-qual
 
 ## Slide 29 — Appendix · what the benchmark actually measures
 
+### Quick brief · 10–20 seconds
+
+This benchmark scores synthetic 4,000/200-token serving over a 120-second window; it does not measure official accuracy. The required 99% of the organizer reference remains unknown, and goodput cannot be reconstructed by dividing completions by 120.
+
 ![Slide 29](../../submission-review/ai-journey-update-20261030/slides/assets/slide-29.png)
 
 ### Purpose
@@ -1623,6 +1739,10 @@ Next, compare chunk-size runs using this same full scoring protocol.
 
 ## Slide 30 — Appendix · larger prefill chunks did not help
 
+### Quick brief · 10–20 seconds
+
+Larger prefill chunks did not help: goodput fell from 3,045.50 at 8,192 tokens to 3,020.94 at 12,288, with worse p95 TTFT. Each setting has one run on the assigned cluster, reviewed by the team; this is not organizer approval.
+
 ![Slide 30](../../submission-review/ai-journey-update-20261030/slides/assets/slide-30.png)
 
 ### Purpose
@@ -1671,6 +1791,10 @@ The next slide separates a completed GPU serving run from result-reader post-pro
 <a id="slide-31"></a>
 
 ## Slide 31 — A real replay can invalidate a static deployment claim
+
+### Quick brief · 10–20 seconds
+
+Both portable GPU jobs finished serving but ended FAILED in result reading. The recovered 3,055.33 raw score is not a successful whole-allocation rerun; a CPU-only job verified the reader fixes on saved data.
 
 ![Slide 31](../../submission-review/ai-journey-update-20261030/slides/assets/slide-31.png)
 
@@ -1722,6 +1846,10 @@ The final slide separates retained findings from validation work that remains pr
 
 ## Slide 32 — What the evidence supports next
 
+### Quick brief · 10–20 seconds
+
+Keep the replicated target-only N64 configuration rather than an isolated peak. Official full-set accuracy and a complete portable GPU replay after reader repair remain open; these are proposed checks, not completed jobs.
+
 ![Slide 32](../../submission-review/ai-journey-update-20261030/slides/assets/slide-32.png)
 
 ### Purpose
@@ -1770,6 +1898,10 @@ End here. In questions, separate measured observation, supported conclusion, and
 <a id="slide-33"></a>
 
 ## Slide 33 — The task: same 65-million-cell airflow calculation
+
+### Quick brief · 10–20 seconds
+
+We fix the workload at 65.3 million cells, four nodes and 512 MPI ranks. All 150 solver steps run; 149 are timed. The measure is average seconds per step, with lower being better.
 
 ![Slide 33](transcript-assets/slide-33.png)
 
@@ -1821,6 +1953,10 @@ Next, show which preparation stages must be retained for a valid end-to-end run.
 
 ## Slide 34 — The whole required pipeline comes before the score
 
+### Quick brief · 10–20 seconds
+
+A valid comparison includes every preparation stage and all 150 solver steps. Decomposition assigns cells to ranks; CPU affinity assigns ranks to CPUs. These are separate choices that can each affect runtime.
+
 ![Slide 34](transcript-assets/slide-34.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
@@ -1870,6 +2006,10 @@ With the workload and pipeline fixed, the next slide tests whether a locality pr
 <a id="slide-35"></a>
 
 ## Slide 35 — A smaller partition cut did not make the solver faster
+
+### Quick brief · 10–20 seconds
+
+The NUMA-aware partition reduced its graph-cut proxy by 10.63%, yet mean solver time worsened by 3.4416%, from 13.881 to 14.359 seconds per step. The proxy did not predict runtime.
 
 ![Slide 35](transcript-assets/slide-35.png)
 
@@ -1924,6 +2064,10 @@ The next comparison asks whether the better observed decomposition changes with 
 
 ## Slide 36 — Observed scaling changed which decomposition led
 
+### Quick brief · 10–20 seconds
+
+The observed leader changes across allocations: Hierarchical is lower at one and two nodes, while Scotch is lower at four. Since run lengths and allocations differ, these values describe observations, not a causal scaling result.
+
 ![Slide 36](transcript-assets/slide-36.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
@@ -1974,6 +2118,10 @@ The four-node results can be split further by ranks per node, which is the next 
 
 ## Slide 37 — At four nodes, the winner depends on ranks per node
 
+### Quick brief · 10–20 seconds
+
+At four nodes, Hierarchical has lower means at 64 and 96 ranks per node; Scotch is lower at 128. Scotch-128's 3.678 seconds per step is the lowest reviewed mean, still a candidate observation needing confirmation.
+
 ![Slide 37](transcript-assets/slide-37.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
@@ -2023,6 +2171,10 @@ The next slide examines the full timing distribution behind the Scotch-128 mean,
 <a id="slide-38"></a>
 
 ## Slide 38 — Keep the slow step in the mean; inspect the tail
+
+### Quick brief · 10–20 seconds
+
+Most steps were near 3.3 to 3.8 seconds, but one reached 35.884 seconds. We retain all 149 samples in the arithmetic mean; the spike is real in this run, while its cause remains unknown.
 
 ![Slide 38](transcript-assets/slide-38.png)
 
@@ -2075,6 +2227,10 @@ That uncertainty is why the next slide asks for an independently repeated, fully
 <a id="slide-39"></a>
 
 ## Slide 39 — A reproducible candidate needs more than a fast log
+
+### Quick brief · 10–20 seconds
+
+Scotch with 128 processes per node measured about 3.678 seconds per step. In the slide’s 23 October snapshot, its confirmation job was still queued without a result. This remains a candidate observation, not an accepted official score.
 
 ![Slide 39](transcript-assets/slide-39.png)
 
@@ -2129,6 +2285,10 @@ The final slide summarizes the evidence discipline and the next review decision 
 <a id="slide-40"></a>
 
 ## Slide 40 — What we learned — and the next measurement
+
+### Quick brief · 10–20 seconds
+
+We choose by measured runtime, retain slow samples, and require another run to confirm results. The lowest candidate mean is about 3.678 seconds per step; confirmation had no result on 23 October. A fast number needs adequate evidence.
 
 ![Slide 40](transcript-assets/slide-40.png)
 

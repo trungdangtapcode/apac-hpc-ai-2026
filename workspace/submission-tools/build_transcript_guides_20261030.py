@@ -58,7 +58,7 @@ def introduction(lang, digest):
 
 Đây là **lời thuyết trình mẫu và tài liệu học**, không phải bản chép lại một buổi nói đã diễn ra. Tài liệu đi theo đúng 40 slide của bản trình chiếu hiện tại. Bản tiếng Việt được tạo theo yêu cầu riêng của bạn; mã nguồn và các báo cáo khác vẫn dùng tiếng Anh.
 
-**Cách dùng:** đọc phần “Slide muốn nói gì” và “Giải thích kết quả và lập luận”, sau đó luyện phần “Lời nói mẫu”. Các phần thuật ngữ và bằng chứng giúp trả lời câu hỏi tại sao. Đây là tài liệu giải thích kỹ thuật, không phải lời đọc bố cục slide. Không cần đọc toàn bộ hướng dẫn thành tiếng.
+**Cách dùng:** mỗi slide mở đầu bằng **“Nói nhanh · 10–20 giây”**, có thể nói ngay: ý chính, số liệu nổi bật và ý nghĩa của chúng. Các từ cần thiết được giải thích ngay trong đoạn ngắn, ví dụ “repeated” là chạy lại benchmark để kiểm tra kết quả có tái lập. Thời lượng là mục tiêu để luyện, không phải bản ghi đã bấm giờ. Khi cần hiểu sâu hoặc trả lời câu hỏi, đọc tiếp “Slide muốn nói gì”, phần lập luận, thuật ngữ và lời nói mẫu dài bên dưới.
 
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
@@ -94,7 +94,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 40 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
-**How to use it:** read the purpose and technical interpretation, then rehearse the spoken script. Use the terminology and evidence sections to prepare answers to why questions. This guide explains the research, rather than narrating slide decoration. Do not read every explanatory paragraph aloud.
+**How to use it:** each slide starts with a **“Quick brief · 10–20 seconds”** that can be spoken directly: the main point, a standout result and its meaning. Essential terminology is explained within the brief, such as repeated meaning rerunning a benchmark to check reproducibility. Timing is a rehearsal target, not a timed recording. Continue with the purpose, technical interpretation, terms and longer script for deeper preparation or questions.
 
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
@@ -143,6 +143,8 @@ def render(records, lang, digest):
         n = s['slide']; d = s[lang]
         image_path = f'../../submission-review/ai-journey-update-20261030/slides/assets/slide-{n:02d}.png' if n <= 32 else f'transcript-assets/slide-{n:02d}.png'
         out.append(f'\n---\n\n<a id="slide-{n:02d}"></a>\n\n## Slide {n:02d} — {s["title"]}\n\n')
+        brief_heading = 'Nói nhanh · 10–20 giây' if vi else 'Quick brief · 10–20 seconds'
+        out.append(f'### {brief_heading}\n\n{d["brief"]}\n\n')
         out.append(f'![Slide {n:02d}]({image_path})\n\n')
         if n == 25:
             out.append('**Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**\n\n' if vi else '**AI backup section: open when a deeper explanation is needed.**\n\n')
@@ -178,17 +180,24 @@ def main():
         assert s['title'] in [' '.join(t.split()) for t in actual['texts']], f'Title mismatch on slide {s["slide"]}'
         for lang in ['en', 'vi']:
             d = s[lang]
-            assert all(d[k] for k in ['purpose', 'visual', 'terms', 'reading', 'tradeoff', 'script', 'caution', 'transition'])
+            if lang == 'en':
+                assert not re.search('[ăâđêôơưĂÂĐÊÔƠƯ]', json.dumps(d, ensure_ascii=False)), f'Unexpected Vietnamese prose in English slide {s["slide"]}'
+            assert all(d[k] for k in ['brief', 'purpose', 'visual', 'terms', 'reading', 'tradeoff', 'script', 'caution', 'transition'])
+            assert 20 <= len(d['brief'].split()) <= (80 if lang == 'vi' else 50), f'Brief length on slide {s["slide"]}/{lang}'
             assert all(d['tradeoff'][k] for k in ['observation', 'hypothesis', 'conclusion', 'unknown'])
             assert len(d['script'].split()) >= 25
     for lang in ['vi', 'en']:
         body = render(records, lang, digest)
         assert len(re.findall(r'^## Slide \d{2} —', body, re.MULTILINE)) == 40
+        for section in re.split(r'^## Slide \d{2} —', body, flags=re.MULTILINE)[1:]:
+            quick = '### Nói nhanh' if lang == 'vi' else '### Quick brief'
+            purpose = '### Slide muốn nói gì' if lang == 'vi' else '### Purpose'
+            assert section.index(quick) < section.index(purpose)
         for target in re.findall(r'\]\(([^)]+)\)', body):
             if not target.startswith(('#', 'https://', 'http://')):
                 assert (REPORT / unquote(target)).is_file(), f'Missing local link: {target}'
         (REPORT / f'TRANSCRIPT_{lang.upper()}.md').write_text(body)
-    summary = dict(deck_sha256=digest, slides=40, ai_main=list(range(1, 25)), ai_backup=list(range(25, 33)), existing_hpc=list(range(33, 41)), languages=['vi', 'en'], scope='Standalone learning transcripts; no deck, package, HPC payload, research or scheduler mutation.', checks=['40 unique source-matched titles in both languages', 'All per-slide explanatory fields populated', 'All relative document and image links resolve', 'No truncated ellipsis placeholders', 'Deck identity unchanged'], files={})
+    summary = dict(deck_sha256=digest, slides=40, ai_main=list(range(1, 25)), ai_backup=list(range(25, 33)), existing_hpc=list(range(33, 41)), languages=['vi', 'en'], scope='Standalone learning transcripts; no deck, package, HPC payload, research or scheduler mutation.', checks=['40 unique source-matched titles in both languages', 'All per-slide explanatory fields populated', '40 concise spoken briefs per language before detailed slide purpose', 'Brief word counts bounded for rehearsal; speaking duration is an estimate', 'All relative document and image links resolve', 'No truncated ellipsis placeholders', 'Deck identity unchanged'], files={})
     for lang in ['VI', 'EN']:
         p = REPORT / f'TRANSCRIPT_{lang}.md'
         summary['files'][p.name] = dict(sha256=hashlib.sha256(p.read_bytes()).hexdigest(), bytes=p.stat().st_size)

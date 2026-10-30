@@ -3,6 +3,7 @@
     "slide": 1,
     "title": "Qwen serving: from topology to reproduced performance",
     "en": {
+      "brief": "This talk follows our Qwen serving work from topology to repeatable measurement. These are team measurements through 30 October 2026; official model accuracy remains unverified.",
       "purpose": "Open the AI research story and define its scope: turning a distributed Qwen deployment into a reproducible service measurement. The talk follows the engineering and evidence from topology through transfer and kernels to repeated performance; the title does not claim an official win or certified model quality.",
       "visual": "The title describes the sequence of technical work: first choose how the model is split across GPUs, then make the prompt-state transfer correct, then tune the GPU implementations, and finally repeat the measurements. Reproduced performance means another run returns a similar result under the stated configuration; it does not mean that the organisers certified it.",
       "terms": [
@@ -38,6 +39,7 @@
       "transition": "First I will state what counts as a useful result and how to read the headline numbers."
     },
     "vi": {
+      "brief": "Chúng tôi tối ưu dịch vụ Qwen trên 16 GPU, từ cách chia model đến truyền dữ liệu và chọn cách thực thi. Trọng tâm là tìm cấu hình chạy đúng, nhanh và cho kết quả gần nhau khi đo lại, thay vì chỉ chọn một lần có điểm cao.",
       "purpose": "Mở đầu câu chuyện nghiên cứu AI và xác định phạm vi: biến một cấu hình Qwen phân tán thành phép đo dịch vụ có thể tái lập. Bài trình bày đi từ bố trí hệ thống, truyền trạng thái, tối ưu theo giai đoạn đến đo lặp; tiêu đề không khẳng định đã thắng cuộc thi hay chứng nhận chất lượng mô hình.",
       "visual": "Tiêu đề tóm tắt thứ tự giải quyết bài toán: chọn cách chia model lên các GPU, bảo đảm truyền trạng thái prompt đúng, tối ưu các phần tính toán, rồi chạy lại để kiểm tra kết quả. “Reproduced performance” nghĩa là chạy lại với cấu hình đã nêu vẫn thu được mức hiệu năng tương tự; không có nghĩa BTC đã chứng nhận kết quả.",
       "terms": [
@@ -77,6 +79,7 @@
     "slide": 2,
     "title": "Highest observation and strongest recommendation",
     "en": {
+      "brief": "At 64 concurrent requests, three full benchmarks average about 3,044 qualifying output tokens per second. The highest individual score is 3,048.45, but its change gains only 0.24% over control. We therefore retain the configuration with repeat evidence.",
       "purpose": "Separate the largest independently reviewed local full-pass observation from the configuration supported by repeated evidence. The slide teaches that the headline peak and the strongest recommendation need not be the same item.",
       "visual": "The comparison separates the largest individual measurement from the configuration we can recommend with repeat evidence. The left result is a team-run experiment on the assigned 16-H200 cluster, not a personal computer or an organiser-scored run. The right result is the mean of three full N64 measurements. The higher recovered number in the note belongs to a job whose benchmark produced data but whose result-processing step failed; that is a different level of completion.",
       "terms": [
@@ -125,6 +128,7 @@
       "transition": "To understand what good output tokens per second means, we need the workload and its per-request latency gate."
     },
     "vi": {
+      "brief": "Ở mức 64 request đồng thời, nhóm chạy lại ba lần đo đầy đủ, đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Điểm đơn cao nhất là 3.048,45, nhưng chỉ tăng 0,24% so với đối chứng. Nhóm giữ cấu hình có bằng chứng tái lập tốt hơn.",
       "purpose": "Phân biệt điểm cao nhất trong một lần chạy đầy đủ đã được rà soát với cấu hình có bằng chứng lặp lại tốt hơn. Slide nhấn mạnh rằng điểm cực đại và khuyến nghị đáng tin cậy nhất không nhất thiết là cùng một kết quả.",
       "visual": "Slide tách “số đo đơn lẻ lớn nhất” khỏi “cấu hình có bằng chứng đủ chắc để khuyến nghị”. Kết quả bên trái do nhóm tự chạy trên cluster 16 H200 được cấp, không phải máy cá nhân và chưa phải điểm BTC chấm. Bên phải là trung bình ba lần đo N64 đầy đủ. Con số lớn hơn ở chú thích đến từ job đã tạo dữ liệu benchmark nhưng lỗi ở bước xử lý kết quả; mức hoàn tất của nó khác với job thành công từ đầu đến cuối.",
       "terms": [
@@ -177,6 +181,7 @@
     "slide": 3,
     "title": "Optimise useful throughput under a latency gate",
     "en": {
+      "brief": "A request counts only when TTFT is at most 3,000 milliseconds and mean ITL at most 20 milliseconds; at least 90% must pass both. Goodput counts qualifying requests, not raw output.",
       "purpose": "Define the benchmark objective before discussing system changes: maximize qualifying service throughput while meeting both latency thresholds for enough individual requests. This prevents confusing raw generation speed or an average latency with the scoring rule.",
       "visual": "Goodput rewards requests that are both completed and fast enough. A service could generate many tokens overall yet score worse if too many users wait longer than the allowed thresholds. Passing the mean latency of all requests is insufficient: first test both latency limits for each request, then count the qualifying fraction.",
       "terms": [
@@ -225,6 +230,7 @@
       "transition": "With the objective fixed, the next slide shows why platform details must travel with every comparison."
     },
     "vi": {
+      "brief": "Một request phải chờ token đầu không quá 3.000 mili giây và có khoảng cách token trung bình không quá 20 mili giây; ít nhất 90% request phải đạt cả hai. Điểm chỉ tính thông lượng của request đạt chuẩn, nên sinh nhiều token nhưng trả lời quá chậm vẫn không có lợi.",
       "purpose": "Định nghĩa mục tiêu benchmark trước khi bàn về thay đổi hệ thống: tối đa hóa thông lượng dịch vụ đạt chuẩn, đồng thời đủ yêu cầu riêng lẻ phải thỏa cả hai giới hạn độ trễ. Nhờ vậy không nhầm tốc độ sinh thô hay độ trễ trung bình với quy tắc chấm.",
       "visual": "Goodput chỉ tính các request vừa hoàn tất vừa đủ nhanh. Dịch vụ có thể sinh rất nhiều token tổng cộng nhưng vẫn có điểm thấp nếu nhiều người dùng phải chờ quá ngưỡng. Trung bình độ trễ của tất cả request tốt chưa đủ: phải kiểm tra hai giới hạn cho từng request rồi mới đếm tỷ lệ đạt.",
       "terms": [
@@ -277,6 +283,7 @@
     "slide": 4,
     "title": "One workload, two deployment systems",
     "en": {
+      "brief": "We used two sixteen-GPU systems: H200 on Firmus and H100 on NSCC. Shared workload and model do not erase platform differences, so every comparison must name its hardware and deployment.",
       "purpose": "Show the two hardware environments used for separate platform studies and establish the rule that comparisons must name the platform, topology, backend, and load. Sharing workload and model checkpoint does not make two clusters interchangeable.",
       "visual": "Both platforms run the same intended model and benchmark workload, but a result also depends on GPU memory, communication, runtime and process placement. Slurm and PBS grant access to compute nodes; they are not inference engines. Containers carry the software environment, while SGLang executes the model and AIPerf sends and times requests. This separation explains why moving a configuration between clusters needs a fresh measurement.",
       "terms": [
@@ -325,6 +332,7 @@
       "transition": "Now we can look inside the selected sixteen-GPU H200 topology and follow the request through it."
     },
     "vi": {
+      "brief": "Chúng tôi đo trên hai hệ thống, mỗi hệ thống 16 GPU: H200 tại Firmus và H100 tại NSCC. Phần cứng và môi trường chạy khác nhau, nên phải tối ưu và ghi kết quả riêng. Cùng model không có nghĩa lấy hai điểm so trực tiếp là công bằng.",
       "purpose": "Trình bày hai môi trường phần cứng dùng trong các nghiên cứu nền tảng riêng biệt và đặt nguyên tắc: mỗi so sánh phải nêu nền tảng, topology, backend và tải. Dùng chung workload và checkpoint không làm hai cụm tương đương nhau.",
       "visual": "Hai hệ thống dùng cùng model và workload dự định, nhưng số đo còn phụ thuộc bộ nhớ GPU, truyền thông, phần mềm thực thi và vị trí tiến trình. Slurm/PBS cấp tài nguyên compute node, không chạy phép suy luận thay SGLang. Container mang môi trường phần mềm; SGLang thực thi model; AIPerf gửi request và đo thời gian. Vì vậy chuyển cấu hình sang cluster khác vẫn phải đo lại.",
       "terms": [
@@ -377,6 +385,7 @@
     "slide": 5,
     "title": "Separate prompt processing from token generation",
     "en": {
+      "brief": "We split prompt processing across two TP4/EP1 workers and token generation onto one TP8/EP8 worker. NIXL carries each request’s KV state between the two nodes.",
       "purpose": "Explain the disaggregated serving design: dedicate one node to prompt prefill and one to autoregressive decode, then transfer each request's KV state between roles. The figure links hardware placement to the later transfer and layout experiments.",
       "visual": "A request is handled in two phases on different GPU groups. One of the two four-GPU prefill workers reads the prompt and produces attention KV state; NIXL transfers that state to the eight-GPU decode worker, which generates the answer. The transferred object is context state, not the entire model weights. Separating phases lets us choose different implementations for prompt processing and token generation, but adds transfer and coordination work.",
       "terms": [
@@ -429,6 +438,7 @@
       "transition": "The next slide shows how earlier topology trials led to this split, while keeping failed attempts separate from replacements."
     },
     "vi": {
+      "brief": "Trên 16 GPU, hai nhóm bốn GPU xử lý prompt, còn một nhóm tám GPU sinh câu trả lời. Dữ liệu ngữ cảnh KV được chuyển giữa hai giai đoạn. Cách tách này cho phép tối ưu riêng từng phần, nhưng cũng thêm công truyền dữ liệu cần kiểm tra.",
       "purpose": "Giải thích thiết kế serving tách rời: dành một nút cho prefill prompt và nút còn lại cho decode tự hồi quy, sau đó truyền trạng thái KV của từng yêu cầu giữa hai vai trò. Hình nối vị trí phần cứng với các thử nghiệm layout và truyền dữ liệu tiếp theo.",
       "visual": "Một request đi qua hai giai đoạn trên hai nhóm GPU khác nhau. Một trong hai worker prefill bốn GPU đọc prompt và tạo trạng thái KV của attention; NIXL chuyển trạng thái đó sang worker decode tám GPU để sinh câu trả lời. Thứ được chuyển là trạng thái ngữ cảnh, không phải toàn bộ trọng số model. Tách hai giai đoạn cho phép chọn cách tính phù hợp riêng cho xử lý prompt và sinh token, đổi lại phải trả chi phí truyền và điều phối.",
       "terms": [
@@ -485,6 +495,7 @@
     "slide": 6,
     "title": "Topology search established the serving layout",
     "en": {
+      "brief": "Topology search selected two TP4 prefill workers and one TP8/EP8 decode worker. It measured 1,912 good tokens/s at N48, but varying loads mean this is an architecture milestone, not a causal sweep.",
       "purpose": "Show a small selection of topology search results and explain that the selected split emerged from measured, usable configurations. The lower caption protects the experimental record: replacements are new configurations, not retroactive repairs of failed originals.",
       "visual": "A topology is a resource layout: how many model workers exist and how many GPUs each worker shares. Changing from four smaller prefill workers to two wider workers changes both per-request work sharing and how many requests those workers can serve. The rows also use different client concurrency, so this table records useful historical layouts rather than isolating the speedup caused by one topology change.",
       "terms": [
@@ -533,6 +544,7 @@
       "transition": "The next obstacle was not just choosing parallelism: cold request setup examined far more KV metadata than the request needed."
     },
     "vi": {
+      "brief": "Nhóm thử nhiều cách chia GPU và chọn hai nhóm xử lý prompt, mỗi nhóm bốn GPU, cùng một nhóm sinh token tám GPU. Mốc này đạt khoảng 1.912 token đạt chuẩn mỗi giây ở 48 request đồng thời; tải giữa các mốc khác nhau nên chưa tách riêng tác dụng của bố trí.",
       "purpose": "Cho thấy một số kết quả tìm kiếm topology và giải thích cấu hình được chọn đến từ các thử nghiệm đo được, dùng được. Chú thích phía dưới bảo toàn lịch sử: cấu hình thay thế là thử nghiệm mới, không phải sửa hồi tố cho lần thất bại ban đầu.",
       "visual": "Topology là cách bố trí tài nguyên: có bao nhiêu worker model và mỗi worker chia việc lên bao nhiêu GPU. Đổi từ bốn worker prefill nhỏ sang hai worker rộng hơn làm thay đổi cả cách nhiều GPU xử lý một request lẫn số worker có thể nhận request. Các hàng còn dùng concurrency khác nhau, nên bảng ghi lại những bố trí đã thử có ích; nó không tách riêng mức tăng do một thay đổi topology.",
       "terms": [
@@ -585,6 +597,7 @@
     "slide": 7,
     "title": "Make KV-transfer setup scale with the request",
     "en": {
+      "brief": "Request-scoped KV setup reduced the illustrated descriptor count from 403.8 million pool entries per rank to 188 ranges per request. These are geometry counts, not an inference speedup.",
       "purpose": "Explain why cold-start KV setup was redesigned around the pages a request actually transfers. The numerical comparison is descriptor geometry, demonstrating the scale of metadata enumeration; it is deliberately not presented as an inference speedup.",
       "visual": "Before sending KV bytes, the transfer layer needs a list of memory ranges to read. The original path prepared descriptions for the whole reserved KV pool; the change describes only the pages owned by the current request and merges adjacent ranges. Fewer descriptions can reduce setup work, but descriptor counts have different scopes here and do not measure transfer bandwidth or end-to-end speed. Address correctness must be checked before a smaller list can be trusted.",
       "terms": [
@@ -633,6 +646,7 @@
       "transition": "That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks must align with the model partition."
     },
     "vi": {
+      "brief": "Cách cũ chuẩn bị mô tả vùng nhớ cho toàn bộ kho KV, khoảng 403,8 triệu mục mỗi tiến trình GPU. Cách sửa chỉ mô tả vùng của một request, còn 188 dải đã gộp. Đây là giảm công chuẩn bị truyền, không phải bằng chứng suy luận nhanh hơn theo cùng tỷ lệ.",
       "purpose": "Giải thích vì sao khởi tạo KV khi chạy lạnh được thiết kế lại theo các trang mà yêu cầu thật sự truyền. So sánh số liệu là hình học descriptor, cho thấy quy mô liệt kê metadata; slide chủ ý không trình bày đây là mức tăng tốc suy luận.",
       "visual": "Trước khi gửi các byte KV, lớp truyền cần danh sách các vùng nhớ phải đọc. Cách cũ chuẩn bị mô tả cho cả vùng KV đã dành trước; cách sửa chỉ mô tả các trang thuộc request hiện tại rồi gộp những vùng liền nhau. Danh sách ngắn hơn có thể giảm công chuẩn bị, nhưng hai số đếm trên slide khác phạm vi và không đo băng thông hay tốc độ đầu cuối. Trước hết phải kiểm tra địa chỉ đúng; danh sách ít mục nhưng đọc nhầm bộ nhớ vẫn là lỗi.",
       "terms": [
@@ -685,6 +699,7 @@
     "slide": 8,
     "title": "FP8 block geometry constrains parallelism",
     "en": {
+      "brief": "With TP8/EP1, 1,536 elements split into 192, leaving a 64-element remainder outside the 128-wide FP8 block. EP2 gives 384, or three full blocks; compatibility still needs service testing.",
       "purpose": "Explain a concrete deployment failure caused by FP8 block alignment and the geometric change used to recover a compatible partition. The key learning is that compatibility permits a load attempt but does not establish successful service or quality.",
       "visual": "The failing implementation requires each weight shard to contain whole FP8 blocks. Dividing the relevant dimension by eight leaves 192 elements: one complete 128-element block plus a 64-element remainder. In this tested TP8/EP2 path the effective MoE tensor split is four, giving 384 elements or three complete blocks. EP2 changes expert distribution; it does not halve the model or reduce numerical precision further.",
       "terms": [
@@ -737,6 +752,7 @@
       "transition": "With the deployment path made workable, the next slide lays out how we turn each such explanation into a controlled experiment."
     },
     "vi": {
+      "brief": "Lỗi đến từ cách chia trọng số: mỗi phần có 192 phần tử, không chia hết cho block 128 mà cách thực thi yêu cầu. Đổi cách phân phối expert cho 384 phần tử, vừa ba block. Điều này sửa tính tương thích để thử tiếp, chưa chứng minh hiệu năng tăng.",
       "purpose": "Giải thích một lỗi triển khai cụ thể do căn chỉnh block FP8 và thay đổi hình học dùng để khôi phục một cách chia tương thích. Bài học là tương thích cho phép thử tải, nhưng chưa chứng minh dịch vụ hay chất lượng chạy thành công.",
       "visual": "Đường triển khai bị lỗi yêu cầu mỗi phần trọng số chứa các block FP8 nguyên vẹn. Chia chiều liên quan cho tám được 192 phần tử: một block 128 và dư 64. Trong đường TP8/EP2 đã thử, mức chia tensor hiệu dụng của MoE là bốn, cho 384 phần tử, vừa ba block đầy. EP2 đổi cách phân phối expert; không cắt bỏ nửa model và không tiếp tục giảm độ chính xác số.",
       "terms": [
@@ -793,6 +809,7 @@
     "slide": 9,
     "title": "A repeatable experiment loop",
     "en": {
+      "brief": "Our loop forms a hypothesis, changes a defined factor, validates runtime and output, then replicates or closes. Full measurements use 60 seconds warmup, 120 seconds measurement, and 30 seconds grace.",
       "purpose": "Describe the evidence discipline used to decide which ideas deserve a run and which should be closed. It connects the early engineering stories to the later measured backend results and makes the full measurement phases explicit.",
       "visual": "The loop prevents a plausible idea from becoming a performance claim too early. Write down the proposed cause, preserve a reference configuration, change the intended factor, check that the intended code actually ran and outputs remain valid, then compare the score. Repeat a useful gain before selecting it. A run that ends with an error teaches us about integration, but does not become a valid performance measurement.",
       "terms": [
@@ -841,6 +858,7 @@
       "transition": "Now I will use that evidence framework to summarize the H200 progression, while warning that it is not one cumulative experiment."
     },
     "vi": {
+      "brief": "Mỗi ý tưởng được so với cấu hình đối chứng, kiểm tra chạy đúng rồi đo lại nếu có lợi. Phép đo đầy đủ gồm 60 giây chạy làm nóng, 120 giây thu số liệu và 30 giây chờ request còn lại. Job kết thúc chưa đủ để kết luận có cải tiến.",
       "purpose": "Mô tả kỷ luật bằng chứng dùng để quyết định ý tưởng nào đáng chạy và nhánh nào nên đóng. Slide nối các câu chuyện kỹ thuật ban đầu với kết quả backend đo sau đó, đồng thời ghi rõ các pha đo đầy đủ.",
       "visual": "Quy trình giúp tránh biến một ý tưởng hợp lý thành lời khẳng định hiệu năng quá sớm. Nêu nguyên nhân muốn kiểm tra, giữ cấu hình đối chứng, đổi yếu tố cần thử, kiểm tra đúng đường code đã chạy và đầu ra còn hợp lệ, rồi mới so điểm. Mức tăng có ích cần được chạy lại trước khi chọn. Một job kết thúc bằng lỗi có thể cho bài học tích hợp, nhưng chưa trở thành phép đo hiệu năng hợp lệ.",
       "terms": [
@@ -893,6 +911,7 @@
     "slide": 10,
     "title": "H200 journey: recover, specialise, then reproduce",
     "en": {
+      "brief": "The H200 journey rises from about 1,297 to 3,044 qualifying output tokens per second. Repeated means we reran those later benchmarks to check reproducibility. Settings and load change between milestones, so the chart does not isolate each optimization’s contribution.",
       "purpose": "Give a historical overview of measured H200 goodput as the serving system recovered and acquired phase-specific backends, then reached repeated operating points. This is orientation for the detailed evidence on the following slides, not a causal ablation plot.",
       "visual": "Read the bars as a history of operating points, not a single experiment in which one optimization is added at each step. The horizontal categories change layout, backend and client concurrency; the vertical value is latency-qualified output tokens per second. The rise shows the campaign found better measured configurations, but does not assign a causal contribution to each named change.",
       "terms": [
@@ -946,6 +965,7 @@
       "transition": "The next slide zooms into one more controlled comparison: attention and collective backend combinations at the same H200 load."
     },
     "vi": {
+      "brief": "Hành trình H200 đi từ khoảng 1.297 lên 3.044 token đầu ra đạt chuẩn mỗi giây. “Repeated” ở các mốc sau nghĩa là đã chạy lại để kiểm tra kết quả. Các mốc thay cả cấu hình lẫn tải, nên biểu đồ cho thấy tiến trình, không tách riêng đóng góp từng tối ưu.",
       "purpose": "Tóm lược theo lịch sử goodput H200 khi hệ thống được khôi phục, dùng backend theo từng giai đoạn, rồi đạt các điểm vận hành có phép đo lặp. Đây là bản đồ để định hướng cho bằng chứng chi tiết ở các slide sau, không phải biểu đồ ablation nhân quả.",
       "visual": "Đọc các cột như lịch sử các điểm vận hành, không phải một phép thử chỉ cộng thêm từng tối ưu. Các nhóm ở trục ngang thay đổi bố trí, backend và concurrency client; chiều cao là token đầu ra đạt chuẩn độ trễ mỗi giây. Xu hướng tăng cho thấy quá trình tìm được cấu hình đo tốt hơn, nhưng không cho biết riêng mỗi thay đổi đóng góp bao nhiêu.",
       "terms": [
@@ -1003,6 +1023,7 @@
     "slide": 11,
     "title": "Backend combinations matter",
     "en": {
+      "brief": "At H200 N52, MNNVL plus FlashInfer reached 2,631 good tokens/s versus 2,594 for a fresh MNNVL control, about 1.43% higher. This single comparison motivates measuring the combination directly.",
       "purpose": "Introduce the first detailed backend interaction result: a combined attention and collective configuration outperformed the individual choices in a same-load H200 N52 comparison. The design lesson is to measure interactions directly rather than add separate gains arithmetically.",
       "visual": "An attention backend performs the attention calculation; a collective backend moves or combines information among cooperating GPU processes. They share GPU execution and communication resources, so changing both can interact. The fresh MNNVL-only measurement is a renewed reference before judging the combination. The combination is measured directly: its benefit is not calculated by adding gains from separate trials.",
       "terms": [
@@ -1055,6 +1076,7 @@
       "transition": "The following slides test these backend observations more deeply, including profile evidence and a matched repeat of the N60 treatment."
     },
     "vi": {
+      "brief": "Kết hợp FlashInfer cho attention với MNNVL cho giao tiếp đạt khoảng 2.631 token đạt chuẩn mỗi giây, hơn đối chứng giao tiếp MNNVL khoảng 1,43%. Hai cách thực thi dùng chung tài nguyên nên phải đo tổ hợp trực tiếp, không cộng mức tăng từ các phép thử riêng.",
       "purpose": "Giới thiệu kết quả tương tác backend chi tiết đầu tiên: tổ hợp attention và collective vượt các lựa chọn riêng trong so sánh H200 N52 cùng tải. Bài học thiết kế là phải đo trực tiếp tương tác, không cộng số học các mức tăng riêng lẻ.",
       "visual": "Backend attention thực hiện phép attention; backend collective truyền hoặc kết hợp dữ liệu giữa các tiến trình GPU đang hợp tác. Chúng cùng dùng tài nguyên tính toán và giao tiếp, nên đổi cả hai có thể tạo tương tác. Phép đo MNNVL riêng được chạy mới để có đối chứng gần hơn khi đánh giá tổ hợp. Lợi ích của tổ hợp được đo trực tiếp, không tính bằng cộng mức tăng của các phép thử riêng.",
       "terms": [
