@@ -7,10 +7,11 @@ different sessions on 21 October. Shared files and the latest writer do not
 change ownership. Handoffs are dated; query the relevant real scheduler when
 needed. Preserve the other track's jobs, payloads, measurements and budget.
 
-Use Vietnamese for chat only. All new code, documentation, notes, reports and submission materials are English. Historical raw records keep their original bytes and may retain Vietnamese text.
+Use Vietnamese for chat only. New code, documentation, notes, reports and submission materials are English, except the owner's explicitly requested [Vietnamese slide transcript and bilingual guide data](ai-bilingual-transcripts-20261030.md). This narrow exception does not change submission language. Historical raw records keep their original bytes and may retain Vietnamese text.
 
 | What do you need? | Where to read |
 |---|---|
+| Understand and rehearse every current slide: purpose, notation, axes, units, colors and tradeoffs | [Vietnamese transcript](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English transcript](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md) |
 | Learn the AI journey and explain it in a presentation | [Beginner narrative](../reports/ai-research-learning-journey-20261023/README.md), [speaker notes](../reports/ai-research-learning-journey-20261023/SPEAKER_NOTES.md), [glossary](../reports/ai-research-learning-journey-20261023/GLOSSARY.md) |
 | HPC task explanation, rules, baselines and experiment plan | [HPC research](../reports/hpc-openfoam-20261021/README.md) |
 | Learn the HPC track, its complete research story, figures and presenter script | [HPC learning and presentation guide](../reports/hpc-research-journey-20261023/README.md) |

@@ -1,0 +1,562 @@
+[
+  {
+    "slide": 33,
+    "title": "The task: same 65-million-cell airflow calculation",
+    "en": {
+      "purpose": "Define the fixed CPU workload and the performance quantity being optimized. The comparison holds the prescribed calculation constant and asks how efficiently the cluster executes it.",
+      "visual": "The slide gives 65.3 million mesh cells, four nodes, 512 MPI ranks (128 on each node), and 150 solver steps, of which 149 are timed. The metric is average elapsed seconds per solver step; lower is better. Orange highlights the cell count and the progress rule at the bottom. There are no plotted axes or data series here.",
+      "terms": [
+        {
+          "symbol": "65.3 million",
+          "meaning": "Rounded display of the 65,334,765-cell mesh."
+        },
+        {
+          "symbol": "MPI rank",
+          "meaning": "One distributed solver process; 512 total means 128 per node on four nodes."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Wall-clock seconds per solver iteration, not seconds of simulated driving."
+        }
+      ],
+      "reading": [
+        "Read this as a workload definition, not a result comparison: same mesh and required solver work, executed on four CPU nodes.",
+        "The 149 timed samples begin after the first solver iteration; the complete run still performs all 150 steps.",
+        "The task is to reduce runtime through better CPU-resource use, not by reducing mesh size or required work."
+      ],
+      "tradeoff": {
+        "observation": "The fixed run has substantial parallel work: roughly 65.3 million cells distributed across 512 ranks.",
+        "hypothesis": "A more effective distribution and placement of work may reduce time per step.",
+        "conclusion": "The slide establishes the measurement frame; it reports no tuning win by itself.",
+        "unknown": "It does not identify a bottleneck or establish a causal performance improvement."
+      },
+      "script": "We are optimizing the prescribed OpenFOAM airflow calculation, not changing its mathematics. The mesh has 65.3 million cells. On four nodes, 512 MPI ranks perform all 150 solver steps. The first iteration is excluded from timing, leaving 149 measured steps. We compare the average wall-clock seconds per step, where lower is better. That makes this a fixed-work CPU-efficiency question.",
+      "caution": "Do not call 65.3 million the exact count, do not describe the 149 timed steps as the whole solve, and do not treat the displayed task definition as evidence of a speedup. The retained drag coefficient is a physical sanity check, not this performance metric.",
+      "transition": "Next, show which preparation stages must be retained for a valid end-to-end run."
+    },
+    "vi": {
+      "purpose": "Xác định khối lượng tính toán CPU cố định và đại lượng hiệu năng cần tối ưu. Phép so sánh giữ nguyên bài toán được quy định, rồi xem cụm máy thực hiện nó hiệu quả đến đâu.",
+      "visual": "Slide nêu lưới 65,3 triệu ô, bốn nút, 512 MPI rank (128 rank mỗi nút), và 150 bước bộ giải, trong đó 149 bước được tính giờ. Chỉ số là số giây đã trôi qua trung bình cho mỗi bước; thấp hơn là tốt hơn. Màu cam nhấn số ô lưới và điều kiện chạy ở dòng cuối. Slide không có trục đồ thị hay chuỗi dữ liệu.",
+      "terms": [
+        {
+          "symbol": "65,3 triệu",
+          "meaning": "Số làm tròn từ lưới chính xác gồm 65.334.765 ô."
+        },
+        {
+          "symbol": "MPI rank",
+          "meaning": "Một tiến trình bộ giải phân tán; 512 rank tổng cộng tương ứng 128 rank mỗi nút."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Giây thời gian thực trên mỗi vòng lặp bộ giải, không phải giây thời gian lái xe mô phỏng."
+        }
+      ],
+      "reading": [
+        "Đọc đây là định nghĩa khối lượng công việc, chưa phải so sánh kết quả: cùng lưới và cùng lượng tính toán bắt buộc trên bốn nút CPU.",
+        "149 mẫu tính giờ bắt đầu sau bước bộ giải đầu tiên; toàn bộ lần chạy vẫn thực hiện đủ 150 bước.",
+        "Mục tiêu là giảm thời gian nhờ sử dụng CPU tốt hơn, không phải giảm kích thước lưới hoặc lượng tính toán."
+      ],
+      "tradeoff": {
+        "observation": "Lần chạy cố định có nhiều công việc song song: khoảng 65,3 triệu ô được phân cho 512 rank.",
+        "hypothesis": "Phân phối và đặt công việc hiệu quả hơn có thể giảm thời gian mỗi bước.",
+        "conclusion": "Slide xác lập cách đo; riêng nó không báo cáo cải thiện do tinh chỉnh.",
+        "unknown": "Slide không chỉ ra nút thắt hay chứng minh một cải thiện nhân quả."
+      },
+      "script": "Chúng tôi tối ưu phép tính luồng khí OpenFOAM đã được quy định, không thay đổi toán học của nó. Lưới có 65,3 triệu ô. Trên bốn nút, 512 MPI rank thực hiện đủ 150 bước bộ giải. Bước đầu tiên không tính giờ, nên còn 149 bước được đo. Chúng tôi so sánh số giây thời gian thực trung bình mỗi bước; thấp hơn là tốt hơn. Đây là bài toán hiệu quả CPU với khối lượng công việc cố định.",
+      "caution": "Không gọi 65,3 triệu là số chính xác tuyệt đối; không nói chỉ chạy 149 bước; không xem định nghĩa bài toán là bằng chứng tăng tốc. Hệ số lực cản được lưu lại chỉ là kiểm tra hợp lý về vật lý, không phải chỉ số hiệu năng này.",
+      "transition": "Tiếp theo, trình bày các bước chuẩn bị cần giữ nguyên để một lần chạy đầu-cuối hợp lệ."
+    }
+  },
+  {
+    "slide": 34,
+    "title": "The whole required pipeline comes before the score",
+    "en": {
+      "purpose": "Explain why the score is meaningful only after preserving the full required pipeline, and distinguish mesh decomposition from CPU affinity.",
+      "visual": "Five white cards run left to right with orange arrows: decomposePar assigns mesh cells to ranks; renumberMesh reorders local cell data; potentialFoam initializes flow fields; applyBoundaryLayer applies the prescribed boundary layer; simpleFoam performs all 150 solver steps. The two labels beneath define decomposition as deciding cell ownership and CPU affinity as deciding which CPU runs each rank. There are no numerical axes; the arrows show required sequence.",
+      "terms": [
+        {
+          "symbol": "MPI",
+          "meaning": "Message Passing Interface; separate ranks exchange data, especially across partition boundaries."
+        },
+        {
+          "symbol": "decomposePar",
+          "meaning": "OpenFOAM utility that partitions mesh cells among ranks."
+        },
+        {
+          "symbol": "CPU affinity",
+          "meaning": "Binding a process or rank to CPU resources; distinct from assigning it mesh cells."
+        }
+      ],
+      "reading": [
+        "Follow the orange arrows from preprocessing into the solver; the final timing is not a substitute for those stages.",
+        "A decomposition answers which cells a rank owns. Affinity answers where that rank executes.",
+        "The sequence shown is the complete required preparation and 150-step solve, not an optional menu."
+      ],
+      "tradeoff": {
+        "observation": "The pipeline contains data setup, initialization, boundary treatment, then iterative solving.",
+        "hypothesis": "Choices in decomposition and placement can affect execution while preserving the prescribed calculation.",
+        "conclusion": "Valid comparisons must retain each required stage and its successful completion.",
+        "unknown": "This flow diagram alone does not measure the cost of each stage or prove which mapping is faster."
+      },
+      "script": "Before comparing solver times, we keep the entire required pipeline: assign cells to MPI ranks, reorder the local data, initialize the flow, apply the prescribed boundary layer, and run all 150 simpleFoam steps. Decomposition decides which cells each rank owns. CPU affinity decides which CPU runs the rank. Those are separate decisions, and a valid run must preserve every preparation step as well as the solve.",
+      "caution": "Do not imply that the background photograph depicts the contest cluster. The slide gives process order, not per-stage timings, and it does not establish that affinity was measured or optimized in a particular result.",
+      "transition": "With the workload and pipeline fixed, the next slide tests whether a locality proxy predicted solver runtime."
+    },
+    "vi": {
+      "purpose": "Giải thích vì sao chỉ số hiệu năng chỉ có ý nghĩa khi giữ nguyên toàn bộ quy trình bắt buộc, đồng thời phân biệt phân rã lưới với gán tiến trình vào CPU.",
+      "visual": "Năm ô trắng nối từ trái sang phải bằng mũi tên cam: decomposePar gán ô lưới cho các rank; renumberMesh sắp xếp lại dữ liệu cục bộ; potentialFoam khởi tạo trường dòng chảy; applyBoundaryLayer áp dụng lớp biên được quy định; simpleFoam chạy đủ 150 bước bộ giải. Hai nhãn bên dưới giải thích phân rã là quyết định quyền sở hữu ô, còn CPU affinity là quyết định CPU nào chạy mỗi rank. Không có trục số; mũi tên biểu thị trình tự bắt buộc.",
+      "terms": [
+        {
+          "symbol": "MPI",
+          "meaning": "Message Passing Interface; các rank riêng biệt trao đổi dữ liệu, đặc biệt ở ranh giới phân vùng."
+        },
+        {
+          "symbol": "decomposePar",
+          "meaning": "Tiện ích OpenFOAM chia ô lưới cho các rank."
+        },
+        {
+          "symbol": "CPU affinity",
+          "meaning": "Gắn tiến trình hoặc rank với tài nguyên CPU; khác với việc gán ô lưới."
+        }
+      ],
+      "reading": [
+        "Đi theo mũi tên cam từ các bước chuẩn bị tới bộ giải; phép đo cuối không thể thay thế các bước đó.",
+        "Phân rã trả lời rank sở hữu ô nào. Affinity trả lời rank chạy trên CPU nào.",
+        "Trình tự là toàn bộ khâu chuẩn bị bắt buộc và lần giải 150 bước, không phải danh sách bước tùy chọn."
+      ],
+      "tradeoff": {
+        "observation": "Quy trình gồm thiết lập dữ liệu, khởi tạo, xử lý điều kiện biên rồi giải lặp.",
+        "hypothesis": "Có thể thay đổi cách phân rã và đặt tiến trình để ảnh hưởng thời gian thực thi mà vẫn giữ nguyên bài toán.",
+        "conclusion": "So sánh hợp lệ phải giữ mọi bước bắt buộc và xác nhận chúng hoàn tất thành công.",
+        "unknown": "Sơ đồ này không đo chi phí từng giai đoạn và không chứng minh ánh xạ nào nhanh hơn."
+      },
+      "script": "Trước khi so sánh thời gian bộ giải, chúng tôi giữ toàn bộ quy trình bắt buộc: gán ô cho MPI rank, sắp xếp lại dữ liệu cục bộ, khởi tạo dòng chảy, áp dụng lớp biên quy định và chạy đủ 150 bước simpleFoam. Phân rã quyết định mỗi rank sở hữu ô nào. CPU affinity quyết định rank chạy trên CPU nào. Đây là hai quyết định khác nhau; lần chạy hợp lệ phải giữ mọi bước chuẩn bị cùng bước giải.",
+      "caution": "Không nói ảnh nền là cụm máy dự thi. Slide chỉ cho trình tự, không cho thời gian từng giai đoạn và cũng không xác nhận affinity đã được đo hay tối ưu trong một kết quả cụ thể.",
+      "transition": "Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm tra liệu một chỉ số cục bộ có dự báo được thời gian bộ giải hay không."
+    }
+  },
+  {
+    "slide": 35,
+    "title": "A smaller partition cut did not make the solver faster",
+    "en": {
+      "purpose": "Show a failed NUMA-aware locality hypothesis and explain why a partition-graph proxy cannot stand in for a runtime measurement.",
+      "visual": "The slide pairs an orange −10.63% graph-cut change with a red +3.4416% slower solver mean, separated by an unequal sign. No axes or plotted series are shown. The stated runtime comparison is 13.881 versus 14.359 seconds per step. The lower lesson says a graph proxy is not runtime, and lists potential unmeasured causes: MPI wait, bandwidth, frequency, power, and page residency.",
+      "terms": [
+        {
+          "symbol": "NUMA",
+          "meaning": "Non-Uniform Memory Access: memory access cost can depend on which CPU socket or locality domain owns the memory."
+        },
+        {
+          "symbol": "graph cut",
+          "meaning": "A proxy count/weight of partition connections crossing a selected boundary; it is not a direct measurement of communication time."
+        },
+        {
+          "symbol": "−10.63%",
+          "meaning": "The graph-cut proxy was reduced by 10.63% for this candidate."
+        },
+        {
+          "symbol": "+3.4416%",
+          "meaning": "The solver mean became 3.4416% slower in the compared observation."
+        }
+      ],
+      "reading": [
+        "Orange marks proxy improvement; red marks worse measured solver time. Their signs make the mismatch clear.",
+        "A smaller proxy can coexist with slower execution because other partition properties and runtime effects also matter.",
+        "The slide explicitly leaves the cause unmeasured; it records a rejected candidate, not a diagnosis."
+      ],
+      "tradeoff": {
+        "observation": "Graph cut fell 10.63%, while mean runtime rose from 13.881 to 14.359 seconds per step.",
+        "hypothesis": "Grouping work by memory locality might reduce remote-memory and interface cost.",
+        "conclusion": "The unchanged NUMA-aware branch was closed; graph cut alone did not predict solver speed.",
+        "unknown": "MPI wait, bandwidth, frequency, power, page residency, and other possible causes were not measured."
+      },
+      "script": "We tested a NUMA-aware idea: grouping work by locality should reduce remote-memory or interface cost. The graph-cut proxy fell by 10.63 percent, but the measured solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416 percent slowdown. That is why we closed this unchanged candidate. A graph proxy describes the partition; it is not measured runtime or proof of less communication time.",
+      "caution": "The comparison changed other partition properties, so do not attribute the slowdown to one mechanism. A separate offline mapping with a 4.5741% smaller proxy had no solver run and is not evidence of performance. Do not interpret the percentages as reciprocal measures.",
+      "transition": "The next comparison asks whether the better observed decomposition changes with node count."
+    },
+    "vi": {
+      "purpose": "Trình bày giả thuyết NUMA về tính cục bộ không thành công và giải thích vì sao chỉ số đại diện của đồ thị phân vùng không thể thay phép đo thời gian chạy.",
+      "visual": "Slide đặt mức giảm graph cut −10,63% màu cam cạnh mức bộ giải chậm hơn +3,4416% màu đỏ, ngăn bởi dấu không bằng. Không có trục hay chuỗi dữ liệu. Phép so sánh thời gian được nêu là 13,881 so với 14,359 giây mỗi bước. Dòng kết luận nói proxy đồ thị không phải runtime và liệt kê các nguyên nhân chưa đo: MPI wait, băng thông, tần số, công suất và vị trí trang bộ nhớ.",
+      "terms": [
+        {
+          "symbol": "NUMA",
+          "meaning": "Truy cập bộ nhớ không đồng nhất: chi phí truy cập có thể phụ thuộc socket CPU hoặc vùng cục bộ sở hữu bộ nhớ."
+        },
+        {
+          "symbol": "graph cut",
+          "meaning": "Chỉ số proxy về số hoặc trọng số kết nối phân vùng đi qua ranh giới được chọn; không đo trực tiếp thời gian trao đổi."
+        },
+        {
+          "symbol": "−10,63%",
+          "meaning": "Proxy graph cut giảm 10,63% ở cấu hình này."
+        },
+        {
+          "symbol": "+3,4416%",
+          "meaning": "Thời gian trung bình bộ giải tăng, tức chậm hơn 3,4416% trong quan sát so sánh."
+        }
+      ],
+      "reading": [
+        "Màu cam biểu thị proxy cải thiện; màu đỏ biểu thị thời gian bộ giải đo được xấu hơn. Dấu và màu cho thấy sự không tương ứng.",
+        "Proxy nhỏ hơn vẫn có thể đi cùng thời gian chạy dài hơn vì thuộc tính phân vùng khác và hiệu ứng lúc chạy cũng quan trọng.",
+        "Slide nói rõ nguyên nhân chưa được đo; đây là ứng viên bị loại, không phải chẩn đoán nguyên nhân."
+      ],
+      "tradeoff": {
+        "observation": "Graph cut giảm 10,63%, trong khi thời gian trung bình tăng từ 13,881 lên 14,359 giây mỗi bước.",
+        "hypothesis": "Nhóm công việc theo vị trí bộ nhớ có thể giảm chi phí truy cập xa và trao đổi qua giao diện.",
+        "conclusion": "Nhánh NUMA không đổi đã được đóng; riêng graph cut không dự báo tốc độ bộ giải.",
+        "unknown": "Chưa đo MPI wait, băng thông, tần số, công suất, vị trí trang bộ nhớ và các nguyên nhân khả dĩ khác."
+      },
+      "script": "Chúng tôi thử ý tưởng NUMA: nhóm công việc theo vị trí có thể giảm chi phí bộ nhớ xa hoặc giao diện. Proxy graph cut giảm 10,63%, nhưng thời gian trung bình bộ giải tăng từ 13,881 lên 14,359 giây mỗi bước, chậm hơn 3,4416%. Vì vậy, chúng tôi đóng ứng viên này. Proxy đồ thị mô tả cách phân vùng; nó không phải runtime đo được và không chứng minh thời gian trao đổi giảm.",
+      "caution": "Phép so sánh còn thay đổi thuộc tính phân vùng khác, vì vậy không quy chậm hơn cho một cơ chế duy nhất. Một ánh xạ ngoại tuyến khác có proxy giảm 4,5741% nhưng chưa chạy bộ giải, nên không phải bằng chứng hiệu năng. Hai phần trăm này không phải các đại lượng nghịch đảo.",
+      "transition": "Tiếp theo, ta xem cách phân rã quan sát tốt hơn có thay đổi theo số nút hay không."
+    }
+  },
+  {
+    "slide": 36,
+    "title": "Observed scaling changed which decomposition led",
+    "en": {
+      "purpose": "Compare the observed Scotch and hierarchical means across one-, two-, and four-node allocations, while explicitly limiting the inference because work endpoints and allocations differ.",
+      "visual": "Three grouped pairs of horizontal bars are labeled 1 node · 40 steps, 2 nodes · 80 steps, and 4 nodes · 150 steps. Orange bars are Scotch; dark teal bars are Hierarchical, as confirmed by the adjacent labels. Values are seconds per solver step: 14.451 vs 14.366; 7.463 vs 7.170; 3.678 vs 3.820. Longer bars mean more seconds and therefore slower means. No separate axis labels or uncertainty intervals are shown.",
+      "terms": [
+        {
+          "symbol": "Scotch",
+          "meaning": "A graph-based mesh-decomposition method used by the OpenFOAM workflow."
+        },
+        {
+          "symbol": "Hierarchical",
+          "meaning": "A decomposition method that partitions the mesh using a hierarchy of spatial divisions."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Mean wall-clock seconds for each timed solver iteration; lower is better."
+        }
+      ],
+      "reading": [
+        "At one node hierarchical is slightly lower; at two nodes hierarchical is lower; at four nodes Scotch is lower.",
+        "The displayed step endpoints are not identical, and each result came from a separate allocation.",
+        "This is descriptive evidence about observed candidate means, not a controlled strong-scaling curve."
+      ],
+      "tradeoff": {
+        "observation": "Hierarchical leads the displayed two-node pair, while Scotch leads the four-node pair; the one-node means are close with hierarchical lower.",
+        "hypothesis": "The preferable partition may depend on node count, rank density, and allocation-specific conditions.",
+        "conclusion": "There is no single decomposition winner across these observations; the four-node Scotch result motivates closer review.",
+        "unknown": "Different allocations and endpoints prevent assigning the differences to node count alone or claiming causal scaling efficiency."
+      },
+      "script": "The observed leader changes with the allocation. Hierarchical has a slightly lower one-node mean and leads at two nodes, while Scotch leads at four nodes. The values are seconds per solver step. However, these are separately allocated runs with different prescribed endpoints—40, 80 and 150 steps—so this is descriptive scaling evidence, not a controlled causal comparison. The candidate choice must be evaluated at the intended node count and rank density.",
+      "caution": "Do not calculate or claim ideal speedup from these means. The bars show means only, without uncertainty ranges; the separate allocations and run lengths matter. This slide alone cannot show a universal advantage for either method.",
+      "transition": "The four-node results can be split further by ranks per node, which is the next comparison."
+    },
+    "vi": {
+      "purpose": "So sánh thời gian trung bình quan sát được của Scotch và hierarchical trên các cấp phát một, hai và bốn nút, đồng thời giới hạn kết luận vì điểm kết thúc công việc và cấp phát khác nhau.",
+      "visual": "Ba cặp thanh ngang được ghi 1 node · 40 steps, 2 nodes · 80 steps và 4 nodes · 150 steps. Thanh cam là Scotch; thanh xanh đậm là Hierarchical, theo nhãn đi kèm. Giá trị là giây mỗi bước bộ giải: 14,451 so với 14,366; 7,463 so với 7,170; 3,678 so với 3,820. Thanh dài biểu thị nhiều giây hơn, tức thời gian trung bình chậm hơn. Không có nhãn trục riêng hay khoảng bất định.",
+      "terms": [
+        {
+          "symbol": "Scotch",
+          "meaning": "Phương pháp phân rã lưới dựa trên đồ thị trong quy trình OpenFOAM."
+        },
+        {
+          "symbol": "Hierarchical",
+          "meaning": "Phương pháp phân rã lưới chia không gian theo cấu trúc phân cấp."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Số giây thời gian thực trung bình trên mỗi vòng lặp bộ giải được tính giờ; thấp hơn là tốt hơn."
+        }
+      ],
+      "reading": [
+        "Ở một nút, hierarchical thấp hơn một chút; ở hai nút, hierarchical thấp hơn; ở bốn nút, Scotch thấp hơn.",
+        "Số bước kết thúc được hiển thị không giống nhau và mỗi kết quả đến từ một cấp phát riêng.",
+        "Đây là bằng chứng mô tả các giá trị trung bình quan sát, không phải đường cong strong-scaling có kiểm soát."
+      ],
+      "tradeoff": {
+        "observation": "Hierarchical dẫn ở cặp hai nút; Scotch dẫn ở cặp bốn nút; trung bình một nút gần nhau và hierarchical thấp hơn.",
+        "hypothesis": "Phương án phân vùng phù hợp có thể phụ thuộc vào số nút, mật độ rank và điều kiện riêng của lần cấp phát.",
+        "conclusion": "Không có một phương pháp thắng trong mọi quan sát; kết quả Scotch bốn nút đáng được xem xét kỹ hơn.",
+        "unknown": "Cấp phát và điểm kết thúc khác nhau nên không thể quy chênh lệch chỉ cho số nút hay tuyên bố hiệu quả mở rộng nhân quả."
+      },
+      "script": "Phương án dẫn đầu thay đổi theo cấp phát. Hierarchical có trung bình một nút thấp hơn chút và dẫn ở hai nút, còn Scotch dẫn ở bốn nút. Giá trị tính bằng giây mỗi bước bộ giải. Tuy nhiên, đây là các lần chạy được cấp phát riêng với điểm kết thúc quy định khác nhau—40, 80 và 150 bước—nên chúng mô tả xu hướng chứ không phải so sánh nhân quả có kiểm soát. Cần đánh giá cấu hình ở đúng số nút và mật độ rank dự định.",
+      "caution": "Không tính hoặc tuyên bố tăng tốc lý tưởng từ các giá trị này. Thanh chỉ biểu thị trung bình, không có khoảng bất định; cấp phát riêng và số bước chạy khác nhau đều quan trọng. Slide không chứng minh ưu thế phổ quát của phương pháp nào.",
+      "transition": "Có thể tách kết quả bốn nút theo số rank mỗi nút; đó là phép so sánh kế tiếp."
+    }
+  },
+  {
+    "slide": 37,
+    "title": "At four nodes, the winner depends on ranks per node",
+    "en": {
+      "purpose": "Show that the four-node decomposition ranking changes with process density, and identify the lowest reviewed mean without overstating it as a universal optimum.",
+      "visual": "Six horizontal bars compare Scotch and Hierarchical at 64, 96, and 128 ranks per node. Orange represents Scotch; dark teal represents Hierarchical. Values printed at bar ends are seconds per step: Scotch/Hierarchical are 10.310/4.489 at 64; 7.146/4.922 at 96; and 3.678/3.820 at 128. Lower values appear as shorter bars and mean faster observed average steps. There is no visible numeric axis or uncertainty interval.",
+      "terms": [
+        {
+          "symbol": "ranks per node",
+          "meaning": "Number of MPI processes placed on each node; across four nodes the displayed settings correspond to 256, 384, and 512 ranks."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Mean measured wall-clock seconds per solver step."
+        },
+        {
+          "symbol": "lowest reviewed mean",
+          "meaning": "The smallest mean among the reviewed observations in this set, not proof of global optimality."
+        }
+      ],
+      "reading": [
+        "At 64 and 96 ranks per node hierarchical is lower; at 128 ranks per node Scotch is lower by about 0.142 seconds per step.",
+        "The highlighted takeaway identifies Scotch-128 at 3.677906731 seconds per step as the lowest reviewed mean.",
+        "Each bar summarizes a separate allocation; requested CPU counts also differ in some configurations."
+      ],
+      "tradeoff": {
+        "observation": "The preferred method flips at the highest displayed rank density; Scotch-128 has the smallest observed mean among these six logs.",
+        "hypothesis": "Decomposition quality may interact with the density of ranks on each node.",
+        "conclusion": "Choose based on the measured node count and rank density; method name alone does not predict the winner.",
+        "unknown": "Separate allocations and differing requested CPU counts prevent attributing the differences solely to decomposition or density."
+      },
+      "script": "At four nodes, rank density changes which method has the lower observed mean. Hierarchical leads at 64 and 96 ranks per node. At 128, Scotch records 3.678 seconds per step versus 3.820 for hierarchical. That 3.678-second value is the lowest reviewed mean among these six observations. We treat it as a candidate for confirmation, not a causal effect or universal best method, because these are separate allocations and some requested CPU counts differ.",
+      "caution": "The decimal labels are seconds per step, not speedup factors. The bar display has no explicit axis or error bars; avoid implying statistical significance from bar lengths. The slide does not establish stable repeatability.",
+      "transition": "The next slide examines the full timing distribution behind the Scotch-128 mean, especially its slow tail."
+    },
+    "vi": {
+      "purpose": "Cho thấy thứ hạng phân rã trên bốn nút thay đổi theo mật độ tiến trình và xác định giá trị trung bình thấp nhất đã được xem xét, nhưng không nâng nó thành tối ưu phổ quát.",
+      "visual": "Sáu thanh ngang so sánh Scotch và Hierarchical tại 64, 96 và 128 rank mỗi nút. Màu cam là Scotch; xanh đậm là Hierarchical. Giá trị ở cuối thanh là giây mỗi bước: Scotch/Hierarchical lần lượt là 10,310/4,489 ở 64; 7,146/4,922 ở 96; và 3,678/3,820 ở 128. Giá trị thấp hơn hiện thành thanh ngắn hơn và nghĩa là bước trung bình quan sát nhanh hơn. Không thấy trục số hay khoảng bất định.",
+      "terms": [
+        {
+          "symbol": "ranks per node",
+          "meaning": "Số tiến trình MPI đặt trên mỗi nút; trên bốn nút, các cấu hình hiển thị tương ứng 256, 384 và 512 rank."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Số giây thời gian thực trung bình được đo trên mỗi bước bộ giải."
+        },
+        {
+          "symbol": "lowest reviewed mean",
+          "meaning": "Trung bình nhỏ nhất trong nhóm quan sát đã xem xét, không phải bằng chứng tối ưu toàn cục."
+        }
+      ],
+      "reading": [
+        "Ở 64 và 96 rank mỗi nút, hierarchical thấp hơn; ở 128, Scotch thấp hơn khoảng 0,142 giây mỗi bước.",
+        "Kết luận được nhấn mạnh là Scotch-128 đạt 3,677906731 giây mỗi bước, trung bình thấp nhất trong các hồ sơ đã xem xét.",
+        "Mỗi thanh tóm tắt một cấp phát riêng; số CPU yêu cầu cũng khác ở một vài cấu hình."
+      ],
+      "tradeoff": {
+        "observation": "Phương pháp thấp hơn đổi ở mật độ rank cao nhất; Scotch-128 có trung bình quan sát nhỏ nhất trong sáu log này.",
+        "hypothesis": "Chất lượng phân rã có thể tương tác với mật độ rank trên mỗi nút.",
+        "conclusion": "Chọn theo số nút và mật độ rank đã đo; chỉ tên phương pháp không dự báo được bên thắng.",
+        "unknown": "Cấp phát riêng và số CPU yêu cầu khác nhau khiến ta không thể quy chênh lệch chỉ cho phương pháp phân rã hoặc mật độ."
+      },
+      "script": "Trên bốn nút, mật độ rank làm thay đổi phương pháp có trung bình quan sát thấp hơn. Hierarchical dẫn ở 64 và 96 rank mỗi nút. Ở mức 128, Scotch đạt 3,678 giây mỗi bước so với 3,820 của hierarchical. Đây là trung bình thấp nhất trong sáu quan sát đã xem xét. Chúng tôi xem nó là ứng viên cần xác nhận, không phải hiệu ứng nhân quả hay phương pháp tốt nhất phổ quát, vì đây là các cấp phát riêng và số CPU yêu cầu có chỗ khác nhau.",
+      "caution": "Các số thập phân là giây mỗi bước, không phải hệ số tăng tốc. Biểu đồ không có trục tường minh hay thanh sai số; không suy ra ý nghĩa thống kê từ độ dài thanh. Slide chưa chứng minh khả năng lặp lại ổn định.",
+      "transition": "Slide kế tiếp xem phân bố thời gian đầy đủ của trung bình Scotch-128, đặc biệt là phần đuôi chậm."
+    }
+  },
+  {
+    "slide": 38,
+    "title": "Keep the slow step in the mean; inspect the tail",
+    "en": {
+      "purpose": "Explain why every timed iteration, including an extreme slow step, remains in the official-style arithmetic mean, and separate observation from causal diagnosis.",
+      "visual": "Three summary statistics are presented across the top: median 3.298742 s, 95th percentile 3.795740 s, and maximum 35.883552 s at solver Time 119. The small orange vertical marker corresponds to the median and a much taller red marker calls attention to the maximum; the slide has no numeric axis scale, so use printed values rather than visually estimating positions. It states 149/149 samples retained and says the arithmetic mean includes every measured step.",
+      "terms": [
+        {
+          "symbol": "median",
+          "meaning": "Middle value after sorting the 149 timed samples."
+        },
+        {
+          "symbol": "95th percentile (p95)",
+          "meaning": "A value at or below which approximately 95% of samples fall, under the percentile convention used."
+        },
+        {
+          "symbol": "maximum",
+          "meaning": "Largest recorded sample; here 35.883552 seconds at solver Time 119."
+        },
+        {
+          "symbol": "Time 119",
+          "meaning": "Solver iteration/time index reported by the run, not 119 seconds of wall-clock duration."
+        }
+      ],
+      "reading": [
+        "The median and p95 are near 3.3–3.8 seconds, but one retained step is about 35.9 seconds.",
+        "All 149 samples stay in the arithmetic mean; removing the outlier would change the stated performance metric.",
+        "The red color marks the extreme maximum; it does not indicate a known failure mechanism."
+      ],
+      "tradeoff": {
+        "observation": "One unusually slow step appears at index 119, while the center and p95 are much smaller.",
+        "hypothesis": "A transient system or application event may have caused the spike, but telemetry is needed to test possibilities.",
+        "conclusion": "Preserve the tail and investigate it; do not trim the slow point or alter the prescribed endpoint.",
+        "unknown": "MPI wait, bandwidth, CPU frequency, power, and memory-page residency were not measured sufficiently to identify a cause."
+      },
+      "script": "The median step is 3.299 seconds and the 95th percentile is 3.796 seconds, but the maximum reaches 35.884 seconds at solver Time 119. We retain all 149 timed samples in the arithmetic mean. That slow point is part of the measured run, not something to discard because it is inconvenient. The trace establishes that a spike occurred; it does not explain why. We need instrumentation and independent repeats to study its cause and stability.",
+      "caution": "Do not call solver Time 119 119 seconds; it is the reported iteration/time index. Do not imply the median or p95 is the official arithmetic mean. Cause is explicitly unknown: missing telemetry is not evidence that MPI, memory, or hardware was healthy.",
+      "transition": "That uncertainty is why the next slide asks for an independently repeated, fully evidenced run."
+    },
+    "vi": {
+      "purpose": "Giải thích vì sao mọi vòng lặp được tính giờ, kể cả bước chậm cực độ, vẫn nằm trong trung bình số học kiểu chính thức; đồng thời phân biệt quan sát với chẩn đoán nguyên nhân.",
+      "visual": "Ba thống kê ở đầu slide: trung vị 3,298742 s, phân vị thứ 95 là 3,795740 s, và cực đại 35,883552 s tại solver Time 119. Vạch dọc cam nhỏ biểu thị trung vị; vạch đỏ cao hơn nhiều nhấn mạnh cực đại. Slide không có thang trục số, vì vậy đọc giá trị in sẵn thay vì ước lượng vị trí bằng mắt. Nội dung ghi giữ lại 149/149 mẫu và trung bình số học gồm mọi bước được đo.",
+      "terms": [
+        {
+          "symbol": "median",
+          "meaning": "Giá trị ở giữa sau khi sắp xếp 149 mẫu tính giờ."
+        },
+        {
+          "symbol": "95th percentile (p95)",
+          "meaning": "Giá trị mà xấp xỉ 95% mẫu nằm tại hoặc dưới đó, theo quy ước phân vị sử dụng."
+        },
+        {
+          "symbol": "maximum",
+          "meaning": "Mẫu lớn nhất được ghi nhận; ở đây là 35,883552 giây tại solver Time 119."
+        },
+        {
+          "symbol": "Time 119",
+          "meaning": "Chỉ số thời gian/vòng lặp bộ giải được báo cáo, không phải 119 giây thời gian thực."
+        }
+      ],
+      "reading": [
+        "Trung vị và p95 ở khoảng 3,3–3,8 giây, nhưng một bước được giữ lại mất khoảng 35,9 giây.",
+        "Cả 149 mẫu vẫn nằm trong trung bình số học; bỏ ngoại lệ sẽ làm thay đổi chỉ số hiệu năng đã nêu.",
+        "Màu đỏ đánh dấu cực đại, không biểu thị một cơ chế lỗi đã biết."
+      ],
+      "tradeoff": {
+        "observation": "Một bước chậm bất thường xuất hiện ở chỉ số 119, trong khi vùng trung tâm và p95 thấp hơn nhiều.",
+        "hypothesis": "Một sự kiện thoáng qua ở hệ thống hoặc ứng dụng có thể gây ra đột biến, nhưng cần telemetry để kiểm tra.",
+        "conclusion": "Giữ lại phần đuôi và điều tra; không cắt điểm chậm hay đổi điểm kết thúc bắt buộc.",
+        "unknown": "Chưa đo đủ MPI wait, băng thông, tần số CPU, công suất và vị trí trang bộ nhớ để xác định nguyên nhân."
+      },
+      "script": "Bước trung vị mất 3,299 giây và phân vị 95 mất 3,796 giây, nhưng cực đại lên tới 35,884 giây tại solver Time 119. Chúng tôi giữ cả 149 mẫu tính giờ trong trung bình số học. Bước chậm đó thuộc lần chạy đã đo, không thể bỏ chỉ vì bất tiện. Dấu vết xác nhận có đột biến, nhưng không giải thích lý do. Cần thiết bị đo bổ sung và các lần lặp độc lập để nghiên cứu nguyên nhân và độ ổn định.",
+      "caution": "Không gọi solver Time 119 là 119 giây; đó là chỉ số thời gian/vòng lặp được báo cáo. Không nhầm trung vị hay p95 với trung bình số học chính thức. Nguyên nhân được ghi rõ là chưa biết: thiếu telemetry không chứng minh MPI, bộ nhớ hay phần cứng hoạt động bình thường.",
+      "transition": "Sự bất định đó dẫn tới yêu cầu ở slide sau: chạy lặp độc lập với bằng chứng đầy đủ."
+    }
+  },
+  {
+    "slide": 39,
+    "title": "A reproducible candidate needs more than a fast log",
+    "en": {
+      "purpose": "Distinguish a reviewed candidate timing from an accepted official result and list the proofs required from an independent confirmation.",
+      "visual": "The left column reports reviewed candidate mean 3.677906731 seconds per step for Scotch-128 across 149 samples. The right column identifies independent-repeat job 25940700, queue Q/q5 at 15:06 UTC, with status “Not running: node_pool insufficient” and “No result.” Six orange-square checklist items specify a frozen 54-file bundle, all initialization plus 150 steps, explicit stage return codes, 512 physical cores on four hosts, source/mesh/output seals. No chart axes are present; columns contrast existing evidence with pending evidence.",
+      "terms": [
+        {
+          "symbol": "Q/q5",
+          "meaning": "Scheduler queue/state labels shown in the dated observation; the slide reports the job waiting, not executing."
+        },
+        {
+          "symbol": "Scotch-128",
+          "meaning": "Scotch decomposition at 128 MPI ranks per node on four nodes."
+        },
+        {
+          "symbol": "seal",
+          "meaning": "Recorded identity/integrity evidence for source, mesh, or output files; the slide lists required checks, not completed checks."
+        }
+      ],
+      "reading": [
+        "The candidate has a measured mean and 149 samples, but that alone does not establish official acceptance.",
+        "The independent job is queued and has no result in the shown status snapshot.",
+        "The checklist is prospective proof required from that queued confirmation, not claims that the checks already passed."
+      ],
+      "tradeoff": {
+        "observation": "The best reviewed candidate is 3.677906731 s/step; its independent confirmation job is waiting because node_pool resources are insufficient.",
+        "hypothesis": "A fresh, frozen, full-pipeline repeat can test reproducibility and verify provenance and resource placement.",
+        "conclusion": "Report the existing number as a candidate observation, not an accepted official score; review the repeat before choosing next.",
+        "unknown": "The slide gives no result, terminal scheduler proof, or completed verification for job 25940700."
+      },
+      "script": "The reviewed Scotch-128 candidate averages 3.677906731 seconds per step over 149 samples. That is a candidate observation, not an accepted official score. We submitted job 25940700 as an independent confirmation, but the dated scheduler status still shows it queued because node-pool resources are insufficient, so it has no result. Confirmation must preserve the input bundle, execute initialization and all 150 steps, record explicit stage exits, prove 512 physical cores across four hosts, and seal source, mesh, and outputs.",
+      "caution": "All scheduler wording is a historical snapshot at 15:06 UTC on the slide; do not present it as live status. The checklist describes required proof, not verified completion. A fast log by itself is not full reproducibility or acceptance.",
+      "transition": "The final slide summarizes the evidence discipline and the next review decision without claiming a new result."
+    },
+    "vi": {
+      "purpose": "Phân biệt thời gian ứng viên đã được xem xét với kết quả chính thức được chấp nhận, đồng thời liệt kê bằng chứng cần có từ lần xác nhận độc lập.",
+      "visual": "Cột trái ghi trung bình ứng viên đã xem xét: 3,677906731 giây mỗi bước cho Scotch-128 với 149 mẫu. Cột phải ghi lần lặp độc lập, job 25940700, hàng đợi Q/q5 lúc 15:06 UTC, trạng thái “Not running: node_pool insufficient” và “No result.” Sáu mục dấu vuông cam nêu gói đầu vào 54 tệp đã đóng băng, toàn bộ khởi tạo cộng 150 bước, mã trả về tường minh cho từng giai đoạn, 512 lõi vật lý trên bốn máy, và dấu niêm phong nguồn/lưới/đầu ra. Không có trục đồ thị; hai cột đối chiếu bằng chứng hiện có với bằng chứng đang chờ.",
+      "terms": [
+        {
+          "symbol": "Q/q5",
+          "meaning": "Nhãn hàng đợi/trạng thái bộ lập lịch trong quan sát đã ghi; slide nói job đang chờ, không phải đang chạy."
+        },
+        {
+          "symbol": "Scotch-128",
+          "meaning": "Phân rã Scotch với 128 MPI rank mỗi nút trên bốn nút."
+        },
+        {
+          "symbol": "seal",
+          "meaning": "Bằng chứng ghi nhận danh tính/tính toàn vẹn của tệp nguồn, lưới hoặc đầu ra; đây là kiểm tra yêu cầu, chưa phải kiểm tra đã hoàn tất."
+        }
+      ],
+      "reading": [
+        "Ứng viên có thời gian trung bình và 149 mẫu đã đo, nhưng riêng điều đó không chứng minh được chấp nhận chính thức.",
+        "Job độc lập đang chờ và chưa có kết quả trong ảnh chụp trạng thái được hiển thị.",
+        "Danh sách là bằng chứng cần thu từ lần xác nhận đang chờ, không phải khẳng định các kiểm tra đã đạt."
+      ],
+      "tradeoff": {
+        "observation": "Ứng viên tốt nhất đã xem xét là 3,677906731 giây mỗi bước; job xác nhận độc lập đang chờ vì thiếu tài nguyên node_pool.",
+        "hypothesis": "Lần chạy mới, đóng băng và đầy đủ quy trình có thể kiểm tra khả năng lặp lại, nguồn gốc và bố trí tài nguyên.",
+        "conclusion": "Báo cáo số hiện có là quan sát ứng viên, không phải điểm chính thức được chấp nhận; cần xem xét lần lặp trước khi chọn tiếp.",
+        "unknown": "Slide không cung cấp kết quả, bằng chứng trạng thái kết thúc của bộ lập lịch hay xác minh đã hoàn tất cho job 25940700."
+      },
+      "script": "Ứng viên Scotch-128 đã được xem xét đạt trung bình 3,677906731 giây mỗi bước trên 149 mẫu. Đây là quan sát ứng viên, không phải điểm chính thức được chấp nhận. Chúng tôi gửi job 25940700 để xác nhận độc lập, nhưng trạng thái bộ lập lịch tại thời điểm ghi trên slide vẫn là đang chờ do thiếu tài nguyên node-pool, nên chưa có kết quả. Lần xác nhận phải giữ nguyên gói đầu vào, chạy khởi tạo và đủ 150 bước, ghi mã thoát từng giai đoạn, chứng minh 512 lõi vật lý trên bốn máy, rồi niêm phong nguồn, lưới và đầu ra.",
+      "caution": "Mọi trạng thái bộ lập lịch là ảnh chụp lịch sử lúc 15:06 UTC trên slide; không trình bày như trạng thái trực tiếp hiện nay. Danh sách là yêu cầu bằng chứng, không phải xác nhận đã hoàn thành. Một log nhanh chưa đủ chứng minh tái lập đầy đủ hoặc được chấp nhận.",
+      "transition": "Slide cuối tổng kết nguyên tắc bằng chứng và quyết định xem xét tiếp theo, không tuyên bố kết quả mới."
+    }
+  },
+  {
+    "slide": 40,
+    "title": "What we learned — and the next measurement",
+    "en": {
+      "purpose": "Close the HPC section with four measurement principles and the next decision point: inspect complete confirmation evidence before selecting another configuration.",
+      "visual": "Four numbered columns state: measure the whole job; trust runtime evidence; preserve every sample; confirm independently. Their short explanations emphasize keeping preparation and provenance, treating graph cut as distinct from speed, investigating tails with instrumentation, and reviewing job 25940700. A dated status line says 23 Oct 15:06 UTC, still Q/q5, node_pool insufficient, no result. Orange highlights the next action: review tails, terminal proof, and bounded hardware samples. No numerical plot is shown.",
+      "terms": [
+        {
+          "symbol": "terminal proof",
+          "meaning": "Evidence that the scheduler job reached a definite terminal state, paired with complete run outputs and return codes."
+        },
+        {
+          "symbol": "bounded hardware samples",
+          "meaning": "Limited, planned instrumentation samples collected with controlled scope, not an unbounded profiling run."
+        },
+        {
+          "symbol": "Q/q5",
+          "meaning": "The queue/state shown in the dated status snapshot, not a current query."
+        }
+      ],
+      "reading": [
+        "The four principles connect validity, measured runtime, preservation of outliers, and independent reproducibility.",
+        "The next step is review, not claiming a performance gain from the queued job.",
+        "The status line freezes the state known at 23 October 15:06 UTC: the confirmation had no result."
+      ],
+      "tradeoff": {
+        "observation": "Reviewed four-node data narrowed choices and identified Scotch-128 as the lowest mean among six observations, while the confirmation remained queued in the dated record.",
+        "hypothesis": "Reviewing full terminal evidence, tails, and limited hardware sampling may clarify stability before another choice.",
+        "conclusion": "The work narrows candidates and improves evidence requirements; it does not establish a global optimum or accepted score.",
+        "unknown": "The slide does not report what later happened to job 25940700 or identify the cause of the timing spike."
+      },
+      "script": "We take four lessons forward: measure the whole job, trust runtime evidence over a partition proxy, keep every timing sample, and confirm independently. The reviewed Scotch-128 mean narrowed our choice, but it is not a proven global optimum or accepted score. At the recorded time—23 October at 15:06 UTC—job 25940700 was still queued for node-pool resources and had no result. The next decision is to inspect terminal proof and timing tails, then collect bounded hardware samples before selecting another measurement.",
+      "caution": "This is a dated handoff, not live scheduler status. Do not infer a later success or failure, and do not describe bounded sampling as already collected. The presentation summarizes published evidence; it does not certify new measurements.",
+      "transition": "This concludes the HPC slides; return to the combined presentation's overall research conclusion."
+    },
+    "vi": {
+      "purpose": "Khép lại phần HPC bằng bốn nguyên tắc đo lường và điểm quyết định tiếp theo: xem xét bằng chứng xác nhận đầy đủ trước khi chọn cấu hình khác.",
+      "visual": "Bốn cột đánh số nêu: đo toàn bộ job; tin bằng chứng runtime; giữ mọi mẫu; xác nhận độc lập. Giải thích ngắn nhấn mạnh giữ khâu chuẩn bị và nguồn gốc, phân biệt graph cut với tốc độ, điều tra phần đuôi bằng thiết bị đo, và xem lại job 25940700. Dòng trạng thái có ngày ghi 23 Oct 15:06 UTC, vẫn Q/q5, thiếu node_pool, chưa có kết quả. Màu cam nhấn hành động kế tiếp: xem phần đuôi, bằng chứng kết thúc và các mẫu phần cứng có giới hạn. Không có đồ thị số.",
+      "terms": [
+        {
+          "symbol": "terminal proof",
+          "meaning": "Bằng chứng job đã tới trạng thái kết thúc xác định trong bộ lập lịch, đi cùng đầu ra đầy đủ và mã trả về."
+        },
+        {
+          "symbol": "bounded hardware samples",
+          "meaning": "Các mẫu đo phần cứng có phạm vi và giới hạn được hoạch định, không phải phiên profiling không giới hạn."
+        },
+        {
+          "symbol": "Q/q5",
+          "meaning": "Hàng đợi/trạng thái trong ảnh chụp đã ghi, không phải truy vấn hiện tại."
+        }
+      ],
+      "reading": [
+        "Bốn nguyên tắc nối tính hợp lệ, runtime đo được, bảo toàn ngoại lệ và khả năng tái lập độc lập.",
+        "Bước tiếp theo là xem xét bằng chứng, không tuyên bố cải thiện hiệu năng từ job đang chờ.",
+        "Dòng trạng thái đóng băng thông tin biết được vào 23 October 15:06 UTC: lần xác nhận chưa có kết quả."
+      ],
+      "tradeoff": {
+        "observation": "Dữ liệu bốn nút đã xem xét thu hẹp lựa chọn và cho thấy Scotch-128 có trung bình thấp nhất trong sáu quan sát, trong khi hồ sơ cùng ngày cho biết lần xác nhận còn chờ.",
+        "hypothesis": "Xem bằng chứng kết thúc đầy đủ, phần đuôi và lấy mẫu phần cứng giới hạn có thể làm rõ độ ổn định trước lựa chọn tiếp theo.",
+        "conclusion": "Công việc thu hẹp ứng viên và cải thiện yêu cầu bằng chứng; nó chưa xác lập tối ưu toàn cục hay điểm được chấp nhận.",
+        "unknown": "Slide không cho biết điều gì xảy ra sau đó với job 25940700 hoặc nguyên nhân của đột biến thời gian."
+      },
+      "script": "Chúng tôi rút ra bốn bài học: đo toàn bộ job, tin runtime đo được hơn proxy phân vùng, giữ mọi mẫu thời gian và xác nhận độc lập. Trung bình Scotch-128 đã xem xét giúp thu hẹp lựa chọn, nhưng chưa phải tối ưu toàn cục được chứng minh hay điểm được chấp nhận. Vào thời điểm ghi nhận—23 October lúc 15:06 UTC—job 25940700 vẫn chờ tài nguyên node-pool và chưa có kết quả. Bước tiếp theo là xem bằng chứng kết thúc và phần đuôi thời gian, rồi lấy mẫu phần cứng có giới hạn trước khi chọn phép đo khác.",
+      "caution": "Đây là mốc bàn giao có ngày, không phải trạng thái bộ lập lịch hiện tại. Không suy ra job thành công hay thất bại sau đó; cũng không nói rằng việc lấy mẫu giới hạn đã được thực hiện. Bài trình bày tóm lược bằng chứng đã công bố, không chứng nhận phép đo mới.",
+      "transition": "Phần slide HPC kết thúc tại đây; quay lại kết luận tổng thể của bài trình bày kết hợp."
+    }
+  }
+]
