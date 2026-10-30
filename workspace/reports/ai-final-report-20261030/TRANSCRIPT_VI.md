@@ -7,6 +7,7 @@
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
 - **Slide 33–40:** giải thích phần HPC đang có trong cùng deck, chỉ đọc và diễn giải. Trạng thái job trên các slide này là **ảnh chụp ngày 23/10**, không phải trạng thái trực tiếp ngày 30/10. Hướng dẫn này không cập nhật hay xác nhận kết quả HPC mới. Thời lượng AI không bao gồm mặc định phần HPC.
+- Mỗi slide có nhãn **Phần cứng** ngay dưới tiêu đề. H200 là Firmus, H100 là NSCC ASPIRE 2A+; slide có cả hai hoặc có phép kiểm tra CPU sẽ ghi riêng. Nhãn “chung” chỉ quy tắc hoặc bố trí dùng trên cả hai hệ thống, không biến chúng thành một phép so hiệu năng cùng điều kiện.
 - Màu sắc có ý nghĩa **theo từng slide**. Cam không luôn là “thắng” hay “thua”. Ảnh nền, gradient và đường trang trí cuối slide không biểu diễn dữ liệu.
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
 - Nghiên cứu đã dừng theo yêu cầu. Các việc “tiếp theo” trong slide là đề xuất hoặc câu chuyện tại thời điểm đó, không phải job mới đã chạy.
@@ -121,6 +122,8 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 ## Slide 01 — Qwen serving: from topology to reproduced performance
 
+**Phần cứng: H200 + H100 — tổng quan chiến dịch AI; kết quả chính là H200.**
+
 ### Nói nhanh · 10–20 giây
 
 Chúng tôi tối ưu dịch vụ Qwen trên 16 GPU, từ cách chia model đến truyền dữ liệu và chọn cách thực thi. Trọng tâm là tìm cấu hình chạy đúng, nhanh và cho kết quả gần nhau khi đo lại, thay vì chỉ chọn một lần có điểm cao.
@@ -171,6 +174,8 @@ Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cá
 <a id="slide-02"></a>
 
 ## Slide 02 — Highest observation and strongest recommendation
+
+**Phần cứng: H200 · Firmus — tất cả các số thông lượng trên slide.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -227,6 +232,8 @@ Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặ
 
 ## Slide 03 — Optimise useful throughput under a latency gate
 
+**Phần cứng: Quy tắc chung H200/H100 — không có phép đo phần cứng cụ thể.**
+
 ### Nói nhanh · 10–20 giây
 
 Một request phải chờ token đầu không quá 3.000 mili giây và có khoảng cách token trung bình không quá 20 mili giây; ít nhất 90% request phải đạt cả hai. Điểm chỉ tính thông lượng của request đạt chuẩn, nên sinh nhiều token nhưng trả lời quá chậm vẫn không có lợi.
@@ -282,6 +289,8 @@ Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọ
 
 ## Slide 04 — One workload, two deployment systems
 
+**Phần cứng: H200 · Firmus + H100 · NSCC ASPIRE 2A+ — so sánh hai môi trường.**
+
 ### Nói nhanh · 10–20 giây
 
 Chúng tôi đo trên hai hệ thống, mỗi hệ thống 16 GPU: H200 tại Firmus và H100 tại NSCC. Phần cứng và môi trường chạy khác nhau, nên phải tối ưu và ghi kết quả riêng. Cùng model không có nghĩa lấy hai điểm so trực tiếp là công bằng.
@@ -336,6 +345,8 @@ Tiếp theo, ta xem topology H200 mười sáu GPU đã chọn và lần theo y�
 <a id="slide-05"></a>
 
 ## Slide 05 — Separate prompt processing from token generation
+
+**Phần cứng: Bố trí dùng trên H200 và H100 — mỗi hệ thống 16 GPU; slide không so hiệu năng.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -393,6 +404,8 @@ Slide tiếp theo cho thấy các thử nghiệm topology ban đầu dẫn đế
 
 ## Slide 06 — Topology search established the serving layout
 
+**Phần cứng: H200 · Firmus — các số đo topology trong lịch sử.**
+
 ### Nói nhanh · 10–20 giây
 
 Nhóm thử nhiều cách chia GPU và chọn hai nhóm xử lý prompt, mỗi nhóm bốn GPU, cùng một nhóm sinh token tám GPU. Mốc này đạt khoảng 1.912 token đạt chuẩn mỗi giây ở 48 request đồng thời; tải giữa các mốc khác nhau nên chưa tách riêng tác dụng của bố trí.
@@ -448,6 +461,8 @@ Trở ngại kế tiếp không chỉ là chọn mức song song: khởi động
 
 ## Slide 07 — Make KV-transfer setup scale with the request
 
+**Phần cứng: H200 · Firmus — khôi phục serving; ví dụ descriptor và kiểm tra vùng nhớ được tính trên CPU.**
+
 ### Nói nhanh · 10–20 giây
 
 Cách cũ chuẩn bị mô tả vùng nhớ cho toàn bộ kho KV, khoảng 403,8 triệu mục mỗi tiến trình GPU. Cách sửa chỉ mô tả vùng của một request, còn 188 dải đã gộp. Đây là giảm công chuẩn bị truyền, không phải bằng chứng suy luận nhanh hơn theo cùng tỷ lệ.
@@ -502,6 +517,8 @@ Lần khôi phục EP2 cũng làm lộ một điều kiện tiên quyết khác:
 <a id="slide-08"></a>
 
 ## Slide 08 — FP8 block geometry constrains parallelism
+
+**Phần cứng: H200 · Firmus — cấu hình prefill lỗi và cấu hình thay thế; phép tính block không phải số đo tốc độ.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -559,6 +576,8 @@ Khi đường triển khai đã khả thi, slide kế tiếp mô tả cách bi�
 
 ## Slide 09 — A repeatable experiment loop
 
+**Phần cứng: Phương pháp thử chung H200/H100 — không đại diện một kết quả hiệu năng riêng.**
+
 ### Nói nhanh · 10–20 giây
 
 Mỗi ý tưởng được so với cấu hình đối chứng, kiểm tra chạy đúng rồi đo lại nếu có lợi. Phép đo đầy đủ gồm 60 giây chạy làm nóng, 120 giây thu số liệu và 30 giây chờ request còn lại. Job kết thúc chưa đủ để kết luận có cải tiến.
@@ -613,6 +632,8 @@ Tiếp theo, tôi tóm tắt tiến trình H200, đồng thời lưu ý đây kh
 <a id="slide-10"></a>
 
 ## Slide 10 — H200 journey: recover, specialise, then reproduce
+
+**Phần cứng: H200 · Firmus — toàn bộ các cột mốc trong biểu đồ.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -671,6 +692,8 @@ Slide tiếp theo phóng to một so sánh có kiểm soát hơn: tổ hợp bac
 
 ## Slide 11 — Backend combinations matter
 
+**Phần cứng: H200 · Firmus — so sánh backend ở N52.**
+
 ### Nói nhanh · 10–20 giây
 
 Kết hợp FlashInfer cho attention với MNNVL cho giao tiếp đạt khoảng 2.631 token đạt chuẩn mỗi giây, hơn đối chứng giao tiếp MNNVL khoảng 1,43%. Hai cách thực thi dùng chung tài nguyên nên phải đo tổ hợp trực tiếp, không cộng mức tăng từ các phép thử riêng.
@@ -726,6 +749,8 @@ Các slide tiếp theo kiểm tra sâu hơn các kết quả backend này, gồm
 <a id="slide-12"></a>
 
 ## Slide 12 — H200: the N62-to-N64 step survives a full repeat
+
+**Phần cứng: H200 · Firmus — cặp đo đầy đủ N62/N64 và lần chạy lại N64.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -783,6 +808,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 13 — Profile the deployed interaction
 
+**Phần cứng: H200 · Firmus — profile chẩn đoán N48; job 24819 còn chạy lại deployment N58.**
+
 ### Nói nhanh · 10–20 giây
 
 Profile ghi lại hoạt động GPU để tìm hướng thử tiếp. Nhóm giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là đầu mối điều tra, không phải 23,48% thời gian chờ của request, vì các kernel có thể chạy chồng lấp.
@@ -838,6 +865,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 <a id="slide-14"></a>
 
 ## Slide 14 — The N60 gain survives an independent deployment
+
+**Phần cứng: H200 · Firmus — đối chứng auto và lần chạy lại HPC-Ops ở N60 đầy đủ.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -895,6 +924,8 @@ Mũi tên xuống ở hàng TTFT chỉ hướng mong muốn; TTFT thực tế t�
 <a id="slide-15"></a>
 
 ## Slide 15 — The reproduced N64 service still loses first-token tails
+
+**Phần cứng: H200 · Firmus — dữ liệu từng request của job native N64 26766.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -954,6 +985,8 @@ Dải xanh chỉ đánh dấu TTFT, không phải vùng đạt đồng thời. G
 
 ## Slide 16 — H100 has its own operating point and uncertainty
 
+**Phần cứng: H100 · NSCC ASPIRE 2A+ — đỉnh lịch sử N54 và đối chứng mới.**
+
 ### Nói nhanh · 10–20 giây
 
 H100 có cấu hình tối ưu riêng: điểm cao nhất từng đo khoảng 2.433 token đầu ra đạt chuẩn mỗi giây; lần đối chứng đầy đủ mới khoảng 2.399. Hai số cho thấy có biến động giữa lần chạy, và không thể lấy thẳng để kết luận tối ưu H200 tốt hơn bao nhiêu.
@@ -1012,6 +1045,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 17 — FA3: faster first token does not guarantee goodput
 
+**Phần cứng: H100 · NSCC ASPIRE 2A+ — FlashInfer so với FA3 decode tại N54.**
+
 ### Nói nhanh · 10–20 giây
 
 FA3 giúp token đầu tới sớm hơn khoảng 119 mili giây, nhưng khoảng cách token dài hơn tích lũy suốt câu trả lời. Thông lượng đạt chuẩn giảm 0,81%. Vì mục tiêu tổng thể xấu đi, chúng tôi giữ FlashInfer cho cấu hình decode này.
@@ -1069,6 +1104,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 18 — Test the cost hypothesis, then reverse the order
 
+**Phần cứng: H100 · NSCC ASPIRE 2A+ — đọc trước checkpoint và cặp xác nhận đảo thứ tự.**
+
 ### Nói nhanh · 10–20 giây
 
 Đọc trọng số trước lúc khởi động ban đầu tiết kiệm 18,74% thời gian job. Nhưng khi đảo thứ tự chạy để kiểm tra lại, mức tiết kiệm chỉ còn 9,84%, dưới ngưỡng 10% nhóm đã đặt. Vì vậy nhóm không chọn cách này chỉ dựa vào cặp đo thuận lợi đầu tiên.
@@ -1125,9 +1162,16 @@ Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải
 
 ## Slide 19 — A local N52 calibration, not a universal multiplier
 
+**Phần cứng: H100 + H200 — hiệu chỉnh ở cùng cấu hình N52; cả hai phía đều có số đo.**
+
 ### Nói nhanh · 10–20 giây
 
 Ở cùng cấu hình và 52 request đồng thời, thông lượng H200 đo được bằng khoảng 1,188 lần H100. Nhóm dùng tỷ số này làm mốc thử dự báo ở tải gần đó. Nó không phải hệ số đổi mọi kết quả H100 sang H200, nhất là khi cấu hình khác.
+
+**Phân biệt từng kết quả:**
+
+- H100: trung bình 2.215,460 good output tokens/s từ hai lần cấp tài nguyên.
+- H200: trung bình 2.632,181 good output tokens/s từ bốn lần cấp tài nguyên.
 
 ![Slide 19](../../submission-review/ai-journey-update-20261030/slides/assets/slide-19.png)
 
@@ -1184,9 +1228,16 @@ Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần tră
 
 ## Slide 20 — Freeze the forecast, then test it on H200
 
+**Phần cứng: H200 là phép đo kiểm chứng; dự báo lấy từ dữ liệu H100 và tỷ số H200/H100 ở N52.**
+
 ### Nói nhanh · 10–20 giây
 
 Nhóm ghi dự báo trước khi thấy phép đo: khoảng 2.642 token đạt chuẩn mỗi giây, thực tế khoảng 2.602. Sai lệch âm 1,54% nằm trong dung sai 2% đã đặt. Tuy nhiên, khoảng bất định trước đó còn thiếu; một lần dự báo gần đúng chưa chứng minh quy đổi luôn đúng.
+
+**Phân biệt từng kết quả:**
+
+- Dự báo: 2.642,244 good output tokens/s cho H200, tính từ H100 N50 và tỷ số N52 trước đó; không phải điểm H100 đã đo.
+- Thực đo: job H200 24272, đạt 2.601,629 good output tokens/s.
 
 ![Slide 20](../../submission-review/ai-journey-update-20261030/slides/assets/slide-20.png)
 
@@ -1239,6 +1290,8 @@ Dự báo được ghi lại trước khi xem kết quả H200 held-out (phép �
 <a id="slide-21"></a>
 
 ## Slide 21 — Use source evidence to test one small hypothesis
+
+**Phần cứng: H200 · Firmus — tất cả các phép so sánh tối ưu toàn model trong bảng.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1295,6 +1348,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 <a id="slide-22"></a>
 
 ## Slide 22 — Latency acceptance is separate from model accuracy
+
+**Phần cứng: H200 · Firmus — độ trễ và kiểm tra đầu ra nhỏ của job 26766; luật chất lượng chính thức dùng chung.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1354,6 +1409,8 @@ Smoke và retrieval không phải chứng nhận accuracy đầy đủ.
 
 ## Slide 23 — EAGLE3: follow the failed hypothesis through its repairs
 
+**Phần cứng: H200 · Firmus — triển khai EAGLE3, lần thử lại sau sửa và phép thử shallow đầy đủ.**
+
 ### Nói nhanh · 10–20 giây
 
 EAGLE3 dùng model phụ đề xuất token để model chính kiểm tra. Nhóm sửa lỗi triển khai để chạy được, nhưng cấu hình đo đầy đủ vẫn giảm 2,08% thông lượng đạt chuẩn. Bài học là tích hợp thành công chưa đồng nghĩa tăng tốc; nhóm không chọn nhánh đã đo này.
@@ -1410,6 +1467,8 @@ Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.
 <a id="slide-24"></a>
 
 ## Slide 24 — Topology → transport → kernels → replication
+
+**Phần cứng: H200 · Firmus — kết quả N64 được chọn và ứng viên đổi cache.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1469,6 +1528,8 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ## Slide 25 — Appendix · diagnose performance drift with controlled cells
 
+**Phần cứng: H200 · Firmus — tất cả số đo ngắn/đầy đủ, cấu hình cũ và native được nhắc đến.**
+
 ### Nói nhanh · 10–20 giây
 
 Ba lần đo đầy đủ với 64 request đồng thời đạt khoảng 3.044 token đạt chuẩn mỗi giây; một đối chứng ngắn sau đó chỉ khoảng 2.560. Nhưng thời lượng và cài đặt khác nhau. Nhóm thử lại để tìm nguyên nhân, chưa chứng minh một thay đổi riêng nào giải thích chênh lệch.
@@ -1524,9 +1585,17 @@ Tiếp theo, phân biệt probe thành phần tiềm năng với bằng chứng 
 
 ## Slide 26 — Appendix · profiles and source also close attractive detours
 
+**Phần cứng: Bằng chứng hỗn hợp: H200 + H100 + CPU — phải đọc riêng phần cứng của từng dòng.**
+
 ### Nói nhanh · 10–20 giây
 
 Gói attention mới đạt khoảng 2.549 token đạt chuẩn mỗi giây ở 52 request đồng thời, nhưng đổi nhiều yếu tố nên không tách được nguyên nhân. Các thử nghiệm tính toán nhỏ chưa chứng minh cả model nhanh hơn; lần biên dịch model thật bị lỗi trước khi có điểm.
+
+**Phân biệt từng kết quả:**
+
+- H200: gói attention-DP, job 23780; lỗi compile toàn model thật, job 27383.
+- H100: kernel FP8 Triton đại diện, SM budget 80/96/120 so với 132 và đính chính chọn protocol NCCL (ứng viên 221885).
+- Chỉ CPU: các kiểm tra C++ tree/cache, gồm 27506. Những API không hỗ trợ hoặc kết luận chỉ từ source không phải số đo hiệu năng GPU.
 
 ![Slide 26](../../submission-review/ai-journey-update-20261030/slides/assets/slide-26.png)
 
@@ -1579,9 +1648,16 @@ Slide sau mô tả cấu hình serving H200 được chọn và cấu hình H100
 
 ## Slide 27 — Appendix · the selected AI deployment is N64
 
+**Phần cứng: Cấu hình H200 được chọn + cấu hình H100 được giữ — hai cách triển khai riêng, không phải cặp đo tốc độ cùng điều kiện.**
+
 ### Nói nhanh · 10–20 giây
 
 Cấu hình H200 được chọn giữ tối đa 64 request đồng thời, dùng hai nhóm bốn GPU xử lý prompt và một nhóm tám GPU sinh token. H100 dùng cấu hình riêng. Đây là cách triển khai có bằng chứng đo, chưa phải chứng nhận chất lượng câu trả lời của BTC.
+
+**Phân biệt từng kết quả:**
+
+- Cột H200: N64, prefill DeepGEMM, chunk 8192.
+- Cột H100: N54, prefill HPC-Ops, chunk 4096.
 
 ![Slide 27](../../submission-review/ai-journey-update-20261030/slides/assets/slide-27.png)
 
@@ -1632,6 +1708,8 @@ Tiếp theo, so sánh tài nguyên capture graph decode thưa đã tiết kiệm
 <a id="slide-28"></a>
 
 ## Slide 28 — Appendix · sparse graphs save memory, not goodput
+
+**Phần cứng: H200 · Firmus — graph thưa 27510 so với đối chứng 27376.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1687,6 +1765,8 @@ Tiếp theo là phạm vi của điểm serving tổng hợp và các kiểm tra
 
 ## Slide 29 — Appendix · what the benchmark actually measures
 
+**Phần cứng: Workload và quy tắc điểm chung H200/H100 — không có điểm riêng của một nền tảng.**
+
 ### Nói nhanh · 10–20 giây
 
 Benchmark dùng prompt tổng hợp 4.000 token và yêu cầu sinh 200 token để đo tốc độ phục vụ, không chấm nội dung trả lời. Chất lượng phải được đánh giá riêng so với điểm tham chiếu của BTC; yêu cầu đạt ít nhất 99% điểm tham chiếu vẫn chưa được xác minh.
@@ -1739,6 +1819,8 @@ Tiếp theo, so sánh các lần chạy chunk bằng cùng protocol chấm đi�
 <a id="slide-30"></a>
 
 ## Slide 30 — Appendix · larger prefill chunks did not help
+
+**Phần cứng: H200 · Firmus — các phép so sánh chunk prefill 8192/10240/12288.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1793,9 +1875,16 @@ Slide sau tách một lần chạy serving GPU hoàn tất khỏi hậu xử lý
 
 ## Slide 31 — A real replay can invalidate a static deployment claim
 
+**Phần cứng: Phát lại triển khai trên H200 + kiểm reader chỉ dùng CPU — job CPU không chạy lại suy luận.**
+
 ### Nói nhanh · 10–20 giây
 
 Hai job GPU đã chạy xong benchmark nhưng lỗi chương trình đọc kết quả. Sửa chương trình giúp đọc lại điểm khoảng 3.055 token đạt chuẩn mỗi giây từ dữ liệu đã lưu. Job gốc vẫn thất bại; kiểm tra lại trên CPU chưa thay thế việc chạy toàn bộ triển khai sau sửa.
+
+**Phân biệt từng kết quả:**
+
+- H200: job GPU 27136 và 27145; điểm đọc lại 3.055,33 thuộc job H200 27145.
+- CPU, không GPU: 27152 kiểm reader đã sửa trên dữ liệu cũ; không tạo điểm suy luận mới.
 
 ![Slide 31](../../submission-review/ai-journey-update-20261030/slides/assets/slide-31.png)
 
@@ -1846,6 +1935,8 @@ Slide cuối tách phát hiện được giữ lại khỏi công việc xác mi
 <a id="slide-32"></a>
 
 ## Slide 32 — What the evidence supports next
+
+**Phần cứng: H200 · Firmus — kết luận giữ N64 và đề xuất xác minh; không có phép đo mới.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1899,6 +1990,8 @@ Dừng tại đây. Khi trả lời, tách quan sát đo được, kết luận 
 <a id="slide-33"></a>
 
 ## Slide 33 — The task: same 65-million-cell airflow calculation
+
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -1954,6 +2047,8 @@ Tiếp theo, trình bày các bước chuẩn bị cần giữ nguyên để m�
 
 ## Slide 34 — The whole required pipeline comes before the score
 
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
+
 ### Nói nhanh · 10–20 giây
 
 So sánh hợp lệ phải giữ mọi bước chuẩn bị và đủ 150 bước bộ giải. Phân rã gán ô lưới cho rank; CPU affinity gán rank vào CPU. Đây là hai lựa chọn riêng và cả hai đều có thể ảnh hưởng thời gian chạy.
@@ -2007,6 +2102,8 @@ Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm t
 <a id="slide-35"></a>
 
 ## Slide 35 — A smaller partition cut did not make the solver faster
+
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -2065,6 +2162,8 @@ Tiếp theo, ta xem cách phân rã quan sát tốt hơn có thay đổi theo s�
 
 ## Slide 36 — Observed scaling changed which decomposition led
 
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
+
 ### Nói nhanh · 10–20 giây
 
 Phương pháp dẫn đầu thay đổi theo cấp phát: Hierarchical thấp hơn ở một và hai nút, còn Scotch thấp hơn ở bốn nút. Vì độ dài lần chạy và cấp phát khác nhau, đây là các quan sát mô tả, không phải kết quả mở rộng nhân quả.
@@ -2119,6 +2218,8 @@ Có thể tách kết quả bốn nút theo số rank mỗi nút; đó là phép
 
 ## Slide 37 — At four nodes, the winner depends on ranks per node
 
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
+
 ### Nói nhanh · 10–20 giây
 
 Trên bốn nút, Hierarchical có trung bình thấp hơn ở 64 và 96 rank mỗi nút; Scotch thấp hơn ở 128. Giá trị 3,678 giây mỗi bước của Scotch-128 là trung bình thấp nhất đã xem xét, nhưng vẫn là quan sát ứng viên cần xác nhận.
@@ -2172,6 +2273,8 @@ Slide kế tiếp xem phân bố thời gian đầy đủ của trung bình Scot
 <a id="slide-38"></a>
 
 ## Slide 38 — Keep the slow step in the mean; inspect the tail
+
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -2228,6 +2331,8 @@ Sự bất định đó dẫn tới yêu cầu ở slide sau: chạy lặp độ
 <a id="slide-39"></a>
 
 ## Slide 39 — A reproducible candidate needs more than a fast log
+
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
 
 ### Nói nhanh · 10–20 giây
 
@@ -2286,6 +2391,8 @@ Slide cuối tổng kết nguyên tắc bằng chứng và quyết định xem x
 <a id="slide-40"></a>
 
 ## Slide 40 — What we learned — and the next measurement
+
+**Phần cứng: CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200.**
 
 ### Nói nhanh · 10–20 giây
 

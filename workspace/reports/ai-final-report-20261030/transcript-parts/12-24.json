@@ -53,7 +53,8 @@
       "script": "“N62 produced about 3,012 good output tokens per second. N64 reached about 3,044, and an independent deployment repeated almost exactly. That is a roughly 1.08 percent full-protocol gain. Mean TTFT rose modestly and ITL stayed near 15 milliseconds. The short N68 screen looked better, but its full result nearly disappeared. We keep N64 because the full comparison and repeat support it, without calling it globally optimal.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“Next we use traces to choose diagnostic questions.”",
-      "brief": "Raising client concurrency from 62 to 64 improved qualifying throughput by 1.08%. A separate full run returned about 3,044 good output tokens per second again. That repeat supports N64; the promising shorter N68 test did not hold up."
+      "brief": "Raising client concurrency from 62 to 64 improved qualifying throughput by 1.08%. A separate full run returned about 3,044 good output tokens per second again. That repeat supports N64; the promising shorter N68 test did not hold up.",
+      "hardware": "H200 · Firmus — full N62/N64 comparison and N64 repeat."
     },
     "vi": {
       "purpose": "Giải thích vì sao chọn N64: so sánh đầy đủ và lần lặp độc lập ủng hộ mức tăng vừa phải; tín hiệu tốt từ phép thử N68 ngắn không còn đáng kể khi đo đầy đủ.",
@@ -106,7 +107,8 @@
       "script": "“N62 đạt khoảng 3.012 good output token mỗi giây. N64 đạt 3.044 và một lần triển khai độc lập lặp lại gần như vậy. Đây là mức tăng khoảng 1,08% trong protocol đầy đủ. TTFT tăng nhẹ, ITL quanh 15 mili giây. Sàng lọc N68 có vẻ tốt hơn nhưng kết quả đầy đủ gần như mất lợi thế. Chúng tôi giữ N64 nhờ có đối chứng đầy đủ và lần lặp, không gọi đây là tối ưu toàn cục.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Tiếp theo dùng trace để chọn câu hỏi chẩn đoán.”",
-      "brief": "Tăng số request đồng thời từ 62 lên 64 giúp thông lượng đạt chuẩn tăng 1,08%. Chạy lại bằng một job đầy đủ khác vẫn đạt khoảng 3.044 token mỗi giây. Đây là ý nghĩa của “repeat”: kiểm tra kết quả có tái lập, thay vì chọn một lần đo cao."
+      "brief": "Tăng số request đồng thời từ 62 lên 64 giúp thông lượng đạt chuẩn tăng 1,08%. Chạy lại bằng một job đầy đủ khác vẫn đạt khoảng 3.044 token mỗi giây. Đây là ý nghĩa của “repeat”: kiểm tra kết quả có tái lập, thay vì chọn một lần đo cao.",
+      "hardware": "H200 · Firmus — cặp đo đầy đủ N62/N64 và lần chạy lại N64."
     }
   },
   {
@@ -166,7 +168,8 @@
       "script": "“These profile percentages help point to follow-up questions. They are summed kernel durations in a separate N48 diagnostic, not fractions of request wall time. Kernels may overlap. We use the trace to choose a controlled experiment, not to claim the same percentage as an achievable speedup.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“A separate full N60 comparison tests a backend interaction.”",
-      "brief": "Profiling records GPU operations to identify what deserves testing. Communication and normalization account for about 23.48% of summed recorded kernel duration here. That is a diagnostic clue, not a quarter of request latency or a guaranteed speedup."
+      "brief": "Profiling records GPU operations to identify what deserves testing. Communication and normalization account for about 23.48% of summed recorded kernel duration here. That is a diagnostic clue, not a quarter of request latency or a guaranteed speedup.",
+      "hardware": "H200 · Firmus — N48 diagnostic profile; N58 deployment repeat in job 24819."
     },
     "vi": {
       "purpose": "Giải thích cách dùng profile để đặt câu hỏi có thể kiểm chứng tiếp theo, đồng thời tách tỷ trọng kernel trong phép chẩn đoán khỏi hiệu năng dịch vụ đầu cuối.",
@@ -222,7 +225,8 @@
       "script": "“Các tỷ lệ profile giúp chỉ ra câu hỏi tiếp theo. Đây là tổng kernel duration trong diagnostic N48 riêng, không phải phần thời gian của request. Kernel có thể chồng lấp. Chúng tôi dùng trace để chọn thí nghiệm có đối chứng, không coi tỷ lệ này là mức tăng tốc có thể đạt.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Một so sánh N60 đầy đủ kiểm tra tương tác backend.”",
-      "brief": "Profile ghi lại hoạt động GPU để tìm hướng thử tiếp. Nhóm giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là đầu mối điều tra, không phải 23,48% thời gian chờ của request, vì các kernel có thể chạy chồng lấp."
+      "brief": "Profile ghi lại hoạt động GPU để tìm hướng thử tiếp. Nhóm giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là đầu mối điều tra, không phải 23,48% thời gian chờ của request, vì các kernel có thể chạy chồng lấp.",
+      "hardware": "H200 · Firmus — profile chẩn đoán N48; job 24819 còn chạy lại deployment N58."
     }
   },
   {
@@ -283,7 +287,8 @@
       "script": "“Goodput rises about 5.30 percent, and the treatment repeat is nearly identical to the original. But first-token latency gets about 125 milliseconds worse while ITL improves. This is a reproduced tradeoff at N60, not a universal backend claim.”",
       "caution": "The down arrow beside TTFT states the desired direction; actual TTFT rises in this pair. Do not say every latency metric improved or that the team invented HPC-Ops.",
       "transition": "“The next plot shows request-level misses rather than averages.”",
-      "brief": "Changing the decode implementation improved qualifying throughput by 5.30%, and another deployment reproduced the result. But first-token delay increased by about 125 milliseconds while token gaps shortened. The improvement is a measured tradeoff, not faster everything."
+      "brief": "Changing the decode implementation improved qualifying throughput by 5.30%, and another deployment reproduced the result. But first-token delay increased by about 125 milliseconds while token gaps shortened. The improvement is a measured tradeoff, not faster everything.",
+      "hardware": "H200 · Firmus — full N60 auto-control versus HPC-Ops repeat."
     },
     "vi": {
       "purpose": "Chứng minh một đánh đổi backend có lần lặp: thông lượng hữu ích và khoảng token tốt hơn vẫn có thể đi cùng thời gian chờ token đầu xấu hơn.",
@@ -340,7 +345,8 @@
       "script": "“Goodput tăng khoảng 5,30%, và lần lặp gần như trùng treatment ban đầu. Nhưng TTFT xấu hơn khoảng 125 mili giây trong khi ITL cải thiện. Đây là tradeoff được lặp lại tại N60, không phải tuyên bố phổ quát.”",
       "caution": "Mũi tên xuống ở hàng TTFT chỉ hướng mong muốn; TTFT thực tế tăng trong cặp này. Không nói mọi chỉ số độ trễ đều tốt hơn hoặc nhóm tự phát minh HPC-Ops.",
       "transition": "“Biểu đồ tiếp theo cho thấy miss theo từng request thay vì trung bình.”",
-      "brief": "Đổi cách thực thi decode giúp thông lượng đạt chuẩn tăng 5,30%, và một lần triển khai khác cho kết quả gần như cũ. Tuy nhiên, token đầu chậm thêm khoảng 125 mili giây, còn khoảng cách token ngắn hơn. Đây là đánh đổi đã đo, không phải mọi chỉ số đều tốt hơn."
+      "brief": "Đổi cách thực thi decode giúp thông lượng đạt chuẩn tăng 5,30%, và một lần triển khai khác cho kết quả gần như cũ. Tuy nhiên, token đầu chậm thêm khoảng 125 mili giây, còn khoảng cách token ngắn hơn. Đây là đánh đổi đã đo, không phải mọi chỉ số đều tốt hơn.",
+      "hardware": "H200 · Firmus — đối chứng auto và lần chạy lại HPC-Ops ở N60 đầy đủ."
     }
   },
   {
@@ -398,7 +404,8 @@
       "script": "“Each dot is one request. It passes only left of 3,000 ms TTFT and below 20 ms ITL. Teal passes both, orange misses at least one. There are 1,875 passes from 1,902; all 27 misses are TTFT-only. Their timing near admission motivates investigation, but does not prove startup caused them.”",
       "caution": "The green band marks TTFT only. Do not treat it as the joint pass region; every request stays in the denominator.",
       "transition": "“We now treat H100 as a separate operating point.”",
-      "brief": "Each dot represents one request: teal meets both latency limits and orange misses at least one. Overall, 98.58% qualify. All 27 failures are first-token delays, showing why a high average score still needs request-level tail inspection."
+      "brief": "Each dot represents one request: teal meets both latency limits and orange misses at least one. Overall, 98.58% qualify. All 27 failures are first-token delays, showing why a high average score still needs request-level tail inspection.",
+      "hardware": "H200 · Firmus — per-request data from native N64 job 26766."
     },
     "vi": {
       "purpose": "Cho thấy cần xem từng request: hiệu năng trung bình cao vẫn có những request chờ token đầu quá lâu; số trung bình không giải thích được nguyên nhân của phần đuôi này.",
@@ -456,7 +463,8 @@
       "script": "“Mỗi chấm là một request. Nó chỉ đạt nếu TTFT không quá 3.000 ms và ITL không quá 20 ms. Teal đạt cả hai; cam trượt ít nhất một. Có 1.875 trên 1.902 đạt; cả 27 miss đều do TTFT. Thời điểm gần admission đáng khảo sát nhưng không chứng minh startup là nguyên nhân.”",
       "caution": "Dải xanh chỉ đánh dấu TTFT, không phải vùng đạt đồng thời. Giữ mọi request trong mẫu số.",
       "transition": "“Tiếp theo xem H100 như operating point riêng.”",
-      "brief": "Mỗi chấm là một request: xanh đạt cả hai giới hạn độ trễ, cam trượt ít nhất một. Tổng cộng 98,58% đạt; cả 27 request trượt đều chờ token đầu quá lâu. Vì vậy điểm trung bình cao vẫn cần xem phần request chậm nhất."
+      "brief": "Mỗi chấm là một request: xanh đạt cả hai giới hạn độ trễ, cam trượt ít nhất một. Tổng cộng 98,58% đạt; cả 27 request trượt đều chờ token đầu quá lâu. Vì vậy điểm trung bình cao vẫn cần xem phần request chậm nhất.",
+      "hardware": "H200 · Firmus — dữ liệu từng request của job native N64 26766."
     }
   },
   {
@@ -521,7 +529,8 @@
       "script": "“The historical H100 peak is about 2,433, while a fresh full N54 control is about 2,399 and passes 98.016 percent of joint latency checks. The H100 recipe differs from H200, so these are separate observations, not a hardware conversion experiment.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“Within H100, one decode-attention change tests whether faster first token improves the whole request.”",
-      "brief": "H100 has a separate tuned configuration: its historical peak is about 2,433 good output tokens per second, while a fresh full control measures about 2,399. These are H100 observations, not directly comparable treatments of the H200 result."
+      "brief": "H100 has a separate tuned configuration: its historical peak is about 2,433 good output tokens per second, while a fresh full control measures about 2,399. These are H100 observations, not directly comparable treatments of the H200 result.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — N54 historical peak and fresh control."
     },
     "vi": {
       "purpose": "Tách điểm vận hành H100, cài đặt backend và biến động giữa các lần chạy khỏi các tuyên bố trên H200.",
@@ -582,7 +591,8 @@
       "script": "“Đỉnh H100 lịch sử khoảng 2.433, còn control N54 đầy đủ mới khoảng 2.399 và đạt 98,016 phần trăm SLA đồng thời. Recipe H100 khác H200 nên đây là quan sát riêng, không phải phép quy đổi phần cứng.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Trong H100, một thay đổi attention decode kiểm tra liệu token đầu nhanh hơn có cải thiện toàn request không.”",
-      "brief": "H100 có cấu hình tối ưu riêng: điểm cao nhất từng đo khoảng 2.433 token đầu ra đạt chuẩn mỗi giây; lần đối chứng đầy đủ mới khoảng 2.399. Hai số cho thấy có biến động giữa lần chạy, và không thể lấy thẳng để kết luận tối ưu H200 tốt hơn bao nhiêu."
+      "brief": "H100 có cấu hình tối ưu riêng: điểm cao nhất từng đo khoảng 2.433 token đầu ra đạt chuẩn mỗi giây; lần đối chứng đầy đủ mới khoảng 2.399. Hai số cho thấy có biến động giữa lần chạy, và không thể lấy thẳng để kết luận tối ưu H200 tốt hơn bao nhiêu.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — đỉnh lịch sử N54 và đối chứng mới."
     }
   },
   {
@@ -643,7 +653,8 @@
       "script": "“FA3 lowers TTFT, but token intervals widen. Across the output those intervals outweigh the initial saving: request latency rises and goodput falls. We keep FlashInfer for this decode configuration.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“Next we assess a startup cost change using a predeclared gate.”",
-      "brief": "FA3 makes the first token arrive about 119 milliseconds sooner, but slightly longer gaps accumulate across the answer. Goodput falls 0.81%. We retain FlashInfer for this decode setting because the overall objective gets worse."
+      "brief": "FA3 makes the first token arrive about 119 milliseconds sooner, but slightly longer gaps accumulate across the answer. Goodput falls 0.81%. We retain FlashInfer for this decode setting because the overall objective gets worse.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — N54 FlashInfer versus FA3 decode."
     },
     "vi": {
       "purpose": "Dùng phép thử decode FA3 không thành công để giải thích vì sao chỉ tối ưu thời gian token đầu có thể làm mục tiêu thông lượng cuối cùng xấu đi.",
@@ -700,7 +711,8 @@
       "script": "“FA3 giảm TTFT nhưng khoảng token dài hơn. Trên toàn đầu ra, phần tăng này lớn hơn khoản tiết kiệm ban đầu: latency request tăng, goodput giảm. Chúng tôi giữ FlashInfer cho cấu hình decode này.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Tiếp theo đánh giá thay đổi chi phí startup với ngưỡng đặt trước.”",
-      "brief": "FA3 giúp token đầu tới sớm hơn khoảng 119 mili giây, nhưng khoảng cách token dài hơn tích lũy suốt câu trả lời. Thông lượng đạt chuẩn giảm 0,81%. Vì mục tiêu tổng thể xấu đi, chúng tôi giữ FlashInfer cho cấu hình decode này."
+      "brief": "FA3 giúp token đầu tới sớm hơn khoảng 119 mili giây, nhưng khoảng cách token dài hơn tích lũy suốt câu trả lời. Thông lượng đạt chuẩn giảm 0,81%. Vì mục tiêu tổng thể xấu đi, chúng tôi giữ FlashInfer cho cấu hình decode này.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — FlashInfer so với FA3 decode tại N54."
     }
   },
   {
@@ -760,7 +772,8 @@
       "script": "“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than select its favorable first result.”",
       "caution": "Do not report only the favorable first order. Unknown cache state limits causal interpretation.",
       "transition": "“A separate question asks whether a team-measured hardware ratio can forecast a nearby load.”",
-      "brief": "Reading weights before startup initially saved 18.74% of job time. Reversing the trial order reduced that saving to 9.84%, below our predeclared 10% threshold. We therefore did not select it based on the favorable first pair."
+      "brief": "Reading weights before startup initially saved 18.74% of job time. Reversing the trial order reduced that saving to 9.84%, below our predeclared 10% threshold. We therefore did not select it based on the favorable first pair.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — checkpoint read-first and reversed-order confirmation."
     },
     "vi": {
       "purpose": "Giải thích giá trị của việc đảo thứ tự thử và giữ ngưỡng chấp nhận đã đặt trước, thay vì chọn kết quả thuận lợi đầu tiên.",
@@ -816,7 +829,8 @@
       "script": "“Cặp đầu tiết kiệm 18,74%, nhưng đảo thứ tự chỉ còn 9,84%, thấp hơn ngưỡng 10% đã công bố. Goodput chỉ đổi nhẹ. Vì phép xác nhận trượt ngưỡng, chúng tôi đóng nhánh thay vì đưa vào cấu hình chính kết quả thuận lợi đầu tiên.”",
       "caution": "Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải nhân quả bị giới hạn.",
       "transition": "“Một câu hỏi riêng là liệu tỷ số phần cứng do nhóm tự chạy dự báo được tải gần kề không.”",
-      "brief": "Đọc trọng số trước lúc khởi động ban đầu tiết kiệm 18,74% thời gian job. Nhưng khi đảo thứ tự chạy để kiểm tra lại, mức tiết kiệm chỉ còn 9,84%, dưới ngưỡng 10% nhóm đã đặt. Vì vậy nhóm không chọn cách này chỉ dựa vào cặp đo thuận lợi đầu tiên."
+      "brief": "Đọc trọng số trước lúc khởi động ban đầu tiết kiệm 18,74% thời gian job. Nhưng khi đảo thứ tự chạy để kiểm tra lại, mức tiết kiệm chỉ còn 9,84%, dưới ngưỡng 10% nhóm đã đặt. Vì vậy nhóm không chọn cách này chỉ dựa vào cặp đo thuận lợi đầu tiên.",
+      "hardware": "H100 · NSCC ASPIRE 2A+ — đọc trước checkpoint và cặp xác nhận đảo thứ tự."
     }
   },
   {
@@ -882,7 +896,12 @@
       "script": "“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a team-measured system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”",
       "caution": "This ratio applies only to the stated load and configuration; it is not a percentage or conversion for latency.",
       "transition": "“We now check a forecast fixed before seeing held-out H200 data.”",
-      "brief": "At the same configuration and 52 concurrent requests, measured H200 throughput is about 1.188 times H100 throughput. We use this as a limited prediction anchor, not a universal conversion rule for different loads, backends or latency metrics."
+      "brief": "At the same configuration and 52 concurrent requests, measured H200 throughput is about 1.188 times H100 throughput. We use this as a limited prediction anchor, not a universal conversion rule for different loads, backends or latency metrics.",
+      "hardware": "H100 + H200 — same-configuration N52 calibration; both sides are measured.",
+      "hardware_details": [
+        "H100: mean 2215.460 good output tokens/s from two allocations.",
+        "H200: mean 2632.181 good output tokens/s from four allocations."
+      ]
     },
     "vi": {
       "purpose": "Đặt một cầu nối đo được nhưng có phạm vi giữa hai hệ thống, và giải thích vì sao đây không phải quy tắc đổi mọi kết quả H100 sang H200.",
@@ -944,7 +963,12 @@
       "script": "“Ở cùng combo N52, goodput H200 chia H100 là 1,1881. Đây là liên hệ hệ thống do nhóm tự chạy, không phải hệ số quy đổi phổ quát. Slide sau kiểm tra một dự báo đã khóa tại N50.”",
       "caution": "Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần trăm hay hệ số đổi latency.",
       "transition": "“Giờ kiểm tra dự báo được cố định trước khi thấy dữ liệu H200 held-out (phép đo được giữ riêng để kiểm tra dự báo).”",
-      "brief": "Ở cùng cấu hình và 52 request đồng thời, thông lượng H200 đo được bằng khoảng 1,188 lần H100. Nhóm dùng tỷ số này làm mốc thử dự báo ở tải gần đó. Nó không phải hệ số đổi mọi kết quả H100 sang H200, nhất là khi cấu hình khác."
+      "brief": "Ở cùng cấu hình và 52 request đồng thời, thông lượng H200 đo được bằng khoảng 1,188 lần H100. Nhóm dùng tỷ số này làm mốc thử dự báo ở tải gần đó. Nó không phải hệ số đổi mọi kết quả H100 sang H200, nhất là khi cấu hình khác.",
+      "hardware": "H100 + H200 — hiệu chỉnh ở cùng cấu hình N52; cả hai phía đều có số đo.",
+      "hardware_details": [
+        "H100: trung bình 2.215,460 good output tokens/s từ hai lần cấp tài nguyên.",
+        "H200: trung bình 2.632,181 good output tokens/s từ bốn lần cấp tài nguyên."
+      ]
     }
   },
   {
@@ -998,7 +1022,12 @@
       "script": "“The forecast was frozen before the result. H200 measured 2,601.629 against 2,642.244 predicted, a −1.5371 percent error. That is within the predeclared operational tolerance, but outside an earlier incomplete sensitivity range. We keep both findings and do not refit.”",
       "caution": "±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out data.",
       "transition": "“Next, we compare small source-guided hypotheses by complete outcome.”",
-      "brief": "We fixed the forecast before testing: about 2,642 good output tokens per second predicted versus 2,602 measured. The error is minus 1.54%, within our 2% tolerance, but our earlier uncertainty estimate was incomplete. This is one bounded forecast check."
+      "brief": "We fixed the forecast before testing: about 2,642 good output tokens per second predicted versus 2,602 measured. The error is minus 1.54%, within our 2% tolerance, but our earlier uncertainty estimate was incomplete. This is one bounded forecast check.",
+      "hardware": "H200 verification measurement; forecast derived from H100 data and the N52 H200/H100 ratio.",
+      "hardware_details": [
+        "Prediction: 2642.244 good output tokens/s for H200, calculated from H100 N50 and the prior N52 ratio; it is not a measured H100 score.",
+        "Measurement: H200 job 24272, 2601.629 good output tokens/s."
+      ]
     },
     "vi": {
       "purpose": "Minh họa kiểm tra dự báo minh bạch: khóa dự báo trước, thử một điểm chưa dùng để hiệu chỉnh, rồi báo cả việc đạt dung sai lẫn phần bất định còn thiếu.",
@@ -1048,7 +1077,12 @@
       "script": "“Dự báo được khóa trước khi có kết quả. H200 đo 2.601,629 so với 2.642,244 dự đoán, sai số −1,5371%. Kết quả trong dung sai vận hành định trước, nhưng ngoài sensitivity range cũ chưa đầy đủ. Chúng tôi giữ cả hai phát hiện và không fit lại.”",
       "caution": "±2% là dung sai vận hành, không phải khoảng tin cậy. Không fit lại sau khi thấy held-out (phép đo được giữ riêng để kiểm tra dự báo).",
       "transition": "“Tiếp theo so sánh các giả thuyết nhỏ dựa trên source bằng outcome đầy đủ.”",
-      "brief": "Nhóm ghi dự báo trước khi thấy phép đo: khoảng 2.642 token đạt chuẩn mỗi giây, thực tế khoảng 2.602. Sai lệch âm 1,54% nằm trong dung sai 2% đã đặt. Tuy nhiên, khoảng bất định trước đó còn thiếu; một lần dự báo gần đúng chưa chứng minh quy đổi luôn đúng."
+      "brief": "Nhóm ghi dự báo trước khi thấy phép đo: khoảng 2.642 token đạt chuẩn mỗi giây, thực tế khoảng 2.602. Sai lệch âm 1,54% nằm trong dung sai 2% đã đặt. Tuy nhiên, khoảng bất định trước đó còn thiếu; một lần dự báo gần đúng chưa chứng minh quy đổi luôn đúng.",
+      "hardware": "H200 là phép đo kiểm chứng; dự báo lấy từ dữ liệu H100 và tỷ số H200/H100 ở N52.",
+      "hardware_details": [
+        "Dự báo: 2.642,244 good output tokens/s cho H200, tính từ H100 N50 và tỷ số N52 trước đó; không phải điểm H100 đã đo.",
+        "Thực đo: job H200 24272, đạt 2.601,629 good output tokens/s."
+      ]
     }
   },
   {
@@ -1108,7 +1142,8 @@
       "script": "“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not selected; a better ITL that costs 6.39 percent goodput is also not a win.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“Service latency and model accuracy are separate acceptance questions.”",
-      "brief": "Source inspection tells us which changes can actually run; benchmarks decide whether they help. Cache tuning gained only 0.24%, while one attention change lost 6.39% goodput. Plausible code changes and better isolated metrics do not justify replacing the baseline."
+      "brief": "Source inspection tells us which changes can actually run; benchmarks decide whether they help. Cache tuning gained only 0.24%, while one attention change lost 6.39% goodput. Plausible code changes and better isolated metrics do not justify replacing the baseline.",
+      "hardware": "H200 · Firmus — all displayed full-model tuning comparisons."
     },
     "vi": {
       "purpose": "Giải thích cách giữ hoặc đóng ý tưởng có cơ sở từ source sau phép đo đầy đủ; đường code hợp lý hay mức tăng nhỏ chưa đủ để đưa vào cấu hình chính.",
@@ -1164,7 +1199,8 @@
       "script": "“Flag chạy được mới chỉ là khởi đầu. Chúng tôi xác nhận activation, chạy protocol đầy đủ và so với control. Gain nhỏ dưới ngưỡng không được đưa vào cấu hình chính; ITL tốt hơn nhưng mất 6,39% goodput cũng không phải cải thiện.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Latency dịch vụ và độ chính xác model là hai câu hỏi chấp nhận riêng.”",
-      "brief": "Đọc source giúp biết thay đổi nào thực sự được thực thi; benchmark mới cho biết có ích không. Đổi cache chỉ tăng 0,24%, còn một thay đổi attention làm mất 6,39% thông lượng đạt chuẩn. Vì vậy bật được tính năng hay cải thiện một chỉ số chưa đủ để thay cấu hình chính."
+      "brief": "Đọc source giúp biết thay đổi nào thực sự được thực thi; benchmark mới cho biết có ích không. Đổi cache chỉ tăng 0,24%, còn một thay đổi attention làm mất 6,39% thông lượng đạt chuẩn. Vì vậy bật được tính năng hay cải thiện một chỉ số chưa đủ để thay cấu hình chính.",
+      "hardware": "H200 · Firmus — tất cả các phép so sánh tối ưu toàn model trong bảng."
     }
   },
   {
@@ -1232,7 +1268,8 @@
       "script": "“The service meets its team-measured latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”",
       "caution": "Smoke and retrieval checks are not full accuracy certification.",
       "transition": "“The EAGLE3 case shows how failed hypotheses and repaired tools should be reported.”",
-      "brief": "Fast service and answer quality are separate checks. Our small tests score seven of eight and twelve of twelve, but do not certify the official requirement of at least 99% of reference quality. That evaluation remains unverified."
+      "brief": "Fast service and answer quality are separate checks. Our small tests score seven of eight and twelve of twelve, but do not certify the official requirement of at least 99% of reference quality. That evaluation remains unverified.",
+      "hardware": "H200 · Firmus — job 26766 latency and small output checks; official quality rule is shared."
     },
     "vi": {
       "purpose": "Tách dịch vụ nhanh khỏi chất lượng trả lời đúng: sanity check nhỏ và việc đạt độ trễ không chứng nhận yêu cầu chất lượng chính thức trên bộ đánh giá đầy đủ.",
@@ -1296,7 +1333,8 @@
       "script": "“Dịch vụ đạt ngưỡng latency do nhóm tự chạy, các sanity check nhỏ không có regression mới. Đánh giá chất lượng official ở mức 99% reference chưa được xác minh, nên chúng tôi không tuyên bố chứng nhận hay ranking.”",
       "caution": "Smoke và retrieval không phải chứng nhận accuracy đầy đủ.",
       "transition": "“Case EAGLE3 cho thấy cần báo cáo giả thuyết thất bại và công cụ được sửa như thế nào.”",
-      "brief": "Dịch vụ nhanh và câu trả lời đúng là hai việc phải kiểm tra riêng. Các bộ kiểm tra nhỏ đạt 7/8 và 12/12, nhưng chưa chứng nhận yêu cầu ít nhất 99% điểm chất lượng tham chiếu của BTC. Vì vậy nhóm chỉ báo điều đã đo, chưa khẳng định đạt chất lượng chính thức."
+      "brief": "Dịch vụ nhanh và câu trả lời đúng là hai việc phải kiểm tra riêng. Các bộ kiểm tra nhỏ đạt 7/8 và 12/12, nhưng chưa chứng nhận yêu cầu ít nhất 99% điểm chất lượng tham chiếu của BTC. Vì vậy nhóm chỉ báo điều đã đo, chưa khẳng định đạt chất lượng chính thức.",
+      "hardware": "H200 · Firmus — độ trễ và kiểm tra đầu ra nhỏ của job 26766; luật chất lượng chính thức dùng chung."
     }
   },
   {
@@ -1360,7 +1398,8 @@
       "script": "“The first attempt missed latency. A tooling bug then rejected a decode-only run; we repaired the validator and kept the original failure. The short retry ran but lost goodput, and a distinct full trial also lost. These tested settings close; we do not claim the method can never help.”",
       "caution": "Do not erase the validator failure or confuse short and full protocols.",
       "transition": "“The summary returns to replicated N64 and the small unselected cache result.”",
-      "brief": "We tried EAGLE3, which proposes several tokens before the target model checks them. Repairing deployment checks allowed it to run, but the tested full setting still lost 2.08% goodput. Successful integration did not become a performance improvement."
+      "brief": "We tried EAGLE3, which proposes several tokens before the target model checks them. Repairing deployment checks allowed it to run, but the tested full setting still lost 2.08% goodput. Successful integration did not become a performance improvement.",
+      "hardware": "H200 · Firmus — EAGLE3 deployment, repaired retry and full shallow trial."
     },
     "vi": {
       "purpose": "Giữ toàn bộ chuỗi lỗi và sửa của speculative decoding, rồi giải thích vì sao sửa được tích hợp vẫn chưa chứng minh có tăng tốc.",
@@ -1420,7 +1459,8 @@
       "script": "“Lần đầu trượt latency. Một lỗi tooling sau đó từ chối lần decode-only; chúng tôi sửa validator nhưng giữ lỗi cũ. Retry ngắn chạy nhưng mất goodput, thử nghiệm full riêng cũng giảm. Các settings đã thử được đóng; không kết luận phương pháp này không bao giờ hữu ích.”",
       "caution": "Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.",
       "transition": "“Tổng kết quay lại N64 được lặp lại và kết quả cache nhỏ không được đưa vào cấu hình chính.”",
-      "brief": "EAGLE3 dùng model phụ đề xuất token để model chính kiểm tra. Nhóm sửa lỗi triển khai để chạy được, nhưng cấu hình đo đầy đủ vẫn giảm 2,08% thông lượng đạt chuẩn. Bài học là tích hợp thành công chưa đồng nghĩa tăng tốc; nhóm không chọn nhánh đã đo này."
+      "brief": "EAGLE3 dùng model phụ đề xuất token để model chính kiểm tra. Nhóm sửa lỗi triển khai để chạy được, nhưng cấu hình đo đầy đủ vẫn giảm 2,08% thông lượng đạt chuẩn. Bài học là tích hợp thành công chưa đồng nghĩa tăng tốc; nhóm không chọn nhánh đã đo này.",
+      "hardware": "H200 · Firmus — triển khai EAGLE3, lần thử lại sau sửa và phép thử shallow đầy đủ."
     }
   },
   {
@@ -1485,7 +1525,8 @@
       "script": "“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not selected. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“The next section changes topic to the HPC CPU/OpenFOAM study.”",
-      "brief": "Our selected N64 service averages about 3,044 qualifying output tokens per second across three full runs. Repeated means we reran the benchmark to check reproducibility. We prefer that evidence over a slightly higher isolated point; official quality remains unverified."
+      "brief": "Our selected N64 service averages about 3,044 qualifying output tokens per second across three full runs. Repeated means we reran the benchmark to check reproducibility. We prefer that evidence over a slightly higher isolated point; official quality remains unverified.",
+      "hardware": "H200 · Firmus — selected N64 result and cache candidate."
     },
     "vi": {
       "purpose": "Kết phần AI chính bằng cấu hình có bằng chứng lặp lại và giới hạn của kết luận, thay vì chọn một đỉnh điểm riêng lẻ.",
@@ -1546,7 +1587,8 @@
       "script": "“Điểm được chọn là trung bình N64 lịch sử đã lặp lại. Kết quả native sau đó tương tự nhưng báo riêng. Đỉnh cache chỉ hơn control 0,24% nên không đưa vào cấu hình chính. Chúng tôi giữ cả run thấp hợp lệ. Đây là operating point đo được, không phải optimum toàn cục; quality official vẫn cần xác minh.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Phần tiếp theo đổi chủ đề sang nghiên cứu HPC CPU/OpenFOAM.”",
-      "brief": "Cấu hình 64 request đồng thời đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây qua ba lần đo đầy đủ. “Repeated” nghĩa là đã chạy lại benchmark để kiểm tra khả năng tái lập. Nhóm ưu tiên bằng chứng này thay vì một điểm cao đơn lẻ; chất lượng chính thức vẫn chưa xác minh."
+      "brief": "Cấu hình 64 request đồng thời đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây qua ba lần đo đầy đủ. “Repeated” nghĩa là đã chạy lại benchmark để kiểm tra khả năng tái lập. Nhóm ưu tiên bằng chứng này thay vì một điểm cao đơn lẻ; chất lượng chính thức vẫn chưa xác minh.",
+      "hardware": "H200 · Firmus — kết quả N64 được chọn và ứng viên đổi cache."
     }
   }
 ]

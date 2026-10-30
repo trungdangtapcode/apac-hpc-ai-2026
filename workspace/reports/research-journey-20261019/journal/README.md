@@ -6,6 +6,8 @@ Latest AI reporting correction: [30 October clarify technical concepts and remov
 
 Latest AI presenter update: [30 October quick spoken briefs before every slide's purpose](entries/20261030-ai-transcript-quick-briefs.md).
 
+Latest AI presenter clarification: [30 October hardware labels and mixed-result attribution](entries/20261030-ai-transcript-hardware-labels.md).
+
 Latest model continuation: [H100 HPC-Ops prefill/chunk interaction](entries/20261020-h100-hpc-prefill-chunk.md).
 
 Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).

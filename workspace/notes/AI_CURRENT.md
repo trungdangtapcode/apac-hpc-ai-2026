@@ -2,6 +2,8 @@
 
 **Presenter learning guides:** [bilingual transcripts for all 40 slides](ai-bilingual-transcripts-20261030.md), now with a 10–20 second spoken brief before every slide's purpose. Briefs explain the main point, standout result and necessary terms, including what repeated measurements mean. Detailed technical explanations remain below. The Vietnamese companion remains a narrow requested exception; deck and HPC payloads are unchanged.
 
+**Hardware reminders:** every transcript slide now starts with H200/Firmus, H100/NSCC, shared/mixed evidence, or CPU attribution. Slides 16–18 are H100; the approximately 3044-good-token/s series is H200. Mixed slides 19/20/26/27/31 also identify each result's platform. This is a guide update, not a new measurement or deck change.
+
 **Latest presentation:** [journey coverage and panel preparation](ai-journey-presentation-20261030.md), following the owner’s 15–20 minute AI allowance. No research resumed.
 
 **Final report and delivery:** [30 October update](ai-final-delivery-20261030.md). Report-only work is complete; research remains stopped.

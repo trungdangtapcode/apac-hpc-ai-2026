@@ -7,6 +7,7 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
 - **Slides 33–40:** read-only explanation of the existing HPC section. Its scheduler statements are **23 October snapshots**, not live 30 October status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
+- Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Research has stopped at the owner's request. Future actions shown on slides are proposals or historical next decisions, not newly executed jobs.
@@ -121,6 +122,8 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 ## Slide 01 — Qwen serving: from topology to reproduced performance
 
+**Hardware: H200 + H100 — AI campaign overview; headline result is H200.**
+
 ### Quick brief · 10–20 seconds
 
 This talk follows our Qwen serving work from topology to repeatable measurement. These are team measurements through 30 October 2026; official model accuracy remains unverified.
@@ -171,6 +174,8 @@ First I will state what counts as a useful result and how to read the headline n
 <a id="slide-02"></a>
 
 ## Slide 02 — Highest observation and strongest recommendation
+
+**Hardware: H200 · Firmus — all displayed throughput observations.**
 
 ### Quick brief · 10–20 seconds
 
@@ -227,6 +232,8 @@ To understand what good output tokens per second means, we need the workload and
 
 ## Slide 03 — Optimise useful throughput under a latency gate
 
+**Hardware: Shared H200/H100 rules — no hardware-specific measurement.**
+
 ### Quick brief · 10–20 seconds
 
 A request counts only when TTFT is at most 3,000 milliseconds and mean ITL at most 20 milliseconds; at least 90% must pass both. Goodput counts qualifying requests, not raw output.
@@ -282,6 +289,8 @@ With the objective fixed, the next slide shows why platform details must travel 
 
 ## Slide 04 — One workload, two deployment systems
 
+**Hardware: H200 · Firmus + H100 · NSCC ASPIRE 2A+ — platform comparison.**
+
 ### Quick brief · 10–20 seconds
 
 We used two sixteen-GPU systems: H200 on Firmus and H100 on NSCC. Shared workload and model do not erase platform differences, so every comparison must name its hardware and deployment.
@@ -336,6 +345,8 @@ Now we can look inside the selected sixteen-GPU H200 topology and follow the req
 <a id="slide-05"></a>
 
 ## Slide 05 — Separate prompt processing from token generation
+
+**Hardware: Shared H200/H100 layout — 16 GPUs on either platform; no performance comparison here.**
 
 ### Quick brief · 10–20 seconds
 
@@ -393,6 +404,8 @@ The next slide shows how earlier topology trials led to this split, while keepin
 
 ## Slide 06 — Topology search established the serving layout
 
+**Hardware: H200 · Firmus — historical topology measurements.**
+
 ### Quick brief · 10–20 seconds
 
 Topology search selected two TP4 prefill workers and one TP8/EP8 decode worker. It measured 1,912 good tokens/s at N48, but varying loads mean this is an architecture milestone, not a causal sweep.
@@ -448,6 +461,8 @@ The next obstacle was not just choosing parallelism: cold request setup examined
 
 ## Slide 07 — Make KV-transfer setup scale with the request
 
+**Hardware: H200 · Firmus — serving recovery; CPU-calculated descriptor examples and range checks.**
+
 ### Quick brief · 10–20 seconds
 
 Request-scoped KV setup reduced the illustrated descriptor count from 403.8 million pool entries per rank to 188 ranges per request. These are geometry counts, not an inference speedup.
@@ -502,6 +517,8 @@ That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks m
 <a id="slide-08"></a>
 
 ## Slide 08 — FP8 block geometry constrains parallelism
+
+**Hardware: H200 · Firmus — failed/replacement prefill configurations; block arithmetic is not a speed measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -559,6 +576,8 @@ With the deployment path made workable, the next slide lays out how we turn each
 
 ## Slide 09 — A repeatable experiment loop
 
+**Hardware: Shared H200/H100 experiment method — no single performance result.**
+
 ### Quick brief · 10–20 seconds
 
 Our loop forms a hypothesis, changes a defined factor, validates runtime and output, then replicates or closes. Full measurements use 60 seconds warmup, 120 seconds measurement, and 30 seconds grace.
@@ -613,6 +632,8 @@ Now I will use that evidence framework to summarize the H200 progression, while 
 <a id="slide-10"></a>
 
 ## Slide 10 — H200 journey: recover, specialise, then reproduce
+
+**Hardware: H200 · Firmus — every milestone bar.**
 
 ### Quick brief · 10–20 seconds
 
@@ -671,6 +692,8 @@ The next slide zooms into one more controlled comparison: attention and collecti
 
 ## Slide 11 — Backend combinations matter
 
+**Hardware: H200 · Firmus — N52 backend comparison.**
+
 ### Quick brief · 10–20 seconds
 
 At H200 N52, MNNVL plus FlashInfer reached 2,631 good tokens/s versus 2,594 for a fresh MNNVL control, about 1.43% higher. This single comparison motivates measuring the combination directly.
@@ -726,6 +749,8 @@ The following slides test these backend observations more deeply, including prof
 <a id="slide-12"></a>
 
 ## Slide 12 — H200: the N62-to-N64 step survives a full repeat
+
+**Hardware: H200 · Firmus — full N62/N64 comparison and N64 repeat.**
 
 ### Quick brief · 10–20 seconds
 
@@ -783,6 +808,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 13 — Profile the deployed interaction
 
+**Hardware: H200 · Firmus — N48 diagnostic profile; N58 deployment repeat in job 24819.**
+
 ### Quick brief · 10–20 seconds
 
 Profiling records GPU operations to identify what deserves testing. Communication and normalization account for about 23.48% of summed recorded kernel duration here. That is a diagnostic clue, not a quarter of request latency or a guaranteed speedup.
@@ -838,6 +865,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 <a id="slide-14"></a>
 
 ## Slide 14 — The N60 gain survives an independent deployment
+
+**Hardware: H200 · Firmus — full N60 auto-control versus HPC-Ops repeat.**
 
 ### Quick brief · 10–20 seconds
 
@@ -896,6 +925,8 @@ The down arrow beside TTFT states the desired direction; actual TTFT rises in th
 
 ## Slide 15 — The reproduced N64 service still loses first-token tails
 
+**Hardware: H200 · Firmus — per-request data from native N64 job 26766.**
+
 ### Quick brief · 10–20 seconds
 
 Each dot represents one request: teal meets both latency limits and orange misses at least one. Overall, 98.58% qualify. All 27 failures are first-token delays, showing why a high average score still needs request-level tail inspection.
@@ -952,6 +983,8 @@ The green band marks TTFT only. Do not treat it as the joint pass region; every 
 <a id="slide-16"></a>
 
 ## Slide 16 — H100 has its own operating point and uncertainty
+
+**Hardware: H100 · NSCC ASPIRE 2A+ — N54 historical peak and fresh control.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1011,6 +1044,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 17 — FA3: faster first token does not guarantee goodput
 
+**Hardware: H100 · NSCC ASPIRE 2A+ — N54 FlashInfer versus FA3 decode.**
+
 ### Quick brief · 10–20 seconds
 
 FA3 makes the first token arrive about 119 milliseconds sooner, but slightly longer gaps accumulate across the answer. Goodput falls 0.81%. We retain FlashInfer for this decode setting because the overall objective gets worse.
@@ -1068,6 +1103,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 18 — Test the cost hypothesis, then reverse the order
 
+**Hardware: H100 · NSCC ASPIRE 2A+ — checkpoint read-first and reversed-order confirmation.**
+
 ### Quick brief · 10–20 seconds
 
 Reading weights before startup initially saved 18.74% of job time. Reversing the trial order reduced that saving to 9.84%, below our predeclared 10% threshold. We therefore did not select it based on the favorable first pair.
@@ -1124,9 +1161,16 @@ Do not report only the favorable first order. Unknown cache state limits causal 
 
 ## Slide 19 — A local N52 calibration, not a universal multiplier
 
+**Hardware: H100 + H200 — same-configuration N52 calibration; both sides are measured.**
+
 ### Quick brief · 10–20 seconds
 
 At the same configuration and 52 concurrent requests, measured H200 throughput is about 1.188 times H100 throughput. We use this as a limited prediction anchor, not a universal conversion rule for different loads, backends or latency metrics.
+
+**Attribute each result separately:**
+
+- H100: mean 2215.460 good output tokens/s from two allocations.
+- H200: mean 2632.181 good output tokens/s from four allocations.
 
 ![Slide 19](../../submission-review/ai-journey-update-20261030/slides/assets/slide-19.png)
 
@@ -1183,9 +1227,16 @@ This ratio applies only to the stated load and configuration; it is not a percen
 
 ## Slide 20 — Freeze the forecast, then test it on H200
 
+**Hardware: H200 verification measurement; forecast derived from H100 data and the N52 H200/H100 ratio.**
+
 ### Quick brief · 10–20 seconds
 
 We fixed the forecast before testing: about 2,642 good output tokens per second predicted versus 2,602 measured. The error is minus 1.54%, within our 2% tolerance, but our earlier uncertainty estimate was incomplete. This is one bounded forecast check.
+
+**Attribute each result separately:**
+
+- Prediction: 2642.244 good output tokens/s for H200, calculated from H100 N50 and the prior N52 ratio; it is not a measured H100 score.
+- Measurement: H200 job 24272, 2601.629 good output tokens/s.
 
 ![Slide 20](../../submission-review/ai-journey-update-20261030/slides/assets/slide-20.png)
 
@@ -1238,6 +1289,8 @@ The forecast was recorded before the held-out H200 result was examined. Its −1
 <a id="slide-21"></a>
 
 ## Slide 21 — Use source evidence to test one small hypothesis
+
+**Hardware: H200 · Firmus — all displayed full-model tuning comparisons.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1294,6 +1347,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 <a id="slide-22"></a>
 
 ## Slide 22 — Latency acceptance is separate from model accuracy
+
+**Hardware: H200 · Firmus — job 26766 latency and small output checks; official quality rule is shared.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1353,6 +1408,8 @@ Smoke and retrieval checks are not full accuracy certification.
 
 ## Slide 23 — EAGLE3: follow the failed hypothesis through its repairs
 
+**Hardware: H200 · Firmus — EAGLE3 deployment, repaired retry and full shallow trial.**
+
 ### Quick brief · 10–20 seconds
 
 We tried EAGLE3, which proposes several tokens before the target model checks them. Repairing deployment checks allowed it to run, but the tested full setting still lost 2.08% goodput. Successful integration did not become a performance improvement.
@@ -1409,6 +1466,8 @@ Do not erase the validator failure or confuse short and full protocols.
 <a id="slide-24"></a>
 
 ## Slide 24 — Topology → transport → kernels → replication
+
+**Hardware: H200 · Firmus — selected N64 result and cache candidate.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1468,6 +1527,8 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ## Slide 25 — Appendix · diagnose performance drift with controlled cells
 
+**Hardware: H200 · Firmus — all short/full historical, replay and native observations.**
+
 ### Quick brief · 10–20 seconds
 
 The replicated full N64 mean was 3,044 good tokens per second; the later short control was about 2,560. Different protocols and settings explain why this is a drift signal, not proof of a cause.
@@ -1523,9 +1584,17 @@ Next, distinguish a promising component probe from evidence about full-model ser
 
 ## Slide 26 — Appendix · profiles and source also close attractive detours
 
+**Hardware: Mixed evidence: H200 + H100 + CPU — rows must be attributed separately.**
+
 ### Quick brief · 10–20 seconds
 
 The attention package scored 2,549.20 at N52, but changed several factors together. Kernel probes and CPU fixtures did not establish faster full-model serving; the real compile attempt failed before producing a score.
+
+**Attribute each result separately:**
+
+- H200: attention-DP package, job 23780; actual full-model compile failure, job 27383.
+- H100: representative FP8 Triton kernels, SM budgets 80/96/120 versus 132, and NCCL protocol/source correction (candidate 221885).
+- CPU only: C++ tree/cache fixtures, including 27506. Unsupported API/source findings are not GPU performance measurements.
 
 ![Slide 26](../../submission-review/ai-journey-update-20261030/slides/assets/slide-26.png)
 
@@ -1578,9 +1647,16 @@ The next slide describes the actual selected H200 and separate H100 serving conf
 
 ## Slide 27 — Appendix · the selected AI deployment is N64
 
+**Hardware: H200 selected configuration + H100 retained configuration — separate recipes, not a matched speed comparison.**
+
 ### Quick brief · 10–20 seconds
 
 The selected H200 service uses N64, two TP4 prefill workers, and one TP8/EP8 decode worker. H100 is a separate operating point, not a matched hardware comparison; official accuracy remains unverified.
+
+**Attribute each result separately:**
+
+- H200 column: N64, DeepGEMM prefill, chunk 8192.
+- H100 column: N54, HPC-Ops prefill, chunk 4096.
 
 ![Slide 27](../../submission-review/ai-journey-update-20261030/slides/assets/slide-27.png)
 
@@ -1631,6 +1707,8 @@ Now compare what sparse decode-graph capture saved with what it did to goodput.
 <a id="slide-28"></a>
 
 ## Slide 28 — Appendix · sparse graphs save memory, not goodput
+
+**Hardware: H200 · Firmus — sparse graph candidate 27510 versus control 27376.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1686,6 +1764,8 @@ Next, see what the synthetic serving score includes and what separate model-qual
 
 ## Slide 29 — Appendix · what the benchmark actually measures
 
+**Hardware: Shared H200/H100 workload and scoring rules — no platform-specific score.**
+
 ### Quick brief · 10–20 seconds
 
 This benchmark scores synthetic 4,000/200-token serving over a 120-second window; it does not measure official accuracy. The required 99% of the organizer reference remains unknown, and goodput cannot be reconstructed by dividing completions by 120.
@@ -1738,6 +1818,8 @@ Next, compare chunk-size runs using this same full scoring protocol.
 <a id="slide-30"></a>
 
 ## Slide 30 — Appendix · larger prefill chunks did not help
+
+**Hardware: H200 · Firmus — prefill chunk 8192/10240/12288 comparisons.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1792,9 +1874,16 @@ The next slide separates a completed GPU serving run from result-reader post-pro
 
 ## Slide 31 — A real replay can invalidate a static deployment claim
 
+**Hardware: H200 GPU replay + CPU-only reader verification — the CPU job does not rerun inference.**
+
 ### Quick brief · 10–20 seconds
 
 Both portable GPU jobs finished serving but ended FAILED in result reading. The recovered 3,055.33 raw score is not a successful whole-allocation rerun; a CPU-only job verified the reader fixes on saved data.
+
+**Attribute each result separately:**
+
+- H200: GPU jobs 27136 and 27145; recovered 3055.33 belongs to H200 job 27145.
+- CPU, zero GPUs: 27152 checks repaired readers against retained data; it produces no fresh inference score.
 
 ![Slide 31](../../submission-review/ai-journey-update-20261030/slides/assets/slide-31.png)
 
@@ -1845,6 +1934,8 @@ The final slide separates retained findings from validation work that remains pr
 <a id="slide-32"></a>
 
 ## Slide 32 — What the evidence supports next
+
+**Hardware: H200 · Firmus — retained N64 conclusions and proposed validation; no new measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1898,6 +1989,8 @@ End here. In questions, separate measured observation, supported conclusion, and
 <a id="slide-33"></a>
 
 ## Slide 33 — The task: same 65-million-cell airflow calculation
+
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -1953,6 +2046,8 @@ Next, show which preparation stages must be retained for a valid end-to-end run.
 
 ## Slide 34 — The whole required pipeline comes before the score
 
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
+
 ### Quick brief · 10–20 seconds
 
 A valid comparison includes every preparation stage and all 150 solver steps. Decomposition assigns cells to ranks; CPU affinity assigns ranks to CPUs. These are separate choices that can each affect runtime.
@@ -2006,6 +2101,8 @@ With the workload and pipeline fixed, the next slide tests whether a locality pr
 <a id="slide-35"></a>
 
 ## Slide 35 — A smaller partition cut did not make the solver faster
+
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -2064,6 +2161,8 @@ The next comparison asks whether the better observed decomposition changes with 
 
 ## Slide 36 — Observed scaling changed which decomposition led
 
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
+
 ### Quick brief · 10–20 seconds
 
 The observed leader changes across allocations: Hierarchical is lower at one and two nodes, while Scotch is lower at four. Since run lengths and allocations differ, these values describe observations, not a causal scaling result.
@@ -2118,6 +2217,8 @@ The four-node results can be split further by ranks per node, which is the next 
 
 ## Slide 37 — At four nodes, the winner depends on ranks per node
 
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
+
 ### Quick brief · 10–20 seconds
 
 At four nodes, Hierarchical has lower means at 64 and 96 ranks per node; Scotch is lower at 128. Scotch-128's 3.678 seconds per step is the lowest reviewed mean, still a candidate observation needing confirmation.
@@ -2171,6 +2272,8 @@ The next slide examines the full timing distribution behind the Scotch-128 mean,
 <a id="slide-38"></a>
 
 ## Slide 38 — Keep the slow step in the mean; inspect the tail
+
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -2227,6 +2330,8 @@ That uncertainty is why the next slide asks for an independently repeated, fully
 <a id="slide-39"></a>
 
 ## Slide 39 — A reproducible candidate needs more than a fast log
+
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
 ### Quick brief · 10–20 seconds
 
@@ -2285,6 +2390,8 @@ The final slide summarizes the evidence discipline and the next review decision 
 <a id="slide-40"></a>
 
 ## Slide 40 — What we learned — and the next measurement
+
+**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
 ### Quick brief · 10–20 seconds
 

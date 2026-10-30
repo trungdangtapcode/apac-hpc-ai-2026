@@ -63,6 +63,7 @@ def introduction(lang, digest):
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
 - **Slide 33–40:** giải thích phần HPC đang có trong cùng deck, chỉ đọc và diễn giải. Trạng thái job trên các slide này là **ảnh chụp ngày 23/10**, không phải trạng thái trực tiếp ngày 30/10. Hướng dẫn này không cập nhật hay xác nhận kết quả HPC mới. Thời lượng AI không bao gồm mặc định phần HPC.
+- Mỗi slide có nhãn **Phần cứng** ngay dưới tiêu đề. H200 là Firmus, H100 là NSCC ASPIRE 2A+; slide có cả hai hoặc có phép kiểm tra CPU sẽ ghi riêng. Nhãn “chung” chỉ quy tắc hoặc bố trí dùng trên cả hai hệ thống, không biến chúng thành một phép so hiệu năng cùng điều kiện.
 - Màu sắc có ý nghĩa **theo từng slide**. Cam không luôn là “thắng” hay “thua”. Ảnh nền, gradient và đường trang trí cuối slide không biểu diễn dữ liệu.
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
 - Nghiên cứu đã dừng theo yêu cầu. Các việc “tiếp theo” trong slide là đề xuất hoặc câu chuyện tại thời điểm đó, không phải job mới đã chạy.
@@ -99,6 +100,7 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
 - **Slides 33–40:** read-only explanation of the existing HPC section. Its scheduler statements are **23 October snapshots**, not live 30 October status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
+- Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Research has stopped at the owner's request. Future actions shown on slides are proposals or historical next decisions, not newly executed jobs.
@@ -143,8 +145,15 @@ def render(records, lang, digest):
         n = s['slide']; d = s[lang]
         image_path = f'../../submission-review/ai-journey-update-20261030/slides/assets/slide-{n:02d}.png' if n <= 32 else f'transcript-assets/slide-{n:02d}.png'
         out.append(f'\n---\n\n<a id="slide-{n:02d}"></a>\n\n## Slide {n:02d} — {s["title"]}\n\n')
+        hardware_label = 'Phần cứng' if vi else 'Hardware'
+        out.append(f'**{hardware_label}: {d["hardware"]}**\n\n')
         brief_heading = 'Nói nhanh · 10–20 giây' if vi else 'Quick brief · 10–20 seconds'
         out.append(f'### {brief_heading}\n\n{d["brief"]}\n\n')
+        if d.get('hardware_details'):
+            out.append(('**Phân biệt từng kết quả:**' if vi else '**Attribute each result separately:**') + '\n\n')
+            for detail in d['hardware_details']:
+                out.append(f'- {detail}\n')
+            out.append('\n')
         out.append(f'![Slide {n:02d}]({image_path})\n\n')
         if n == 25:
             out.append('**Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**\n\n' if vi else '**AI backup section: open when a deeper explanation is needed.**\n\n')
@@ -182,7 +191,7 @@ def main():
             d = s[lang]
             if lang == 'en':
                 assert not re.search('[ăâđêôơưĂÂĐÊÔƠƯ]', json.dumps(d, ensure_ascii=False)), f'Unexpected Vietnamese prose in English slide {s["slide"]}'
-            assert all(d[k] for k in ['brief', 'purpose', 'visual', 'terms', 'reading', 'tradeoff', 'script', 'caution', 'transition'])
+            assert all(d[k] for k in ['hardware', 'brief', 'purpose', 'visual', 'terms', 'reading', 'tradeoff', 'script', 'caution', 'transition'])
             assert 20 <= len(d['brief'].split()) <= (80 if lang == 'vi' else 50), f'Brief length on slide {s["slide"]}/{lang}'
             assert all(d['tradeoff'][k] for k in ['observation', 'hypothesis', 'conclusion', 'unknown'])
             assert len(d['script'].split()) >= 25
@@ -192,6 +201,8 @@ def main():
         for section in re.split(r'^## Slide \d{2} —', body, flags=re.MULTILINE)[1:]:
             quick = '### Nói nhanh' if lang == 'vi' else '### Quick brief'
             purpose = '### Slide muốn nói gì' if lang == 'vi' else '### Purpose'
+            hardware = '**Phần cứng:' if lang == 'vi' else '**Hardware:'
+            assert section.index(hardware) < section.index(quick)
             assert section.index(quick) < section.index(purpose)
         for target in re.findall(r'\]\(([^)]+)\)', body):
             if not target.startswith(('#', 'https://', 'http://')):

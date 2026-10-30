@@ -36,7 +36,8 @@
       },
       "script": "Hello, we are VNUHCM–TripleU. Our Qwen work starts with a distributed service on sixteen GPUs: choose a layout, transfer prompt state correctly, then test implementations for each phase. I will explain which improvements survived a repeat, which attractive ideas failed, and what our measurements still cannot prove. We report our own experiments on the assigned clusters; we do not present them as organiser-certified scores.",
       "caution": "Do not call the displayed work a contest win, official acceptance, or accuracy certification. The date limits the claim to this research update.",
-      "transition": "First I will state what counts as a useful result and how to read the headline numbers."
+      "transition": "First I will state what counts as a useful result and how to read the headline numbers.",
+      "hardware": "H200 + H100 — AI campaign overview; headline result is H200."
     },
     "vi": {
       "brief": "Chúng tôi tối ưu dịch vụ Qwen trên 16 GPU, từ cách chia model đến truyền dữ liệu và chọn cách thực thi. Trọng tâm là tìm cấu hình chạy đúng, nhanh và cho kết quả gần nhau khi đo lại, thay vì chỉ chọn một lần có điểm cao.",
@@ -72,7 +73,8 @@
       },
       "script": "Xin chào, chúng tôi là VNUHCM–TripleU. Đây là cập nhật nghiên cứu phục vụ Qwen đến ngày 30 tháng 10 năm 2026. Câu hỏi của chúng tôi không chỉ là làm sao để một lần chạy cho ra con số lớn hơn. Trước tiên, chúng tôi phải dựng được dịch vụ hai nút, truyền dữ liệu của yêu cầu đúng giữa xử lý prompt và sinh token, rồi đo các thay đổi backend có kiểm soát dưới những giới hạn dịch vụ. Tôi sẽ trình bày kết quả nào lặp lại được, thay đổi hấp dẫn nào không giúp ích, và điều gì dữ liệu hiện có chưa thể khẳng định.",
       "caution": "Không gọi đây là chiến thắng, được ban tổ chức chấp nhận, hay đã chứng nhận accuracy. Ngày tháng giới hạn kết luận ở bản cập nhật này.",
-      "transition": "Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cách đọc các con số chính."
+      "transition": "Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cách đọc các con số chính.",
+      "hardware": "H200 + H100 — tổng quan chiến dịch AI; kết quả chính là H200."
     }
   },
   {
@@ -125,7 +127,8 @@
       },
       "script": "This slide separates the largest measurement from the configuration we recommend. We ran job 27378 on the assigned sixteen-H200 cluster with 60 seconds of warmup, 120 seconds of measurement and 30 seconds of grace. The benchmark and our implemented checks completed, yielding 3,048.45 qualifying output tokens per second. But its cache change improved only 0.24% over a fresh control, below our own 1% threshold for pursuing a useful gain. We therefore retain N64, averaging 3,044.40 across three full runs: a slightly lower number with repeat evidence. These are team-measured results, not organiser-certified scores. The 3,055.33 recovered number came from a job that failed during summary processing; it is not a successful end-to-end job.",
       "caution": "Do not rank these callouts as if they were one matched experiment. The recovered 3055.33 is not a passed scheduler job or proof of a portable end-to-end repeat.",
-      "transition": "To understand what good output tokens per second means, we need the workload and its per-request latency gate."
+      "transition": "To understand what good output tokens per second means, we need the workload and its per-request latency gate.",
+      "hardware": "H200 · Firmus — all displayed throughput observations."
     },
     "vi": {
       "brief": "Ở mức 64 request đồng thời, nhóm chạy lại ba lần đo đầy đủ, đạt trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Điểm đơn cao nhất là 3.048,45, nhưng chỉ tăng 0,24% so với đối chứng. Nhóm giữ cấu hình có bằng chứng tái lập tốt hơn.",
@@ -174,7 +177,8 @@
       },
       "script": "Slide này phân biệt số đo cao nhất với cấu hình nên chọn để nộp. Nhóm tự chạy job 27378 trên 16 H200 của cluster được cấp, dùng 60 giây warmup, 120 giây đo và 30 giây chờ request còn lại. Benchmark và các bước kiểm tra của nhóm hoàn tất, cho 3.048,45 token đầu ra đạt chuẩn mỗi giây. Nhưng thay cache chỉ tăng 0,24% so với đối chứng mới, chưa tới ngưỡng 1% mà nhóm tự đặt để coi là cải tiến đáng theo đuổi. Vì vậy chúng tôi giữ N64 với trung bình ba lần đo khoảng 3.044,40: số thấp hơn một chút nhưng có bằng chứng chạy lại. Cả hai đều là kết quả nhóm tự đo, chưa được BTC xác nhận. Con số 3.055,33 ở dưới được đọc lại từ dữ liệu của job lỗi bước tổng hợp; nó không phải một job hoàn tất thành công.",
       "caution": "Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặp. 3055,33 phục hồi không phải job scheduler đã qua và không chứng minh triển khai portable đầu cuối lặp lại được.",
-      "transition": "Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và điều kiện độ trễ ở từng yêu cầu."
+      "transition": "Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và điều kiện độ trễ ở từng yêu cầu.",
+      "hardware": "H200 · Firmus — tất cả các số thông lượng trên slide."
     }
   },
   {
@@ -227,7 +231,8 @@
       },
       "script": "Our objective is useful throughput under a latency gate. Each synthetic request has 4,000 input tokens and asks for 200 output tokens. A request qualifies only if its time to first token is at most 3,000 milliseconds and its mean interval between tokens is at most 20 milliseconds. At least 90 percent of all evaluated requests must meet both limits; errors count against us. Goodput is qualifying requests per second, and multiplying by 200 gives the good output tokens per second used in the talk. This is why an average latency by itself cannot tell us whether the service passed: the decision is made request by request.",
       "caution": "Do not infer per-request compliance from an aggregate mean. Do not drop errors from the denominator or multiply by a different output length.",
-      "transition": "With the objective fixed, the next slide shows why platform details must travel with every comparison."
+      "transition": "With the objective fixed, the next slide shows why platform details must travel with every comparison.",
+      "hardware": "Shared H200/H100 rules — no hardware-specific measurement."
     },
     "vi": {
       "brief": "Một request phải chờ token đầu không quá 3.000 mili giây và có khoảng cách token trung bình không quá 20 mili giây; ít nhất 90% request phải đạt cả hai. Điểm chỉ tính thông lượng của request đạt chuẩn, nên sinh nhiều token nhưng trả lời quá chậm vẫn không có lợi.",
@@ -276,7 +281,8 @@
       },
       "script": "Mục tiêu của chúng tôi là thông lượng hữu ích dưới một điều kiện độ trễ. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ đạt nếu thời gian đến token đầu tiên không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% tất cả yêu cầu được đánh giá phải đồng thời đạt hai giới hạn; lỗi cũng bị tính. Goodput là số yêu cầu đạt chuẩn mỗi giây, nhân với 200 sẽ thành good output tokens mỗi giây được trình bày. Vì vậy độ trễ trung bình riêng lẻ không thể cho biết dịch vụ có qua hay không: quyết định được tính ở từng yêu cầu.",
       "caution": "Không suy ra tỷ lệ đạt theo từng yêu cầu từ một giá trị trung bình tổng hợp. Không bỏ lỗi khỏi mẫu số và không thay 200 bằng độ dài đầu ra khác.",
-      "transition": "Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọi so sánh phải đi cùng thông tin nền tảng."
+      "transition": "Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọi so sánh phải đi cùng thông tin nền tảng.",
+      "hardware": "Quy tắc chung H200/H100 — không có phép đo phần cứng cụ thể."
     }
   },
   {
@@ -329,7 +335,8 @@
       },
       "script": "We used two deployment systems. Firmus has two nodes with eight H200 GPUs per node, managed by Slurm and launched with Pyxis or native Enroot. NSCC ASPIRE 2A+ has two eight-GPU H100 nodes with 80 gigabytes per GPU, PBS, and Singularity. We stage the same serving and client images and use the same Qwen checkpoint, but the machines and deployment stacks still differ. Therefore, every comparison needs its platform, topology, backend, and load. A GPU model name or memory size is not a conversion factor for performance.",
       "caution": "Do not pool H100 and H200 measurements as one series or claim equal system performance because the allocation sizes and software images match.",
-      "transition": "Now we can look inside the selected sixteen-GPU H200 topology and follow the request through it."
+      "transition": "Now we can look inside the selected sixteen-GPU H200 topology and follow the request through it.",
+      "hardware": "H200 · Firmus + H100 · NSCC ASPIRE 2A+ — platform comparison."
     },
     "vi": {
       "brief": "Chúng tôi đo trên hai hệ thống, mỗi hệ thống 16 GPU: H200 tại Firmus và H100 tại NSCC. Phần cứng và môi trường chạy khác nhau, nên phải tối ưu và ghi kết quả riêng. Cùng model không có nghĩa lấy hai điểm so trực tiếp là công bằng.",
@@ -378,7 +385,8 @@
       },
       "script": "Chúng tôi làm việc trên hai hệ thống triển khai. Firmus có hai nút, mỗi nút tám GPU H200, được quản lý bằng Slurm và chạy qua Pyxis hoặc Enroot. NSCC ASPIRE 2A+ có hai nút H100 tám GPU, mỗi GPU 80 gigabyte, dùng PBS và Singularity. Chúng tôi staging cùng image phục vụ và client, đồng thời dùng cùng checkpoint Qwen, nhưng máy và stack triển khai vẫn khác. Vì vậy mỗi phép so sánh cần ghi rõ nền tảng, topology, backend và tải. Tên GPU hay dung lượng bộ nhớ không phải hệ số đổi hiệu năng.",
       "caution": "Không gộp phép đo H100 và H200 thành một chuỗi hoặc cho rằng hiệu năng tương đương chỉ vì số GPU và image phần mềm giống nhau.",
-      "transition": "Tiếp theo, ta xem topology H200 mười sáu GPU đã chọn và lần theo yêu cầu trong hệ thống."
+      "transition": "Tiếp theo, ta xem topology H200 mười sáu GPU đã chọn và lần theo yêu cầu trong hệ thống.",
+      "hardware": "H200 · Firmus + H100 · NSCC ASPIRE 2A+ — so sánh hai môi trường."
     }
   },
   {
@@ -435,7 +443,8 @@
       },
       "script": "This is our sixteen-GPU disaggregated layout. The left node runs two prefill workers, P0 and P1, each on four GPUs with TP4 and EP1. The right node runs one decode worker on eight GPUs with TP8 and EP8. A request is sent to one prefill worker, which processes its prompt and creates the key/value state, or KV state. NIXL transfers that request's state to the decode worker, which generates every output token. The orange squares and arrows mark the prefill side and transfer in this drawing; they do not report traffic volume. Splitting the roles gives us a topology to study, but it also makes transfer correctness and readiness part of the service.",
       "caution": "TP and EP values are specific to each worker and this configuration. Do not interpret each square as a measured GPU utilization or claim the diagram proves a speedup.",
-      "transition": "The next slide shows how earlier topology trials led to this split, while keeping failed attempts separate from replacements."
+      "transition": "The next slide shows how earlier topology trials led to this split, while keeping failed attempts separate from replacements.",
+      "hardware": "Shared H200/H100 layout — 16 GPUs on either platform; no performance comparison here."
     },
     "vi": {
       "brief": "Trên 16 GPU, hai nhóm bốn GPU xử lý prompt, còn một nhóm tám GPU sinh câu trả lời. Dữ liệu ngữ cảnh KV được chuyển giữa hai giai đoạn. Cách tách này cho phép tối ưu riêng từng phần, nhưng cũng thêm công truyền dữ liệu cần kiểm tra.",
@@ -488,7 +497,8 @@
       },
       "script": "Đây là cấu hình tách rời trên mười sáu GPU. Nút bên trái chạy hai worker prefill, P0 và P1, mỗi worker dùng bốn GPU với TP4 và EP1. Nút bên phải chạy một worker decode trên tám GPU với TP8 và EP8. Yêu cầu được gửi đến một worker prefill để xử lý prompt và tạo trạng thái key/value, hay KV. NIXL chuyển trạng thái của yêu cầu đó sang worker decode, nơi sinh toàn bộ token đầu ra. Các ô và mũi tên cam đánh dấu phía prefill và đường truyền trong hình; chúng không biểu thị lượng dữ liệu đo được. Tách hai vai trò tạo topology để khảo sát, nhưng cũng khiến độ đúng và thời gian sẵn sàng của đường truyền trở thành một phần của dịch vụ.",
       "caution": "Thông số TP/EP chỉ đúng cho từng worker trong cấu hình cụ thể này. Không xem mỗi ô vuông là mức sử dụng GPU đo được và không nói sơ đồ đã chứng minh tăng tốc.",
-      "transition": "Slide tiếp theo cho thấy các thử nghiệm topology ban đầu dẫn đến cách chia này, đồng thời tách bạch thất bại với cấu hình thay thế."
+      "transition": "Slide tiếp theo cho thấy các thử nghiệm topology ban đầu dẫn đến cách chia này, đồng thời tách bạch thất bại với cấu hình thay thế.",
+      "hardware": "Bố trí dùng trên H200 và H100 — mỗi hệ thống 16 GPU; slide không so hiệu năng."
     }
   },
   {
@@ -541,7 +551,8 @@
       },
       "script": "This table gives three points from the topology search. Layout 07 used four TP2 prefill workers and two TP4/EP4 decode workers; at concurrency 32 it measured 1,297 good tokens per second. Layout 09 widened prefill to two TP4 workers and reached 1,666 at concurrency 40. The selected split used two TP4 prefill workers and one TP8/EP8 decode worker, reaching 1,912 at concurrency 48. These loads and transport histories were not identical, so read them as architecture milestones, not a controlled causal sweep. Our recovery ledger contains 14 measured original layouts and three measured EP2 replacements. A replacement is a different configuration; failed originals remain failures.",
       "caution": "Do not treat 07 or 09 as software versions. Do not infer that the throughput increase was caused only by the displayed topology because N and other history differed.",
-      "transition": "The next obstacle was not just choosing parallelism: cold request setup examined far more KV metadata than the request needed."
+      "transition": "The next obstacle was not just choosing parallelism: cold request setup examined far more KV metadata than the request needed.",
+      "hardware": "H200 · Firmus — historical topology measurements."
     },
     "vi": {
       "brief": "Nhóm thử nhiều cách chia GPU và chọn hai nhóm xử lý prompt, mỗi nhóm bốn GPU, cùng một nhóm sinh token tám GPU. Mốc này đạt khoảng 1.912 token đạt chuẩn mỗi giây ở 48 request đồng thời; tải giữa các mốc khác nhau nên chưa tách riêng tác dụng của bố trí.",
@@ -590,7 +601,8 @@
       },
       "script": "Bảng này cho ba mốc trong quá trình tìm topology. Layout 07 dùng bốn worker prefill TP2 và hai worker decode TP4/EP4; tại concurrency 32, nó đạt 1.297 good tokens mỗi giây. Layout 09 mở rộng prefill thành hai worker TP4 và đạt 1.666 ở concurrency 40. Cách chia được chọn dùng hai worker prefill TP4 và một worker decode TP8/EP8, đạt 1.912 ở concurrency 48. Tải và lịch sử truyền không giống nhau, vì vậy hãy xem đây là các mốc kiến trúc, không phải phép quét nhân quả có kiểm soát. Sổ phục hồi có 14 layout gốc đã đo và ba cấu hình thay thế EP2 đã đo. Cấu hình thay thế là một phép thử khác; layout gốc thất bại vẫn được ghi là thất bại.",
       "caution": "Không hiểu 07 hay 09 là phiên bản phần mềm. Không quy toàn bộ tăng thông lượng cho topology đang hiển thị vì N và lịch sử thử nghiệm cũng khác.",
-      "transition": "Trở ngại kế tiếp không chỉ là chọn mức song song: khởi động lạnh đã xử lý metadata KV nhiều hơn nhu cầu của một yêu cầu rất nhiều."
+      "transition": "Trở ngại kế tiếp không chỉ là chọn mức song song: khởi động lạnh đã xử lý metadata KV nhiều hơn nhu cầu của một yêu cầu rất nhiều.",
+      "hardware": "H200 · Firmus — các số đo topology trong lịch sử."
     }
   },
   {
@@ -643,7 +655,8 @@
       },
       "script": "Our cold-start investigation found that KV transfer setup was enumerating descriptors for the whole cache pool, although one request touches only a fraction of it. In a representative TP8 geometry, that meant about 403.8 million source entries per rank, compared with 188 coalesced range entries for one 4,000-token request. These are counts of transfer descriptions, not measurements in seconds and not a two-million-fold inference speedup. We changed setup to describe only the pages the request needs and combine adjacent ranges. We validated the mapping on CPU, then checked a real GPU transfer and response behavior. One later EP2 route looked as though it ran, yet produced too few valid responses. That taught us that efficient setup and successful transfer still do not prove correct service output.",
       "caution": "Do not divide the counts and call the result an inference speedup. The count scopes differ, and the figure does not report latency or throughput. Do not equate a transfer that completes with a valid response.",
-      "transition": "That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks must align with the model partition."
+      "transition": "That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks must align with the model partition.",
+      "hardware": "H200 · Firmus — serving recovery; CPU-calculated descriptor examples and range checks."
     },
     "vi": {
       "brief": "Cách cũ chuẩn bị mô tả vùng nhớ cho toàn bộ kho KV, khoảng 403,8 triệu mục mỗi tiến trình GPU. Cách sửa chỉ mô tả vùng của một request, còn 188 dải đã gộp. Đây là giảm công chuẩn bị truyền, không phải bằng chứng suy luận nhanh hơn theo cùng tỷ lệ.",
@@ -692,7 +705,8 @@
       },
       "script": "Điều tra khởi động lạnh cho thấy bước chuẩn bị truyền KV đang liệt kê descriptor cho toàn bộ pool cache, trong khi một yêu cầu chỉ chạm đến một phần nhỏ. Với hình học TP8 đại diện, có khoảng 403,8 triệu source entries mỗi rank, so với 188 dải đã gộp cho một yêu cầu 4.000 token. Đây là số lượng mô tả truyền, không phải thời gian và không phải tăng tốc suy luận hai triệu lần. Chúng tôi sửa để chỉ mô tả các trang mà yêu cầu cần rồi gộp các dải liền kề. Chúng tôi kiểm tra ánh xạ trên CPU, sau đó xác minh truyền GPU thật và phản hồi. Một đường EP2 sau đó có vẻ chạy nhưng vẫn không tạo đủ phản hồi hợp lệ. Bài học là chuẩn bị hiệu quả và truyền thành công vẫn chưa chứng minh đầu ra dịch vụ đúng.",
       "caution": "Không chia hai số rồi gọi kết quả là tăng tốc suy luận. Phạm vi đếm khác nhau và hình không đưa ra độ trễ hay thông lượng. Truyền hoàn tất không đồng nghĩa phản hồi hợp lệ.",
-      "transition": "Lần khôi phục EP2 cũng làm lộ một điều kiện tiên quyết khác: các block trọng số FP8 phải khớp với cách chia mô hình."
+      "transition": "Lần khôi phục EP2 cũng làm lộ một điều kiện tiên quyết khác: các block trọng số FP8 phải khớp với cách chia mô hình.",
+      "hardware": "H200 · Firmus — khôi phục serving; ví dụ descriptor và kiểm tra vùng nhớ được tính trên CPU."
     }
   },
   {
@@ -749,7 +763,8 @@
       },
       "script": "Here is why one prefill configuration failed before performance measurement. The model's MoE intermediate dimension is 1,536 and this FP8 path expects blocks of 128 elements. With TP8 and EP1, each partition gets 1,536 divided by 8, or 192 elements. That leaves one full 128-element block plus a remainder of 64, so the kernel cannot load the partial block. With TP8 and EP2, the effective MoE tensor parallelism is four. Each partition has 384 elements, exactly three blocks of 128. This keeps the weights and experts; it changes how the model is partitioned. The right side therefore shows compatible geometry, not a performance win. Startup, service latency, and output quality still need their own checks.",
       "caution": "The red 64 is a leftover portion of a weight partition, not 64 GPUs or tokens. EP2 changes the configuration, so do not describe this as an isolated tensor-parallel speedup or as a throughput result.",
-      "transition": "With the deployment path made workable, the next slide lays out how we turn each such explanation into a controlled experiment."
+      "transition": "With the deployment path made workable, the next slide lays out how we turn each such explanation into a controlled experiment.",
+      "hardware": "H200 · Firmus — failed/replacement prefill configurations; block arithmetic is not a speed measurement."
     },
     "vi": {
       "brief": "Lỗi đến từ cách chia trọng số: mỗi phần có 192 phần tử, không chia hết cho block 128 mà cách thực thi yêu cầu. Đổi cách phân phối expert cho 384 phần tử, vừa ba block. Điều này sửa tính tương thích để thử tiếp, chưa chứng minh hiệu năng tăng.",
@@ -802,7 +817,8 @@
       },
       "script": "Đây là lý do một cấu hình prefill thất bại trước khi đo hiệu năng. Chiều trung gian MoE của mô hình là 1.536 và đường FP8 này cần block 128 phần tử. Với TP8 và EP1, mỗi phân vùng có 1.536 chia 8, tức 192 phần tử. Kết quả là một block đủ 128 cộng phần dư 64, nên kernel không tải được block chưa đầy. Với TP8 và EP2, tensor parallelism MoE hiệu dụng là bốn. Mỗi phân vùng có 384 phần tử, đúng ba block 128. Cách này vẫn giữ các trọng số và expert, nhưng đổi cách chia mô hình. Vì vậy phía bên phải cho thấy hình học tương thích, không phải chiến thắng hiệu năng. Startup, độ trễ dịch vụ và chất lượng đầu ra vẫn phải kiểm tra riêng.",
       "caution": "Số đỏ 64 là phần dư của phân vùng trọng số, không phải 64 GPU hay token. EP2 làm đổi cấu hình; không gọi đây là tăng tốc tensor parallelism đơn lẻ hoặc kết quả throughput.",
-      "transition": "Khi đường triển khai đã khả thi, slide kế tiếp mô tả cách biến mỗi lời giải thích như vậy thành thử nghiệm có kiểm soát."
+      "transition": "Khi đường triển khai đã khả thi, slide kế tiếp mô tả cách biến mỗi lời giải thích như vậy thành thử nghiệm có kiểm soát.",
+      "hardware": "H200 · Firmus — cấu hình prefill lỗi và cấu hình thay thế; phép tính block không phải số đo tốc độ."
     }
   },
   {
@@ -855,7 +871,8 @@
       },
       "script": "Our loop has four steps. First, use logs, traces, and source to form a hypothesis. Second, change a defined factor against a control. Third, validate that the intended setting actually ran, then check the protocol, request-level SLA, and output. Finally, repeat a useful gain independently or close the branch. The full protocol shown here uses 60 seconds of warmup, 120 seconds of measurement, and a 30-second grace period for outstanding requests. The grace period is not more scored steady state. This discipline helped us keep failed runs, distinguish terminal status from a valid result, and stop changes that were real but too small to justify promotion.",
       "caution": "A four-step diagram is not evidence that every historical experiment followed an identical protocol. Cite each result's actual protocol and job record.",
-      "transition": "Now I will use that evidence framework to summarize the H200 progression, while warning that it is not one cumulative experiment."
+      "transition": "Now I will use that evidence framework to summarize the H200 progression, while warning that it is not one cumulative experiment.",
+      "hardware": "Shared H200/H100 experiment method — no single performance result."
     },
     "vi": {
       "brief": "Mỗi ý tưởng được so với cấu hình đối chứng, kiểm tra chạy đúng rồi đo lại nếu có lợi. Phép đo đầy đủ gồm 60 giây chạy làm nóng, 120 giây thu số liệu và 30 giây chờ request còn lại. Job kết thúc chưa đủ để kết luận có cải tiến.",
@@ -904,7 +921,8 @@
       },
       "script": "Quy trình của chúng tôi có bốn bước. Đầu tiên, dùng log, trace và source để hình thành giả thuyết. Thứ hai, thay đổi một yếu tố xác định so với đối chứng. Thứ ba, xác nhận đúng thiết lập đã thực sự chạy, rồi kiểm tra giao thức, SLA theo từng yêu cầu và đầu ra. Cuối cùng, lặp độc lập kết quả có ích hoặc đóng nhánh. Giao thức đầy đủ trên slide dùng 60 giây warmup, 120 giây đo và 30 giây grace để yêu cầu còn lại hoàn tất. Grace không phải thời gian steady-state tính điểm bổ sung. Kỷ luật này giúp giữ lại job thất bại, phân biệt trạng thái terminal với kết quả hợp lệ, và dừng những thay đổi có thật nhưng quá nhỏ để chọn dùng.",
       "caution": "Sơ đồ bốn bước không chứng minh mọi thử nghiệm lịch sử đều dùng một giao thức giống hệt. Mỗi kết quả cần dẫn đúng giao thức và hồ sơ job của nó.",
-      "transition": "Tiếp theo, tôi tóm tắt tiến trình H200, đồng thời lưu ý đây không phải một thí nghiệm tích lũy duy nhất."
+      "transition": "Tiếp theo, tôi tóm tắt tiến trình H200, đồng thời lưu ý đây không phải một thí nghiệm tích lũy duy nhất.",
+      "hardware": "Phương pháp thử chung H200/H100 — không đại diện một kết quả hiệu năng riêng."
     }
   },
   {
@@ -962,7 +980,8 @@
       },
       "script": "This chart is a map of the H200 research journey, not one cumulative ablation. The horizontal axis lists categorical milestones and their client concurrency N, from initial layouts at N32 and N40 through the selected split at N48, backend work, and later N60, N62, and N64 points. N means target requests kept in flight; it is not elapsed time. The vertical axis is good output tokens per second. We recovered the split, combined FlashInfer attention with MNNVL, introduced DeepGEMM prefill, and later tested HPC-Ops decode. N60, N62, and N64 have repeated evidence, with the N64 bar rounded to 3,044 from three historical full runs. The groups use gray, teal, and orange as thematic stages only. Loads and runtime settings changed, so the rising bars do not show that each change caused the entire increase.",
       "caution": "The x-axis is categorical, not time. Do not interpolate between milestones or interpret color as a pass/fail legend. Do not describe the bars as a causal ablation or a global optimum.",
-      "transition": "The next slide zooms into one more controlled comparison: attention and collective backend combinations at the same H200 load."
+      "transition": "The next slide zooms into one more controlled comparison: attention and collective backend combinations at the same H200 load.",
+      "hardware": "H200 · Firmus — every milestone bar."
     },
     "vi": {
       "brief": "Hành trình H200 đi từ khoảng 1.297 lên 3.044 token đầu ra đạt chuẩn mỗi giây. “Repeated” ở các mốc sau nghĩa là đã chạy lại để kiểm tra kết quả. Các mốc thay cả cấu hình lẫn tải, nên biểu đồ cho thấy tiến trình, không tách riêng đóng góp từng tối ưu.",
@@ -1016,7 +1035,8 @@
       },
       "script": "Biểu đồ này là bản đồ hành trình nghiên cứu H200, không phải một ablation tích lũy duy nhất. Trục ngang liệt kê các mốc thí nghiệm phân loại và concurrency N, từ layout đầu tiên ở N32 và N40, split được chọn ở N48, các thử nghiệm backend, đến N60, N62 và N64 sau này. N là số yêu cầu mục tiêu được giữ đang xử lý; không phải thời gian. Trục đứng là good output tokens mỗi giây. Chúng tôi khôi phục split, kết hợp attention FlashInfer với MNNVL, đưa DeepGEMM vào prefill, rồi thử decode HPC-Ops. N60, N62 và N64 có bằng chứng lặp; cột N64 làm tròn thành 3.044 từ ba lần chạy đầy đủ lịch sử. Màu xám, xanh và cam chỉ phân nhóm chủ đề. Vì tải và runtime thay đổi, các cột tăng dần không chứng minh từng thay đổi gây ra toàn bộ mức tăng.",
       "caution": "Trục hoành là phân loại chứ không phải thời gian. Không nội suy giữa các mốc hoặc xem màu là chú giải đạt/trượt. Không gọi đây là ablation nhân quả hay tối ưu toàn cục.",
-      "transition": "Slide tiếp theo phóng to một so sánh có kiểm soát hơn: tổ hợp backend attention và collective ở cùng mức tải H200."
+      "transition": "Slide tiếp theo phóng to một so sánh có kiểm soát hơn: tổ hợp backend attention và collective ở cùng mức tải H200.",
+      "hardware": "H200 · Firmus — toàn bộ các cột mốc trong biểu đồ."
     }
   },
   {
@@ -1073,7 +1093,8 @@
       },
       "script": "This table compares backend choices on H200 at client concurrency N52. FlashInfer decode alone reached about 2,440 good tokens per second. MNNVL alone measured about 2,592, and a fresh MNNVL control measured 2,594. The directly measured combination of MNNVL and FlashInfer reached about 2,631, around 1.43 percent above that fresh control in these observations. The request-level SLA values are all close to 99 percent. The lesson is not that the separate gains add up. Attention and collective operations interact, so we measured their combination as its own configuration. Later activation checks and repeats support this operating range, while this table by itself does not make a universal claim about every workload or backend.",
       "caution": "Do not calculate a predicted combined score by adding the two standalone changes. These are not repeated distributions, and latency SLA is not model-accuracy certification.",
-      "transition": "The following slides test these backend observations more deeply, including profile evidence and a matched repeat of the N60 treatment."
+      "transition": "The following slides test these backend observations more deeply, including profile evidence and a matched repeat of the N60 treatment.",
+      "hardware": "H200 · Firmus — N52 backend comparison."
     },
     "vi": {
       "brief": "Kết hợp FlashInfer cho attention với MNNVL cho giao tiếp đạt khoảng 2.631 token đạt chuẩn mỗi giây, hơn đối chứng giao tiếp MNNVL khoảng 1,43%. Hai cách thực thi dùng chung tài nguyên nên phải đo tổ hợp trực tiếp, không cộng mức tăng từ các phép thử riêng.",
@@ -1126,7 +1147,8 @@
       },
       "script": "Bảng này so sánh các lựa chọn backend trên H200 ở concurrency N52. FlashInfer decode riêng đạt khoảng 2.440 good tokens mỗi giây. MNNVL riêng đo được khoảng 2.592, còn đối chứng MNNVL mới đạt 2.594. Tổ hợp MNNVL và FlashInfer được đo trực tiếp đạt khoảng 2.631, cao hơn đối chứng mới khoảng 1,43% trong các phép đo này. SLA theo yêu cầu đều gần 99%. Bài học không phải là cộng các mức tăng riêng lẻ. Attention và collective tương tác với nhau, nên chúng tôi đo tổ hợp như một cấu hình riêng. Kiểm tra kích hoạt runtime và phép lặp về sau bổ sung bằng chứng cho vùng vận hành này, nhưng riêng bảng không tạo khẳng định phổ quát cho mọi workload hay backend.",
       "caution": "Không cộng hai thay đổi riêng để dự đoán điểm của tổ hợp. Đây không phải phân bố nhiều lần chạy, và SLA độ trễ không chứng nhận accuracy mô hình.",
-      "transition": "Các slide tiếp theo kiểm tra sâu hơn các kết quả backend này, gồm bằng chứng profile và phép lặp ghép cặp của xử lý N60."
+      "transition": "Các slide tiếp theo kiểm tra sâu hơn các kết quả backend này, gồm bằng chứng profile và phép lặp ghép cặp của xử lý N60.",
+      "hardware": "H200 · Firmus — so sánh backend ở N52."
     }
   }
 ]

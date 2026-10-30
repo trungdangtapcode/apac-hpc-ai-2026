@@ -44,7 +44,8 @@
       "script": "Three historical full runs at a target load of 64 simultaneous requests averaged about 3,044 good output tokens per second. A later short control was around 2,560, but it used less measurement time and different graph and request-limit settings. Replaying the old full setup scored lower; a later run through a different serving execution path returned near the historical level. That is a separate reproduction, not proof that a setting caused recovery.",
       "caution": "Do not compare the short control as if it were a full run, attribute the later score to one setting, or discard the valid lower legacy replay.",
       "transition": "Next, distinguish a promising component probe from evidence about full-model serving.",
-      "brief": "The replicated full N64 mean was 3,044 good tokens per second; the later short control was about 2,560. Different protocols and settings explain why this is a drift signal, not proof of a cause."
+      "brief": "The replicated full N64 mean was 3,044 good tokens per second; the later short control was about 2,560. Different protocols and settings explain why this is a drift signal, not proof of a cause.",
+      "hardware": "H200 · Firmus — all short/full historical, replay and native observations."
     },
     "vi": {
       "purpose": "Giải thích vì sao độ lệch điểm quan sát được chưa chỉ ra nguyên nhân, và vì sao lần chạy đầy đủ về sau là tái lập kết quả chứ chưa chứng minh phục hồi do một thay đổi cụ thể.",
@@ -88,7 +89,8 @@
       "script": "Ba lần chạy đầy đủ lịch sử với tải mục tiêu 64 request đồng thời đạt trung bình khoảng 3,044 token đầu ra tốt mỗi giây. Đối chứng ngắn về sau khoảng 2,560, nhưng đo ít thời gian hơn và đổi cài đặt graph cùng giới hạn request. Phát lại cấu hình cũ đầy đủ cho điểm thấp hơn; một lần chạy qua đường serving khác về sau gần mức lịch sử. Đó là lần tái lập riêng, chưa chứng minh cài đặt nào gây phục hồi.",
       "caution": "Không coi đối chứng ngắn là lần đầy đủ tương đương, không quy điểm về sau cho một cài đặt, và không bỏ lần phát lại cấu hình cũ hợp lệ nhưng thấp hơn.",
       "transition": "Tiếp theo, phân biệt probe thành phần tiềm năng với bằng chứng serving toàn mô hình.",
-      "brief": "Ba lần đo đầy đủ với 64 request đồng thời đạt khoảng 3.044 token đạt chuẩn mỗi giây; một đối chứng ngắn sau đó chỉ khoảng 2.560. Nhưng thời lượng và cài đặt khác nhau. Nhóm thử lại để tìm nguyên nhân, chưa chứng minh một thay đổi riêng nào giải thích chênh lệch."
+      "brief": "Ba lần đo đầy đủ với 64 request đồng thời đạt khoảng 3.044 token đạt chuẩn mỗi giây; một đối chứng ngắn sau đó chỉ khoảng 2.560. Nhưng thời lượng và cài đặt khác nhau. Nhóm thử lại để tìm nguyên nhân, chưa chứng minh một thay đổi riêng nào giải thích chênh lệch.",
+      "hardware": "H200 · Firmus — tất cả số đo ngắn/đầy đủ, cấu hình cũ và native được nhắc đến."
     }
   },
   {
@@ -144,7 +146,13 @@
       "script": "Some rows test a small GPU kernel, some test helper code on a CPU, and some only inspect source. These checks can reject unsupported ideas, but they do not start the complete distributed model and score its answers. The real compile attempt entered Qwen code, then stopped when rotary position encoding met an incompatible fused key-value-cache interface. It produced no serving score.",
       "caution": "Do not turn a kernel probe, CPU fixture, or code-path inspection into a claim about full-model speed or correctness.",
       "transition": "The next slide describes the actual selected H200 and separate H100 serving configurations.",
-      "brief": "The attention package scored 2,549.20 at N52, but changed several factors together. Kernel probes and CPU fixtures did not establish faster full-model serving; the real compile attempt failed before producing a score."
+      "brief": "The attention package scored 2,549.20 at N52, but changed several factors together. Kernel probes and CPU fixtures did not establish faster full-model serving; the real compile attempt failed before producing a score.",
+      "hardware": "Mixed evidence: H200 + H100 + CPU — rows must be attributed separately.",
+      "hardware_details": [
+        "H200: attention-DP package, job 23780; actual full-model compile failure, job 27383.",
+        "H100: representative FP8 Triton kernels, SM budgets 80/96/120 versus 132, and NCCL protocol/source correction (candidate 221885).",
+        "CPU only: C++ tree/cache fixtures, including 27506. Unsupported API/source findings are not GPU performance measurements."
+      ]
     },
     "vi": {
       "purpose": "Cho thấy thử nghiệm thành phần và đọc mã nguồn có thể loại bỏ hướng thử mà chưa chứng minh mô hình đầy đủ chạy nhanh hơn.",
@@ -196,7 +204,13 @@
       "script": "Một số hàng thử kernel GPU nhỏ, một số chạy helper trên CPU, một số chỉ đọc mã nguồn. Chúng giúp loại bỏ ý tưởng không được hỗ trợ, nhưng không khởi chạy mô hình phân tán đầy đủ để chấm câu trả lời. Lần compile thật đi vào mã Qwen rồi dừng khi phép mã hóa vị trí xoay gặp giao diện cache key-value hợp nhất không tương thích. Không có điểm serving.",
       "caution": "Không biến probe kernel, fixture CPU hay kiểm tra đường code thành khẳng định về tốc độ hoặc độ đúng của mô hình đầy đủ.",
       "transition": "Slide sau mô tả cấu hình serving H200 được chọn và cấu hình H100 riêng.",
-      "brief": "Gói attention mới đạt khoảng 2.549 token đạt chuẩn mỗi giây ở 52 request đồng thời, nhưng đổi nhiều yếu tố nên không tách được nguyên nhân. Các thử nghiệm tính toán nhỏ chưa chứng minh cả model nhanh hơn; lần biên dịch model thật bị lỗi trước khi có điểm."
+      "brief": "Gói attention mới đạt khoảng 2.549 token đạt chuẩn mỗi giây ở 52 request đồng thời, nhưng đổi nhiều yếu tố nên không tách được nguyên nhân. Các thử nghiệm tính toán nhỏ chưa chứng minh cả model nhanh hơn; lần biên dịch model thật bị lỗi trước khi có điểm.",
+      "hardware": "Bằng chứng hỗn hợp: H200 + H100 + CPU — phải đọc riêng phần cứng của từng dòng.",
+      "hardware_details": [
+        "H200: gói attention-DP, job 23780; lỗi compile toàn model thật, job 27383.",
+        "H100: kernel FP8 Triton đại diện, SM budget 80/96/120 so với 132 và đính chính chọn protocol NCCL (ứng viên 221885).",
+        "Chỉ CPU: các kiểm tra C++ tree/cache, gồm 27506. Những API không hỗ trợ hoặc kết luận chỉ từ source không phải số đo hiệu năng GPU."
+      ]
     }
   },
   {
@@ -248,7 +262,12 @@
       "script": "This is the selected H200 deployment, not a direct race against H100. H200 processes prompts on two groups of four GPUs, then generates tokens on one group of eight GPUs with experts distributed across the group. H100 uses fewer simultaneous requests and a different prompt-processing backend and chunk. Both keep 8-bit weights and 16-bit activation and KV values. Reader fixes were checked on real data, but not through a complete GPU replay afterward.",
       "caution": "Do not pool H100 and H200 scores, infer a hardware multiplier, or confuse FP8 weights with BF16 activation/KV values.",
       "transition": "Now compare what sparse decode-graph capture saved with what it did to goodput.",
-      "brief": "The selected H200 service uses N64, two TP4 prefill workers, and one TP8/EP8 decode worker. H100 is a separate operating point, not a matched hardware comparison; official accuracy remains unverified."
+      "brief": "The selected H200 service uses N64, two TP4 prefill workers, and one TP8/EP8 decode worker. H100 is a separate operating point, not a matched hardware comparison; official accuracy remains unverified.",
+      "hardware": "H200 selected configuration + H100 retained configuration — separate recipes, not a matched speed comparison.",
+      "hardware_details": [
+        "H200 column: N64, DeepGEMM prefill, chunk 8192.",
+        "H100 column: N54, HPC-Ops prefill, chunk 4096."
+      ]
     },
     "vi": {
       "purpose": "Mô tả cấu hình AI được giữ lại mà không hàm ý kết quả H100 và H200 có thể so sánh trực tiếp.",
@@ -296,7 +315,12 @@
       "script": "Đây là cấu hình H200 được chọn, không phải cuộc đua trực tiếp với H100. H200 xử lý prompt trên hai nhóm, mỗi nhóm bốn GPU, rồi sinh token trên một nhóm tám GPU có phân phối các expert. H100 dùng ít request đồng thời hơn và backend/chunk xử lý prompt khác. Cả hai giữ trọng số 8 bit và activation cùng KV 16 bit. Bản sửa reader được kiểm tra trên dữ liệu thật nhưng chưa qua phát lại GPU đầy đủ.",
       "caution": "Không gộp điểm H100 và H200, suy ra hệ số đổi phần cứng, hay nhầm trọng số FP8 với activation/KV BF16.",
       "transition": "Tiếp theo, so sánh tài nguyên capture graph decode thưa đã tiết kiệm với tác động lên goodput.",
-      "brief": "Cấu hình H200 được chọn giữ tối đa 64 request đồng thời, dùng hai nhóm bốn GPU xử lý prompt và một nhóm tám GPU sinh token. H100 dùng cấu hình riêng. Đây là cách triển khai có bằng chứng đo, chưa phải chứng nhận chất lượng câu trả lời của BTC."
+      "brief": "Cấu hình H200 được chọn giữ tối đa 64 request đồng thời, dùng hai nhóm bốn GPU xử lý prompt và một nhóm tám GPU sinh token. H100 dùng cấu hình riêng. Đây là cách triển khai có bằng chứng đo, chưa phải chứng nhận chất lượng câu trả lời của BTC.",
+      "hardware": "Cấu hình H200 được chọn + cấu hình H100 được giữ — hai cách triển khai riêng, không phải cặp đo tốc độ cùng điều kiện.",
+      "hardware_details": [
+        "Cột H200: N64, prefill DeepGEMM, chunk 8192.",
+        "Cột H100: N54, prefill HPC-Ops, chunk 4096."
+      ]
     }
   },
   {
@@ -348,7 +372,8 @@
       "script": "The candidate captured 12 decode shapes instead of 64. That cut logged graph-capture memory per rank from 1.15 to 0.36 gigabytes, while capture time changed by only a few seconds. But goodput was 0.370208 percent lower and mean token interval slightly higher. Fewer graph shapes can require extra padding, but padding was not measured here. We retain dense graphs and do not assign a cause to the score difference.",
       "caution": "Do not call bucket count concurrency, capture memory total VRAM, or capture time total job time. Padding is a possible mechanism, not a measured explanation.",
       "transition": "Next, see what the synthetic serving score includes and what separate model-quality checks remain.",
-      "brief": "Sparse graphs cut logged capture memory from 1.15 to 0.36 GB per rank, but goodput fell 0.370208%. We retain dense graphs; one earlier control does not establish a causal explanation."
+      "brief": "Sparse graphs cut logged capture memory from 1.15 to 0.36 GB per rank, but goodput fell 0.370208%. We retain dense graphs; one earlier control does not establish a causal explanation.",
+      "hardware": "H200 · Firmus — sparse graph candidate 27510 versus control 27376."
     },
     "vi": {
       "purpose": "Giải thích đánh đổi của graph thưa: bộ nhớ capture theo log trên mỗi rank giảm, pha capture ngắn hơn chút ít, nhưng goodput đo được thấp hơn.",
@@ -396,7 +421,8 @@
       "script": "Ứng viên capture 12 dạng decode thay vì 64. Bộ nhớ graph capture theo log giảm từ 1.15 xuống 0.36 gigabyte mỗi rank, còn thời gian capture chỉ đổi vài giây. Nhưng goodput thấp hơn 0.370208 phần trăm và khoảng token trung bình tăng nhẹ. Ít dạng graph có thể cần padding thêm, nhưng lần này chưa đo padding. Nhóm giữ graph dày và không quy nguyên nhân cho chênh lệch điểm.",
       "caution": "Không gọi số bucket là concurrency, bộ nhớ capture là tổng VRAM, hay thời gian capture là tổng thời lượng job. Padding chỉ là cơ chế có thể có, chưa phải giải thích đã đo.",
       "transition": "Tiếp theo là phạm vi của điểm serving tổng hợp và các kiểm tra chất lượng mô hình riêng còn mở.",
-      "brief": "Giảm số dạng đồ thị GPU lưu để phát lại giúp bộ nhớ capture mỗi tiến trình giảm từ 1,15 xuống 0,36 GB. Tuy nhiên, thông lượng đạt chuẩn lại giảm khoảng 0,37%. Tiết kiệm phần bộ nhớ này chưa giúp dịch vụ nhanh hơn, nên nhóm giữ cấu hình cũ."
+      "brief": "Giảm số dạng đồ thị GPU lưu để phát lại giúp bộ nhớ capture mỗi tiến trình giảm từ 1,15 xuống 0,36 GB. Tuy nhiên, thông lượng đạt chuẩn lại giảm khoảng 0,37%. Tiết kiệm phần bộ nhớ này chưa giúp dịch vụ nhanh hơn, nên nhóm giữ cấu hình cũ.",
+      "hardware": "H200 · Firmus — graph thưa 27510 so với đối chứng 27376."
     }
   },
   {
@@ -444,7 +470,8 @@
       "script": "The serving test uses synthetic prompts requesting 4,000 input and 200 output tokens. The benchmark client keeps a target number of requests active, warms up, scores a fixed 120-second window, then lets outstanding requests finish. Its goodput counts requests meeting both latency limits; multiplying by 200 gives the reported good output tokens per second. This does not test the organizer’s full quality set, whose 99-percent requirement remains unknown.",
       "caution": "Do not divide all completions by 120, count grace as scored time, infer actual token usage from requested lengths, or claim the accuracy threshold passed.",
       "transition": "Next, compare chunk-size runs using this same full scoring protocol.",
-      "brief": "This benchmark scores synthetic 4,000/200-token serving over a 120-second window; it does not measure official accuracy. The required 99% of the organizer reference remains unknown, and goodput cannot be reconstructed by dividing completions by 120."
+      "brief": "This benchmark scores synthetic 4,000/200-token serving over a 120-second window; it does not measure official accuracy. The required 99% of the organizer reference remains unknown, and goodput cannot be reconstructed by dividing completions by 120.",
+      "hardware": "Shared H200/H100 workload and scoring rules — no platform-specific score."
     },
     "vi": {
       "purpose": "Giải thích benchmark serving đo trong khoảng nào, tính điểm ra sao và vì sao kết quả này tách biệt với độ chính xác mô hình.",
@@ -488,7 +515,8 @@
       "script": "Bài serving dùng prompt tổng hợp, yêu cầu 4.000 token vào và 200 token ra. Client benchmark duy trì số request đang chạy, làm nóng hệ thống, chấm một cửa sổ cố định 120 giây rồi cho request còn lại hoàn tất. Goodput chỉ đếm request đạt cả hai giới hạn độ trễ; nhân với 200 ra token đầu ra tốt mỗi giây. Bài này không kiểm tra bộ chất lượng toàn tập của ban tổ chức; yêu cầu 99% vẫn chưa biết.",
       "caution": "Không chia mọi request hoàn tất cho 120, tính grace vào cửa sổ chấm, suy ra token thực từ độ dài yêu cầu, hay nói đã đạt độ chính xác.",
       "transition": "Tiếp theo, so sánh các lần chạy chunk bằng cùng protocol chấm điểm đầy đủ.",
-      "brief": "Benchmark dùng prompt tổng hợp 4.000 token và yêu cầu sinh 200 token để đo tốc độ phục vụ, không chấm nội dung trả lời. Chất lượng phải được đánh giá riêng so với điểm tham chiếu của BTC; yêu cầu đạt ít nhất 99% điểm tham chiếu vẫn chưa được xác minh."
+      "brief": "Benchmark dùng prompt tổng hợp 4.000 token và yêu cầu sinh 200 token để đo tốc độ phục vụ, không chấm nội dung trả lời. Chất lượng phải được đánh giá riêng so với điểm tham chiếu của BTC; yêu cầu đạt ít nhất 99% điểm tham chiếu vẫn chưa được xác minh.",
+      "hardware": "Workload và quy tắc điểm chung H200/H100 — không có điểm riêng của một nền tảng."
     }
   },
   {
@@ -536,7 +564,8 @@
       "script": "All three tests used the same full protocol with 64 requests in flight. The 8,192-token prompt chunk scored about 3,045 good tokens per second; larger chunks scored about 3,034 and 3,021. Team checks on the assigned cluster passed for every run, but that only establishes a reviewed local result, not organizer approval or improvement. Larger chunks also worsened the slow first-token tail. With one run per size, we keep 8,192 for this service, not as a universal best.",
       "caution": "A local pass is team-reviewed evidence from the assigned cluster, not organizer approval. Do not treat a passing arm as an improvement or a global optimum.",
       "transition": "The next slide separates a completed GPU serving run from result-reader post-processing.",
-      "brief": "Larger prefill chunks did not help: goodput fell from 3,045.50 at 8,192 tokens to 3,020.94 at 12,288, with worse p95 TTFT. Each setting has one run on the assigned cluster, reviewed by the team; this is not organizer approval."
+      "brief": "Larger prefill chunks did not help: goodput fell from 3,045.50 at 8,192 tokens to 3,020.94 at 12,288, with worse p95 TTFT. Each setting has one run on the assigned cluster, reviewed by the team; this is not organizer approval.",
+      "hardware": "H200 · Firmus — prefill chunk 8192/10240/12288 comparisons."
     },
     "vi": {
       "purpose": "Cho thấy chunk prefill lớn hơn qua kiểm tra nhóm trên cluster được giao nhưng làm giảm goodput và xấu đuôi TTFT trong phép so sánh có giới hạn này.",
@@ -580,7 +609,8 @@
       "script": "Cả ba phép thử dùng cùng protocol đầy đủ với 64 request đồng thời. Chunk prompt 8.192 token đạt khoảng 3.045 token tốt mỗi giây; chunk lớn hơn đạt khoảng 3.034 và 3.021. Kiểm tra của nhóm trên cluster được giao đều qua, nhưng điều đó chỉ xác lập kết quả nội bộ đã xem xét, không phải duyệt của ban tổ chức hay cải thiện. Chunk lớn cũng làm đuôi token đầu chậm hơn. Mỗi mức chỉ có một lần chạy, nên giữ 8.192 cho dịch vụ này, không gọi là tốt nhất phổ quát.",
       "caution": "Local ở đây là bằng chứng được nhóm xem xét trên cluster được giao, không phải phê duyệt của ban tổ chức. Không coi một arm qua kiểm tra là cải thiện hay tối ưu toàn cục.",
       "transition": "Slide sau tách một lần chạy serving GPU hoàn tất khỏi hậu xử lý bằng reader kết quả.",
-      "brief": "Tăng số token xử lý trong mỗi phần prompt không giúp nhanh hơn: thông lượng đạt chuẩn giảm từ khoảng 3.045 xuống 3.021 token mỗi giây, đồng thời phần request chậm token đầu xấu hơn. Mỗi cài đặt mới đo một lần, nên nhóm giữ chunk 8.192 token cho cấu hình này."
+      "brief": "Tăng số token xử lý trong mỗi phần prompt không giúp nhanh hơn: thông lượng đạt chuẩn giảm từ khoảng 3.045 xuống 3.021 token mỗi giây, đồng thời phần request chậm token đầu xấu hơn. Mỗi cài đặt mới đo một lần, nên nhóm giữ chunk 8.192 token cho cấu hình này.",
+      "hardware": "H200 · Firmus — các phép so sánh chunk prefill 8192/10240/12288."
     }
   },
   {
@@ -632,7 +662,12 @@
       "script": "The first portable GPU job completed prompt processing, token generation, and the client, then failed when the result reader looked in the wrong export folder. The next job also finished serving, but its summary treated two names for the same home directory as different paths. A CPU-only job later checked the fixed reader against both real datasets. The original GPU jobs remain failed; we did not rerun the complete allocation after repair.",
       "caution": "Do not convert FAILED scheduler records into passes, call CPU reader verification a GPU replay, or present 3,055.330517 as a successful whole-allocation rerun.",
       "transition": "The final slide separates retained findings from validation work that remains proposed or unknown.",
-      "brief": "Both portable GPU jobs finished serving but ended FAILED in result reading. The recovered 3,055.33 raw score is not a successful whole-allocation rerun; a CPU-only job verified the reader fixes on saved data."
+      "brief": "Both portable GPU jobs finished serving but ended FAILED in result reading. The recovered 3,055.33 raw score is not a successful whole-allocation rerun; a CPU-only job verified the reader fixes on saved data.",
+      "hardware": "H200 GPU replay + CPU-only reader verification — the CPU job does not rerun inference.",
+      "hardware_details": [
+        "H200: GPU jobs 27136 and 27145; recovered 3055.33 belongs to H200 job 27145.",
+        "CPU, zero GPUs: 27152 checks repaired readers against retained data; it produces no fresh inference score."
+      ]
     },
     "vi": {
       "purpose": "Giải thích rằng client serving đã hoàn tất, nhưng mỗi job toàn allocation ban đầu vẫn kết thúc FAILED ở khâu reader kết quả; kiểm tra CPU sau đó không chạy lại serving.",
@@ -680,7 +715,12 @@
       "script": "Job GPU portable đầu tiên xử lý xong prompt, sinh token và chạy xong client, rồi lỗi vì reader tìm nhầm thư mục export. Job tiếp theo cũng hoàn tất serving, nhưng phần tổng hợp coi hai tên của cùng thư mục home là hai đường dẫn khác nhau. Một job CPU về sau kiểm tra reader đã sửa trên cả hai bộ dữ liệu thật. Job GPU ban đầu vẫn thất bại; nhóm không chạy lại toàn allocation sau sửa.",
       "caution": "Không đổi bản ghi scheduler FAILED thành thành công, không gọi kiểm reader CPU là phát lại GPU, và không trình bày 3,055.330517 như lần chạy toàn allocation thành công sau sửa.",
       "transition": "Slide cuối tách phát hiện được giữ lại khỏi công việc xác minh còn là đề xuất hoặc chưa biết.",
-      "brief": "Hai job GPU đã chạy xong benchmark nhưng lỗi chương trình đọc kết quả. Sửa chương trình giúp đọc lại điểm khoảng 3.055 token đạt chuẩn mỗi giây từ dữ liệu đã lưu. Job gốc vẫn thất bại; kiểm tra lại trên CPU chưa thay thế việc chạy toàn bộ triển khai sau sửa."
+      "brief": "Hai job GPU đã chạy xong benchmark nhưng lỗi chương trình đọc kết quả. Sửa chương trình giúp đọc lại điểm khoảng 3.055 token đạt chuẩn mỗi giây từ dữ liệu đã lưu. Job gốc vẫn thất bại; kiểm tra lại trên CPU chưa thay thế việc chạy toàn bộ triển khai sau sửa.",
+      "hardware": "Phát lại triển khai trên H200 + kiểm reader chỉ dùng CPU — job CPU không chạy lại suy luận.",
+      "hardware_details": [
+        "H200: job GPU 27136 và 27145; điểm đọc lại 3.055,33 thuộc job H200 27145.",
+        "CPU, không GPU: 27152 kiểm reader đã sửa trên dữ liệu cũ; không tạo điểm suy luận mới."
+      ]
     }
   },
   {
@@ -728,7 +768,8 @@
       "script": "Keep the replicated configuration that serves only the target model at a load of 64 simultaneous requests; one isolated high score is not enough to replace it. For a new method, first show that its backend ran, cached attention state moved correctly, and answers passed checks. Still open are the organizer’s full accuracy test and a complete portable GPU replay after reader repair. Those are proposed validation steps, not work already scheduled or completed.",
       "caution": "Do not claim official accuracy passed, repaired portable serving was fully rerun, sparse graphs improved goodput, or the compiled model interface was fixed.",
       "transition": "End here. In questions, separate measured observation, supported conclusion, and what remains unknown.",
-      "brief": "Keep the replicated target-only N64 configuration rather than an isolated peak. Official full-set accuracy and a complete portable GPU replay after reader repair remain open; these are proposed checks, not completed jobs."
+      "brief": "Keep the replicated target-only N64 configuration rather than an isolated peak. Official full-set accuracy and a complete portable GPU replay after reader repair remain open; these are proposed checks, not completed jobs.",
+      "hardware": "H200 · Firmus — retained N64 conclusions and proposed validation; no new measurement."
     },
     "vi": {
       "purpose": "Tóm tắt kết luận mà bằng chứng hiện có hỗ trợ và nói rõ các kiểm tra tiếp theo là đề xuất, chưa phải lần chạy đã hoàn tất.",
@@ -772,7 +813,8 @@
       "script": "Giữ cấu hình đã lặp lại, chỉ phục vụ mô hình đích ở tải 64 request đồng thời; một điểm cao đơn lẻ chưa đủ để thay thế. Với phương pháp mới, trước hết phải chứng minh backend đã chạy, trạng thái attention được truyền đúng và câu trả lời qua kiểm tra. Hai việc còn mở là bài accuracy toàn tập của ban tổ chức và phát lại GPU portable đầy đủ sau sửa reader. Đó là bước xác minh đề xuất, chưa phải việc đã lên lịch hay hoàn tất.",
       "caution": "Không khẳng định đã đạt độ chính xác chính thức, đã phát lại serving portable đầy đủ sau sửa, graph thưa tăng goodput, hay giao diện compile đã được sửa.",
       "transition": "Dừng tại đây. Khi trả lời, tách quan sát đo được, kết luận có căn cứ và điều còn chưa biết.",
-      "brief": "Nhóm giữ cấu hình 64 request đồng thời có kết quả đã chạy lại, thay vì chọn một đỉnh đơn lẻ. Hai việc còn thiếu là chấm chất lượng chính thức và chạy lại toàn bộ bản triển khai đóng gói sau sửa chương trình đọc. Đây là đề xuất kiểm chứng, chưa phải kết quả mới."
+      "brief": "Nhóm giữ cấu hình 64 request đồng thời có kết quả đã chạy lại, thay vì chọn một đỉnh đơn lẻ. Hai việc còn thiếu là chấm chất lượng chính thức và chạy lại toàn bộ bản triển khai đóng gói sau sửa chương trình đọc. Đây là đề xuất kiểm chứng, chưa phải kết quả mới.",
+      "hardware": "H200 · Firmus — kết luận giữ N64 và đề xuất xác minh; không có phép đo mới."
     }
   }
 ]
