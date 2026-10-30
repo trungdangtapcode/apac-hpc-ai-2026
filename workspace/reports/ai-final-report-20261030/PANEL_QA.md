@@ -10,11 +10,11 @@ Use four short parts: **what happened → what we tested → how we know → lim
 
 ## What was your biggest bottleneck?
 
-“Early deployment had a concrete transport-setup problem: descriptor preparation scaled with the entire KV pool. Source and cold-start/geometry records motivated request-scoped descriptors, followed by range, real-transfer and response checks. That identifies an early setup problem; it does not prove one global bottleneck in the mature service.”
+“An early heterogeneous-TP attempt loaded its workers but timed out in pair warmup. Source inspection showed descriptor preparation scaled with the entire KV pool. Source and cold-start/geometry records motivated request-scoped descriptors, followed by range, real-transfer and response checks. The patched branch later completed warmup and a full benchmark, but no successful unpatched scored control or isolated setup timer proves descriptor-only speedup or a global bottleneck in the mature service.”
 
 “The separate profile showed substantial named GEMM, collective and attention work. It motivated controlled trials, but those kernel-duration sums are not a causal end-to-end latency breakdown.”
 
-Use evidence card 1 and slide 13. State that hardware-collection coverage varies by run.
+Use the RQ2 evidence card, main slides 5–7 and backups 24–25. State that hardware-collection coverage varies by run.
 
 ## Why can higher concurrency increase TTFT without improving throughput?
 
@@ -60,13 +60,13 @@ Use the evidence cards to explain latency tradeoffs and missing hardware coverag
 
 “The main H200 experiments ran on the organiser-provided Firmus cluster. H100 was measured separately on NSCC ASPIRE 2A+. Historical H200 pairs used Slurm/Pyxis; later native Enroot and portable replay have separate records.”
 
-“These are our locally reviewed measurements on provided infrastructure, not an organiser-issued ranking or quality certificate. Official full-set model accuracy remains unverified.”
+“These are measurements we ran and checked on the provided cluster, not an organiser-issued ranking or quality certificate. Official full-set model accuracy remains unverified.”
 
 The final package records SGLang 0.5.17, router 0.3.2, NIXL 1.3.2 and AIPerf 0.12.0 with image hashes/checkpoint metadata. Per-run records govern historical claims; a shared image filename alone does not prove historical byte identity.
 
 ## Is your best score 3,055.33 or 3,048.45?
 
-“3,048.45 is the highest complete local full pass. Its cache difference is only +0.24%, so we keep replicated N64.”
+“3,048.45 is the highest complete full benchmark that our team ran and checked on the assigned H200 cluster. Its cache difference is only +0.24%, so we keep replicated N64.”
 
 “3,055.33 is recovered portable raw evidence: the client and both routes completed, but the original job failed in postprocessing. Corrected readers later passed compute-only replay. That does not rewrite the failed job or establish a complete post-repair allocation.”
 

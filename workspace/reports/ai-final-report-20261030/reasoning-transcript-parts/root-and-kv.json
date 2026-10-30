@@ -1,0 +1,1891 @@
+[
+  {
+    "slide": 1,
+    "title": "How do we reason about a fast Qwen service?",
+    "en": {
+      "brief": "We studied four questions: how to divide sixteen H 200 GPUs, what limits the service, which changes improve goodput, and whether results are reproducible. The contribution is the evidence behind our decisions, including failed hypotheses and unresolved quality checks.",
+      "purpose": "Introduce four research questions and the reasoning cycle used to answer them, rather than a chronology of runs.",
+      "visual": "We ask how to distribute the GPUs, what performance evidence identifies, which changes help qualifying throughput, and whether the result survives repeated deployment. The recurring cycle is problem, observation, analysis, hypothesis, intervention, causal assessment, and decision.",
+      "terms": [
+        {
+          "symbol": "Qwen",
+          "meaning": "The family of language models used in the serving task; this study serves the specified Qwen3-235B checkpoint."
+        },
+        {
+          "symbol": "APAC HPC-AI 2026",
+          "meaning": "The competition context for the research, not a statement of award or official acceptance."
+        },
+        {
+          "symbol": "30 October 2026",
+          "meaning": "The date of this research update; results are historical observations through that date."
+        },
+        {
+          "symbol": "VNUHCM - TripleU",
+          "meaning": "The presenting team identity."
+        }
+      ],
+      "reading": [
+        "The title also states the argument: the distributed system must function correctly before its speed comparisons are meaningful.",
+        "Reproduction here means similar results on another run; it does not establish all-platform or all-workload performance."
+      ],
+      "tradeoff": {
+        "observation": "The work progressed from resolving the two-node serving topology and KV transfer to phase-specific backend experiments and repeated full-protocol measurements.",
+        "hypothesis": "Reliable performance depends on making the deployment and measurement path work end to end before tuning individual kernels.",
+        "conclusion": "The presentation will support a reproduced operating point and selected configuration, while distinguishing that evidence from isolated peaks and official accuracy verification.",
+        "unknown": "Official full-set model accuracy remains unverified, and the local result is not an official contest ranking."
+      },
+      "script": "We studied four questions: how to divide sixteen H 200 GPUs, what limits the service, which changes improve goodput, and whether results are reproducible. The contribution is the evidence behind our decisions, including failed hypotheses and unresolved quality checks.",
+      "caution": "Do not call the displayed work a contest win, official acceptance, or accuracy certification. The date limits the claim to this research update.",
+      "transition": "Instead of starting with the highest number, we begin with the fixed problem and what counts as success.",
+      "hardware": "H200 + H100"
+    },
+    "vi": {
+      "brief": "Nhóm trả lời bốn câu hỏi: chia 16 H 200 thế nào, dịch vụ bị hạn chế ở đâu, thay đổi nào tăng thông lượng đạt chuẩn và kết quả có tái lập không. Chúng tôi trình bày bằng chứng cho quyết định, cả giả thuyết thất bại và những điều chưa xác minh.",
+      "purpose": "Mở bài bằng bốn câu hỏi nghiên cứu và cách suy luận để trả lời, thay vì kể lần lượt từng job.",
+      "visual": "Bốn câu hỏi là chia GPU thế nào, bằng chứng cho thấy hạn chế gì, thay đổi nào có ích và kết quả có bền vững không. Mỗi vòng đi từ vấn đề, quan sát, phân tích, giả thuyết, thay đổi và đo, đánh giá nguyên nhân đến quyết định.",
+      "terms": [
+        {
+          "symbol": "Qwen",
+          "meaning": "Dòng mô hình ngôn ngữ dùng trong bài toán; nghiên cứu phục vụ checkpoint Qwen3-235B được chỉ định."
+        },
+        {
+          "symbol": "APAC HPC-AI 2026",
+          "meaning": "Bối cảnh cuộc thi của nghiên cứu, không đồng nghĩa với giải thưởng hay được ban tổ chức chấp nhận."
+        },
+        {
+          "symbol": "30 October 2026",
+          "meaning": "Ngày của bản cập nhật nghiên cứu; các kết quả được trình bày là ghi nhận đến ngày này."
+        },
+        {
+          "symbol": "VNUHCM - TripleU",
+          "meaning": "Tên nhóm trình bày."
+        }
+      ],
+      "reading": [
+        "Thứ tự trong tiêu đề cũng là thứ tự lập luận: hệ thống phải chạy đúng trước, sau đó mới có ý nghĩa khi so tốc độ.",
+        "“Tái lập” ở đây là kết quả gần nhau khi chạy lại, không phải khẳng định kết quả đúng trên mọi máy hoặc mọi workload."
+      ],
+      "tradeoff": {
+        "observation": "Công việc đi từ khôi phục kiến trúc phục vụ hai nút và truyền KV đến thử nghiệm backend theo từng giai đoạn và các phép đo đầy đủ được lặp lại.",
+        "hypothesis": "Muốn tối ưu kernel có ý nghĩa, trước hết phải làm cho đường triển khai và phép đo đầu cuối hoạt động đúng.",
+        "conclusion": "Bài trình bày sẽ đưa ra cấu hình vận hành được đo lặp và các lựa chọn có căn cứ, đồng thời tách chúng khỏi điểm cao đơn lẻ và việc xác minh accuracy chính thức.",
+        "unknown": "Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả nhóm tự đo không phải thứ hạng chính thức của cuộc thi."
+      },
+      "script": "Nhóm trả lời bốn câu hỏi: chia 16 H 200 thế nào, dịch vụ bị hạn chế ở đâu, thay đổi nào tăng thông lượng đạt chuẩn và kết quả có tái lập không. Chúng tôi trình bày bằng chứng cho quyết định, cả giả thuyết thất bại và những điều chưa xác minh.",
+      "caution": "Không gọi đây là chiến thắng, được ban tổ chức chấp nhận, hay đã chứng nhận accuracy. Ngày tháng giới hạn kết luận ở bản cập nhật này.",
+      "transition": "Trước khi chọn phương án, cần xác định bài toán cố định và điều kiện thành công.",
+      "hardware": "H200 + H100"
+    },
+    "reasoning_stage": "RQ1–4 · Problem & constraints"
+  },
+  {
+    "slide": 2,
+    "title": "Define success before choosing an optimisation",
+    "en": {
+      "brief": "Our fixed problem is Qwen 3-235 B on two eight-H 200 nodes. Requests contain 4000 input and 200 output tokens. At least 90% must meet both first-token and token-gap limits. We optimize qualifying output tokens per second, not unrestricted aggregate throughput.",
+      "purpose": "Define the fixed model, hardware envelope, workload and latency objective before comparing configurations.",
+      "visual": "Qwen 3-235 B FP 8 runs within two nodes of eight H 200 GPUs. The workload requests 4000 input and 200 output tokens. More raw output is useful only if each request qualifies under both latency limits and the total qualifying fraction is at least 90%.",
+      "terms": [
+        {
+          "symbol": "4,000 input tokens → 200 output tokens",
+          "meaning": "The fixed synthetic request shape: a 4,000-token prompt and 200 requested output tokens."
+        },
+        {
+          "symbol": "TTFT ↓",
+          "meaning": "Time to first token; lower is better, with a per-request limit of 3,000 milliseconds."
+        },
+        {
+          "symbol": "Mean ITL ↓",
+          "meaning": "Mean inter-token latency, the average interval between generated tokens in a request; lower is better, limit 20 milliseconds."
+        },
+        {
+          "symbol": "Joint SLA ↑",
+          "meaning": "Share of all evaluated requests that satisfy both latency limits; target is at least 90%. Errors remain in the denominator."
+        },
+        {
+          "symbol": "Goodput ↑",
+          "meaning": "Rate of requests that qualify under the joint gate. Multiply qualifying requests per second by 200 to report good output tokens per second."
+        },
+        {
+          "symbol": "ms",
+          "meaning": "Milliseconds, one thousandth of a second; a latency unit."
+        },
+        {
+          "symbol": "req/s × 200",
+          "meaning": "Qualifying requests per second multiplied by the requested 200 output tokens per request."
+        }
+      ],
+      "reading": [
+        "Read each arrow as the preferred direction: latency down, qualifying share and goodput up.",
+        "Both TTFT and mean ITL limits must pass on the same request for it to count as qualifying.",
+        "The 90% threshold applies to the proportion of all evaluated requests, not just successful requests."
+      ],
+      "tradeoff": {
+        "observation": "The benchmark fixes the request size and applies a joint per-request latency rule; errors count against the service. Goodput is based on requests passing both limits.",
+        "hypothesis": "A system that produces more raw tokens can still be worse if too many requests violate first-token or token-spacing requirements.",
+        "conclusion": "We judge candidates by qualifying throughput together with the latency and output gates, not by a single mean or raw token count.",
+        "unknown": "The table defines the protocol but contains no candidate measurement; it does not show any configuration's actual latency distribution."
+      },
+      "script": "Our fixed problem is Qwen 3-235 B on two eight-H 200 nodes. Requests contain 4000 input and 200 output tokens. At least 90% must meet both first-token and token-gap limits. We optimize qualifying output tokens per second, not unrestricted aggregate throughput.",
+      "caution": "Do not infer per-request compliance from an aggregate mean. Do not drop errors from the denominator or multiply by a different output length.",
+      "transition": "With the success criterion fixed, the first research question is which GPU layouts are viable.",
+      "hardware": "H200 primary · H100 separate"
+    },
+    "vi": {
+      "brief": "Bài toán cố định là Qwen 3-235 B trên hai node, mỗi node tám H 200. Request có 4000 token vào và yêu cầu 200 token ra. Ít nhất 90% phải đạt cả hai ngưỡng chờ token đầu và khoảng token. Nhóm tối ưu thông lượng đạt chuẩn, không chỉ tổng token sinh ra.",
+      "purpose": "Đặt model, giới hạn phần cứng, tải và điều kiện độ trễ trước khi so các cấu hình.",
+      "visual": "Qwen 3-235 B FP 8 chạy trong hai node, mỗi node tám H 200. Workload yêu cầu 4000 token vào và 200 token ra. Sinh nhiều token chỉ có ích nếu từng request đạt cả hai giới hạn độ trễ, đồng thời tỷ lệ đạt trên toàn bộ request không dưới 90%.",
+      "terms": [
+        {
+          "symbol": "4,000 input tokens → 200 output tokens",
+          "meaning": "Kích thước yêu cầu tổng hợp cố định: prompt 4.000 token và yêu cầu sinh 200 token đầu ra."
+        },
+        {
+          "symbol": "TTFT ↓",
+          "meaning": "Time to first token, thời gian đến token đầu tiên; càng thấp càng tốt, giới hạn cho mỗi yêu cầu là 3.000 mili giây."
+        },
+        {
+          "symbol": "Mean ITL ↓",
+          "meaning": "Mean inter-token latency, độ trễ trung bình giữa các token được sinh trong một yêu cầu; càng thấp càng tốt, giới hạn 20 mili giây."
+        },
+        {
+          "symbol": "Joint SLA ↑",
+          "meaning": "Tỷ lệ tất cả yêu cầu được đánh giá đồng thời đạt hai giới hạn độ trễ; mục tiêu ít nhất 90%. Lỗi vẫn nằm trong mẫu số."
+        },
+        {
+          "symbol": "Goodput ↑",
+          "meaning": "Tốc độ yêu cầu đạt chuẩn. Nhân số yêu cầu đạt chuẩn mỗi giây với 200 để tính good output tokens mỗi giây."
+        },
+        {
+          "symbol": "ms",
+          "meaning": "Mili giây, bằng một phần nghìn giây; đơn vị độ trễ."
+        },
+        {
+          "symbol": "req/s × 200",
+          "meaning": "Số yêu cầu đạt chuẩn mỗi giây nhân với 200 token đầu ra được yêu cầu trên mỗi yêu cầu."
+        }
+      ],
+      "reading": [
+        "Mũi tên chỉ hướng mong muốn: độ trễ giảm, tỷ lệ đạt và goodput tăng.",
+        "Một yêu cầu phải đồng thời đạt TTFT và mean ITL mới được tính là đạt chuẩn.",
+        "Ngưỡng 90% áp dụng trên toàn bộ yêu cầu được đánh giá, không chỉ yêu cầu thành công."
+      ],
+      "tradeoff": {
+        "observation": "Benchmark cố định kích thước yêu cầu và áp dụng quy tắc độ trễ kết hợp theo từng yêu cầu; lỗi vẫn bị tính. Goodput dựa trên các yêu cầu qua cả hai giới hạn.",
+        "hypothesis": "Hệ thống sinh nhiều token thô hơn vẫn có thể kém hơn nếu quá nhiều yêu cầu vi phạm thời gian token đầu hoặc khoảng cách token.",
+        "conclusion": "Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các điều kiện độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.",
+        "unknown": "Bảng định nghĩa giao thức nhưng không có số đo của ứng viên nào; nó không cho biết phân bố độ trễ thực tế của từng cấu hình."
+      },
+      "script": "Bài toán cố định là Qwen 3-235 B trên hai node, mỗi node tám H 200. Request có 4000 token vào và yêu cầu 200 token ra. Ít nhất 90% phải đạt cả hai ngưỡng chờ token đầu và khoảng token. Nhóm tối ưu thông lượng đạt chuẩn, không chỉ tổng token sinh ra.",
+      "caution": "Không suy ra tỷ lệ đạt theo từng yêu cầu từ một giá trị trung bình tổng hợp. Không bỏ lỗi khỏi mẫu số và không thay 200 bằng độ dài đầu ra khác.",
+      "transition": "Khi đã rõ điều kiện thành công, câu hỏi đầu tiên là cách chia GPU nào khả thi.",
+      "hardware": "H200 primary · H100 separate"
+    },
+    "reasoning_stage": "RQ1 · Problem & constraints"
+  },
+  {
+    "slide": 3,
+    "title": "Which GPU layouts are feasible candidates?",
+    "en": {
+      "brief": "We compared layouts that trade replica count against GPU sharing within a model.",
+      "purpose": "Use the topology campaign as evidence for a feasible resource decision, not as the storyline.",
+      "visual": "A wider tensor-parallel worker divides one model over more GPUs, reducing the number of replicas that fit into a fixed GPU budget. More replicas can serve independent requests, but each has less GPU memory and a different communication cost. Candidates must load compatible FP 8 shards, complete transfer and answer correctly before scores matter.",
+      "terms": [
+        {
+          "symbol": "07 / 09",
+          "meaning": "Identifiers for early layout trials, not software versions."
+        },
+        {
+          "symbol": "4 × TP2 / 2 × TP4",
+          "meaning": "Four prefill workers with tensor parallelism two; the next listed layout uses two prefill workers with tensor parallelism four."
+        },
+        {
+          "symbol": "TP4/EP4",
+          "meaning": "Decode workers configured with tensor parallelism four and expert parallelism four."
+        },
+        {
+          "symbol": "Selected split: 2 × TP4; 1 × TP8/EP8",
+          "meaning": "Two prefill workers each TP4 and one decode worker TP8/EP8."
+        },
+        {
+          "symbol": "N",
+          "meaning": "Client concurrency: the target number of requests kept in flight, not number of GPUs or tokens."
+        },
+        {
+          "symbol": "good tokens/s",
+          "meaning": "Qualifying output token throughput under the per-request latency gate."
+        },
+        {
+          "symbol": "14 + 3 = 17 usable configurations",
+          "meaning": "Fourteen measured original layouts plus three measured EP2 replacements in the recovery ledger."
+        }
+      ],
+      "reading": [
+        "Compare rows horizontally across role topology, concurrency N, and good output tokens per second.",
+        "N rises from 32 to 40 to 48 across these illustrative rows; the measurements also differ in load and transport history.",
+        "The summary counts usable measured configurations; it does not say all attempted originals passed."
+      ],
+      "tradeoff": {
+        "observation": "The selected split reached 1912.30 good tokens/s at N48 in this early topology sample, after displayed N32 and N40 configurations reached 1297.02 and 1666.01. Overall, the recovery ledger counted 14 original layouts plus three EP2 replacements.",
+        "hypothesis": "A balanced allocation of prefill replication and decode parallelism could better serve the chosen request concurrency.",
+        "conclusion": "These trials established a usable architecture to develop. They are initial operating points, not a clean causal ranking because load and transport history varied.",
+        "unknown": "The slide does not show all 17 configurations or confidence intervals; it cannot isolate which topology change caused the score differences."
+      },
+      "script": "We compared layouts that trade replica count against GPU sharing within a model. Seventeen usable configurations supply evidence. The selected split reached about 1912 qualifying tokens per second at 48 concurrent requests. Because loads and transfer histories differ, this supports a viable choice, not a controlled proof of the globally best topology.",
+      "caution": "Do not treat 07 or 09 as software versions. Do not infer that the throughput increase was caused only by the displayed topology because N and other history differed.",
+      "transition": "The selected layout is a decision under the observed constraints; here is how it uses the two nodes.",
+      "hardware": "16 H200 · Firmus"
+    },
+    "vi": {
+      "brief": "Nhóm so các cách đánh đổi giữa số worker và số GPU cùng xử lý một model. Có 17 cấu hình đo được để làm bằng chứng. Bố trí được chọn đạt khoảng 1912 token đạt chuẩn mỗi giây ở 48 request đồng thời. Vì tải và lịch sử truyền khác nhau, chưa thể kết luận đây là topology tối ưu toàn cục.",
+      "purpose": "Dùng chiến dịch topology làm bằng chứng cho quyết định bố trí tài nguyên khả thi, không lấy số lượng cấu hình làm câu chuyện chính.",
+      "visual": "Worker TP rộng hơn chia một model lên nhiều GPU hơn, nên ngân sách GPU cố định chứa được ít bản worker hơn. Nhiều worker có thể nhận request riêng nhưng mỗi worker có ít bộ nhớ GPU hơn và chi phí giao tiếp khác. Chỉ đo cấu hình nạp được shard FP 8 tương thích, truyền đúng và trả lời hợp lệ.",
+      "terms": [
+        {
+          "symbol": "07 / 09",
+          "meaning": "Mã định danh của các thử nghiệm layout đầu tiên, không phải phiên bản phần mềm."
+        },
+        {
+          "symbol": "4 × TP2 / 2 × TP4",
+          "meaning": "Bốn worker prefill với tensor parallelism bằng hai; hàng kế tiếp dùng hai worker prefill với tensor parallelism bằng bốn."
+        },
+        {
+          "symbol": "TP4/EP4",
+          "meaning": "Worker decode cấu hình tensor parallelism bốn và expert parallelism bốn."
+        },
+        {
+          "symbol": "Selected split: 2 × TP4; 1 × TP8/EP8",
+          "meaning": "Hai worker prefill, mỗi worker TP4, và một worker decode TP8/EP8."
+        },
+        {
+          "symbol": "N",
+          "meaning": "Concurrency của client: mục tiêu số yêu cầu được giữ đang xử lý đồng thời, không phải số GPU hoặc token."
+        },
+        {
+          "symbol": "good tokens/s",
+          "meaning": "Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ từng yêu cầu."
+        },
+        {
+          "symbol": "14 + 3 = 17 usable configurations",
+          "meaning": "Mười bốn layout gốc đã đo cộng ba cấu hình thay thế EP2 đã đo trong sổ phục hồi."
+        }
+      ],
+      "reading": [
+        "So sánh mỗi hàng theo topology của hai vai trò, concurrency N và good output tokens mỗi giây.",
+        "N tăng từ 32 lên 40 rồi 48 trong các hàng minh họa; tải và lịch sử truyền dữ liệu cũng khác nhau.",
+        "Con số tổng kết đếm cấu hình đo được và dùng được; nó không nói mọi layout thử đều thành công."
+      ],
+      "tradeoff": {
+        "observation": "Trong mẫu topology ban đầu, cách chia được chọn đạt 1912,30 good tokens/s ở N48; các cấu hình hiển thị tại N32 và N40 lần lượt đạt 1297,02 và 1666,01. Sổ phục hồi đếm tổng cộng 14 layout gốc cộng ba cấu hình thay thế EP2.",
+        "hypothesis": "Phân bổ cân bằng giữa số worker prefill và mức song song decode có thể phục vụ tốt hơn mức concurrency đã chọn.",
+        "conclusion": "Các thử nghiệm tạo ra kiến trúc có thể tiếp tục phát triển. Đây là các điểm vận hành ban đầu, chưa phải thứ hạng nhân quả sạch vì tải và lịch sử truyền khác nhau.",
+        "unknown": "Slide không liệt kê đủ 17 cấu hình hoặc khoảng tin cậy; không thể tách riêng thay đổi topology nào gây ra chênh lệch điểm."
+      },
+      "script": "Nhóm so các cách đánh đổi giữa số worker và số GPU cùng xử lý một model. Có 17 cấu hình đo được để làm bằng chứng. Bố trí được chọn đạt khoảng 1912 token đạt chuẩn mỗi giây ở 48 request đồng thời. Vì tải và lịch sử truyền khác nhau, chưa thể kết luận đây là topology tối ưu toàn cục.",
+      "caution": "Không hiểu 07 hay 09 là phiên bản phần mềm. Không quy toàn bộ tăng thông lượng cho topology đang hiển thị vì N và lịch sử thử nghiệm cũng khác.",
+      "transition": "Bố trí được chọn là quyết định theo ràng buộc đã quan sát; hình sau cho thấy cách dùng hai node.",
+      "hardware": "16 H200 · Firmus"
+    },
+    "reasoning_stage": "RQ1 · Baseline & observation"
+  },
+  {
+    "slide": 4,
+    "title": "Why keep two TP4 prefills and one TP8 decode?",
+    "en": {
+      "brief": "We retain two four-GPU prefill workers and one eight-GPU decode worker. Tensor-parallel groups stay inside their node, while the phases can use different GPU implementations. KV transfer is the extra requirement. The choice is supported by usable measurements, not a claim that every alternative was tested under identical load.",
+      "purpose": "Explain the technical tradeoff behind retaining twoTP 4 prefills and oneTP 8/EP 8 decode, without inventing a one-factor topology speedup.",
+      "visual": "The first node holds two prefill workers of fourGPUs each; the second has one eightGPUdecode worker. All tensor-parallel groups stay within a node. Separating phases lets each use a suitable implementation, but requires KV transfer. This is a measured usable split; the historical layout table alone does not isolate the contribution of each architectural change.",
+      "terms": [
+        {
+          "symbol": "Prefill",
+          "meaning": "The prompt-processing phase. It reads the input tokens and creates the KV state needed for generation."
+        },
+        {
+          "symbol": "Decode",
+          "meaning": "The token-generation phase. It produces the requested output tokens using the prompt's KV state."
+        },
+        {
+          "symbol": "P0 / P1 / D0",
+          "meaning": "Names for two prefill workers and one decode worker; they are worker labels, not GPU IDs."
+        },
+        {
+          "symbol": "TP4 / TP8",
+          "meaning": "Tensor parallelism across four or eight GPUs within the worker. TP is a model-partitioning configuration."
+        },
+        {
+          "symbol": "EP1 / EP8",
+          "meaning": "Expert parallelism across one or eight expert partitions for the mixture-of-experts model."
+        },
+        {
+          "symbol": "KV state",
+          "meaning": "Key/value attention data generated during prompt processing and required to continue decoding the same request."
+        },
+        {
+          "symbol": "NIXL",
+          "meaning": "The transfer mechanism used here to move KV data between the prefill and decode sides."
+        },
+        {
+          "symbol": "2 × 4 + 1 × 8 = 16 GPUs",
+          "meaning": "Two four-GPU prefill workers plus one eight-GPU decode worker, for sixteen GPUs total."
+        }
+      ],
+      "reading": [
+        "Read from left to right: requests are processed for prefill on either P0 or P1, then KV data moves to D0 for generated output.",
+        "Each prefill worker is TP4/EP1; the decode worker is TP8/EP8. The TP groups stay within their node.",
+        "Orange squares and arrows are visual role cues in this slide, not a general chart color key or evidence of traffic volume."
+      ],
+      "tradeoff": {
+        "observation": "The selected layout allocates two TP4/EP1 prefill workers on Node 0 and one TP8/EP8 decode worker on Node 1; the request's KV state must cross between roles.",
+        "hypothesis": "Separating prompt processing from generation can let each phase use a fitting topology, but adds a correctness- and startup-sensitive transfer path.",
+        "conclusion": "Round-robin routes requests to a prefill worker, and decode produces all generated tokens. The diagram defines the experiment's architecture, not a measured performance benefit by itself.",
+        "unknown": "The drawing does not quantify network bandwidth, transfer latency, utilization or the causal advantage over a unified deployment."
+      },
+      "script": "We retain two four-GPU prefill workers and one eight-GPU decode worker. Tensor-parallel groups stay inside their node, while the phases can use different GPU implementations. KV transfer is the extra requirement. The choice is supported by usable measurements, not a claim that every alternative was tested under identical load.",
+      "caution": "TP and EP values are specific to each worker and this configuration. Do not interpret each square as a measured GPU utilization or claim the diagram proves a speedup.",
+      "transition": "A layout that loads successfully still needs to demonstrate that requests can complete.",
+      "hardware": "16 H200 · Firmus"
+    },
+    "vi": {
+      "brief": "Nhóm giữ hai worker bốnGPU xử lý prompt và một worker támGPU sinh token. Nhóm TP nằm trong từng node, còn hai giai đoạn dùng cách thực thi riêng. Đổi lại phải truyền KV đúng. Số đo hỗ trợ lựa chọn khả thi này, chưa chứng minh mọi phương án đã được so ở cùng tải.",
+      "purpose": "Giải thích đánh đổi kỹ thuật khi giữ hai prefill TP 4 và một decode TP 8/EP 8; không tự gán toàn bộ tăng tốc cho một thay đổi topology.",
+      "visual": "Node đầu chạy hai worker prefill, mỗi worker bốnGPU; node sau chạy một worker decode támGPU. Các nhóm TP nằm trong một node. Tách giai đoạn cho phép chọn cách tính riêng, nhưng cần truyền KV. Đây là bố trí đã đo chạy được; bảng lịch sử chưa tách riêng tác dụng của từng đổi kiến trúc.",
+      "terms": [
+        {
+          "symbol": "Prefill",
+          "meaning": "Giai đoạn xử lý prompt. Nó đọc token đầu vào và tạo trạng thái KV cần cho quá trình sinh."
+        },
+        {
+          "symbol": "Decode",
+          "meaning": "Giai đoạn sinh token tự hồi quy. Nó dùng trạng thái KV của prompt để tạo token đầu ra được yêu cầu."
+        },
+        {
+          "symbol": "P0 / P1 / D0",
+          "meaning": "Tên hai worker prefill và một worker decode; đây là nhãn worker, không phải mã GPU."
+        },
+        {
+          "symbol": "TP4 / TP8",
+          "meaning": "Tensor parallelism trên bốn hoặc tám GPU trong một worker. TP là cách chia mô hình."
+        },
+        {
+          "symbol": "EP1 / EP8",
+          "meaning": "Expert parallelism trên một hoặc tám phân vùng expert của mô hình mixture-of-experts."
+        },
+        {
+          "symbol": "KV state",
+          "meaning": "Dữ liệu key/value attention được tạo trong prefill và cần để tiếp tục decode cùng yêu cầu."
+        },
+        {
+          "symbol": "NIXL",
+          "meaning": "Cơ chế truyền dùng ở đây để chuyển dữ liệu KV giữa phía prefill và decode."
+        },
+        {
+          "symbol": "2 × 4 + 1 × 8 = 16 GPUs",
+          "meaning": "Hai worker prefill, mỗi worker bốn GPU, cộng một worker decode tám GPU; tổng cộng mười sáu GPU."
+        }
+      ],
+      "reading": [
+        "Đọc từ trái sang phải: yêu cầu vào một trong hai P0/P1 để prefill, rồi trạng thái KV được chuyển sang D0 để sinh đầu ra.",
+        "Mỗi worker prefill dùng TP4/EP1; worker decode dùng TP8/EP8. Nhóm TP nằm trong cùng nút.",
+        "Các ô vuông và mũi tên cam chỉ vai trò trong sơ đồ này, không phải thước đo lưu lượng hay quy ước màu chung."
+      ],
+      "tradeoff": {
+        "observation": "Layout được chọn bố trí hai worker prefill TP4/EP1 ở Node 0 và một worker decode TP8/EP8 ở Node 1; trạng thái KV của yêu cầu phải đi qua giữa hai vai trò.",
+        "hypothesis": "Tách xử lý prompt khỏi sinh token có thể cho mỗi giai đoạn topology phù hợp hơn, nhưng bổ sung đường truyền nhạy với độ đúng và thời gian khởi động.",
+        "conclusion": "Bộ định tuyến round-robin phân yêu cầu cho worker prefill; decode sinh mọi token đầu ra. Sơ đồ mô tả kiến trúc thí nghiệm, tự nó chưa chứng minh lợi ích hiệu năng.",
+        "unknown": "Hình không định lượng băng thông mạng, độ trễ truyền, mức sử dụng tài nguyên hay lợi thế nhân quả so với triển khai thống nhất."
+      },
+      "script": "Nhóm giữ hai worker bốnGPU xử lý prompt và một worker támGPU sinh token. Nhóm TP nằm trong từng node, còn hai giai đoạn dùng cách thực thi riêng. Đổi lại phải truyền KV đúng. Số đo hỗ trợ lựa chọn khả thi này, chưa chứng minh mọi phương án đã được so ở cùng tải.",
+      "caution": "Thông số TP/EP chỉ đúng cho từng worker trong cấu hình cụ thể này. Không xem mỗi ô vuông là mức sử dụng GPU đo được và không nói sơ đồ đã chứng minh tăng tốc.",
+      "transition": "Bố trí nạp được model vẫn phải chứng minh request đi hết dịch vụ.",
+      "hardware": "16 H200 · Firmus"
+    },
+    "reasoning_stage": "RQ1 · Conclusion from topology evidence"
+  },
+  {
+    "slide": 6,
+    "title": "What does the profile identify—and what does it not?",
+    "en": {
+      "purpose": "Put observations before optimizations and separate suspected performance limits from a proven bottleneck.",
+      "visual": "The separate N 48 profile records matrix work, communication/normalization and attention. Their summed kernel durations suggest trial targets; they are not wall-time shares because kernels can overlap. A later N 64 run has TTFT-only failures, but no complete queue/prefill/transfer breakdown explains them. These evidence types concern different runs.",
+      "terms": [
+        {
+          "symbol": "GEMM",
+          "meaning": "General matrix multiplication used in compute kernels."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "NVIDIA NVLink communication backend."
+        },
+        {
+          "symbol": "RMSNorm",
+          "meaning": "Root mean square normalization operation."
+        },
+        {
+          "symbol": "Kernel duration",
+          "meaning": "Recorded GPU-kernel time; not end-to-end wall time."
+        },
+        {
+          "symbol": "N48/N58",
+          "meaning": "Separate diagnostic and repeated deployment concurrency settings."
+        },
+        {
+          "symbol": "Profile",
+          "meaning": "A diagnostic run that records selected GPU kernel timings and other runtime signals while serving a workload."
+        },
+        {
+          "symbol": "Kernel-time share",
+          "meaning": "A named group's fraction of summed recorded kernel durations. GPU kernels can overlap, so this is not its fraction of elapsed request walltime."
+        },
+        {
+          "symbol": "N48 diagnostic vs N58 repeat",
+          "meaning": "Separate stages in job 24819: N58 repeats a deployment; N48 collects profile traces. Do not attribute N48 kernel shares to N58 service behavior."
+        },
+        {
+          "symbol": "MNNVL / RMSNorm",
+          "meaning": "MNNVL is the NVLink collective communication path; RMSNorm normalizes model activations."
+        }
+      ],
+      "reading": [
+        "Named decode groups are HPC group GEMM 21.642%, MNNVL collective/RMSNorm 23.479%, and FlashInfer paged attention 15.064% of summed recorded kernel duration. These percentages are descriptive sums, not shares of end-to-end wall time: kernels can overlap and the trace covers only recorded activity. Terms: GEMM is matrix multiplication; MNNVL is a communication backend; RMSNorm normalizes hidden activations; rank is one distributed process. The three groups suggest questions about MoE implementation, communication strategy, and phase-specific attention backend. They do not predict equivalent speedups, prove FLOP saturation, or causally explain N58/N60 service results. Keep the N48 diagnostic distinct from the N58 repeat. Hypothesis: large recorded groups deserve follow-up. Conclusion: use traces to design a controlled full-service test. Unknown: per-request phase attribution and causal latency shares.",
+        "A profile is instrumentation: it records selected activity while a workload is running. The percentages sum kernel durations across recorded ranks/GPUs. Because kernels overlap and because queueing, CPU work, communication gaps, and unrecorded activity also consume elapsed time, those percentages cannot be read as the fraction of a request spent in each component. The N48 diagnostic was separate from the N58 deployment repeat."
+      ],
+      "tradeoff": {
+        "observation": "Three named groups account for stated shares of recorded kernel duration.",
+        "hypothesis": "Large recorded groups may guide next experiments.",
+        "conclusion": "Use profile as a hypothesis source, not an end-to-end explanation.",
+        "unknown": "Wall-time shares, overlap effects, FLOP saturation and causality are unknown."
+      },
+      "script": "Profiling at a separate N 48 diagnostic shows substantial matrix, communication and attention work. Communication and normalization account for about 23.48% of summed recorded kernel durations. That motivates experiments; it does not prove a 23.48% wall-time bottleneck. Later first-token misses also remain causally unresolved.",
+      "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
+      "transition": "The next example shows how we prioritised a narrow source-supported hypothesis while leaving alternative causes open.",
+      "brief": "Profiling at a separate N 48 diagnostic shows substantial matrix, communication and attention work. Communication and normalization account for about 23.48% of summed recorded kernel durations. That motivates experiments; it does not prove a 23.48% wall-time bottleneck. Later first-token misses also remain causally unresolved.",
+      "hardware": "H200 · N48 diagnostic"
+    },
+    "vi": {
+      "purpose": "Đưa quan sát lên trước tối ưu và tách thành phần đáng nghi khỏi bottleneck đã chứng minh.",
+      "visual": "Profile N 48 riêng ghi công việc ma trận, giao tiếp/chuẩn hóa và attention. Tổng thời lượng kernel gợi ý hướng thử, không phải tỷ trọng thời gian thực vì kernel có thể chồng lấp. Lần N 64 về sau có request trượt TTFT, nhưng chưa tách hết thời gian queue/prefill/truyền để giải thích. Đây là bằng chứng từ các lần chạy khác nhau.",
+      "terms": [
+        {
+          "symbol": "GEMM",
+          "meaning": "Phép nhân ma trận tổng quát trong kernel tính toán."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "Backend giao tiếp qua NVIDIA NVLink."
+        },
+        {
+          "symbol": "RMSNorm",
+          "meaning": "Phép chuẩn hóa căn bậc hai trung bình bình phương."
+        },
+        {
+          "symbol": "Kernel duration",
+          "meaning": "Thời lượng kernel GPU được ghi; không phải wall time đầu-cuối."
+        },
+        {
+          "symbol": "N48/N58",
+          "meaning": "Hai mức concurrency tách biệt cho diagnostic và deployment lặp."
+        },
+        {
+          "symbol": "Profile",
+          "meaning": "Run chẩn đoán ghi thời lượng một số kernel GPU và tín hiệu runtime khi dịch vụ xử lý workload."
+        },
+        {
+          "symbol": "Tỷ trọng thời gian kernel",
+          "meaning": "Phần của tổng thời lượng kernel đã ghi thuộc một nhóm. Kernel GPU có thể chồng lấp, nên đây không phải phần walltime request đã trôi qua."
+        },
+        {
+          "symbol": "Diagnostic N48 và lần lặp N58",
+          "meaning": "Hai giai đoạn riêng trong job 24819: N58 lặp deployment; N48 thu trace profile. Không gán tỷ trọng kernel N48 cho hành vi dịch vụ N58."
+        },
+        {
+          "symbol": "MNNVL / RMSNorm",
+          "meaning": "MNNVL là đường giao tiếp collective qua NVLink; RMSNorm chuẩn hóa activation của model."
+        }
+      ],
+      "reading": [
+        "Các nhóm decode được nêu là HPC group GEMM 21,642%, MNNVL collective/RMSNorm 23,479%, và FlashInfer paged attention 15,064% tổng kernel duration đã ghi. Đây là tổng mô tả, không phải tỷ trọng wall time đầu cuối: kernel có thể chạy chồng lấp và trace chỉ ghi hoạt động có coverage. GEMM là phép nhân ma trận; MNNVL là backend giao tiếp; RMSNorm chuẩn hóa activation; rank là một tiến trình phân tán. Ba nhóm gợi ý câu hỏi về MoE, chiến lược giao tiếp và attention theo pha. Chúng không dự đoán mức tăng tương ứng, chứng minh FLOP saturation, hay giải thích nhân quả kết quả dịch vụ N58/N60. Cần tách N48 diagnostic khỏi lần lặp N60. Giả thuyết: nhóm kernel lớn đáng khảo sát. Kết luận: dùng trace để thiết kế phép thử dịch vụ có đối chứng. Chưa biết tỷ lệ latency từng pha cho mỗi request.",
+        "Profile là phép ghi đo: công cụ lưu một số hoạt động khi workload chạy. Các tỷ lệ cộng thời lượng kernel trên những rank/GPU được ghi. Vì kernel có thể chồng lấp, đồng thời hàng đợi, CPU, khoảng chờ giao tiếp và hoạt động không được ghi cũng chiếm thời gian trôi qua, không thể đọc tỷ lệ này thành phần thời gian request dành cho từng thành phần. Diagnostic N48 tách biệt với lần lặp deployment N58."
+      ],
+      "tradeoff": {
+        "observation": "Ba nhóm kernel chiếm tỷ lệ đã nêu trong tổng kernel duration được ghi.",
+        "hypothesis": "Nhóm có tỷ lệ ghi nhận lớn có thể gợi ý thí nghiệm tiếp.",
+        "conclusion": "Dùng profile để đặt giả thuyết, không giải thích toàn bộ dịch vụ.",
+        "unknown": "Tỷ trọng wall time, chồng lấp, FLOP saturation và quan hệ nhân quả chưa biết."
+      },
+      "script": "Profile N 48 riêng cho thấy nhiều công việc ma trận, giao tiếp và attention. Giao tiếp cùng chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là cơ sở đặt phép thử, chưa chứng minh 23,48% thời gian request bị nghẽn ở đó. Các request chậm token đầu về sau cũng chưa có nguyên nhân được tách rõ.",
+      "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
+      "transition": "Ví dụ sau cho thấy cách chọn một giả thuyết hẹp có cơ sở source, đồng thời giữ các nguyên nhân khác ở trạng thái chưa loại trừ.",
+      "brief": "Profile N 48 riêng cho thấy nhiều công việc ma trận, giao tiếp và attention. Giao tiếp cùng chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là cơ sở đặt phép thử, chưa chứng minh 23,48% thời gian request bị nghẽn ở đó. Các request chậm token đầu về sau cũng chưa có nguyên nhân được tách rõ.",
+      "hardware": "H200 · N48 diagnostic"
+    },
+    "reasoning_stage": "RQ2 · Bottleneck analysis"
+  },
+  {
+    "slide": 19,
+    "title": "Four decisions, each with an evidence boundary",
+    "en": {
+      "purpose": "Answer the four questions with decisions and the boundary of their supporting evidence.",
+      "visual": "The layout is a usable 16 H 200 decision, profiles suggest rather than prove universal limits, matched useful service gains are retained, and repeatedN 64 measurements support an operating point. Unknown quality, limited hardware diversity and unfinished full portable replay keep robustness claims bounded.",
+      "terms": [
+        {
+          "symbol": "Three-run mean",
+          "meaning": "Mean of historical full N64 runs 25366/25373/25487."
+        },
+        {
+          "symbol": "Native runtime",
+          "meaning": "Job 26766 uses the native server execution environment, separate from the historical runtime path. Runtime means software stack that launches/executes the serving server, not GPU hardware."
+        },
+        {
+          "symbol": "Cache pair",
+          "meaning": "27376 fresh control versus 27378 candidate."
+        },
+        {
+          "symbol": "+0.240921%",
+          "meaning": "Candidate gain, below the prospective useful-gain gate."
+        },
+        {
+          "symbol": "Official quality",
+          "meaning": "Full-set accuracy requirement, not verified here."
+        },
+        {
+          "symbol": "Historical N64 series",
+          "meaning": "Three full runs 25366/25373/25487 average 3,044.400475 good output tokens/s."
+        },
+        {
+          "symbol": "Fresh cache control",
+          "meaning": "Job 27376 compared with candidate 27378; the +0.240921% score difference is below the useful-gain threshold."
+        },
+        {
+          "symbol": "Team-reviewed run",
+          "meaning": "A run executed by the team on the assigned organiser cluster and checked against local raw-output/runtime gates. This is not an organiser-issued ranking or quality certification."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
+        },
+        {
+          "symbol": "Team-run and team-reviewed",
+          "meaning": "The team submitted and inspected the run on the assigned organiser cluster. “Reviewed” means checking retained raw request results, runtime and required gates; it is not organiser certification, a contest ranking, or a claim that the run was on a personal machine."
+        }
+      ],
+      "reading": [
+        "Later native-runtime job 26766 independently reaches 3,045.501509 and 98.580442% joint SLA; keep it separate because runtime path differs. Highest full cache result 27378 reaches 3,048.446289, only +0.240921% over fresh control 27376, below useful-gain gate. Lower valid replays around 2,802–2,831 remain retained. Replication supports choosing N64, not a global optimum. No speculative speedup, official quality certificate, or causal native-runtime speedup is claimed.",
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "The historical mean and the native-runtime score are both team-run, fully reviewed measurements on the assigned accelerator cluster; “reviewed” means raw request/runtime checks were inspected, not that the organiser certified a ranking or quality score. The native runtime is the software execution environment, not a new GPU generation. Keep its 3,045.501509 separate from the three-run historical mean because the runtime paths differ. A numerically higher cache result is not selected when its gain is below the predeclared useful-change threshold."
+      ],
+      "tradeoff": {
+        "observation": "Historical N64 mean is replicated; cache point gains 0.240921%; native path is separate.",
+        "hypothesis": "A reproduced point is a safer selection basis than isolated peak.",
+        "conclusion": "Retain N64; do not select for the main configuration the small cache gain.",
+        "unknown": "Global optimum, official quality and causal runtime differences are unknown."
+      },
+      "script": "Our decisions follow evidence: retain a usable GPU split, test rather than assume bottlenecks, keep interventions that improve qualifying service, and prefer repeated results over isolated peaks. The historical N 64 mean is about 3044 good tokens per second. Official quality and complete repaired deployment validation remain open.",
+      "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
+      "transition": "The final slide states what a future iteration would have to prove; research is currently stopped.",
+      "brief": "Our decisions follow evidence: retain a usable GPU split, test rather than assume bottlenecks, keep interventions that improve qualifying service, and prefer repeated results over isolated peaks. The historical N 64 mean is about 3044 good tokens per second. Official quality and complete repaired deployment validation remain open.",
+      "hardware": "H200 primary · H100 separate"
+    },
+    "vi": {
+      "purpose": "Trả lời bốn câu hỏi bằng quyết định và giới hạn bằng chứng đỡ cho từng quyết định.",
+      "visual": "Bố trí GPU là lựa chọn chạy được trên 16 H 200; profile gợi ý chứ chưa chứng minh mọi bottleneck; giữ thay đổi có mức tăng dịch vụ hữu ích trong so sánh phù hợp; các lần N 64 lặp lại hỗ trợ một điểm vận hành. Chất lượng chưa xác minh, phần cứng chưa đa dạng và phát lại portable đầy đủ chưa xong giới hạn tuyên bố về độ bền vững.",
+      "terms": [
+        {
+          "symbol": "Trung bình ba run",
+          "meaning": "Trung bình các run N64 đầy đủ lịch sử 25366/25373/25487."
+        },
+        {
+          "symbol": "Native runtime",
+          "meaning": "Job 26766 dùng môi trường thực thi server native, khác runtime lịch sử. Runtime là stack phần mềm khởi chạy/chạy server, không phải phần cứng GPU."
+        },
+        {
+          "symbol": "Cặp cache",
+          "meaning": "Control mới 27376 so với candidate 27378."
+        },
+        {
+          "symbol": "+0,240921%",
+          "meaning": "Gain candidate, thấp hơn ngưỡng lợi ích hữu ích định trước."
+        },
+        {
+          "symbol": "Quality official",
+          "meaning": "Yêu cầu accuracy full-set, chưa xác minh ở đây."
+        },
+        {
+          "symbol": "Chuỗi N64 lịch sử",
+          "meaning": "Ba run đầy đủ 25366/25373/25487 trung bình 3.044,400475 good output tokens/s."
+        },
+        {
+          "symbol": "Control cache mới",
+          "meaning": "Job 27376 so với candidate 27378; chênh điểm +0,240921% thấp hơn ngưỡng lợi ích hữu ích."
+        },
+        {
+          "symbol": "Run do nhóm review",
+          "meaning": "Run do nhóm chạy trên cluster được cấp và kiểm tra bằng raw output/runtime gate nội bộ. Đây không phải ranking hay chứng nhận quality do ban tổ chức cấp."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
+        },
+        {
+          "symbol": "Do nhóm chạy và review",
+          "meaning": "Nhóm chạy phép đo trên cluster được cấp và kiểm tra raw request, runtime cùng các điều kiện bắt buộc. “Review” không phải chứng nhận của ban tổ chức, ranking contest, hay chạy trên máy cá nhân."
+        }
+      ],
+      "reading": [
+        "Job native-runtime sau đó 26766 đạt độc lập 3.045,501509 và SLA đồng thời 98,580442%; cần báo riêng vì runtime path khác. Kết quả cache full cao nhất 27378 đạt 3.048,446289, chỉ +0,240921% so với control mới 27376, dưới ngưỡng useful-gain. Các replay hợp lệ thấp hơn quanh 2.802–2.831 vẫn được lưu. Lặp lại hỗ trợ chọn N64, không chứng minh optimum toàn cục. Không tuyên bố speculative speedup, chứng nhận quality official hay speedup nhân quả của native runtime.",
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "Trung bình lịch sử và điểm native-runtime đều là phép đo nhóm chạy, đã review đầy đủ trên cluster accelerator được cấp; “review” nghĩa raw request và runtime đã được kiểm tra, không phải ban tổ chức chứng nhận thứ hạng hay quality. Native runtime là môi trường phần mềm thực thi, không phải thế hệ GPU mới. Giữ số 3.045,501509 riêng với trung bình lịch sử ba run vì runtime path khác nhau. Không chọn kết quả cache cao hơn về số học khi gain dưới ngưỡng thay đổi hữu ích đã định trước."
+      ],
+      "tradeoff": {
+        "observation": "Trung bình N64 lịch sử được lặp; cache tăng 0,240921%; runtime native báo riêng.",
+        "hypothesis": "Điểm được lặp lại đáng chọn hơn một đỉnh đơn độc.",
+        "conclusion": "Giữ N64; không đưa vào cấu hình chính gain cache nhỏ.",
+        "unknown": "Optimum toàn cục, quality official và khác biệt runtime nhân quả chưa biết."
+      },
+      "script": "Bốn quyết định theo bằng chứng là giữ bố trí GPU chạy được, kiểm thử thay vì đoán bottleneck, chỉ giữ thay đổi giúp dịch vụ đạt chuẩn và ưu tiên kết quả đã chạy lại. N 64 lịch sử trung bình khoảng 3044 token đạt chuẩn mỗi giây. Chất lượng chính thức và kiểm chứng triển khai đầy đủ sau sửa vẫn còn mở.",
+      "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
+      "transition": "Slide cuối nêu việc vòng tiếp theo phải chứng minh; hiện nghiên cứu đã dừng.",
+      "brief": "Bốn quyết định theo bằng chứng là giữ bố trí GPU chạy được, kiểm thử thay vì đoán bottleneck, chỉ giữ thay đổi giúp dịch vụ đạt chuẩn và ưu tiên kết quả đã chạy lại. N 64 lịch sử trung bình khoảng 3044 token đạt chuẩn mỗi giây. Chất lượng chính thức và kiểm chứng triển khai đầy đủ sau sửa vẫn còn mở.",
+      "hardware": "H200 primary · H100 separate"
+    },
+    "reasoning_stage": "Conclusion · Answer the research questions"
+  },
+  {
+    "slide": 20,
+    "title": "What should the next iteration establish?",
+    "en": {
+      "purpose": "Make future validation follow the unresolved claims, rather than suggesting more trials merely to raise the headline score.",
+      "visual": "Official full-set quality would establish whether the accuracy requirement holds. A fresh complete portable replay would test deployment after reader repair. A compatible model path and bounded phase timing would be required before claiming compilation or bottleneck improvements. These are proposals, not accepted jobs.",
+      "terms": [
+        {
+          "symbol": "target-only / EAGLE",
+          "meaning": "Target-only serves only the main model. EAGLE proposes draft tokens for that model to verify; the tested shallow full configuration lost performance."
+        },
+        {
+          "symbol": "independent validation",
+          "meaning": "A separate check of official full-set accuracy or the complete deployment, beyond the serving score and helper tests."
+        },
+        {
+          "symbol": "adopt a configuration",
+          "meaning": "Choose it as the team’s submission/deployment setting after evidence review. A high isolated observation alone is not enough."
+        },
+        {
+          "symbol": "source or CPU evidence",
+          "meaning": "Source shows what code may support; CPU fixtures test narrow helper behavior. Neither shows that the full GPU service activated the path or produced correct results."
+        },
+        {
+          "symbol": "unknown",
+          "meaning": "No sufficient retained measurement establishes the answer. It must not be described as zero, passed, or healthy."
+        },
+        {
+          "symbol": "official accuracy",
+          "meaning": "The full organizer quality evaluation; it must reach at least 99% of the FP8 reference and remains unverified."
+        }
+      ],
+      "reading": [
+        "Retain the replicated target-only N64 configuration rather than the highest isolated score. Cache, cap, and polling changes showed no useful gain; the tested shallow EAGLE configuration lost; sparse graph candidate goodput was 0.370208% below the earlier control.",
+        "Any new implementation should show the intended backend active, correct KV movement, and valid outputs before its performance score is interpreted. CPU fixtures or source inspection alone do not satisfy that standard."
+      ],
+      "tradeoff": {
+        "observation": "The selected N64 service has repeated full-run evidence; several optimization trials did not show useful gain. Accuracy and post-repair portable replay remain open.",
+        "hypothesis": "Path-specific runtime and output checks can prevent unsupported deployment claims.",
+        "conclusion": "Keep the reproduced service and treat the listed validation as future work, not as completed or queued research.",
+        "unknown": "Official accuracy, full deployment behavior after reader repair, and a compatible compiled RoPE/KV path remain unknown."
+      },
+      "script": "The next iteration should close evidence gaps: official model quality, a complete packaged replay after reader repair, and phase timing before another bottleneck claim. We retain the repeated 64-request service meanwhile. These are proposed validation tasks; no new experiment is being launched as part of this report.",
+      "caution": "Do not claim official accuracy passed, repaired portable serving was fully rerun, sparse graphs improved goodput, or the compiled model interface was fixed.",
+      "transition": "End the AI main talk here. Open the relevant backup for questions; the independent HPC section follows its own presentation.",
+      "brief": "The next iteration should close evidence gaps: official model quality, a complete packaged replay after reader repair, and phase timing before another bottleneck claim. We retain the repeated 64-request service meanwhile. These are proposed validation tasks; no new experiment is being launched as part of this report.",
+      "hardware": "Proposed validation · no new jobs"
+    },
+    "vi": {
+      "purpose": "Để đề xuất tiếp theo xuất phát từ điều chưa chứng minh, thay vì chỉ chạy thêm để tăng số điểm.",
+      "visual": "Đánh giá chất lượng toàn tập chính thức mới trả lời yêu cầu accuracy. Phát lại portable đầy đủ mới kiểm triển khai sau sửa reader. Muốn tuyên bố lợi ích compile hay bottleneck cần đường model tương thích và đo thời gian từng pha có kiểm soát. Đây là đề xuất, không phải job đã gửi.",
+      "terms": [
+        {
+          "symbol": "target-only / EAGLE",
+          "meaning": "Target-only chỉ phục vụ mô hình chính. EAGLE đề xuất token draft để mô hình chính xác minh; cấu hình nông đầy đủ đã thử làm giảm hiệu năng."
+        },
+        {
+          "symbol": "xác minh độc lập",
+          "meaning": "Kiểm tra riêng độ chính xác toàn tập chính thức hoặc triển khai đầy đủ, vượt ra ngoài điểm serving và fixture helper."
+        },
+        {
+          "symbol": "chọn cấu hình",
+          "meaning": "Quyết định dùng nó làm cấu hình nộp bài/triển khai sau khi xem xét bằng chứng. Một điểm cao đơn lẻ không đủ."
+        },
+        {
+          "symbol": "bằng chứng mã nguồn hoặc CPU",
+          "meaning": "Mã nguồn cho biết code có thể hỗ trợ gì; fixture CPU thử hành vi helper hẹp. Cả hai không chứng minh service GPU đã kích hoạt đường đó và cho đầu ra đúng."
+        },
+        {
+          "symbol": "chưa biết",
+          "meaning": "Không có phép đo lưu lại đủ để kết luận. Không được mô tả như bằng không, đã qua hoặc khỏe mạnh."
+        },
+        {
+          "symbol": "độ chính xác chính thức",
+          "meaning": "Đánh giá chất lượng toàn tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu FP8 và hiện chưa được xác minh."
+        }
+      ],
+      "reading": [
+        "Giữ cấu hình target-only N64 đã lặp lại thay vì điểm cao riêng lẻ. Thay đổi cache, cap và polling chưa có lợi ích hữu ích; cấu hình EAGLE đầy đủ với bước dự đoán nông bị giảm hiệu năng; goodput graph thưa thấp hơn đối chứng trước 0.370208%.",
+        "Triển khai mới cần chứng minh backend dự định thực sự chạy, KV được chuyển đúng và đầu ra hợp lệ trước khi diễn giải điểm. Fixture CPU hoặc đọc mã nguồn riêng lẻ không đáp ứng tiêu chuẩn đó."
+      ],
+      "tradeoff": {
+        "observation": "Dịch vụ N64 được chọn có bằng chứng nhiều lần chạy đầy đủ; vài thử nghiệm tối ưu không cho lợi ích. Độ chính xác và phát lại portable sau sửa vẫn còn mở.",
+        "hypothesis": "Kiểm tra runtime và đầu ra riêng cho từng đường giúp tránh khẳng định triển khai thiếu căn cứ.",
+        "conclusion": "Giữ dịch vụ đã tái lập; xem xác minh liệt kê là việc tương lai, không phải nghiên cứu đã làm hay đang xếp hàng.",
+        "unknown": "Độ chính xác chính thức, hành vi triển khai đầy đủ sau sửa reader, và đường compile RoPE/KV tương thích vẫn chưa biết."
+      },
+      "script": "Vòng sau nên khép ba khoảng trống: chất lượng model chính thức, chạy trọn bản đóng gói sau sửa reader và đo từng pha trước khi khẳng định bottleneck. Trước mắt giữ dịch vụ 64 request đã có phép đo lặp. Đây là việc đề xuất để xác minh; báo cáo này không khởi chạy thí nghiệm mới.",
+      "caution": "Không khẳng định đã đạt độ chính xác chính thức, đã phát lại serving portable đầy đủ sau sửa, graph thưa tăng goodput, hay giao diện compile đã được sửa.",
+      "transition": "Kết phần AI chính tại đây; mở slide dự phòng phù hợp khi được hỏi. Phần HPC độc lập có mạch trình bày riêng.",
+      "brief": "Vòng sau nên khép ba khoảng trống: chất lượng model chính thức, chạy trọn bản đóng gói sau sửa reader và đo từng pha trước khi khẳng định bottleneck. Trước mắt giữ dịch vụ 64 request đã có phép đo lặp. Đây là việc đề xuất để xác minh; báo cáo này không khởi chạy thí nghiệm mới.",
+      "hardware": "Proposed validation · no new jobs"
+    },
+    "reasoning_stage": "Conclusion & next iteration"
+  },
+  {
+    "slide": 5,
+    "title": "Worker readiness did not prove a working service",
+    "hardware": "H200 Firmus; the historical heterogeneous-TP branch was prefill P8 with TP8/EP2 to decode D8 with TP4/EP4. This is not the later selected topology of two TP4/EP1 prefill workers plus one TP8/EP8 decode worker.",
+    "en": {
+      "brief": "In job 22271, H200 workers loaded, but the P-to-D pair warmup timed out after 360 seconds. No AIPerf benchmark ran, so this is a transfer-readiness failure, not a throughput measurement.",
+      "purpose": "Establish the observed failure before explaining the proposed fix. Workers had loaded, but the actual heterogeneous prefill-to-decode path had not become ready for a benchmark request. This separates a startup/transfer symptom from an assumed steady-state performance problem.",
+      "visual": "Tell the audience this slide represents the baseline stage of the seven-step reasoning chain: symptom, job evidence, and failure boundary. The title's contrast is literal: model workers were ready, while pair warmup was not. No numeric chart or axes are implied.",
+      "terms": [
+        {
+          "symbol": "H200 Firmus",
+          "meaning": "The GPU platform and site for this historical trial; do not merge this result with H100 NSCC measurements."
+        },
+        {
+          "symbol": "P8 / D8",
+          "meaning": "Labels for the prefill-side and decode-side groups in this topology; retain the labels without assuming they mean eight workers."
+        },
+        {
+          "symbol": "TP8/EP2 → TP4/EP4",
+          "meaning": "Prefill used tensor parallelism eight and expert parallelism two; decode used tensor parallelism four and expert parallelism four. The settings differ across roles."
+        },
+        {
+          "symbol": "job 22271",
+          "meaning": "The retained baseline job. The model workers loaded, but pair warmup ended in an HTTP TimeoutError after 360 seconds."
+        },
+        {
+          "symbol": "360 seconds",
+          "meaning": "The timeout duration for this pair-warmup attempt, not a benchmark measurement window."
+        },
+        {
+          "symbol": "AIPerf",
+          "meaning": "The benchmark client/export path. It did not run for job 22271 because warmup failed first."
+        },
+        {
+          "symbol": "P/D pair warmup",
+          "meaning": "A request sent through both prefill and decode roles to check that the disaggregated path can serve before scoring."
+        }
+      ],
+      "reading": [
+        "Step 1 — Symptom: the client could not complete pair warmup, even though workers had loaded.",
+        "Step 2 — Evidence and boundary: job 22271 timed out after 360 seconds with HTTP TimeoutError; no AIPerf export or throughput score exists.",
+        "The topology is heterogeneous TP: P8 TP8/EP2 to D8 TP4/EP4. It is not the two-TP4 prefill plus TP8/EP8 decode topology selected later.",
+        "The contemporaneous review says bootstrap/transfer was not yet proven. It does not identify bandwidth saturation or a measured slow KV copy."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 loaded the model workers but its heterogeneous P/D warmup request timed out after 360 seconds. The retained log ends in HTTP TimeoutError; AIPerf did not run, so there is no score.",
+        "hypothesis": "The immediate failure lies somewhere in cold P/D bootstrap or transfer readiness; a specific descriptor bottleneck is not yet established by this symptom alone.",
+        "conclusion": "Treat this as a pre-benchmark readiness failure and preserve the exact topology and terminal evidence. Do not call it a throughput regression.",
+        "unknown": "The timeout alone does not locate the stalled work, quantify transfer latency, or rule out other bootstrap and placement causes."
+      },
+      "script": "Our starting symptom was specific. On H200 Firmus, job 22271 used a heterogeneous layout: prefill P8 with TP8 and EP2, sending to decode D8 with TP4 and EP4. The model workers loaded, but a request through the prefill-to-decode pair did not finish warmup. The retained log ends with an HTTP timeout after 360 seconds. AIPerf never ran, so this job produced no benchmark score. We therefore had evidence of a cold path that was not ready, not evidence of steady-state network saturation or slow KV-copy bandwidth. This topology is also different from the two-TP4 prefill and TP8/EP8 decode layout selected later.",
+      "caution": "Never report 22271 as a low score or compare its timeout duration with the later 0.68–0.70 second warmup as a measured speedup. There is no AIPerf result for this baseline.",
+      "transition": "We next inspect the performance observations and distinguish them from causal bottleneck proof.",
+      "hardware": "H200 · hetero-TP recovery branch"
+    },
+    "vi": {
+      "brief": "Ở job 22271, worker H200 đã nạp mô hình nhưng warmup giữa prefill và decode hết thời gian chờ sau 360 giây. AIPerf chưa chạy, nên đây là lỗi sẵn sàng truyền dữ liệu, không phải phép đo thông lượng.",
+      "purpose": "Xác lập lỗi đã quan sát trước khi giải thích cách sửa. Worker đã nạp mô hình, nhưng đường prefill sang decode thực tế chưa sẵn sàng phục vụ yêu cầu benchmark. Cần phân biệt triệu chứng lúc khởi động/truyền dữ liệu với một vấn đề hiệu năng steady-state giả định.",
+      "visual": "Giới thiệu slide này như giai đoạn nền của chuỗi suy luận bảy bước: triệu chứng, bằng chứng job và ranh giới lỗi. Đối lập trong tiêu đề là theo nghĩa đen: worker sẵn sàng, còn warmup cặp thì không. Không có biểu đồ số hay trục nào được ngụ ý.",
+      "terms": [
+        {
+          "symbol": "H200 Firmus",
+          "meaning": "Nền tảng GPU và địa điểm của phép thử lịch sử này; không gộp kết quả với phép đo H100 ở NSCC."
+        },
+        {
+          "symbol": "P8 / D8",
+          "meaning": "Nhãn nhóm phía prefill và decode trong topology này; giữ nguyên nhãn, không mặc định chúng có nghĩa là tám worker."
+        },
+        {
+          "symbol": "TP8/EP2 → TP4/EP4",
+          "meaning": "Prefill dùng tensor parallelism tám và expert parallelism hai; decode dùng tensor parallelism bốn và expert parallelism bốn. Hai vai trò có cấu hình khác nhau."
+        },
+        {
+          "symbol": "job 22271",
+          "meaning": "Job nền được lưu lại. Worker đã nạp mô hình, nhưng warmup cặp kết thúc bằng HTTP TimeoutError sau 360 giây."
+        },
+        {
+          "symbol": "360 seconds",
+          "meaning": "Thời lượng timeout của lần thử pair-warmup, không phải cửa sổ benchmark."
+        },
+        {
+          "symbol": "AIPerf",
+          "meaning": "Client/xuất kết quả benchmark. AIPerf không chạy trong job 22271 vì warmup thất bại trước đó."
+        },
+        {
+          "symbol": "P/D pair warmup",
+          "meaning": "Yêu cầu đi qua cả hai vai trò prefill và decode để kiểm tra hệ thống tách rời có thể phục vụ trước khi chấm điểm."
+        }
+      ],
+      "reading": [
+        "Bước 1 — Triệu chứng: client không hoàn tất pair-warmup dù worker đã nạp mô hình.",
+        "Bước 2 — Bằng chứng và ranh giới: job 22271 timeout sau 360 giây với HTTP TimeoutError; không có bản xuất AIPerf hay điểm throughput.",
+        "Topology dùng TP khác nhau giữa vai trò: P8 TP8/EP2 sang D8 TP4/EP4. Nó không phải topology hai worker prefill TP4 cộng một worker decode TP8/EP8 được chọn về sau.",
+        "Bản rà soát cùng thời điểm ghi bootstrap/truyền chưa được chứng minh; nó không xác định nghẽn băng thông hay bản sao KV chậm đã được đo."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 nạp được worker mô hình nhưng yêu cầu warmup P/D với TP khác nhau bị timeout sau 360 giây. Log lưu lại kết thúc bằng HTTP TimeoutError; AIPerf chưa chạy nên không có điểm số.",
+        "hypothesis": "Lỗi tức thời nằm đâu đó trong bootstrap lạnh hoặc độ sẵn sàng truyền P/D; riêng triệu chứng này chưa xác lập nút thắt descriptor cụ thể.",
+        "conclusion": "Xem đây là lỗi sẵn sàng trước benchmark, đồng thời giữ lại topology và bằng chứng trạng thái kết thúc chính xác. Không gọi đây là suy giảm throughput.",
+        "unknown": "Chỉ từ timeout không thể xác định công đoạn bị kẹt, định lượng độ trễ truyền hay loại trừ các nguyên nhân bootstrap và bố trí khác."
+      },
+      "script": "Triệu chứng ban đầu của chúng tôi khá cụ thể. Trên H200 Firmus, job 22271 dùng layout TP khác nhau giữa hai vai trò: prefill P8 với TP8, EP2 gửi sang decode D8 với TP4, EP4. Worker đã nạp mô hình, nhưng yêu cầu đi qua cặp prefill–decode không hoàn tất warmup. Log được giữ lại kết thúc bằng lỗi HTTP timeout sau 360 giây. AIPerf chưa chạy, vì vậy job này không có điểm benchmark. Bằng chứng cho thấy đường lạnh chưa sẵn sàng, chứ không chứng minh mạng nghẽn steady-state hay bản sao KV chậm. Topology này cũng khác cấu hình được chọn về sau với hai worker prefill TP4 và decode TP8/EP8.",
+      "caution": "Không báo cáo 22271 như điểm số thấp hoặc so thời gian timeout với warmup 0,68–0,70 giây sau đó như mức tăng tốc đã đo. Baseline này không có kết quả AIPerf.",
+      "transition": "Tiếp theo xem quan sát hiệu năng và phân biệt chúng với bằng chứng nguyên nhân bottleneck.",
+      "hardware": "H200 · hetero-TP recovery branch"
+    },
+    "reasoning_stage": "RQ1 · Observation → validity check"
+  },
+  {
+    "slide": 7,
+    "title": "Why investigate descriptor setup before bandwidth?",
+    "hardware": "H200 Firmus; the motivating timeout occurred on heterogeneous P8 TP8/EP2 prefill to D8 TP4/EP4 decode, not on the final selected two-TP4 prefill plus TP8/EP8 decode topology.",
+    "en": {
+      "brief": "Source review found about 403.8 million whole-pool descriptors per source rank, versus 188 for one contiguous 4,000-token request. That justified testing setup work first, but did not rule out bandwidth or placement causes.",
+      "purpose": "Explain the prioritization decision: the symptom occurred before scoring, and source inspection exposed a large amount of descriptor setup work aligned with the cold-warmup failure. This is a reason to test the setup hypothesis, not proof that other bottlenecks were absent.",
+      "visual": "Present the evidence chain as seven-step flow steps 3 and 4: identify the affected component, then state why its setup cost was prioritized. The two counts have different scopes—whole pool per rank versus one request—so they must not be shown as a timing ratio or speedup.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "The transfer path involved in moving KV state between disaggregated prefill and decode workers."
+        },
+        {
+          "symbol": "heterogeneous TP",
+          "meaning": "Different attention tensor-parallel sizes on the prefill and decode sides; this changes how KV heads and byte ranges map to peers."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata describing memory ranges for transfer, not the KV tensor payload itself."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Approximate whole-pool source descriptor count derived for representative TP8 geometry from 2,148,119 KV slots, 94 layers, and K/V entries."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "CPU geometry count for a contiguous 4,000-token TP8-to-TP4 request after adjacent ranges are coalesced."
+        },
+        {
+          "symbol": "source rank",
+          "meaning": "One distributed source-side model process/partition whose descriptor list is being prepared."
+        },
+        {
+          "symbol": "steady-state traffic",
+          "meaning": "The ongoing scored request traffic after the workers and transfer path are ready; it is distinct from cold bootstrap and warmup."
+        }
+      ],
+      "reading": [
+        "Step 3 — Component: source inspection located the affected work in heterogeneous-TP NIXL KV descriptor preparation and transfer.",
+        "Step 4 — Evidence to prioritize: source notes derive about 403.8 million descriptors for the full pool per rank, while CPU geometry gives 188 descriptors for one contiguous 4,000-token request.",
+        "Those values count descriptors, not bytes, seconds, bandwidth, or speed. Their scopes differ and they do not quantify setup time.",
+        "Because the failure was pre-score and the proposed work targeted setup, this was more directly supported than first tuning steady-state bandwidth, KV layout, or scheduler placement. These alternatives were not experimentally ruled out."
+      ],
+      "tradeoff": {
+        "observation": "Source-backed geometry showed a very large whole-pool enumeration signal—about 403.8 million descriptors per source rank—compared with 188 coalesced ranges for one representative request.",
+        "hypothesis": "Building descriptors only for the pages of the current request could reduce cold setup work and help pair warmup complete.",
+        "conclusion": "Descriptor setup was a rational first target because it matched a pre-benchmark symptom and had a concrete source-level cost signal. This is prioritization, not diagnosis of the sole cause.",
+        "unknown": "No old-code initialization duration was measured. Bandwidth utilization, KV layout, scheduling/placement, and other bootstrap work remain possible contributors."
+      },
+      "script": "After locating the failure in the cold prefill-to-decode path, we inspected the NIXL descriptor preparation used for heterogeneous tensor parallelism. The source-level geometry gave us a reason to test that setup first. For a representative TP8 source rank, describing the whole KV pool involved about 403.8 million entries. For a contiguous 4,000-token TP8-to-TP4 request, the CPU geometry calculation gave 188 coalesced entries. Those are descriptor counts with different scopes, not bytes, seconds, or a measured speedup. Since the symptom happened before scoring and descriptor construction was an identifiable setup cost, it was a more direct first experiment than tuning steady-state bandwidth, KV layout, or scheduler placement. But those alternatives were not ruled out.",
+      "caution": "Do not call 403.8 million divided by 188 a two-million-fold speedup. No old-versus-new setup timing, network utilization, or causal decomposition was collected.",
+      "transition": "The patch mechanics and feasibility evidence are in backups24–25; next we test interventions against useful service throughput.",
+      "hardware": "H200 branch · CPU/source diagnostics"
+    },
+    "vi": {
+      "brief": "Rà soát source thấy khoảng 403,8 triệu descriptor cho toàn pool trên mỗi rank nguồn, so với 188 cho một yêu cầu liên tục 4.000 token. Điều đó đủ để thử giảm việc khởi tạo trước, nhưng chưa loại trừ nguyên nhân từ mạng hay bố trí.",
+      "purpose": "Giải thích quyết định ưu tiên: triệu chứng xảy ra trước khi chấm điểm, còn kiểm tra source cho thấy khối lượng chuẩn bị descriptor lớn, phù hợp với lỗi warmup lạnh. Đây là lý do thử giả thuyết về setup, không phải bằng chứng rằng không có nút thắt khác.",
+      "visual": "Trình bày chuỗi bằng chứng ở bước 3 và 4 của luồng bảy bước: xác định thành phần liên quan, rồi nêu vì sao ưu tiên chi phí setup của nó. Hai số có phạm vi khác nhau—toàn pool mỗi rank so với một yêu cầu—không được diễn giải thành tỷ lệ thời gian hay tăng tốc.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "Đường truyền liên quan đến việc chuyển trạng thái KV giữa worker prefill và decode tách rời."
+        },
+        {
+          "symbol": "heterogeneous TP",
+          "meaning": "Kích thước tensor parallelism attention khác nhau ở prefill và decode; điều này làm thay đổi cách ánh xạ KV head và dải byte giữa các peer."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata mô tả dải bộ nhớ cần truyền, không phải payload tensor KV."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Số gần đúng descriptor nguồn cho toàn pool được suy ra với hình học TP8 đại diện từ 2.148.119 KV slot, 94 layer và các mục K/V."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "Số từ kiểm tra hình học CPU cho yêu cầu liên tục 4.000 token TP8 sang TP4 sau khi gộp dải kề nhau."
+        },
+        {
+          "symbol": "source rank",
+          "meaning": "Một tiến trình/phân vùng mô hình phía nguồn trong phân tán, nơi danh sách descriptor được chuẩn bị."
+        },
+        {
+          "symbol": "steady-state traffic",
+          "meaning": "Luồng yêu cầu được tính điểm sau khi worker và đường truyền sẵn sàng; khác với bootstrap và warmup lạnh."
+        }
+      ],
+      "reading": [
+        "Bước 3 — Thành phần: kiểm tra source xác định phần việc liên quan ở khâu chuẩn bị và truyền descriptor KV NIXL với TP khác nhau.",
+        "Bước 4 — Bằng chứng để ưu tiên: ghi chú source suy ra khoảng 403,8 triệu descriptor cho cả pool mỗi rank, trong khi hình học CPU cho 188 descriptor với yêu cầu liên tục 4.000 token.",
+        "Các số đếm descriptor, không phải byte, giây, băng thông hay tốc độ. Phạm vi hai số khác nhau và chúng không đo thời gian setup.",
+        "Vì lỗi xảy ra trước chấm điểm và thay đổi đề xuất nhắm vào setup, đây là hướng có bằng chứng trực tiếp hơn so với việc chỉnh bandwidth steady-state, bố trí KV hay vị trí scheduler. Các phương án đó chưa bị loại trừ bằng thí nghiệm."
+      ],
+      "tradeoff": {
+        "observation": "Hình học dựa trên source cho thấy khối lượng liệt kê toàn pool rất lớn—khoảng 403,8 triệu descriptor mỗi rank nguồn—so với 188 dải đã gộp cho một yêu cầu đại diện.",
+        "hypothesis": "Tạo descriptor chỉ cho các trang của yêu cầu hiện tại có thể giảm việc setup lúc lạnh và giúp warmup cặp hoàn tất.",
+        "conclusion": "Setup descriptor là mục tiêu hợp lý để thử trước vì khớp triệu chứng trước benchmark và có tín hiệu chi phí cụ thể từ source. Đây là ưu tiên kiểm tra, không phải chẩn đoán nguyên nhân duy nhất.",
+        "unknown": "Không đo thời gian khởi tạo của code cũ. Mức sử dụng băng thông, bố trí KV, lịch đặt tài nguyên/vị trí và công việc bootstrap khác vẫn có thể góp phần."
+      },
+      "script": "Sau khi khoanh vùng lỗi ở đường prefill–decode lạnh, chúng tôi xem phần chuẩn bị descriptor NIXL cho tensor parallelism khác nhau. Hình học từ source cho lý do để thử bước setup này trước. Với rank nguồn TP8 đại diện, mô tả toàn pool KV cần khoảng 403,8 triệu entry. Với yêu cầu liên tục 4.000 token TP8 sang TP4, phép tính hình học CPU cho 188 entry đã gộp. Đây là số descriptor với phạm vi khác nhau, không phải byte, giây hay mức tăng tốc đo được. Vì triệu chứng xuất hiện trước bước chấm điểm và tạo descriptor là một chi phí setup có thể xác định, đây là thử nghiệm trực tiếp hơn so với chỉnh băng thông steady-state, bố trí KV hay vị trí scheduler trước. Tuy nhiên, các phương án đó chưa bị loại trừ.",
+      "caution": "Không chia 403,8 triệu cho 188 rồi gọi đó là tăng tốc hai triệu lần. Không có phép đo thời gian setup cũ-mới, mức dùng mạng hay phân rã nhân quả.",
+      "transition": "Cách sửa và bằng chứng chạy được nằm ở slide dự phòng24–25; tiếp theo thử thay đổi theo thông lượng dịch vụ đạt chuẩn.",
+      "hardware": "H200 branch · CPU/source diagnostics"
+    },
+    "reasoning_stage": "RQ2 · Prioritisation & hypothesis"
+  },
+  {
+    "slide": 24,
+    "title": "Backup · request-scoped descriptor construction",
+    "hardware": "The source and CPU geometry checks concern the H200 Firmus heterogeneous-TP NIXL path, especially representative TP8-to-TP4 request mapping; they do not establish a benchmarked GPU-transfer speedup.",
+    "en": {
+      "brief": "The patch builds descriptors for requested KV pages and coalesces contiguous ranges while preserving mapping and stride. CPU tests passed 720 geometry cases; the fixture explicitly did not validate real GPU transport.",
+      "purpose": "Describe the intervention precisely and put its correctness evidence at the right level. The patch changes descriptor scope and coalescing in heterogeneous-TP transfer while retaining the relevant mapping behavior; CPU equivalence is not the same as validating real transport on GPUs.",
+      "visual": "This is step 5 and the first half of step 6 in the seven-step chain: exact change, then the correctness gate that was actually run. Keep the distinction between address-range equivalence and real GPU transfer visible.",
+      "terms": [
+        {
+          "symbol": "request-scoped descriptors",
+          "meaning": "Constructing transfer metadata only for KV pages needed by the current request instead of enumerating the entire KV pool."
+        },
+        {
+          "symbol": "coalesce contiguous ranges",
+          "meaning": "Combine adjacent memory ranges into fewer descriptors while preserving the locations and strides needed for the transfer."
+        },
+        {
+          "symbol": "KV head mapping",
+          "meaning": "The mapping from source KV heads to decode peer ranges; the patch metadata says this mapping was retained."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "The spacing between token-associated data locations when only a KV-head slice is sent; this must remain correct after coalescing."
+        },
+        {
+          "symbol": "720 cases",
+          "meaning": "Number of retained original-versus-patched CPU byte-range equivalence cases that passed."
+        },
+        {
+          "symbol": "real GPU transport: false",
+          "meaning": "The retained geometry fixture explicitly does not claim to have validated a real GPU transfer."
+        },
+        {
+          "symbol": "notifications",
+          "meaning": "Transfer completion signaling retained by the patch scope; it was not the changed experimental factor."
+        }
+      ],
+      "reading": [
+        "Step 5 — Intervention: replace full-pool source and destination descriptor enumeration with request-scoped descriptors, then coalesce contiguous ranges.",
+        "The patch scope retains equal-TP behavior, weights, precision, KV-head mapping, per-token stride where a head slice is sent, and notifications.",
+        "Step 6, correctness part: 720 original-versus-patched CPU geometry cases pass byte-range equivalence.",
+        "The fixture records real GPU transport validation as false. Therefore CPU mapping checks do not prove GPU transfer, server readiness, or valid responses."
+      ],
+      "tradeoff": {
+        "observation": "The patch implements request-only descriptor preparation and contiguous-range coalescing; retained CPU tests pass 720 range-equivalence cases, including the representative count of 188 for the contiguous request.",
+        "hypothesis": "If the mapping is preserved while irrelevant pool ranges are omitted, setup can do less descriptor work without changing the KV bytes required by the request.",
+        "conclusion": "The CPU fixture supports address and byte-range equivalence for its tested geometries. It is a correctness gate for the mapping, not a full deployment validation.",
+        "unknown": "The fixture does not validate real GPU transport. It does not time old and new descriptor creation or establish that this change alone resolves the earlier timeout."
+      },
+      "script": "The patch changed the scope of descriptor preparation. Instead of enumerating source and destination ranges across the whole KV pool, it builds descriptors for the current request and coalesces adjacent ranges. Its metadata says equal-TP transfers, model weights, precision, KV-head mapping, required per-token stride, and transfer notifications remain unchanged. We then checked original-versus-patched address and byte-range behavior on CPU across 720 geometry cases. Those tests support correctness of the tested mapping. The retained fixture explicitly says real GPU transport was not validated. So this step does not prove that the GPU copy worked, that the servers were ready, or that the request returned valid output. It is one correctness gate in the chain, not the end-to-end result.",
+      "caution": "Do not describe 720 CPU geometry cases as 720 GPU transfers. Do not say that the patch changed all NIXL transfers or altered weights/precision.",
+      "transition": "The final slide in this sequence reports what happened in the patched run and what remains unmeasured about speedup and causality.",
+      "hardware": "H200 branch · CPU geometry"
+    },
+    "vi": {
+      "brief": "Bản vá tạo descriptor cho các trang KV cần thiết rồi gộp dải liên tục, đồng thời giữ nguyên ánh xạ và stride. Kiểm tra CPU đạt 720 trường hợp hình học; fixture ghi rõ chưa xác minh truyền GPU thật.",
+      "purpose": "Mô tả chính xác thay đổi và đặt bằng chứng đúng ở cấp độ của nó. Bản vá đổi phạm vi descriptor và cách gộp trong đường truyền TP khác nhau, đồng thời giữ hành vi ánh xạ liên quan; kiểm tra tương đương trên CPU không đồng nghĩa đã xác minh truyền thật trên GPU.",
+      "visual": "Đây là bước 5 và nửa đầu bước 6 trong chuỗi bảy bước: thay đổi cụ thể, rồi cổng đúng đắn thực sự đã chạy. Cần giữ rõ khác biệt giữa tương đương dải địa chỉ và truyền GPU thật.",
+      "terms": [
+        {
+          "symbol": "request-scoped descriptors",
+          "meaning": "Tạo metadata truyền chỉ cho các trang KV mà yêu cầu hiện tại cần, thay vì liệt kê cả pool KV."
+        },
+        {
+          "symbol": "coalesce contiguous ranges",
+          "meaning": "Gộp các dải bộ nhớ liền kề thành ít descriptor hơn nhưng vẫn giữ đúng vị trí và bước nhảy cần cho truyền dữ liệu."
+        },
+        {
+          "symbol": "KV head mapping",
+          "meaning": "Ánh xạ KV head nguồn sang dải peer decode; metadata bản vá ghi rằng ánh xạ này được giữ nguyên."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "Khoảng cách giữa các vị trí dữ liệu gắn với token khi chỉ gửi một lát KV head; phải giữ đúng sau khi gộp."
+        },
+        {
+          "symbol": "720 cases",
+          "meaning": "Số trường hợp tương đương byte-range giữa hình học CPU code cũ và mới đã được giữ lại và vượt qua."
+        },
+        {
+          "symbol": "real GPU transport: false",
+          "meaning": "Fixture hình học lưu rõ rằng nó không xác minh một lần truyền GPU thật."
+        },
+        {
+          "symbol": "notifications",
+          "meaning": "Tín hiệu báo hoàn tất truyền được giữ nguyên trong phạm vi bản vá; đây không phải yếu tố thí nghiệm bị đổi."
+        }
+      ],
+      "reading": [
+        "Bước 5 — Can thiệp: thay việc liệt kê descriptor nguồn và đích cho toàn pool bằng descriptor theo yêu cầu, sau đó gộp các dải liên tục.",
+        "Phạm vi bản vá giữ nguyên hành vi TP bằng nhau, trọng số, độ chính xác, ánh xạ KV head, stride theo token khi gửi lát head và thông báo hoàn tất.",
+        "Bước 6, phần đúng đắn: 720 trường hợp hình học CPU so sánh code cũ và mới vượt kiểm tra tương đương byte-range.",
+        "Fixture ghi xác minh truyền GPU thật là false. Vì vậy, kiểm tra ánh xạ CPU chưa chứng minh truyền GPU, server sẵn sàng hay phản hồi hợp lệ."
+      ],
+      "tradeoff": {
+        "observation": "Bản vá triển khai chuẩn bị descriptor theo yêu cầu và gộp dải liền kề; 720 trường hợp CPU đã lưu vượt kiểm tra tương đương dải, gồm ví dụ yêu cầu liên tục có 188 descriptor.",
+        "hypothesis": "Nếu giữ nguyên ánh xạ nhưng bỏ các dải toàn pool không liên quan, bước setup có thể làm ít việc descriptor hơn mà không đổi byte KV yêu cầu cần.",
+        "conclusion": "Fixture CPU hỗ trợ tính tương đương địa chỉ và byte-range cho các hình học đã thử. Đây là cổng đúng đắn cho ánh xạ, chưa phải xác minh triển khai đầy đủ.",
+        "unknown": "Fixture chưa xác minh truyền GPU thật. Nó cũng không đo thời gian tạo descriptor cũ và mới hoặc xác lập thay đổi này một mình đã giải quyết timeout trước đó."
+      },
+      "script": "Bản vá thay đổi phạm vi chuẩn bị descriptor. Thay vì liệt kê dải nguồn và đích cho cả pool KV, nó tạo descriptor cho yêu cầu hiện tại rồi gộp các dải liền kề. Metadata ghi rằng truyền TP bằng nhau, trọng số mô hình, độ chính xác, ánh xạ KV head, stride theo token cần thiết và thông báo truyền vẫn được giữ nguyên. Sau đó, chúng tôi kiểm tra hành vi địa chỉ và byte-range giữa bản gốc với bản vá trên CPU qua 720 trường hợp hình học. Các kiểm tra đó hỗ trợ tính đúng của ánh xạ đã thử. Fixture được lưu rõ là chưa xác minh truyền GPU thật. Vì thế bước này chưa chứng minh bản sao GPU chạy được, server đã sẵn sàng hay yêu cầu trả về đầu ra hợp lệ. Đây là một cổng đúng đắn trong chuỗi, chưa phải kết quả đầu cuối.",
+      "caution": "Không gọi 720 trường hợp hình học CPU là 720 lần truyền GPU. Không nói bản vá đổi mọi kiểu truyền NIXL hoặc thay đổi trọng số/độ chính xác.",
+      "transition": "Slide cuối của chuỗi nêu điều gì đã xảy ra trong lần chạy có bản vá và điều gì về tăng tốc, quan hệ nhân quả vẫn chưa được đo.",
+      "hardware": "H200 branch · CPU geometry"
+    },
+    "reasoning_stage": "Backup · Intervention & correctness"
+  },
+  {
+    "slide": 25,
+    "title": "Backup · what the KV recovery run actually proves",
+    "hardware": "H200 Firmus; job 22294 used the heterogeneous prefill P8 TP8/EP2 to decode D8 TP4/EP4 topology. Its N32 goodput is not the result for the later selected two-TP4 prefill plus TP8/EP8 decode topology.",
+    "en": {
+      "brief": "On patched job 22294, pair warmup took 0.68–0.70 seconds per request and full N32 goodput was 1,422.96 with 95.87% joint SLA and zero errors. No matched unpatched control measures speedup.",
+      "purpose": "Close the seven-step chain with real end-to-end evidence and an explicit limit. The patched heterogeneous topology completed P/D warmup and a full N32 confirmation, but the absence of an equivalent successful no-patch run prevents causal speedup attribution.",
+      "visual": "This is steps 6 and 7: real path/result, then decision and unknowns. State the warmup duration, benchmark score, joint SLA, and zero errors as results of patched job 22294, not as a directly matched speedup over 22271.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "The retained patched run on the same heterogeneous P8 TP8/EP2 to D8 TP4/EP4 topology family."
+        },
+        {
+          "symbol": "0.68–0.70 seconds/request",
+          "meaning": "Observed pair-warmup duration per request after the servers were ready; not a separately isolated descriptor-initialization timer."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Client concurrency target of 32 in-flight requests for the full confirmation benchmark."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Measured good output-token throughput for the full N32 confirmation on the patched topology."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Share of evaluated requests passing both TTFT and mean ITL limits in this result."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "No request errors or cancellations were reported in the retained confirmation result."
+        },
+        {
+          "symbol": "matched unpatched control",
+          "meaning": "An otherwise equivalent run without the patch, required to attribute a performance difference to the patch; no successful one exists for this exact topology."
+        }
+      ],
+      "reading": [
+        "Step 6, end-to-end part: patched job 22294 completed both real prefill/decode warmup paths in 0.68–0.70 seconds per request after workers were ready.",
+        "It then completed a full N32 confirmation: 1,422.96 good output tokens/s, 95.87% joint SLA, zero errors and zero cancellations.",
+        "Step 7 — Decision: the run establishes feasibility of the patched heterogeneous topology and that this run served requests under the local benchmark protocol.",
+        "It does not establish the patch's independent speedup: no successful no-patch end-to-end control exists for the same topology, and no old/new descriptor setup timer or causal latency decomposition was collected."
+      ],
+      "tradeoff": {
+        "observation": "Patched job 22294 completed P/D warmup in 0.68–0.70 seconds per request after server readiness, then scored 1422.96 good tokens/s at N32 with 95.87% joint SLA and zero errors/cancellations.",
+        "hypothesis": "Request-scoped descriptor setup may have helped the previously blocked topology reach a serving state, but differences between attempts could also explain the contrast.",
+        "conclusion": "The supported claim is patched-path feasibility and an end-to-end result for this P8 TP8/EP2 to D8 TP4/EP4 run. The patch's speedup is unmeasured.",
+        "unknown": "There is no successful matched unpatched run for this exact topology; old-versus-new setup time, network utilization, causal warmup decomposition, and the patch's independent goodput contribution remain unknown. Bandwidth, KV layout, placement, and other bootstrap explanations were not ruled out."
+      },
+      "script": "The patched-path result is stronger than the CPU geometry test, but its interpretation still has a boundary. In job 22294, on H200 Firmus with the heterogeneous P8 TP8/EP2 to D8 TP4/EP4 layout, both real prefill and decode warmup paths completed in 0.68 to 0.70 seconds per request after the workers were ready. The full N32 confirmation measured 1,422.96 good output tokens per second, 95.87 percent joint SLA, and zero errors or cancellations. That establishes that this patched topology served requests in this run. It does not measure a patch speedup: we lack a successful no-patch control on the same topology, separate old-versus-new descriptor timings, and a causal latency breakdown. Network use, KV layout, placement, and other bootstrap work remain possible factors.",
+      "caution": "Do not divide the 360-second timeout by 0.68–0.70 seconds and report a speedup. The baseline is a timeout without AIPerf; the patched run is a different attempt, and setup time was not isolated.",
+      "transition": "The seven-step lesson is to move from symptom to source-backed hypothesis, validate each layer, report the end-to-end result, and stop at the limits of the available control.",
+      "hardware": "H200 · jobs 22271 / 22294"
+    },
+    "vi": {
+      "brief": "Job 22294 có bản vá warmup cặp mất 0,68–0,70 giây mỗi yêu cầu; benchmark N32 đạt 1.422,96 good tokens/s, SLA kết hợp 95,87% và không có lỗi. Chưa có đối chứng cùng topology để đo mức tăng tốc trong lần này.",
+      "purpose": "Khép chuỗi bảy bước bằng bằng chứng đầu cuối thật và giới hạn được nêu rõ. Topology TP khác nhau có bản vá đã hoàn tất warmup P/D và phép xác nhận N32 đầy đủ, nhưng không có lần chạy không bản vá tương đương thành công nên không thể quy mức tăng tốc cho quan hệ nhân quả.",
+      "visual": "Đây là bước 6 và 7: kết quả đường chạy thật, sau đó là quyết định và điều chưa biết. Nêu thời gian warmup, điểm benchmark, SLA kết hợp và không lỗi như kết quả của job 22294 có bản vá, không phải mức tăng tốc so sánh ghép cặp trực tiếp với 22271.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "Lần chạy có bản vá được lưu lại trên topology dị thể P8 TP8/EP2 sang D8 TP4/EP4 cùng nhánh."
+        },
+        {
+          "symbol": "0.68–0.70 seconds/request",
+          "meaning": "Thời gian warmup cặp quan sát được trên mỗi yêu cầu sau khi server sẵn sàng; không phải bộ định giờ riêng cho khởi tạo descriptor."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Mục tiêu concurrency 32 yêu cầu đang xử lý cho benchmark xác nhận đầy đủ."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Thông lượng token đầu ra đạt chuẩn đo được trong xác nhận đầy đủ N32 trên topology có bản vá."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Tỷ lệ yêu cầu được đánh giá đồng thời đạt giới hạn TTFT và mean ITL trong kết quả này."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "Kết quả xác nhận được lưu không báo lỗi yêu cầu hoặc yêu cầu bị hủy."
+        },
+        {
+          "symbol": "matched unpatched control",
+          "meaning": "Lần chạy tương đương nhưng không có bản vá, cần để quy chênh lệch hiệu năng cho bản vá; không có lần nào thành công trên đúng topology này."
+        }
+      ],
+      "reading": [
+        "Bước 6, phần đầu cuối: job 22294 có bản vá hoàn tất cả hai đường warmup prefill/decode thật trong 0,68–0,70 giây mỗi yêu cầu sau khi worker sẵn sàng.",
+        "Sau đó job hoàn tất xác nhận N32: 1.422,96 good output tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy.",
+        "Bước 7 — Quyết định: lần chạy chứng minh topology dị thể có bản vá khả thi và đã phục vụ yêu cầu theo giao thức benchmark cục bộ trong lần chạy này.",
+        "Nó không xác lập mức tăng tốc độc lập của bản vá: không có đối chứng đầu cuối không bản vá thành công trên cùng topology, cũng không có bộ định giờ setup descriptor cũ/mới hay phân rã độ trễ nhân quả."
+      ],
+      "tradeoff": {
+        "observation": "Job 22294 có bản vá hoàn tất warmup P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi đạt 1422,96 good tokens/s ở N32 với SLA kết hợp 95,87%, không lỗi hay hủy.",
+        "hypothesis": "Setup descriptor theo yêu cầu có thể đã giúp topology trước đó bị chặn đạt trạng thái phục vụ, nhưng khác biệt giữa hai lần thử cũng có thể giải thích sự tương phản.",
+        "conclusion": "Khẳng định có căn cứ là đường chạy có bản vá khả thi và có kết quả đầu cuối cho lần chạy P8 TP8/EP2 sang D8 TP4/EP4 này. Mức tăng tốc của bản vá chưa được đo.",
+        "unknown": "Không có lần chạy không bản vá thành công được ghép cặp trên topology chính xác này; thời gian setup cũ-mới, mức sử dụng mạng, phân rã warmup nhân quả và phần goodput riêng do bản vá đóng góp đều chưa biết. Băng thông, bố trí KV, vị trí tài nguyên và bootstrap khác chưa bị loại trừ."
+      },
+      "script": "Kết quả có bản vá mạnh hơn kiểm tra hình học CPU, nhưng cách diễn giải vẫn có giới hạn. Trong job 22294 trên H200 Firmus với layout TP khác nhau P8 TP8/EP2 sang D8 TP4/EP4, cả hai đường warmup prefill và decode thật đều hoàn tất trong 0,68 đến 0,70 giây mỗi yêu cầu sau khi worker sẵn sàng. Phép xác nhận đầy đủ N32 đo được 1.422,96 good output tokens mỗi giây, SLA kết hợp 95,87%, không lỗi và không hủy. Điều đó chứng minh topology có bản vá đã phục vụ yêu cầu trong lần chạy này. Nó không đo mức tăng tốc của bản vá: chúng tôi thiếu đối chứng không bản vá thành công trên cùng topology, thời gian descriptor cũ-mới tách riêng và phân rã độ trễ nhân quả. Mức dùng mạng, bố trí KV, vị trí tài nguyên và công việc bootstrap khác vẫn có thể liên quan.",
+      "caution": "Không lấy timeout 360 giây chia cho 0,68–0,70 giây rồi báo là mức tăng tốc. Baseline timeout không có AIPerf; lần chạy có bản vá là lần thử khác và thời gian setup chưa được tách riêng.",
+      "transition": "Bài học của chuỗi bảy bước là đi từ triệu chứng đến giả thuyết dựa trên source, xác minh từng lớp, báo cáo kết quả đầu cuối rồi dừng kết luận đúng tại giới hạn của đối chứng hiện có.",
+      "hardware": "H200 · jobs 22271 / 22294"
+    },
+    "reasoning_stage": "Backup · End-to-end evidence & limits"
+  },
+  {
+    "slide": 33,
+    "title": "The task: same 65-million-cell airflow calculation",
+    "en": {
+      "purpose": "Define the fixed CPU workload and the performance quantity being optimized. The comparison holds the prescribed calculation constant and asks how efficiently the cluster executes it.",
+      "visual": "Read the figures as the fixed-work contract: 65,334,765 mesh cells are distributed over four nodes and 512 MPI ranks, or 128 ranks on each node. An MPI rank is a software process; it is not the same thing as a physical CPU core. The prescribed calculation runs 150 solver iterations, with 149 timed samples because the first iteration is excluded from the reported mean. The unit is wall-clock seconds per solver step, so a smaller value means less elapsed time for each iteration. This slide defines the work and metric; it does not report an optimization result.",
+      "terms": [
+        {
+          "symbol": "65.3 million",
+          "meaning": "Rounded display of the 65,334,765-cell mesh."
+        },
+        {
+          "symbol": "MPI rank",
+          "meaning": "One distributed solver process; 512 total means 128 per node on four nodes."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Wall-clock seconds per solver iteration, not seconds of simulated driving."
+        },
+        {
+          "symbol": "physical CPU core",
+          "meaning": "A hardware execution core. An MPI rank is a software process; ranks may be bound to cores, but the mapping must be verified rather than assumed."
+        }
+      ],
+      "reading": [
+        "Read this as a workload definition, not a result comparison: same mesh and required solver work, executed on four CPU nodes.",
+        "The 149 timed samples begin after the first solver iteration; the complete run still performs all 150 steps.",
+        "The task is to reduce runtime through better CPU-resource use, not by reducing mesh size or required work."
+      ],
+      "tradeoff": {
+        "observation": "The fixed run has substantial parallel work: roughly 65.3 million cells distributed across 512 ranks.",
+        "hypothesis": "A more effective distribution and placement of work may reduce time per step.",
+        "conclusion": "The slide establishes the measurement frame; it reports no tuning win by itself.",
+        "unknown": "It does not identify a bottleneck or establish a causal performance improvement."
+      },
+      "script": "We are optimizing the prescribed OpenFOAM airflow calculation, not changing its mathematics. The mesh has 65.3 million cells. On four nodes, 512 MPI ranks perform all 150 solver steps. The first iteration is excluded from timing, leaving 149 measured steps. We compare the average wall-clock seconds per step, where lower is better. That makes this a fixed-work CPU-efficiency question.",
+      "caution": "Do not call 65.3 million the exact count, do not describe the 149 timed steps as the whole solve, and do not treat the displayed task definition as evidence of a speedup. The retained drag coefficient is a physical sanity check, not this performance metric.",
+      "transition": "Next, show which preparation stages must be retained for a valid end-to-end run.",
+      "brief": "We fix the workload at 65.3 million cells, four nodes and 512 MPI ranks. All 150 solver steps run; 149 are timed. The measure is average seconds per step, with lower being better.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Xác định khối lượng tính toán CPU cố định và đại lượng hiệu năng cần tối ưu. Phép so sánh giữ nguyên bài toán được quy định, rồi xem cụm máy thực hiện nó hiệu quả đến đâu.",
+      "visual": "Các con số xác định khối lượng công việc cố định: 65.334.765 ô lưới được chia trên bốn nút và 512 MPI rank, tức 128 rank mỗi nút. MPI rank là một tiến trình phần mềm, không đồng nghĩa với một lõi CPU vật lý. Phép tính quy định chạy 150 vòng lặp bộ giải; có 149 mẫu được tính giờ vì vòng đầu không nằm trong trung bình báo cáo. Đơn vị là giây thời gian thực trên mỗi bước bộ giải; số nhỏ hơn nghĩa là mỗi vòng lặp mất ít thời gian hơn. Slide định nghĩa công việc và chỉ số, chưa báo cáo kết quả tối ưu.",
+      "terms": [
+        {
+          "symbol": "65,3 triệu",
+          "meaning": "Số làm tròn từ lưới chính xác gồm 65.334.765 ô."
+        },
+        {
+          "symbol": "MPI rank",
+          "meaning": "Một tiến trình bộ giải phân tán; 512 rank tổng cộng tương ứng 128 rank mỗi nút."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Giây thời gian thực trên mỗi vòng lặp bộ giải, không phải giây thời gian lái xe mô phỏng."
+        },
+        {
+          "symbol": "lõi CPU vật lý",
+          "meaning": "Một lõi thực thi phần cứng. MPI rank là tiến trình phần mềm; rank có thể được gắn với lõi, nhưng cần xác minh ánh xạ thay vì mặc định là một-một."
+        }
+      ],
+      "reading": [
+        "Đọc đây là định nghĩa khối lượng công việc, chưa phải so sánh kết quả: cùng lưới và cùng lượng tính toán bắt buộc trên bốn nút CPU.",
+        "149 mẫu tính giờ bắt đầu sau bước bộ giải đầu tiên; toàn bộ lần chạy vẫn thực hiện đủ 150 bước.",
+        "Mục tiêu là giảm thời gian nhờ sử dụng CPU tốt hơn, không phải giảm kích thước lưới hoặc lượng tính toán."
+      ],
+      "tradeoff": {
+        "observation": "Lần chạy cố định có nhiều công việc song song: khoảng 65,3 triệu ô được phân cho 512 rank.",
+        "hypothesis": "Phân phối và đặt công việc hiệu quả hơn có thể giảm thời gian mỗi bước.",
+        "conclusion": "Slide xác lập cách đo; riêng nó không báo cáo cải thiện do tinh chỉnh.",
+        "unknown": "Slide không chỉ ra nút thắt hay chứng minh một cải thiện nhân quả."
+      },
+      "script": "Chúng tôi tối ưu phép tính luồng khí OpenFOAM đã được quy định, không thay đổi toán học của nó. Lưới có 65,3 triệu ô. Trên bốn nút, 512 MPI rank thực hiện đủ 150 bước bộ giải. Bước đầu tiên không tính giờ, nên còn 149 bước được đo. Chúng tôi so sánh số giây thời gian thực trung bình mỗi bước; thấp hơn là tốt hơn. Đây là bài toán hiệu quả CPU với khối lượng công việc cố định.",
+      "caution": "Không gọi 65,3 triệu là số chính xác tuyệt đối; không nói chỉ chạy 149 bước; không xem định nghĩa bài toán là bằng chứng tăng tốc. Hệ số lực cản được lưu lại chỉ là kiểm tra hợp lý về vật lý, không phải chỉ số hiệu năng này.",
+      "transition": "Tiếp theo, trình bày các bước chuẩn bị cần giữ nguyên để một lần chạy đầu-cuối hợp lệ.",
+      "brief": "Bài toán được giữ cố định với 65,3 triệu ô lưới, bốn nút và 512 MPI rank. Chúng tôi chạy đủ 150 bước bộ giải, trong đó 149 bước được tính giờ. Chỉ số là số giây trung bình mỗi bước; thấp hơn là tốt hơn.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 34,
+    "title": "The whole required pipeline comes before the score",
+    "en": {
+      "purpose": "Explain why the score is meaningful only after preserving the full required pipeline, and distinguish mesh decomposition from CPU affinity.",
+      "visual": "The sequence is part of the measured task: decomposePar assigns mesh cells to MPI ranks; renumberMesh changes the ordering of local cell data; potentialFoam initializes flow fields; applyBoundaryLayer applies the required boundary treatment; simpleFoam then performs all 150 solver steps. Decomposition determines which cells a process owns and therefore which neighboring-cell exchanges cross process boundaries. CPU affinity determines where a rank runs. Affinity can affect access to nearby CPU cores and memory, but it does not change the cells owned by that rank. Both decisions can affect performance, and they must not be confused.",
+      "terms": [
+        {
+          "symbol": "MPI",
+          "meaning": "Message Passing Interface; separate ranks exchange data, especially across partition boundaries."
+        },
+        {
+          "symbol": "decomposePar",
+          "meaning": "OpenFOAM utility that partitions mesh cells among ranks."
+        },
+        {
+          "symbol": "CPU affinity",
+          "meaning": "Binding a process or rank to CPU resources; distinct from assigning it mesh cells."
+        },
+        {
+          "symbol": "neighbor exchange",
+          "meaning": "Ranks exchange field values for cells adjacent across their partition boundary; more cut edges are only a proxy for the amount and cost of this traffic."
+        }
+      ],
+      "reading": [
+        "Follow the orange arrows from preprocessing into the solver; the final timing is not a substitute for those stages.",
+        "A decomposition answers which cells a rank owns. Affinity answers where that rank executes.",
+        "The sequence shown is the complete required preparation and 150-step solve, not an optional menu."
+      ],
+      "tradeoff": {
+        "observation": "The pipeline contains data setup, initialization, boundary treatment, then iterative solving.",
+        "hypothesis": "Choices in decomposition and placement can affect execution while preserving the prescribed calculation.",
+        "conclusion": "Valid comparisons must retain each required stage and its successful completion.",
+        "unknown": "This flow diagram alone does not measure the cost of each stage or prove which mapping is faster."
+      },
+      "script": "Before comparing solver times, we keep the entire required pipeline: assign cells to MPI ranks, reorder the local data, initialize the flow, apply the prescribed boundary layer, and run all 150 simpleFoam steps. Decomposition decides which cells each rank owns. CPU affinity decides which CPU runs the rank. Those are separate decisions, and a valid run must preserve every preparation step as well as the solve.",
+      "caution": "The slide gives process order, not per-stage timings, and it does not establish that affinity was measured or optimized in a particular result.",
+      "transition": "With the workload and pipeline fixed, the next slide tests whether a locality proxy predicted solver runtime.",
+      "brief": "A valid comparison includes every preparation stage and all 150 solver steps. Decomposition assigns cells to ranks; CPU affinity assigns ranks to CPUs. These are separate choices that can each affect runtime.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Giải thích vì sao chỉ số hiệu năng chỉ có ý nghĩa khi giữ nguyên toàn bộ quy trình bắt buộc, đồng thời phân biệt phân rã lưới với gán tiến trình vào CPU.",
+      "visual": "Trình tự này là một phần của công việc được đo: decomposePar gán ô lưới cho MPI rank; renumberMesh đổi thứ tự dữ liệu ô cục bộ; potentialFoam khởi tạo trường dòng chảy; applyBoundaryLayer áp dụng điều kiện lớp biên bắt buộc; sau đó simpleFoam thực hiện đủ 150 bước. Phân rã quyết định tiến trình sở hữu ô nào, từ đó quyết định trao đổi dữ liệu qua ranh giới tiến trình. CPU affinity quyết định rank chạy ở đâu. Affinity có thể ảnh hưởng việc rank truy cập lõi CPU và bộ nhớ gần nó, nhưng không đổi các ô mà rank sở hữu. Hai quyết định đều có thể ảnh hưởng hiệu năng và không nên nhầm lẫn.",
+      "terms": [
+        {
+          "symbol": "MPI",
+          "meaning": "Message Passing Interface; các rank riêng biệt trao đổi dữ liệu, đặc biệt ở ranh giới phân vùng."
+        },
+        {
+          "symbol": "decomposePar",
+          "meaning": "Tiện ích OpenFOAM chia ô lưới cho các rank."
+        },
+        {
+          "symbol": "CPU affinity",
+          "meaning": "Gắn tiến trình hoặc rank với tài nguyên CPU; khác với việc gán ô lưới."
+        },
+        {
+          "symbol": "trao đổi ô lân cận",
+          "meaning": "Các rank trao đổi giá trị trường cho ô nằm hai phía ranh giới phân vùng; nhiều cạnh bị cắt chỉ là proxy cho lượng và chi phí lưu lượng này."
+        }
+      ],
+      "reading": [
+        "Đi theo mũi tên cam từ các bước chuẩn bị tới bộ giải; phép đo cuối không thể thay thế các bước đó.",
+        "Phân rã trả lời rank sở hữu ô nào. Affinity trả lời rank chạy trên CPU nào.",
+        "Trình tự là toàn bộ khâu chuẩn bị bắt buộc và lần giải 150 bước, không phải danh sách bước tùy chọn."
+      ],
+      "tradeoff": {
+        "observation": "Quy trình gồm thiết lập dữ liệu, khởi tạo, xử lý điều kiện biên rồi giải lặp.",
+        "hypothesis": "Có thể thay đổi cách phân rã và đặt tiến trình để ảnh hưởng thời gian thực thi mà vẫn giữ nguyên bài toán.",
+        "conclusion": "So sánh hợp lệ phải giữ mọi bước bắt buộc và xác nhận chúng hoàn tất thành công.",
+        "unknown": "Sơ đồ này không đo chi phí từng giai đoạn và không chứng minh ánh xạ nào nhanh hơn."
+      },
+      "script": "Trước khi so sánh thời gian bộ giải, chúng tôi giữ toàn bộ quy trình bắt buộc: gán ô cho MPI rank, sắp xếp lại dữ liệu cục bộ, khởi tạo dòng chảy, áp dụng lớp biên quy định và chạy đủ 150 bước simpleFoam. Phân rã quyết định mỗi rank sở hữu ô nào. CPU affinity quyết định rank chạy trên CPU nào. Đây là hai quyết định khác nhau; lần chạy hợp lệ phải giữ mọi bước chuẩn bị cùng bước giải.",
+      "caution": "Slide chỉ cho trình tự, không cho thời gian từng giai đoạn và cũng không xác nhận affinity đã được đo hay tối ưu trong một kết quả cụ thể.",
+      "transition": "Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm tra liệu graph cut, một chỉ số đại diện cho biên phân vùng, có dự báo được thời gian bộ giải hay không.",
+      "brief": "So sánh hợp lệ phải giữ mọi bước chuẩn bị và đủ 150 bước bộ giải. Phân rã gán ô lưới cho rank; CPU affinity gán rank vào CPU. Đây là hai lựa chọn riêng và cả hai đều có thể ảnh hưởng thời gian chạy.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 35,
+    "title": "A smaller partition cut did not make the solver faster",
+    "en": {
+      "purpose": "Show a failed NUMA-aware locality hypothesis and explain why a partition-graph proxy cannot stand in for a runtime measurement.",
+      "visual": "The orange −10.63% is a reduction in a partition-graph cut proxy: fewer weighted mesh connections cross the selected locality boundary. It does not mean communication time fell by 10.63%. Actual exchanges also depend on message sizes, frequency, network and MPI behavior, while solver time includes computation, synchronization, memory access and other work. The measured mean moved in the wrong direction, from 13.881 to 14.359 seconds per step (+3.4416%, slower). Thus the proxy improvement did not produce a runtime improvement in this comparison. The slide leaves the cause open because MPI wait, bandwidth, CPU frequency, power and memory-page placement were not measured.",
+      "terms": [
+        {
+          "symbol": "NUMA",
+          "meaning": "Non-Uniform Memory Access: memory access cost can depend on which CPU socket or locality domain owns the memory."
+        },
+        {
+          "symbol": "graph cut",
+          "meaning": "A proxy count/weight of partition connections crossing a selected boundary; it is not a direct measurement of communication time."
+        },
+        {
+          "symbol": "−10.63%",
+          "meaning": "The graph-cut proxy was reduced by 10.63% for this candidate."
+        },
+        {
+          "symbol": "+3.4416%",
+          "meaning": "The solver mean became 3.4416% slower in the compared observation."
+        },
+        {
+          "symbol": "partition graph cut",
+          "meaning": "A weighted count of mesh-neighbor connections split between partitions. It estimates potential interface traffic, but does not measure bytes transferred, MPI wait, network time or total solver runtime."
+        },
+        {
+          "symbol": "NUMA locality",
+          "meaning": "On multi-socket servers, a CPU core can access memory attached to its own socket more directly than memory attached to another socket; placement can therefore affect latency and bandwidth."
+        },
+        {
+          "symbol": "MPI wait",
+          "meaning": "Time a process spends waiting for other processes or communication to complete; it was listed as unmeasured here."
+        }
+      ],
+      "reading": [
+        "Orange marks proxy improvement; red marks worse measured solver time. Their signs make the mismatch clear.",
+        "A smaller proxy can coexist with slower execution because other partition properties and runtime effects also matter.",
+        "The slide explicitly leaves the cause unmeasured; it records a rejected candidate, not a diagnosis."
+      ],
+      "tradeoff": {
+        "observation": "Graph cut fell 10.63%, while mean runtime rose from 13.881 to 14.359 seconds per step.",
+        "hypothesis": "Grouping work by memory locality might reduce remote-memory and interface cost.",
+        "conclusion": "The unchanged NUMA-aware branch was closed; graph cut alone did not predict solver speed.",
+        "unknown": "MPI wait, bandwidth, frequency, power, page residency, and other possible causes were not measured."
+      },
+      "script": "We tested a NUMA-aware idea: grouping work by locality should reduce remote-memory or interface cost. The graph-cut proxy fell by 10.63 percent, but the measured solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416 percent slowdown. That is why we closed this unchanged candidate. A graph proxy describes the partition; it is not measured runtime or proof of less communication time.",
+      "caution": "The comparison changed other partition properties, so do not attribute the slowdown to one mechanism. A separate offline mapping with a 4.5741% smaller proxy had no solver run and is not evidence of performance. Do not interpret the percentages as reciprocal measures.",
+      "transition": "The next comparison asks whether the better observed decomposition changes with node count.",
+      "brief": "The NUMA-aware partition reduced its graph-cut proxy by 10.63%, yet mean solver time worsened by 3.4416%, from 13.881 to 14.359 seconds per step. The proxy did not predict runtime.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Trình bày giả thuyết NUMA về tính cục bộ không thành công và giải thích vì sao chỉ số đại diện của đồ thị phân vùng không thể thay phép đo thời gian chạy.",
+      "visual": "Mức −10,63% màu cam là mức giảm của proxy graph cut: ít kết nối lưới có trọng số hơn đi qua ranh giới cục bộ đã chọn. Điều đó không có nghĩa thời gian trao đổi dữ liệu giảm 10,63%. Trao đổi thực tế còn phụ thuộc kích thước và tần suất thông điệp, mạng và hoạt động MPI; thời gian bộ giải cũng gồm tính toán, đồng bộ, truy cập bộ nhớ và công việc khác. Trung bình đo được lại xấu đi, từ 13,881 lên 14,359 giây mỗi bước (+3,4416%, chậm hơn). Vì vậy, proxy tốt hơn không tạo ra cải thiện runtime trong phép so sánh này. Nguyên nhân còn bỏ ngỏ vì chưa đo MPI wait, băng thông, tần số CPU, công suất và vị trí trang bộ nhớ.",
+      "terms": [
+        {
+          "symbol": "NUMA",
+          "meaning": "Truy cập bộ nhớ không đồng nhất: chi phí truy cập có thể phụ thuộc socket CPU hoặc vùng cục bộ sở hữu bộ nhớ."
+        },
+        {
+          "symbol": "graph cut",
+          "meaning": "Chỉ số proxy về số hoặc trọng số kết nối phân vùng đi qua ranh giới được chọn; không đo trực tiếp thời gian trao đổi."
+        },
+        {
+          "symbol": "−10,63%",
+          "meaning": "Proxy graph cut giảm 10,63% ở cấu hình này."
+        },
+        {
+          "symbol": "+3,4416%",
+          "meaning": "Thời gian trung bình bộ giải tăng, tức chậm hơn 3,4416% trong quan sát so sánh."
+        },
+        {
+          "symbol": "graph cut của phân vùng",
+          "meaning": "Tổng có trọng số của các kết nối ô lưới lân cận bị chia giữa các phân vùng. Nó ước lượng lưu lượng giao diện tiềm năng, nhưng không đo byte đã truyền, MPI wait, thời gian mạng hay runtime tổng thể."
+        },
+        {
+          "symbol": "tính cục bộ NUMA",
+          "meaning": "Trên máy nhiều socket, lõi CPU thường truy cập bộ nhớ gắn với socket của nó trực tiếp hơn bộ nhớ thuộc socket khác; cách đặt tiến trình vì vậy có thể ảnh hưởng độ trễ và băng thông."
+        },
+        {
+          "symbol": "MPI wait",
+          "meaning": "Thời gian một tiến trình phải chờ tiến trình khác hoặc trao đổi dữ liệu hoàn tất; slide ghi nhận đại lượng này chưa được đo."
+        }
+      ],
+      "reading": [
+        "Màu cam biểu thị proxy cải thiện; màu đỏ biểu thị thời gian bộ giải đo được xấu hơn. Dấu và màu cho thấy sự không tương ứng.",
+        "Proxy nhỏ hơn vẫn có thể đi cùng thời gian chạy dài hơn vì thuộc tính phân vùng khác và hiệu ứng lúc chạy cũng quan trọng.",
+        "Slide nói rõ nguyên nhân chưa được đo; đây là ứng viên bị loại, không phải chẩn đoán nguyên nhân."
+      ],
+      "tradeoff": {
+        "observation": "Graph cut giảm 10,63%, trong khi thời gian trung bình tăng từ 13,881 lên 14,359 giây mỗi bước.",
+        "hypothesis": "Nhóm công việc theo vị trí bộ nhớ có thể giảm chi phí truy cập xa và trao đổi qua giao diện.",
+        "conclusion": "Nhánh NUMA không đổi đã được đóng; riêng graph cut không dự báo tốc độ bộ giải.",
+        "unknown": "Chưa đo MPI wait, băng thông, tần số, công suất, vị trí trang bộ nhớ và các nguyên nhân khả dĩ khác."
+      },
+      "script": "Chúng tôi thử ý tưởng NUMA: nhóm công việc theo vị trí có thể giảm chi phí bộ nhớ xa hoặc giao diện. Proxy graph cut giảm 10,63%, nhưng thời gian trung bình bộ giải tăng từ 13,881 lên 14,359 giây mỗi bước, chậm hơn 3,4416%. Vì vậy, chúng tôi đóng ứng viên này. Proxy đồ thị mô tả cách phân vùng; nó không phải runtime đo được và không chứng minh thời gian trao đổi giảm.",
+      "caution": "Phép so sánh còn thay đổi thuộc tính phân vùng khác, vì vậy không quy chậm hơn cho một cơ chế duy nhất. Một ánh xạ ngoại tuyến khác có proxy giảm 4,5741% nhưng chưa chạy bộ giải, nên không phải bằng chứng hiệu năng. Hai phần trăm này không phải các đại lượng nghịch đảo.",
+      "transition": "Tiếp theo, ta xem cách phân rã quan sát tốt hơn có thay đổi theo số nút hay không.",
+      "brief": "Phân vùng NUMA giảm proxy graph cut 10,63%, nhưng thời gian bộ giải trung bình xấu đi 3,4416%, từ 13,881 lên 14,359 giây mỗi bước. Chỉ số đại diện này không dự báo được runtime; phép đo cũng chưa xác định nguyên nhân khiến lần chạy chậm hơn.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 36,
+    "title": "Observed scaling changed which decomposition led",
+    "en": {
+      "purpose": "Compare the observed Scotch and hierarchical means across one-, two-, and four-node allocations, while explicitly limiting the inference because work endpoints and allocations differ.",
+      "visual": "The orange Scotch and dark-teal Hierarchical labels identify the two decomposition methods; every value is a mean in seconds per solver step, so lower is faster. Hierarchical is lower in the one-node observation (14.366 vs 14.451) and the two-node observation (7.170 vs 7.463); Scotch is lower in the four-node observation (3.678 vs 3.820). These are not points on a controlled scaling curve: each used a separate allocation, and the required endpoint changed from 40 to 80 to 150 steps. Node count, run length, allocation conditions and configuration therefore vary together. The bars describe what was observed; they cannot isolate node count as the cause of the ranking change.",
+      "terms": [
+        {
+          "symbol": "Scotch",
+          "meaning": "A graph-based mesh-decomposition method used by the OpenFOAM workflow."
+        },
+        {
+          "symbol": "Hierarchical",
+          "meaning": "A decomposition method that partitions the mesh using a hierarchy of spatial divisions."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Mean wall-clock seconds for each timed solver iteration; lower is better."
+        },
+        {
+          "symbol": "descriptive comparison",
+          "meaning": "A report of observed values. Because node count, step endpoint and allocation changed together, it cannot isolate the effect of any one factor."
+        }
+      ],
+      "reading": [
+        "At one node hierarchical is slightly lower; at two nodes hierarchical is lower; at four nodes Scotch is lower.",
+        "The displayed step endpoints are not identical, and each result came from a separate allocation.",
+        "This is descriptive evidence about observed candidate means, not a controlled strong-scaling curve."
+      ],
+      "tradeoff": {
+        "observation": "Hierarchical leads the displayed two-node pair, while Scotch leads the four-node pair; the one-node means are close with hierarchical lower.",
+        "hypothesis": "The preferable partition may depend on node count, rank density, and allocation-specific conditions.",
+        "conclusion": "There is no single decomposition winner across these observations; the four-node Scotch result motivates closer review.",
+        "unknown": "Different allocations and endpoints prevent assigning the differences to node count alone or claiming causal scaling efficiency."
+      },
+      "script": "The observed leader changes with the allocation. Hierarchical has a slightly lower one-node mean and leads at two nodes, while Scotch leads at four nodes. The values are seconds per solver step. However, these are separately allocated runs with different prescribed endpoints—40, 80 and 150 steps—so this is descriptive scaling evidence, not a controlled causal comparison. The candidate choice must be evaluated at the intended node count and rank density.",
+      "caution": "Do not calculate or claim ideal speedup from these means. The bars show means only, without uncertainty ranges; the separate allocations and run lengths matter. This slide alone cannot show a universal advantage for either method.",
+      "transition": "The four-node results can be split further by ranks per node, which is the next comparison.",
+      "brief": "The observed leader changes across allocations: Hierarchical is lower at one and two nodes, while Scotch is lower at four. Since run lengths and allocations differ, these values describe observations, not a causal scaling result.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "So sánh thời gian trung bình quan sát được của Scotch và hierarchical trên các cấp phát một, hai và bốn nút, đồng thời giới hạn kết luận vì điểm kết thúc công việc và cấp phát khác nhau.",
+      "visual": "Nhãn Scotch màu cam và Hierarchical xanh đậm cho biết hai phương pháp phân rã; mọi giá trị là thời gian trung bình tính bằng giây mỗi bước bộ giải, nên thấp hơn là nhanh hơn. Hierarchical thấp hơn trong quan sát một nút (14,366 so với 14,451) và hai nút (7,170 so với 7,463); Scotch thấp hơn ở bốn nút (3,678 so với 3,820). Đây không phải các điểm của một đường cong mở rộng có kiểm soát: mỗi điểm dùng một cấp phát riêng, còn điểm kết thúc bắt buộc thay đổi từ 40 lên 80 rồi 150 bước. Vì vậy, số nút, độ dài lần chạy, điều kiện cấp phát và cấu hình cùng thay đổi. Các thanh mô tả quan sát; chúng không tách riêng được số nút là nguyên nhân đổi thứ hạng.",
+      "terms": [
+        {
+          "symbol": "Scotch",
+          "meaning": "Phương pháp phân rã lưới dựa trên đồ thị trong quy trình OpenFOAM."
+        },
+        {
+          "symbol": "Hierarchical",
+          "meaning": "Phương pháp phân rã lưới chia không gian theo cấu trúc phân cấp."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Số giây thời gian thực trung bình trên mỗi vòng lặp bộ giải được tính giờ; thấp hơn là tốt hơn."
+        },
+        {
+          "symbol": "so sánh mô tả",
+          "meaning": "Báo cáo các giá trị đã quan sát. Vì số nút, điểm kết thúc bước và cấp phát cùng thay đổi, phép so sánh không tách riêng ảnh hưởng của một yếu tố."
+        }
+      ],
+      "reading": [
+        "Ở một nút, hierarchical thấp hơn một chút; ở hai nút, hierarchical thấp hơn; ở bốn nút, Scotch thấp hơn.",
+        "Số bước kết thúc được hiển thị không giống nhau và mỗi kết quả đến từ một cấp phát riêng.",
+        "Đây là bằng chứng mô tả các giá trị trung bình quan sát, không phải đường cong strong-scaling có kiểm soát."
+      ],
+      "tradeoff": {
+        "observation": "Hierarchical dẫn ở cặp hai nút; Scotch dẫn ở cặp bốn nút; trung bình một nút gần nhau và hierarchical thấp hơn.",
+        "hypothesis": "Phương án phân vùng phù hợp có thể phụ thuộc vào số nút, mật độ rank và điều kiện riêng của lần cấp phát.",
+        "conclusion": "Không có một phương pháp thắng trong mọi quan sát; kết quả Scotch bốn nút đáng được xem xét kỹ hơn.",
+        "unknown": "Cấp phát và điểm kết thúc khác nhau nên không thể quy chênh lệch chỉ cho số nút hay tuyên bố hiệu quả mở rộng nhân quả."
+      },
+      "script": "Phương án dẫn đầu thay đổi theo cấp phát. Hierarchical có trung bình một nút thấp hơn chút và dẫn ở hai nút, còn Scotch dẫn ở bốn nút. Giá trị tính bằng giây mỗi bước bộ giải. Tuy nhiên, đây là các lần chạy được cấp phát riêng với điểm kết thúc quy định khác nhau—40, 80 và 150 bước—nên chúng mô tả xu hướng chứ không phải so sánh nhân quả có kiểm soát. Cần đánh giá cấu hình ở đúng số nút và mật độ rank dự định.",
+      "caution": "Không tính hoặc tuyên bố tăng tốc lý tưởng từ các giá trị này. Thanh chỉ biểu thị trung bình, không có khoảng bất định; cấp phát riêng và số bước chạy khác nhau đều quan trọng. Slide không chứng minh ưu thế phổ quát của phương pháp nào.",
+      "transition": "Có thể tách kết quả bốn nút theo số rank mỗi nút; đó là phép so sánh kế tiếp.",
+      "brief": "Phương pháp dẫn đầu thay đổi theo cấp phát: Hierarchical thấp hơn ở một và hai nút, còn Scotch thấp hơn ở bốn nút. Vì độ dài lần chạy và cấp phát khác nhau, đây là các quan sát mô tả, không phải kết quả mở rộng nhân quả.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 37,
+    "title": "At four nodes, the winner depends on ranks per node",
+    "en": {
+      "purpose": "Show that the four-node decomposition ranking changes with process density, and identify the lowest reviewed mean without overstating it as a universal optimum.",
+      "visual": "At four nodes, the bars compare observed mean seconds per step at 64, 96 and 128 MPI ranks per node. Orange denotes Scotch and dark teal denotes Hierarchical. Hierarchical has the lower mean at 64 ranks (4.489 vs 10.310) and 96 ranks (4.922 vs 7.146); Scotch is slightly lower at 128 ranks (3.678 vs 3.820). Across four nodes these settings use 256, 384 and 512 ranks, respectively, but a rank is a process, not automatically one physical core. The 128-rank Scotch observation is the lowest reviewed mean among these six logs. Separate allocations and differences in requested CPU counts confound the comparison, so it identifies a candidate to repeat, not proof that rank density or method alone caused the difference.",
+      "terms": [
+        {
+          "symbol": "ranks per node",
+          "meaning": "Number of MPI processes placed on each node; across four nodes the displayed settings correspond to 256, 384, and 512 ranks."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Mean measured wall-clock seconds per solver step."
+        },
+        {
+          "symbol": "lowest reviewed mean",
+          "meaning": "The smallest mean among the reviewed observations in this set, not proof of global optimality."
+        },
+        {
+          "symbol": "rank density",
+          "meaning": "The number of MPI processes assigned per node. It is distinct from physical-core count and does not by itself prove CPU binding or exclusive core use."
+        }
+      ],
+      "reading": [
+        "At 64 and 96 ranks per node hierarchical is lower; at 128 ranks per node Scotch is lower by about 0.142 seconds per step.",
+        "The highlighted takeaway identifies Scotch-128 at 3.677906731 seconds per step as the lowest reviewed mean.",
+        "Each bar summarizes a separate allocation; requested CPU counts also differ in some configurations."
+      ],
+      "tradeoff": {
+        "observation": "The preferred method flips at the highest displayed rank density; Scotch-128 has the smallest observed mean among these six logs.",
+        "hypothesis": "Decomposition quality may interact with the density of ranks on each node.",
+        "conclusion": "Choose based on the measured node count and rank density; method name alone does not predict the winner.",
+        "unknown": "Separate allocations and differing requested CPU counts prevent attributing the differences solely to decomposition or density."
+      },
+      "script": "At four nodes, rank density changes which method has the lower observed mean. Hierarchical leads at 64 and 96 ranks per node. At 128, Scotch records 3.678 seconds per step versus 3.820 for hierarchical. That 3.678-second value is the lowest reviewed mean among these six observations. We treat it as a candidate for confirmation, not a causal effect or universal best method, because these are separate allocations and some requested CPU counts differ.",
+      "caution": "The decimal labels are seconds per step, not speedup factors. The bar display has no explicit axis or error bars; avoid implying statistical significance from bar lengths. The slide does not establish stable repeatability.",
+      "transition": "The next slide examines the full timing distribution behind the Scotch-128 mean, especially its slow tail.",
+      "brief": "At four nodes, Hierarchical has lower means at 64 and 96 ranks per node; Scotch is lower at 128. Scotch-128's 3.678 seconds per step is the lowest reviewed mean, still a candidate observation needing confirmation.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Cho thấy thứ hạng phân rã trên bốn nút thay đổi theo mật độ tiến trình và xác định giá trị trung bình thấp nhất đã được xem xét, nhưng không nâng nó thành tối ưu phổ quát.",
+      "visual": "Trên bốn nút, các thanh so sánh số giây trung bình mỗi bước tại 64, 96 và 128 MPI rank mỗi nút. Màu cam là Scotch, xanh đậm là Hierarchical. Hierarchical có trung bình thấp hơn ở 64 rank (4,489 so với 10,310) và 96 rank (4,922 so với 7,146); Scotch thấp hơn một chút ở 128 rank (3,678 so với 3,820). Trên bốn nút, các cấu hình này lần lượt dùng 256, 384 và 512 rank, nhưng rank là tiến trình, không mặc nhiên tương ứng với một lõi vật lý. Quan sát Scotch-128 có trung bình thấp nhất trong sáu log đã xem xét. Cấp phát riêng và số CPU yêu cầu khác nhau làm nhiễu phép so sánh; đây là ứng viên cần chạy lặp, không chứng minh mật độ rank hay phương pháp riêng lẻ gây ra chênh lệch.",
+      "terms": [
+        {
+          "symbol": "ranks per node",
+          "meaning": "Số tiến trình MPI đặt trên mỗi nút; trên bốn nút, các cấu hình hiển thị tương ứng 256, 384 và 512 rank."
+        },
+        {
+          "symbol": "s/step",
+          "meaning": "Số giây thời gian thực trung bình được đo trên mỗi bước bộ giải."
+        },
+        {
+          "symbol": "lowest reviewed mean",
+          "meaning": "Trung bình nhỏ nhất trong nhóm quan sát đã xem xét, không phải bằng chứng tối ưu toàn cục."
+        },
+        {
+          "symbol": "mật độ rank",
+          "meaning": "Số tiến trình MPI được gán cho mỗi nút. Khái niệm này khác số lõi vật lý và tự nó không chứng minh tiến trình được gắn CPU hay dùng lõi độc quyền."
+        }
+      ],
+      "reading": [
+        "Ở 64 và 96 rank mỗi nút, hierarchical thấp hơn; ở 128, Scotch thấp hơn khoảng 0,142 giây mỗi bước.",
+        "Kết luận được nhấn mạnh là Scotch-128 đạt 3,677906731 giây mỗi bước, trung bình thấp nhất trong các hồ sơ đã xem xét.",
+        "Mỗi thanh tóm tắt một cấp phát riêng; số CPU yêu cầu cũng khác ở một vài cấu hình."
+      ],
+      "tradeoff": {
+        "observation": "Phương pháp thấp hơn đổi ở mật độ rank cao nhất; Scotch-128 có trung bình quan sát nhỏ nhất trong sáu log này.",
+        "hypothesis": "Chất lượng phân rã có thể tương tác với mật độ rank trên mỗi nút.",
+        "conclusion": "Chọn theo số nút và mật độ rank đã đo; chỉ tên phương pháp không dự báo được bên thắng.",
+        "unknown": "Cấp phát riêng và số CPU yêu cầu khác nhau khiến ta không thể quy chênh lệch chỉ cho phương pháp phân rã hoặc mật độ."
+      },
+      "script": "Trên bốn nút, mật độ rank làm thay đổi phương pháp có trung bình quan sát thấp hơn. Hierarchical dẫn ở 64 và 96 rank mỗi nút. Ở mức 128, Scotch đạt 3,678 giây mỗi bước so với 3,820 của hierarchical. Đây là trung bình thấp nhất trong sáu quan sát đã xem xét. Chúng tôi xem nó là ứng viên cần xác nhận, không phải hiệu ứng nhân quả hay phương pháp tốt nhất phổ quát, vì đây là các cấp phát riêng và số CPU yêu cầu có chỗ khác nhau.",
+      "caution": "Các số thập phân là giây mỗi bước, không phải hệ số tăng tốc. Biểu đồ không có trục tường minh hay thanh sai số; không suy ra ý nghĩa thống kê từ độ dài thanh. Slide chưa chứng minh khả năng lặp lại ổn định.",
+      "transition": "Slide kế tiếp xem phân bố thời gian đầy đủ của trung bình Scotch-128, đặc biệt là phần đuôi chậm.",
+      "brief": "Trên bốn nút, Hierarchical có trung bình thấp hơn ở 64 và 96 rank mỗi nút; Scotch thấp hơn ở 128. Giá trị 3,678 giây mỗi bước của Scotch-128 là trung bình thấp nhất đã xem xét, nhưng vẫn là quan sát ứng viên cần xác nhận.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 38,
+    "title": "Keep the slow step in the mean; inspect the tail",
+    "en": {
+      "purpose": "Explain why every timed iteration, including an extreme slow step, remains in the official-style arithmetic mean, and separate observation from causal diagnosis.",
+      "visual": "These are distribution summaries for the 149 timed steps: median 3.298742 s, 95th percentile 3.795740 s, and maximum 35.883552 s at solver Time 119. The median is the middle observation; the p95 marks the point below which about 95% of observations fall. The arithmetic mean is different: add every sample and divide by 149, so the 35.9-second step remains in it and pulls the mean upward. Keeping that sample preserves the actual run rather than hiding a slow event. The orange and red markers distinguish typical timing from the extreme maximum; printed numbers carry the exact units. The event is visible, but its cause is not identified by these timings.",
+      "terms": [
+        {
+          "symbol": "median",
+          "meaning": "Middle value after sorting the 149 timed samples."
+        },
+        {
+          "symbol": "95th percentile (p95)",
+          "meaning": "A value at or below which approximately 95% of samples fall, under the percentile convention used."
+        },
+        {
+          "symbol": "maximum",
+          "meaning": "Largest recorded sample; here 35.883552 seconds at solver Time 119."
+        },
+        {
+          "symbol": "Time 119",
+          "meaning": "Solver iteration/time index reported by the run, not 119 seconds of wall-clock duration."
+        },
+        {
+          "symbol": "arithmetic mean",
+          "meaning": "Sum of all timed values divided by the number of values. Unlike the median, a very large sample can noticeably raise it."
+        },
+        {
+          "symbol": "tail",
+          "meaning": "The slowest portion of the timing distribution; p95 summarizes a high percentile, while the maximum records the single slowest sample."
+        }
+      ],
+      "reading": [
+        "The median and p95 are near 3.3–3.8 seconds, but one retained step is about 35.9 seconds.",
+        "All 149 samples stay in the arithmetic mean; removing the outlier would change the stated performance metric.",
+        "The red color marks the extreme maximum; it does not indicate a known failure mechanism."
+      ],
+      "tradeoff": {
+        "observation": "One unusually slow step appears at index 119, while the center and p95 are much smaller.",
+        "hypothesis": "A transient system or application event may have caused the spike, but telemetry is needed to test possibilities.",
+        "conclusion": "Preserve the tail and investigate it; do not trim the slow point or alter the prescribed endpoint.",
+        "unknown": "MPI wait, bandwidth, CPU frequency, power, and memory-page residency were not measured sufficiently to identify a cause."
+      },
+      "script": "The median step is 3.299 seconds and the 95th percentile is 3.796 seconds, but the maximum reaches 35.884 seconds at solver Time 119. We retain all 149 timed samples in the arithmetic mean. That slow point is part of the measured run, not something to discard because it is inconvenient. The trace establishes that a spike occurred; it does not explain why. We need instrumentation and independent repeats to study its cause and stability.",
+      "caution": "Do not call solver Time 119 119 seconds; it is the reported iteration/time index. Do not imply the median or p95 is the official arithmetic mean. Cause is explicitly unknown: missing telemetry is not evidence that MPI, memory, or hardware was healthy.",
+      "transition": "That uncertainty is why the next slide asks for an independently repeated, fully evidenced run.",
+      "brief": "Most steps were near 3.3 to 3.8 seconds, but one reached 35.884 seconds. We retain all 149 samples in the arithmetic mean; the spike is real in this run, while its cause remains unknown.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Giải thích vì sao mọi vòng lặp được tính giờ, kể cả bước chậm cực độ, vẫn nằm trong trung bình số học kiểu chính thức; đồng thời phân biệt quan sát với chẩn đoán nguyên nhân.",
+      "visual": "Đây là các thống kê phân bố của 149 bước được tính giờ: trung vị 3,298742 giây, phân vị thứ 95 là 3,795740 giây, và cực đại 35,883552 giây tại solver Time 119. Trung vị là quan sát ở giữa; p95 là mốc mà khoảng 95% quan sát nằm tại hoặc thấp hơn. Trung bình số học khác với hai đại lượng đó: cộng mọi mẫu rồi chia cho 149, nên bước 35,9 giây vẫn được giữ và kéo trung bình lên. Giữ mẫu này phản ánh lần chạy thực tế thay vì che đi một sự kiện chậm. Vạch cam và đỏ phân biệt thời gian điển hình với cực đại; con số in sẵn cho biết đơn vị chính xác. Đột biến được nhìn thấy, nhưng chỉ các thời gian này không xác định được nguyên nhân.",
+      "terms": [
+        {
+          "symbol": "median",
+          "meaning": "Giá trị ở giữa sau khi sắp xếp 149 mẫu tính giờ."
+        },
+        {
+          "symbol": "95th percentile (p95)",
+          "meaning": "Giá trị mà xấp xỉ 95% mẫu nằm tại hoặc dưới đó, theo quy ước phân vị sử dụng."
+        },
+        {
+          "symbol": "maximum",
+          "meaning": "Mẫu lớn nhất được ghi nhận; ở đây là 35,883552 giây tại solver Time 119."
+        },
+        {
+          "symbol": "Time 119",
+          "meaning": "Chỉ số thời gian/vòng lặp bộ giải được báo cáo, không phải 119 giây thời gian thực."
+        },
+        {
+          "symbol": "trung bình số học",
+          "meaning": "Tổng mọi giá trị thời gian chia cho số lượng giá trị. Khác trung vị, một mẫu rất lớn có thể làm trung bình tăng đáng kể."
+        },
+        {
+          "symbol": "phần đuôi",
+          "meaning": "Phần chậm nhất của phân bố thời gian; p95 tóm tắt phân vị cao, còn cực đại là mẫu chậm nhất duy nhất."
+        }
+      ],
+      "reading": [
+        "Trung vị và p95 ở khoảng 3,3–3,8 giây, nhưng một bước được giữ lại mất khoảng 35,9 giây.",
+        "Cả 149 mẫu vẫn nằm trong trung bình số học; bỏ ngoại lệ sẽ làm thay đổi chỉ số hiệu năng đã nêu.",
+        "Màu đỏ đánh dấu cực đại, không biểu thị một cơ chế lỗi đã biết."
+      ],
+      "tradeoff": {
+        "observation": "Một bước chậm bất thường xuất hiện ở chỉ số 119, trong khi vùng trung tâm và p95 thấp hơn nhiều.",
+        "hypothesis": "Một sự kiện thoáng qua ở hệ thống hoặc ứng dụng có thể gây ra đột biến, nhưng cần telemetry để kiểm tra.",
+        "conclusion": "Giữ lại phần đuôi và điều tra; không cắt điểm chậm hay đổi điểm kết thúc bắt buộc.",
+        "unknown": "Chưa đo đủ MPI wait, băng thông, tần số CPU, công suất và vị trí trang bộ nhớ để xác định nguyên nhân."
+      },
+      "script": "Bước trung vị mất 3,299 giây và phân vị 95 mất 3,796 giây, nhưng cực đại lên tới 35,884 giây tại solver Time 119. Chúng tôi giữ cả 149 mẫu tính giờ trong trung bình số học. Bước chậm đó thuộc lần chạy đã đo, không thể bỏ chỉ vì bất tiện. Dấu vết xác nhận có đột biến, nhưng không giải thích lý do. Cần thiết bị đo bổ sung và các lần lặp độc lập để nghiên cứu nguyên nhân và độ ổn định.",
+      "caution": "Không gọi solver Time 119 là 119 giây; đó là chỉ số thời gian/vòng lặp được báo cáo. Không nhầm trung vị hay p95 với trung bình số học chính thức. Nguyên nhân được ghi rõ là chưa biết: thiếu telemetry không chứng minh MPI, bộ nhớ hay phần cứng hoạt động bình thường.",
+      "transition": "Sự bất định đó dẫn tới yêu cầu ở slide sau: chạy lặp độc lập với bằng chứng đầy đủ.",
+      "brief": "Phần lớn bước mất khoảng 3,3 đến 3,8 giây, nhưng một bước lên tới 35,884 giây. Chúng tôi giữ cả 149 mẫu trong trung bình số học; đột biến có trong lần chạy này, còn nguyên nhân vẫn chưa rõ.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 39,
+    "title": "A reproducible candidate needs more than a fast log",
+    "en": {
+      "purpose": "Distinguish a reviewed candidate timing from an accepted official result and list the proofs required from an independent confirmation.",
+      "visual": "The left side is an already reviewed candidate observation: Scotch-128 averaged 3.677906731 seconds per step over 149 samples. The right side is a different state of evidence: job 25940700 was shown waiting in Q/q5 at 15:06 UTC because node_pool resources were insufficient, with no result yet. Its frozen 54-file bundle is an exact, fixed input package; hashes and seals are checks that source, mesh and outputs match the recorded files. Provenance means the record of which inputs, commands, resources and outputs produced a run. The checklist also asks for successful return codes from every stage and proof that 512 physical CPU cores across four hosts were actually allocated. These are requirements for confirmation, not checks already passed.",
+      "terms": [
+        {
+          "symbol": "Q/q5",
+          "meaning": "Scheduler queue/state labels shown in the dated observation; the slide reports the job waiting, not executing."
+        },
+        {
+          "symbol": "Scotch-128",
+          "meaning": "Scotch decomposition at 128 MPI ranks per node on four nodes."
+        },
+        {
+          "symbol": "seal",
+          "meaning": "Recorded identity/integrity evidence for source, mesh, or output files; the slide lists required checks, not completed checks."
+        },
+        {
+          "symbol": "frozen input bundle",
+          "meaning": "A fixed, versioned set of input files kept unchanged for a repeat, so the comparison uses the same declared inputs."
+        },
+        {
+          "symbol": "hash / seal",
+          "meaning": "A cryptographic digest or integrity record used to check whether a file is byte-for-byte the recorded version; a seal is evidence to verify, not a performance result."
+        },
+        {
+          "symbol": "provenance",
+          "meaning": "Traceable record of input identities, software/source, commands, allocated resources and produced outputs."
+        },
+        {
+          "symbol": "scheduler terminal proof",
+          "meaning": "A scheduler record showing a definite final state such as completed or failed, rather than merely queued or running."
+        },
+        {
+          "symbol": "return code",
+          "meaning": "A program exit status; checking each stage helps establish that every required command completed successfully."
+        }
+      ],
+      "reading": [
+        "The candidate has a measured mean and 149 samples, but that alone does not establish official acceptance.",
+        "The independent job is queued and has no result in the shown status snapshot.",
+        "The checklist is prospective proof required from that queued confirmation, not claims that the checks already passed."
+      ],
+      "tradeoff": {
+        "observation": "The best reviewed candidate is 3.677906731 s/step; its independent confirmation job is waiting because node_pool resources are insufficient.",
+        "hypothesis": "A fresh, frozen, full-pipeline repeat can test reproducibility and verify provenance and resource placement.",
+        "conclusion": "Report the existing number as a candidate observation, not an accepted official score; review the repeat before choosing next.",
+        "unknown": "The slide gives no result, terminal scheduler proof, or completed verification for job 25940700."
+      },
+      "script": "The reviewed Scotch-128 candidate averages 3.677906731 seconds per step over 149 samples. That is a candidate observation, not an accepted official score. We submitted job 25940700 as an independent confirmation, but the dated scheduler status still shows it queued because node-pool resources are insufficient, so it has no result. Confirmation must preserve the input bundle, execute initialization and all 150 steps, record explicit stage exits, prove 512 physical cores across four hosts, and seal source, mesh, and outputs.",
+      "caution": "All scheduler wording is a historical snapshot at 15:06 UTC on the slide; do not present it as live status. The checklist describes required proof, not verified completion. A fast log by itself is not full reproducibility or acceptance.",
+      "transition": "The final slide summarizes the evidence discipline and the next review decision without claiming a new result.",
+      "brief": "Scotch with 128 processes per node measured about 3.678 seconds per step. In the slide’s 23 October snapshot, its confirmation job was still queued without a result. This remains a candidate observation, not an accepted official score.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Phân biệt thời gian ứng viên đã được xem xét với kết quả chính thức được chấp nhận, đồng thời liệt kê bằng chứng cần có từ lần xác nhận độc lập.",
+      "visual": "Bên trái là quan sát ứng viên đã được xem xét: Scotch-128 đạt trung bình 3,677906731 giây mỗi bước trên 149 mẫu. Bên phải là trạng thái bằng chứng khác: job 25940700 được ghi đang chờ trong Q/q5 lúc 15:06 UTC vì thiếu tài nguyên node_pool, chưa có kết quả. Gói 54 tệp đóng băng là bộ đầu vào cố định, không thay đổi; hash và dấu kiểm tra xác nhận nguồn, lưới và đầu ra trùng với các tệp đã ghi nhận. Provenance là hồ sơ cho biết đầu vào, lệnh, tài nguyên và đầu ra nào tạo nên lần chạy. Danh sách còn yêu cầu mã trả về thành công ở mọi giai đoạn và bằng chứng thực sự cấp phát 512 lõi CPU vật lý trên bốn máy. Đây là yêu cầu xác nhận, chưa phải các kiểm tra đã đạt.",
+      "terms": [
+        {
+          "symbol": "Q/q5",
+          "meaning": "Nhãn hàng đợi/trạng thái bộ lập lịch trong quan sát đã ghi; slide nói job đang chờ, không phải đang chạy."
+        },
+        {
+          "symbol": "Scotch-128",
+          "meaning": "Phân rã Scotch với 128 MPI rank mỗi nút trên bốn nút."
+        },
+        {
+          "symbol": "seal",
+          "meaning": "Bằng chứng ghi nhận danh tính/tính toàn vẹn của tệp nguồn, lưới hoặc đầu ra; đây là kiểm tra yêu cầu, chưa phải kiểm tra đã hoàn tất."
+        },
+        {
+          "symbol": "gói đầu vào đóng băng",
+          "meaning": "Tập hợp tệp đầu vào có phiên bản, được giữ nguyên khi chạy lặp để các phép so sánh dùng cùng bộ đầu vào đã khai báo."
+        },
+        {
+          "symbol": "hash / dấu kiểm tra",
+          "meaning": "Giá trị băm mật mã hoặc hồ sơ toàn vẹn dùng kiểm tra tệp có trùng từng byte với phiên bản đã ghi nhận hay không; đây là bằng chứng cần xác minh, không phải kết quả hiệu năng."
+        },
+        {
+          "symbol": "provenance",
+          "meaning": "Hồ sơ truy xuất gồm danh tính đầu vào, phần mềm/mã nguồn, lệnh chạy, tài nguyên được cấp và đầu ra tạo ra."
+        },
+        {
+          "symbol": "bằng chứng kết thúc từ bộ lập lịch",
+          "meaning": "Bản ghi của bộ lập lịch cho thấy trạng thái cuối xác định như hoàn tất hoặc thất bại, thay vì chỉ đang chờ hay đang chạy."
+        },
+        {
+          "symbol": "mã trả về",
+          "meaning": "Trạng thái thoát của chương trình; kiểm tra từng giai đoạn giúp xác nhận mọi lệnh bắt buộc hoàn tất thành công."
+        }
+      ],
+      "reading": [
+        "Ứng viên có thời gian trung bình và 149 mẫu đã đo, nhưng riêng điều đó không chứng minh được chấp nhận chính thức.",
+        "Job độc lập đang chờ và chưa có kết quả trong ảnh chụp trạng thái được hiển thị.",
+        "Danh sách là bằng chứng cần thu từ lần xác nhận đang chờ, không phải khẳng định các kiểm tra đã đạt."
+      ],
+      "tradeoff": {
+        "observation": "Ứng viên tốt nhất đã xem xét là 3,677906731 giây mỗi bước; job xác nhận độc lập đang chờ vì thiếu tài nguyên node_pool.",
+        "hypothesis": "Lần chạy mới, đóng băng và đầy đủ quy trình có thể kiểm tra khả năng lặp lại, nguồn gốc và bố trí tài nguyên.",
+        "conclusion": "Báo cáo số hiện có là quan sát ứng viên, không phải điểm chính thức được chấp nhận; cần xem xét lần lặp trước khi chọn tiếp.",
+        "unknown": "Slide không cung cấp kết quả, bằng chứng trạng thái kết thúc của bộ lập lịch hay xác minh đã hoàn tất cho job 25940700."
+      },
+      "script": "Ứng viên Scotch-128 đã được xem xét đạt trung bình 3,677906731 giây mỗi bước trên 149 mẫu. Đây là quan sát ứng viên, không phải điểm chính thức được chấp nhận. Chúng tôi gửi job 25940700 để xác nhận độc lập, nhưng trạng thái bộ lập lịch tại thời điểm ghi trên slide vẫn là đang chờ do thiếu tài nguyên node-pool, nên chưa có kết quả. Lần xác nhận phải giữ nguyên gói đầu vào, chạy khởi tạo và đủ 150 bước, ghi mã thoát từng giai đoạn, chứng minh 512 lõi vật lý trên bốn máy, rồi niêm phong nguồn, lưới và đầu ra.",
+      "caution": "Mọi trạng thái bộ lập lịch là ảnh chụp lịch sử lúc 15:06 UTC trên slide; không trình bày như trạng thái trực tiếp hiện nay. Danh sách là yêu cầu bằng chứng, không phải xác nhận đã hoàn thành. Một log nhanh chưa đủ chứng minh tái lập đầy đủ hoặc được chấp nhận.",
+      "transition": "Slide cuối tổng kết nguyên tắc bằng chứng và quyết định xem xét tiếp theo, không tuyên bố kết quả mới.",
+      "brief": "Scotch với 128 tiến trình mỗi nút đạt khoảng 3,678 giây mỗi bước. Tuy nhiên, tại thời điểm ghi trên slide ngày 23 tháng 10, job chạy lại vẫn đang chờ tài nguyên, chưa có kết quả. Vì vậy đây là ứng viên cần xác nhận, chưa phải điểm chính thức.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  },
+  {
+    "slide": 40,
+    "title": "What we learned — and the next measurement",
+    "en": {
+      "purpose": "Close the HPC section with four measurement principles and the next decision point: inspect complete confirmation evidence before selecting another configuration.",
+      "visual": "The four principles connect a credible measurement to reproducible evidence: include preparation and the full solve; judge runtime rather than a graph-cut proxy; retain all samples, including slow-tail events; and repeat independently. The status line is explicitly a historical snapshot: on 23 October at 15:06 UTC, job 25940700 was still waiting for node_pool resources and had no result. A scheduler query or terminal record proves whether the job ran and how it ended; it does not by itself prove correct inputs or a valid measurement. Hashes, stage return codes, resource-placement evidence and complete output provenance address those separate questions. The next action stated here is to review the confirmation's terminal evidence and timing tails, then use bounded hardware sampling to investigate stability. No later outcome is asserted.",
+      "terms": [
+        {
+          "symbol": "terminal proof",
+          "meaning": "Evidence that the scheduler job reached a definite terminal state, paired with complete run outputs and return codes."
+        },
+        {
+          "symbol": "bounded hardware samples",
+          "meaning": "Limited, planned instrumentation samples collected with controlled scope, not an unbounded profiling run."
+        },
+        {
+          "symbol": "Q/q5",
+          "meaning": "The queue/state shown in the dated status snapshot, not a current query."
+        },
+        {
+          "symbol": "bounded hardware sampling",
+          "meaning": "A small, preplanned set of hardware measurements taken for a stated interval or phase, with scope limited to avoid changing the workload materially."
+        }
+      ],
+      "reading": [
+        "The four principles connect validity, measured runtime, preservation of outliers, and independent reproducibility.",
+        "The next step is review, not claiming a performance gain from the queued job.",
+        "The status line freezes the state known at 23 October 15:06 UTC: the confirmation had no result."
+      ],
+      "tradeoff": {
+        "observation": "Reviewed four-node data narrowed choices and identified Scotch-128 as the lowest mean among six observations, while the confirmation remained queued in the dated record.",
+        "hypothesis": "Reviewing full terminal evidence, tails, and limited hardware sampling may clarify stability before another choice.",
+        "conclusion": "The work narrows candidates and improves evidence requirements; it does not establish a global optimum or accepted score.",
+        "unknown": "The slide does not report what later happened to job 25940700 or identify the cause of the timing spike."
+      },
+      "script": "We take four lessons forward: measure the whole job, trust runtime evidence over a partition proxy, keep every timing sample, and confirm independently. The reviewed Scotch-128 mean narrowed our choice, but it is not a proven global optimum or accepted score. At the recorded time—23 October at 15:06 UTC—job 25940700 was still queued for node-pool resources and had no result. The next decision is to inspect terminal proof and timing tails, then collect bounded hardware samples before selecting another measurement.",
+      "caution": "This is a dated handoff, not live scheduler status. Do not infer a later success or failure, and do not describe bounded sampling as already collected. The presentation summarizes published evidence; it does not certify new measurements.",
+      "transition": "This concludes the HPC slides; return to the combined presentation's overall research conclusion.",
+      "brief": "We choose by measured runtime, retain slow samples, and require another run to confirm results. The lowest candidate mean is about 3.678 seconds per step; confirmation had no result on 23 October. A fast number needs adequate evidence.",
+      "hardware": "CPU · OpenFOAM HPC task — not an H100/H200 inference measurement."
+    },
+    "vi": {
+      "purpose": "Khép lại phần HPC bằng bốn nguyên tắc đo lường và điểm quyết định tiếp theo: xem xét bằng chứng xác nhận đầy đủ trước khi chọn cấu hình khác.",
+      "visual": "Bốn nguyên tắc nối phép đo đáng tin cậy với bằng chứng có thể tái lập: tính cả khâu chuẩn bị và toàn bộ lời giải; đánh giá runtime thay vì proxy graph cut; giữ mọi mẫu, kể cả sự kiện chậm ở phần đuôi; và chạy lặp độc lập. Dòng trạng thái là ảnh chụp lịch sử: ngày 23 October lúc 15:06 UTC, job 25940700 vẫn chờ tài nguyên node_pool và chưa có kết quả. Truy vấn bộ lập lịch hoặc hồ sơ kết thúc chứng minh job có chạy hay không và kết thúc thế nào; bản thân chúng không chứng minh đầu vào đúng hoặc phép đo hợp lệ. Hash, mã trả về từng giai đoạn, bằng chứng bố trí tài nguyên và provenance đầu ra đầy đủ giải quyết các câu hỏi riêng đó. Hành động kế tiếp ghi trên slide là xem bằng chứng kết thúc và phần đuôi thời gian của lần xác nhận, rồi lấy mẫu phần cứng có giới hạn để nghiên cứu độ ổn định. Không khẳng định kết quả nào xảy ra sau đó.",
+      "terms": [
+        {
+          "symbol": "terminal proof",
+          "meaning": "Bằng chứng job đã tới trạng thái kết thúc xác định trong bộ lập lịch, đi cùng đầu ra đầy đủ và mã trả về."
+        },
+        {
+          "symbol": "bounded hardware samples",
+          "meaning": "Các mẫu đo phần cứng có phạm vi và giới hạn được hoạch định, không phải phiên profiling không giới hạn."
+        },
+        {
+          "symbol": "Q/q5",
+          "meaning": "Hàng đợi/trạng thái trong ảnh chụp đã ghi, không phải truy vấn hiện tại."
+        },
+        {
+          "symbol": "lấy mẫu phần cứng có giới hạn",
+          "meaning": "Một tập nhỏ phép đo phần cứng được hoạch định trước cho khoảng thời gian hoặc giai đoạn xác định, với phạm vi giới hạn để không làm thay đổi đáng kể khối lượng công việc."
+        }
+      ],
+      "reading": [
+        "Bốn nguyên tắc nối tính hợp lệ, runtime đo được, bảo toàn ngoại lệ và khả năng tái lập độc lập.",
+        "Bước tiếp theo là xem xét bằng chứng, không tuyên bố cải thiện hiệu năng từ job đang chờ.",
+        "Dòng trạng thái đóng băng thông tin biết được vào 23 October 15:06 UTC: lần xác nhận chưa có kết quả."
+      ],
+      "tradeoff": {
+        "observation": "Dữ liệu bốn nút đã xem xét thu hẹp lựa chọn và cho thấy Scotch-128 có trung bình thấp nhất trong sáu quan sát, trong khi hồ sơ cùng ngày cho biết lần xác nhận còn chờ.",
+        "hypothesis": "Xem bằng chứng kết thúc đầy đủ, phần đuôi và lấy mẫu phần cứng giới hạn có thể làm rõ độ ổn định trước lựa chọn tiếp theo.",
+        "conclusion": "Công việc thu hẹp ứng viên và cải thiện yêu cầu bằng chứng; nó chưa xác lập tối ưu toàn cục hay điểm được chấp nhận.",
+        "unknown": "Slide không cho biết điều gì xảy ra sau đó với job 25940700 hoặc nguyên nhân của đột biến thời gian."
+      },
+      "script": "Chúng tôi rút ra bốn bài học: đo toàn bộ job, tin runtime đo được hơn proxy phân vùng, giữ mọi mẫu thời gian và xác nhận độc lập. Trung bình Scotch-128 đã xem xét giúp thu hẹp lựa chọn, nhưng chưa phải tối ưu toàn cục được chứng minh hay điểm được chấp nhận. Vào thời điểm ghi nhận—23 October lúc 15:06 UTC—job 25940700 vẫn chờ tài nguyên node-pool và chưa có kết quả. Bước tiếp theo là xem bằng chứng kết thúc và phần đuôi thời gian, rồi lấy mẫu phần cứng có giới hạn trước khi chọn phép đo khác.",
+      "caution": "Đây là mốc bàn giao có ngày, không phải trạng thái bộ lập lịch hiện tại. Không suy ra job thành công hay thất bại sau đó; cũng không nói rằng việc lấy mẫu giới hạn đã được thực hiện. Bài trình bày tóm lược bằng chứng đã công bố, không chứng nhận phép đo mới.",
+      "transition": "Phần slide HPC kết thúc tại đây; quay lại kết luận tổng thể của bài trình bày kết hợp.",
+      "brief": "Nhóm chọn ứng viên theo thời gian thực chạy, giữ cả bước chậm và yêu cầu chạy lại để xác nhận. Ứng viên thấp nhất khoảng 3,678 giây mỗi bước; ngày 23 tháng 10 lần xác nhận vẫn chưa có kết quả. Bài học là điểm nhanh cần đi cùng bằng chứng đủ.",
+      "hardware": "CPU · track HPC OpenFOAM — không phải phép đo suy luận H100/H200."
+    }
+  }
+]

@@ -1,0 +1,1050 @@
+[
+  {
+    "slide": 21,
+    "title": "Backup · two platforms, separate experimental systems",
+    "en": {
+      "hardware": "H200 + H100 · Firmus and NSCC ASPIRE 2A+",
+      "brief": "Both systems allocate sixteen GPUs and use the same Qwen checkpoint and staged workload. Firmus uses H200s; NSCC uses H100s. Different hardware, schedulers, containers, and node conditions mean their scores are separate measurements, not a direct GPU conversion.",
+      "purpose": "Set the comparison boundary for all later platform results: a shared model and client make experiments more comparable, but do not erase differences in hardware or deployment stack.",
+      "visual": "The table contrasts allocation, scheduler, container launcher, serving/client software, and model. Matching rows are useful controls: both systems have two eight-GPU nodes and use the same staged artifacts and Qwen3-235B FP8 checkpoint. Different rows are potential influences on latency and throughput. Slurm and PBS schedule resources; they do not execute model inference. Pyxis/Enroot and Singularity provide different container launch paths, while SGLang serves requests and AIPerf generates and measures client traffic. Therefore a score needs its platform, topology, backend, and load attached.",
+      "terms": [
+        {
+          "symbol": "Firmus / NSCC ASPIRE 2A+",
+          "meaning": "Two separate compute sites: Firmus supplies H200 nodes; NSCC ASPIRE 2A+ supplies H100 nodes."
+        },
+        {
+          "symbol": "2 × 8 H200 / 2 × 8 H100",
+          "meaning": "Two nodes with eight GPUs each, sixteen GPUs per allocation. The GPU models and systems are different."
+        },
+        {
+          "symbol": "Slurm / PBS",
+          "meaning": "Schedulers that allocate and manage compute jobs. They are not the serving engine."
+        },
+        {
+          "symbol": "Pyxis / Enroot / Singularity",
+          "meaning": "Container launch tools. Containers package software, but different launchers and host stacks can still affect execution."
+        },
+        {
+          "symbol": "SGLang / AIPerf",
+          "meaning": "SGLang runs model serving; AIPerf sends benchmark requests and records service metrics."
+        },
+        {
+          "symbol": "FP8 checkpoint",
+          "meaning": "The shared model weights use an eight-bit floating-point representation; sharing weights does not make GPU runs equivalent."
+        },
+        {
+          "symbol": "platform comparison",
+          "meaning": "A comparison of complete systems. It needs matched workload plus explicit hardware, software, topology, and timing; GPU names alone are not a conversion factor."
+        }
+      ],
+      "reading": [
+        "Common controls are the two-node, sixteen-GPU allocation, the staged serving and client artifacts, and the Qwen checkpoint.",
+        "Platform differences include H200 versus H100 GPU generation, Slurm versus PBS, and different container launchers. CPU, driver, network, node cache, and process placement can also differ.",
+        "The table establishes context; it does not provide a controlled performance result or quantify each site's contribution."
+      ],
+      "tradeoff": {
+        "observation": "Both sites provide sixteen GPUs across two nodes and share staged images and model checkpoint, while GPU family, scheduler, launcher, and host environment differ.",
+        "hypothesis": "Matching the model and request workload is necessary, but platform differences may still affect serving measurements.",
+        "conclusion": "Report each platform's results separately and name its deployment conditions.",
+        "unknown": "This table does not isolate the effect of any one platform difference or define an H100-to-H200 score multiplier."
+      },
+      "script": "We tested on two systems, each with sixteen GPUs. Firmus uses H200s, Slurm, and Enroot-based containers; NSCC ASPIRE 2A+ uses H100s, PBS, and Singularity. Both use the same model checkpoint and staged benchmark artifacts, but drivers, networks, host caches, and launch paths can differ. So this slide is a map of experimental environments, not a speed comparison. Every score needs its own platform and settings.",
+      "caution": "Do not pool H100 and H200 observations into one series, or infer relative speed from GPU model or memory capacity alone.",
+      "transition": "The next backup explains how the H200 weight layout imposed a concrete compatibility constraint."
+    },
+    "vi": {
+      "hardware": "H200 + H100 · Firmus và NSCC ASPIRE 2A+",
+      "brief": "Cả hai hệ thống cấp mười sáu GPU và dùng cùng checkpoint Qwen cùng workload đã staging. Firmus dùng H200; NSCC dùng H100. Phần cứng, scheduler, container và điều kiện node khác nhau, nên đây là các phép đo riêng, không phải hệ số quy đổi GPU.",
+      "purpose": "Đặt ranh giới so sánh cho các kết quả nền tảng sau: cùng model và client giúp phép thử gần nhau hơn, nhưng không xóa khác biệt phần cứng và stack triển khai.",
+      "visual": "Bảng đối chiếu phân bổ GPU, scheduler, công cụ chạy container, phần mềm serving/client và model. Các hàng giống nhau là điểm kiểm soát hữu ích: cả hai có hai node tám GPU và dùng cùng artifact đã staging cùng checkpoint Qwen3-235B FP8. Các hàng khác nhau có thể ảnh hưởng độ trễ và thông lượng. Slurm và PBS cấp tài nguyên; chúng không thực thi suy luận model. Pyxis/Enroot và Singularity là đường chạy container khác nhau; SGLang phục vụ request còn AIPerf tạo và đo lưu lượng client. Vì vậy mỗi điểm số cần gắn với nền tảng, topology, backend và tải.",
+      "terms": [
+        {
+          "symbol": "Firmus / NSCC ASPIRE 2A+",
+          "meaning": "Hai địa điểm tính toán riêng: Firmus cấp node H200; NSCC ASPIRE 2A+ cấp node H100."
+        },
+        {
+          "symbol": "2 × 8 H200 / 2 × 8 H100",
+          "meaning": "Hai node, mỗi node tám GPU, tổng cộng mười sáu GPU mỗi allocation. Mẫu GPU và hệ thống khác nhau."
+        },
+        {
+          "symbol": "Slurm / PBS",
+          "meaning": "Scheduler cấp phát và quản lý job tính toán; không phải engine phục vụ model."
+        },
+        {
+          "symbol": "Pyxis / Enroot / Singularity",
+          "meaning": "Công cụ khởi chạy container. Container đóng gói phần mềm, nhưng launcher và host khác nhau vẫn có thể ảnh hưởng thực thi."
+        },
+        {
+          "symbol": "SGLang / AIPerf",
+          "meaning": "SGLang chạy serving model; AIPerf gửi request benchmark và ghi chỉ số dịch vụ."
+        },
+        {
+          "symbol": "checkpoint FP8",
+          "meaning": "Trọng số model chung dùng biểu diễn số dấu phẩy động tám bit; dùng chung trọng số không làm hai lần chạy GPU tương đương."
+        },
+        {
+          "symbol": "so sánh nền tảng",
+          "meaning": "So sánh toàn hệ thống. Cần workload khớp cùng thông tin phần cứng, phần mềm, topology và thời gian; tên GPU không phải hệ số quy đổi."
+        }
+      ],
+      "reading": [
+        "Các điểm kiểm soát chung là phân bổ hai node, mười sáu GPU, artifact serving/client đã staging và checkpoint Qwen.",
+        "Khác biệt gồm thế hệ GPU H200 so với H100, Slurm so với PBS, và launcher container khác nhau. CPU, driver, mạng, cache node và vị trí tiến trình cũng có thể khác.",
+        "Bảng cung cấp bối cảnh; nó không phải kết quả hiệu năng có kiểm soát và không định lượng đóng góp riêng của từng khác biệt."
+      ],
+      "tradeoff": {
+        "observation": "Cả hai site cấp mười sáu GPU trên hai node và dùng chung image đã staging cùng checkpoint, nhưng khác họ GPU, scheduler, launcher và môi trường host.",
+        "hypothesis": "Khớp model và workload request là cần thiết, nhưng khác biệt nền tảng vẫn có thể ảnh hưởng số đo serving.",
+        "conclusion": "Báo cáo kết quả từng nền tảng riêng và ghi rõ điều kiện triển khai.",
+        "unknown": "Bảng không cô lập tác động của khác biệt nền tảng nào và không đưa ra hệ số đổi điểm H100 sang H200."
+      },
+      "script": "Chúng tôi đo trên hai hệ thống, mỗi hệ thống có mười sáu GPU. Firmus dùng H200, Slurm và container Enroot; NSCC ASPIRE 2A+ dùng H100, PBS và Singularity. Cả hai dùng cùng checkpoint và artifact benchmark đã staging, nhưng driver, mạng, cache máy chủ và đường khởi chạy vẫn có thể khác. Vì vậy slide này mô tả môi trường thí nghiệm, không so tốc độ. Mỗi điểm số cần ghi nền tảng và cài đặt riêng.",
+      "caution": "Không gộp số đo H100 và H200 thành một chuỗi hoặc suy ra tốc độ chỉ từ mẫu GPU hay dung lượng bộ nhớ.",
+      "transition": "Phần tiếp theo giải thích ràng buộc tương thích cụ thể do cách chia trọng số trên H200."
+    }
+  },
+  {
+    "slide": 22,
+    "title": "Backup · FP8 geometry constrains a topology",
+    "en": {
+      "hardware": "H200 · tested FP8 path",
+      "brief": "The failed TP8/EP1 partition had 192 elements, which leaves a 64-element remainder against a 128-wide FP8 block. EP2 changes the effective split to 384 elements, or three full blocks. That fixes this shape mismatch; it does not prove serving speed or quality.",
+      "purpose": "Teach a concrete compatibility failure from the model's weight geometry and distinguish a layout that can load from a deployment that has passed service tests.",
+      "visual": "Start with the MoE intermediate dimension, 1,536 elements, then divide by the effective tensor-parallel split. TP8/EP1 gives 1,536 ÷ 8 = 192. The tested kernel needs whole 128-element FP8 blocks, so 192 becomes one full block plus 64 unusable remainder elements. TP8/EP2 changes effective MoE tensor parallelism to four: 1,536 ÷ 4 = 384, exactly three full blocks. The red remainder marks a load-time compatibility failure, not lost output tokens. The arithmetic explains why the old shape failed and why the replacement shape is compatible; it is not a benchmark chart.",
+      "terms": [
+        {
+          "symbol": "FP8 block",
+          "meaning": "A fixed group of 128 weight elements required by this tested kernel path. A partition ending halfway through a block cannot be loaded by that path."
+        },
+        {
+          "symbol": "MoE",
+          "meaning": "Mixture of Experts: a model layer routes tokens among expert sub-networks. Expert parallelism changes how those experts are distributed."
+        },
+        {
+          "symbol": "TP8 / EP1",
+          "meaning": "Eight-way tensor parallelism with one expert partition. Effective MoE tensor split is eight, producing 192 elements per partition."
+        },
+        {
+          "symbol": "TP8 / EP2",
+          "meaning": "Eight-way tensor parallelism with two expert partitions. Effective MoE tensor split is four, producing 384 elements per partition."
+        },
+        {
+          "symbol": "128 + 64",
+          "meaning": "The 192-element TP8/EP1 shard contains one complete 128 block plus a 64-element remainder, causing the tested load failure."
+        },
+        {
+          "symbol": "3 × 128 = 384",
+          "meaning": "The EP2 shard contains three complete blocks. The layout retains all model weights and experts; it changes partitioning."
+        },
+        {
+          "symbol": "compatibility vs performance",
+          "meaning": "Compatibility means the tensor shape meets a kernel's input requirement. Startup, latency, output quality, and throughput still need separate tests."
+        }
+      ],
+      "reading": [
+        "The two equations are the key evidence: TP8/EP1 produces 192 elements; TP8/EP2 produces 384.",
+        "The 64-element remainder is why the first tested path failed during loading. EP2 removes that remainder by changing expert distribution, not precision or model size.",
+        "The footer lists evidence still required after compatibility: successful startup, service-level latency checks, and output-quality checks."
+      ],
+      "tradeoff": {
+        "observation": "TP8/EP1 yields a 192-element partition, not divisible into 128-wide blocks; TP8/EP2 yields 384 elements, exactly three blocks.",
+        "hypothesis": "Changing expert partitioning can make the existing FP8 weights compatible with the kernel while retaining the model contents.",
+        "conclusion": "EP2 corrects the tested block geometry and makes a compatible deployment attempt possible; this combined layout change is not an isolated TP speedup.",
+        "unknown": "Alignment alone does not establish successful full startup, request SLA, output quality, or improved throughput."
+      },
+      "script": "The model has an intermediate dimension of 1,536 elements, and this FP8 kernel requires complete blocks of 128. With TP8 and one expert partition, each shard gets 192 elements: 128 plus a leftover 64, so loading fails. With two expert partitions, the effective split is four and each shard gets 384, exactly three blocks. This keeps the weights and experts; it changes how they are distributed. The result is compatible geometry, not evidence of a faster or correct full service.",
+      "caution": "The red 64 is a remainder of weight elements, not GPUs or tokens. Do not call compatibility a throughput result or an isolated TP improvement.",
+      "transition": "The next backup uses a historical chart to show how the campaign reached later operating points."
+    },
+    "vi": {
+      "hardware": "H200 · đường FP8 đã thử",
+      "brief": "Phân vùng TP8/EP1 thất bại có 192 phần tử, dư 64 so với block FP8 rộng 128. EP2 đổi phép chia hiệu dụng thành 384 phần tử, vừa ba block đầy. Điều này sửa sai hình dạng tensor, chưa chứng minh serving nhanh hay đúng.",
+      "purpose": "Giải thích lỗi tương thích cụ thể từ hình học trọng số của model và phân biệt cách chia có thể tải với triển khai đã qua kiểm tra dịch vụ.",
+      "visual": "Bắt đầu từ chiều trung gian MoE gồm 1.536 phần tử, rồi chia cho tensor-parallel hiệu dụng. TP8/EP1 cho 1.536 ÷ 8 = 192. Kernel đã thử cần block FP8 nguyên 128 phần tử, nên 192 gồm một block đầy cộng 64 phần tử dư không thể tải. TP8/EP2 đổi tensor parallelism MoE hiệu dụng thành bốn: 1.536 ÷ 4 = 384, vừa đúng ba block đầy. Phần dư màu đỏ biểu thị lỗi tương thích lúc tải, không phải mất token đầu ra. Phép tính giải thích vì sao hình dạng cũ lỗi và hình dạng thay thế tương thích; đây không phải biểu đồ benchmark.",
+      "terms": [
+        {
+          "symbol": "block FP8",
+          "meaning": "Nhóm cố định 128 phần tử trọng số mà đường kernel đã thử yêu cầu. Phân vùng kết thúc giữa block thì đường này không tải được."
+        },
+        {
+          "symbol": "MoE",
+          "meaning": "Mixture of Experts: tầng model định tuyến token tới các mạng con chuyên gia. Expert parallelism thay đổi cách phân phối các chuyên gia đó."
+        },
+        {
+          "symbol": "TP8 / EP1",
+          "meaning": "Tensor parallelism tám phần, một phân vùng chuyên gia. Tensor split MoE hiệu dụng là tám, tạo 192 phần tử mỗi phân vùng."
+        },
+        {
+          "symbol": "TP8 / EP2",
+          "meaning": "Tensor parallelism tám phần, hai phân vùng chuyên gia. Tensor split MoE hiệu dụng là bốn, tạo 384 phần tử mỗi phân vùng."
+        },
+        {
+          "symbol": "128 + 64",
+          "meaning": "Shard TP8/EP1 gồm một block đầy 128 cộng 64 phần tử dư, gây lỗi tải trong đường đã thử."
+        },
+        {
+          "symbol": "3 × 128 = 384",
+          "meaning": "Shard EP2 có ba block đầy. Cách chia giữ nguyên mọi trọng số và chuyên gia; chỉ thay đổi phân vùng."
+        },
+        {
+          "symbol": "tương thích và hiệu năng",
+          "meaning": "Tương thích nghĩa là hình dạng tensor đáp ứng đầu vào kernel. Khởi động, độ trễ, chất lượng đầu ra và thông lượng vẫn phải đo riêng."
+        }
+      ],
+      "reading": [
+        "Hai phép tính là bằng chứng chính: TP8/EP1 tạo 192 phần tử; TP8/EP2 tạo 384.",
+        "Phần dư 64 phần tử giải thích vì sao đường đầu tiên lỗi khi tải. EP2 bỏ phần dư bằng cách phân phối lại chuyên gia, không đổi độ chính xác hay kích thước model.",
+        "Dòng cuối nhắc các bằng chứng còn cần sau tương thích: khởi động thành công, kiểm tra độ trễ dịch vụ và kiểm tra chất lượng đầu ra."
+      ],
+      "tradeoff": {
+        "observation": "TP8/EP1 cho phân vùng 192 phần tử, không chia hết theo block rộng 128; TP8/EP2 cho 384 phần tử, vừa ba block.",
+        "hypothesis": "Đổi phân vùng chuyên gia có thể làm trọng số FP8 hiện có tương thích với kernel mà vẫn giữ nguyên nội dung model.",
+        "conclusion": "EP2 sửa hình học block đã thử và cho phép thử triển khai tương thích; đây là thay đổi bố trí kết hợp, không phải tăng tốc TP riêng lẻ.",
+        "unknown": "Căn chỉnh đúng chưa xác nhận toàn bộ khởi động, SLA request, chất lượng đầu ra hay thông lượng tăng."
+      },
+      "script": "Chiều trung gian model có 1.536 phần tử, còn kernel FP8 này yêu cầu block đủ 128. Với TP8 và một phân vùng chuyên gia, mỗi shard có 192 phần tử: 128 cộng 64 dư, nên tải lỗi. Với hai phân vùng chuyên gia, phép chia hiệu dụng là bốn và mỗi shard có 384, đúng ba block. Trọng số và chuyên gia vẫn giữ nguyên; chỉ đổi cách phân phối. Đây là hình dạng tương thích, chưa chứng minh dịch vụ đầy đủ nhanh hay đúng.",
+      "caution": "Số 64 màu đỏ là phần dư của trọng số, không phải GPU hay token. Không gọi tương thích là kết quả thông lượng hoặc tăng tốc TP riêng.",
+      "transition": "Backup tiếp theo dùng biểu đồ lịch sử để chỉ ra cách chiến dịch đi tới các điểm vận hành về sau."
+    }
+  },
+  {
+    "slide": 23,
+    "title": "Backup · historical milestones behind the decisions",
+    "en": {
+      "hardware": "H200 · different loads, layouts, and runtime settings",
+      "brief": "The H200 chart rises from 1,297 good tokens/s at N32 to a 3,044 N64 mean. It shows better measured operating points over the campaign, but each milestone changes load or configuration, so the bars do not assign a causal gain to each optimization.",
+      "purpose": "Use the historical chart as context for the research questions: it shows which operating points motivated later controlled tests, while teaching why a rising sequence is not a cumulative causal experiment.",
+      "visual": "The horizontal axis lists named milestones, not dates or equal time intervals. The vertical axis is good output tokens per second, so taller bars mean more requests meeting the latency limits under that milestone's workload. Gray marks early layouts, teal marks backend specialization, and orange marks later tuning and repeat points. The chart progresses from 1,297 at N32 and 1,666 at N40, through 1,912 at N48 and 2,631 at N52, to a rounded historical N64 mean of 3,044. Since concurrency, worker layout, backends, and runtime conditions change along the way, the chart shows the team found stronger measured configurations; it does not show how much any one change caused.",
+      "terms": [
+        {
+          "symbol": "good output tokens/s",
+          "meaning": "Qualifying requests per second multiplied by the requested 200 output tokens; higher means more useful output under the latency rule."
+        },
+        {
+          "symbol": "milestone chart",
+          "meaning": "A grouped history of operating points. Horizontal spacing is categorical, not elapsed time, and neighboring bars are not necessarily matched experiments."
+        },
+        {
+          "symbol": "N32–N64",
+          "meaning": "Target numbers of simultaneous client requests, not GPU counts. Increasing N changes offered load and can change latency and useful throughput."
+        },
+        {
+          "symbol": "repeated point",
+          "meaning": "A configuration measured again to check reproducibility. A repeat tests consistency; it does not isolate the cause of an earlier gain."
+        },
+        {
+          "symbol": "causal ablation",
+          "meaning": "A comparison that changes one defined factor while holding others sufficiently constant. This historical chart is not one cumulative ablation."
+        }
+      ],
+      "reading": [
+        "The milestones are 1,297 (initial 07/N32), 1,666 (initial 09/N40), 1,912 (split/N48), 2,631 (FlashInfer plus MNNVL/N52), 2,716 (DeepGEMM prefill/N56), 2,939 (DeepGEMM plus HPC-Ops/N58), 2,989 (repeated N60), 3,023 (repeated N62), and 3,044 (three historical N64 runs). Labels are rounded.",
+        "Later N62 runs measured 3,022.034919 and 3,023.072304; later N64 repeats measured 3,044.489701 and 3,044.074628. These support repeatability at those settings, not a universal optimum or causal explanation for every step.",
+        "Colors group phases of work; they are not pass/fail marks. Bar height is a score, not a confidence interval."
+      ],
+      "tradeoff": {
+        "observation": "Measured good output throughput rises across named operating points from 1,297 at N32 to a rounded 3,044 at historical N64.",
+        "hypothesis": "Recovering a usable split and transfer path, then specializing attention, collective, prefill, and decode backends, helped identify stronger configurations.",
+        "conclusion": "The chart is a map of milestones and later replication targets; it is not evidence the named optimizations add up to the full rise.",
+        "unknown": "Loads, topology, runtime settings, and observation conditions vary; individual causal contributions and a global optimum are not established."
+      },
+      "script": "This chart summarizes how H200 work moved from about 1,300 good output tokens per second at N32 to about 3,044 at N64. The horizontal axis names milestones, not dates; the vertical axis is latency-qualified output rate. Colors group phases of work. But load and software settings change between bars, so this is a history of better measured operating points, not proof that each named optimization caused the full increase.",
+      "caution": "Do not read horizontal spacing as time, add bar differences as independent gains, or treat colors as pass/fail. N is request concurrency, not GPU count.",
+      "transition": "The next backup combines two separate H100 observations into one decode tradeoff."
+    },
+    "vi": {
+      "hardware": "H200 · tải, bố trí và runtime thay đổi giữa các mốc",
+      "brief": "Biểu đồ H200 tăng từ 1.297 token tốt/giây ở N32 lên trung bình N64 là 3.044. Nó cho thấy các điểm vận hành đo được tốt hơn, nhưng mỗi mốc đổi tải hoặc cấu hình nên không quy được mức tăng cho từng tối ưu.",
+      "purpose": "Dùng biểu đồ lịch sử làm bối cảnh cho câu hỏi nghiên cứu: nó cho thấy các điểm vận hành nào dẫn tới phép thử có kiểm soát sau này, đồng thời giải thích vì sao chuỗi tăng dần không phải thí nghiệm nhân quả tích lũy.",
+      "visual": "Trục ngang liệt kê mốc có tên, không phải ngày tháng hay khoảng thời gian đều nhau. Trục dọc là token đầu ra tốt mỗi giây; cột cao hơn nghĩa là nhiều request đạt giới hạn độ trễ hơn trong workload của mốc đó. Màu xám chỉ layout ban đầu, xanh chỉ chuyên biệt hóa backend, cam chỉ tinh chỉnh và lặp về sau. Biểu đồ đi từ 1.297 ở N32 và 1.666 ở N40, qua 1.912 ở N48 và 2.631 ở N52, tới trung bình N64 lịch sử đã làm tròn là 3.044. Vì concurrency, bố trí worker, backend và điều kiện runtime đổi theo các mốc, biểu đồ cho thấy nhóm tìm được cấu hình đo tốt hơn; nó không cho biết từng thay đổi gây ra bao nhiêu.",
+      "terms": [
+        {
+          "symbol": "good output tokens/s",
+          "meaning": "Số request đủ điều kiện mỗi giây nhân 200 token đầu ra yêu cầu; giá trị cao hơn nghĩa là nhiều đầu ra hữu ích hơn theo giới hạn độ trễ."
+        },
+        {
+          "symbol": "biểu đồ mốc",
+          "meaning": "Lịch sử các điểm vận hành được phân nhóm. Khoảng cách ngang là phân loại, không phải thời gian; hai cột cạnh nhau chưa chắc là phép thử ghép cặp."
+        },
+        {
+          "symbol": "N32–N64",
+          "meaning": "Mức request đồng thời mục tiêu của client, không phải số GPU. Tăng N đổi tải đưa vào và có thể đổi độ trễ cùng thông lượng hữu ích."
+        },
+        {
+          "symbol": "điểm lặp",
+          "meaning": "Cấu hình được đo lại để kiểm tra khả năng tái lập. Lần lặp kiểm tra độ ổn định, không cô lập nguyên nhân của mức tăng trước đó."
+        },
+        {
+          "symbol": "ablation nhân quả",
+          "meaning": "So sánh đổi một yếu tố đã định nghĩa trong khi giữ yếu tố khác đủ ổn định. Biểu đồ lịch sử không phải ablation tích lũy như vậy."
+        }
+      ],
+      "reading": [
+        "Các mốc là 1.297 (07 ban đầu/N32), 1.666 (09 ban đầu/N40), 1.912 (split/N48), 2.631 (FlashInfer cộng MNNVL/N52), 2.716 (DeepGEMM prefill/N56), 2.939 (DeepGEMM cộng HPC-Ops/N58), 2.989 (N60 lặp), 3.023 (N62 lặp) và 3.044 (ba lần N64 lịch sử). Nhãn đã làm tròn.",
+        "Các lần N62 về sau đạt 3,022.034919 và 3,023.072304; hai lần N64 lặp đạt 3,044.489701 và 3,044.074628. Chúng hỗ trợ độ lặp lại ở các cài đặt đó, không xác lập tối ưu phổ quát hay nguyên nhân cho từng bước.",
+        "Màu sắc nhóm giai đoạn công việc, không biểu thị đạt/trượt. Chiều cao cột là điểm đo, không phải khoảng tin cậy."
+      ],
+      "tradeoff": {
+        "observation": "Thông lượng token đầu ra tốt tăng qua các điểm vận hành có tên, từ 1.297 ở N32 tới khoảng 3.044 ở N64 lịch sử.",
+        "hypothesis": "Khôi phục split và đường truyền dùng được, rồi chuyên biệt hóa attention, collective, prefill và decode, có thể giúp tìm cấu hình mạnh hơn.",
+        "conclusion": "Biểu đồ là bản đồ mốc và đích lặp về sau; nó không chứng minh các tối ưu nêu tên cộng lại tạo toàn bộ mức tăng.",
+        "unknown": "Tải, topology, runtime và điều kiện quan sát thay đổi; chưa xác lập đóng góp nhân quả riêng hay tối ưu toàn cục."
+      },
+      "script": "Biểu đồ tóm tắt hành trình H200 từ khoảng 1.300 token tốt mỗi giây ở N32 lên khoảng 3.044 ở N64. Trục ngang ghi mốc, không phải ngày; trục dọc là tốc độ đầu ra đạt giới hạn độ trễ. Màu sắc nhóm giai đoạn nghiên cứu. Nhưng tải và cài đặt phần mềm đổi giữa các cột, nên đây là lịch sử điểm đo tốt hơn, không chứng minh mỗi tối ưu gây ra toàn bộ mức tăng.",
+      "caution": "Không đọc khoảng cách ngang như thời gian, cộng chênh lệch cột thành gain độc lập, hay hiểu màu là đạt/trượt. N là concurrency request, không phải số GPU.",
+      "transition": "Backup tiếp theo ghép hai quan sát H100 riêng để giải thích đánh đổi khi đổi attention decode."
+    }
+  },
+  {
+    "slide": 26,
+    "title": "Backup · H100: first-token gain, goodput loss",
+    "en": {
+      "hardware": "H100 · NSCC · full N54 · jobs 222027/222028",
+      "brief": "In one matched H100 N54 pair, FA3 cut mean TTFT from 713.199 to 594.276 ms, but goodput fell from 2,420.945 to 2,401.284 tokens/s, about 0.812%. A faster first token did not improve the full request objective.",
+      "purpose": "Explain why evaluating only time to first token can select the wrong decode backend: latency over a long answer and qualifying throughput also matter.",
+      "visual": "The pair changes decode attention from FlashInfer to FA3 while holding H100, N54 load, and the rest of the tested path matched. Read across each metric: FA3 lowers mean time to first token by 118.922 ms, but raises mean inter-token latency by 0.773 ms. Repeated over roughly 199 token intervals, that adds about 154 ms. Mean request latency rises from 4,337.853 to 4,372.813 ms, and goodput falls 0.812%. Thus the early response improves while the full answer becomes slower on average and fewer requests qualify per second. This is one pair for this H100 decode setting, not a general ranking of attention libraries.",
+      "terms": [
+        {
+          "symbol": "FA3",
+          "meaning": "FlashAttention-3, an attention implementation tested here for decode. It remained the H100 prefill backend in this pair."
+        },
+        {
+          "symbol": "FlashInfer",
+          "meaning": "The decode-attention control implementation in the matched pair."
+        },
+        {
+          "symbol": "TTFT",
+          "meaning": "Time to first token: delay from request start until the first answer token arrives."
+        },
+        {
+          "symbol": "ITL",
+          "meaning": "Inter-token latency: time between consecutive generated tokens. A small increase repeated over a long answer can add substantial total time."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Rate of requests meeting the service latency rules, converted to good output tokens/s. It captures more than startup latency."
+        },
+        {
+          "symbol": "H100 N54",
+          "meaning": "H100 system under a target of 54 simultaneous client requests; it is not the H200 N64 operating point."
+        },
+        {
+          "symbol": "matched pair",
+          "meaning": "Two runs with one intended setting change and otherwise aligned workload/configuration. One pair supports a local comparison, not universal ranking."
+        }
+      ],
+      "reading": [
+        "FlashInfer → FA3: good output tokens/s 2,420.945 → 2,401.284; mean TTFT 713.199 → 594.276 ms; mean ITL 18.214 → 18.988 ms; mean request latency 4,337.853 → 4,372.813 ms.",
+        "Both runs passed team-reviewed protocol, runtime, and output checks on the assigned cluster, and FA3 was confirmed active on all eight decode ranks. That establishes the tested intervention actually ran, not that it improved the service.",
+        "The historical H100 individual peak of 2,433.019859 and fresh N54 control of 2,399.186728 are context, not the two arms of this matched pair. They do not provide an H100/H200 hardware conversion."
+      ],
+      "tradeoff": {
+        "observation": "FA3 improves mean TTFT by 118.922 ms but worsens mean ITL by 0.773 ms and mean request latency by 34.960 ms; goodput falls 0.812%.",
+        "hypothesis": "Changing decode attention can move startup and per-token costs in opposite directions.",
+        "conclusion": "Keep FlashInfer for this tested H100 decode setting; FA3 remains used for prefill.",
+        "unknown": "One matched pair does not rank attention backends generally or isolate exact kernel-level causality."
+      },
+      "script": "FA3 makes the first token arrive about 119 milliseconds sooner. But each later token is separated by a slightly longer gap. Across a long answer, those gaps add up: average request latency rises by about 35 milliseconds and goodput falls about 0.81 percent. Both runs were checked on the assigned H100 cluster, and the FA3 path was active on all decode ranks. For this one setting we keep FlashInfer for decode; this does not rank the libraries for every workload.",
+      "caution": "Do not choose a backend from TTFT alone, treat a 0.812% one-pair result as universal, or compare the H100 peak directly with H200 results.",
+      "transition": "The next backup asks whether a startup-time saving survives when the order of the runs is reversed."
+    },
+    "vi": {
+      "hardware": "H100 · NSCC · N54 đầy đủ · jobs 222027/222028",
+      "brief": "Trong một cặp H100 N54 khớp điều kiện, FA3 giảm TTFT trung bình từ 713,199 xuống 594,276 ms, nhưng goodput giảm từ 2.420,945 xuống 2.401,284 token/s, khoảng 0,812%. Token đầu đến nhanh hơn không cải thiện mục tiêu toàn request.",
+      "purpose": "Giải thích vì sao chỉ nhìn thời gian token đầu có thể dẫn tới chọn sai backend decode: còn phải xét độ trễ của câu trả lời dài và thông lượng request đạt chuẩn.",
+      "visual": "Cặp thử chỉ đổi attention decode từ FlashInfer sang FA3, còn H100, tải N54 và phần đường thử khác được giữ khớp. So từng chỉ số: FA3 giảm TTFT trung bình 118,922 ms nhưng tăng ITL trung bình 0,773 ms. Lặp qua khoảng 199 khoảng token, phần tăng cộng lại khoảng 154 ms. Độ trễ request trung bình tăng từ 4.337,853 lên 4.372,813 ms, goodput giảm 0,812%. Vậy phản hồi ban đầu nhanh hơn nhưng toàn câu trả lời chậm hơn trung bình và ít request đạt chuẩn hơn mỗi giây. Đây là một cặp cho cấu hình decode H100 này, không phải xếp hạng thư viện attention nói chung.",
+      "terms": [
+        {
+          "symbol": "FA3",
+          "meaning": "FlashAttention-3, cách triển khai attention được thử cho decode ở đây. FA3 vẫn được dùng cho prefill H100 trong cặp này."
+        },
+        {
+          "symbol": "FlashInfer",
+          "meaning": "Cách triển khai attention decode làm đối chứng trong cặp khớp điều kiện."
+        },
+        {
+          "symbol": "TTFT",
+          "meaning": "Time to first token, thời gian từ lúc bắt đầu request đến khi token trả lời đầu tiên xuất hiện."
+        },
+        {
+          "symbol": "ITL",
+          "meaning": "Inter-token latency, khoảng thời gian giữa hai token sinh liên tiếp. Tăng nhẹ lặp qua câu trả lời dài có thể làm tổng thời gian tăng đáng kể."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Tốc độ request đạt quy tắc độ trễ dịch vụ, đổi ra token đầu ra tốt/giây. Chỉ số này bao quát hơn độ trễ lúc bắt đầu."
+        },
+        {
+          "symbol": "H100 N54",
+          "meaning": "Hệ H100 với mục tiêu 54 request client đồng thời; không phải điểm vận hành H200 N64."
+        },
+        {
+          "symbol": "cặp khớp điều kiện",
+          "meaning": "Hai lần chạy chỉ có một thay đổi dự định, còn workload/cấu hình khác được căn chỉnh. Một cặp hỗ trợ so sánh cục bộ, không xếp hạng phổ quát."
+        }
+      ],
+      "reading": [
+        "FlashInfer → FA3: token đầu ra tốt/giây 2.420,945 → 2.401,284; TTFT trung bình 713,199 → 594,276 ms; ITL trung bình 18,214 → 18,988 ms; độ trễ request trung bình 4.337,853 → 4.372,813 ms.",
+        "Cả hai lần chạy qua kiểm tra protocol, runtime và đầu ra do nhóm xem xét trên cluster được giao; FA3 được xác nhận hoạt động trên cả tám rank decode. Điều đó chứng minh can thiệp đã chạy, không chứng minh nó cải thiện dịch vụ.",
+        "Đỉnh H100 lịch sử 2,433.019859 và đối chứng N54 mới 2,399.186728 chỉ là bối cảnh, không phải hai nhánh của cặp này. Chúng không tạo hệ số quy đổi H100/H200."
+      ],
+      "tradeoff": {
+        "observation": "FA3 cải thiện TTFT trung bình 118,922 ms nhưng làm ITL tăng 0,773 ms, độ trễ request tăng 34,960 ms; goodput giảm 0,812%.",
+        "hypothesis": "Đổi attention decode có thể làm chi phí lúc bắt đầu và chi phí mỗi token biến động ngược chiều.",
+        "conclusion": "Giữ FlashInfer cho cấu hình decode H100 đã thử; FA3 tiếp tục dùng cho prefill.",
+        "unknown": "Một cặp khớp điều kiện không xếp hạng backend nói chung hay cô lập chính xác nguyên nhân ở mức kernel."
+      },
+      "script": "FA3 giúp token đầu đến sớm hơn khoảng 119 mili giây. Nhưng khoảng cách giữa các token sau dài hơn một chút. Với câu trả lời dài, những khoảng tăng này cộng lại: độ trễ request trung bình tăng khoảng 35 mili giây và goodput giảm khoảng 0,81 phần trăm. Cả hai lần đo được nhóm kiểm tra trên cluster H100 được giao; FA3 chạy trên đủ rank decode. Với cấu hình này, nhóm giữ FlashInfer cho decode, không xếp hạng thư viện cho mọi workload.",
+      "caution": "Không chọn backend chỉ từ TTFT, không khái quát kết quả 0,812% của một cặp, và không so trực tiếp đỉnh H100 với kết quả H200.",
+      "transition": "Backup tiếp theo kiểm tra liệu tiết kiệm thời gian khởi động còn giữ được khi đảo thứ tự chạy hay không."
+    }
+  },
+  {
+    "slide": 27,
+    "title": "Backup · does a startup saving survive reversed order?",
+    "en": {
+      "hardware": "H100 · NSCC · startup prefetch comparison",
+      "brief": "Read-first initially reduced scheduler walltime by 18.74%, but the reversed-order confirmation saved only 9.84%, below the predeclared 10% threshold. Goodput changed slightly in both pairs; unknown cache state prevents a cold-storage causal claim.",
+      "purpose": "Teach why a favorable first pair is not enough for adopting a startup optimization: execution order, cache state, nodes, and the predeclared cost threshold affect interpretation.",
+      "visual": "Compare the first pair with the reversed-order confirmation. In the first pair, off/read-first walltime was 934/759 seconds, a reported 18.74% saving, while goodput fell 0.659%. In the reverse-order pair, walltime was 854/770 seconds, a 9.84% saving, and goodput changed −0.326388%. The planned rule required at least 10% walltime saving and at most 2% goodput loss. The reverse pair meets the throughput tolerance but misses the walltime requirement. Scheduler walltime includes startup and cleanup; it is not the 120-second steady-state score window.",
+      "terms": [
+        {
+          "symbol": "read-first",
+          "meaning": "Read the prefill checkpoint before the measured serving phase to test whether startup can be shortened."
+        },
+        {
+          "symbol": "scheduler walltime",
+          "meaning": "Elapsed time for the whole scheduled job, including startup and cleanup. It is not steady-state goodput or the scored profiling window."
+        },
+        {
+          "symbol": "reversed-order confirmation",
+          "meaning": "Repeat the paired conditions in the opposite order to check whether order or warm cache influenced the first result."
+        },
+        {
+          "symbol": "predeclared threshold",
+          "meaning": "A decision rule written before seeing the confirmation result: save at least 10% walltime and lose no more than 2% goodput."
+        },
+        {
+          "symbol": "cold prefix vs cold OS cache",
+          "meaning": "Cold prefix means no reusable prompt/KV prefix. Cold OS cache means checkpoint file pages are not already in memory. This experiment did not verify cold OS cache."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Throughput of requests meeting the joint latency rule; it is separate from total job walltime."
+        }
+      ],
+      "reading": [
+        "The first pair looked favorable for startup time but had a 0.659% goodput loss. The reversed pair cut the apparent saving below the 10% decision threshold.",
+        "The reverse pair's 0.326388% goodput change is within the stated 2% tolerance, but that alone cannot rescue the branch because the walltime threshold was missed.",
+        "Node differences and unverified file-cache state mean the result cannot be assigned to cold storage. A cold prefix is a model KV-cache condition and is not the same as cold filesystem pages."
+      ],
+      "tradeoff": {
+        "observation": "Read-first saved 18.74% walltime in the first order but 9.84% after reversing the order; goodput changed −0.659% and −0.326388%, respectively.",
+        "hypothesis": "Reading prefill weights before measured startup may reduce startup walltime.",
+        "conclusion": "The reverse-order confirmation missed the predeclared 10% saving threshold, so the team did not adopt the change.",
+        "unknown": "Unverified OS cache state and node differences prevent a causal cold-storage explanation."
+      },
+      "script": "Reading weights before serving first appeared to save about 19 percent of job time. But the team repeated the pair in reverse order. The saving fell to 9.84 percent, below the 10-percent requirement set in advance. The small goodput change stayed within its tolerance, but the main time-saving rule was missed. We therefore did not adopt read-first from the favorable first pair. We also cannot blame cold storage because file-cache state was not verified.",
+      "caution": "Do not equate scheduler walltime with scored serving time, call prompt-prefix cache a filesystem cache, or claim cold-storage causality.",
+      "transition": "Next, review source-supported full-model changes that were tested but did not meet their useful-gain criteria."
+    },
+    "vi": {
+      "hardware": "H100 · NSCC · so sánh prefetch lúc khởi động",
+      "brief": "Read-first ban đầu giảm walltime scheduler 18,74%, nhưng phép xác nhận đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã đặt. Goodput đổi nhẹ ở cả hai cặp; cache chưa rõ nên không thể kết luận nguyên nhân do lưu trữ lạnh.",
+      "purpose": "Giải thích vì sao một cặp đo thuận lợi chưa đủ để chọn tối ưu khởi động: thứ tự chạy, trạng thái cache, node và ngưỡng chi phí đặt trước đều ảnh hưởng cách diễn giải.",
+      "visual": "So sánh cặp đầu với lần xác nhận đảo thứ tự. Ở cặp đầu, walltime off/read-first là 934/759 giây, tiết kiệm 18,74%, còn goodput giảm 0,659%. Ở cặp đảo thứ tự, walltime là 854/770 giây, tiết kiệm 9,84%, goodput đổi −0,326388%. Quy tắc đặt trước yêu cầu tiết kiệm walltime ít nhất 10% và mất không quá 2% goodput. Cặp đảo đạt dung sai thông lượng nhưng không đạt yêu cầu walltime. Walltime scheduler gồm khởi động và dọn dẹp; nó không phải cửa sổ điểm serving ổn định 120 giây.",
+      "terms": [
+        {
+          "symbol": "read-first",
+          "meaning": "Đọc checkpoint prefill trước pha serving được tính điểm để thử xem có rút ngắn khởi động không."
+        },
+        {
+          "symbol": "walltime scheduler",
+          "meaning": "Thời gian thực của cả job đã lập lịch, gồm startup và cleanup. Nó khác goodput ổn định và cửa sổ profiling được chấm."
+        },
+        {
+          "symbol": "xác nhận đảo thứ tự",
+          "meaning": "Chạy lại hai điều kiện theo thứ tự ngược để kiểm tra thứ tự hoặc cache ấm có ảnh hưởng kết quả đầu không."
+        },
+        {
+          "symbol": "ngưỡng định trước",
+          "meaning": "Quy tắc quyết định viết trước khi xem kết quả xác nhận: tiết kiệm ít nhất 10% walltime và mất không quá 2% goodput."
+        },
+        {
+          "symbol": "prefix lạnh và cache hệ điều hành lạnh",
+          "meaning": "Prefix lạnh nghĩa là không tái dùng tiền tố/KV prompt. Cache hệ điều hành lạnh nghĩa là trang file checkpoint chưa ở bộ nhớ. Thí nghiệm không xác minh cache hệ điều hành lạnh."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Thông lượng request đạt quy tắc độ trễ kết hợp; khác với walltime toàn job."
+        }
+      ],
+      "reading": [
+        "Cặp đầu có vẻ thuận lợi cho thời gian khởi động nhưng goodput giảm 0,659%. Cặp đảo thứ tự làm mức tiết kiệm thấp hơn ngưỡng quyết định 10%.",
+        "Goodput của cặp đảo đổi 0,326388%, vẫn trong dung sai 2%; điều đó không cứu được nhánh vì ngưỡng walltime chính không đạt.",
+        "Node khác nhau và trạng thái cache file chưa kiểm chứng nên không thể quy kết quả cho lưu trữ lạnh. Prefix lạnh là trạng thái KV cache của model, không phải trang file lạnh của hệ thống tệp."
+      ],
+      "tradeoff": {
+        "observation": "Read-first tiết kiệm 18,74% walltime ở thứ tự đầu nhưng chỉ 9,84% sau khi đảo; goodput đổi −0,659% và −0,326388%, tương ứng.",
+        "hypothesis": "Đọc trọng số prefill trước khi startup được đo có thể giảm walltime khởi động.",
+        "conclusion": "Lần xác nhận đảo thứ tự không đạt ngưỡng tiết kiệm 10% đã đặt trước, nên nhóm không chọn thay đổi này.",
+        "unknown": "Cache hệ điều hành chưa xác minh và node khác nhau nên chưa thể giải thích nhân quả là do lưu trữ lạnh."
+      },
+      "script": "Đọc trọng số trước khi phục vụ ban đầu có vẻ tiết kiệm khoảng 19 phần trăm thời gian job. Nhưng nhóm lặp lại cặp thử theo thứ tự ngược. Mức tiết kiệm còn 9,84 phần trăm, thấp hơn yêu cầu 10 phần trăm đặt trước. Goodput chỉ đổi nhẹ và vẫn trong dung sai, nhưng ngưỡng tiết kiệm chính không đạt. Vì vậy nhóm không chọn read-first chỉ dựa vào cặp đầu. Cache file chưa kiểm chứng nên cũng không thể quy cho lưu trữ lạnh.",
+      "caution": "Không đánh đồng walltime scheduler với thời gian serving được chấm, không gọi cache tiền tố prompt là cache hệ thống tệp, và không khẳng định nguyên nhân do lưu trữ lạnh.",
+      "transition": "Tiếp theo là các thay đổi full-model có căn cứ mã nguồn nhưng không đạt tiêu chí lợi ích hữu ích."
+    }
+  },
+  {
+    "slide": 28,
+    "title": "Backup · source-supported changes that did not win",
+    "en": {
+      "hardware": "H200 · full-model serving comparisons",
+      "brief": "Several H200 changes were activated and measured, but gains were small, negative, or worse in a tail metric. For example, a prefill attention change lost 6.385% goodput. A working flag is not enough to replace the selected configuration.",
+      "purpose": "Show how the team used source inspection, runtime activation checks, matched controls, and output review to decide whether small interventions deserved adoption.",
+      "visual": "The rows are independent hypotheses, not pieces of one cumulative optimization. Source review first identified a setting the runtime could consume; logs then confirmed activation; full serving runs measured the result. A small positive goodput change can fall below a useful threshold or worsen p95 first-token latency. Negative and neutral results therefore answer the research question: functionality is necessary, but only improvement in the service objective justifies changing the retained configuration.",
+      "terms": [
+        {
+          "symbol": "source inspection",
+          "meaning": "Reading implementation code to see whether a setting is supported and which code path it selects. It predicts behavior but does not prove the runtime used it."
+        },
+        {
+          "symbol": "runtime activation check",
+          "meaning": "Evidence in logs or per-rank state that the intended backend or option actually ran during the measured job."
+        },
+        {
+          "symbol": "matched control",
+          "meaning": "A comparison run with the intended factor changed and workload/configuration otherwise held sufficiently constant."
+        },
+        {
+          "symbol": "useful-gain threshold",
+          "meaning": "A preselected minimum improvement that makes the operational change worth keeping; a tiny positive percentage may be noise or too small to matter."
+        },
+        {
+          "symbol": "p95 TTFT",
+          "meaning": "The 95th-percentile time to first token. It measures a slow tail, which can worsen even when mean latency improves."
+        },
+        {
+          "symbol": "TRT-LLM / MNNVL",
+          "meaning": "Alternative collective communication backends; selecting one is a configuration change whose activation and full-run result must be checked."
+        },
+        {
+          "symbol": "ChunkCache / RadixCache",
+          "meaning": "Prefill cache implementations compared in a full serving pair; the small goodput difference came with worse p95 TTFT for ChunkCache."
+        },
+        {
+          "symbol": "page 1 attention",
+          "meaning": "A prefill FlashInfer setting affecting the first attention page; the tested change reduced ITL but lost goodput."
+        }
+      ],
+      "reading": [
+        "Tokenizer wait changes measured +0.192% and +0.270%; the team kept tokenizer batching off. Switching the auto-selected prefill collective from TRT-LLM to MNNVL activated on all eight prefill ranks but gained only +0.109807% in full run 27138.",
+        "Prefill RadixCache to ChunkCache gained +0.240921%, but p95 TTFT worsened, so RadixCache stayed. Request-cap and polling comparisons were +0.26% or negative and did not demonstrate useful gain.",
+        "Prefill FlashInfer page 1 reduced ITL but lost 6.385% goodput. Percentages belong to separate branches; do not add them as if they were components of one run."
+      ],
+      "tradeoff": {
+        "observation": "Changes had source/runtime checks and full serving observations, but measured gains were small, negative, or mixed with worse tail latency.",
+        "hypothesis": "Changes in tokenization, collective, cache, request cap, polling, or attention might improve goodput.",
+        "conclusion": "Keep a change only when the intended path ran and a controlled service comparison improves the objective enough to matter.",
+        "unknown": "Small single-run differences may reflect run variation; these rows do not establish a CPU bottleneck or universal feature ranking."
+      },
+      "script": "These are separate full-model tests, not source-only guesses. The team checked that an option was supported, verified it actually activated, then measured serving against a control. A few changes were slightly positive, but gains were too small or came with worse tail latency. The prefill attention change lost about 6.4 percent goodput. So the existing choices stayed: a working flag is not enough unless the service objective improves.",
+      "caution": "Do not add percentages from separate branches, treat runtime activation as a speedup, or call a small positive single-run change a robust win.",
+      "transition": "The next backup limits kernel and source leads to the evidence they actually produced."
+    },
+    "vi": {
+      "hardware": "H200 · các so sánh serving toàn model",
+      "brief": "Một số thay đổi H200 đã được kích hoạt và đo, nhưng mức tăng nhỏ, âm hoặc làm xấu chỉ số đuôi. Chẳng hạn, thay attention prefill làm goodput giảm 6,385%. Cờ hoạt động được chưa đủ để đổi cấu hình đang chọn.",
+      "purpose": "Cho thấy nhóm dùng đọc mã nguồn, xác nhận runtime kích hoạt, control ghép cặp và xem đầu ra để quyết định can thiệp nhỏ có đáng chọn hay không.",
+      "visual": "Các hàng là giả thuyết độc lập, không phải phần của một tối ưu tích lũy. Đọc mã nguồn cho biết runtime có thể dùng cài đặt; log xác nhận nó thực sự chạy; run serving đầy đủ mới đo kết quả. Goodput tăng nhẹ vẫn có thể dưới ngưỡng hữu ích hoặc làm xấu p95 TTFT. Vì vậy kết quả âm và trung tính cũng trả lời câu hỏi: tính năng hoạt động là điều kiện cần, nhưng chỉ cải thiện mục tiêu dịch vụ mới biện minh đổi cấu hình đang giữ.",
+      "terms": [
+        {
+          "symbol": "đọc mã nguồn",
+          "meaning": "Đọc code để biết cài đặt được hỗ trợ và chọn nhánh nào. Việc này dự đoán hành vi nhưng không chứng minh runtime đã dùng nó."
+        },
+        {
+          "symbol": "kiểm tra kích hoạt runtime",
+          "meaning": "Bằng chứng trong log hoặc trạng thái từng rank cho thấy backend/cờ dự định đã chạy trong job đo."
+        },
+        {
+          "symbol": "control ghép cặp",
+          "meaning": "Lần đối chứng chỉ đổi yếu tố dự định, còn workload/cấu hình khác được giữ đủ giống để so sánh."
+        },
+        {
+          "symbol": "ngưỡng tăng hữu ích",
+          "meaning": "Mức cải thiện tối thiểu đặt trước để đáng giữ thay đổi vận hành; phần trăm dương rất nhỏ có thể là nhiễu hoặc không đủ quan trọng."
+        },
+        {
+          "symbol": "p95 TTFT",
+          "meaning": "Phân vị 95 của thời gian tới token đầu. Nó đo đuôi chậm, có thể xấu đi dù độ trễ trung bình tốt hơn."
+        },
+        {
+          "symbol": "TRT-LLM / MNNVL",
+          "meaning": "Hai backend giao tiếp collective thay thế nhau; chọn một backend cần xác nhận kích hoạt và đo toàn serving."
+        },
+        {
+          "symbol": "ChunkCache / RadixCache",
+          "meaning": "Hai cách cache prefill được so trong cặp serving đầy đủ; chênh goodput nhỏ đi kèm p95 TTFT của ChunkCache xấu hơn."
+        },
+        {
+          "symbol": "attention page 1",
+          "meaning": "Cài đặt FlashInfer prefill tác động trang attention đầu; thay đổi đã thử giảm ITL nhưng mất goodput."
+        }
+      ],
+      "reading": [
+        "Thay đổi thời gian chờ tokenizer đo +0,192% và +0,270%; nhóm giữ batching tokenizer tắt. Đổi collective prefill runtime tự chọn từ TRT-LLM sang MNNVL kích hoạt trên tám rank prefill nhưng chỉ tăng +0,109807% ở full run 27138.",
+        "Đổi RadixCache sang ChunkCache cho prefill tăng +0,240921%, nhưng p95 TTFT xấu hơn nên giữ RadixCache. So sánh giới hạn request và polling tăng +0,26% hoặc âm, chưa chứng minh lợi ích hữu ích.",
+        "FlashInfer prefill page 1 giảm ITL nhưng mất 6,385% goodput. Các phần trăm thuộc nhánh riêng, không cộng như thành phần của một lần chạy."
+      ],
+      "tradeoff": {
+        "observation": "Thay đổi được kiểm tra mã nguồn/runtime và có quan sát serving đầy đủ, nhưng mức tăng nhỏ, âm hoặc pha trộn với đuôi độ trễ xấu hơn.",
+        "hypothesis": "Thay đổi tokenizer, collective, cache, giới hạn request, polling hoặc attention có thể tăng goodput.",
+        "conclusion": "Chỉ giữ thay đổi khi đường dự định thật sự chạy và so sánh có kiểm soát cải thiện mục tiêu đủ đáng kể.",
+        "unknown": "Chênh lệch nhỏ từ một lần chạy có thể do biến động; các hàng không xác lập bottleneck CPU hay xếp hạng tính năng phổ quát."
+      },
+      "script": "Đây là các phép thử toàn model riêng, không chỉ là phỏng đoán từ source. Nhóm kiểm tra cài đặt có được hỗ trợ, xác nhận nó thật sự kích hoạt, rồi đo serving so với control. Một vài thay đổi dương nhẹ nhưng lợi ích quá nhỏ hoặc đi cùng đuôi độ trễ xấu hơn. Thay attention prefill còn làm mất khoảng 6,4 phần trăm goodput. Vì vậy nhóm giữ lựa chọn cũ: cờ hoạt động chưa đủ nếu mục tiêu dịch vụ không tốt hơn.",
+      "caution": "Không cộng phần trăm từ nhánh riêng, coi runtime kích hoạt là tăng tốc, hay gọi mức tăng nhỏ trong một lần đo là chiến thắng bền vững.",
+      "transition": "Slide kế tiếp giới hạn các đầu mối kernel và mã nguồn theo đúng bằng chứng chúng tạo ra."
+    }
+  },
+  {
+    "slide": 29,
+    "title": "Backup · scope limits of kernel and source evidence",
+    "en": {
+      "hardware": "H200 + H100 + CPU · separate evidence rows",
+      "brief": "The 2,549.20 N52 attention package changed several factors; representative Triton probes, CPU fixtures, and source review answer narrower questions. Full Qwen compilation stopped at a RoPE/KV assertion. None alone proves a full-model serving gain.",
+      "purpose": "Answer what kernel names, profiles, and source inspection can establish, and prevent a component result on one hardware family from being mistaken for full-model evidence on another.",
+      "visual": "Read each row as an evidence boundary. The N52 H200 attention package is a real serving score but has coupled changes. H100 Triton probes test selected kernel shapes, not every model shape. SM budgets are bounded kernel/runtime checks, not model-level speed results. NCCL logs corrected an earlier interpretation: the label LL did not mean the tested control used that low-latency protocol for all messages. The real Qwen compile reached a native RoPE/fused-KV assertion before scoring. C++ CPU fixtures and source findings are narrower still. Mixing these rows would mix H200, H100, and CPU evidence.",
+      "terms": [
+        {
+          "symbol": "attention-DP package",
+          "meaning": "An H200 N52 full-serving configuration combining attention data parallelism with DeepGEMM/DeepEP; several factors changed together, so attribution is coupled."
+        },
+        {
+          "symbol": "Triton probe",
+          "meaning": "A small GPU-kernel test on representative shapes. Losing on those shapes is evidence about those shapes, not every Qwen operation."
+        },
+        {
+          "symbol": "SM budget",
+          "meaning": "A limit on GPU streaming multiprocessors available to a kernel. A kernel/runtime result may not transfer to whole-service goodput."
+        },
+        {
+          "symbol": "NCCL LL / Simple",
+          "meaning": "Two collective communication protocols. The label LL alone did not prove LL was selected; logs showed Simple selected for the relevant large-message control."
+        },
+        {
+          "symbol": "torch.compile / RoPE / fused-KV",
+          "meaning": "PyTorch compilation of the real model stopped when rotary position encoding met an unsupported fused key-value-cache interface. No full-model score resulted."
+        },
+        {
+          "symbol": "C++ fixture",
+          "meaning": "A CPU test of helper/cache code. It can catch arithmetic or API behavior but does not load the Qwen model or serve on GPUs."
+        },
+        {
+          "symbol": "source finding",
+          "meaning": "Code review showing that a flag or API has, lacks, or may have a consumer. It does not prove activation at runtime."
+        },
+        {
+          "symbol": "hardware scope",
+          "meaning": "H200 package scores, H100 kernel probes, and CPU fixtures are distinct evidence and must not be merged into one comparison."
+        }
+      ],
+      "reading": [
+        "The H200 N52 attention-DP plus DeepGEMM/DeepEP package scored 2,549.20, below the retained MNNVL point; coupled settings block one-factor attribution.",
+        "Representative H100 FP8 Triton probes lost to DeepGEMM in tested shapes. H100 SM budgets 80/96/120 were mixed or below consistency criteria; 132 was retained without claiming a model gain.",
+        "The small 0.2315% NCCL point did not justify adoption after logs showed the control already selected Simple for large messages. Qwen compile failed before score; CPU fixtures did not test serving."
+      ],
+      "tradeoff": {
+        "observation": "Evidence ranges from one H200 serving score through H100 kernel/resource probes to CPU-only helpers and source review; their scopes differ.",
+        "hypothesis": "Alternative kernels, communication protocols, resource budgets, or APIs might improve a specific part of serving.",
+        "conclusion": "Use component evidence to select a full-model test only when the code path and hardware support it; do not claim service improvement from probes or source alone.",
+        "unknown": "Untested shapes and configurations may differ. The failed Qwen compile and CPU tests leave full-model compatibility and performance unresolved."
+      },
+      "script": "This slide mixes evidence from H200, H100, and CPU, so keep the scopes separate. The attention package is a real H200 serving score, but it changed multiple factors. Triton probes cover selected H100 kernel shapes. CPU fixtures check helper code only. The full Qwen compile stopped at a position-encoding and KV-cache interface assertion and produced no score. These results help rule out or prioritize ideas; none alone proves faster full-model serving.",
+      "caution": "Do not combine H200, H100, and CPU results, generalize representative kernels to all shapes, infer protocol from a kernel label, or invent a score for the failed compile.",
+      "transition": "The next backup collects the actual H200 and H100 settings that the team retained."
+    },
+    "vi": {
+      "hardware": "H200 + H100 + CPU · các hàng bằng chứng riêng biệt",
+      "brief": "Gói attention N52 đạt 2.549,20 nhưng đổi nhiều yếu tố; Triton probe, fixture CPU và đọc mã nguồn trả lời câu hỏi hẹp hơn. Compile Qwen đầy đủ dừng ở assertion RoPE/KV. Không bằng chứng nào trong số đó tự chứng minh serving toàn model tăng tốc.",
+      "purpose": "Trả lời kernel, profile và đọc mã nguồn chứng minh được điều gì, đồng thời tránh nhầm kết quả thành phần trên một họ phần cứng với bằng chứng toàn mô hình ở hệ khác.",
+      "visual": "Đọc mỗi hàng như một ranh giới bằng chứng. Gói attention H200 N52 là điểm serving thật nhưng đổi nhiều yếu tố cùng lúc. Triton probe H100 thử một số dạng kernel, không phải mọi dạng của model. Ngân sách SM là kiểm tra kernel/runtime giới hạn, không phải tốc độ toàn model. Log NCCL sửa cách hiểu trước đây: nhãn LL không có nghĩa control được thử dùng giao thức độ trễ thấp cho mọi thông điệp. Compile Qwen thật tới assertion native RoPE/fused-KV trước khi chấm điểm. Fixture C++ CPU và nhận xét source có phạm vi hẹp hơn nữa. Gộp các hàng này sẽ trộn bằng chứng H200, H100 và CPU.",
+      "terms": [
+        {
+          "symbol": "gói attention-DP",
+          "meaning": "Cấu hình serving H200 N52 kết hợp attention data parallel với DeepGEMM/DeepEP; nhiều yếu tố đổi cùng lúc nên không tách được đóng góp riêng."
+        },
+        {
+          "symbol": "Triton probe",
+          "meaning": "Phép thử kernel GPU nhỏ trên dạng đại diện. Thua ở các dạng đó chỉ là bằng chứng cho các dạng ấy, không phải mọi phép toán Qwen."
+        },
+        {
+          "symbol": "ngân sách SM",
+          "meaning": "Giới hạn streaming multiprocessor GPU được kernel dùng. Kết quả kernel/runtime có thể không chuyển thành goodput toàn dịch vụ."
+        },
+        {
+          "symbol": "NCCL LL / Simple",
+          "meaning": "Hai giao thức giao tiếp collective. Chỉ nhãn LL chưa chứng minh LL được chọn; log cho thấy control liên quan chọn Simple cho thông điệp lớn."
+        },
+        {
+          "symbol": "torch.compile / RoPE / fused-KV",
+          "meaning": "Biên dịch PyTorch cho model thật dừng khi mã hóa vị trí xoay gặp giao diện cache key-value hợp nhất không được hỗ trợ. Không có điểm mô hình đầy đủ."
+        },
+        {
+          "symbol": "fixture C++",
+          "meaning": "Phép thử CPU cho helper/cache. Nó phát hiện lỗi số học hoặc API nhưng không tải Qwen hay phục vụ request trên GPU."
+        },
+        {
+          "symbol": "nhận xét source",
+          "meaning": "Đọc code cho thấy cờ/API có thể có hoặc không có nơi sử dụng. Điều đó không chứng minh runtime đã kích hoạt."
+        },
+        {
+          "symbol": "phạm vi phần cứng",
+          "meaning": "Điểm serving H200, probe kernel H100 và fixture CPU là bằng chứng khác phạm vi, không gộp thành một so sánh."
+        }
+      ],
+      "reading": [
+        "Gói attention-DP cộng DeepGEMM/DeepEP trên H200 N52 đạt 2.549,20, thấp hơn điểm MNNVL được giữ; các cài đặt ghép không cho phép quy một yếu tố.",
+        "Probe FP8 Triton đại diện trên H100 thua DeepGEMM ở các dạng đã thử. Ngân sách SM 80/96/120 pha trộn hoặc không đạt tiêu chí ổn định; giữ 132 mà không khẳng định model tăng tốc.",
+        "Điểm NCCL nhỏ 0,2315% không đủ để chọn sau khi log cho thấy control đã chọn Simple với thông điệp lớn. Compile Qwen lỗi trước khi có điểm; fixture CPU không thử serving."
+      ],
+      "tradeoff": {
+        "observation": "Bằng chứng trải từ điểm serving H200 qua probe kernel/tài nguyên H100 đến helper CPU và đọc source; phạm vi của chúng khác nhau.",
+        "hypothesis": "Kernel, giao thức giao tiếp, ngân sách tài nguyên hoặc API khác có thể cải thiện một phần cụ thể của serving.",
+        "conclusion": "Dùng bằng chứng thành phần để chọn phép thử toàn model khi code path và phần cứng hỗ trợ; không tuyên bố dịch vụ tốt hơn chỉ từ probe hay source.",
+        "unknown": "Dạng và cấu hình chưa thử có thể khác. Compile Qwen thất bại cùng test CPU chưa giải quyết tương thích hay hiệu năng toàn model."
+      },
+      "script": "Slide này trộn bằng chứng H200, H100 và CPU nên cần giữ phạm vi riêng. Gói attention là điểm serving H200 thật nhưng đổi nhiều yếu tố. Triton probe chỉ thử một số dạng kernel H100. Fixture CPU chỉ kiểm helper. Compile Qwen thật dừng ở assertion giữa mã hóa vị trí và giao diện KV, không có điểm. Những kết quả này giúp loại bỏ hoặc ưu tiên ý tưởng; không cái nào tự chứng minh serving toàn model nhanh hơn.",
+      "caution": "Không gộp kết quả H200, H100 và CPU, không khái quát kernel đại diện cho mọi dạng, không suy giao thức từ nhãn kernel, và không tự thêm điểm cho compile thất bại.",
+      "transition": "Backup tiếp theo tổng hợp cài đặt H200 và H100 thực tế được nhóm giữ lại."
+    }
+  },
+  {
+    "slide": 30,
+    "title": "Backup · the retained settings on each platform",
+    "en": {
+      "hardware": "H200 N64 · H100 N54",
+      "brief": "The retained H200 setup uses N64, two TP4 DeepGEMM prefill workers with chunk 8,192, and TP8/EP8 HPC-Ops decode. H100 is separate: N54, HPC-Ops prefill with chunk 4,096, and its own measured settings.",
+      "purpose": "Provide exact deployment context so earlier results can be interpreted without mixing platform settings or treating configuration labels as performance evidence.",
+      "visual": "Read columns within each platform, not across H200 and H100 as if they were a matched benchmark. Both use target-model FP8 weights, BF16 activations and KV state, TP8/EP8 decode, FlashInfer decode attention, MNNVL collectives, and round-robin routing to two prefill workers. The H200 choice is N64 with DeepGEMM prefill, chunk 8,192, and dense decode graph buckets 1–64. H100 is N54 with HPC-Ops prefill and chunk 4,096. The table defines the operating points; it does not claim equal capacity or rank hardware performance.",
+      "terms": [
+        {
+          "symbol": "H200 N64 / H100 N54",
+          "meaning": "GPU platform plus client concurrency target: 64 requests for H200, 54 for the separate H100 configuration."
+        },
+        {
+          "symbol": "prefill / decode",
+          "meaning": "Prefill processes prompt tokens; decode generates response tokens autoregressively, one step at a time."
+        },
+        {
+          "symbol": "TP / EP",
+          "meaning": "Tensor parallelism splits tensor operations across GPUs. Expert parallelism distributes MoE experts; retained decode uses TP8/EP8."
+        },
+        {
+          "symbol": "DeepGEMM / HPC-Ops",
+          "meaning": "DeepGEMM is selected H200 prefill backend. HPC-Ops is used for decode on both systems and prefill on H100."
+        },
+        {
+          "symbol": "FP8 / BF16",
+          "meaning": "Weights use 8-bit floating point; activations and KV cache use 16-bit brain floating point. They describe different model data."
+        },
+        {
+          "symbol": "FlashInfer / MNNVL",
+          "meaning": "FlashInfer implements decode attention; MNNVL handles GPU collective communication. They serve different functions."
+        },
+        {
+          "symbol": "round-robin",
+          "meaning": "The gateway sends successive requests to the two prefill workers in turn."
+        },
+        {
+          "symbol": "dense decode graphs",
+          "meaning": "The H200 configuration captures decode shapes 1 through 64. This is a graph-shape setting, not 64 concurrent requests."
+        }
+      ],
+      "reading": [
+        "H200: client concurrency 64; two TP4/EP1 prefill workers; DeepGEMM; chunk 8,192; one HPC-Ops TP8/EP8 decode worker.",
+        "H100: client concurrency 54; two TP4/EP1 HPC-Ops prefill workers; chunk 4,096; TP8/EP8 HPC-Ops decode. Keep H100 point separate from H200 scores.",
+        "Both use the listed weight/activation/KV precision and shared decode attention, collective, routing, and request-quality rules. Official full-set accuracy is not certified by this configuration table."
+      ],
+      "tradeoff": {
+        "observation": "The retained configurations share some decode and precision settings but differ in hardware, concurrency, prefill backend, and chunk size.",
+        "hypothesis": "Explicit platform-specific settings make the replicated operating points reproducible and interpretable.",
+        "conclusion": "Use the H200 N64 settings for the selected primary and report H100 N54 independently.",
+        "unknown": "This table does not establish that the settings are optimal or that performance transfers between platforms."
+      },
+      "script": "This table records two separate operating points. H200 uses 64 simultaneous requests, two groups of four GPUs to process prompts, and one eight-GPU decode worker with experts distributed across it. H100 uses 54 requests and a different prompt-processing backend and chunk. Both use FP8 weights and BF16 activations and KV cache. Shared components do not make the two performance series interchangeable.",
+      "caution": "Do not report H100 and H200 as a matched platform comparison or infer performance from precision and worker counts alone.",
+      "transition": "The next backup applies a shared workload protocol to a full prefill-chunk comparison."
+    },
+    "vi": {
+      "hardware": "H200 N64 · H100 N54",
+      "brief": "Cấu hình H200 dùng N64, hai worker prefill TP4 với DeepGEMM và chunk 8.192, cùng decode TP8/EP8 HPC-Ops. H100 là cấu hình riêng: N54, prefill HPC-Ops với chunk 4.096 và số đo riêng. Đây là mô tả cài đặt đã đo, không xác nhận chất lượng toàn tập.",
+      "purpose": "Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà không trộn cấu hình nền tảng hoặc coi nhãn cài đặt là bằng chứng hiệu năng.",
+      "visual": "Đọc các cột trong từng nền tảng, không coi H200 và H100 là benchmark ghép điều kiện. Cả hai dùng trọng số FP8, activation và KV BF16, decode TP8/EP8, FlashInfer cho attention decode, MNNVL cho collective và định tuyến vòng tròn tới hai worker prefill. Cấu hình H200 chọn N64, prefill DeepGEMM, chunk 8.192 và bucket graph decode dày từ 1 đến 64. H100 dùng N54, prefill HPC-Ops và chunk 4.096. Bảng định nghĩa điểm vận hành; nó không khẳng định năng lực tương đương hay xếp hạng phần cứng.",
+      "terms": [
+        {
+          "symbol": "H200 N64 / H100 N54",
+          "meaning": "Nền tảng GPU cùng mức concurrency client: 64 request ở H200, 54 ở cấu hình H100 riêng."
+        },
+        {
+          "symbol": "prefill / decode",
+          "meaning": "Prefill xử lý token prompt; decode sinh token trả lời tự hồi quy từng bước."
+        },
+        {
+          "symbol": "TP / EP",
+          "meaning": "Tensor parallelism chia phép toán tensor qua GPU. Expert parallelism phân phối chuyên gia MoE; decode được giữ dùng TP8/EP8."
+        },
+        {
+          "symbol": "DeepGEMM / HPC-Ops",
+          "meaning": "DeepGEMM là backend prefill được chọn trên H200. HPC-Ops dùng cho decode ở cả hai hệ và prefill ở H100."
+        },
+        {
+          "symbol": "FP8 / BF16",
+          "meaning": "Trọng số dùng số dấu phẩy động 8 bit; activation và KV cache dùng brain floating point 16 bit. Đây là các loại dữ liệu khác nhau."
+        },
+        {
+          "symbol": "FlashInfer / MNNVL",
+          "meaning": "FlashInfer triển khai attention decode; MNNVL xử lý giao tiếp collective GPU. Chúng có chức năng riêng."
+        },
+        {
+          "symbol": "round-robin",
+          "meaning": "Gateway gửi các request liên tiếp luân phiên tới hai worker prefill."
+        },
+        {
+          "symbol": "graph decode dày",
+          "meaning": "Cấu hình H200 capture dạng decode từ 1 đến 64. Đây là thiết lập dạng graph, không phải 64 request đồng thời."
+        }
+      ],
+      "reading": [
+        "H200: concurrency client 64; hai worker prefill TP4/EP1; DeepGEMM; chunk 8.192; một worker decode HPC-Ops TP8/EP8.",
+        "H100: concurrency 54; hai worker prefill TP4/EP1 HPC-Ops; chunk 4.096; decode HPC-Ops TP8/EP8. Điểm H100 cần tách khỏi điểm H200.",
+        "Cả hai dùng độ chính xác trọng số/activation/KV như đã nêu cùng attention decode, collective, định tuyến và quy tắc chất lượng request chung. Bảng không chứng nhận accuracy toàn tập chính thức."
+      ],
+      "tradeoff": {
+        "observation": "Các cấu hình được giữ có chung một số thiết lập decode và độ chính xác, nhưng khác phần cứng, concurrency, backend prefill và chunk.",
+        "hypothesis": "Ghi riêng cài đặt từng nền tảng giúp điểm vận hành lặp lại được và dễ diễn giải.",
+        "conclusion": "Dùng cài đặt H200 N64 cho cấu hình chính đã chọn và báo cáo H100 N54 độc lập.",
+        "unknown": "Bảng không xác lập các cài đặt là tối ưu hay hiệu năng chuyển đổi được giữa hai nền tảng."
+      },
+      "script": "Bảng ghi hai điểm vận hành riêng. H200 dùng 64 request đồng thời, hai nhóm bốn GPU xử lý prompt và một worker tám GPU decode có phân phối expert. H100 dùng 54 request, backend và chunk xử lý prompt khác. Cả hai dùng trọng số FP8 cùng activation và KV cache BF16. Thành phần chung không làm hai chuỗi hiệu năng có thể thay thế nhau.",
+      "caution": "Không trình bày H100 và H200 như phép so sánh khớp điều kiện hoặc suy hiệu năng chỉ từ precision và số worker.",
+      "transition": "Backup tiếp theo dùng cùng protocol workload để so sánh đầy đủ kích thước chunk prefill."
+    }
+  },
+  {
+    "slide": 31,
+    "title": "Backup · workload control and prefill chunk trial",
+    "en": {
+      "hardware": "H200 · full N64 prefill chunk study · jobs 26766/26768/26770",
+      "brief": "Under the same full N64 workload, increasing prefill chunk from 8,192 to 12,288 reduced goodput from 3,045.50 to 3,020.94 tokens/s and worsened p95 TTFT. Each setting has one reviewed H200 run; this does not establish a global optimum.",
+      "purpose": "Explain the benchmark protocol behind the chunk table so its negative result is interpreted as a controlled, bounded comparison rather than a claim about all workloads.",
+      "visual": "The table compares three full runs with the same target concurrency, requested prompt/answer lengths, seed, cold-prefix setting, model, precision, and runtime path. Only prefill chunk size changes: 8,192, 10,240, or 12,288 input tokens handled together. Read good output tokens/s as qualifying throughput, joint SLA as the fraction meeting both limits, and p95 TTFT as the slow-response tail. Goodput and the tail both worsen at larger chunks. One run per setting supports retaining 8,192 for this configuration, but cannot identify a general optimum.",
+      "terms": [
+        {
+          "symbol": "4,000 / 200 requested tokens",
+          "meaning": "The client requests 4,000 input and 200 output tokens. Requested lengths do not prove actual token IDs consumed/generated for every request."
+        },
+        {
+          "symbol": "closed-loop N64",
+          "meaning": "The client keeps 64 requests in flight, replacing each completion with another request."
+        },
+        {
+          "symbol": "60/120/30 protocol",
+          "meaning": "60 seconds warmup, 120 seconds scored profiling, and 30 seconds grace. Only profiling is scored; grace drains outstanding requests."
+        },
+        {
+          "symbol": "cold prefix",
+          "meaning": "The request does not reuse a warm prompt-prefix KV-cache entry. This does not by itself mean filesystem cache is cold."
+        },
+        {
+          "symbol": "chunk size",
+          "meaning": "Input tokens processed together in one prefill scheduling unit; it is not concurrent request count."
+        },
+        {
+          "symbol": "SLA / p95 TTFT",
+          "meaning": "SLA is the share satisfying both request latency limits. p95 TTFT is the 95th-percentile wait for first token, showing the slow tail."
+        },
+        {
+          "symbol": "team-reviewed local result",
+          "meaning": "Here, local means run and reviewed by the team on the assigned H200 cluster. It is not a laptop run or organizer approval."
+        },
+        {
+          "symbol": "one run per setting",
+          "meaning": "Each chunk size is one experimental configuration with one full run; run order and engine-generated seeds may contribute to differences."
+        }
+      ],
+      "reading": [
+        "At chunk 8,192, job 26766 scored 3,045.501509 good output tokens/s, 98.580% joint SLA, and 1,311.69 ms p95 TTFT. At 10,240, job 26768 scored 3,034.088251, 98.524%, and 1,518.87 ms.",
+        "At 12,288, job 26770 scored 3,020.943099, 98.310%, and 1,624.12 ms. All three were full N64 runs with the same 60/120/30 schedule and requested 4,000/200 workload; each chunk setting was observed once.",
+        "The runs passed team protocol, runtime, latency, and output checks with zero profiling errors/cancellations. That is a reviewed result on the assigned cluster, not organizer quality certification."
+      ],
+      "tradeoff": {
+        "observation": "Goodput decreases from 3,045.50 to 3,020.94 tokens/s and p95 TTFT increases from 1,311.69 to 1,624.12 ms as chunk grows from 8,192 to 12,288.",
+        "hypothesis": "A larger prefill chunk might increase throughput by handling more input tokens per scheduling batch.",
+        "conclusion": "Retain 8,192 for this service configuration; the tested larger chunks did not improve the objective.",
+        "unknown": "One run per chunk makes the comparison bounded; it does not establish a global optimum or rule out order/seed variation."
+      },
+      "script": "All three runs used 64 simultaneous requests, the same requested 4,000 input and 200 output tokens, and the full warmup, profiling, and grace schedule. Only the prompt-processing chunk changed. Goodput fell from about 3,045 to 3,021 as chunk grew, and the slow first-token tail worsened. The team checked these runs on the assigned H200 cluster, but one run per size cannot prove a universal best setting. We keep 8,192 for this deployment.",
+      "caution": "Passing team checks is not organizer approval. Do not infer actual token lengths from requests, count grace as scored time, or generalize one run per chunk to all workloads.",
+      "transition": "The final backup contrasts graph-capture resource savings with the service metric they were meant to support."
+    },
+    "vi": {
+      "hardware": "H200 · nghiên cứu chunk prefill N64 đầy đủ · jobs 26766/26768/26770",
+      "brief": "Cùng workload N64 đầy đủ, tăng chunk prefill từ 8.192 lên 12.288 làm goodput giảm từ 3.045,50 xuống 3.020,94 token/s và p95 TTFT xấu hơn. Mỗi cấu hình có một lần H200 được nhóm xem xét; chưa xác lập tối ưu chung.",
+      "purpose": "Giải thích protocol benchmark phía sau bảng chunk để kết quả âm được hiểu là phép so sánh có kiểm soát trong phạm vi giới hạn, không phải kết luận cho mọi workload.",
+      "visual": "Bảng so sánh ba lần chạy đầy đủ, cùng concurrency mục tiêu, độ dài prompt/câu trả lời yêu cầu, seed, prefix lạnh, model, precision và đường runtime. Chỉ kích thước chunk prefill thay đổi: 8.192, 10.240 hoặc 12.288 token đầu vào được xử lý cùng lúc. Good output tokens/s là thông lượng đạt chuẩn; joint SLA là tỷ lệ request đạt cả hai giới hạn; p95 TTFT là đuôi request phản hồi chậm. Goodput và đuôi đều xấu hơn khi chunk lớn. Một lần mỗi mức đủ để giữ 8.192 cho cấu hình này, nhưng không xác định tối ưu chung.",
+      "terms": [
+        {
+          "symbol": "4.000 / 200 token yêu cầu",
+          "meaning": "Client yêu cầu 4.000 token vào và 200 token ra. Độ dài yêu cầu không chứng minh ID token thực được đọc/sinh trong mọi request."
+        },
+        {
+          "symbol": "closed-loop N64",
+          "meaning": "Client giữ 64 request đang xử lý và thay mỗi request hoàn tất bằng request mới."
+        },
+        {
+          "symbol": "protocol 60/120/30",
+          "meaning": "Warmup 60 giây, profiling được tính điểm 120 giây và grace 30 giây. Chỉ profiling tính điểm; grace kết thúc request còn lại."
+        },
+        {
+          "symbol": "prefix lạnh",
+          "meaning": "Request không tái dùng mục KV cache của tiền tố prompt đã làm nóng. Điều này tự nó không có nghĩa cache hệ thống tệp lạnh."
+        },
+        {
+          "symbol": "kích thước chunk",
+          "meaning": "Số token đầu vào xử lý cùng nhau trong một đơn vị lập lịch prefill; không phải số request đồng thời."
+        },
+        {
+          "symbol": "SLA / p95 TTFT",
+          "meaning": "SLA là tỷ lệ request đạt cả hai giới hạn độ trễ. p95 TTFT là phân vị 95 thời gian chờ token đầu, cho thấy các request chậm."
+        },
+        {
+          "symbol": "kết quả local do nhóm xem xét",
+          "meaning": "Ở đây local nghĩa là nhóm chạy và xem xét trên cluster H200 được giao. Không phải kết quả laptop hay sự phê duyệt của ban tổ chức."
+        },
+        {
+          "symbol": "một lần mỗi cấu hình",
+          "meaning": "Mỗi kích thước chunk là một cấu hình thí nghiệm chỉ có một lần chạy đầy đủ; thứ tự và seed engine có thể góp phần tạo khác biệt."
+        }
+      ],
+      "reading": [
+        "Chunk 8.192, job 26766 đạt 3,045.501509 token đầu ra tốt/giây, joint SLA 98.580% và p95 TTFT 1,311.69 ms. Chunk 10.240, job 26768 đạt 3,034.088251, 98.524% và 1,518.87 ms.",
+        "Chunk 12.288, job 26770 đạt 3,020.943099, 98.310% và 1,624.12 ms. Cả ba là lần N64 đầy đủ cùng lịch 60/120/30 và workload yêu cầu 4.000/200; mỗi mức chunk chỉ đo một lần.",
+        "Các lần chạy qua kiểm tra protocol, runtime, độ trễ và đầu ra của nhóm, không có lỗi/hủy trong profiling. Đây là kết quả được xem xét trên cluster được giao, không phải chứng nhận chất lượng của ban tổ chức."
+      ],
+      "tradeoff": {
+        "observation": "Goodput giảm từ 3.045,50 xuống 3.020,94 token/s và p95 TTFT tăng từ 1.311,69 lên 1.624,12 ms khi chunk tăng từ 8.192 lên 12.288.",
+        "hypothesis": "Chunk prefill lớn hơn có thể tăng thông lượng bằng cách xử lý nhiều token đầu vào hơn trong mỗi batch lập lịch.",
+        "conclusion": "Giữ 8.192 cho cấu hình dịch vụ này; các chunk lớn hơn đã thử không cải thiện mục tiêu dịch vụ.",
+        "unknown": "Mỗi mức chỉ một lần nên phép so sánh có giới hạn; chưa xác lập tối ưu cho workload khác hay loại trừ biến động thứ tự/seed."
+      },
+      "script": "Cả ba lần chạy dùng 64 request đồng thời, cùng yêu cầu 4.000 token vào và 200 token ra, cùng lịch warmup, profiling và grace đầy đủ. Chỉ chunk xử lý prompt thay đổi. Goodput giảm khoảng 3.045 xuống 3.021 khi chunk lớn dần, còn đuôi token đầu chậm hơn. Nhóm kiểm tra các lần chạy trên cluster H200 được giao, nhưng mỗi mức chỉ đo một lần nên chưa chứng minh cài đặt tốt nhất phổ quát. Nhóm giữ 8.192 cho triển khai này.",
+      "caution": "Qua kiểm tra của nhóm không phải phê duyệt của ban tổ chức. Không suy token thực từ độ dài yêu cầu, tính grace vào thời gian chấm hay khái quát một lần đo cho mọi workload.",
+      "transition": "Backup cuối đối chiếu phần tài nguyên capture tiết kiệm được với chỉ số dịch vụ mà nó cần hỗ trợ."
+    }
+  },
+  {
+    "slide": 32,
+    "title": "Backup · less graph memory did not raise goodput",
+    "en": {
+      "hardware": "H200 · sparse decode-graph trial · jobs 27376/27510",
+      "brief": "Sparse capture cut logged memory from 1.15 to 0.36 GB per decode rank, but goodput fell 0.370208% and mean ITL worsened. Padding was not measured as a cause. The team retained dense graphs; this pair does not prove a causal effect.",
+      "purpose": "Explain why a lower resource metric is not automatically a service improvement, and separate capture memory from total GPU memory and end-to-end throughput.",
+      "visual": "Compare dense control 27376 with sparse candidate 27510. The candidate stores 12 decode graph buckets instead of 64 and reduces logged graph-capture memory per rank, but goodput is 3,029.861122 versus 3,041.119598, 0.370208% lower. Mean request ITL rises from 14.991 to 15.136 ms; TTFT improves. Fewer buckets may force requests into less exact padded shapes, which can add work, but padding was not isolated or measured here. The reported capture memory excludes other GPU allocations such as model weights and KV cache, so it is not a VRAM capacity figure. The service score, not the smaller capture number, determines whether this is useful.",
+      "terms": [
+        {
+          "symbol": "decode graph bucket",
+          "meaning": "One captured GPU execution shape that can be replayed for a class of decode batches; bucket count is neither concurrency nor GPU count."
+        },
+        {
+          "symbol": "padding",
+          "meaning": "Filling a batch to fit a supported captured shape. Fewer buckets could increase padding, but this trial did not measure padding amount or cost."
+        },
+        {
+          "symbol": "capture memory",
+          "meaning": "Per-rank memory associated with recorded reusable graphs and their capture buffers. It is only one part of GPU memory use."
+        },
+        {
+          "symbol": "VRAM / GB / GiB",
+          "meaning": "VRAM means total GPU memory. The log reports capture-related GB per rank, not total VRAM or GiB; weights, KV cache, workspaces, and other allocations are additional."
+        },
+        {
+          "symbol": "rank",
+          "meaning": "One distributed worker process. The 1.15 and 0.36 GB figures are per decode rank, not summed across all eight GPUs."
+        },
+        {
+          "symbol": "ITL / TTFT",
+          "meaning": "ITL is the gap between generated tokens; TTFT is the wait until the first token. They measure different parts of request latency."
+        },
+        {
+          "symbol": "full local pass",
+          "meaning": "The team ran and reviewed the full workload on the assigned H200 cluster against local protocol/runtime/latency/output checks. This is not organizer approval or an accuracy certificate."
+        }
+      ],
+      "reading": [
+        "The dense control has 64 buckets, 1.15 GB capture memory per rank, 101.46–101.49 s capture time, 3,041.119598 good output tokens/s, and 14.991 ms mean ITL.",
+        "The sparse candidate has 12 buckets, 0.36 GB/rank, 95.98–96.05 s capture time, 3,029.861122 good output tokens/s, and 15.136 ms mean ITL. Captures were confirmed on all eight decode ranks with model compilation off.",
+        "Candidate mean/p95 TTFT was 1,102.404/1,240.481 ms and improved, while mean/p95 ITL was 15.136/15.324 ms and worsened. One earlier control, different engine seeds, and candidate-only startup instrumentation limit causal interpretation."
+      ],
+      "tradeoff": {
+        "observation": "Sparse capture reduced logged per-rank graph memory from 1.15 to 0.36 GB and slightly shortened capture, while goodput fell by 0.370208% against the earlier control.",
+        "hypothesis": "Fewer captured shapes might save resources while maintaining service throughput; padding was a possible mechanism but not measured.",
+        "conclusion": "The service objective did not improve, so the team retained dense graphs for this deployment.",
+        "unknown": "There is one earlier control and generated seeds differ; total VRAM use and any padding effect were not measured by the capture-memory metric."
+      },
+      "script": "The sparse candidate used 12 captured decode shapes instead of 64. Logged graph memory fell from 1.15 to 0.36 gigabytes per rank, but goodput also fell by about 0.37 percent. Mean token gaps got slightly longer, even though time to first token improved. This memory number covers graph capture, not all GPU memory. Fewer shapes could add padding work, but that was not measured. We kept dense graphs; the comparison is too limited for a causal claim.",
+      "caution": "Do not call buckets requests or GPUs, interpret capture memory as total VRAM, or claim padding caused the score difference. Lower capture memory alone is not a goodput win.",
+      "transition": "This completes the selected backup evidence; the main conclusions still rest on replicated serving and explicit validation limits."
+    },
+    "vi": {
+      "hardware": "H200 · phép thử graph decode thưa · jobs 27376/27510",
+      "brief": "Capture thưa giảm bộ nhớ log từ 1,15 xuống 0,36 GB mỗi rank decode, nhưng goodput giảm 0,370208% và ITL trung bình xấu hơn. Chưa đo padding để quy nguyên nhân. Nhóm giữ graph dày; cặp này không chứng minh quan hệ nhân quả.",
+      "purpose": "Giải thích vì sao chỉ số tài nguyên thấp hơn không tự động là dịch vụ tốt hơn, đồng thời tách bộ nhớ capture khỏi tổng bộ nhớ GPU và thông lượng end-to-end.",
+      "visual": "So sánh đối chứng dày 27376 với ứng viên thưa 27510. Ứng viên lưu 12 bucket graph decode thay vì 64 và giảm bộ nhớ graph capture theo log trên mỗi rank, nhưng goodput là 3,029.861122 so với 3,041.119598, thấp hơn 0,370208%. Mean request ITL tăng từ 14.991 lên 15.136 ms; TTFT cải thiện. Ít bucket hơn có thể buộc request vào dạng đệm kém khớp hơn, làm tăng việc xử lý, nhưng lần này không tách hay đo padding. Bộ nhớ capture không gồm cấp phát GPU khác như trọng số và KV cache, nên không phải dung lượng VRAM. Điểm dịch vụ, không phải con số capture nhỏ hơn, quyết định thay đổi có ích không.",
+      "terms": [
+        {
+          "symbol": "bucket graph decode",
+          "meaning": "Một dạng thực thi GPU đã capture để phát lại cho một lớp batch decode; số bucket không phải concurrency hay số GPU."
+        },
+        {
+          "symbol": "padding",
+          "meaning": "Đệm batch để khớp dạng graph được hỗ trợ. Ít bucket có thể tăng padding, nhưng phép thử này không đo lượng hay chi phí đó."
+        },
+        {
+          "symbol": "bộ nhớ capture",
+          "meaning": "Bộ nhớ mỗi rank liên quan các graph tái sử dụng đã ghi và buffer capture. Đây chỉ là một phần sử dụng bộ nhớ GPU."
+        },
+        {
+          "symbol": "VRAM / GB / GiB",
+          "meaning": "VRAM là tổng bộ nhớ GPU. Log ghi GB liên quan capture mỗi rank, không phải tổng VRAM hay GiB; trọng số, KV cache, workspace và cấp phát khác nằm ngoài số này."
+        },
+        {
+          "symbol": "rank",
+          "meaning": "Một tiến trình worker phân tán. Số 1,15 và 0,36 GB là mỗi rank decode, không phải tổng của tám GPU."
+        },
+        {
+          "symbol": "ITL / TTFT",
+          "meaning": "ITL là khoảng giữa các token sinh; TTFT là thời gian đợi token đầu. Chúng đo phần độ trễ request khác nhau."
+        },
+        {
+          "symbol": "full local pass",
+          "meaning": "Nhóm chạy và xem xét workload đầy đủ trên cluster H200 được giao theo kiểm tra protocol/runtime/độ trễ/đầu ra nội bộ. Đây không phải phê duyệt hay chứng nhận accuracy của ban tổ chức."
+        }
+      ],
+      "reading": [
+        "Đối chứng dày có 64 bucket, bộ nhớ capture 1,15 GB mỗi rank, thời gian capture 101.46–101.49 giây, 3,041.119598 token đầu ra tốt/giây và ITL trung bình 14.991 ms.",
+        "Ứng viên thưa có 12 bucket, 0,36 GB/rank, capture 95.98–96.05 giây, 3,029.861122 token tốt/giây và ITL trung bình 15.136 ms. Capture được xác nhận trên cả tám rank decode khi compile mô hình tắt.",
+        "TTFT trung bình/p95 của ứng viên là 1,102.404/1,240.481 ms và cải thiện; ITL trung bình/p95 là 15.136/15.324 ms và xấu hơn. Một đối chứng trước, seed engine khác và instrumentation startup chỉ ở ứng viên hạn chế kết luận nhân quả."
+      ],
+      "tradeoff": {
+        "observation": "Capture thưa giảm bộ nhớ graph theo log mỗi rank từ 1,15 xuống 0,36 GB và rút ngắn capture chút ít, trong khi goodput giảm 0,370208% so với đối chứng trước.",
+        "hypothesis": "Ít dạng capture hơn có thể tiết kiệm tài nguyên mà vẫn giữ throughput; padding là cơ chế có thể có nhưng chưa đo.",
+        "conclusion": "Mục tiêu dịch vụ không cải thiện, nên nhóm giữ graph dày cho triển khai này.",
+        "unknown": "Chỉ có một đối chứng trước và seed tạo sinh khác nhau; tổng VRAM và tác động padding chưa được đo bằng chỉ số bộ nhớ capture."
+      },
+      "script": "Ứng viên thưa dùng 12 dạng decode đã capture thay vì 64. Bộ nhớ graph theo log giảm từ 1,15 xuống 0,36 gigabyte mỗi rank, nhưng goodput cũng giảm khoảng 0,37 phần trăm. Khoảng token trung bình dài hơn chút dù thời gian token đầu tốt hơn. Số bộ nhớ này chỉ nói về capture graph, không phải toàn bộ GPU. Ít dạng có thể tạo thêm padding nhưng chưa đo. Nhóm giữ graph dày; phép so sánh quá giới hạn để kết luận nhân quả.",
+      "caution": "Không gọi bucket là request hay GPU, không hiểu bộ nhớ capture là tổng VRAM, và không nói padding gây chênh lệch điểm. Chỉ giảm bộ nhớ capture chưa phải cải thiện goodput.",
+      "transition": "Đến đây là phần bằng chứng backup đã chọn; kết luận chính vẫn dựa vào serving lặp lại và giới hạn xác minh rõ ràng."
+    }
+  }
+]

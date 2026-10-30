@@ -1,53 +1,34 @@
-# AI presentation plan — 15–20 minutes
+# AI presentation — four research questions, 15–20 minutes
 
-This is a proposed pacing plan for the team's stated AI allowance, not an organiser timetable. The number of speakers is not yet specified; combine the responsibilities below as needed.
+The organising argument is how the team reasoned, using the owner's seven-step flow: problem and constraints → baseline observations → bottleneck analysis → prioritisation and hypothesis → intervention and measurement → causal assessment → decision and next iteration. Experiments support those decisions. Chronology is backup evidence.
 
-## Three technical stories
+## Main route: about 18 minutes
 
-1. **Request-scoped KV transfer:** what blocked deployment, how source/log evidence motivated the change, and why CPU geometry plus server readiness still did not establish useful output.
-2. **Backend interaction:** how profiling motivated a controlled model trial, the matched N60 gain and independent repeat, and the limits of its causal explanation.
-3. **Reproduced N64 selection:** the full N62-to-N64 pair, independent repeat, short-to-full N68 reversal and why the largest isolated score is not the selected configuration.
-
-For each: **What happened → Why we investigated → What we changed → How we know → What remains unknown → Decision.**
-
-## Proposed 17-minute main route
-
-| Slides | Purpose | Target |
+| Slides | Research question / purpose | Target |
 |---|---|---:|
-| 1–5 | Result, objective, exact environment and topology | 2:00 |
-| 6–8 | Transport/layout diagnosis and correctness lessons | 3:00 |
-| 9–10 | Research method and overall journey | 1:00 |
-| 11–14 | Backend interaction, profiling, full gain and repeats | 4:00 |
-| 15 | Explain TTFT failures and measurement limits | 1:15 |
-| 16–20 | H100, reversed-cost test and calibrated comparison | 2:45 |
-| 21–23 | Source-guided negative trials, quality and EAGLE progression | 2:00 |
-| 24 | Supported conclusion and selected configuration | 0:45 |
-| 25–32 | Detailed reasoning available for questions | Backup |
+| 1–2 | Four questions, fixed model/resource/workload and success criterion | 1:30 |
+| 3–5 | RQ1: feasible layouts, selected split and why readiness was insufficient | 3:00 |
+| 6–7 | RQ2: what profiling and the historical setup failure do and do not establish | 2:30 |
+| 8–11 | RQ3: backend interaction, matched N60 gain, load and request-level failures | 4:00 |
+| 12–13 | RQ3: reject proxy wins and failed speculative hypotheses | 1:30 |
+| 14–18 | RQ4: repeats, drift, cross-platform forecast, quality and real deployment | 4:00 |
+| 19–20 | Four supported decisions and the next evidence needed | 1:30 |
+| 21–32 | Supporting history, detailed mechanisms and configurations | Q&A backup |
 
-Speaking target: 16:45, leaving about three minutes of buffer if the allowance is 20 minutes. Check whether the organiser includes Q&A in that allowance; this plan does not assume either arrangement.
+**15-minute route:** compress slide 5 into the layout explanation, combine 12–13 into one negative-trial lesson, and use 16 only when cross-platform comparison is relevant. Preserve the fixed objective, why each test was chosen, strongest controlled evidence and causal limits.
 
-**15-minute route:** omit standalone platform slide 4, generic method slide 9 and detailed calibration slides 19–20. State the environment with slide 5 and repeat platform/protocol/baseline at each technical result. Preserve the three technical stories and one well-analyzed failure.
+**20-minute route:** use the main route and one requested mechanism backup. Slides 24–25 answer the complete KV-transfer case. Do not spend the buffer reading a job inventory.
 
-**20-minute route:** use the main route, then spend remaining time on regime-recovery controls (25) or the real deployment repair (31), if useful. Avoid extending background introductions.
+Slides 33–40 are the independent unchanged HPC section; this plan does not assign the HPC team's time. Confirm whether the organiser includes questions in the allowance. The timings are rehearsal targets, not an organiser timetable.
 
-The unchanged HPC section remains at slides 33–40. This plan covers AI only and does not assign the HPC team's time.
+## Explain each experiment as a decision
 
-## Team responsibilities
+1. What blocked the objective or made us question the baseline?
+2. Which observation is measured, and on what hardware/configuration?
+3. What explanation did we suspect, and which alternatives remain possible?
+4. Why was this intervention the next informative test?
+5. What was held fixed, changed and actually measured?
+6. What can the result attribute, and what is still unmeasured?
+7. Did we retain, reject, repeat or propose another validation?
 
-| Subject | Answer owner | Supporting responsibility |
-|---|---|---|
-| Architecture and transport | Speaker who rehearses story 1 | Bring up diagram or KV proof |
-| Experiments and metrics | Speaker who rehearses stories 2–3 | Confirm baseline, units and source IDs |
-| Runtime and profiling | Technical support member, if available | Explain collection gaps and failure boundaries |
-| Timing and screen sharing | One person named before the call | Keep PDF ready and give one-minute warning |
-
-With two people, combine architecture/runtime and experiment/metrics. With more members, assign primary and backup owners. One person answers first; a teammate adds a specific detail after an explicit handover.
-
-## Before presenting
-
-- Test screen sharing and microphone; open the final PPTX and PDF on the presenting machine.
-- Keep EVIDENCE_CARDS.md and PANEL_QA.md ready for supporting members.
-- Rehearse once with a timer and freeze one file version for everyone.
-- For every result, name hardware/GPU count, deployment type, load/protocol, baseline and changed factor.
-- Use “we observed,” “our hypothesis was,” and “we did not establish” deliberately.
-- When evidence is missing, explain the missing measurement rather than inventing a cause or implying that another test was run.
+Use only two or three numbers per spoken explanation. Keep exact controls, job IDs and all failed evidence in the guide for Q&A. Assign an architecture owner, experiment owner and evidence/limits backup; combine roles if needed. Test microphone and screen sharing, keep the PDF ready, and rehearse against a timer.

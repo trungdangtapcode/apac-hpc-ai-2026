@@ -1,68 +1,45 @@
-# Three technical evidence cards
+# Evidence behind the decisions
 
-No new experiment is proposed by these cards. Rates are exported AIPerf Goodput in qualifying requests/s × 200.
+These cards follow the seven-step reasoning flow. They are support material for the presenters, not an official question list. Research remains stopped.
 
-## 1. Request-scoped KV transfer
+## RQ 1 — how should 16 H 200 GPUs be distributed?
 
-**Environment:** organiser-provided H200 cluster; disaggregated Qwen. Selected roles are two TP4/EP1 prefills and one TP8/EP8 decode across two eight-GPU nodes. Official FP8 target and BF16 activation/KV remain.
+**Problem and constraints:** Qwen 3-235 B FP 8, two eight-H 200 nodes, fixed 4000/200 workload, per-request latency and output checks. A layout must fit compatible FP 8 partitions and complete useful requests.
 
-**What happened:** early cold descriptor preparation scaled with the entire KV pool. Other layouts separately failed FP8 block alignment or warmup; these are different problems.
+**Baseline observations:** the topology record contains 14 measured original layouts plus three EP 2 replacements. Initial 07, 09 and the selected split differ in load/history; their scores are not a controlled one-factor ranking.
 
-**Hypothesis and change:** inspect descriptor generation and make work proportional to transferred request pages, coalescing contiguous ranges. A representative geometry changes from about 403.8 million source entries per rank for the pool to 188 coalesced entries for a contiguous 4,000-token request.
+**Hypothesis and intervention:** trade replica count against TP width; keep TP groups within a node and allow separate prefill/decode implementations. Retain two TP 4/EP 1 prefills on node 0 and one TP 8/EP 8 decode on node 1 after usable measurements.
 
-**How we know:** source diffs/hashes, 720 heterogeneous-range checks, 936 equal-TP recovery checks, actual GPU transfer and independent semantic P/D routes are separate proof layers. Descriptor-count reduction is not an inference speedup ratio.
+**Evidence and limit:** selected split measured about 1912.30 good output tokens/s atN 48 in the early series. This is a feasible measured decision, not proof every topology was compared under identical conditions or that it is globally optimal. FP 8 compatibility and real P/D response checks constrain eligibility. Main slides 3–5; backups 21–22.
 
-**What failed:** later superficially running equal-TP8/EP2 candidate 24375 had only about 1.9978% joint success and failed short-output checks. CPU geometry and server readiness were insufficient; the candidate was quarantined.
+## RQ 2 — what should we investigate first?
 
-**Supported decision:** retain the validated request-scoped adaptation and require physical KV ownership plus response validation before scoring a new path.
+**Observation:** in the heterogeneous-TP recovery branch, job 22271 loaded model workers but pair warmup timed out at 360 s before any scored benchmark. This branch differs from the selected split.
 
-**Limit:** no single matched whole-service experiment attributes the final approximately 3k level solely to descriptors. Early transport setup and later serving bottlenecks are different questions.
+**Source-level signal:** full-pool enumeration implied about 403.8 million source descriptor entries per rank, while one contiguous 4000-token request uses 188 coalesced ranges. This describes different scopes, not a speed ratio.
 
-Sources: journal retrospective stages 5–7 and 26; native registration/semantic reviews; package patch metadata. Slides 7–8 and 22.
+**Prioritisation and hypothesis:** reduce work irrelevant to the request in the setup stage where the failure was observed. Bandwidth/KV-layout/scheduling were not experimentally excluded; no old-code initialization timer establishes descriptor construction as the dominant cause.
 
-## 2. Backend interaction and an independent repeat
+**Intervention and checks:** request-scoped source/destination descriptors, preserved mappings/precision/notifications,720 CPU range-equivalence cases. The geometry fixture explicitly does not validate real GPU transport.
 
-**Environment:** 16 H200, historical Slurm/Pyxis, disaggregated P4+P4 / D8-EP8, official FP8 target with observed BF16 KV. Full N60, requested 4,000/200, seed 2026, cold prefixes and 60/120/30. Both arms use DeepGEMM prefill/chunk 8192.
+**End-to-end evidence:** patched 22294 warmed both actual P/D paths in 0.68–0.70 s/request and full N 32 measured 1422.96 good tokens/s at 95.87%jointSLA with zero errors/cancels. There is no successful unpatched scored control, so this is patched-path feasibility, not a quantified descriptor-only end-to-end improvement. Do not divide 360 s by 0.7 s: one is a timeout.
 
-**Control and change:** fresh auto-decode 24912 versus HPC-Ops decode repeat 24913. This is the decode-runner change within that serving configuration. The team reused provided kernels; it does not claim to have invented HPC-Ops or FlashInfer.
+**Next question:** once serving is feasible, inspect GPU work and request tails. SeparateN 48 profile 24819 records group GEMM 21.642%, collective / RMSNorm 23.479% and FlashInfer attention 15.064% of summed kernel duration. They motivate trials, not wall-time bottleneck percentages. Main 6–7; backups 24–25. Detailed source audit: KV_TRANSFER_REASONING_AUDIT.md.
 
-| Metric | Auto control 24912 | HPC-Ops repeat 24913 |
-|---|---:|---:|
-| Good output tokens/s | 2838.853 | 2989.175 |
-| Mean TTFT, ms | 822.293 | 947.627 |
-| Mean request-mean ITL, ms | 16.579 | 14.934 |
-| Joint SLA | 98.760% | 98.818% |
+## RQ 3 — which changes improve the actual objective?
 
-**Observation:** goodput improves about 5.295%; TTFT increases about 125.335 ms while ITL falls about 1.644 ms. The independent repeat is about 0.033% below original treatment 24738 at 2990.150791.
+**Hypothesis:** phase-specific implementations and load can improve qualifying service, but isolated proxy gains can be misleading.
 
-**Why profiling motivated the question:** separate N48 diagnostic 24819 retained 16 rank traces. Named group GEMM, MNNVL collective/RMSNorm and FlashInfer attention account for about 21.642%, 23.479% and 15.064% of summed recorded kernel duration. Those sums suggest investigation targets; they are not wall-clock fractions or predicted gains.
+**Matched N 60 experiment:** H 200 control 24912 and HPC-Ops decode repeat 24913 retain DeepGEMM prefill/chunk 8192 and full 60/120/30 protocol. Goodtokens/s rises 2838.853→2989.175, +5.295%; mean TTFT worsens 822.292→947.627 ms; mean ITL improves 16.579→14.934 ms. Original treatment 24738 is 2990.150791; repeat differs by−0.033%. This supports the configuration atN 60, not an exact kernel-level cause. Dedicated continuous hardware data is absent for 24913.
 
-**Supported conclusion:** matched full model data and a treatment repeat support this operating-point interaction. Local output/retrieval checks pass. Official accuracy remains unverified.
+**Load decision:** full N 62 control 25365 toN 64 candidate 25366 yields 3011.875113→3044.489701,+1.082867%. Independent 25373 gives 3044.074628. ShortN 68 looked+2.27%, but full gain is only+0.083056%; retainN 64.
 
-**Limits:** the extended 24913 inspection has no dedicated continuous hardware series. Its server statistics cover the whole deployment and are event-weighted. A separate N48 trace cannot causally decompose the N60 gain. Do not claim measured FLOP saturation, a universal HPC-Ops advantage or an exact kernel-level explanation.
+**Reject misleading alternatives:** H 200 cache+0.240921% fails the prospective 1% useful-gain rule; H 200 sparsegraphs lower capture memory but lose 0.370208% goodput; H 100 FA 3 lowers first-token wait yet loses 0.812% goodput. These are separate platform/control pairs. EAGLE integration repairs do not prevent its tested full arm from losing 2.080318%. Main 8–13; backups 26–32.
 
-Sources: research-followup-20261020-0132/24913-review.json and inspection/24913.md; 24819 profile; original 24738. Slides 11–14.
+## RQ 4 — what is reproducible and what remains open?
 
-## 3. Select N64 through full-protocol replication
+**Repeated operating point:** historical N 64 jobs 25366/25373/25487 mean 3044.400475 good tokens/s. Later native 26766 is 3045.501509 in a separate runtime series. Same sampled GPU UUIDsets limit hardware diversity; do not pool unlike paths.
 
-**Environment:** 16 H200, historical Slurm/Pyxis, same disaggregated model, precision, topology and backends. Full requested 4,000/200, seed 2026, cold prefixes, 60/120/30. Operational source is held apart from load/identity/provenance; generated engine seeds vary.
+**Robustness checks:** valid legacy 26313 is lower at 2830.923547; graph/admission and harness differences do not establish one causal explanation. Same-comboN 52 H 200/H 100 ratio 1.188096805 informs one frozenN 50 prediction 2642.244; actualH 20024272 is 2601.629,error−1.5371%. It passes team±2%tolerance but lies outside an earlier incomplete sensitivity range; no universal hardware conversion.
 
-| Metric | N62 control 25365 | N64 trial 25366 |
-|---|---:|---:|
-| Good output tokens/s | 3011.875113 | 3044.489701 |
-| Good / all requests | 1855 / 1879 | 1876 / 1902 |
-| Joint SLA | 98.722725% | 98.633018% |
-| Mean TTFT, ms | 1037.629662 | 1110.463377 |
-| Mean request-mean ITL, ms | 14.957663 | 15.002881 |
-
-**Observation:** matched full goodput improves 1.082867%, while average TTFT and ITL rise modestly. Independent N64 repeat 25373 scores 3044.074628, about 0.013634% below the original.
-
-**Why not keep increasing load:** the short N68 screen looked about 2.27% better; its matched full pair gained only 0.083056%. It missed the prospective useful-gain gate. Client concurrency is not actual decode batch size.
-
-**How we know:** frozen source comparison, actual runtime/KV, raw joint-SLA denominator, zero errors/cancellations, local output checks and independent deployment repeats support the selected point.
-
-**Hypothesis versus conclusion:** higher inflight load can change batching and queue pressure. Client TTFT and sparse gauges do not identify separate queueing, transfer and computation contributions. The local goodput advantage is measured; that causal latency decomposition is not.
-
-**Decision:** keep reproduced N64. Historical three-run mean is 3044.400475. Later native 26766 at 3045.501509 is a separate runtime series. Highest complete cache point 27378 at 3048.446289 is only +0.240921% against its fresh control and is not promoted.
-
-Sources: 25365/25366 full review; 25373 repeat; 25487/25488 full pair; 27376/27378 cache pair. Slides 12, 15, 21 and 24–25.
+**Acceptance limits:** official full-set model quality ≥99%reference remains unverified. Smoke 7/8 and retrieval 12/12 are small tests. Portable 27136/27145 complete GPU clients but original jobs fail postprocessing; CPU 27152 validates repaired readers only. Recovered 3055.330517 is not a successful post-repair full deployment. Main 14–18. Final 19–20 states decisions and proposed validation, not new jobs.
