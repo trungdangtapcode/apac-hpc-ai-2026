@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**Transcript PDFs:** [Vietnamese](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf) and [English](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf), 89 pages each, with embedded slide images/fonts, hardware labels, quick briefs, clickable contents and bookmarks. [Rendering and validation](ai-bilingual-transcripts-20261030.md#pdf-editions). Markdown content, deck and submission remain unchanged; research remains stopped.
+
 **Presenter learning guides:** [bilingual transcripts for all 40 slides](ai-bilingual-transcripts-20261030.md), now with a 10–20 second spoken brief before every slide's purpose. Briefs explain the main point, standout result and necessary terms, including what repeated measurements mean. Detailed technical explanations remain below. The Vietnamese companion remains a narrow requested exception; deck and HPC payloads are unchanged.
 
 **Hardware reminders:** every transcript slide now starts with H200/Firmus, H100/NSCC, shared/mixed evidence, or CPU attribution. Slides 16–18 are H100; the approximately 3044-good-token/s series is H200. Mixed slides 19/20/26/27/31 also identify each result's platform. This is a guide update, not a new measurement or deck change.
