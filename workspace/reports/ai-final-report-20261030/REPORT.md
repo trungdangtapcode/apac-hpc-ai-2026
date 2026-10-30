@@ -1,6 +1,6 @@
 # TripleU AI task — final research report
 
-The current presentation explains the decisions through [four research questions](PROBLEM_DRIVEN_PLAN.md), with 20 main AI slides and 12 AI backups. The timeline remains supporting evidence. Both transcripts and PDFs follow the current slide order.
+The current presentation is an [engineering investigation](FEEDBACK_RESPONSE.md): 16 main AI slides and 16 hidden backups, with complete technical stories and explicit evidence limits. [The 24-page main-talk PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Main_Talk.pdf) goes directly from AI to the eight unchanged HPC pages. Both bilingual guides are remapped; no new scientific result is introduced.
 
 Prepared 30 October 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
 
@@ -75,11 +75,11 @@ Submission artifacts and slides are in English; the owner-requested Vietnamese l
 
 No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Updated presentation](../../submission-review/ai-reasoning-update-20261030/TripleU_APAC2026_Presentation.pptx)
-- [Review PDF](../../submission-review/ai-reasoning-update-20261030/TripleU_APAC2026_Presentation.pdf)
-- [Speaker notes](../../submission-review/ai-reasoning-update-20261030/PRESENTER_NOTES.md)
+- [Updated presentation](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pptx)
+- [Review PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf)
+- [Speaker notes](../../submission-review/ai-investigation-update-20261030/PRESENTER_NOTES.md)
 - [Current detailed metrics and configuration](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md)
-- [Publication verification](../../submission-review/ai-reasoning-update-20261030/publication-validation.json)
+- [Publication verification](../../submission-review/ai-investigation-update-20261030/publication-validation.json)
 
 
 ## Presentation readiness

@@ -228,7 +228,7 @@ def check_pdf(path, source, pages):
     assert all(len(p.get_text().strip()) > 30 for p in document), 'Blank page'
     for n, page in pages.items():
         assert f'Slide {n:02d}' in document[page-1].get_text()
-    records = json.loads((REPORT / 'reasoning-transcript.json').read_text())
+    records = json.loads((REPORT / 'investigation-transcript.json').read_text())
     lang = 'vi' if '_VI' in path.name else 'en'
     for record in records:
         brief = ' '.join(record[lang]['brief'].split())
@@ -261,6 +261,13 @@ def check_pdf(path, source, pages):
 
 
 def main():
+    # Fail before replacing any PDF when the two teaching sources are out of sync.
+    records = json.loads((REPORT / 'investigation-transcript.json').read_text())
+    for lang in ['VI', 'EN']:
+        body = ' '.join((REPORT / f'TRANSCRIPT_{lang}.md').read_text().split())
+        for record in records:
+            assert ' '.join(record[lang.lower()]['brief'].split()) in body, \
+                f'Stale Markdown before PDF render: {lang}, slide {record["slide"]}'
     results = []
     for lang in ['VI', 'EN']:
         source = REPORT / f'TRANSCRIPT_{lang}.md'

@@ -1,3 +1,5 @@
+Latest AI presentation completion: [engineering investigation, visual evidence and protected OpenFOAM handoff](entries/20261031-ai-investigation-presentation-final.md).
+
 Latest continuation: [native prefill routing from observed queue imbalance](entries/20261020-prefill-routing.md).
 
 Latest AI reporting: [30 October bilingual slide transcripts and explanations](entries/20261030-ai-bilingual-slide-transcripts.md).

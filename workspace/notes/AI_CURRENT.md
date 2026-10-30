@@ -1,12 +1,16 @@
 # Current AI / Qwen handoff
 
-**Current presentation:** [four research questions and technical reasoning](ai-problem-driven-presentation-20261030.md). 20 main AI slides + 12 AI backups + eight unchanged HPC slides. The main talk explains observations, hypotheses, test choices, evidence and causal limits; chronology is supporting backup. Current PPTX/ZIP are published and protected HPC bytes preserved. No new research or jobs.
+**Current presentation:** [engineering investigation edition](ai-investigation-presentation-20261031.md). 16 main AI slides + 16 hidden AI backups + eight unchanged HPC slides. Three stories distinguish engineering decisions, team implementation and experimental findings. The main KV case now covers failure, prioritisation, patch, evidence and causal limits. Research remains stopped.
 
-**Current transcripts:** [Vietnamese Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md), [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf). All are remapped to the new deck, with hardware labels and 10–20 second briefs before purpose. PDF validation records current page counts; earlier 89-page editions are historical. The requested Vietnamese exception remains limited to these guides/source data.
+**Presentation route:** [PowerPoint](../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [24-page main-talk PDF](../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Main_Talk.pdf), [full 40-page PDF](../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf). The main show goes AI 1–16 → HPC 33–40; backups 17–32 stay available for Q&A.
 
-**Hardware reminders in the new order:** H200 is the primary 16-GPU experiment; slide 16 is the mixed H100-input/H200-verification forecast. H100-only details are now backups 26–27. Slide 12 compares separate H200 and H100 interventions, slide 29 mixes GPU/CPU evidence and slide 30 shows both recipes. HPC 33–40 remains CPU. The approximately 3044-good-token/s series is H200.
+**Current guides:** [Vietnamese Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English Markdown](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md), [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf). Both are remapped to the current deck, with briefs, hardware, evidence classes and spoken reasoning. Older page counts and slide mappings are historical.
 
-**Previous presentation:** [chronological journey/panel edition](ai-journey-presentation-20261030.md) is historical. The current 15–20 minute route is the four-question edition above. No research resumed.
+**Timing/Q&A:** [compact 10–12 minute AI rehearsal target](../reports/ai-final-report-20261030/PRESENTATION_PLAN.md) protects the HPC handoff; official combined time/Q&A inclusion is still awaiting owner clarification. [Verified-source mock Q&A](../reports/ai-final-report-20261030/MOCK_QA_EVIDENCE.md) is prepared; no human mock or live slideshow test is claimed.
+
+**Hardware:** main AI measurements are H200; main 14 uses H100 inputs/H200 verification. H100-only results are backups 22–23; backup 25 mixes GPU/CPU evidence and 26 separates both platform recipes. HPC 33–40 is unchanged CPU work. The approximately 3044-good-token/s series is H200.
+
+**Previous presentation:** [earlier four-question edition](ai-problem-driven-presentation-20261030.md) is historical; the current edition above implements the fuller visual/verbal/contribution feedback. No new scientific claim or experiment.
 
 **Final report and delivery:** [30 October update](ai-final-delivery-20261030.md). Report-only work is complete; research remains stopped.
 

@@ -4,15 +4,15 @@
 
 **Cách dùng:** mỗi slide mở đầu bằng **“Nói nhanh · 10–20 giây”**, có thể nói ngay: ý chính, số liệu nổi bật và ý nghĩa của chúng. Các từ cần thiết được giải thích ngay trong đoạn ngắn, ví dụ “repeated” là chạy lại benchmark để kiểm tra kết quả có tái lập. Thời lượng là mục tiêu để luyện, không phải bản ghi đã bấm giờ. Khi cần hiểu sâu hoặc trả lời câu hỏi, đọc tiếp “Slide muốn nói gì”, phần lập luận, thuật ngữ và lời nói mẫu dài bên dưới.
 
-- **Slide 1–20:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết mọi lời nói mẫu nếu vượt thời gian.
-- **Slide 21–32:** phần AI dự phòng khi được hỏi. Phần chính đi theo bốn câu hỏi nghiên cứu; lịch sử chi tiết ở phần dự phòng.
+- **Slide 1–16:** phần AI chính. Dùng [kế hoạch AI gọn khoảng 10–12 phút](PRESENTATION_PLAN.md), là mục tiêu tập nói đang chờ xác nhận tổng thời gian chính thức; không chiếm thời gian đã thống nhất của OpenFOAM.
+- **Slide 17–32:** phần AI dự phòng khi được hỏi. Slide dự phòng được ẩn khi trình chiếu PowerPoint; từ AI 16 sẽ chuyển sang OpenFOAM 33. Tài liệu này vẫn giữ đủ 40 slide để học và tra cứu.
 - **Slide 33–40:** giải thích phần HPC đang có trong cùng deck, chỉ đọc và diễn giải. Trạng thái job trên các slide này là **ảnh chụp ngày 23/10**, không phải trạng thái trực tiếp ngày 30/10. Hướng dẫn này không cập nhật hay xác nhận kết quả HPC mới. Thời lượng AI không bao gồm mặc định phần HPC.
 - Mỗi slide có nhãn **Phần cứng** ngay dưới tiêu đề. H200 là Firmus, H100 là NSCC ASPIRE 2A+; slide có cả hai hoặc có phép kiểm tra CPU sẽ ghi riêng. Nhãn “chung” chỉ quy tắc hoặc bố trí dùng trên cả hai hệ thống, không biến chúng thành một phép so hiệu năng cùng điều kiện.
 - Màu sắc có ý nghĩa **theo từng slide**. Cam không luôn là “thắng” hay “thua”. Ảnh nền, gradient và đường trang trí cuối slide không biểu diễn dữ liệu.
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
 - Nghiên cứu đã dừng theo yêu cầu. Các việc “tiếp theo” trong slide là đề xuất hoặc câu chuyện tại thời điểm đó, không phải job mới đã chạy.
 
-Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-reasoning-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `171fa7ce896ecbfc3708c1d15e5b603cb4bf80ee46a9c3a9f59af1ae0a1995d8`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
+Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `dcc56658f7efa1b43294d32316de4eb27c65d765d2a9f1806e18c67a40ca9d13`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
 ## Những cách gọi cần hiểu trước khi thuyết trình
 
@@ -75,38 +75,38 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 ## Mục lục theo slide
 
-- [Slide 01 — How do we reason about a fast Qwen service?](#slide-01)
-- [Slide 02 — Define success before choosing an optimisation](#slide-02)
-- [Slide 03 — Which GPU layouts are feasible candidates?](#slide-03)
-- [Slide 04 — Why keep two TP4 prefills and one TP8 decode?](#slide-04)
-- [Slide 05 — Worker readiness did not prove a working service](#slide-05)
-- [Slide 06 — What does the profile identify—and what does it not?](#slide-06)
-- [Slide 07 — Why investigate descriptor setup before bandwidth?](#slide-07)
-- [Slide 08 — Do attention and communication choices interact?](#slide-08)
-- [Slide 09 — Does a decode change improve the service objective?](#slide-09)
-- [Slide 10 — Where should we stop increasing concurrency?](#slide-10)
-- [Slide 11 — Which requests still fail after goodput improves?](#slide-11)
-- [Slide 12 — Keep an intervention only if the objective improves](#slide-12)
-- [Slide 13 — Did speculative decoding solve this workload?](#slide-13)
-- [Slide 14 — Does the improvement survive another deployment?](#slide-14)
-- [Slide 15 — Why did a later replay score lower?](#slide-15)
-- [Slide 16 — Can one platform predict another reliably?](#slide-16)
-- [Slide 17 — What does passing latency leave unverified?](#slide-17)
-- [Slide 18 — Does the packaged deployment complete end to end?](#slide-18)
-- [Slide 19 — Four decisions, each with an evidence boundary](#slide-19)
-- [Slide 20 — What should the next iteration establish?](#slide-20)
-- [Slide 21 — Backup · two platforms, separate experimental systems](#slide-21)
-- [Slide 22 — Backup · FP8 geometry constrains a topology](#slide-22)
-- [Slide 23 — Backup · historical milestones behind the decisions](#slide-23)
-- [Slide 24 — Backup · request-scoped descriptor construction](#slide-24)
-- [Slide 25 — Backup · what the KV recovery run actually proves](#slide-25)
-- [Slide 26 — Backup · H100: first-token gain, goodput loss](#slide-26)
-- [Slide 27 — Backup · does a startup saving survive reversed order?](#slide-27)
-- [Slide 28 — Backup · source-supported changes that did not win](#slide-28)
-- [Slide 29 — Backup · scope limits of kernel and source evidence](#slide-29)
-- [Slide 30 — Backup · the retained settings on each platform](#slide-30)
-- [Slide 31 — Backup · workload control and prefill chunk trial](#slide-31)
-- [Slide 32 — Backup · less graph memory did not raise goodput](#slide-32)
+- [Slide 01 — Fast tokens count only when requests meet both latency limits](#slide-01)
+- [Slide 02 — Three investigations support three different kinds of claim](#slide-02)
+- [Slide 03 — Replica count and parallel width compete for the same 16 GPUs](#slide-03)
+- [Slide 04 — Two TP4 prefills feed one TP8 decode within the two-node budget](#slide-04)
+- [Slide 05 — Ready workers still failed before the first usable benchmark](#slide-05)
+- [Slide 06 — Request-scoped descriptors remove work unrelated to the request](#slide-06)
+- [Slide 07 — The patched path became usable; descriptor-only speedup is unknown](#slide-07)
+- [Slide 08 — Profiles identify candidates for investigation, not a proven time budget](#slide-08)
+- [Slide 09 — Test the decode implementation while holding the serving setup fixed](#slide-09)
+- [Slide 10 — Higher goodput came with slower first tokens and faster streaming](#slide-10)
+- [Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage](#slide-11)
+- [Slide 12 — The remaining latency failures are first-token tails](#slide-12)
+- [Slide 13 — Repeated evidence supports N64 more strongly than an isolated peak](#slide-13)
+- [Slide 14 — One held-out check supports a local forecast, not a GPU conversion rule](#slide-14)
+- [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
+- [Slide 16 — The performance claim is bounded; two validation tasks remain open](#slide-16)
+- [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
+- [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
+- [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
+- [Slide 20 — Backup · request-scoped descriptor construction](#slide-20)
+- [Slide 21 — Backup · what the KV recovery run actually proves](#slide-21)
+- [Slide 22 — Backup · H100: first-token gain, goodput loss](#slide-22)
+- [Slide 23 — Backup · does a startup saving survive reversed order?](#slide-23)
+- [Slide 24 — Backup · source-supported changes that did not win](#slide-24)
+- [Slide 25 — Backup · scope limits of kernel and source evidence](#slide-25)
+- [Slide 26 — Backup · the retained settings on each platform](#slide-26)
+- [Slide 27 — Backup · workload control and prefill chunk trial](#slide-27)
+- [Slide 28 — Backup · less graph memory did not raise goodput](#slide-28)
+- [Slide 29 — Why did a later replay score lower?](#slide-29)
+- [Slide 30 — Did speculative decoding solve this workload?](#slide-30)
+- [Slide 31 — Does the packaged deployment complete end to end?](#slide-31)
+- [Slide 32 — Do attention and communication choices interact?](#slide-32)
 - [Slide 33 — The task: same 65-million-cell airflow calculation](#slide-33)
 - [Slide 34 — The whole required pipeline comes before the score](#slide-34)
 - [Slide 35 — A smaller partition cut did not make the solver faster](#slide-35)
@@ -120,1115 +120,1071 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 <a id="slide-01"></a>
 
-## Slide 01 — How do we reason about a fast Qwen service?
+## Slide 01 — Fast tokens count only when requests meet both latency limits
 
-**Phần cứng: H200 + H100 — tổng quan bốn câu hỏi AI; H200 là hệ thống chính.**
+**Phần cứng: 16 H200 · 2 nodes · Qwen3-235B FP8**
+
+**Loại nội dung: Mục tiêu hoặc giới hạn kết luận.**
 
 ### Nói nhanh · 10–20 giây
 
-Nhóm trả lời bốn câu hỏi: chia 16 H 200 thế nào, dịch vụ bị hạn chế ở đâu, thay đổi nào tăng thông lượng đạt chuẩn và kết quả có tái lập không. Chúng tôi trình bày bằng chứng cho quyết định, cả giả thuyết thất bại và những điều chưa xác minh.
+Chúng tôi phục vụ Qwen3-235B FP8 trên 16 GPU H200. Một yêu cầu chỉ được tính khi đạt cả hai giới hạn độ trễ; ít nhất 90% phải đạt. Chỉ thông lượng đầu ra đạt chuẩn mới được báo cáo.
 
-![Slide 01](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-01.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Chọn cách phục vụ mô hình đã định trong ngân sách mười sáu H200, đồng thời xử lý workload tổng hợp cố định.
+- **Vì sao quan trọng:** Yêu cầu trượt độ trễ không hữu ích cho mục tiêu đã đặt, dù hệ thống có thể sinh nhiều token thô.
+- **Vì sao chọn phép thử này:** Cố định kích thước yêu cầu, kiểm tra cả TTFT lẫn mean ITL trên từng yêu cầu, rồi chỉ tổng hợp phần dịch vụ đạt chuẩn thành goodput.
+- **Điều rút ra:** Nghiên cứu tối ưu đầu ra hữu ích đạt độ trễ và yêu cầu ít nhất 90% toàn bộ yêu cầu vượt qua cả hai giới hạn.
+- **Vì sao chuyển sang bước tiếp:** Sau khi định nghĩa thành công, slide kế tiếp tách kết luận nào là quyết định kỹ thuật, đóng góp trực tiếp của nhóm và bằng chứng thực nghiệm riêng.
 
 ### Slide muốn nói gì
 
-Mở bài bằng bốn câu hỏi nghiên cứu và cách suy luận để trả lời, thay vì kể lần lượt từng job.
+Định nghĩa mục tiêu dịch vụ trước khi bàn về tối ưu. Mô hình, ngân sách GPU, hình dạng yêu cầu và cổng độ trễ từng yêu cầu đều được cố định. Mọi quyết định topology hay backend sau đó được đánh giá theo đầu ra dịch vụ đạt chuẩn, không theo số token thô lớn nhất.
 
 ### Giải thích kết quả và lập luận
 
-Bốn câu hỏi là chia GPU thế nào, bằng chứng cho thấy hạn chế gì, thay đổi nào có ích và kết quả có bền vững không. Mỗi vòng đi từ vấn đề, quan sát, phân tích, giả thuyết, thay đổi và đo, đánh giá nguyên nhân đến quyết định.
+Giải thích luồng tính chỉ số từ một yêu cầu đến điểm dịch vụ cuối: yêu cầu có prompt và độ dài đầu ra cố định; TTFT và mean ITL được kiểm tra riêng cho yêu cầu đó; yêu cầu đạt chuẩn đóng góp vào goodput; goodput nhân với 200 token đầu ra yêu cầu để báo good output tokens mỗi giây. Lỗi vẫn thuộc tập được đánh giá. Không cần suy diễn ký hiệu biểu đồ hay màu trang trí không được nêu.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Qwen:** Dòng mô hình ngôn ngữ dùng trong bài toán; nghiên cứu phục vụ checkpoint Qwen3-235B được chỉ định.
-- **APAC HPC-AI 2026:** Bối cảnh cuộc thi của nghiên cứu, không đồng nghĩa với giải thưởng hay được ban tổ chức chấp nhận.
-- **30 October 2026:** Ngày của bản cập nhật nghiên cứu; các kết quả được trình bày là ghi nhận đến ngày này.
-- **VNUHCM - TripleU:** Tên nhóm trình bày.
+- **Qwen3-235B FP8:** Checkpoint mô hình ngôn ngữ được chọn và định dạng trọng số dấu phẩy động tám bit.
+- **16 H200 · 2 nodes:** Phạm vi tính toán chính cố định: mười sáu GPU H200 trên hai nút.
+- **4,000 input → 200 output tokens:** Hình dạng yêu cầu tổng hợp: prompt 4.000 token yêu cầu mô hình sinh 200 token.
+- **TTFT ≤ 3,000 ms:** Thời gian đến token đầu tiên của từng yêu cầu không quá 3.000 mili giây.
+- **Mean ITL ≤ 20 ms:** Độ trễ trung bình giữa các token được sinh trong một yêu cầu không quá 20 mili giây.
+- **Joint SLA ≥ 90%:** Ít nhất 90% toàn bộ yêu cầu được đánh giá phải đồng thời đạt hai giới hạn độ trễ. Yêu cầu lỗi làm giảm tỷ lệ này.
+- **Goodput × 200 = good output tokens/s:** Số yêu cầu đạt chuẩn mỗi giây nhân với 200 token đầu ra được yêu cầu trên mỗi yêu cầu. Kết quả là tốc độ token đầu ra đạt chuẩn được báo cáo.
+- **ms:** Mili giây, bằng một phần nghìn giây, dùng làm đơn vị độ trễ.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Thứ tự trong tiêu đề cũng là thứ tự lập luận: hệ thống phải chạy đúng trước, sau đó mới có ý nghĩa khi so tốc độ.
-- “Tái lập” ở đây là kết quả gần nhau khi chạy lại, không phải khẳng định kết quả đúng trên mọi máy hoặc mọi workload.
+- Theo dõi từng yêu cầu qua cả hai kiểm tra độ trễ; chỉ đạt một giới hạn là chưa đủ.
+- Điều kiện 90% tính trên toàn bộ yêu cầu được đánh giá, bao gồm cả lỗi trong mẫu số.
+- Good output tokens mỗi giây là chỉ số dịch vụ được suy ra, không đơn giản là tổng token sinh chia cho thời gian chạy.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Công việc đi từ khôi phục kiến trúc phục vụ hai nút và truyền KV đến thử nghiệm backend theo từng giai đoạn và các phép đo đầy đủ được lặp lại.
-- **Giả thuyết:** Muốn tối ưu kernel có ý nghĩa, trước hết phải làm cho đường triển khai và phép đo đầu cuối hoạt động đúng.
-- **Kết luận được hỗ trợ:** Bài trình bày sẽ đưa ra cấu hình vận hành được đo lặp và các lựa chọn có căn cứ, đồng thời tách chúng khỏi điểm cao đơn lẻ và việc xác minh accuracy chính thức.
-- **Chưa biết / giới hạn:** Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả nhóm tự đo không phải thứ hạng chính thức của cuộc thi.
+- **Quan sát:** Bài toán cố định prompt 4.000 token, 200 token đầu ra yêu cầu, hai giới hạn độ trễ từng yêu cầu và tỷ lệ đạt kết hợp tối thiểu 90%.
+- **Giả thuyết:** Cấu hình tạo nhiều token thô vẫn có thể phục vụ kém nếu quá nhiều yêu cầu riêng lẻ trượt một trong hai giới hạn độ trễ.
+- **Kết luận được hỗ trợ:** Dùng thông lượng đạt chuẩn dưới cổng kết hợp làm mục tiêu cho các quyết định kỹ thuật và thực nghiệm sau.
+- **Chưa biết / giới hạn:** Định nghĩa này không chứng minh accuracy chính thức của mô hình hay thứ hạng cuộc thi; chất lượng trên bộ đầy đủ vẫn là câu hỏi xác minh riêng.
 
 ### Lời nói mẫu
 
-Nhóm trả lời bốn câu hỏi: chia 16 H 200 thế nào, dịch vụ bị hạn chế ở đâu, thay đổi nào tăng thông lượng đạt chuẩn và kết quả có tái lập không. Chúng tôi trình bày bằng chứng cho quyết định, cả giả thuyết thất bại và những điều chưa xác minh.
+Bài toán của chúng tôi là phục vụ Qwen3-235B FP8 trên mười sáu GPU H200, chia trên hai nút. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ được tính nếu nhận token đầu tiên trong không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% toàn bộ yêu cầu phải đồng thời đạt hai điều kiện; lỗi cũng bị tính. Vì vậy chúng tôi báo cáo goodput nhân với 200 token đầu ra yêu cầu. Chỉ số này phản ánh đầu ra đạt chuẩn, không phải toàn bộ token sinh. Accuracy chính thức là câu hỏi riêng.
 
 ### Điều không nên nói
 
-Không gọi đây là chiến thắng, được ban tổ chức chấp nhận, hay đã chứng nhận accuracy. Ngày tháng giới hạn kết luận ở bản cập nhật này.
+Không bỏ lỗi, không suy ra tỷ lệ đạt từng yêu cầu từ độ trễ trung bình, và không gọi chỉ số dịch vụ cục bộ này là chứng nhận accuracy chính thức.
 
 ### Câu chuyển slide
 
-Trước khi chọn phương án, cần xác định bài toán cố định và điều kiện thành công.
+Khi mục tiêu đã rõ, ta có thể phân biệt chính xác phần nào là quyết định kỹ thuật, đóng góp trực tiếp và bằng chứng thực nghiệm riêng.
 
 ---
 
 <a id="slide-02"></a>
 
-## Slide 02 — Define success before choosing an optimisation
+## Slide 02 — Three investigations support three different kinds of claim
 
-**Phần cứng: H200 · Firmus — bài toán 16 GPU; quy tắc độ trễ dùng chung.**
+**Phần cứng: H200 primary · H100 kept separate**
+
+**Loại nội dung: Mục tiêu hoặc giới hạn kết luận.**
 
 ### Nói nhanh · 10–20 giây
 
-Bài toán cố định là Qwen 3-235 B trên hai node, mỗi node tám H 200. Request có 4000 token vào và yêu cầu 200 token ra. Ít nhất 90% phải đạt cả hai ngưỡng chờ token đầu và khoảng token. Nhóm tối ưu thông lượng đạt chuẩn, không chỉ tổng token sinh ra.
+Chúng tôi tách lựa chọn kiến trúc, bản vá KV theo yêu cầu của nhóm và phép đo backend. Mỗi kết luận có loại bằng chứng riêng: hồ sơ layout, source cùng xác minh truyền, hoặc thử nghiệm có đối chứng; H100 được giữ riêng với H200.
 
-![Slide 02](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-02.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Trình bày một nghiên cứu hệ thống dài mà không đánh đồng lựa chọn topology, thay đổi code và thí nghiệm hiệu năng.
+- **Vì sao quan trọng:** Bằng chứng khả thi có thể chưa hỗ trợ tuyên bố tăng tốc; hiệu ứng backend đo được cũng không tự xác thực bản vá truyền khác.
+- **Vì sao chọn phép thử này:** Gán mỗi kết luận một cổng bằng chứng riêng và giữ nhãn nền tảng/cấu hình gắn với từng quan sát.
+- **Điều rút ra:** Nhóm có một lựa chọn kỹ thuật, một triển khai truyền KV trực tiếp với phạm vi xác minh giới hạn và các kết quả backend từ so sánh riêng.
+- **Vì sao chuyển sang bước tiếp:** Trước hết xem đánh đổi topology trong ngân sách mười sáu GPU; sau đó xem layout được giữ lại và nhánh lịch sử riêng nơi xảy ra lỗi KV.
 
 ### Slide muốn nói gì
 
-Đặt model, giới hạn phần cứng, tải và điều kiện độ trễ trước khi so các cấu hình.
+Lập bản đồ đóng góp của bài trình bày để không dùng bằng chứng của một loại kết luận nhằm nói quá loại khác. Quyết định kỹ thuật chọn thiết kế khả thi; bản vá KV là phần triển khai cụ thể của nhóm; so sánh backend là kết quả đo cần đối chứng và lặp lại riêng.
 
 ### Giải thích kết quả và lập luận
 
-Qwen 3-235 B FP 8 chạy trong hai node, mỗi node tám H 200. Workload yêu cầu 4000 token vào và 200 token ra. Sinh nhiều token chỉ có ích nếu từng request đạt cả hai giới hạn độ trễ, đồng thời tỷ lệ đạt trên toàn bộ request không dưới 90%.
+Mô tả ba luồng kết luận cùng hướng đến một mục tiêu. Luồng kiến trúc có hồ sơ layout khả thi hỗ trợ; luồng truyền KV có thay đổi source, kiểm tra hình học và lần chạy thật có bản vá; luồng backend có quan sát benchmark có kiểm soát và phép lặp. Mỗi luồng có cổng bằng chứng riêng. Kết quả H100 nằm trong luồng nền tảng riêng. Đây là bản đồ loại kết luận, không phải ba phần trăm có thể cộng lại.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **4,000 input tokens → 200 output tokens:** Kích thước yêu cầu tổng hợp cố định: prompt 4.000 token và yêu cầu sinh 200 token đầu ra.
-- **TTFT ↓:** Time to first token, thời gian đến token đầu tiên; càng thấp càng tốt, giới hạn cho mỗi yêu cầu là 3.000 mili giây.
-- **Mean ITL ↓:** Mean inter-token latency, độ trễ trung bình giữa các token được sinh trong một yêu cầu; càng thấp càng tốt, giới hạn 20 mili giây.
-- **Joint SLA ↑:** Tỷ lệ tất cả yêu cầu được đánh giá đồng thời đạt hai giới hạn độ trễ; mục tiêu ít nhất 90%. Lỗi vẫn nằm trong mẫu số.
-- **Goodput ↑:** Tốc độ yêu cầu đạt chuẩn. Nhân số yêu cầu đạt chuẩn mỗi giây với 200 để tính good output tokens mỗi giây.
-- **ms:** Mili giây, bằng một phần nghìn giây; đơn vị độ trễ.
-- **req/s × 200:** Số yêu cầu đạt chuẩn mỗi giây nhân với 200 token đầu ra được yêu cầu trên mỗi yêu cầu.
+- **Engineering decision:** Lựa chọn có căn cứ giữa các layout theo ràng buộc phần cứng và dịch vụ; tự nó không phải tuyên bố tăng tốc nhân quả đơn lẻ.
+- **Team KV patch:** Thay đổi NIXL theo yêu cầu cho descriptor TP khác nhau cùng bằng chứng kiểm tra đúng đắn/khả thi đã chạy.
+- **Backend experimental finding:** So sánh đo được giữa lựa chọn backend phục vụ dưới tải và đối chứng đã nêu; không đồng nhất với đóng góp code KV.
+- **Evidence gate:** Loại hồ sơ cần cho một kết luận: khả thi triển khai, kiểm tra thay đổi code, hoặc phép đo hiệu năng ghép cặp.
+- **H200 / H100:** Hai nền tảng GPU khác nhau; kết quả được giữ ở chuỗi riêng, không gộp như thể có thể thay thế nhau.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Mũi tên chỉ hướng mong muốn: độ trễ giảm, tỷ lệ đạt và goodput tăng.
-- Một yêu cầu phải đồng thời đạt TTFT và mean ITL mới được tính là đạt chuẩn.
-- Ngưỡng 90% áp dụng trên toàn bộ yêu cầu được đánh giá, không chỉ yêu cầu thành công.
+- Đọc riêng ba luồng: lựa chọn kiến trúc, triển khai KV trực tiếp và thí nghiệm backend.
+- Triển khai thành công chưa tự chứng minh tăng tốc; bản vá source chưa tự chứng minh truyền GPU; điểm backend không chứng nhận accuracy mô hình.
+- Mọi luồng đều dùng mục tiêu goodput đạt độ trễ ở slide 1, nhưng bằng chứng giữa chúng không thể thay thế nhau.
+- Nhãn nền tảng H200 chính và các quan sát H100 phải được giữ nguyên.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Benchmark cố định kích thước yêu cầu và áp dụng quy tắc độ trễ kết hợp theo từng yêu cầu; lỗi vẫn bị tính. Goodput dựa trên các yêu cầu qua cả hai giới hạn.
-- **Giả thuyết:** Hệ thống sinh nhiều token thô hơn vẫn có thể kém hơn nếu quá nhiều yêu cầu vi phạm thời gian token đầu hoặc khoảng cách token.
-- **Kết luận được hỗ trợ:** Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các điều kiện độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.
-- **Chưa biết / giới hạn:** Bảng định nghĩa giao thức nhưng không có số đo của ứng viên nào; nó không cho biết phân bố độ trễ thực tế của từng cấu hình.
+- **Quan sát:** Nghiên cứu có quyết định layout, một thay đổi truyền theo yêu cầu cụ thể và các thử nghiệm backend riêng; mỗi phần có đường bằng chứng khác nhau.
+- **Giả thuyết:** Tách loại kết luận giúp giải thích điều nhóm triển khai, điều nhóm đo và điều vẫn chỉ là lựa chọn kỹ thuật.
+- **Kết luận được hỗ trợ:** Báo cáo mỗi đóng góp đúng mức mà bằng chứng hỗ trợ, đồng thời giữ kết quả H100 tách khỏi chuỗi H200 chính.
+- **Chưa biết / giới hạn:** Bản đồ đóng góp này không làm mọi kết quả thành quan hệ nhân quả, không cộng chúng thành một mức tăng và không xác lập accuracy chính thức.
 
 ### Lời nói mẫu
 
-Bài toán cố định là Qwen 3-235 B trên hai node, mỗi node tám H 200. Request có 4000 token vào và yêu cầu 200 token ra. Ít nhất 90% phải đạt cả hai ngưỡng chờ token đầu và khoảng token. Nhóm tối ưu thông lượng đạt chuẩn, không chỉ tổng token sinh ra.
+Có ba loại đóng góp ở đây. Thứ nhất là quyết định kỹ thuật: chọn layout vừa ngân sách mười sáu GPU và phục vụ được workload. Thứ hai là đóng góp trực tiếp của nhóm: đổi cách tạo descriptor KV cho TP khác nhau sang xử lý theo yêu cầu. Thứ ba là kết quả backend từ các phép so sánh serving có kiểm soát. Mỗi loại cần bằng chứng khác nhau. Layout chạy được chưa tự chứng minh tăng tốc. Kiểm tra hình học CPU chưa chứng minh truyền GPU. Điểm backend không chứng nhận accuracy mô hình. Tất cả vẫn dùng cùng mục tiêu đạt độ trễ, nhưng bằng chứng được giữ riêng. H200 là nền tảng chính; H100 là chuỗi khác.
 
 ### Điều không nên nói
 
-Không suy ra tỷ lệ đạt theo từng yêu cầu từ một giá trị trung bình tổng hợp. Không bỏ lỗi khỏi mẫu số và không thay 200 bằng độ dài đầu ra khác.
+Không cộng ba luồng thành một mức tăng tổng hoặc dùng phép đo backend để nhận công nhân quả riêng cho bản vá KV.
 
 ### Câu chuyển slide
 
-Khi đã rõ điều kiện thành công, câu hỏi đầu tiên là cách chia GPU nào khả thi.
+Ta bắt đầu từ quyết định kiến trúc: số replica và độ rộng song song cùng cạnh tranh một ngân sách mười sáu GPU.
 
 ---
 
 <a id="slide-03"></a>
 
-## Slide 03 — Which GPU layouts are feasible candidates?
+## Slide 03 — Replica count and parallel width compete for the same 16 GPUs
 
-**Phần cứng: H200 · Firmus — chiến dịch topology.**
+**Phần cứng: H200 · historical topology observations**
+
+**Loại nội dung: Quyết định kỹ thuật.**
 
 ### Nói nhanh · 10–20 giây
 
-Nhóm so các cách đánh đổi giữa số worker và số GPU cùng xử lý một model. Có 17 cấu hình đo được để làm bằng chứng. Bố trí được chọn đạt khoảng 1912 token đạt chuẩn mỗi giây ở 48 request đồng thời. Vì tải và lịch sử truyền khác nhau, chưa thể kết luận đây là topology tối ưu toàn cục.
+Tăng số replica prefill giúp phục vụ đồng thời nhiều yêu cầu, còn nhóm song song rộng hơn cấp thêm GPU cho mỗi worker mô hình. Các mốc khả thi là 1.297 ở N32, 1.666 ở N40 và 1.912 good tokens/s ở N48, nhưng tải cũng khác nhau.
 
-![Slide 03](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-03.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Phân bổ mười sáu H200 giữa prefill và decode, cân bằng số replica worker với số GPU giao cho mỗi worker.
+- **Vì sao quan trọng:** Quá ít replica có thể giới hạn tiếp nhận prompt; worker quá hẹp có thể xử lý phần việc kém hiệu quả; decode cũng có nhu cầu song song khác.
+- **Vì sao chọn phép thử này:** Khảo sát các nhánh topology khả thi và ghi lại concurrency cùng goodput, đồng thời giữ thất bại và cấu hình thay thế như các bằng chứng riêng.
+- **Điều rút ra:** Đã khôi phục mười bảy cấu hình dùng được sau rà soát, gồm các thay thế EP2; ví dụ điểm tăng từ 1.297 ở N32 lên 1.912 ở N48 nhưng tải khác nhau.
+- **Vì sao chuyển sang bước tiếp:** Slide kế tiếp trình bày kiến trúc được giữ như một quyết định kỹ thuật dưới các đánh đổi này, không phải người thắng nhân quả của phép quét topology ghép cặp.
 
 ### Slide muốn nói gì
 
-Dùng chiến dịch topology làm bằng chứng cho quyết định bố trí tài nguyên khả thi, không lấy số lượng cấu hình làm câu chuyện chính.
+Giải thích đánh đổi kỹ thuật dẫn đến cách chia được giữ lại. Cùng mười sáu GPU có thể dùng cho nhiều replica hơn hoặc độ song song rộng hơn; prefill và decode có nhu cầu khác nhau. Điểm topology lịch sử cho thấy tính khả thi và tiến trình, không phải xếp hạng nhân quả cùng tải.
 
 ### Giải thích kết quả và lập luận
 
-Worker TP rộng hơn chia một model lên nhiều GPU hơn, nên ngân sách GPU cố định chứa được ít bản worker hơn. Nhiều worker có thể nhận request riêng nhưng mỗi worker có ít bộ nhớ GPU hơn và chi phí giao tiếp khác. Chỉ đo cấu hình nạp được shard FP 8 tương thích, truyền đúng và trả lời hợp lệ.
+Dùng các nhánh để biểu diễn những cách khả thi phân bổ mười sáu GPU cố định: nhiều replica prefill hẹp và nhiều nhóm decode, hoặc ít worker prefill rộng hơn cùng nhóm decode rộng. Gắn các mốc khả thi lịch sử N32/1.297,02, N40/1.666,01 và N48/1.912,30 good tokens/s. Ghi rõ N là số yêu cầu client đang xử lý đồng thời. Nối nhánh như các ứng viên, không phải trục thời gian hay thứ hạng nhân quả, vì concurrency và điều kiện thử khác nhau.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **07 / 09:** Mã định danh của các thử nghiệm layout đầu tiên, không phải phiên bản phần mềm.
-- **4 × TP2 / 2 × TP4:** Bốn worker prefill với tensor parallelism bằng hai; hàng kế tiếp dùng hai worker prefill với tensor parallelism bằng bốn.
-- **TP4/EP4:** Worker decode cấu hình tensor parallelism bốn và expert parallelism bốn.
-- **Selected split: 2 × TP4; 1 × TP8/EP8:** Hai worker prefill, mỗi worker TP4, và một worker decode TP8/EP8.
-- **N:** Concurrency của client: mục tiêu số yêu cầu được giữ đang xử lý đồng thời, không phải số GPU hoặc token.
-- **good tokens/s:** Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ từng yêu cầu.
-- **14 + 3 = 17 usable configurations:** Mười bốn layout gốc đã đo cộng ba cấu hình thay thế EP2 đã đo trong sổ phục hồi.
+- **replica:** Một worker riêng có thể xử lý yêu cầu; nhiều replica hơn có thể chia tải vào nhưng cũng tiêu tốn GPU.
+- **parallel width / TP:** Số GPU phối hợp phục vụ một worker mô hình thông qua tensor parallelism.
+- **EP:** Expert parallelism, cách chia tính toán expert trong mô hình mixture-of-experts.
+- **N32 / N40 / N48:** Mục tiêu concurrency 32, 40 và 48 yêu cầu đang xử lý; N không phải số GPU.
+- **good tokens/s:** Token đầu ra mỗi giây đạt giới hạn độ trễ kết hợp của dịch vụ.
+- **17 usable configurations:** Sổ khôi phục topology đã rà soát đếm mười bốn layout gốc được đo cộng ba cấu hình thay thế EP2 được đo. Đây không phải khẳng định mọi lần thử đều thành công hay tạo thành thứ hạng cùng tải.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- So sánh mỗi hàng theo topology của hai vai trò, concurrency N và good output tokens mỗi giây.
-- N tăng từ 32 lên 40 rồi 48 trong các hàng minh họa; tải và lịch sử truyền dữ liệu cũng khác nhau.
-- Con số tổng kết đếm cấu hình đo được và dùng được; nó không nói mọi layout thử đều thành công.
+- Bốn replica prefill TP2 cùng hai nhóm decode TP4/EP4 sử dụng GPU khác với hai worker prefill TP4 cộng một worker decode TP8/EP8.
+- Các quan sát lịch sử hiển thị là 1.297,02 ở N32, 1.666,01 ở N40 và 1.912,30 good tokens/s ở N48.
+- N thay đổi giữa các điểm, nên không thể quy điểm cao hơn chỉ cho topology.
+- Con số mười bảy cấu hình dùng được tóm tắt bằng chứng đã rà soát, không phải quét có kiểm soát cùng tải.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Trong mẫu topology ban đầu, cách chia được chọn đạt 1912,30 good tokens/s ở N48; các cấu hình hiển thị tại N32 và N40 lần lượt đạt 1297,02 và 1666,01. Sổ phục hồi đếm tổng cộng 14 layout gốc cộng ba cấu hình thay thế EP2.
-- **Giả thuyết:** Phân bổ cân bằng giữa số worker prefill và mức song song decode có thể phục vụ tốt hơn mức concurrency đã chọn.
-- **Kết luận được hỗ trợ:** Các thử nghiệm tạo ra kiến trúc có thể tiếp tục phát triển. Đây là các điểm vận hành ban đầu, chưa phải thứ hạng nhân quả sạch vì tải và lịch sử truyền khác nhau.
-- **Chưa biết / giới hạn:** Slide không liệt kê đủ 17 cấu hình hoặc khoảng tin cậy; không thể tách riêng thay đổi topology nào gây ra chênh lệch điểm.
+- **Quan sát:** Ngân sách GPU cố định buộc nhóm chọn giữa số replica và độ rộng song song. Các ví dụ dùng được đã rà soát gồm N32 đạt 1297,02; N40 đạt 1666,01; N48 đạt 1912,30 good tokens/s; tổng cộng đếm mười bốn layout gốc và ba cấu hình thay thế EP2.
+- **Giả thuyết:** Layout có đủ replica prefill cùng worker decode rộng hơn có thể cân bằng xử lý prompt và sinh token ở tải dự định.
+- **Kết luận được hỗ trợ:** Khôi phục topology tạo ra ứng viên khả thi và cung cấp căn cứ cho cách chia được chọn sau đó. Điểm tăng trong ví dụ không phải thứ hạng nhân quả vì concurrency và điều kiện lịch sử khác nhau.
+- **Chưa biết / giới hạn:** Các điểm này chưa xác lập lợi thế của kiến trúc được chọn so với mọi phương án khi chạy cùng tải; số lượng cấu hình không phải so sánh thống kê có điều kiện chung.
 
 ### Lời nói mẫu
 
-Nhóm so các cách đánh đổi giữa số worker và số GPU cùng xử lý một model. Có 17 cấu hình đo được để làm bằng chứng. Bố trí được chọn đạt khoảng 1912 token đạt chuẩn mỗi giây ở 48 request đồng thời. Vì tải và lịch sử truyền khác nhau, chưa thể kết luận đây là topology tối ưu toàn cục.
+Câu hỏi kỹ thuật đầu tiên là phân bổ mười sáu GPU thế nào. Ta có thể tạo nhiều replica prefill hẹp hơn, hoặc cấp thêm GPU cho ít worker hơn và cho decode. Ví dụ khả thi trong lịch sử đạt 1.297 good tokens mỗi giây ở concurrency 32, 1.666 ở 40 và 1.912 ở 48. Nhưng concurrency thay đổi giữa các điểm, nên số cao hơn không chứng minh riêng topology gây ra mức tăng. Sổ khôi phục có mười bảy cấu hình khả thi đã đo, gồm ba cấu hình thay thế EP2; các layout gốc thất bại cũng được giữ lại. Những thử nghiệm này cho biết cách bố trí nào có thể hoạt động và giúp chọn split sau đó. Chúng không phải bảng xếp hạng có kiểm soát ở cùng tải.
 
 ### Điều không nên nói
 
-Không hiểu 07 hay 09 là phiên bản phần mềm. Không quy toàn bộ tăng thông lượng cho topology đang hiển thị vì N và lịch sử thử nghiệm cũng khác.
+Không hiểu N là số GPU và không dùng ba điểm ở tải khác nhau làm thứ hạng nhân quả. Cấu hình thay thế EP2 là thử nghiệm mới, không sửa hồi tố cho cấu hình gốc thất bại.
 
 ### Câu chuyển slide
 
-Bố trí được chọn là quyết định theo ràng buộc đã quan sát; hình sau cho thấy cách dùng hai node.
+Từ đánh đổi này, slide tiếp theo nêu kiến trúc được giữ và đường truyền bổ sung do việc tách vai trò tạo ra.
 
 ---
 
 <a id="slide-04"></a>
 
-## Slide 04 — Why keep two TP4 prefills and one TP8 decode?
+## Slide 04 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-**Phần cứng: H200 · Firmus — bố trí được chọn trên 16 GPU.**
+**Phần cứng: 16 H200 · Firmus**
+
+**Loại nội dung: Quyết định kỹ thuật.**
 
 ### Nói nhanh · 10–20 giây
 
-Nhóm giữ hai worker bốnGPU xử lý prompt và một worker támGPU sinh token. Nhóm TP nằm trong từng node, còn hai giai đoạn dùng cách thực thi riêng. Đổi lại phải truyền KV đúng. Số đo hỗ trợ lựa chọn khả thi này, chưa chứng minh mọi phương án đã được so ở cùng tải.
+Cách chia được giữ lại dùng hai worker prefill TP4/EP1, mỗi worker bốn GPU, trên một nút; nút kia chạy decode TP8/EP8 trên tám GPU. Cấu hình vừa 16 H200 nhưng cần truyền KV giữa hai vai trò. Cấu hình này được chọn để cân bằng hai pha trong ngân sách GPU.
 
-![Slide 04](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-04.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Chuyển các ứng viên topology thành kiến trúc phục vụ hai nút, dùng phân bổ đủ mười sáu H200.
+- **Vì sao quan trọng:** Hai giai đoạn dịch vụ có nhu cầu tài nguyên khác nhau; cách chia quyết định năng lực worker và việc KV phải chuyển qua nút hay không.
+- **Vì sao chọn phép thử này:** Giữ hai worker prefill TP4/EP1 cùng một worker decode TP8/EP8 như layout chuyên biệt khả thi, rồi xác minh đường truyền thực tế.
+- **Điều rút ra:** Kiến trúc vừa ngân sách nút và tách riêng vai trò prefill/decode, nhưng tạo ra yêu cầu truyền KV giữa hai vai trò.
+- **Vì sao chuyển sang bước tiếp:** Một nhánh khôi phục lịch sử với TP khác nhau đã gặp lỗi warmup đường truyền; topology của nhánh đó khác layout được giữ lại ở đây.
 
 ### Slide muốn nói gì
 
-Giải thích đánh đổi kỹ thuật khi giữ hai prefill TP 4 và một decode TP 8/EP 8; không tự gán toàn bộ tăng tốc cho một thay đổi topology.
+Nêu rõ kiến trúc được giữ như quyết định kỹ thuật trong ngân sách hai nút. Giải thích cách chuyên biệt theo giai đoạn dùng replica cho xử lý prompt và song song rộng hơn cho decode, đồng thời nêu đường truyền KV bổ sung là chi phí của kiến trúc tách rời.
 
 ### Giải thích kết quả và lập luận
 
-Node đầu chạy hai worker prefill, mỗi worker bốnGPU; node sau chạy một worker decode támGPU. Các nhóm TP nằm trong một node. Tách giai đoạn cho phép chọn cách tính riêng, nhưng cần truyền KV. Đây là bố trí đã đo chạy được; bảng lịch sử chưa tách riêng tác dụng của từng đổi kiến trúc.
+Thể hiện Node 0 có P0 và P1, mỗi worker bốn GPU với TP4/EP1. Node 1 có D0 với tám GPU và TP8/EP8. Yêu cầu đến một worker prefill, sau đó trạng thái KV được chuyển sang decode để sinh đầu ra. Tổng cấu hình là mười sáu GPU. Sơ đồ mô tả vai trò và vị trí, không phải mức sử dụng hay lưu lượng đã đo.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Prefill:** Giai đoạn xử lý prompt. Nó đọc token đầu vào và tạo trạng thái KV cần cho quá trình sinh.
-- **Decode:** Giai đoạn sinh token tự hồi quy. Nó dùng trạng thái KV của prompt để tạo token đầu ra được yêu cầu.
-- **P0 / P1 / D0:** Tên hai worker prefill và một worker decode; đây là nhãn worker, không phải mã GPU.
-- **TP4 / TP8:** Tensor parallelism trên bốn hoặc tám GPU trong một worker. TP là cách chia mô hình.
-- **EP1 / EP8:** Expert parallelism trên một hoặc tám phân vùng expert của mô hình mixture-of-experts.
-- **KV state:** Dữ liệu key/value attention được tạo trong prefill và cần để tiếp tục decode cùng yêu cầu.
-- **NIXL:** Cơ chế truyền dùng ở đây để chuyển dữ liệu KV giữa phía prefill và decode.
-- **2 × 4 + 1 × 8 = 16 GPUs:** Hai worker prefill, mỗi worker bốn GPU, cộng một worker decode tám GPU; tổng cộng mười sáu GPU.
+- **Node 0 / Node 1:** Hai nút tính toán H200 trong layout Firmus được giữ lại.
+- **P0 / P1:** Hai worker prefill trên Node 0; mỗi worker dùng bốn GPU.
+- **D0:** Worker decode duy nhất trên Node 1; dùng tám GPU.
+- **TP4 / TP8:** Tensor parallelism trên bốn hoặc tám GPU trong một worker.
+- **EP1 / EP8:** Expert parallelism trên một hoặc tám phân vùng expert của các lớp expert trong mô hình.
+- **KV state:** Dữ liệu key/value attention tạo ra khi xử lý prompt và cần để sinh token đầu ra.
+- **Prefill / decode:** Prefill xử lý token đầu vào và chuẩn bị trạng thái KV; decode dùng trạng thái đó để sinh token đầu ra.
+- **2 × 4 + 1 × 8 = 16:** Hai worker prefill bốn GPU cộng một worker decode tám GPU, tổng cộng mười sáu GPU.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Đọc từ trái sang phải: yêu cầu vào một trong hai P0/P1 để prefill, rồi trạng thái KV được chuyển sang D0 để sinh đầu ra.
-- Mỗi worker prefill dùng TP4/EP1; worker decode dùng TP8/EP8. Nhóm TP nằm trong cùng nút.
-- Các ô vuông và mũi tên cam chỉ vai trò trong sơ đồ này, không phải thước đo lưu lượng hay quy ước màu chung.
+- Hai worker P là replica nhận việc prompt; worker D dùng cấu hình TP/EP rộng hơn để sinh token.
+- Cách chia phù hợp ngân sách hai nút và giữ nhóm TP của mỗi worker trong cùng nút.
+- Khác với một worker đặt chung, thiết kế này phải truyền trạng thái KV của yêu cầu giữa prefill và decode.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Layout được chọn bố trí hai worker prefill TP4/EP1 ở Node 0 và một worker decode TP8/EP8 ở Node 1; trạng thái KV của yêu cầu phải đi qua giữa hai vai trò.
-- **Giả thuyết:** Tách xử lý prompt khỏi sinh token có thể cho mỗi giai đoạn topology phù hợp hơn, nhưng bổ sung đường truyền nhạy với độ đúng và thời gian khởi động.
-- **Kết luận được hỗ trợ:** Bộ định tuyến round-robin phân yêu cầu cho worker prefill; decode sinh mọi token đầu ra. Sơ đồ mô tả kiến trúc thí nghiệm, tự nó chưa chứng minh lợi ích hiệu năng.
-- **Chưa biết / giới hạn:** Hình không định lượng băng thông mạng, độ trễ truyền, mức sử dụng tài nguyên hay lợi thế nhân quả so với triển khai thống nhất.
+- **Quan sát:** Layout H200 được giữ lại đặt hai worker prefill TP4/EP1 tại Node 0 và một worker decode TP8/EP8 ở Node 1, dùng đủ mười sáu GPU.
+- **Giả thuyết:** Chuyên biệt tài nguyên theo giai đoạn có thể đáp ứng khác biệt giữa xử lý prompt và sinh token về số replica và độ rộng song song.
+- **Kết luận được hỗ trợ:** Đây là kiến trúc kỹ thuật được giữ cho dịch vụ đã chọn; nó chưa chứng minh chính cách chia này nhân quả tốt hơn mọi phương án ở cùng tải.
+- **Chưa biết / giới hạn:** Sơ đồ không định lượng lợi ích chuyên biệt theo giai đoạn hay chi phí truyền; muốn phục vụ được thì truyền KV giữa vai trò phải hoạt động.
 
 ### Lời nói mẫu
 
-Nhóm giữ hai worker bốnGPU xử lý prompt và một worker támGPU sinh token. Nhóm TP nằm trong từng node, còn hai giai đoạn dùng cách thực thi riêng. Đổi lại phải truyền KV đúng. Số đo hỗ trợ lựa chọn khả thi này, chưa chứng minh mọi phương án đã được so ở cùng tải.
+Kiến trúc được giữ sử dụng cả hai nút H200. Node 0 chạy hai worker prefill P0 và P1, mỗi worker bốn GPU với TP4, EP1. Node 1 chạy một worker decode trên tám GPU với TP8, EP8. Tổng cộng dùng đủ mười sáu GPU. Cách chia phản ánh hai vai trò khác nhau: prefill xử lý prompt và tạo trạng thái key/value, còn decode dùng trạng thái đó để sinh đầu ra. Khi tách hai giai đoạn, dữ liệu KV của yêu cầu phải chuyển từ nút này sang nút kia. Đây là thiết kế kỹ thuật được giữ lại; tìm kiếm topology chưa chứng minh nó thắng nhân quả mọi phương án khác ở cùng tải.
 
 ### Điều không nên nói
 
-Thông số TP/EP chỉ đúng cho từng worker trong cấu hình cụ thể này. Không xem mỗi ô vuông là mức sử dụng GPU đo được và không nói sơ đồ đã chứng minh tăng tốc.
+Không nhầm topology được chọn với nhánh khôi phục lịch sử P8 TP8/EP2 sang D8 TP4/EP4 ở các slide kế tiếp.
 
 ### Câu chuyển slide
 
-Bố trí nạp được model vẫn phải chứng minh request đi hết dịch vụ.
+Để hiểu vì sao phải xác minh truyền dữ liệu, ta xem nhánh lịch sử riêng nơi worker sẵn sàng nhưng warmup vẫn thất bại.
 
 ---
 
 <a id="slide-05"></a>
 
-## Slide 05 — Worker readiness did not prove a working service
+## Slide 05 — Ready workers still failed before the first usable benchmark
 
-**Phần cứng: H200 · Firmus — nhánh khôi phục hetero-TP, khác bố trí được chọn.**
+**Phần cứng: H200 · historical heterogeneous-TP branch**
+
+**Loại nội dung: Phần nhóm sửa và xác minh.**
 
 ### Nói nhanh · 10–20 giây
 
-Ở job 22271, worker H200 đã nạp mô hình nhưng warmup giữa prefill và decode hết thời gian chờ sau 360 giây. AIPerf chưa chạy, nên đây là lỗi sẵn sàng truyền dữ liệu, không phải phép đo thông lượng.
+Trong job 22271, worker P8 TP8/EP2 sang D8 TP4/EP4 đã nạp mô hình nhưng warmup cặp timeout sau 360 giây. AIPerf chưa chạy, vì vậy không có điểm baseline. Đây là dấu hiệu lỗi khởi động, chưa phải kết quả hiệu năng.
 
-![Slide 05](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-05.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Một triển khai TP khác nhau trong lịch sử đã nạp worker nhưng không warmup được đường prefill sang decode cho yêu cầu client.
+- **Vì sao quan trọng:** Nếu cặp chưa sẵn sàng thì không có benchmark sử dụng được và không có kết quả dịch vụ để tối ưu.
+- **Vì sao chọn phép thử này:** Kiểm tra hồ sơ job và log warmup được giữ lại để xác định giai đoạn thất bại trước khi diễn giải hiệu năng.
+- **Điều rút ra:** Job 22271 chờ 360 giây rồi kết thúc với HTTP TimeoutError; không có điểm AIPerf. Bằng chứng là triệu chứng sẵn sàng, không phải chẩn đoán băng thông đã đo.
+- **Vì sao chuyển sang bước tiếp:** Vì lỗi xảy ra trước khi chấm điểm, bước tiếp theo là xem đường setup lạnh và ưu tiên một giả thuyết dựa trên source mà không khẳng định đã loại trừ nguyên nhân khác.
 
 ### Slide muốn nói gì
 
-Xác lập lỗi đã quan sát trước khi giải thích cách sửa. Worker đã nạp mô hình, nhưng đường prefill sang decode thực tế chưa sẵn sàng phục vụ yêu cầu benchmark. Cần phân biệt triệu chứng lúc khởi động/truyền dữ liệu với một vấn đề hiệu năng steady-state giả định.
+Xác lập lỗi sẵn sàng truyền đã quan sát trước khi trình bày cách sửa. Đây là nhánh khôi phục lịch sử dùng tensor parallelism khác nhau, không phải kiến trúc được giữ ở slide 4. Timeout xảy ra trước khi có kết quả benchmark sử dụng được.
 
 ### Giải thích kết quả và lập luận
 
-Giới thiệu slide này như giai đoạn nền của chuỗi suy luận bảy bước: triệu chứng, bằng chứng job và ranh giới lỗi. Đối lập trong tiêu đề là theo nghĩa đen: worker sẵn sàng, còn warmup cặp thì không. Không có biểu đồ số hay trục nào được ngụ ý.
+Thể hiện đường yêu cầu từ worker prefill sẵn sàng sang decode, rồi đánh dấu yêu cầu pair-warmup timeout sau 360 giây. Ghi job 22271 và nêu rõ AIPerf chưa chạy, không có điểm số. Không biểu diễn lỗi này thành điểm thấp trên biểu đồ hiệu năng hay độ trễ truyền đã đo.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **H200 Firmus:** Nền tảng GPU và địa điểm của phép thử lịch sử này; không gộp kết quả với phép đo H100 ở NSCC.
-- **P8 / D8:** Nhãn nhóm phía prefill và decode trong topology này; giữ nguyên nhãn, không mặc định chúng có nghĩa là tám worker.
-- **TP8/EP2 → TP4/EP4:** Prefill dùng tensor parallelism tám và expert parallelism hai; decode dùng tensor parallelism bốn và expert parallelism bốn. Hai vai trò có cấu hình khác nhau.
-- **job 22271:** Job nền được lưu lại. Worker đã nạp mô hình, nhưng warmup cặp kết thúc bằng HTTP TimeoutError sau 360 giây.
-- **360 seconds:** Thời lượng timeout của lần thử pair-warmup, không phải cửa sổ benchmark.
-- **AIPerf:** Client/xuất kết quả benchmark. AIPerf không chạy trong job 22271 vì warmup thất bại trước đó.
-- **P/D pair warmup:** Yêu cầu đi qua cả hai vai trò prefill và decode để kiểm tra hệ thống tách rời có thể phục vụ trước khi chấm điểm.
+- **job 22271:** Lần thử warmup thất bại được lưu lại trong nhánh khôi phục H200 TP khác nhau lịch sử.
+- **P8 TP8/EP2 → D8 TP4/EP4:** Cấu hình prefill và decode của nhánh này. TP và EP khác nhau giữa hai vai trò; không phải topology được chọn ở slide 4.
+- **pair warmup:** Yêu cầu đi qua cả prefill và decode để kiểm tra đường dịch vụ tách rời có thể hoạt động trước khi benchmark chấm điểm.
+- **360-second timeout:** Thời gian chờ tối đa trước khi lần pair-warmup kết thúc bằng timeout; không phải phép đo thời gian truyền KV.
+- **AIPerf did not run:** Không có bản xuất benchmark hoặc điểm throughput vì warmup thất bại trước.
+- **bootstrap:** Công việc khởi động cần để hai vai trò phục vụ cùng đường truyền sẵn sàng xử lý yêu cầu.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Bước 1 — Triệu chứng: client không hoàn tất pair-warmup dù worker đã nạp mô hình.
-- Bước 2 — Bằng chứng và ranh giới: job 22271 timeout sau 360 giây với HTTP TimeoutError; không có bản xuất AIPerf hay điểm throughput.
-- Topology dùng TP khác nhau giữa vai trò: P8 TP8/EP2 sang D8 TP4/EP4. Nó không phải topology hai worker prefill TP4 cộng một worker decode TP8/EP8 được chọn về sau.
-- Bản rà soát cùng thời điểm ghi bootstrap/truyền chưa được chứng minh; nó không xác định nghẽn băng thông hay bản sao KV chậm đã được đo.
+- Worker mô hình đã nạp, nhưng yêu cầu thật đi qua cặp P/D không hoàn tất warmup.
+- Log lưu lại kết thúc bằng HTTP TimeoutError sau 360 giây; không có bản xuất AIPerf và không có điểm benchmark.
+- Điều này xác lập lỗi sẵn sàng/bootstrap lúc lạnh trong lần thử, không phải phép đo nghẽn băng thông steady-state hay bản sao KV chậm.
+- Giữ nhánh lịch sử này tách khỏi layout được chọn gồm hai prefill TP4 và decode TP8/EP8.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Job 22271 nạp được worker mô hình nhưng yêu cầu warmup P/D với TP khác nhau bị timeout sau 360 giây. Log lưu lại kết thúc bằng HTTP TimeoutError; AIPerf chưa chạy nên không có điểm số.
-- **Giả thuyết:** Lỗi tức thời nằm đâu đó trong bootstrap lạnh hoặc độ sẵn sàng truyền P/D; riêng triệu chứng này chưa xác lập nút thắt descriptor cụ thể.
-- **Kết luận được hỗ trợ:** Xem đây là lỗi sẵn sàng trước benchmark, đồng thời giữ lại topology và bằng chứng trạng thái kết thúc chính xác. Không gọi đây là suy giảm throughput.
-- **Chưa biết / giới hạn:** Chỉ từ timeout không thể xác định công đoạn bị kẹt, định lượng độ trễ truyền hay loại trừ các nguyên nhân bootstrap và bố trí khác.
+- **Quan sát:** Job 22271 nạp worker mô hình ở nhánh TP khác nhau, sau đó warmup cặp timeout sau 360 giây với HTTP TimeoutError. AIPerf chưa chạy.
+- **Giả thuyết:** Vấn đề nằm trong bootstrap P/D lạnh hoặc độ sẵn sàng truyền, nhưng triệu chứng chưa tách riêng việc tạo descriptor thành nguyên nhân.
+- **Kết luận được hỗ trợ:** Phân loại 22271 là lỗi sẵn sàng trước benchmark và giữ nguyên topology cùng bằng chứng log. Job không có giá trị throughput baseline.
+- **Chưa biết / giới hạn:** Giai đoạn timeout chưa được phân rã. Chuẩn bị descriptor, bootstrap/truyền khác, băng thông, ánh xạ KV và vị trí tài nguyên chưa được đo riêng hoặc loại trừ.
 
 ### Lời nói mẫu
 
-Triệu chứng ban đầu của chúng tôi khá cụ thể. Trên H200 Firmus, job 22271 dùng layout TP khác nhau giữa hai vai trò: prefill P8 với TP8, EP2 gửi sang decode D8 với TP4, EP4. Worker đã nạp mô hình, nhưng yêu cầu đi qua cặp prefill–decode không hoàn tất warmup. Log được giữ lại kết thúc bằng lỗi HTTP timeout sau 360 giây. AIPerf chưa chạy, vì vậy job này không có điểm benchmark. Bằng chứng cho thấy đường lạnh chưa sẵn sàng, chứ không chứng minh mạng nghẽn steady-state hay bản sao KV chậm. Topology này cũng khác cấu hình được chọn về sau với hai worker prefill TP4 và decode TP8/EP8.
+Điều tra truyền KV xuất phát từ một nhánh lịch sử riêng, không phải kiến trúc vừa chọn. Trong job 22271, prefill P8 dùng TP8, EP2, còn decode D8 dùng TP4, EP4. Worker mô hình đã nạp nhưng yêu cầu pair-warmup không hoàn tất. Log lưu lại kết thúc bằng HTTP timeout sau 360 giây. AIPerf chưa chạy, nên không có điểm baseline. Điều này cho thấy đường lạnh chưa sẵn sàng; nó không cho biết băng thông mạng steady-state bị nghẽn hay một lần truyền KV đã được đo là chậm. Vì lỗi xuất hiện trước khi chấm điểm, tiếp theo chúng tôi tìm một giả thuyết setup cụ thể có thể kiểm tra trực tiếp.
 
 ### Điều không nên nói
 
-Không báo cáo 22271 như điểm số thấp hoặc so thời gian timeout với warmup 0,68–0,70 giây sau đó như mức tăng tốc đã đo. Baseline này không có kết quả AIPerf.
+Không báo cáo 22271 như baseline throughput thấp hoặc chia 360 giây cho thời gian warmup về sau để tính tăng tốc; đây không phải các phép đo thời gian ghép cặp.
 
 ### Câu chuyển slide
 
-Tiếp theo xem quan sát hiệu năng và phân biệt chúng với bằng chứng nguyên nhân bottleneck.
+Lỗi trước khi chấm điểm dẫn đến câu hỏi tiếp theo: công việc setup cụ thể nào có thể khiến warmup cặp không hoàn tất?
 
 ---
 
 <a id="slide-06"></a>
 
-## Slide 06 — What does the profile identify—and what does it not?
+## Slide 06 — Request-scoped descriptors remove work unrelated to the request
 
-**Phần cứng: H200 · Firmus — profile N48 riêng; quan sát N64 thuộc lần chạy khác.**
+**Phần cứng: H200 transfer path · CPU geometry checks**
+
+**Loại nội dung: Phần nhóm sửa và xác minh.**
 
 ### Nói nhanh · 10–20 giây
 
-Profile N 48 riêng cho thấy nhiều công việc ma trận, giao tiếp và attention. Giao tiếp cùng chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là cơ sở đặt phép thử, chưa chứng minh 23,48% thời gian request bị nghẽn ở đó. Các request chậm token đầu về sau cũng chưa có nguyên nhân được tách rõ.
+Nhóm sửa từ chuẩn bị mô tả cả kho KV sang chỉ mô tả vùng của request. Ví dụ là 403,8 triệu mục mỗi rank so với 188 dải mỗi request, khác phạm vi. Kiểm tra CPU đạt 720 trường hợp; chạy dịch vụ GPU thật được kiểm tra riêng.
 
-![Slide 06](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-06.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Liệt kê descriptor toàn pool xuất hiện trong đường TP khác nhau khi khởi động lạnh, sau khi pair-warmup thất bại.
+- **Vì sao quan trọng:** Chuẩn bị metadata cho những trang mà yêu cầu không truyền có thể thêm công việc trước khi dịch vụ xử lý được yêu cầu đầu tiên.
+- **Vì sao chọn phép thử này:** Đổi cách tạo descriptor sang các trang của yêu cầu, giữ ánh xạ dải KV và so hình học địa chỉ code gốc với bản vá qua các trường hợp CPU.
+- **Điều rút ra:** Bản vá giảm số đếm minh họa từ khoảng 403,8 triệu mỗi rank cho cả pool còn 188 cho yêu cầu; 720 trường hợp dải CPU được thử đều đạt. Số đếm không đo thời gian trôi qua.
+- **Vì sao chuyển sang bước tiếp:** Cần triển khai bản vá thật để xác lập tính khả thi; muốn tuyên bố tăng tốc riêng do bản vá thì vẫn cần lần chạy không vá ghép cặp và đo thời gian setup.
 
 ### Slide muốn nói gì
 
-Đưa quan sát lên trước tối ưu và tách thành phần đáng nghi khỏi bottleneck đã chứng minh.
+Giải thích vì sao ưu tiên chuẩn bị descriptor, nhóm đã đổi gì và kiểm tra đúng đắn thực sự cho thấy điều gì. Đây là đóng góp triển khai trực tiếp: tạo mô tả truyền cho các trang KV của yêu cầu thay vì liệt kê cả pool, đồng thời giữ cách ánh xạ.
 
 ### Giải thích kết quả và lập luận
 
-Profile N 48 riêng ghi công việc ma trận, giao tiếp/chuẩn hóa và attention. Tổng thời lượng kernel gợi ý hướng thử, không phải tỷ trọng thời gian thực vì kernel có thể chồng lấp. Lần N 64 về sau có request trượt TTFT, nhưng chưa tách hết thời gian queue/prefill/truyền để giải thích. Đây là bằng chứng từ các lần chạy khác nhau.
+Đặt phạm vi cũ toàn pool cạnh phạm vi mới theo yêu cầu: khoảng 403,8 triệu entry nguồn mỗi rank trong hình học pool đại diện so với 188 descriptor đã gộp cho một yêu cầu liên tục 4.000 token. Sau đó tách cổng tương đương dải trên CPU khỏi cổng truyền GPU thật, được fixture đánh dấu chưa xác minh. Không vẽ tỷ lệ số đếm như tỷ lệ thời gian hay tăng tốc.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **GEMM:** Phép nhân ma trận tổng quát trong kernel tính toán.
-- **MNNVL:** Backend giao tiếp qua NVIDIA NVLink.
-- **RMSNorm:** Phép chuẩn hóa căn bậc hai trung bình bình phương.
-- **Kernel duration:** Thời lượng kernel GPU được ghi; không phải wall time đầu-cuối.
-- **N48/N58:** Hai mức concurrency tách biệt cho diagnostic và deployment lặp.
-- **Profile:** Run chẩn đoán ghi thời lượng một số kernel GPU và tín hiệu runtime khi dịch vụ xử lý workload.
-- **Tỷ trọng thời gian kernel:** Phần của tổng thời lượng kernel đã ghi thuộc một nhóm. Kernel GPU có thể chồng lấp, nên đây không phải phần walltime request đã trôi qua.
-- **Diagnostic N48 và lần lặp N58:** Hai giai đoạn riêng trong job 24819: N58 lặp deployment; N48 thu trace profile. Không gán tỷ trọng kernel N48 cho hành vi dịch vụ N58.
-- **MNNVL / RMSNorm:** MNNVL là đường giao tiếp collective qua NVLink; RMSNorm chuẩn hóa activation của model.
+- **NIXL:** Cơ chế truyền trạng thái KV giữa worker prefill và decode tách rời.
+- **descriptor:** Metadata mô tả các dải bộ nhớ để truyền; không phải bản thân dữ liệu KV.
+- **403.8 million per source rank:** Số gần đúng descriptor nguồn khi liệt kê toàn pool trong hình học TP8 đại diện, suy ra từ 2.148.119 KV slot, 94 layer và các mục K/V.
+- **188 per request:** Số từ hình học CPU sau khi gộp các dải liền kề cho yêu cầu liên tục 4.000 token TP8 sang TP4.
+- **coalescing:** Gộp các dải bộ nhớ kề nhau thành ít entry descriptor hơn mà vẫn giữ đúng địa chỉ và stride cần thiết.
+- **720 CPU cases:** Số trường hợp tương đương byte-range giữa code gốc và bản vá đã vượt kiểm tra hình học CPU.
+- **real GPU transport validation: false:** Fixture lưu rõ rằng các kiểm tra hình học này không xác nhận truyền GPU thực tế.
+- **per-token stride:** Khoảng cách giữa dữ liệu gắn với token khi truyền một lát KV head; cần được giữ đúng khi mô tả các dải.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Các nhóm decode được nêu là HPC group GEMM 21,642%, MNNVL collective/RMSNorm 23,479%, và FlashInfer paged attention 15,064% tổng kernel duration đã ghi. Đây là tổng mô tả, không phải tỷ trọng wall time đầu cuối: kernel có thể chạy chồng lấp và trace chỉ ghi hoạt động có coverage. GEMM là phép nhân ma trận; MNNVL là backend giao tiếp; RMSNorm chuẩn hóa activation; rank là một tiến trình phân tán. Ba nhóm gợi ý câu hỏi về MoE, chiến lược giao tiếp và attention theo pha. Chúng không dự đoán mức tăng tương ứng, chứng minh FLOP saturation, hay giải thích nhân quả kết quả dịch vụ N58/N60. Cần tách N48 diagnostic khỏi lần lặp N60. Giả thuyết: nhóm kernel lớn đáng khảo sát. Kết luận: dùng trace để thiết kế phép thử dịch vụ có đối chứng. Chưa biết tỷ lệ latency từng pha cho mỗi request.
-- Profile là phép ghi đo: công cụ lưu một số hoạt động khi workload chạy. Các tỷ lệ cộng thời lượng kernel trên những rank/GPU được ghi. Vì kernel có thể chồng lấp, đồng thời hàng đợi, CPU, khoảng chờ giao tiếp và hoạt động không được ghi cũng chiếm thời gian trôi qua, không thể đọc tỷ lệ này thành phần thời gian request dành cho từng thành phần. Diagnostic N48 tách biệt với lần lặp deployment N58.
+- Triệu chứng xảy ra trước khi chấm điểm; xem source cho thấy đường TP khác nhau liệt kê descriptor toàn pool.
+- Bản vá chỉ tạo descriptor nguồn và đích cho yêu cầu hiện tại rồi gộp dải liên tục; đường TP bằng nhau, trọng số, độ chính xác, ánh xạ head và thông báo được giữ nguyên.
+- 403,8 triệu và 188 là số descriptor ở phạm vi khác nhau. Chúng không phải byte, giây, băng thông hay mức tăng tốc đo được.
+- Fixture CPU vượt 720 trường hợp tương đương byte-range, nhưng đặt trạng thái xác minh truyền GPU thật là false.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Ba nhóm kernel chiếm tỷ lệ đã nêu trong tổng kernel duration được ghi.
-- **Giả thuyết:** Nhóm có tỷ lệ ghi nhận lớn có thể gợi ý thí nghiệm tiếp.
-- **Kết luận được hỗ trợ:** Dùng profile để đặt giả thuyết, không giải thích toàn bộ dịch vụ.
-- **Chưa biết / giới hạn:** Tỷ trọng wall time, chồng lấp, FLOP saturation và quan hệ nhân quả chưa biết.
+- **Quan sát:** Hình học source đại diện cho khoảng 403,8 triệu descriptor nguồn nếu liệt kê cả pool mỗi rank; một yêu cầu liên tục 4.000 token cần 188 descriptor đã gộp. Kiểm tra tương đương CPU đạt 720 trường hợp.
+- **Giả thuyết:** Bỏ descriptor cho trang KV không liên quan yêu cầu đang chạy có thể giảm việc setup mà vẫn giữ đúng byte và ánh xạ cần truyền.
+- **Kết luận được hỗ trợ:** Bản vá source và kiểm tra hình học CPU hỗ trợ cách tạo dải theo yêu cầu cùng tính tương đương địa chỉ trong các trường hợp đã thử. Chúng xác định một mục tiêu setup hợp lý và tính đúng của triển khai ở phạm vi thử, không chứng minh tăng tốc đầu cuối.
+- **Chưa biết / giới hạn:** Không đo thời gian khởi tạo descriptor cũ và mới. Fixture hình học không xác minh truyền GPU thật và không chứng minh tạo descriptor là nguyên nhân chi phối timeout.
 
 ### Lời nói mẫu
 
-Profile N 48 riêng cho thấy nhiều công việc ma trận, giao tiếp và attention. Giao tiếp cùng chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel đã ghi. Đây là cơ sở đặt phép thử, chưa chứng minh 23,48% thời gian request bị nghẽn ở đó. Các request chậm token đầu về sau cũng chưa có nguyên nhân được tách rõ.
+Kiểm tra source cho chúng tôi một giả thuyết setup cụ thể. Đường TP khác nhau cũ chuẩn bị descriptor cho toàn bộ pool KV. Với hình học TP8 đại diện, con số khoảng 403,8 triệu descriptor nguồn mỗi rank. Bản vá chỉ mô tả trang KV của yêu cầu hiện tại và gộp các dải liền kề; yêu cầu liên tục 4.000 token TP8 sang TP4 có 188 descriptor trong phép tính hình học CPU. Đây là số đếm với phạm vi khác nhau, không phải thời gian hay mức tăng tốc hai triệu lần. Chúng tôi so byte-range gốc và bản vá qua 720 trường hợp CPU, kết quả tương đương. Fixture ghi rõ chưa xác minh truyền GPU thật. Vì vậy, ta có bằng chứng ánh xạ được thử vẫn đúng và biết chính xác thay đổi triển khai, nhưng chưa biết nó có làm hết timeout hay tăng tốc phục vụ hay không.
 
 ### Điều không nên nói
 
-Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.
+Không gọi chênh lệch 403,8 triệu xuống 188 là tăng tốc suy luận. Không gọi tương đương hình học CPU là xác minh truyền GPU, cũng không nói đã loại trừ băng thông, bố trí KV, vị trí tài nguyên hay nguyên nhân bootstrap khác.
 
 ### Câu chuyển slide
 
-Ví dụ sau cho thấy cách chọn một giả thuyết hẹp có cơ sở source, đồng thời giữ các nguyên nhân khác ở trạng thái chưa loại trừ.
+Slide cuối trong chuỗi hỏi lần chạy có bản vá thực sự chứng minh điều gì, rồi tách tính khả thi khỏi mức tăng tốc nhân quả chưa đo.
 
 ---
 
 <a id="slide-07"></a>
 
-## Slide 07 — Why investigate descriptor setup before bandwidth?
+## Slide 07 — The patched path became usable; descriptor-only speedup is unknown
 
-**Phần cứng: H200 · nhánh khôi phục; CPU và source dùng điều tra descriptor.**
+**Phần cứng: H200 · same recovery topology · 22271 / 22294**
+
+**Loại nội dung: Phần nhóm sửa và xác minh.**
 
 ### Nói nhanh · 10–20 giây
 
-Rà soát source thấy khoảng 403,8 triệu descriptor cho toàn pool trên mỗi rank nguồn, so với 188 cho một yêu cầu liên tục 4.000 token. Điều đó đủ để thử giảm việc khởi tạo trước, nhưng chưa loại trừ nguyên nhân từ mạng hay bố trí.
+Job 22294 có bản vá hoàn tất warmup trong 0,68–0,70 giây mỗi yêu cầu và đạt 1.422,96 good tokens/s ở N32, SLA kết hợp 95,87%, không lỗi. Kết quả chứng minh tính khả thi, không phải mức tăng tốc riêng. Đây là bằng chứng khả thi của một lần chạy cụ thể. Cần đối chứng thành công để ước lượng tác động riêng của bản vá.
 
-![Slide 07](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-07.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Xác định thay đổi source có dẫn tới đường dịch vụ dùng được hay không, thay vì chỉ có fixture CPU vượt qua.
+- **Vì sao quan trọng:** Chỉ yêu cầu đầu cuối và benchmark thật mới cho biết topology khôi phục có bản vá đã dùng được; kiểm tra địa chỉ CPU không thể chứng minh điều này.
+- **Vì sao chọn phép thử này:** Dùng triển khai H200 thật có bản vá, quan sát warmup cặp, rồi chạy xác nhận N32 cục bộ đầy đủ với tính SLA từng yêu cầu và lỗi.
+- **Điều rút ra:** Job 22294 warmup cả hai đường P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng và hoàn tất N32 với 1422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi/hủy. Đây là bằng chứng khả thi trong lần chạy đó.
+- **Vì sao chuyển sang bước tiếp:** Giới hạn kết luận ở tính khả thi. Muốn nói mức tăng tốc riêng do bản vá cần một lần chạy không vá thành công được ghép cặp và dữ liệu setup/độ trễ riêng; hồ sơ hiện có không cung cấp chúng.
 
 ### Slide muốn nói gì
 
-Giải thích quyết định ưu tiên: triệu chứng xảy ra trước khi chấm điểm, còn kiểm tra source cho thấy khối lượng chuẩn bị descriptor lớn, phù hợp với lỗi warmup lạnh. Đây là lý do thử giả thuyết về setup, không phải bằng chứng rằng không có nút thắt khác.
+Báo cáo kết quả đầu cuối của nhánh khôi phục có bản vá và nêu ranh giới bằng chứng. Đường chạy đã dùng được và hoàn tất benchmark N32 cục bộ, nhưng không đo phần đóng góp độc lập của bản vá descriptor vì thiếu đối chứng không vá thành công được ghép cặp.
 
 ### Giải thích kết quả và lập luận
 
-Trình bày chuỗi bằng chứng ở bước 3 và 4 của luồng bảy bước: xác định thành phần liên quan, rồi nêu vì sao ưu tiên chi phí setup của nó. Hai số có phạm vi khác nhau—toàn pool mỗi rank so với một yêu cầu—không được diễn giải thành tỷ lệ thời gian hay tăng tốc.
+Thể hiện trước và sau như hai hồ sơ job riêng, không dùng biểu đồ tăng tốc thông thường. Trước: job 22271 nạp worker, rồi timeout pair-warmup sau 360 giây; không có kết quả AIPerf. Sau: job 22294 có bản vá hoàn tất warmup P/D thật trong 0,68–0,70 giây mỗi yêu cầu, rồi benchmark N32 đầy đủ đạt 1.422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy. Đặt riêng ô “chưa đo” cho mức tăng tốc chỉ do descriptor và quy kết nhân quả.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **NIXL:** Đường truyền liên quan đến việc chuyển trạng thái KV giữa worker prefill và decode tách rời.
-- **heterogeneous TP:** Kích thước tensor parallelism attention khác nhau ở prefill và decode; điều này làm thay đổi cách ánh xạ KV head và dải byte giữa các peer.
-- **descriptor:** Metadata mô tả dải bộ nhớ cần truyền, không phải payload tensor KV.
-- **403.8 million per source rank:** Số gần đúng descriptor nguồn cho toàn pool được suy ra với hình học TP8 đại diện từ 2.148.119 KV slot, 94 layer và các mục K/V.
-- **188 per request:** Số từ kiểm tra hình học CPU cho yêu cầu liên tục 4.000 token TP8 sang TP4 sau khi gộp dải kề nhau.
-- **source rank:** Một tiến trình/phân vùng mô hình phía nguồn trong phân tán, nơi danh sách descriptor được chuẩn bị.
-- **steady-state traffic:** Luồng yêu cầu được tính điểm sau khi worker và đường truyền sẵn sàng; khác với bootstrap và warmup lạnh.
+- **job 22294:** Lần chạy khôi phục H200 có bản vá trên cùng nhánh topology TP khác nhau với lần timeout trước.
+- **0.68–0.70 s/request:** Thời gian warmup cặp quan sát được mỗi yêu cầu sau khi server sẵn sàng; không phải bộ định giờ riêng cho khởi tạo descriptor.
+- **N32:** Mục tiêu concurrency 32 yêu cầu client đang xử lý cho benchmark đầy đủ.
+- **1,422.96 good tokens/s:** Thông lượng token đầu ra đạt chuẩn đo được trong xác nhận đầy đủ N32 của job 22294.
+- **95.87% joint SLA:** Tỷ lệ yêu cầu được đánh giá đạt cả giới hạn TTFT và mean ITL trong lần chạy đã lưu.
+- **zero errors/cancellations:** Không ghi nhận lỗi yêu cầu hoặc yêu cầu bị hủy trong kết quả xác nhận đầy đủ.
+- **descriptor-only speedup:** Mức thay đổi hiệu năng chỉ do tạo descriptor; cần đối chứng không vá ghép cặp và bằng chứng thời gian, hiện chưa có.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Bước 3 — Thành phần: kiểm tra source xác định phần việc liên quan ở khâu chuẩn bị và truyền descriptor KV NIXL với TP khác nhau.
-- Bước 4 — Bằng chứng để ưu tiên: ghi chú source suy ra khoảng 403,8 triệu descriptor cho cả pool mỗi rank, trong khi hình học CPU cho 188 descriptor với yêu cầu liên tục 4.000 token.
-- Các số đếm descriptor, không phải byte, giây, băng thông hay tốc độ. Phạm vi hai số khác nhau và chúng không đo thời gian setup.
-- Vì lỗi xảy ra trước chấm điểm và thay đổi đề xuất nhắm vào setup, đây là hướng có bằng chứng trực tiếp hơn so với việc chỉnh bandwidth steady-state, bố trí KV hay vị trí scheduler. Các phương án đó chưa bị loại trừ bằng thí nghiệm.
+- Trước: job 22271 timeout pair-warmup sau 360 giây và không có điểm AIPerf.
+- Sau: job 22294 có bản vá hoàn tất warmup P/D thật trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi hoàn thành benchmark N32.
+- Kết quả đầy đủ là 1.422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy.
+- So sánh chứng minh tính khả thi của topology có bản vá trong lần chạy đó. Đây không phải tỷ lệ tăng tốc: thiếu đối chứng không vá thành công, bộ định giờ setup cũ/mới riêng và phân rã độ trễ nhân quả.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Hình học dựa trên source cho thấy khối lượng liệt kê toàn pool rất lớn—khoảng 403,8 triệu descriptor mỗi rank nguồn—so với 188 dải đã gộp cho một yêu cầu đại diện.
-- **Giả thuyết:** Tạo descriptor chỉ cho các trang của yêu cầu hiện tại có thể giảm việc setup lúc lạnh và giúp warmup cặp hoàn tất.
-- **Kết luận được hỗ trợ:** Setup descriptor là mục tiêu hợp lý để thử trước vì khớp triệu chứng trước benchmark và có tín hiệu chi phí cụ thể từ source. Đây là ưu tiên kiểm tra, không phải chẩn đoán nguyên nhân duy nhất.
-- **Chưa biết / giới hạn:** Không đo thời gian khởi tạo của code cũ. Mức sử dụng băng thông, bố trí KV, lịch đặt tài nguyên/vị trí và công việc bootstrap khác vẫn có thể góp phần.
+- **Quan sát:** Đường chạy có bản vá của job 22294 hoàn tất cả hai tuyến warmup P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi đạt 1422,96 good tokens/s ở N32 với SLA kết hợp 95,87%, không lỗi/hủy.
+- **Giả thuyết:** Descriptor theo yêu cầu có thể giúp đường khôi phục dùng được, nhưng khác biệt giữa các lần chạy hoặc bootstrap khác cũng có thể giải thích lần này thành công.
+- **Kết luận được hỗ trợ:** Bằng chứng hỗ trợ tính khả thi của đường có bản vá và kết quả benchmark cục bộ đầy đủ cho topology khôi phục này. Mức tăng tốc riêng do descriptor và quy kết nhân quả vẫn chưa biết.
+- **Chưa biết / giới hạn:** Không có đối chứng đầu cuối không vá thành công trên đúng topology này, không có thời gian setup descriptor cũ-mới và không có phân rã warmup có kiểm soát. Mức sử dụng mạng, bố trí KV, vị trí tài nguyên, bootstrap khác và phần goodput riêng do bản vá đóng góp đều chưa được đo.
 
 ### Lời nói mẫu
 
-Sau khi khoanh vùng lỗi ở đường prefill–decode lạnh, chúng tôi xem phần chuẩn bị descriptor NIXL cho tensor parallelism khác nhau. Hình học từ source cho lý do để thử bước setup này trước. Với rank nguồn TP8 đại diện, mô tả toàn pool KV cần khoảng 403,8 triệu entry. Với yêu cầu liên tục 4.000 token TP8 sang TP4, phép tính hình học CPU cho 188 entry đã gộp. Đây là số descriptor với phạm vi khác nhau, không phải byte, giây hay mức tăng tốc đo được. Vì triệu chứng xuất hiện trước bước chấm điểm và tạo descriptor là một chi phí setup có thể xác định, đây là thử nghiệm trực tiếp hơn so với chỉnh băng thông steady-state, bố trí KV hay vị trí scheduler trước. Tuy nhiên, các phương án đó chưa bị loại trừ.
+Sau đó chúng tôi thử đường có bản vá trong topology khôi phục H200 thật. Job 22294 hoàn tất cả hai tuyến warmup prefill và decode trong 0,68 đến 0,70 giây mỗi yêu cầu sau khi server sẵn sàng. Benchmark N32 đầy đủ cục bộ đo được 1.422,96 good output tokens mỗi giây; 95,87% yêu cầu đạt cả hai giới hạn độ trễ và không có lỗi hay hủy. Đây là bằng chứng khả thi đầu cuối có ý nghĩa: topology có bản vá đã phục vụ workload trong lần chạy đó. Nhưng nó không phải mức tăng tốc đo so với job 22271. Job trước timeout và chưa chạy AIPerf, nên không phải đối chứng thành công ghép cặp. Chúng tôi cũng thiếu thời gian setup cũ-mới tách riêng và phân rã độ trễ warmup. Tác động hiệu năng độc lập của bản vá vẫn chưa biết.
 
 ### Điều không nên nói
 
-Không chia 403,8 triệu cho 188 rồi gọi đó là tăng tốc hai triệu lần. Không có phép đo thời gian setup cũ-mới, mức dùng mạng hay phân rã nhân quả.
+Không chia timeout 360 giây cho 0,68–0,70 giây để báo tăng tốc hoặc quy toàn bộ điểm 1.422,96 cho bản vá. Hai job không phải phép so sánh hiệu năng ghép cặp.
 
 ### Câu chuyển slide
 
-Cách sửa và bằng chứng chạy được nằm ở slide dự phòng24–25; tiếp theo thử thay đổi theo thông lượng dịch vụ đạt chuẩn.
+Đây là kết luận của ca KV: có thể nói đường khôi phục có bản vá đã dùng được, nhưng chưa thể nói riêng thay đổi descriptor tăng tốc bao nhiêu. Nghiên cứu kế tiếp chuyển sang lựa chọn backend được đo riêng.
 
 ---
 
 <a id="slide-08"></a>
 
-## Slide 08 — Do attention and communication choices interact?
+## Slide 08 — Profiles identify candidates for investigation, not a proven time budget
 
-**Phần cứng: H200 · Firmus · N52.**
+**Phần cứng: H200 · profile chẩn đoán N48; quan sát đuôi request N64 riêng**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Ở H200 N52, tổ hợp attention và giao tiếp đo cao hơn control MNNVL sau đó khoảng 1,43 phần trăm. Kết quả ủng hộ tổ hợp tại tải này, không chứng minh gain từng phần cộng lại hay quy tắc phổ quát.
+Profile N48 riêng ghi giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel GPU đã thu. Quan sát này giúp chọn phép thử có đối chứng, chưa chứng minh giao tiếp chiếm cùng tỷ lệ thời gian chờ của request hoặc là bottleneck của N64.
 
-![Slide 08](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-08.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Chiến dịch cần chọn câu hỏi hiệu năng để thử mà không kết luận bottleneck chỉ từ profile.
+- **Vì sao quan trọng:** Tổng thời lượng kernel GPU có thể chồng lấp và bỏ qua nguồn thời gian khác, nên phần trăm không phải tỷ trọng latency request.
+- **Vì sao chọn phép thử này:** Chẩn đoán N48 ghi nhóm kernel; số đo N64 riêng xác định lỗi TTFT ở cấp request.
+- **Điều rút ra:** Profile đưa ra thành phần để điều tra; dữ liệu N64 chỉ cho biết 27/1.902 request trượt TTFT và không request nào trượt ITL.
+- **Vì sao chuyển sang bước tiếp:** Dùng profile để đề xuất phép thử dịch vụ có kiểm soát, còn đuôi N64 là câu hỏi chưa giải quyết riêng.
 
 ### Slide muốn nói gì
 
-Đặt câu hỏi liệu lựa chọn attention và backend giao tiếp tập thể có phối hợp tốt hơn khi dùng cùng nhau ở một tải H200 cố định hay không. Kết quả gợi ý nên thử tổ hợp; chưa chứng minh gain của hai thành phần cộng tuyến tính.
+Dùng instrumentation để ưu tiên phép thử tiếp theo, không nhầm hoạt động GPU được ghi với ngân sách thời gian đầu-cuối hoặc gộp bằng chứng từ các lần chạy khác nhau.
 
 ### Giải thích kết quả và lập luận
 
-Đọc các kết quả N52 như các cấu hình backend riêng ở cùng tải: FlashInfer 2.440,386; MNNVL 2.592,162; tổ hợp 2.631,085; control MNNVL đo sau đó 2.594,028 good tokens/s. Đối chiếu tổ hợp với control MNNVL cùng tải: cao hơn khoảng 1,43%.
+Các nhóm trong profile là phép toán ma trận, giao tiếp/chuẩn hóa và attention. Phần trăm biểu thị thời lượng kernel của nhóm chia tổng thời lượng kernel ghi được trên các rank được profile. Kernel GPU có thể chạy chồng lấp; hàng đợi, CPU, khoảng chờ và hoạt động không ghi cũng góp vào thời gian request. Các request N64 riêng về sau trượt TTFT nhưng qua ITL, cho biết điều kiện trượt chứ không cho biết nguyên nhân. Profile N48 và kết quả request N64 là hai quan sát khác nhau.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **N52:** Cấu hình concurrency client 52 request đã gửi nhưng chưa hoàn tất; không phải số GPU hay batch decode.
-- **FlashInfer:** Cách triển khai attention trên GPU được thử trong đường phục vụ.
-- **MNNVL:** Đường giao tiếp collective qua NVIDIA NVLink.
-- **Tương tác:** Kết quả dùng hai thành phần cùng lúc có thể khác điều dự đoán từ từng thành phần riêng; cần phép đo tổ hợp có đối chứng.
-- **Good tokens/s:** Request đủ điều kiện mỗi giây nhân mục tiêu cố định 200 output token.
+- **GEMM:** Phép nhân ma trận tổng quát, phép tính phổ biến trên GPU.
+- **MNNVL:** Đường giao tiếp collective qua NVLink giữa các GPU.
+- **RMSNorm:** Phép chuẩn hóa áp dụng lên activation của model.
+- **tỷ trọng kernel-time:** Phần của tổng thời lượng kernel GPU đã ghi thuộc một nhóm. Do chồng lấp, đây không phải tỷ trọng thời gian request trôi qua.
+- **N48 / N64:** Mục tiêu concurrency client 48 và 64 ở hai lần chạy riêng; không phải số GPU.
+- **profile:** Bản ghi chẩn đoán một số hoạt động khi workload chạy; phạm vi phụ thuộc tín hiệu được thu thập.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Câu hỏi là: chọn cả cách triển khai attention và backend giao tiếp có cải thiện dịch vụ không? Ở H200 N52, các quan sát riêng và kết hợp lần lượt là 2.440,386; 2.592,162; 2.631,085 good tokens/s. Control MNNVL đo sau đó tại cùng tải đạt 2.594,028; quan sát kết hợp cao hơn khoảng 1,43%.
-- Bằng chứng ủng hộ việc xem tổ hợp này là operating point đáng quan tâm trong cấu hình đo. Nó không chứng minh quy luật tương tác chung, không cô lập phần đóng góp nhân quả của từng backend và không cho phép cộng chênh lệch riêng như thể hai thành phần độc lập.
+- Profile N48 ghi GEMM 21,642%, collective MNNVL cộng RMSNorm 23,479%, và FlashInfer paged attention 15,064% trong tổng thời lượng kernel đã ghi.
+- Một lần N64 riêng có 27 request trượt TTFT, không request nào trượt ITL, và không có lỗi trong 1.902 request profiling. Điều đó cho biết giới hạn dịch vụ nào bị trượt, không nối đuôi chậm với profile N48.
+- Bằng chứng gợi ý cần đo hàng đợi và thời gian từng pha. Nó không chứng minh tối ưu nhóm kernel lớn nhất sẽ giảm latency request tương ứng.
+- Chiều dài thanh ngang biểu diễn phần trăm tổng thời lượng kernel đã ghi của từng nhóm; số in bên cạnh cho giá trị cụ thể. Màu chỉ phân biệt hoặc nhấn nhóm, không phải đạt/trượt. Hình không có trục thời gian của request và không chia hết thời gian thực thành các phần độc lập.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Quan sát kết hợp cao hơn control MNNVL đo sau khoảng 1,43% tại H200 N52; các quan sát FlashInfer và MNNVL riêng thấp hơn.
-- **Giả thuyết:** Attention và backend giao tiếp có thể phối hợp thuận lợi khi chạy cùng nhau.
-- **Kết luận được hỗ trợ:** Tổ hợp đo được có triển vọng tại tải này và đáng so sánh như một cấu hình dịch vụ hoàn chỉnh.
-- **Chưa biết / giới hạn:** Kết quả không lượng hóa gain nhân quả từng thành phần và chưa cho biết tải, model hay phần cứng khác sẽ ra sao.
+- **Quan sát:** Ba nhóm chiếm các tỷ lệ nêu trên trong thời lượng kernel ghi được; một quan sát N64 riêng có lỗi chỉ ở TTFT.
+- **Giả thuyết:** Giao tiếp, phép tính ma trận hoặc attention có thể là mục tiêu cho phép thử có kiểm soát; thời điểm request đầu chậm cũng đáng khảo sát riêng.
+- **Kết luận được hỗ trợ:** Dùng profile như manh mối ưu tiên. Giữ phạm vi N48 riêng với kết quả dịch vụ N64.
+- **Chưa biết / giới hạn:** Chưa có phân rã thời gian từng pha theo request, quy thuộc tổng walltime hay giải thích nhân quả cho lỗi TTFT N64.
 
 ### Lời nói mẫu
 
-Chúng tôi hỏi liệu attention và giao tiếp có tương tác hay không. Ở H200 N52, tổ hợp đạt 2.631 good token mỗi giây, cao hơn control MNNVL đo sau ở 2.594 khoảng 1,43 phần trăm. Các phép đo riêng giúp hình thành giả thuyết, nhưng không thể cộng lại để dự đoán tổ hợp. Kết quả ủng hộ operating point đã thử, không phải quy tắc backend phổ quát.
+Chúng tôi dùng profile để chọn hướng đáng thử. Profile ghi khoảng 23,5 phần trăm tổng kernel-time ở giao tiếp và chuẩn hóa, nhưng kernel có thể chồng lấp nên không có nghĩa 23,5 phần trăm thời gian request. Một lần N64 riêng có 27 lỗi token đầu và không lỗi khoảng token sau. Dữ liệu cho biết triệu chứng, chưa cho nguyên nhân. Profile là đầu mối, không phải ngân sách thời gian đã chứng minh.
 
 ### Điều không nên nói
 
-Đây là các quan sát cùng tải, chưa phải chứng minh factorial đầy đủ rằng mỗi thành phần gây ra một phần gain. Không cộng gain đo riêng.
+Không quy lỗi request N64 cho tỷ lệ kernel N48 hoặc tuyên bố tối ưu một phần kernel sẽ tăng tốc request đúng bằng tỷ lệ đó.
 
 ### Câu chuyển slide
 
-Sau khi nhận diện tổ hợp có triển vọng, tiếp theo hỏi thay đổi decode runner có cải thiện mục tiêu dịch vụ đầy đủ không.
+Phép thử tiếp theo đổi cách thực thi decode nhưng giữ nguyên cấu hình serving đầy đủ.
 
 ---
 
 <a id="slide-09"></a>
 
-## Slide 09 — Does a decode change improve the service objective?
+## Slide 09 — Test the decode implementation while holding the serving setup fixed
 
-**Phần cứng: H200 · Firmus · N60 đầy đủ.**
+**Phần cứng: H200 · N60 đầy đủ · jobs 24912/24913**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Ở H200 full N60, thay đổi decode tăng goodput 5,295 phần trăm và giảm ITL, nhưng TTFT trung bình tăng khoảng 125 mili giây. Lần treatment lặp gần bằng; kết luận chỉ áp dụng cho setting này. Đây là đánh đổi throughput với thời gian chờ token đầu.
+Chúng tôi so decode tự động với HPC-Ops trên cùng cấu hình H200 N60 đầy đủ, giữ prefill DeepGEMM và chunk 8.192 cố định. Giả thuyết là decode có thể tăng thông lượng hữu ích; lần lặp treatment riêng kiểm tra độ nhất quán.
 
-![Slide 09](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-09.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Đổi backend chỉ hữu ích nếu mục tiêu dịch vụ đo được tốt hơn dưới workload tương đương.
+- **Vì sao quan trọng:** Thiếu control và cài đặt prefill/tải cố định thì thay đổi điểm có thể do nhiều cấu hình khác.
+- **Vì sao chọn phép thử này:** So control decode tự động N60 đầy đủ với treatment decode HPC-Ops, giữ DeepGEMM, chunk 8.192 và protocol 60/120/30; lặp treatment độc lập.
+- **Điều rút ra:** Thiết kế tạo phép so sánh dịch vụ có đối chứng và lần lặp riêng, với decode runner là yếu tố dự định đổi.
+- **Vì sao chuyển sang bước tiếp:** Đọc đánh đổi chỉ số và kết quả lặp trước khi quyết định có bằng chứng hỗ trợ cấu hình không.
 
 ### Slide muốn nói gì
 
-Đánh giá thay đổi decode runner bằng kết quả dịch vụ hoàn chỉnh. Control ghép cặp giúp hỏi treatment có đổi goodput ở cấu hình này không; các hàng độ trễ cho thấy cái giá đi kèm.
+Cho thấy cách phép so sánh có đối chứng biến ý tưởng backend thành giả thuyết ở cấp dịch vụ, đồng thời nêu rõ yếu tố giữ nguyên và kết quả nào là lần lặp.
 
 ### Giải thích kết quả và lập luận
 
-So sánh control auto-decode mới 24912 với lần lặp decode HPC-Ops 24913 ở cùng cấu hình full N60. Goodput tăng 2.838,853→2.989,175 token/s; TTFT trung bình tăng 822,292→947,627 ms; ITL trung bình/request giảm 16,579→14,934 ms; SLA đồng thời đổi 98,7599%→98,8178%.
+Sơ đồ cấu hình biểu thị hai lần N60 đầy đủ khớp nhau: control decode tự động mới 24912 và treatment/lần lặp HPC-Ops 24913. Cả hai dùng 16 GPU H200, prefill DeepGEMM, chunk 8.192, cùng protocol warmup 60 giây, tính điểm 120 giây và grace 30 giây. Khác biệt dự định là decode runner. Job 24913 cũng là lần lặp độc lập của treatment so với treatment đầu 24738. Cài đặt khớp giảm yếu tố gây nhiễu, nhưng không làm seed runtime giống hệt.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Full N60:** Benchmark đầy đủ với concurrency client 60; cả hai nhánh giữ DeepGEMM prefill và chunk 8.192.
-- **HPC-Ops:** Decode runner/backend được cung cấp và thử ở đây; nhóm không phát minh backend này.
-- **TTFT:** Thời gian từ lúc request bắt đầu tới token đầu tiên được sinh.
-- **ITL trung bình/request:** Khoảng thời gian trung bình giữa các token trong một request.
-- **Control ghép cặp:** Run auto-decode mới dùng làm đối chứng cho thay đổi decode runner dự định.
+- **full N60:** Protocol benchmark đầy đủ với 60 request client đồng thời, không phải 60 GPU.
+- **HPC-Ops:** Backend thực thi decode GPU được cung cấp và nhóm đem thử, không phải thành phần nhóm tự phát minh.
+- **prefill DeepGEMM:** Backend xử lý prompt được giữ nguyên ở cả hai nhánh.
+- **so sánh ghép cặp:** Các lần chạy khớp workload và cài đặt, chỉ có một thay đổi dự định—ở đây là decode runner.
+- **lặp treatment:** Lần chạy độc lập của cài đặt đã đổi để xem kết quả có nhất quán với treatment đầu không.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Goodput từ control sang treatment tăng 5,295%. TTFT trung bình tăng 125,335 ms, còn ITL trung bình/request giảm 1,644 ms. Tỷ lệ SLA đồng thời chỉ nhích nhẹ. Treatment lặp 24913 thấp hơn treatment ban đầu 24738 đạt 2.990,151 token/s là 0,033%.
-- Kết quả hỗ trợ một tương tác có thể lặp lại giữa decode runner và dịch vụ H200 N60 này. Nó không chứng minh HPC-Ops luôn tốt hơn. Lần kiểm tra mở rộng 24913 không có chuỗi telemetry phần cứng liên tục riêng; profile kernel N48 khác không thể giải thích nhân quả cho kết quả N60.
+- Thí nghiệm giữ phần cứng, tải, backend prefill và chunk cố định. Lựa chọn đổi là decode tự động hay HPC-Ops.
+- Protocol đầy đủ gồm warmup 60 giây, 120 giây tính điểm và grace 30 giây. Nhờ vậy so sánh bao gồm cả token đầu lẫn quá trình stream trong cùng cửa sổ workload.
+- Lần lặp kiểm tra độ tái lập treatment; nó không giải thích mọi khác biệt request hay cơ chế gây ra chúng.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Goodput tăng 5,295%, ITL cải thiện, nhưng TTFT trung bình tăng khoảng 125 ms; deployment treatment riêng lặp goodput gần bằng.
-- **Giả thuyết:** Thay đổi decode runner có thể tăng throughput hữu ích trong cấu hình này và đồng thời đổi cân bằng độ trễ giữa token đầu với token sau.
-- **Kết luận được hỗ trợ:** Kết quả đầy đủ có đối chứng và lần lặp treatment độc lập hỗ trợ operating point H200 N60 này.
-- **Chưa biết / giới hạn:** Nguyên nhân kernel chính xác, phân rã hàng đợi/tính toán, khái quát sang phần cứng khác và quality full-set official chưa xác minh.
+- **Quan sát:** Jobs 24912 và 24913 dùng cấu hình H200 N60 khớp; 24913 lặp độc lập treatment HPC-Ops.
+- **Giả thuyết:** Thay decode tự động bằng HPC-Ops có thể tăng goodput đồng thời đổi cân bằng giữa độ trễ token đầu và khoảng cách token sau.
+- **Kết luận được hỗ trợ:** Thiết kế này tách lựa chọn decode rõ hơn các mốc lịch sử thay đổi nhiều cấu hình.
+- **Chưa biết / giới hạn:** Seed engine và telemetry theo pha chưa thu thập ngăn giải thích hoàn toàn tất định hoặc nhân quả ở cấp kernel.
 
 ### Lời nói mẫu
 
-Ở full N60, control auto-decode mới đạt 2.839 good token mỗi giây. Lần lặp decode HPC-Ops đạt 2.989, tăng 5,295 phần trăm. TTFT trung bình chậm hơn khoảng 125 mili giây, còn khoảng cách token cải thiện. Lần treatment độc lập thấp hơn bản đầu chỉ 0,033 phần trăm. Kết quả ủng hộ setting đã thử cùng tradeoff độ trễ, không chứng minh HPC-Ops luôn nhanh hơn.
+Chúng tôi hỏi liệu đổi cách thực thi decode có giúp dịch vụ không, nên giữ nguyên phần còn lại của cấu hình N60. Hai lần chạy dùng cùng allocation H200, prefill DeepGEMM và chunk 8.192 theo lịch benchmark đầy đủ. Control dùng decode tự động; treatment dùng HPC-Ops. Một lần treatment thứ hai kiểm tra độ nhất quán. Thiết kế này thu hẹp câu hỏi, dù seed engine và thiếu telemetry theo pha vẫn giới hạn giải thích nhân quả.
 
 ### Điều không nên nói
 
-Treatment lặp dùng cùng cấu hình phục vụ và họ phần cứng; không phải so sánh thế hệ GPU thứ hai. Không dùng profile N48 riêng để giải thích nhân quả N60.
+So sánh chỉ hỗ trợ cấu hình H200 N60 này. Không coi lần lặp là so sánh phần cứng hay suy cơ chế kernel từ điểm số đơn thuần.
 
 ### Câu chuyển slide
 
-Tiếp theo đo xem lợi ích full-run kéo dài tới đâu khi tăng concurrency client từ N62 lên N64.
+Slide sau cho thấy thông lượng, độ trễ token đầu và độ trễ stream thay đổi ra sao.
 
 ---
 
 <a id="slide-10"></a>
 
-## Slide 10 — Where should we stop increasing concurrency?
+## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 
-**Phần cứng: H200 · Firmus · cặp N62/N64 và kiểm chứng tải.**
+**Phần cứng: H200 · N60 đầy đủ · decode HPC-Ops**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-N64 tăng goodput đầy đủ 1,083 phần trăm so với N62 và lặp trong 0,014 phần trăm. TTFT tăng nhẹ. Lợi thế N68 từ phép thử ngắn còn 0,083 phần trăm ở cặp đầy đủ, nên N64 là điểm dừng được bằng chứng hỗ trợ.
+Đổi cách thực thi decode giúp thông lượng đạt chuẩn trên H200 tăng khoảng 5,30%, và lần triển khai khác cho kết quả gần như vậy. Token đầu chậm hơn nhưng khoảng token khi đang sinh ngắn hơn. Nhóm chọn đánh đổi đã đo này, không khẳng định mọi thứ đều nhanh hơn.
 
-![Slide 10](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-10.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Điểm throughput cao hơn có thể che giấu phản hồi đầu chậm hoặc kết quả không lặp.
+- **Vì sao quan trọng:** Người dùng trải nghiệm cả thời gian chờ token đầu lẫn tốc độ các token sau; SLA xét cả hai.
+- **Vì sao chọn phép thử này:** So control/treatment N60 đầy đủ theo goodput, TTFT, ITL trung bình/request rồi kiểm tra lần treatment riêng.
+- **Điều rút ra:** Goodput tăng 5,295%; TTFT chậm khoảng 125 ms; ITL tốt hơn khoảng 1,64 ms; lần lặp thấp hơn bản đầu 0,033%.
+- **Vì sao chuyển sang bước tiếp:** Mang đánh đổi đo được này sang câu hỏi chọn tải, nhưng không khái quát backend ngoài N60.
 
 ### Slide muốn nói gì
 
-Chọn mức concurrency có ích bằng control đầy đủ và lần lặp N64 độc lập, đồng thời không chạy theo kết quả sàng lọc ngắn lớn hơn nhưng chưa được xác nhận.
+Diễn giải can thiệp decode như đánh đổi nhiều chỉ số thay vì chỉ nhìn điểm, đồng thời phân biệt khả năng lặp lại với khẳng định backend phổ quát.
 
 ### Giải thích kết quả và lập luận
 
-Đọc ba cột: control N62 25365; candidate N64 25366; lần lặp N64 25373. Goodput lần lượt 3.011,875 / 3.044,490 / 3.044,075 token/s. Gain N64 đầy đủ so với N62 là 1,082867%; lần lặp N64 thấp hơn candidate chỉ 0,013634%. TTFT tăng nhẹ, ITL gần như giữ nguyên, SLA giảm chút ít; lỗi/hủy bằng không.
+Ba mũi tên chỉ các hướng trái ngược: goodput tăng, TTFT trung bình tăng (xấu hơn), và ITL trung bình/request giảm (tốt hơn). Kết quả là control 24912 so với treatment/lặp 24913 ở N60 đầy đủ. SLA chung chỉ đổi nhẹ từ 98,7599% lên 98,8178%. Treatment 24913 đạt 2.989,175 token tốt/giây, thấp hơn treatment đầu 24738 đạt 2.990,151 chỉ 0,033%. Đây là kết quả dịch vụ quan sát được; nó không giải thích vì sao từng phần độ trễ đổi.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Concurrency N62/N64:** Số request client được phép chạy đồng thời; không phải batch decode thực tế.
-- **Full 60/120/30:** Warmup 60 giây, đo tính điểm 120 giây, grace 30 giây cho request chưa xong.
-- **Goodput:** Tốc độ request đủ điều kiện × 200 output token cố định.
-- **Sàng lọc N68:** Phép thử ngắn gợi ý +2,27% nhưng cặp đầy đủ chỉ còn +0,083%.
-- **Allocation độc lập:** Lần scheduler cấp tài nguyên/run mới; không chứng minh GPU duy nhất hay thế hệ phần cứng khác.
+- **goodput:** Tốc độ request đạt đồng thời hai giới hạn độ trễ, nhân mục tiêu cố định 200 token đầu ra theo đơn vị báo cáo.
+- **TTFT:** Thời gian từ lúc bắt đầu request đến token đầu tiên; thấp hơn nghĩa là nhanh hơn.
+- **ITL trung bình/request:** Thời gian trung bình giữa các token trong một request; thấp hơn nghĩa là stream nhanh hơn.
+- **SLA chung:** Phần trăm mọi request đạt cả giới hạn TTFT và ITL; không phải độ chính xác model.
+- **lặp treatment:** Chạy lại độc lập cấu hình đã đổi để xem kết quả thông lượng có lặp không.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Control N62 đầy đủ 25365 so với candidate N64 25366 tăng 1,082867%. Run N64 độc lập 25373 đạt 3.044,075 token/s, thấp hơn candidate 0,013634%. Hai run N64 lấy mẫu cùng tập GPU UUID, nên mức đa dạng phần cứng bị giới hạn và không tạo khoảng tin cậy.
-- TTFT trung bình là 1.037,630 ms tại N62 và 1.110,463 ms tại N64; ITL trung bình đổi từ 14,958 lên 15,003 ms. SLA đồng thời là 98,7227% so với 98,6330%, không lỗi/hủy. Kết quả sàng lọc N68 thuận lợi không lặp lại: gain cặp đầy đủ chỉ 0,083056%.
+- Goodput tăng 5,295%, từ 2.838,853 lên 2.989,175 token/s.
+- TTFT trung bình tăng 125,335 ms, từ 822,292 lên 947,627 ms. ITL trung bình/request giảm 1,644 ms, từ 16,579 xuống 14,934 ms.
+- Lần treatment lặp riêng thấp hơn bản đầu 0,033%. Điều này hỗ trợ độ lặp lại điểm vận hành, nhưng token đầu chậm hơn vẫn là đánh đổi thực tế.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** N64 tăng goodput khoảng 1,083% so với N62 và lặp trong 0,014%; TTFT tăng nhẹ, SLA giảm chút, ITL gần như không đổi.
-- **Giả thuyết:** Concurrency client tăng vừa phải có thể tăng sử dụng pipeline đủ để cải thiện throughput.
-- **Kết luận được hỗ trợ:** Giữ N64 như operating point đã lặp; không chọn kết quả N68 ngắn thay cho bằng chứng đầy đủ.
-- **Chưa biết / giới hạn:** Các run không tách riêng hàng đợi, truyền dữ liệu và tính toán; không tạo khoảng tin cậy hay tìm optimum toàn cục.
+- **Quan sát:** Treatment tăng goodput và cải thiện ITL nhưng làm xấu TTFT; lần chạy treatment độc lập gần điểm ban đầu.
+- **Giả thuyết:** Decode runner có thể phân bố lại chi phí giữa lúc bắt đầu và từng token stream.
+- **Kết luận được hỗ trợ:** Kết quả dịch vụ đầy đủ ủng hộ cấu hình H200 N60 này, kèm đánh đổi TTFT rõ ràng.
+- **Chưa biết / giới hạn:** So sánh không tách nguyên nhân kernel, thời gian queue/tính toán hay hành vi ở tải và phần cứng khác.
 
 ### Lời nói mẫu
 
-Control N62 đầy đủ đạt 3.012 good token mỗi giây. N64 đạt 3.044 và lần N64 độc lập gần như trùng kết quả. Đây là gain 1,083 phần trăm, kèm TTFT tăng nhẹ và SLA đồng thời thấp hơn chút ít. Sàng lọc N68 ngắn có vẻ tốt hơn, nhưng cặp đầy đủ chỉ còn 0,083 phần trăm. Chúng tôi dừng ở N64 vì gain tồn tại qua run đầy đủ và lần lặp; không gọi đây là mức tối đa toàn cục.
+Điều cần nhìn là sự đánh đổi, không phải đọc từng ô số liệu. Ở cùng tải N60, ứng viên tăng thông lượng đạt chuẩn khoảng 5,30 phần trăm. Token đầu tới chậm hơn, nhưng khoảng token khi đang sinh ngắn hơn. Nhóm giữ cấu hình vì mục tiêu cuộc thi là lượng phục vụ đạt chuẩn, và một lần triển khai khác tái lập gần như cùng kết quả. Đây là so sánh dịch vụ tích hợp bằng các cách thực thi có sẵn, chưa chỉ ra một kernel là nguyên nhân duy nhất. Câu hỏi tiếp là nên tăng tải đồng thời đến đâu.
 
 ### Điều không nên nói
 
-N62/N64/N68 là mức concurrency client, không phải số GPU hay batch decode. Hai allocation lặp không tạo khoảng tin cậy chính thức.
+Không chọn chỉ theo goodput hoặc coi lần lặp là bằng chứng cho mọi phần cứng và tải. Profile N48 không giải thích nhân quả kết quả N60 này.
 
 ### Câu chuyển slide
 
-Dù phần lớn request đạt giới hạn kết hợp, slide sau xem cụ thể những request vẫn trượt.
+Tiếp theo, chọn tải request bằng cách đối chiếu N64 lặp lại với lợi thế N68 trên phép thử ngắn.
 
 ---
 
 <a id="slide-11"></a>
 
-## Slide 11 — Which requests still fail after goodput improves?
+## Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage
 
-**Phần cứng: H200 · Firmus · dữ liệu từng request của job 26766.**
+**Phần cứng: H200 · concurrency là request client, không phải GPU**
+
+**Loại nội dung: Quyết định kỹ thuật.**
 
 ### Nói nhanh · 10–20 giây
 
-Biểu đồ H200 N64 cho thấy 1.875 trong 1.902 request đạt cả hai giới hạn. 27 request còn lại chỉ trượt TTFT. Thời điểm gần admission là manh mối cần nghiên cứu, không phải bằng chứng nguyên nhân. Nhóm request đầu đáng xem thêm, nhưng biểu đồ chưa xác định nguyên nhân.
+N64 đầy đủ hơn N62 1,082867% và lặp lại trong 0,013634%. N68 có vẻ hơn 2,27% ở phép thử ngắn, nhưng cặp đầy đủ chỉ còn 0,083056%, dưới ngưỡng hữu ích. N64 là lựa chọn tải có căn cứ. N64 vì thế phù hợp hơn cho vận hành đầy đủ.
 
-![Slide 11](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-11.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Cần chọn tải vận hành tăng thông lượng hữu ích mà không dựa vào đỉnh phép thử ngắn.
+- **Vì sao quan trọng:** Concurrency cao hơn tạo thêm công việc nhưng cũng tăng hàng đợi và lỗi độ trễ; mục tiêu dịch vụ có thể ngừng cải thiện.
+- **Vì sao chọn phép thử này:** So control N62 đầy đủ 60/120/30 với ứng viên và lần lặp N64; dùng cặp N68 đầy đủ kiểm tra tín hiệu screen trước đó.
+- **Điều rút ra:** N64 tăng 1,082867% và lặp trong 0,013634%; N68 từ +2,27% ngắn còn +0,083056% đầy đủ.
+- **Vì sao chuyển sang bước tiếp:** Kiểm tra lỗi độ trễ ở cấp request tại tải N64 đã chọn.
 
 ### Slide muốn nói gì
 
-Chuyển từ số trung bình sang tiêu chí đạt ở từng request. Biểu đồ cho thấy mọi miss quan sát được đều nằm ở TTFT, nhưng cần phân biệt mối liên hệ gần thời điểm admission với lời giải thích nhân quả.
+Chọn tải vận hành bằng bằng chứng quy trình đầy đủ và lần lặp, đồng thời loại bỏ tuyên bố tải cao hơn không còn đứng vững khi đo đầy đủ.
 
 ### Giải thích kết quả và lập luận
 
-Mỗi điểm là một request: trục x là thời gian tới token đầu (TTFT, ms), trục y là ITL trung bình của request đó (ms). Ngưỡng đỏ dọc/ngang là TTFT 3.000 ms và ITL 20 ms. Teal đậm #23373B (có thể nhìn xanh lam-lục) đạt cả hai; cam #EB811B (có thể nhìn vàng) trượt ít nhất một. Vùng xanh nhạt chỉ biểu thị TTFT, không phải đạt đồng thời. Điểm chồng đậm hơn do alpha, không phải lớp riêng.
+Theo dõi quyết định tải, không chỉ xếp hạng độ cao cột. Control N62 đầy đủ 25365 đạt 3.011,875 token tốt/giây; ứng viên N64 25366 đạt 3.044,490, tăng 1,082867%. Lần lặp N64 độc lập 25373 đạt 3.044,075, thấp hơn ứng viên 0,013634%. N68 có vẻ cao hơn 2,27% trong thử ngắn, nhưng so sánh đầy đủ sau đó chỉ còn 0,083056%. Vì vậy chọn tải theo gain đầy đủ và độ lặp của N64, không theo tín hiệu N68 ngắn.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **TTFT:** Thời gian từ lúc request bắt đầu tới token đầu tiên được sinh.
-- **ITL trung bình/request:** Khoảng cách trung bình giữa các token được sinh trong một request.
-- **Đạt đồng thời:** Một request đạt cả TTFT ≤ 3.000 ms và ITL trung bình/request ≤ 20 ms.
-- **P95:** Phân vị 95; 95% quan sát không vượt giá trị này, mô tả phần đuôi chứ không phải trung bình.
-- **Native runtime:** Đường thực thi server của job 26766, khác đường phần mềm portable replay.
+- **N62 / N64 / N68:** Mục tiêu số request client đồng thời đang xử lý; không phải số GPU hay kích thước batch decode.
+- **đầy đủ 60/120/30:** Warmup 60 giây, đo tính điểm 120 giây và grace 30 giây. Chỉ cửa sổ ở giữa cung cấp điểm đầy đủ.
+- **screen:** Phép đo khám phá ngắn để chọn cấu hình ứng viên; không tương đương xác nhận đầy đủ.
+- **lần lặp:** Lần chạy đầy đủ riêng của cùng cấu hình để kiểm tra khả năng tái lập.
+- **ngưỡng tăng hữu ích:** Mức cải thiện tối thiểu đặt trước để đáng giữ thay đổi; số dương dưới ngưỡng không tự động hữu ích.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Job native-runtime đầy đủ 26766 đạt 3.045,501509 good output tokens/s. Trong 1.902 request được profile, 1.875 (98,580%) đạt cả hai giới hạn. 27 request trượt TTFT; không request nào trượt ITL trung bình, không có lỗi hay hủy request.
-- TTFT trung bình/p95 là 1.108,869/1.311,693 ms; ITL trung bình/p95 là 15,0075/15,1930 ms. Cả 27 miss bắt đầu trong 13,004085 ms sau admission của profile. Đây là tương quan nhóm đầu, không chứng minh startup, hàng đợi, prefill, truyền dữ liệu hay tính toán gây miss.
+- N64 đầy đủ tăng goodput từ 3.011,875 ở N62 lên 3.044,490 token/s, tức +1,082867%.
+- Lần lặp N64 25373 đạt 3.044,075, chỉ thấp hơn ứng viên 25366 là 0,013634%.
+- Kết quả N68 +2,27% trên thử ngắn thành +0,083056% khi đo đầy đủ, nên chưa chứng minh lợi ích hữu ích so với N64.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** 1.875/1.902 request đạt đồng thời; cả 27 miss chỉ trượt TTFT, không lỗi/hủy request.
-- **Giả thuyết:** Request vào ở đầu cửa sổ profile có thể gặp tác động startup/admission riêng.
-- **Kết luận được hỗ trợ:** Phân bố cho thấy khoảng cách chấp nhận còn lại trong run này nằm ở phần đuôi TTFT.
-- **Chưa biết / giới hạn:** Mối liên hệ thời điểm không chỉ ra hàng đợi, prefill, truyền KV hay tính toán nào gây miss TTFT.
+- **Quan sát:** N64 tăng 1,082867% so với N62 đầy đủ và lặp sát; gain ngắn N68 giảm còn 0,083056% ở so sánh đầy đủ.
+- **Giả thuyết:** Tăng tải client có thể tăng thông lượng request đạt chuẩn đến khi chi phí độ trễ xóa mất lợi ích.
+- **Kết luận được hỗ trợ:** Giữ N64 làm tải vận hành được bằng chứng hỗ trợ; không chọn N68 theo thử ngắn hay chênh đầy đủ rất nhỏ.
+- **Chưa biết / giới hạn:** Các điểm tải quan sát được không xác định concurrency tối đa hay đường hiệu năng phổ quát.
 
 ### Lời nói mẫu
 
-Mỗi chấm là một request. Request chỉ đạt nếu TTFT không quá 3.000 mili giây và ITL trung bình không quá 20. Có 1.875 trên 1.902 request đạt cả hai; 27 miss đều chỉ do TTFT, không có lỗi request. Chúng bắt đầu gần thời điểm profile nhận tải. Đây là dấu hiệu đáng nghiên cứu, nhưng thời điểm không chứng minh startup là nguyên nhân.
+So sánh N62 với N64 đầy đủ tăng khoảng 1,08 phần trăm, và một lần N64 đầy đủ khác nằm trong 0,014 phần trăm. N68 ban đầu có vẻ hơn 2,27 phần trăm trong phép thử ngắn, nhưng đo đầy đủ chỉ còn 0,083 phần trăm. Mức này không đủ để tăng tải. Nhóm giữ N64 vì lợi ích đầy đủ lặp lại, còn tín hiệu tải cao không qua xác nhận.
 
 ### Điều không nên nói
 
-Vùng xanh nhạt chỉ kiểm tra TTFT. Không hiểu đó là vùng đạt kết hợp; giữ đủ 1.902 request trong mẫu số.
+N là số request client đồng thời, không phải số GPU. Không coi thử ngắn là kết quả đầy đủ hoặc ngoại suy đường concurrency phổ quát.
 
 ### Câu chuyển slide
 
-Slide sau đặt các kết quả can thiệp riêng cạnh nhau để hỏi thay đổi nào thực sự cải thiện mục tiêu.
+Ở tải N64 đã chọn, tiếp theo xem điều kiện độ trễ nào còn bị request trượt.
 
 ---
 
 <a id="slide-12"></a>
 
-## Slide 12 — Keep an intervention only if the objective improves
+## Slide 12 — The remaining latency failures are first-token tails
 
-**Phần cứng: H200 và H100 — ba phép thử độc lập, không phải so phần cứng.**
+**Phần cứng: H200 · N64 · job 26766 · 1.902 request profiling**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Ba can thiệp riêng cải thiện metric phụ nhưng không đạt quy tắc áp dụng dịch vụ: gain cache H200 dưới 1%, sparse graph mất goodput, FA3 H100 mất goodput dù TTFT nhanh hơn. Không gộp kết quả của chúng.
+Trong 1.902 request, có 1.875 đạt cả hai giới hạn; cả 27 request trượt đều chỉ lỗi TTFT. Không request nào trượt ITL và không có lỗi request. Scatter cho biết điều kiện bị vi phạm, không giải thích vì sao token đầu trễ.
 
-![Slide 12](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-12.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Điểm trung bình có thể che khuất request nào trượt và vi phạm ràng buộc độ trễ nào.
+- **Vì sao quan trọng:** Quy tắc dịch vụ yêu cầu request tốt đạt cả TTFT lẫn ITL; goodput tổng hợp không giải thích lỗi.
+- **Vì sao chọn phép thử này:** Vẽ từng request trong 1.902 request theo hai giới hạn độ trễ và phân loại điểm đạt đồng thời hai biên tính cả dấu bằng.
+- **Điều rút ra:** Có 1.875 request đạt cả hai và 27 request chỉ trượt TTFT; ITL không trượt, không có lỗi.
+- **Vì sao chuyển sang bước tiếp:** Giữ nguyên nguyên nhân chưa biết nếu chưa thu timing từng pha; đánh giá độ vững riêng với chẩn đoán request này.
 
 ### Slide muốn nói gì
 
-Đây là bảng quyết định, không phải một thí nghiệm duy nhất hay một phép so phần cứng. Bảng đặt cạnh ba kết quả can thiệp H200 độc lập và một kết quả attention H100 riêng. Mỗi hàng phải so thay đổi với control riêng và áp dụng quy tắc mức tăng hữu ích.
+Chuyển từ throughput tổng hợp sang từng request, chỉ rõ điều kiện SLA nào còn bị trượt mà không gán nguyên nhân thiếu bằng chứng.
 
 ### Giải thích kết quả và lập luận
 
-Đọc riêng bốn nhóm bằng chứng: cache prefill H200 27376→27378 tăng 0,240921%, thấp hơn ngưỡng lợi ích định trước 1%; sparse decode graph H200 giảm bộ nhớ capture 1,15→0,36 GB/rank nhưng goodput giảm 0,370208%; cặp decode FlashInfer→FA3 H100 N54 riêng giảm TTFT 118,922 ms nhưng goodput giảm 0,812%. Không so throughput thô của chúng như một thí nghiệm.
+Mỗi điểm là một request trong profiling. Vị trí ngang là TTFT request đó tính bằng mili giây; vị trí dọc là ITL trung bình của request, cũng bằng mili giây. Điểm xanh ngọc đạt cả hai giới hạn bao gồm biên: TTFT ≤3.000 ms và ITL trung bình ≤20 ms. Điểm cam trượt ít nhất một giới hạn. Dữ liệu có 1.875 điểm đạt và 27 điểm trượt; cả 27 nằm ngoài biên TTFT, không điểm nào vượt biên ITL. Đây là đuôi token đầu. Scatter không cho biết hàng đợi, prefill, truyền KV hay pha nào khác gây trễ.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Ngưỡng mức tăng hữu ích:** Yêu cầu định trước lớn hơn 1% dùng để quyết định áp dụng thay đổi H200; kết quả dương nhỏ chưa đủ.
-- **Cache prefill:** Bộ nhớ đệm có thể tái sử dụng trạng thái tiền tố prompt đã xử lý; thử nghiệm H200 tắt cache này cho prefill.
-- **Sparse decode graph:** Chỉ capture một số batch decode đã chọn thay vì dải dày; bộ nhớ capture không phải toàn bộ VRAM.
-- **Bộ nhớ capture mỗi rank:** Bộ nhớ graph capture dùng bởi một tiến trình phân tán, đơn vị GB/rank.
-- **TTFT / goodput:** Thời gian tới token đầu / output token đủ điều kiện mỗi giây; cải thiện một metric có thể làm metric kia xấu đi.
+- **TTFT:** Thời gian từ khi request bắt đầu đến token đầu tiên; ngưỡng tối đa 3.000 ms.
+- **ITL trung bình/request:** Khoảng trung bình giữa các token sinh trong một request; ngưỡng tối đa 20 ms.
+- **biên bao gồm:** Giá trị đúng bằng ngưỡng tối đa vẫn đạt vì điều kiện là nhỏ hơn hoặc bằng.
+- **SLA chung:** Request chỉ đạt khi qua cả hai giới hạn độ trễ. Mẫu số gồm mọi request profiling, kể cả lỗi.
+- **request profiling:** Một request trong cửa sổ đo được chấm; scatter ở cấp request, không phải trung bình nhiều job.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Cặp cache H200: control mới 27376 đạt 3.041,119598; candidate 27378 đạt 3.048,446289, chênh +0,240921%. Candidate đạt điều kiện request/output nội bộ (1.879/1.905 request đạt đồng thời; không lỗi), nhưng không qua ngưỡng quyết định mức tăng hữu ích >1% đã đặt trước.
-- Job sparse graph H200 27510 đạt 3.029,861122 so với control 27376 đạt 3.041,119598, tức −0,370208%. Bộ nhớ capture graph decode giảm 1,15 xuống 0,36 GB mỗi rank; giảm tài nguyên này không cải thiện goodput. Riêng cặp H100 N54, FA3 giảm TTFT trung bình 118,922 ms nhưng tăng ITL và latency request trung bình; goodput giảm 0,812%. Đây là các thử nghiệm riêng trên phần cứng riêng, có control riêng.
+- Job 26766 có 1.902 request profiling; 1.875 qua cả hai điều kiện, tức 98,580442%.
+- Cả 27 lỗi đều trượt TTFT. Không request nào trượt ITL trung bình/request; lỗi và hủy request bằng không.
+- Các đường ngưỡng phân loại đạt/trượt. Vị trí điểm cho biết độ trễ đo được nhưng không có timing theo pha để giải thích đuôi chậm.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Cache tăng 0,240921%; sparse graph tiết kiệm bộ nhớ capture nhưng mất 0,370208% goodput; FA3 H100 giảm TTFT nhưng mất 0,812% goodput.
-- **Giả thuyết:** Thay cache, graph capture hoặc attention có thể cải thiện một metric tài nguyên/độ trễ mà không hại mục tiêu dịch vụ.
-- **Kết luận được hỗ trợ:** Giữ setting N64/cache đã lặp; giữ dense graph và FlashInfer decode cho cấu hình đã đo. Không can thiệp nào đạt tiêu chí áp dụng.
-- **Chưa biết / giới hạn:** Ba kết quả không chung control hay phần cứng; không thể cộng tác động, xếp hạng theo số thô hoặc khái quát ngoài từng cấu hình.
+- **Quan sát:** Dịch vụ N64 đạt đồng thời 98,580442%; cả 27 lỗi SLA chỉ trượt TTFT.
+- **Giả thuyết:** Một pha trước token đầu như tiếp nhận, hàng đợi, prefill hoặc truyền KV có thể góp phần gây trễ.
+- **Kết luận được hỗ trợ:** Scatter xác định metric bị trượt nhưng không xác lập pha chịu trách nhiệm.
+- **Chưa biết / giới hạn:** Chưa có timing từng request cho queue/prefill/transfer và giải thích nhân quả của 27 lỗi.
 
 ### Lời nói mẫu
 
-Slide này gộp các quyết định độc lập, không phải một factorial experiment. Trên H200, tắt cache prefill tăng 0,24 phần trăm, thấp hơn ngưỡng hữu ích 1 phần trăm. Sparse graph tiết kiệm bộ nhớ capture từ 1,15 xuống 0,36 gigabyte mỗi rank nhưng goodput giảm 0,37 phần trăm. Ở cặp H100 N54 riêng, FA3 cải thiện TTFT nhưng goodput giảm 0,812 phần trăm. Giữ setting hỗ trợ mục tiêu đầy đủ hơn; không cộng các gain không liên quan.
+Scatter này vẽ từng request trong 1.902 request đo, với độ trễ token đầu theo chiều ngang và khoảng token trung bình theo chiều dọc. Hai ngưỡng tính cả biên: tối đa 3.000 mili giây tới token đầu và tối đa 20 mili giây giữa các token sau. Có 1.875 request đạt cả hai. 27 request còn lại chỉ trượt TTFT; không request nào trượt ITL và không có lỗi. Ta biết dạng lỗi, nhưng chưa biết hàng đợi, prefill hay truyền KV gây ra.
 
 ### Điều không nên nói
 
-Cặp H100 không phải hàng H200. Bộ nhớ capture không phải tổng VRAM; TTFT hay bộ nhớ thấp hơn một mình chưa chứng minh cấu hình dịch vụ tốt hơn.
+Không suy ra nguyên nhân hàng đợi/prefill chỉ từ vị trí điểm và không gọi 27 lỗi TTFT là lỗi ITL.
 
 ### Câu chuyển slide
 
-Một đề xuất giảm latency là speculative decoding; tiếp theo theo dõi giả thuyết thất bại và các lần thử sau.
+Tiếp theo, so bằng chứng N64 lặp lại với các quan sát cao/thấp riêng mà không gộp chuỗi runtime khác nhau.
 
 ---
 
 <a id="slide-13"></a>
 
-## Slide 13 — Did speculative decoding solve this workload?
+## Slide 13 — Repeated evidence supports N64 more strongly than an isolated peak
 
-**Phần cứng: H200 · Firmus · EAGLE3.**
+**Phần cứng: H200 · báo riêng chuỗi full lịch sử và native**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Vị trí draft EAGLE3 làm trượt latency; validator được sửa; cả retry ngắn và thử nghiệm shallow đầy đủ riêng đều mất goodput. Cách đã thử không giúp workload này, dù còn cấu hình khác chưa được đo. Bằng chứng hiện tại chỉ áp dụng cho các cấu hình đã thử trên H200.
+Nhóm chạy lại N64 trong ba lần đo đầy đủ, trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Một lần đổi cache cao hơn nhưng chỉ tăng 0,24% so với đối chứng riêng. Nhóm ưu tiên bằng chứng tái lập, đồng thời giữ kết quả thấp hơn chưa giải thích được.
 
-![Slide 13](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-13.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Chọn quan sát cao nhất có thể dẫn đến cấu hình do nhiễu hoặc không tái lập.
+- **Vì sao quan trọng:** Lựa chọn triển khai cần qua nhiều lần chạy đầy đủ; protocol/runtime khác không nên gộp như cùng một thí nghiệm.
+- **Vì sao chọn phép thử này:** Đối chiếu chuỗi N64 lịch sử ba lần, lần native đầy đủ riêng, control/treatment cache khớp và replay legacy thấp hợp lệ.
+- **Điều rút ra:** N64 lặp quanh 3.044–3.046 trong hai chuỗi gắn nhãn riêng; gain cache 0,240921% dưới ngưỡng chọn; replay thấp chưa rõ nguyên nhân.
+- **Vì sao chuyển sang bước tiếp:** Chọn theo bằng chứng lặp và nêu rõ xác minh accuracy cùng triển khai còn thiếu.
 
 ### Slide muốn nói gì
 
-Theo dõi chuỗi lập luận EAGLE3: giả thuyết về vị trí chạy draft, lỗi validator, retry ngắn sau khi sửa và một phép đo đầy đủ riêng. Sửa công cụ đo giúp lần chạy sau hợp lệ; không biến kết quả hiệu năng thua thành thắng.
+Tách độ vững khỏi việc chọn đỉnh: phép lặp hỗ trợ N64, nhưng chuỗi runtime khác nhau và drift chưa giải thích ngăn gộp thành xu hướng hay chuyện nhân quả duy nhất.
 
 ### Giải thích kết quả và lập luận
 
-Đọc theo thứ tự: draft trên mọi worker 25948 trượt quy tắc latency đồng thời; thử decode-only 25988 bị validator từ chối vì đòi KV draft ở prefill chỉ chạy target; run ngắn sau sửa 25998 qua protocol giới hạn nhưng mất 4,74% goodput; run shallow đầy đủ riêng 27238 mất 2,080318% so với control 26949.
+Đọc độ mạnh bằng chứng thay vì chỉ chọn điểm cao nhất. Chuỗi lịch sử là trung bình ba lần N64 đầy đủ. Lần native 26766 là chuỗi đầy đủ về sau riêng, có điểm gần tương đương. Cặp cache 27376/27378 so control mới với một treatment: 3.041,119598 so với 3.048,446289, tăng 0,240921%, dưới tiêu chí gain hữu ích và p95 TTFT xấu hơn. Replay đầy đủ hợp lệ 26313 đạt 2.830,923547. Kết quả thấp được giữ lại; các đối chứng graph/admission hoàn tất không chỉ ra một nguyên nhân. Giữ nhãn chuỗi riêng thay vì nối chúng thành một đường gây hiểu sai.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Speculative decoding EAGLE3:** Model draft đề xuất token output, model target xác minh; truyền đúng không tự chứng minh phục vụ nhanh hơn.
-- **Prefill chỉ chạy target:** Worker xử lý prompt bằng model target nhưng không chạy model draft.
-- **KV region:** Vùng nhớ giữ trạng thái key/value; validator chỉ kiểm tra ở role thực sự chạy draft.
-- **Protocol ngắn:** Run giới hạn, không thay thế workload cố định đầy đủ để kết luận hiệu năng dịch vụ.
-- **Mất goodput:** Số output token đủ điều kiện mỗi giây thấp hơn control target-only ghép cặp.
+- **trung bình có lặp:** Trung bình ba lần N64 đầy đủ lịch sử; số lần lặp hỗ trợ tính nhất quán ở setting đó nhưng tự nó không phải khoảng tin cậy.
+- **chuỗi runtime native:** Quan sát đầy đủ về sau qua đường serving riêng; báo riêng thay vì gộp với run lịch sử.
+- **đỉnh riêng lẻ:** Một lần đo cao. Có thể là thật nhưng không chứng minh cấu hình cải thiện ổn định.
+- **ngưỡng gain hữu ích:** Mức gain tối thiểu đặt trước để chọn thay đổi; kết quả cache +0,240921% thấp hơn ngưỡng.
+- **replay thấp hợp lệ:** Run hoàn thành protocol đầy đủ, vẫn là số đo hợp lệ dù điểm thấp hơn.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Thử nghiệm ban đầu mọi worker 25948 trượt giới hạn latency đồng thời. Chuyển draft sang decode-only được giả thuyết là giảm thời gian tới token đầu. Sau đó attempt 25988 bị validator từ chối vì validator áp sai số KV region của draft lên prefill chỉ chạy target; sửa theo role nhưng vẫn lưu lỗi ban đầu.
-- Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only riêng. Run shallow đầy đủ sau đó 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Acceptance draft thấp là telemetry mô tả, không phải giải thích nhân quả cho thời gian.
+- Trung bình ba lần N64 lịch sử: 3.044,400475 token đầu ra tốt/giây. Lần native 26766 về sau: 3.045,501509; giữ là chuỗi riêng.
+- Control mới 27376 đạt 3.041,119598. Treatment cache 27378 đạt 3.048,446289, tăng 0,240921%; p95 TTFT xấu hơn nên không chọn làm cải thiện hữu ích.
+- Replay đầy đủ legacy 26313 đạt 2.830,923547 và vẫn hợp lệ. Không đối chứng hoàn tất nào cô lập một nguyên nhân duy nhất cho chênh lệch với chuỗi native mới.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Sau khi sửa validator, retry decode-only ngắn mất 4,74%; thử nghiệm shallow đầy đủ riêng mất 2,080318% goodput.
-- **Giả thuyết:** Giới hạn draft vào decode hoặc dùng draft nông có thể giảm TTFT mà không mất throughput dịch vụ tổng thể.
-- **Kết luận được hỗ trợ:** Các cấu hình đã thử không giải quyết được workload này; dừng chúng và giữ lịch sử lỗi/sửa công cụ.
-- **Chưa biết / giới hạn:** Quan sát chưa chỉ ra pha dịch vụ nào chính xác gây chậm và cũng không bác bỏ mọi cấu hình speculative khác.
+- **Quan sát:** Kết quả N64 lịch sử lặp và native riêng nằm gần 3.044–3.046; đỉnh cache riêng cao hơn chút; replay legacy hợp lệ thấp hơn.
+- **Giả thuyết:** N64 là điểm vận hành có thể tái lập, còn khác biệt cache hoặc runtime có thể góp phần tạo biến động điểm.
+- **Kết luận được hỗ trợ:** Dùng bằng chứng lặp để hỗ trợ N64; không thay bằng điểm cache đơn lẻ hay quy drift cho một nguyên nhân.
+- **Chưa biết / giới hạn:** Quan hệ giữa runtime, graph policy, request cap, harness và replay thấp hợp lệ vẫn chưa rõ.
 
 ### Lời nói mẫu
 
-Chúng tôi thử EAGLE3 để giảm độ trễ sinh token. Chạy draft trên mọi worker trượt quy tắc latency kết hợp. Chuyển draft sang decode-only là giả thuyết hợp lý, nhưng validator kiểm tra sai prefill chỉ chạy target. Chúng tôi sửa và giữ lại lỗi đó. Retry ngắn chạy được nhưng mất 4,74 phần trăm goodput; thử nghiệm shallow đầy đủ riêng mất 2,08 phần trăm. Các cấu hình này không giúp workload hiện tại. Truyền draft đúng chức năng không đồng nghĩa dịch vụ nhanh hơn.
+Ba lần N64 đầy đủ lịch sử đạt trung bình khoảng 3.044 token tốt mỗi giây. Một lần đầy đủ về sau trên runtime khác đạt 3.045,5, đáng khích lệ nhưng thuộc chuỗi riêng. Treatment cache đạt đỉnh 3.048,4, chỉ hơn control 0,24 phần trăm và p95 token đầu xấu hơn. Nhóm giữ N64 đã lặp lại, bảo toàn replay thấp hợp lệ, và không khẳng định biết vì sao nó thấp.
 
 ### Điều không nên nói
 
-Phân biệt lỗi validator với lỗi model, và retry ngắn với run đầy đủ. Không biến telemetry acceptance thấp thành phân tích nhân quả latency.
+Không gộp chuỗi runtime lịch sử và native, không chọn cấu hình từ một đỉnh, và không xóa replay đầy đủ hợp lệ thấp hơn khi nguyên nhân chưa rõ.
 
 ### Câu chuyển slide
 
-Tiếp theo hỏi cải thiện N64 có lặp qua các deployment không và so sánh các run đầy đủ thế nào cho công bằng.
+Tiếp theo, kiểm tra tỷ số xuyên nền tảng dự báo được kết quả H200 giữ lại chưa dùng tính dự báo đến đâu.
 
 ---
 
 <a id="slide-14"></a>
 
-## Slide 14 — Does the improvement survive another deployment?
+## Slide 14 — One held-out check supports a local forecast, not a GPU conversion rule
 
-**Phần cứng: H200 · Firmus — ba lần lịch sử, native riêng và ứng viên cache.**
+**Phần cứng: Đầu vào calibration H100 N52 · kiểm tra held-out H200 N50**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Ba run H200 N64 đầy đủ trung bình 3.044,40. Kết quả native-runtime được tách riêng. Cache cao hơn chỉ 0,24 phần trăm so control riêng, dưới ngưỡng hữu ích; raw data phục hồi từ job lỗi không phải lần lặp đầy đủ thành công.
+Dự báo được ghi trước khi có số đo H200 lệch khoảng 1,54%, trong dung sai 2% nhóm đặt. Tuy nhiên, phép kiểm còn bộc lộ phần bất định bị bỏ sót. Một dự báo gần đúng chỉ có giá trị kiểm tra giới hạn, chưa phải quy tắc đổi mọi điểm H100 sang H200.
 
-![Slide 14](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-14.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Tỷ số xuyên nền tảng có thể giúp dự kiến phép đo gần đó nhưng dễ bị hiểu nhầm thành hệ số phần cứng chung.
+- **Vì sao quan trọng:** Phần cứng, phần mềm và workload tương tác; một tỷ số có thể đúng cục bộ nhưng sai ở nơi khác.
+- **Vì sao chọn phép thử này:** Dùng trung bình H100/H200 N52 để khóa dự báo H200 N50, rồi so với kết quả không dùng trong calibration.
+- **Điều rút ra:** Job 24272 lệch dự báo −1,5371%, trong dải ±2% định trước, đồng thời cho thấy sensitivity range cũ bỏ model error.
+- **Vì sao chuyển sang bước tiếp:** Giữ đây là một kiểm tra dự báo cục bộ, không dùng để đổi điểm ở tải hay nền tảng khác.
 
 ### Slide muốn nói gì
 
-Phân biệt operating point được lặp lại với đỉnh đơn lẻ và chuỗi runtime phần mềm về sau. Chọn cấu hình dựa trên tính lặp lại và ngưỡng lợi ích định trước, không dựa vào số lớn nhất.
+Đánh giá calibration theo nền tảng có chuyển sang điểm vận hành held-out gần đó không, đồng thời phân biệt dung sai vận hành với bất định thống kê.
 
 ### Giải thích kết quả và lập luận
 
-Ba run N64 đầy đủ lịch sử 25366/25373/25487 trung bình 3.044,400475 good tokens/s. Job native-runtime 26766 là kết quả đầy đủ riêng: 3.045,501509 và SLA đồng thời 98,580442%. Candidate cache 27378 có số cao hơn 3.048,446289, nhưng control mới ghép cặp 27376 là 3.041,119598, nên gain chỉ +0,240921%, thấp hơn ngưỡng hữu ích >1%.
+Phép calibration dùng cùng combo N52: trung bình H100 là 2.215,460 token tốt/giây qua hai allocation; H200 là 2.632,181 qua bốn; tỷ số 1,188096805. Áp dụng tỷ số đó cho H100 N50 tạo dự báo H200 được khóa trước khi xem job 24272: 2.642,244. Kết quả H200 held-out là 2.601,629, sai số có dấu −1,5371%. Nó nằm trong dung sai vận hành ±2% đặt trước nhưng ngoài sensitivity range trước đó chỉ thay đầu vào và bỏ model error. Dự báo không được fit lại sau khi thấy đáp án.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Lần triển khai lặp độc lập:** Run scheduler khác của cùng cấu hình; kiểm tra tính lặp lại, không nhất thiết dùng GPU riêng hay hệ thống phần cứng khác.
-- **Native runtime:** Môi trường thực thi phần mềm server khác, không phải thế hệ GPU mới.
-- **Control mới ghép cặp:** Run so sánh mới dùng setting baseline của cặp cache.
-- **Run đầy đủ do nhóm review:** Nhóm chạy protocol đầy đủ trên cluster accelerator được cấp, rồi kiểm tra raw request output và runtime gates. Đây không phải run trên laptop cá nhân, không phải ranking hay xác nhận accuracy chính thức của ban tổ chức.
-- **Ngưỡng lợi ích hữu ích:** Yêu cầu cải thiện định trước >1% để xem can thiệp là có ích.
+- **tỷ số calibration:** Trung bình H200 chia trung bình H100 cho cùng combo N52. Tỷ số chỉ thuộc hệ thống/cài đặt đó, không phải hằng số thế hệ GPU.
+- **allocation:** Một lần scheduler cấp tài nguyên và chạy. Hai hay bốn allocation là số lần lặp, không chứng minh GPU vật lý riêng biệt.
+- **kiểm tra held-out:** Phép đo không dùng để tính dự báo, chỉ được mở sau đó nhằm kiểm tra dự đoán.
+- **dự báo khóa trước:** Dự đoán cố định trước phép đo held-out; giữ nguyên giúp tránh chỉnh đáp án sau khi biết kết quả.
+- **sensitivity range:** Khoảng tạo bằng cách thay một số đầu vào. Khoảng cũ bỏ model error nên không bao hết bất định dự báo.
+- **dung sai ±2%:** Khoảng đạt yêu cầu vận hành do nhóm đặt. Đây không phải khoảng tin cậy, sai số chuẩn hay bằng chứng dự báo đúng nói chung.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Ba run N64 đầy đủ lịch sử trung bình 3.044,400475 good tokens/s và hỗ trợ chọn N64 vì được lặp lại. Native-runtime 26766 riêng đạt 3.045,501509 và 98,580442%; không gộp với ba run lịch sử vì đường runtime server khác.
-- Candidate cache đầy đủ cao nhất 27378 đạt 3.048,446289, nhưng so với control mới riêng 27376 đạt 3.041,119598, gain là +0,240921%, thấp hơn ngưỡng hữu ích >1%. Số cao nhất chưa phải cải thiện hữu ích được xác nhận. Điểm raw portable 3.055,330517 được phục hồi từ job 27145, nhưng job scheduler thất bại ở hậu xử lý; đây không phải lần triển khai toàn allocation thành công.
+- Combo N52: trung bình H100 2.215,460; H200 2.632,181 token tốt/giây; tỷ số 1,188096805.
+- Dự báo H200 N50 đã khóa: 2.642,244. Job held-out 24272: 2.601,629, sai số có dấu −1,5371%.
+- Kết quả nằm trong dung sai vận hành ±2% nhưng ngoài sensitivity range cũ chưa đầy đủ. Hai điều này cùng đúng vì phạm vi cũ bỏ model error.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Ba lần lặp N64 lịch sử trung bình 3.044,400475; job native 26766 tương tự nhưng riêng; cache 27378 chỉ hơn control mới của nó 0,240921%.
-- **Giả thuyết:** Điểm được lặp lại là cơ sở chọn cấu hình đáng tin hơn một quan sát đơn lẻ cao nhất.
-- **Kết luận được hỗ trợ:** Giữ N64 được lặp lại và không chọn chênh lệch cache nhỏ làm gain hữu ích.
-- **Chưa biết / giới hạn:** Không kết quả nào chứng minh optimum toàn cục, nhân quả giữa runtime, ranking của ban tổ chức hay quality model official.
+- **Quan sát:** Một kết quả H200 held-out thấp hơn dự báo 1,5371%, nằm trong dung sai vận hành và ngoài sensitivity range cũ chưa đầy đủ.
+- **Giả thuyết:** Tỷ số đo ở N52 có thể dự đoán kết quả H200 N50 gần đó nếu combo được giữ tương đương.
+- **Kết luận được hỗ trợ:** Một kiểm tra dự báo trước này đạt dung sai nhóm đặt; giữ rõ giới hạn thiếu model error và không fit lại dự báo.
+- **Chưa biết / giới hạn:** Độ chính xác ở tải/cấu hình khác, bất định dự báo đầy đủ, độ đa dạng GPU vật lý và quy đổi nền tảng phổ quát vẫn chưa biết.
 
 ### Lời nói mẫu
 
-Ba run N64 đầy đủ lịch sử trung bình 3.044,40 good token mỗi giây. Run native-runtime sau đó tương tự nhưng được báo riêng vì đường phần mềm thực thi khác. Candidate cache cao nhất đạt 3.048,45, chỉ hơn control mới của nó 0,24 phần trăm, dưới ngưỡng hữu ích một phần trăm. Chúng tôi giữ N64 đã lặp lại thay vì chọn số đơn lẻ lớn nhất. Điểm raw phục hồi từ job lỗi hậu xử lý không phải deployment đầy đủ thành công.
+Chúng tôi đo cùng cấu hình N52 trên H100 và H200, tính tỷ số 1,1881. Trước khi có run H200 N50, nhóm khóa dự báo 2.642,244. Kết quả held-out là 2.601,629, sai số âm 1,5371 phần trăm, trong dung sai hai phần trăm đặt trước. Tuy nhiên nó ngoài sensitivity range cũ vì phạm vi đó bỏ model error. Đây là một lần kiểm tra dự báo cục bộ, không phải quy tắc đổi GPU tổng quát.
 
 ### Điều không nên nói
 
-Lần triển khai lặp không nhất thiết là phần cứng vật lý mới. Run đầy đủ do nhóm review không phải ranking hay chứng nhận quality official. Không thay trạng thái job thất bại bằng raw data phục hồi.
+Không gọi dải ±2% là khoảng tin cậy, không suy các allocation là GPU vật lý riêng, và không fit lại dự báo sau khi thấy kết quả.
 
 ### Câu chuyển slide
 
-Ngay trong H200, các kết quả replay sau khác nhau; tiếp theo xem runtime và workload có thể gây nhiễu, không mặc định một nguyên nhân duy nhất.
+Trước khi kết luận, xem hai phương án có vẻ hấp dẫn: lợi ích được thấy có làm dịch vụ tốt hơn khi đo đầy đủ không?
 
 ---
 
 <a id="slide-15"></a>
 
-## Slide 15 — Why did a later replay score lower?
+## Slide 15 — Better proxy metrics did not always improve qualifying throughput
 
-**Phần cứng: H200 · Firmus — các protocol và đường thực thi khác nhau.**
+**Phần cứng: H200 · hai phép thử riêng: graph decode thưa và EAGLE nông**
+
+**Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-N64 đầy đủ lịch sử trung bình 3.044,40, còn control ngắn mới khoảng 2.560. Graph policy, giới hạn admission server và quy trình đo đều thay đổi. Phép thử hoàn tất không cô lập nguyên nhân, nên giữ drift mà không quy cho một flag.
+Graph thưa giảm bộ nhớ capture nhưng goodput thấp hơn control 27376 là 0,370208%. EAGLE nông đầy đủ đạt thấp hơn control target-only 26949 là 2,080318%. Đây là hai kết quả riêng, giới hạn đúng cấu hình đã thử chứ không bác bỏ mọi biến thể.
 
-![Slide 15](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-15.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Tối ưu có thể cải thiện proxy hấp dẫn nhưng làm xấu mục tiêu thật ở cấp request.
+- **Vì sao quan trọng:** Tiết kiệm tài nguyên hay giảm bước decode chỉ có ích nếu tăng request đạt cả hai giới hạn độ trễ.
+- **Vì sao chọn phép thử này:** Đặt cặp control/ứng viên graph thưa cạnh cặp EAGLE đầy đủ/target-only riêng, giữ đúng baseline của mỗi so sánh.
+- **Điều rút ra:** Capture thưa tiết kiệm bộ nhớ log nhưng giảm goodput 0,370208%; EAGLE nông mất 2,080318% trong cặp đầy đủ.
+- **Vì sao chuyển sang bước tiếp:** Giữ cài đặt đã chọn và tránh khẳng định phổ quát; biến thể mới cần bằng chứng riêng từ serving đầy đủ có đối chứng.
 
 ### Slide muốn nói gì
 
-Điều tra chênh lệch thay vì giải thích bằng một flag thuận tiện. Bằng chứng xác định settings và bối cảnh đo đã đổi, nhưng so sánh hoàn tất không cô lập được một nguyên nhân duy nhất đủ giải thích.
+Đặt cạnh nhau hai cải tiến đề xuất nhắm vào chỉ số phụ hoặc thành phần, giải thích vì sao nhóm giữ lựa chọn serving cũ khi kết quả dịch vụ đầy đủ không tốt hơn.
 
 ### Giải thích kết quả và lập luận
 
-Câu hỏi là vì sao N64 đầy đủ lịch sử trung bình 3.044,400475 trong khi control ngắn mới khoảng 2.560. ServerArgs cho thấy policy prefill graph và giới hạn max-running-request đã đổi; harness/cách quan sát cũng khác. Replay legacy chính xác 26313 đạt 2.830,923547; run native mới 26766 đạt 3.045,501509. Đây là các chuỗi runtime/protocol khác nhau, không phải thang đo một yếu tố duy nhất.
+Đọc riêng hai thẻ bằng chứng vì chúng dùng control khác nhau và trả lời câu hỏi khác nhau. Job graph thưa 27510 so với control trước 27376: bộ nhớ capture giảm 1,15 xuống 0,36 GB mỗi rank, trong khi goodput giảm 0,370208%. Đây là proxy tài nguyên thấp hơn, không phải chiến thắng dịch vụ; cặp chỉ có một control trước và seed khác. Lần EAGLE nông đầy đủ 27238 so với control target-only 26949: 2.971,628430 so với 3.034,761104 token tốt/giây, giảm 2,080318%. Cấu hình speculative đã thử thua trong workload đầy đủ. Hai thẻ không bác bỏ phổ quát graph thưa hay speculative decoding; chúng chỉ đóng cấu hình đã thử trừ khi có bằng chứng khác.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **ServerArgs:** Tham số cấu hình server runtime, điều khiển graph policy, giới hạn admission và hành vi khác.
-- **Prefill graph policy:** Quy định các shape xử lý prompt nào được capture/chạy bằng GPU graph.
-- **Max running requests:** Giới hạn phía server cho request được nhận/đang chạy đồng thời; khác concurrency client.
-- **Harness / protocol quan sát:** Quy trình client và đo lường xác định warmup, cửa sổ điểm và cách tính.
-- **Yếu tố gây nhiễu:** Yếu tố cùng thay đổi với phép so và cũng ảnh hưởng kết quả, khiến không thể quy cho một nguyên nhân.
+- **chỉ số proxy:** Đại lượng tài nguyên/thành phần đo được như bộ nhớ capture, có thể liên quan mục tiêu nhưng không phải mục tiêu dịch vụ.
+- **goodput:** Tốc độ request đạt cả hai giới hạn độ trễ, báo cáo thành token đầu ra tốt/giây với mục tiêu cố định 200 token.
+- **độ thưa graph decode:** Dùng ít dạng decode được capture hơn. Có thể giảm bộ nhớ liên quan graph nhưng không đảm bảo thông lượng dịch vụ cao hơn.
+- **speculative decoding / EAGLE:** Phương pháp draft đề xuất token để model đích xác minh. Nó chỉ giảm công việc decode nếu chi phí xác minh và truyền không lớn hơn phần tiết kiệm.
+- **control target-only:** Đường serving cùng loại chỉ dùng model đích, không có dự đoán bằng model draft.
+- **bộ nhớ capture mỗi rank:** Bộ nhớ log cho capture graph trên một rank worker; không phải tổng VRAM hay chỉ số thông lượng đầu ra.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- N64 đầy đủ lịch sử trung bình 3.044,400475, trong khi control ngắn mới xấp xỉ 2.560. ServerArgs thực tế cho thấy policy prefill graph và giới hạn max-running-request đã đổi; harness và điều kiện quan sát cũng khác.
-- Replay vận hành legacy chính xác 26313 đạt 2.830,923547; run native-runtime đầy đủ 26766 đạt 3.045,501509. Factorial graph/admission đã hoàn tất nhưng không xác định một nguyên nhân hữu ích duy nhất. Vì vậy không thể ghi toàn bộ chênh lệch cho việc phục hồi một flag hay chỉ đổi launcher.
+- Thẻ graph thưa: bucket giảm từ 64 xuống 12, bộ nhớ capture mỗi rank từ 1,15 xuống 0,36 GB, nhưng goodput thấp hơn control trước 27376 là 0,370208%.
+- Thẻ EAGLE: lần đầy đủ 27238 đạt 2.971,628430, so với target-only 26949 đạt 3.034,761104 token tốt/giây, giảm 2,080318%.
+- Mỗi thẻ hỗ trợ không đưa biến thể đã thử vào cấu hình chọn. Control, cơ chế và bất định khác nhau; không so hai phần trăm như cùng một thí nghiệm.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Điểm số khác nhau giữa chuỗi full lịch sử, control ngắn, replay legacy và native runtime; nhiều setting và điều kiện đo cùng thay đổi.
-- **Giả thuyết:** Graph policy, giới hạn admission server, runtime hoặc harness đo có thể góp phần tạo drift.
-- **Kết luận được hỗ trợ:** Giữ kết quả thấp hợp lệ và ghi rõ protocol/runtime; chưa xác lập giải thích một yếu tố.
-- **Chưa biết / giới hạn:** Bằng chứng factorial không cô lập được yếu tố nhân quả duy nhất đủ giải thích chênh lệch lịch sử với kết quả mới.
+- **Quan sát:** Bộ nhớ capture graph thưa tốt hơn trong khi goodput giảm nhẹ; treatment EAGLE nông đầy đủ mất goodput so với control target-only.
+- **Giả thuyết:** Ít bộ nhớ graph hoặc dự đoán token draft có thể cải thiện thông lượng serving hữu ích.
+- **Kết luận được hỗ trợ:** Giữ graph dày và serving target-only cho các cấu hình đã thử vì mục tiêu dịch vụ đầy đủ không cải thiện.
+- **Chưa biết / giới hạn:** Không thể kết luận mọi graph thưa hay mọi cách speculative đều thất bại; chi phí padding, dạng khác và cấu hình draft khác chưa thử ở đây.
 
 ### Lời nói mẫu
 
-Control ngắn mới đạt khoảng 2.560, thấp hơn trung bình N64 đầy đủ lịch sử 3.044. Kiểm tra server settings thực tế cho thấy cả policy prefill graph lẫn giới hạn request phía server đã đổi; harness và cửa sổ đo cũng khác. Replay legacy và run native mới trả lời so sánh khác nhau, còn factorial hoàn tất không cô lập được nguyên nhân. Vì vậy chúng tôi báo drift cùng yếu tố gây nhiễu, không ghi công cho một flag hay launcher riêng.
+Hai thẻ cho thấy chỉ số thành phần tốt hơn chưa chắc dịch vụ tốt hơn. Graph thưa giảm bộ nhớ capture trong log từ 1,15 xuống 0,36 gigabyte mỗi rank, nhưng goodput thấp hơn control 0,37 phần trăm. Trong phép so đầy đủ riêng, EAGLE nông thấp hơn control target-only 2,08 phần trăm. Hai phép thử có control khác nên không gộp kết quả. Nhóm giữ graph dày và target-only cho các cấu hình đã thử, không bác bỏ mọi biến thể có thể có.
 
 ### Điều không nên nói
 
-Control ngắn không so trực tiếp với run đầy đủ. Replay legacy chính xác không chứng minh một flag duy nhất gây ra chênh lệch.
+Không coi bộ nhớ capture là VRAM hay goodput, không so hai phần trăm như một thí nghiệm, và không tuyên bố mọi graph thưa hay speculative đều thất bại.
 
 ### Câu chuyển slide
 
-Các phép đo xuyên nền tảng đặt ra câu hỏi độ vững khác: calibration trên accelerator này có dự báo được accelerator kia không?
+Slide kết luận tách điều bằng chứng serving hỗ trợ khỏi hai câu hỏi xác minh còn mở.
 
 ---
 
 <a id="slide-16"></a>
 
-## Slide 16 — Can one platform predict another reliably?
+## Slide 16 — The performance claim is bounded; two validation tasks remain open
 
-**Phần cứng: H100 là dữ liệu dự báo; H200 là phép đo kiểm chứng.**
+**Phần cứng: Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi**
+
+**Loại nội dung: Mục tiêu hoặc giới hạn kết luận.**
 
 ### Nói nhanh · 10–20 giây
 
-Tỷ số H200/H100 N52 là 1,1881. Dự báo khóa trước cho H200 N50 sai −1,5371 phần trăm, trong dung sai ±2 của nhóm nhưng ngoài sensitivity range chưa đầy đủ. Một phép thử không xác nhận quy đổi phổ quát.
+Các lần chạy lại hỗ trợ điểm vận hành dịch vụ trên H200. Hai việc chưa xác minh là chất lượng model chính thức và chạy trọn bản đóng gói trên GPU sau sửa chương trình đọc kết quả. Đây là giới hạn của kết luận; tiếp theo bàn giao cho người trình bày OpenFOAM.
 
-![Slide 16](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-16.png)
+
+### Mạch suy luận để nói
+
+- **Vấn đề:** Điểm serving tốt dễ bị hiểu nhầm thành chất lượng câu trả lời đã xác minh hoặc triển khai portable thành công.
+- **Vì sao quan trọng:** Chất lượng thi đấu và độ tin cậy artifact end-to-end là hai chiều chấp nhận riêng; chỉ số nội bộ không thay được chúng.
+- **Vì sao chọn phép thử này:** Giữ riêng số kiểm tra đầu ra, trạng thái chất lượng chính thức, trạng thái scheduler gốc và kết quả xác minh reader CPU giới hạn.
+- **Điều rút ra:** Hiệu năng H200 N64 được hỗ trợ; accuracy chính thức UNKNOWN; job GPU portable gốc lỗi ở hậu xử lý; bản sửa reader qua trên dữ liệu CPU lưu lại.
+- **Vì sao chuyển sang bước tiếp:** Phần chính AI kết thúc ở đây. Hai việc xác minh vẫn là đề xuất mở, backup AI được ẩn và slide OpenFOAM 33 không đổi sẽ theo sau.
 
 ### Slide muốn nói gì
 
-Đánh giá dự báo xuyên nền tảng mà không sửa nó sau khi thấy kết quả kiểm tra. Bằng chứng ủng hộ một phép kiểm tra vận hành gần kề, đồng thời cho thấy sensitivity range trước đó bỏ sót một nguồn bất định dự báo.
+Kết thúc lập luận AI ở đúng mức bằng chứng hỗ trợ, nêu hai việc xác minh còn mở và chuyển mạch sạch sang phần OpenFOAM không đổi, không hàm ý đã chạy thêm AI.
 
 ### Giải thích kết quả và lập luận
 
-Ở cùng combo N52, H100 trung bình 2.215,460 good tokens/s trên hai allocation; H200 2.632,181 trên bốn; tỷ số H200/H100 = 1,188096805. Dùng tỷ số với trung bình H100 N50 để khóa dự báo H200 N50 là 2.642,244. Job held-out 24272 đo 2.601,629, sai số −1,5371%, nằm trong dung sai ±2% do nhóm đặt nhưng ngoài sensitivity range đầu vào trước đó.
+Hai thẻ đang mở là hai việc độc lập. Thứ nhất, kiểm tra đầu ra nội bộ đạt 7/8 smoke và 12/12 retrieval; không phép nào là đánh giá chất lượng toàn tập của ban tổ chức, yêu cầu ít nhất 99% tham chiếu và hiện UNKNOWN. Thứ hai, job GPU portable 27136 và 27145 chạy xong client serving nhưng kết thúc trạng thái FAILED do lỗi đường dẫn reader kết quả. Job CPU-only 27152 chạy qua reader đã sửa trên hai bộ dữ liệu đã lưu; nó không chạy lại serving GPU. Vì vậy khôi phục được điểm raw không biến job ban đầu thành triển khai end-to-end thành công. Slide hiển thị tiếp theo là OpenFOAM 33 không đổi; AI backup 17–32 được ẩn trong phần trình bày chính.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Allocation:** Một lần scheduler cấp tài nguyên/run; số allocation không phải số loại phần cứng hay chắc chắn số thiết bị riêng.
-- **Tỷ số calibration:** Trung bình H200 chia H100 trong cùng cấu hình N52; không đơn vị và chỉ đúng phạm vi setting đó.
-- **Kết quả held-out:** Phép đo không dùng tính dự báo, chỉ xem sau đó để kiểm tra khả năng chuyển sang quan sát mới.
-- **Sensitivity range:** Khoảng tạo khi thay đổi một số đầu vào; ở đây bỏ sai số mô hình nên không phải toàn bộ bất định dự báo.
-- **Dung sai ±2%:** Khoảng chấp nhận vận hành do nhóm đặt trước; không phải khoảng tin cậy 95% hay thanh sai số đo.
+- **độ chính xác chính thức:** Kết quả chất lượng toàn bộ tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu và chưa được đo/xác minh ở đây.
+- **smoke / retrieval checks:** Kiểm tra đầu ra nội bộ nhỏ, lần lượt 7/8 và 12/12. Chúng phát hiện một số hồi quy nhưng không chứng nhận accuracy toàn tập.
+- **terminal FAILED:** Scheduler ghi job GPU portable ban đầu thất bại khi kết thúc. Đọc được output về sau không đổi trạng thái cuối đó.
+- **reader kết quả:** Mã hậu xử lý tìm export benchmark và tổng hợp chỉ số sau khi serving chạy.
+- **xác minh reader CPU-only:** Job 27152 chạy reader đã sửa trên bộ dữ liệu thật đã lưu, không GPU hay request serving; chỉ xác minh hậu xử lý.
+- **phát lại toàn allocation:** Triển khai GPU đóng gói đầy đủ, chạy benchmark client, xử lý output và xem xét trên allocation được cấp.
+- **slide backup ẩn:** AI slide 17–32 vẫn được giữ làm tài liệu hỗ trợ nhưng bỏ qua trong trình chiếu chính; OpenFOAM 33 vẫn nguyên trạng và theo sau slide này.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Tại N52, H100 trung bình 2.215,460 token/s qua hai allocation; H200 2.632,181 qua bốn. Tỷ số 1,188096805 là liên hệ hệ thống cho cùng combo này, không phải hệ số phần cứng phổ quát. Lặp allocation không chứng minh dùng GPU vật lý riêng.
-- Trước khi có kết quả job H200 N50 24272, dự báo được khóa ở 2.642,244 good tokens/s. Kết quả đo là 2.601,629, sai số −1,5371%, trong dung sai vận hành ±2% do nhóm đặt trước. Tuy nhiên, kết quả nằm ngoài sensitivity range trước đó vì phạm vi đó thay đổi đầu vào nhưng bỏ model error. Không fit lại hệ số; độ tin cậy dự báo rộng chưa được chứng minh.
+- Cấu hình H200 N64 được hỗ trợ bằng các lần chạy đầy đủ lặp quanh 3.044 token đầu ra tốt/giây. Điều này hỗ trợ tuyên bố hiệu năng serving tại setting đã thử, không phải chất lượng câu trả lời chính thức.
+- Kiểm tra smoke đạt 7/8 và retrieval 12/12. Yêu cầu chất lượng toàn tập chính thức ít nhất 99% tham chiếu vẫn UNKNOWN.
+- Job portable GPU 27136/27145 vẫn FAILED do lỗi reader sau client; job CPU 27152 chỉ xác minh reader sửa trên dữ liệu lưu. Không tuyên bố đã phát lại GPU đầy đủ sau sửa.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Một kết quả H200 N50 held-out thấp hơn dự báo 1,5371%: trong dung sai ±2% nhưng ngoài sensitivity range chưa đầy đủ.
-- **Giả thuyết:** Tỷ số N52 có thể chuyển đủ tốt để dự báo operating point H200 N50 gần đó.
-- **Kết luận được hỗ trợ:** Phép kiểm tra dự báo trước duy nhất này đạt dung sai vận hành của nhóm; vẫn giữ giới hạn thiếu model error.
-- **Chưa biết / giới hạn:** Độ chính xác ở tải/cấu hình khác, bất định đầy đủ và quy tắc quy đổi H100-H200 phổ quát đều chưa biết.
+- **Quan sát:** Hiệu năng serving N64 có bằng chứng lặp; chất lượng chính thức và triển khai portable hoàn chỉnh sau sửa reader chưa xác minh.
+- **Giả thuyết:** Đánh giá chất lượng toàn tập độc lập và chạy portable GPU đầy đủ sau sửa sẽ đóng hai khoảng trống xác minh riêng.
+- **Kết luận được hỗ trợ:** Giới hạn tuyên bố ở serving H200 đo được, giữ accuracy là UNKNOWN, bảo toàn trạng thái job lỗi và chuyển sang OpenFOAM 33 không đổi.
+- **Chưa biết / giới hạn:** Chưa biết accuracy chính thức có đạt 99% và triển khai portable đóng gói có chạy end-to-end sau sửa reader hay không. Tóm tắt này không hàm ý job mới đã lên lịch.
 
 ### Lời nói mẫu
 
-Chúng tôi đo cùng cấu hình N52 trên H100 và H200, được tỷ số 1,1881. Dùng nó để khóa dự báo H200 N50 trước khi job 24272 chạy. Dự báo 2.642,244; phép đo 2.601,629, sai số −1,5371 phần trăm, trong dung sai ±2 phần trăm đặt trước. Kết quả nằm ngoài sensitivity range cũ vì phạm vi đó bỏ sai số mô hình. Đây là một kiểm tra, không phải quy tắc quy đổi phổ quát.
+Bằng chứng hỗ trợ hiệu năng serving H200 N64 khoảng 3.044 token đầu ra tốt mỗi giây qua nhiều lần chạy. Nhưng điều đó không chứng nhận chất lượng: smoke đạt 7 trên 8, retrieval 12 trên 12, còn yêu cầu chính thức 99 phần trăm tham chiếu vẫn chưa biết. Job GPU portable 27136 và 27145 vẫn thất bại vì reader kết quả lỗi sau client. Job CPU chỉ xác minh reader đã sửa trên dữ liệu lưu, không chạy serving GPU. Hai việc xác minh còn mở; sau đây chuyển sang slide OpenFOAM 33 không đổi.
 
 ### Điều không nên nói
 
-Hai và bốn allocation là số lần lặp, không chứng minh thiết bị vật lý riêng. Dung sai ±2% không phải khoảng tin cậy; không fit lại sau khi xem held-out.
+Không nói đã đạt ngưỡng accuracy, đổi job portable thành trạng thái thành công, hay gọi xác minh reader CPU là phát lại GPU sau sửa. Các việc mở là đề xuất, chưa phải job đã lên lịch hoặc hoàn tất.
 
 ### Câu chuyển slide
 
-Dịch vụ đạt latency vẫn có thể chưa rõ chất lượng câu trả lời; slide sau xác định ranh giới đó.
+Kết thúc phần chính AI. Backup 17–32 được ẩn; tiếp theo là slide OpenFOAM 33 không đổi.
 
 ---
 
 <a id="slide-17"></a>
 
-## Slide 17 — What does passing latency leave unverified?
-
-**Phần cứng: H200 · Firmus — số đo latency; chất lượng chính thức vẫn chưa xác minh.**
-
-### Nói nhanh · 10–20 giây
-
-H200 N64 đạt quy tắc latency kết hợp trên 98,580 phần trăm request. Kiểm tra nhỏ không xác minh yêu cầu riêng là đạt ít nhất 99 phần trăm reference, nên chất lượng model vẫn chưa rõ. Hai tiêu chí này cần phép đánh giá khác nhau, không thể thay thế nhau.
-
-![Slide 17](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-17.png)
-
-### Slide muốn nói gì
-
-Tách hiệu năng dịch vụ khỏi chất lượng model. Đạt giới hạn latency trả lời câu hỏi dịch vụ phản hồi đủ nhanh không; không xác lập câu trả lời sinh ra có đạt ngưỡng quality full-set của ban tổ chức hay không.
-
-### Giải thích kết quả và lập luận
-
-Đọc ba mức bằng chứng: H200 job 26766 đạt latency kết hợp 98,580442%; smoke do nhóm chạy 7/8 không có regression mới và retrieval 12/12; yêu cầu quality official tối thiểu 99% reference vẫn chưa xác minh. Kiểm tra nhỏ chỉ dò regression, không thay đánh giá quality full-set bắt buộc.
-
-### Thuật ngữ và ký hiệu cần hiểu
-
-- **SLA latency đồng thời:** Quy tắc cấp request đòi đạt cả giới hạn TTFT và ITL trung bình/request.
-- **Smoke / retrieval check:** Kiểm tra regression và retrieval quy mô nhỏ do nhóm chạy trong môi trường H200 được cấp; không phải đánh giá accuracy full-set theo quy trình của ban tổ chức.
-- **Quality model official:** So sánh do ban tổ chức quy định giữa câu trả lời model với reference trên toàn bộ tập đánh giá.
-- **99% reference:** Mức tối thiểu so với chuẩn quality official; hiện chưa đo được.
-- **Trọng số FP8 / activation-KV BF16:** Định dạng số giữ trong đường model được chọn; riêng định dạng không chứng nhận chất lượng trả lời.
-
-### Cách diễn giải số liệu hoặc sơ đồ
-
-- Job N64 đầy đủ 26766 đạt SLA latency đồng thời 98,580442%. Smoke do nhóm chạy là 7/8, không phát hiện regression mới; retrieval là 12/12. Bộ kiểm tra nhỏ này không ước lượng điểm full-set của ban tổ chức.
-- Ngưỡng quality bắt buộc là ít nhất 99% reference trên đánh giá official và hiện vẫn chưa biết. Primary giữ trọng số FP8 cùng activation/KV BF16; không dùng KV lượng tử hóa hay speculative decoding. Kết quả latency không tạo chứng nhận accuracy hay ranking từ ban tổ chức.
-
-### Đánh đổi và mức độ bằng chứng
-
-- **Quan sát:** Chấp nhận latency và kiểm tra regression nhỏ đạt trong phạm vi đã nêu; quality full-set official chưa xác minh.
-- **Giả thuyết:** Tách thay đổi model khỏi thay đổi serving giúp đo throughput mà không nhập nhằng với ảnh hưởng tới chất lượng câu trả lời.
-- **Kết luận được hỗ trợ:** Báo latency dịch vụ và quality model official như hai câu hỏi riêng; chỉ khẳng định latency đã đo.
-- **Chưa biết / giới hạn:** Hệ thống có đạt ít nhất 99% reference trong đánh giá official đầy đủ hay không vẫn chưa biết.
-
-### Lời nói mẫu
-
-Kết quả này đo hành vi dịch vụ, không đo accuracy câu trả lời. Job H200 26766 đạt cả hai giới hạn latency với 98,580 phần trăm request. Smoke và retrieval nhỏ không có regression mới trong phạm vi ít trường hợp. Yêu cầu riêng của ban tổ chức là ít nhất 99 phần trăm reference trên đánh giá quality đầy đủ; chúng tôi chưa xác minh điều đó. Vì vậy báo cáo latency đạt, không tuyên bố quality official hay ranking.
-
-### Điều không nên nói
-
-Không gọi 7/8 hoặc 12/12 là điểm chất lượng. Đạt SLA latency không đồng nghĩa câu trả lời đúng hay được ban tổ chức chấp nhận.
-
-### Câu chuyển slide
-
-Câu hỏi bằng chứng cuối là deployment đóng gói có chạy trọn từ khởi động đến xử lý kết quả không.
-
----
-
-<a id="slide-18"></a>
-
-## Slide 18 — Does the packaged deployment complete end to end?
-
-**Phần cứng: H200 chạy benchmark; CPU chỉ kiểm reader trên dữ liệu đã lưu.**
-
-### Nói nhanh · 10–20 giây
-
-Hai job portable H200 thật hoàn tất serving nhưng lỗi khi đọc kết quả. Job zero-GPU xác minh reader đã sửa trên export thật. Điều này chưa chứng minh deployment đầy đủ sau sửa; hai job ban đầu vẫn thất bại.
-
-![Slide 18](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-18.png)
-
-### Slide muốn nói gì
-
-Phân biệt suy luận GPU thành công với đóng gói đầu-cuối thành công. Hai allocation portable thật hoàn thành serving nhưng lỗi khi reader tìm và đọc kết quả; kiểm tra CPU-only sau đó xác nhận sửa reader, không phải xác nhận một allocation GPU đầy đủ đã sửa.
-
-### Giải thích kết quả và lập luận
-
-Theo dõi pipeline theo thứ tự: job portable thật 27136 và 27145 chạy GPU client chính thức và cả hai route P/D ngữ nghĩa, rồi lỗi ở bước xử lý kết quả. Bản sửa đầu xử lý export nằm trong thư mục con trực tiếp; bản sửa sau chuẩn hóa input root khi /scratch/home và /home cùng trỏ tới file. Job compute zero-GPU 27152 chạy qua cả hai reader sửa trên cả hai dataset thật. Giữ trạng thái scheduler gốc là FAILED.
-
-### Thuật ngữ và ký hiệu cần hiểu
-
-- **Deployment đầu-cuối:** Toàn tuyến từ khởi chạy server/route, official load client, export dữ liệu tới tạo kết quả đã review.
-- **Route P/D ngữ nghĩa:** Đường dịch vụ prefill và decode; cả hai đã hoàn tất trong job GPU thật.
-- **Result reader:** Code hậu xử lý tìm file export, phân tích file và tính summary.
-- **Canonical path:** Danh tính filesystem đã resolve; /home và /scratch/home có thể là alias cùng vị trí dữ liệu.
-- **Xác minh compute-only:** Job CPU kiểm tra reader đã sửa trên export thật mà không khởi chạy lại dịch vụ GPU.
-
-### Cách diễn giải số liệu hoặc sơ đồ
-
-- Job portable H200 thật 27136 và 27145 hoàn tất cả hai route dịch vụ và official client, nhưng job scheduler thất bại khi hậu xử lý. Ở 27136, AIPerf 0.12 đặt export trong thư mục con trực tiếp; bản sửa đầu xử lý layout đó. Ở 27145, đường /home dạng từ vựng và /scratch/home canonical gây mismatch alias; chuẩn hóa root khắc phục lỗi thứ hai.
-- Job zero-GPU 27152 sau đó chạy reader đã sửa trên cả hai dataset thật và đạt. Điểm raw 3.055,330517 của 27145 là bằng chứng khôi phục từ job gốc thất bại, không phải lần chạy lại toàn allocation thành công sau sửa. Không tuyên bố deployment GPU đầy đủ sau sửa.
-
-### Đánh đổi và mức độ bằng chứng
-
-- **Quan sát:** Hai job GPU thật hoàn tất inference và client nhưng lỗi đọc kết quả; job CPU-only 27152 xác minh hai sửa reader trên output thật.
-- **Giả thuyết:** Lỗi còn lại của deployment đến từ giả định sai về layout file và alias đường dẫn ở hậu xử lý, không phải serving execution.
-- **Kết luận được hỗ trợ:** Hai lỗi reader cụ thể đã sửa và xác minh trên dataset thật; deployment đầy đủ sau sửa vẫn chưa được xác nhận.
-- **Chưa biết / giới hạn:** Chưa biết allocation mới có đi qua toàn bộ launch, inference, export, reader và các gate sau khi sửa hay không.
-
-### Lời nói mẫu
-
-Hai job portable GPU thật hoàn tất route prefill, decode và official client, nhưng đều lỗi khi hậu xử lý đọc export. Một reader tìm sai tầng thư mục; reader kia nhầm hai alias đường dẫn của cùng file. Chúng tôi sửa cả hai và kiểm tra reader trên output thật bằng job CPU zero-GPU. Việc đó xác nhận sửa reader, không xác nhận allocation GPU đầy đủ sau sửa. Hai job scheduler gốc vẫn giữ trạng thái thất bại.
-
-### Điều không nên nói
-
-Không báo 3.055,330517 là deployment đầy đủ thành công. Job gốc thất bại; kiểm tra reader CPU không chạy lại GPU inference hay allocation đầy đủ.
-
-### Câu chuyển slide
-
-Nhìn chung, các slide trả lời bốn câu hỏi: chọn topology có số đo, thử tương tác giới hạn hiệu năng, chỉ giữ gain hữu ích và giới hạn tuyên bố về tính lặp lại/chất lượng.
-
----
-
-<a id="slide-19"></a>
-
-## Slide 19 — Four decisions, each with an evidence boundary
-
-**Phần cứng: H200 là kết quả chính; H100 được báo riêng.**
-
-### Nói nhanh · 10–20 giây
-
-Bốn quyết định theo bằng chứng là giữ bố trí GPU chạy được, kiểm thử thay vì đoán bottleneck, chỉ giữ thay đổi giúp dịch vụ đạt chuẩn và ưu tiên kết quả đã chạy lại. N 64 lịch sử trung bình khoảng 3044 token đạt chuẩn mỗi giây. Chất lượng chính thức và kiểm chứng triển khai đầy đủ sau sửa vẫn còn mở.
-
-![Slide 19](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-19.png)
-
-### Slide muốn nói gì
-
-Trả lời bốn câu hỏi bằng quyết định và giới hạn bằng chứng đỡ cho từng quyết định.
-
-### Giải thích kết quả và lập luận
-
-Bố trí GPU là lựa chọn chạy được trên 16 H 200; profile gợi ý chứ chưa chứng minh mọi bottleneck; giữ thay đổi có mức tăng dịch vụ hữu ích trong so sánh phù hợp; các lần N 64 lặp lại hỗ trợ một điểm vận hành. Chất lượng chưa xác minh, phần cứng chưa đa dạng và phát lại portable đầy đủ chưa xong giới hạn tuyên bố về độ bền vững.
-
-### Thuật ngữ và ký hiệu cần hiểu
-
-- **Trung bình ba run:** Trung bình các run N64 đầy đủ lịch sử 25366/25373/25487.
-- **Native runtime:** Job 26766 dùng môi trường thực thi server native, khác runtime lịch sử. Runtime là stack phần mềm khởi chạy/chạy server, không phải phần cứng GPU.
-- **Cặp cache:** Control mới 27376 so với candidate 27378.
-- **+0,240921%:** Gain candidate, thấp hơn ngưỡng lợi ích hữu ích định trước.
-- **Quality official:** Yêu cầu accuracy full-set, chưa xác minh ở đây.
-- **Chuỗi N64 lịch sử:** Ba run đầy đủ 25366/25373/25487 trung bình 3.044,400475 good output tokens/s.
-- **Control cache mới:** Job 27376 so với candidate 27378; chênh điểm +0,240921% thấp hơn ngưỡng lợi ích hữu ích.
-- **Run do nhóm review:** Run do nhóm chạy trên cluster được cấp và kiểm tra bằng raw output/runtime gate nội bộ. Đây không phải ranking hay chứng nhận quality do ban tổ chức cấp.
-- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
-- **Do nhóm chạy và review:** Nhóm chạy phép đo trên cluster được cấp và kiểm tra raw request, runtime cùng các điều kiện bắt buộc. “Review” không phải chứng nhận của ban tổ chức, ranking contest, hay chạy trên máy cá nhân.
-
-### Cách diễn giải số liệu hoặc sơ đồ
-
-- Job native-runtime sau đó 26766 đạt độc lập 3.045,501509 và SLA đồng thời 98,580442%; cần báo riêng vì runtime path khác. Kết quả cache full cao nhất 27378 đạt 3.048,446289, chỉ +0,240921% so với control mới 27376, dưới ngưỡng useful-gain. Các replay hợp lệ thấp hơn quanh 2.802–2.831 vẫn được lưu. Lặp lại hỗ trợ chọn N64, không chứng minh optimum toàn cục. Không tuyên bố speculative speedup, chứng nhận quality official hay speedup nhân quả của native runtime.
-- Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
-- Trung bình lịch sử và điểm native-runtime đều là phép đo nhóm chạy, đã review đầy đủ trên cluster accelerator được cấp; “review” nghĩa raw request và runtime đã được kiểm tra, không phải ban tổ chức chứng nhận thứ hạng hay quality. Native runtime là môi trường phần mềm thực thi, không phải thế hệ GPU mới. Giữ số 3.045,501509 riêng với trung bình lịch sử ba run vì runtime path khác nhau. Không chọn kết quả cache cao hơn về số học khi gain dưới ngưỡng thay đổi hữu ích đã định trước.
-
-### Đánh đổi và mức độ bằng chứng
-
-- **Quan sát:** Trung bình N64 lịch sử được lặp; cache tăng 0,240921%; runtime native báo riêng.
-- **Giả thuyết:** Điểm được lặp lại đáng chọn hơn một đỉnh đơn độc.
-- **Kết luận được hỗ trợ:** Giữ N64; không đưa vào cấu hình chính gain cache nhỏ.
-- **Chưa biết / giới hạn:** Optimum toàn cục, quality official và khác biệt runtime nhân quả chưa biết.
-
-### Lời nói mẫu
-
-Bốn quyết định theo bằng chứng là giữ bố trí GPU chạy được, kiểm thử thay vì đoán bottleneck, chỉ giữ thay đổi giúp dịch vụ đạt chuẩn và ưu tiên kết quả đã chạy lại. N 64 lịch sử trung bình khoảng 3044 token đạt chuẩn mỗi giây. Chất lượng chính thức và kiểm chứng triển khai đầy đủ sau sửa vẫn còn mở.
-
-### Điều không nên nói
-
-Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.
-
-### Câu chuyển slide
-
-Slide cuối nêu việc vòng tiếp theo phải chứng minh; hiện nghiên cứu đã dừng.
-
----
-
-<a id="slide-20"></a>
-
-## Slide 20 — What should the next iteration establish?
-
-**Phần cứng: Đề xuất xác minh — chưa có job hay số đo mới.**
-
-### Nói nhanh · 10–20 giây
-
-Vòng sau nên khép ba khoảng trống: chất lượng model chính thức, chạy trọn bản đóng gói sau sửa reader và đo từng pha trước khi khẳng định bottleneck. Trước mắt giữ dịch vụ 64 request đã có phép đo lặp. Đây là việc đề xuất để xác minh; báo cáo này không khởi chạy thí nghiệm mới.
-
-![Slide 20](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-20.png)
-
-### Slide muốn nói gì
-
-Để đề xuất tiếp theo xuất phát từ điều chưa chứng minh, thay vì chỉ chạy thêm để tăng số điểm.
-
-### Giải thích kết quả và lập luận
-
-Đánh giá chất lượng toàn tập chính thức mới trả lời yêu cầu accuracy. Phát lại portable đầy đủ mới kiểm triển khai sau sửa reader. Muốn tuyên bố lợi ích compile hay bottleneck cần đường model tương thích và đo thời gian từng pha có kiểm soát. Đây là đề xuất, không phải job đã gửi.
-
-### Thuật ngữ và ký hiệu cần hiểu
-
-- **target-only / EAGLE:** Target-only chỉ phục vụ mô hình chính. EAGLE đề xuất token draft để mô hình chính xác minh; cấu hình nông đầy đủ đã thử làm giảm hiệu năng.
-- **xác minh độc lập:** Kiểm tra riêng độ chính xác toàn tập chính thức hoặc triển khai đầy đủ, vượt ra ngoài điểm serving và fixture helper.
-- **chọn cấu hình:** Quyết định dùng nó làm cấu hình nộp bài/triển khai sau khi xem xét bằng chứng. Một điểm cao đơn lẻ không đủ.
-- **bằng chứng mã nguồn hoặc CPU:** Mã nguồn cho biết code có thể hỗ trợ gì; fixture CPU thử hành vi helper hẹp. Cả hai không chứng minh service GPU đã kích hoạt đường đó và cho đầu ra đúng.
-- **chưa biết:** Không có phép đo lưu lại đủ để kết luận. Không được mô tả như bằng không, đã qua hoặc khỏe mạnh.
-- **độ chính xác chính thức:** Đánh giá chất lượng toàn tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu FP8 và hiện chưa được xác minh.
-
-### Cách diễn giải số liệu hoặc sơ đồ
-
-- Giữ cấu hình target-only N64 đã lặp lại thay vì điểm cao riêng lẻ. Thay đổi cache, cap và polling chưa có lợi ích hữu ích; cấu hình EAGLE đầy đủ với bước dự đoán nông bị giảm hiệu năng; goodput graph thưa thấp hơn đối chứng trước 0.370208%.
-- Triển khai mới cần chứng minh backend dự định thực sự chạy, KV được chuyển đúng và đầu ra hợp lệ trước khi diễn giải điểm. Fixture CPU hoặc đọc mã nguồn riêng lẻ không đáp ứng tiêu chuẩn đó.
-
-### Đánh đổi và mức độ bằng chứng
-
-- **Quan sát:** Dịch vụ N64 được chọn có bằng chứng nhiều lần chạy đầy đủ; vài thử nghiệm tối ưu không cho lợi ích. Độ chính xác và phát lại portable sau sửa vẫn còn mở.
-- **Giả thuyết:** Kiểm tra runtime và đầu ra riêng cho từng đường giúp tránh khẳng định triển khai thiếu căn cứ.
-- **Kết luận được hỗ trợ:** Giữ dịch vụ đã tái lập; xem xác minh liệt kê là việc tương lai, không phải nghiên cứu đã làm hay đang xếp hàng.
-- **Chưa biết / giới hạn:** Độ chính xác chính thức, hành vi triển khai đầy đủ sau sửa reader, và đường compile RoPE/KV tương thích vẫn chưa biết.
-
-### Lời nói mẫu
-
-Vòng sau nên khép ba khoảng trống: chất lượng model chính thức, chạy trọn bản đóng gói sau sửa reader và đo từng pha trước khi khẳng định bottleneck. Trước mắt giữ dịch vụ 64 request đã có phép đo lặp. Đây là việc đề xuất để xác minh; báo cáo này không khởi chạy thí nghiệm mới.
-
-### Điều không nên nói
-
-Không khẳng định đã đạt độ chính xác chính thức, đã phát lại serving portable đầy đủ sau sửa, graph thưa tăng goodput, hay giao diện compile đã được sửa.
-
-### Câu chuyển slide
-
-Kết phần AI chính tại đây; mở slide dự phòng phù hợp khi được hỏi. Phần HPC độc lập có mạch trình bày riêng.
-
----
-
-<a id="slide-21"></a>
-
-## Slide 21 — Backup · two platforms, separate experimental systems
+## Slide 17 — Backup · two platforms, separate experimental systems
 
 **Phần cứng: H200 · Firmus + H100 · NSCC — hai môi trường riêng.**
 
@@ -1236,7 +1192,7 @@ Kết phần AI chính tại đây; mở slide dự phòng phù hợp khi đư�
 
 Cả hai hệ thống cấp mười sáu GPU và dùng cùng checkpoint Qwen cùng workload đã staging. Firmus dùng H200; NSCC dùng H100. Phần cứng, scheduler, container và điều kiện node khác nhau, nên đây là các phép đo riêng, không phải hệ số quy đổi GPU.
 
-![Slide 21](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-21.png)
+![Slide 17](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-17.png)
 
 **Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**
 
@@ -1260,6 +1216,7 @@ Bảng đối chiếu phân bổ GPU, scheduler, công cụ chạy container, ph
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Các điểm kiểm soát chung là phân bổ hai node, mười sáu GPU, artifact serving/client đã staging và checkpoint Qwen.
 - Khác biệt gồm thế hệ GPU H200 so với H100, Slurm so với PBS, và launcher container khác nhau. CPU, driver, mạng, cache node và vị trí tiến trình cũng có thể khác.
 - Bảng cung cấp bối cảnh; nó không phải kết quả hiệu năng có kiểm soát và không định lượng đóng góp riêng của từng khác biệt.
@@ -1281,13 +1238,13 @@ Không gộp số đo H100 và H200 thành một chuỗi hoặc suy ra tốc đ�
 
 ### Câu chuyển slide
 
-Phần tiếp theo giải thích ràng buộc tương thích cụ thể do cách chia trọng số trên H200.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-22"></a>
+<a id="slide-18"></a>
 
-## Slide 22 — Backup · FP8 geometry constrains a topology
+## Slide 18 — Backup · FP8 geometry constrains a topology
 
 **Phần cứng: H200 · đường FP8 đã thử; phép tính block không phải số đo tốc độ.**
 
@@ -1295,7 +1252,7 @@ Phần tiếp theo giải thích ràng buộc tương thích cụ thể do cách
 
 Phân vùng TP8/EP1 thất bại có 192 phần tử, dư 64 so với block FP8 rộng 128. EP2 đổi phép chia hiệu dụng thành 384 phần tử, vừa ba block đầy. Điều này sửa sai hình dạng tensor, chưa chứng minh serving nhanh hay đúng.
 
-![Slide 22](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-22.png)
+![Slide 18](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-18.png)
 
 ### Slide muốn nói gì
 
@@ -1317,6 +1274,7 @@ Bắt đầu từ chiều trung gian MoE gồm 1.536 phần tử, rồi chia cho
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Hai phép tính là bằng chứng chính: TP8/EP1 tạo 192 phần tử; TP8/EP2 tạo 384.
 - Phần dư 64 phần tử giải thích vì sao đường đầu tiên lỗi khi tải. EP2 bỏ phần dư bằng cách phân phối lại chuyên gia, không đổi độ chính xác hay kích thước model.
 - Dòng cuối nhắc các bằng chứng còn cần sau tương thích: khởi động thành công, kiểm tra độ trễ dịch vụ và kiểm tra chất lượng đầu ra.
@@ -1338,13 +1296,13 @@ Số 64 màu đỏ là phần dư của trọng số, không phải GPU hay toke
 
 ### Câu chuyển slide
 
-Backup tiếp theo dùng biểu đồ lịch sử để chỉ ra cách chiến dịch đi tới các điểm vận hành về sau.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-23"></a>
+<a id="slide-19"></a>
 
-## Slide 23 — Backup · historical milestones behind the decisions
+## Slide 19 — Backup · historical milestones behind the decisions
 
 **Phần cứng: H200 · Firmus — tất cả cột lịch sử.**
 
@@ -1352,7 +1310,7 @@ Backup tiếp theo dùng biểu đồ lịch sử để chỉ ra cách chiến d
 
 Biểu đồ H200 tăng từ 1.297 token tốt/giây ở N32 lên trung bình N64 là 3.044. Nó cho thấy các điểm vận hành đo được tốt hơn, nhưng mỗi mốc đổi tải hoặc cấu hình nên không quy được mức tăng cho từng tối ưu.
 
-![Slide 23](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-23.png)
+![Slide 19](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-19.png)
 
 ### Slide muốn nói gì
 
@@ -1372,6 +1330,7 @@ Trục ngang liệt kê mốc có tên, không phải ngày tháng hay khoảng 
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Các mốc là 1.297 (07 ban đầu/N32), 1.666 (09 ban đầu/N40), 1.912 (split/N48), 2.631 (FlashInfer cộng MNNVL/N52), 2.716 (DeepGEMM prefill/N56), 2.939 (DeepGEMM cộng HPC-Ops/N58), 2.989 (N60 lặp), 3.023 (N62 lặp) và 3.044 (ba lần N64 lịch sử). Nhãn đã làm tròn.
 - Các lần N62 về sau đạt 3,022.034919 và 3,023.072304; hai lần N64 lặp đạt 3,044.489701 và 3,044.074628. Chúng hỗ trợ độ lặp lại ở các cài đặt đó, không xác lập tối ưu phổ quát hay nguyên nhân cho từng bước.
 - Màu sắc nhóm giai đoạn công việc, không biểu thị đạt/trượt. Chiều cao cột là điểm đo, không phải khoảng tin cậy.
@@ -1393,13 +1352,13 @@ Không đọc khoảng cách ngang như thời gian, cộng chênh lệch cột 
 
 ### Câu chuyển slide
 
-Backup tiếp theo ghép hai quan sát H100 riêng để giải thích đánh đổi khi đổi attention decode.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-24"></a>
+<a id="slide-20"></a>
 
-## Slide 24 — Backup · request-scoped descriptor construction
+## Slide 20 — Backup · request-scoped descriptor construction
 
 **Phần cứng: CPU — phép kiểm hình học cho đường truyền hetero-TP trên H200.**
 
@@ -1407,7 +1366,7 @@ Backup tiếp theo ghép hai quan sát H100 riêng để giải thích đánh đ
 
 Bản vá tạo descriptor cho các trang KV cần thiết rồi gộp dải liên tục, đồng thời giữ nguyên ánh xạ và stride. Kiểm tra CPU đạt 720 trường hợp hình học; fixture ghi rõ chưa xác minh truyền GPU thật.
 
-![Slide 24](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-24.png)
+![Slide 20](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-20.png)
 
 ### Slide muốn nói gì
 
@@ -1429,6 +1388,7 @@ Mô tả chính xác thay đổi và đặt bằng chứng đúng ở cấp đ�
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Bước 5 — Can thiệp: thay việc liệt kê descriptor nguồn và đích cho toàn pool bằng descriptor theo yêu cầu, sau đó gộp các dải liên tục.
 - Phạm vi bản vá giữ nguyên hành vi TP bằng nhau, trọng số, độ chính xác, ánh xạ KV head, stride theo token khi gửi lát head và thông báo hoàn tất.
 - Bước 6, phần đúng đắn: 720 trường hợp hình học CPU so sánh code cũ và mới vượt kiểm tra tương đương byte-range.
@@ -1451,13 +1411,13 @@ Không gọi 720 trường hợp hình học CPU là 720 lần truyền GPU. Kh�
 
 ### Câu chuyển slide
 
-Slide cuối của chuỗi nêu điều gì đã xảy ra trong lần chạy có bản vá và điều gì về tăng tốc, quan hệ nhân quả vẫn chưa được đo.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-25"></a>
+<a id="slide-21"></a>
 
-## Slide 25 — Backup · what the KV recovery run actually proves
+## Slide 21 — Backup · what the KV recovery run actually proves
 
 **Phần cứng: H200 · Firmus — job 22271 và 22294 trên cùng nhánh topology.**
 
@@ -1465,7 +1425,7 @@ Slide cuối của chuỗi nêu điều gì đã xảy ra trong lần chạy có
 
 Job 22294 có bản vá warmup cặp mất 0,68–0,70 giây mỗi yêu cầu; benchmark N32 đạt 1.422,96 good tokens/s, SLA kết hợp 95,87% và không có lỗi. Chưa có đối chứng cùng topology để đo mức tăng tốc trong lần này.
 
-![Slide 25](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-25.png)
+![Slide 21](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-21.png)
 
 ### Slide muốn nói gì
 
@@ -1487,6 +1447,7 @@ Khép chuỗi bảy bước bằng bằng chứng đầu cuối thật và giớ
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Bước 6, phần đầu cuối: job 22294 có bản vá hoàn tất cả hai đường warmup prefill/decode thật trong 0,68–0,70 giây mỗi yêu cầu sau khi worker sẵn sàng.
 - Sau đó job hoàn tất xác nhận N32: 1.422,96 good output tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy.
 - Bước 7 — Quyết định: lần chạy chứng minh topology dị thể có bản vá khả thi và đã phục vụ yêu cầu theo giao thức benchmark cục bộ trong lần chạy này.
@@ -1509,13 +1470,13 @@ Không lấy timeout 360 giây chia cho 0,68–0,70 giây rồi báo là mức t
 
 ### Câu chuyển slide
 
-Bài học của chuỗi bảy bước là đi từ triệu chứng đến giả thuyết dựa trên source, xác minh từng lớp, báo cáo kết quả đầu cuối rồi dừng kết luận đúng tại giới hạn của đối chứng hiện có.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-26"></a>
+<a id="slide-22"></a>
 
-## Slide 26 — Backup · H100: first-token gain, goodput loss
+## Slide 22 — Backup · H100: first-token gain, goodput loss
 
 **Phần cứng: H100 · NSCC · cặp decode N54; các đỉnh H100 khác báo riêng.**
 
@@ -1523,7 +1484,7 @@ Bài học của chuỗi bảy bước là đi từ triệu chứng đến giả
 
 Trong một cặp H100 N54 khớp điều kiện, FA3 giảm TTFT trung bình từ 713,199 xuống 594,276 ms, nhưng goodput giảm từ 2.420,945 xuống 2.401,284 token/s, khoảng 0,812%. Token đầu đến nhanh hơn không cải thiện mục tiêu toàn request.
 
-![Slide 26](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-26.png)
+![Slide 22](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-22.png)
 
 ### Slide muốn nói gì
 
@@ -1545,6 +1506,7 @@ Cặp thử chỉ đổi attention decode từ FlashInfer sang FA3, còn H100, t
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - FlashInfer → FA3: token đầu ra tốt/giây 2.420,945 → 2.401,284; TTFT trung bình 713,199 → 594,276 ms; ITL trung bình 18,214 → 18,988 ms; độ trễ request trung bình 4.337,853 → 4.372,813 ms.
 - Cả hai lần chạy qua kiểm tra protocol, runtime và đầu ra do nhóm xem xét trên cluster được giao; FA3 được xác nhận hoạt động trên cả tám rank decode. Điều đó chứng minh can thiệp đã chạy, không chứng minh nó cải thiện dịch vụ.
 - Đỉnh H100 lịch sử 2,433.019859 và đối chứng N54 mới 2,399.186728 chỉ là bối cảnh, không phải hai nhánh của cặp này. Chúng không tạo hệ số quy đổi H100/H200.
@@ -1566,13 +1528,13 @@ Không chọn backend chỉ từ TTFT, không khái quát kết quả 0,812% c�
 
 ### Câu chuyển slide
 
-Backup tiếp theo kiểm tra liệu tiết kiệm thời gian khởi động còn giữ được khi đảo thứ tự chạy hay không.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-27"></a>
+<a id="slide-23"></a>
 
-## Slide 27 — Backup · does a startup saving survive reversed order?
+## Slide 23 — Backup · does a startup saving survive reversed order?
 
 **Phần cứng: H100 · NSCC — thử chi phí khởi động và đảo thứ tự.**
 
@@ -1580,7 +1542,7 @@ Backup tiếp theo kiểm tra liệu tiết kiệm thời gian khởi động c�
 
 Read-first ban đầu giảm walltime scheduler 18,74%, nhưng phép xác nhận đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã đặt. Goodput đổi nhẹ ở cả hai cặp; cache chưa rõ nên không thể kết luận nguyên nhân do lưu trữ lạnh.
 
-![Slide 27](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-27.png)
+![Slide 23](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-23.png)
 
 ### Slide muốn nói gì
 
@@ -1601,6 +1563,7 @@ So sánh cặp đầu với lần xác nhận đảo thứ tự. Ở cặp đầ
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Cặp đầu có vẻ thuận lợi cho thời gian khởi động nhưng goodput giảm 0,659%. Cặp đảo thứ tự làm mức tiết kiệm thấp hơn ngưỡng quyết định 10%.
 - Goodput của cặp đảo đổi 0,326388%, vẫn trong dung sai 2%; điều đó không cứu được nhánh vì ngưỡng walltime chính không đạt.
 - Node khác nhau và trạng thái cache file chưa kiểm chứng nên không thể quy kết quả cho lưu trữ lạnh. Prefix lạnh là trạng thái KV cache của model, không phải trang file lạnh của hệ thống tệp.
@@ -1622,13 +1585,13 @@ Không đánh đồng walltime scheduler với thời gian serving được ch�
 
 ### Câu chuyển slide
 
-Tiếp theo là các thay đổi full-model có căn cứ mã nguồn nhưng không đạt tiêu chí lợi ích hữu ích.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-28"></a>
+<a id="slide-24"></a>
 
-## Slide 28 — Backup · source-supported changes that did not win
+## Slide 24 — Backup · source-supported changes that did not win
 
 **Phần cứng: H200 · Firmus — các phép so toàn model.**
 
@@ -1636,7 +1599,7 @@ Tiếp theo là các thay đổi full-model có căn cứ mã nguồn nhưng kh�
 
 Một số thay đổi H200 đã được kích hoạt và đo, nhưng mức tăng nhỏ, âm hoặc làm xấu chỉ số đuôi. Chẳng hạn, thay attention prefill làm goodput giảm 6,385%. Cờ hoạt động được chưa đủ để đổi cấu hình đang chọn.
 
-![Slide 28](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-28.png)
+![Slide 24](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-24.png)
 
 ### Slide muốn nói gì
 
@@ -1659,6 +1622,7 @@ Các hàng là giả thuyết độc lập, không phải phần của một t�
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Thay đổi thời gian chờ tokenizer đo +0,192% và +0,270%; nhóm giữ batching tokenizer tắt. Đổi collective prefill runtime tự chọn từ TRT-LLM sang MNNVL kích hoạt trên tám rank prefill nhưng chỉ tăng +0,109807% ở full run 27138.
 - Đổi RadixCache sang ChunkCache cho prefill tăng +0,240921%, nhưng p95 TTFT xấu hơn nên giữ RadixCache. So sánh giới hạn request và polling tăng +0,26% hoặc âm, chưa chứng minh lợi ích hữu ích.
 - FlashInfer prefill page 1 giảm ITL nhưng mất 6,385% goodput. Các phần trăm thuộc nhánh riêng, không cộng như thành phần của một lần chạy.
@@ -1680,13 +1644,13 @@ Không cộng phần trăm từ nhánh riêng, coi runtime kích hoạt là tăn
 
 ### Câu chuyển slide
 
-Slide kế tiếp giới hạn các đầu mối kernel và mã nguồn theo đúng bằng chứng chúng tạo ra.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-29"></a>
+<a id="slide-25"></a>
 
-## Slide 29 — Backup · scope limits of kernel and source evidence
+## Slide 25 — Backup · scope limits of kernel and source evidence
 
 **Phần cứng: H200 + H100 + CPU — đọc đúng nguồn từng dòng.**
 
@@ -1694,7 +1658,7 @@ Slide kế tiếp giới hạn các đầu mối kernel và mã nguồn theo đ�
 
 Gói attention N52 đạt 2.549,20 nhưng đổi nhiều yếu tố; Triton probe, fixture CPU và đọc mã nguồn trả lời câu hỏi hẹp hơn. Compile Qwen đầy đủ dừng ở assertion RoPE/KV. Không bằng chứng nào trong số đó tự chứng minh serving toàn model tăng tốc.
 
-![Slide 29](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-29.png)
+![Slide 25](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-25.png)
 
 ### Slide muốn nói gì
 
@@ -1717,6 +1681,7 @@ Trả lời kernel, profile và đọc mã nguồn chứng minh được điều
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Gói attention-DP cộng DeepGEMM/DeepEP trên H200 N52 đạt 2.549,20, thấp hơn điểm MNNVL được giữ; các cài đặt ghép không cho phép quy một yếu tố.
 - Probe FP8 Triton đại diện trên H100 thua DeepGEMM ở các dạng đã thử. Ngân sách SM 80/96/120 pha trộn hoặc không đạt tiêu chí ổn định; giữ 132 mà không khẳng định model tăng tốc.
 - Điểm NCCL nhỏ 0,2315% không đủ để chọn sau khi log cho thấy control đã chọn Simple với thông điệp lớn. Compile Qwen lỗi trước khi có điểm; fixture CPU không thử serving.
@@ -1738,13 +1703,13 @@ Không gộp kết quả H200, H100 và CPU, không khái quát kernel đại di
 
 ### Câu chuyển slide
 
-Backup tiếp theo tổng hợp cài đặt H200 và H100 thực tế được nhóm giữ lại.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-30"></a>
+<a id="slide-26"></a>
 
-## Slide 30 — Backup · the retained settings on each platform
+## Slide 26 — Backup · the retained settings on each platform
 
 **Phần cứng: Cấu hình H200 N64 và H100 N54 — hai cách triển khai riêng.**
 
@@ -1752,7 +1717,7 @@ Backup tiếp theo tổng hợp cài đặt H200 và H100 thực tế được n
 
 Cấu hình H200 dùng N64, hai worker prefill TP4 với DeepGEMM và chunk 8.192, cùng decode TP8/EP8 HPC-Ops. H100 là cấu hình riêng: N54, prefill HPC-Ops với chunk 4.096 và số đo riêng. Đây là mô tả cài đặt đã đo, không xác nhận chất lượng toàn tập.
 
-![Slide 30](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-30.png)
+![Slide 26](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-26.png)
 
 ### Slide muốn nói gì
 
@@ -1775,6 +1740,7 @@ Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà kh
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - H200: concurrency client 64; hai worker prefill TP4/EP1; DeepGEMM; chunk 8.192; một worker decode HPC-Ops TP8/EP8.
 - H100: concurrency 54; hai worker prefill TP4/EP1 HPC-Ops; chunk 4.096; decode HPC-Ops TP8/EP8. Điểm H100 cần tách khỏi điểm H200.
 - Cả hai dùng độ chính xác trọng số/activation/KV như đã nêu cùng attention decode, collective, định tuyến và quy tắc chất lượng request chung. Bảng không chứng nhận accuracy toàn tập chính thức.
@@ -1796,13 +1762,13 @@ Không trình bày H100 và H200 như phép so sánh khớp điều kiện hoặ
 
 ### Câu chuyển slide
 
-Backup tiếp theo dùng cùng protocol workload để so sánh đầy đủ kích thước chunk prefill.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-31"></a>
+<a id="slide-27"></a>
 
-## Slide 31 — Backup · workload control and prefill chunk trial
+## Slide 27 — Backup · workload control and prefill chunk trial
 
 **Phần cứng: H200 · thử chunk; workload và cách chấm dùng chung hai hệ thống.**
 
@@ -1810,7 +1776,7 @@ Backup tiếp theo dùng cùng protocol workload để so sánh đầy đủ kí
 
 Cùng workload N64 đầy đủ, tăng chunk prefill từ 8.192 lên 12.288 làm goodput giảm từ 3.045,50 xuống 3.020,94 token/s và p95 TTFT xấu hơn. Mỗi cấu hình có một lần H200 được nhóm xem xét; chưa xác lập tối ưu chung.
 
-![Slide 31](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-31.png)
+![Slide 27](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-27.png)
 
 ### Slide muốn nói gì
 
@@ -1833,6 +1799,7 @@ Bảng so sánh ba lần chạy đầy đủ, cùng concurrency mục tiêu, đ�
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Chunk 8.192, job 26766 đạt 3,045.501509 token đầu ra tốt/giây, joint SLA 98.580% và p95 TTFT 1,311.69 ms. Chunk 10.240, job 26768 đạt 3,034.088251, 98.524% và 1,518.87 ms.
 - Chunk 12.288, job 26770 đạt 3,020.943099, 98.310% và 1,624.12 ms. Cả ba là lần N64 đầy đủ cùng lịch 60/120/30 và workload yêu cầu 4.000/200; mỗi mức chunk chỉ đo một lần.
 - Các lần chạy qua kiểm tra protocol, runtime, độ trễ và đầu ra của nhóm, không có lỗi/hủy trong profiling. Đây là kết quả được xem xét trên cluster được giao, không phải chứng nhận chất lượng của ban tổ chức.
@@ -1854,13 +1821,13 @@ Qua kiểm tra của nhóm không phải phê duyệt của ban tổ chức. Kh�
 
 ### Câu chuyển slide
 
-Backup cuối đối chiếu phần tài nguyên capture tiết kiệm được với chỉ số dịch vụ mà nó cần hỗ trợ.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 
-<a id="slide-32"></a>
+<a id="slide-28"></a>
 
-## Slide 32 — Backup · less graph memory did not raise goodput
+## Slide 28 — Backup · less graph memory did not raise goodput
 
 **Phần cứng: H200 · graph thưa 27510 so với đối chứng 27376.**
 
@@ -1868,7 +1835,7 @@ Backup cuối đối chiếu phần tài nguyên capture tiết kiệm được 
 
 Capture thưa giảm bộ nhớ log từ 1,15 xuống 0,36 GB mỗi rank decode, nhưng goodput giảm 0,370208% và ITL trung bình xấu hơn. Chưa đo padding để quy nguyên nhân. Nhóm giữ graph dày; cặp này không chứng minh quan hệ nhân quả.
 
-![Slide 32](../../submission-review/ai-reasoning-update-20261030/slides/assets/slide-32.png)
+![Slide 28](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-28.png)
 
 ### Slide muốn nói gì
 
@@ -1890,6 +1857,7 @@ So sánh đối chứng dày 27376 với ứng viên thưa 27510. Ứng viên l�
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
 - Đối chứng dày có 64 bucket, bộ nhớ capture 1,15 GB mỗi rank, thời gian capture 101.46–101.49 giây, 3,041.119598 token đầu ra tốt/giây và ITL trung bình 14.991 ms.
 - Ứng viên thưa có 12 bucket, 0,36 GB/rank, capture 95.98–96.05 giây, 3,029.861122 token tốt/giây và ITL trung bình 15.136 ms. Capture được xác nhận trên cả tám rank decode khi compile mô hình tắt.
 - TTFT trung bình/p95 của ứng viên là 1,102.404/1,240.481 ms và cải thiện; ITL trung bình/p95 là 15.136/15.324 ms và xấu hơn. Một đối chứng trước, seed engine khác và instrumentation startup chỉ ở ứng viên hạn chế kết luận nhân quả.
@@ -1911,7 +1879,227 @@ Không gọi bucket là request hay GPU, không hiểu bộ nhớ capture là t�
 
 ### Câu chuyển slide
 
-Đến đây là phần bằng chứng backup đã chọn; kết luận chính vẫn dựa vào serving lặp lại và giới hạn xác minh rõ ràng.
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+
+---
+
+<a id="slide-29"></a>
+
+## Slide 29 — Why did a later replay score lower?
+
+**Phần cứng: H200 · Firmus — các protocol và đường thực thi khác nhau.**
+
+### Nói nhanh · 10–20 giây
+
+N64 đầy đủ lịch sử trung bình 3.044,40, còn control ngắn mới khoảng 2.560. Graph policy, giới hạn admission server và quy trình đo đều thay đổi. Phép thử hoàn tất không cô lập nguyên nhân, nên giữ drift mà không quy cho một flag.
+
+![Slide 29](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-29.png)
+
+### Slide muốn nói gì
+
+Điều tra chênh lệch thay vì giải thích bằng một flag thuận tiện. Bằng chứng xác định settings và bối cảnh đo đã đổi, nhưng so sánh hoàn tất không cô lập được một nguyên nhân duy nhất đủ giải thích.
+
+### Giải thích kết quả và lập luận
+
+Câu hỏi là vì sao N64 đầy đủ lịch sử trung bình 3.044,400475 trong khi control ngắn mới khoảng 2.560. ServerArgs cho thấy policy prefill graph và giới hạn max-running-request đã đổi; harness/cách quan sát cũng khác. Replay legacy chính xác 26313 đạt 2.830,923547; run native mới 26766 đạt 3.045,501509. Đây là các chuỗi runtime/protocol khác nhau, không phải thang đo một yếu tố duy nhất.
+
+### Thuật ngữ và ký hiệu cần hiểu
+
+- **ServerArgs:** Tham số cấu hình server runtime, điều khiển graph policy, giới hạn admission và hành vi khác.
+- **Prefill graph policy:** Quy định các shape xử lý prompt nào được capture/chạy bằng GPU graph.
+- **Max running requests:** Giới hạn phía server cho request được nhận/đang chạy đồng thời; khác concurrency client.
+- **Harness / protocol quan sát:** Quy trình client và đo lường xác định warmup, cửa sổ điểm và cách tính.
+- **Yếu tố gây nhiễu:** Yếu tố cùng thay đổi với phép so và cũng ảnh hưởng kết quả, khiến không thể quy cho một nguyên nhân.
+
+### Cách diễn giải số liệu hoặc sơ đồ
+
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
+- N64 đầy đủ lịch sử trung bình 3.044,400475, trong khi control ngắn mới xấp xỉ 2.560. ServerArgs thực tế cho thấy policy prefill graph và giới hạn max-running-request đã đổi; harness và điều kiện quan sát cũng khác.
+- Replay vận hành legacy chính xác 26313 đạt 2.830,923547; run native-runtime đầy đủ 26766 đạt 3.045,501509. Factorial graph/admission đã hoàn tất nhưng không xác định một nguyên nhân hữu ích duy nhất. Vì vậy không thể ghi toàn bộ chênh lệch cho việc phục hồi một flag hay chỉ đổi launcher.
+
+### Đánh đổi và mức độ bằng chứng
+
+- **Quan sát:** Điểm số khác nhau giữa chuỗi full lịch sử, control ngắn, replay legacy và native runtime; nhiều setting và điều kiện đo cùng thay đổi.
+- **Giả thuyết:** Graph policy, giới hạn admission server, runtime hoặc harness đo có thể góp phần tạo drift.
+- **Kết luận được hỗ trợ:** Giữ kết quả thấp hợp lệ và ghi rõ protocol/runtime; chưa xác lập giải thích một yếu tố.
+- **Chưa biết / giới hạn:** Bằng chứng factorial không cô lập được yếu tố nhân quả duy nhất đủ giải thích chênh lệch lịch sử với kết quả mới.
+
+### Lời nói mẫu
+
+Control ngắn mới đạt khoảng 2.560, thấp hơn trung bình N64 đầy đủ lịch sử 3.044. Kiểm tra server settings thực tế cho thấy cả policy prefill graph lẫn giới hạn request phía server đã đổi; harness và cửa sổ đo cũng khác. Replay legacy và run native mới trả lời so sánh khác nhau, còn factorial hoàn tất không cô lập được nguyên nhân. Vì vậy chúng tôi báo drift cùng yếu tố gây nhiễu, không ghi công cho một flag hay launcher riêng.
+
+### Điều không nên nói
+
+Control ngắn không so trực tiếp với run đầy đủ. Replay legacy chính xác không chứng minh một flag duy nhất gây ra chênh lệch.
+
+### Câu chuyển slide
+
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+
+---
+
+<a id="slide-30"></a>
+
+## Slide 30 — Did speculative decoding solve this workload?
+
+**Phần cứng: H200 · Firmus · EAGLE3.**
+
+### Nói nhanh · 10–20 giây
+
+Vị trí draft EAGLE3 làm trượt latency; validator được sửa; cả retry ngắn và thử nghiệm shallow đầy đủ riêng đều mất goodput. Cách đã thử không giúp workload này, dù còn cấu hình khác chưa được đo. Bằng chứng hiện tại chỉ áp dụng cho các cấu hình đã thử trên H200.
+
+![Slide 30](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-30.png)
+
+### Slide muốn nói gì
+
+Theo dõi chuỗi lập luận EAGLE3: giả thuyết về vị trí chạy draft, lỗi validator, retry ngắn sau khi sửa và một phép đo đầy đủ riêng. Sửa công cụ đo giúp lần chạy sau hợp lệ; không biến kết quả hiệu năng thua thành thắng.
+
+### Giải thích kết quả và lập luận
+
+Đọc theo thứ tự: draft trên mọi worker 25948 trượt quy tắc latency đồng thời; thử decode-only 25988 bị validator từ chối vì đòi KV draft ở prefill chỉ chạy target; run ngắn sau sửa 25998 qua protocol giới hạn nhưng mất 4,74% goodput; run shallow đầy đủ riêng 27238 mất 2,080318% so với control 26949.
+
+### Thuật ngữ và ký hiệu cần hiểu
+
+- **Speculative decoding EAGLE3:** Model draft đề xuất token output, model target xác minh; truyền đúng không tự chứng minh phục vụ nhanh hơn.
+- **Prefill chỉ chạy target:** Worker xử lý prompt bằng model target nhưng không chạy model draft.
+- **KV region:** Vùng nhớ giữ trạng thái key/value; validator chỉ kiểm tra ở role thực sự chạy draft.
+- **Protocol ngắn:** Run giới hạn, không thay thế workload cố định đầy đủ để kết luận hiệu năng dịch vụ.
+- **Mất goodput:** Số output token đủ điều kiện mỗi giây thấp hơn control target-only ghép cặp.
+
+### Cách diễn giải số liệu hoặc sơ đồ
+
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
+- Thử nghiệm ban đầu mọi worker 25948 trượt giới hạn latency đồng thời. Chuyển draft sang decode-only được giả thuyết là giảm thời gian tới token đầu. Sau đó attempt 25988 bị validator từ chối vì validator áp sai số KV region của draft lên prefill chỉ chạy target; sửa theo role nhưng vẫn lưu lỗi ban đầu.
+- Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only riêng. Run shallow đầy đủ sau đó 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Acceptance draft thấp là telemetry mô tả, không phải giải thích nhân quả cho thời gian.
+
+### Đánh đổi và mức độ bằng chứng
+
+- **Quan sát:** Sau khi sửa validator, retry decode-only ngắn mất 4,74%; thử nghiệm shallow đầy đủ riêng mất 2,080318% goodput.
+- **Giả thuyết:** Giới hạn draft vào decode hoặc dùng draft nông có thể giảm TTFT mà không mất throughput dịch vụ tổng thể.
+- **Kết luận được hỗ trợ:** Các cấu hình đã thử không giải quyết được workload này; dừng chúng và giữ lịch sử lỗi/sửa công cụ.
+- **Chưa biết / giới hạn:** Quan sát chưa chỉ ra pha dịch vụ nào chính xác gây chậm và cũng không bác bỏ mọi cấu hình speculative khác.
+
+### Lời nói mẫu
+
+Chúng tôi thử EAGLE3 để giảm độ trễ sinh token. Chạy draft trên mọi worker trượt quy tắc latency kết hợp. Chuyển draft sang decode-only là giả thuyết hợp lý, nhưng validator kiểm tra sai prefill chỉ chạy target. Chúng tôi sửa và giữ lại lỗi đó. Retry ngắn chạy được nhưng mất 4,74 phần trăm goodput; thử nghiệm shallow đầy đủ riêng mất 2,08 phần trăm. Các cấu hình này không giúp workload hiện tại. Truyền draft đúng chức năng không đồng nghĩa dịch vụ nhanh hơn.
+
+### Điều không nên nói
+
+Phân biệt lỗi validator với lỗi model, và retry ngắn với run đầy đủ. Không biến telemetry acceptance thấp thành phân tích nhân quả latency.
+
+### Câu chuyển slide
+
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+
+---
+
+<a id="slide-31"></a>
+
+## Slide 31 — Does the packaged deployment complete end to end?
+
+**Phần cứng: H200 chạy benchmark; CPU chỉ kiểm reader trên dữ liệu đã lưu.**
+
+### Nói nhanh · 10–20 giây
+
+Hai job portable H200 thật hoàn tất serving nhưng lỗi khi đọc kết quả. Job zero-GPU xác minh reader đã sửa trên export thật. Điều này chưa chứng minh deployment đầy đủ sau sửa; hai job ban đầu vẫn thất bại.
+
+![Slide 31](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-31.png)
+
+### Slide muốn nói gì
+
+Phân biệt suy luận GPU thành công với đóng gói đầu-cuối thành công. Hai allocation portable thật hoàn thành serving nhưng lỗi khi reader tìm và đọc kết quả; kiểm tra CPU-only sau đó xác nhận sửa reader, không phải xác nhận một allocation GPU đầy đủ đã sửa.
+
+### Giải thích kết quả và lập luận
+
+Theo dõi pipeline theo thứ tự: job portable thật 27136 và 27145 chạy GPU client chính thức và cả hai route P/D ngữ nghĩa, rồi lỗi ở bước xử lý kết quả. Bản sửa đầu xử lý export nằm trong thư mục con trực tiếp; bản sửa sau chuẩn hóa input root khi /scratch/home và /home cùng trỏ tới file. Job compute zero-GPU 27152 chạy qua cả hai reader sửa trên cả hai dataset thật. Giữ trạng thái scheduler gốc là FAILED.
+
+### Thuật ngữ và ký hiệu cần hiểu
+
+- **Deployment đầu-cuối:** Toàn tuyến từ khởi chạy server/route, official load client, export dữ liệu tới tạo kết quả đã review.
+- **Route P/D ngữ nghĩa:** Đường dịch vụ prefill và decode; cả hai đã hoàn tất trong job GPU thật.
+- **Result reader:** Code hậu xử lý tìm file export, phân tích file và tính summary.
+- **Canonical path:** Danh tính filesystem đã resolve; /home và /scratch/home có thể là alias cùng vị trí dữ liệu.
+- **Xác minh compute-only:** Job CPU kiểm tra reader đã sửa trên export thật mà không khởi chạy lại dịch vụ GPU.
+
+### Cách diễn giải số liệu hoặc sơ đồ
+
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
+- Job portable H200 thật 27136 và 27145 hoàn tất cả hai route dịch vụ và official client, nhưng job scheduler thất bại khi hậu xử lý. Ở 27136, AIPerf 0.12 đặt export trong thư mục con trực tiếp; bản sửa đầu xử lý layout đó. Ở 27145, đường /home dạng từ vựng và /scratch/home canonical gây mismatch alias; chuẩn hóa root khắc phục lỗi thứ hai.
+- Job zero-GPU 27152 sau đó chạy reader đã sửa trên cả hai dataset thật và đạt. Điểm raw 3.055,330517 của 27145 là bằng chứng khôi phục từ job gốc thất bại, không phải lần chạy lại toàn allocation thành công sau sửa. Không tuyên bố deployment GPU đầy đủ sau sửa.
+
+### Đánh đổi và mức độ bằng chứng
+
+- **Quan sát:** Hai job GPU thật hoàn tất inference và client nhưng lỗi đọc kết quả; job CPU-only 27152 xác minh hai sửa reader trên output thật.
+- **Giả thuyết:** Lỗi còn lại của deployment đến từ giả định sai về layout file và alias đường dẫn ở hậu xử lý, không phải serving execution.
+- **Kết luận được hỗ trợ:** Hai lỗi reader cụ thể đã sửa và xác minh trên dataset thật; deployment đầy đủ sau sửa vẫn chưa được xác nhận.
+- **Chưa biết / giới hạn:** Chưa biết allocation mới có đi qua toàn bộ launch, inference, export, reader và các gate sau khi sửa hay không.
+
+### Lời nói mẫu
+
+Hai job portable GPU thật hoàn tất route prefill, decode và official client, nhưng đều lỗi khi hậu xử lý đọc export. Một reader tìm sai tầng thư mục; reader kia nhầm hai alias đường dẫn của cùng file. Chúng tôi sửa cả hai và kiểm tra reader trên output thật bằng job CPU zero-GPU. Việc đó xác nhận sửa reader, không xác nhận allocation GPU đầy đủ sau sửa. Hai job scheduler gốc vẫn giữ trạng thái thất bại.
+
+### Điều không nên nói
+
+Không báo 3.055,330517 là deployment đầy đủ thành công. Job gốc thất bại; kiểm tra reader CPU không chạy lại GPU inference hay allocation đầy đủ.
+
+### Câu chuyển slide
+
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+
+---
+
+<a id="slide-32"></a>
+
+## Slide 32 — Do attention and communication choices interact?
+
+**Phần cứng: H200 · Firmus · N52.**
+
+### Nói nhanh · 10–20 giây
+
+Ở H200 N52, tổ hợp attention và giao tiếp đo cao hơn control MNNVL sau đó khoảng 1,43 phần trăm. Kết quả ủng hộ tổ hợp tại tải này, không chứng minh gain từng phần cộng lại hay quy tắc phổ quát.
+
+![Slide 32](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-32.png)
+
+### Slide muốn nói gì
+
+Đặt câu hỏi liệu lựa chọn attention và backend giao tiếp tập thể có phối hợp tốt hơn khi dùng cùng nhau ở một tải H200 cố định hay không. Kết quả gợi ý nên thử tổ hợp; chưa chứng minh gain của hai thành phần cộng tuyến tính.
+
+### Giải thích kết quả và lập luận
+
+Đọc các kết quả N52 như các cấu hình backend riêng ở cùng tải: FlashInfer 2.440,386; MNNVL 2.592,162; tổ hợp 2.631,085; control MNNVL đo sau đó 2.594,028 good tokens/s. Đối chiếu tổ hợp với control MNNVL cùng tải: cao hơn khoảng 1,43%.
+
+### Thuật ngữ và ký hiệu cần hiểu
+
+- **N52:** Cấu hình concurrency client 52 request đã gửi nhưng chưa hoàn tất; không phải số GPU hay batch decode.
+- **FlashInfer:** Cách triển khai attention trên GPU được thử trong đường phục vụ.
+- **MNNVL:** Đường giao tiếp collective qua NVIDIA NVLink.
+- **Tương tác:** Kết quả dùng hai thành phần cùng lúc có thể khác điều dự đoán từ từng thành phần riêng; cần phép đo tổ hợp có đối chứng.
+- **Good tokens/s:** Request đủ điều kiện mỗi giây nhân mục tiêu cố định 200 output token.
+
+### Cách diễn giải số liệu hoặc sơ đồ
+
+- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
+- Câu hỏi là: chọn cả cách triển khai attention và backend giao tiếp có cải thiện dịch vụ không? Ở H200 N52, các quan sát riêng và kết hợp lần lượt là 2.440,386; 2.592,162; 2.631,085 good tokens/s. Control MNNVL đo sau đó tại cùng tải đạt 2.594,028; quan sát kết hợp cao hơn khoảng 1,43%.
+- Bằng chứng ủng hộ việc xem tổ hợp này là operating point đáng quan tâm trong cấu hình đo. Nó không chứng minh quy luật tương tác chung, không cô lập phần đóng góp nhân quả của từng backend và không cho phép cộng chênh lệch riêng như thể hai thành phần độc lập.
+
+### Đánh đổi và mức độ bằng chứng
+
+- **Quan sát:** Quan sát kết hợp cao hơn control MNNVL đo sau khoảng 1,43% tại H200 N52; các quan sát FlashInfer và MNNVL riêng thấp hơn.
+- **Giả thuyết:** Attention và backend giao tiếp có thể phối hợp thuận lợi khi chạy cùng nhau.
+- **Kết luận được hỗ trợ:** Tổ hợp đo được có triển vọng tại tải này và đáng so sánh như một cấu hình dịch vụ hoàn chỉnh.
+- **Chưa biết / giới hạn:** Kết quả không lượng hóa gain nhân quả từng thành phần và chưa cho biết tải, model hay phần cứng khác sẽ ra sao.
+
+### Lời nói mẫu
+
+Chúng tôi hỏi liệu attention và giao tiếp có tương tác hay không. Ở H200 N52, tổ hợp đạt 2.631 good token mỗi giây, cao hơn control MNNVL đo sau ở 2.594 khoảng 1,43 phần trăm. Các phép đo riêng giúp hình thành giả thuyết, nhưng không thể cộng lại để dự đoán tổ hợp. Kết quả ủng hộ operating point đã thử, không phải quy tắc backend phổ quát.
+
+### Điều không nên nói
+
+Đây là các quan sát cùng tải, chưa phải chứng minh factorial đầy đủ rằng mỗi thành phần gây ra một phần gain. Không cộng gain đo riêng.
+
+### Câu chuyển slide
+
+Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
 
 ---
 

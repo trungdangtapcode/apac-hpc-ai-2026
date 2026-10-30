@@ -1,5 +1,7 @@
 # Bilingual slide learning transcripts
 
+**Superseded:** see [the current engineering investigation edition](ai-investigation-presentation-20261031.md) for the main 16/hidden-backup 16 route and current files. Older counts, mappings and hashes below are historical.
+
 **Current edition:** the owner subsequently requested the four-question reasoning structure. Follow [the current deck and remapped guides](ai-problem-driven-presentation-20261030.md). The earlier main/backup boundaries, slide numbers, deck hash and 89-page PDF descriptions below are historical records of prior editions; current source/output hashes and PDF page counts are in transcript validation.
 
 Prepared 30 October 2026, Vietnam time (UTC+7). Research remains stopped. The owner explicitly requested one Vietnamese and one English Markdown transcript, including each slide's purpose, notation, axes, units, colors, tradeoffs and a script they can explain themselves.

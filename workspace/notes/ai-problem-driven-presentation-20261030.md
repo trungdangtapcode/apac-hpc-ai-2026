@@ -1,5 +1,7 @@
 # Presentation organised around technical reasoning
 
+**Superseded:** see [the current engineering investigation edition](ai-investigation-presentation-20261031.md) for the main 16/hidden-backup 16 route and current files. Older counts, mappings and hashes below are historical.
+
 Updated 30 October 2026, Vietnam time (UTC+7). The owner explained that the panel assesses how the team reasoned about the problem, rather than only the final score. They supplied a seven-step reasoning flow and four research questions. Reporting work follows that direction; research and new job submissions remain stopped.
 
 ## Current presentation
