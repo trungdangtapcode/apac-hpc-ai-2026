@@ -1,0 +1,30 @@
+{
+  "schema": "native-qwen-compile-incompatibility-evidence-v1",
+  "job_id": 27383,
+  "state": "FAILED",
+  "elapsed": "00:03:35",
+  "exit_code": "1:0",
+  "first_failed_compile_bucket": 54,
+  "all_eight_ranks": {
+    "world_size": 8,
+    "compile_enabled_argument_seen_at_54": true,
+    "successful_cuda_graph_captures_at_54": 0
+  },
+  "error": "AssertionError: fused_set_kv_buffer_arg is not supported for native implementation",
+  "stack_route": "torchdynamo -> sglang/srt/models/qwen3_moe.py apply_qk_norm_rope -> sglang/srt/layers/rotary_embedding/base.py:244 forward_native",
+  "decode_log": "../runs/27383/decode-0.log",
+  "decode_log_sha256": "e68083c0306d57b1936c71ff5d20265f048d670334f7ffec3bedbcabbfd8fe94",
+  "config": "../runs/27383/config.json",
+  "config_sha256": "97850deb760ab59b51d4544adfa05f7119bda3537bb804f4cdd77593a3d84d81",
+  "rank_receipts": {
+    "rank-0-pid-3527421.json": "d798521fcded21dfebca7da11833691786f2251283d0fa5b2a73627e16e832f2",
+    "rank-1-pid-3527423.json": "ec6f147f5f6c9cf571136af883511283870d0fab6fbb27341bafd88efb91371f",
+    "rank-2-pid-3527425.json": "d58ffdf8d0890340d80d8551a880f9b9f43f5cd427f4f3d767dfb1c1ff6a08ef",
+    "rank-3-pid-3527427.json": "5caca17b666fbcbf4c7c0809d345a5398c4adb068fa7f6e3384eedf15312143c",
+    "rank-4-pid-3527428.json": "22ba2ffdefe2a7ef4180b418029d95ab59d4f20310c70435e9778d4bc0d4f31c",
+    "rank-5-pid-3527429.json": "29e6d7e0889d715eb63d2854ffebbaa030ae272873b38a9692d6cc34c1c846d7",
+    "rank-6-pid-3527430.json": "d27921dfa9d4660549e044b79e7b16385dcdd332dcc97959e2a8aa267f3b4296",
+    "rank-7-pid-3527431.json": "b094015ffcec994f6bcf14a52dbee51338331c08e6a4b968970420340fa01c60"
+  },
+  "decision": "Sparse graph selection does not avoid bucket54; S108 is blocked until a separate native source fix and startup qualification."
+}
