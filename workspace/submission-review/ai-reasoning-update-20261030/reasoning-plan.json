@@ -1,0 +1,247 @@
+{
+  "main_ai_slides": 20,
+  "backup_ai_slides": 12,
+  "hpc_slides_preserved": 8,
+  "research_stopped": true,
+  "framework": [
+    "Problem & constraints",
+    "Baseline & observation",
+    "Bottleneck analysis",
+    "Prioritisation & hypothesis",
+    "Intervention & measurement",
+    "Evidence & causal analysis",
+    "Conclusion & next iteration"
+  ],
+  "questions": [
+    "How should we distribute prefill and decode across 16 H200 GPUs?",
+    "What limits the performance of the selected deployment?",
+    "Which interventions improve goodput without violating the SLA?",
+    "Are the improvements reproducible and robust?"
+  ],
+  "slides": [
+    {
+      "number": 1,
+      "old_slide": 1,
+      "title": "How do we reason about a fast Qwen service?",
+      "reasoning_stage": "RQ1\u20134 \u00b7 Problem & constraints",
+      "hardware": "H200 + H100"
+    },
+    {
+      "number": 2,
+      "old_slide": 3,
+      "title": "Define success before choosing an optimisation",
+      "reasoning_stage": "RQ1 \u00b7 Problem & constraints",
+      "hardware": "H200 primary \u00b7 H100 separate"
+    },
+    {
+      "number": 3,
+      "old_slide": 6,
+      "title": "Which GPU layouts are feasible candidates?",
+      "reasoning_stage": "RQ1 \u00b7 Baseline & observation",
+      "hardware": "16 H200 \u00b7 Firmus"
+    },
+    {
+      "number": 4,
+      "old_slide": 5,
+      "title": "Why keep two TP4 prefills and one TP8 decode?",
+      "reasoning_stage": "RQ1 \u00b7 Conclusion from topology evidence",
+      "hardware": "16 H200 \u00b7 Firmus"
+    },
+    {
+      "number": 5,
+      "old_slide": null,
+      "title": "Worker readiness did not prove a working service",
+      "reasoning_stage": "RQ1 \u00b7 Observation \u2192 validity check",
+      "hardware": "H200 \u00b7 hetero-TP recovery branch"
+    },
+    {
+      "number": 6,
+      "old_slide": 13,
+      "title": "What does the profile identify\u2014and what does it not?",
+      "reasoning_stage": "RQ2 \u00b7 Bottleneck analysis",
+      "hardware": "H200 \u00b7 N48 diagnostic"
+    },
+    {
+      "number": 7,
+      "old_slide": null,
+      "title": "Why investigate descriptor setup before bandwidth?",
+      "reasoning_stage": "RQ2 \u00b7 Prioritisation & hypothesis",
+      "hardware": "H200 branch \u00b7 CPU/source diagnostics"
+    },
+    {
+      "number": 8,
+      "old_slide": 11,
+      "title": "Do attention and communication choices interact?",
+      "reasoning_stage": "RQ3 \u00b7 Hypothesis \u2192 intervention",
+      "hardware": "H200 \u00b7 N52"
+    },
+    {
+      "number": 9,
+      "old_slide": 14,
+      "title": "Does a decode change improve the service objective?",
+      "reasoning_stage": "RQ3 \u00b7 Matched measurement \u2192 causal limits",
+      "hardware": "H200 \u00b7 full N60"
+    },
+    {
+      "number": 10,
+      "old_slide": 12,
+      "title": "Where should we stop increasing concurrency?",
+      "reasoning_stage": "RQ3 \u00b7 Intervention & full measurement",
+      "hardware": "H200 \u00b7 N62 \u2192 N64"
+    },
+    {
+      "number": 11,
+      "old_slide": 15,
+      "title": "Which requests still fail after goodput improves?",
+      "reasoning_stage": "RQ3 \u00b7 Evidence & unresolved cause",
+      "hardware": "H200 \u00b7 N64 \u00b7 job 26766"
+    },
+    {
+      "number": 12,
+      "old_slide": null,
+      "title": "Keep an intervention only if the objective improves",
+      "reasoning_stage": "RQ3 \u00b7 Evidence \u2192 keep or reject",
+      "hardware": "H200 results + separate H100 FA3 pair"
+    },
+    {
+      "number": 13,
+      "old_slide": 23,
+      "title": "Did speculative decoding solve this workload?",
+      "reasoning_stage": "RQ3 \u00b7 Failed hypothesis \u2192 revised test",
+      "hardware": "H200 \u00b7 EAGLE3"
+    },
+    {
+      "number": 14,
+      "old_slide": 2,
+      "title": "Does the improvement survive another deployment?",
+      "reasoning_stage": "RQ4 \u00b7 Reproducibility & selection",
+      "hardware": "H200 \u00b7 full N64 repeats"
+    },
+    {
+      "number": 15,
+      "old_slide": 25,
+      "title": "Why did a later replay score lower?",
+      "reasoning_stage": "RQ4 \u00b7 Robustness & confounder checks",
+      "hardware": "H200 \u00b7 distinct runtime series"
+    },
+    {
+      "number": 16,
+      "old_slide": null,
+      "title": "Can one platform predict another reliably?",
+      "reasoning_stage": "RQ4 \u00b7 Frozen forecast \u2192 held-out evidence",
+      "hardware": "H100 inputs \u00b7 H200 verification"
+    },
+    {
+      "number": 17,
+      "old_slide": 22,
+      "title": "What does passing latency leave unverified?",
+      "reasoning_stage": "RQ4 \u00b7 Quality boundary",
+      "hardware": "H200 latency \u00b7 official quality unknown"
+    },
+    {
+      "number": 18,
+      "old_slide": 31,
+      "title": "Does the packaged deployment complete end to end?",
+      "reasoning_stage": "RQ4 \u00b7 Real replay & failure analysis",
+      "hardware": "H200 replay + CPU reader verification"
+    },
+    {
+      "number": 19,
+      "old_slide": null,
+      "title": "Four decisions, each with an evidence boundary",
+      "reasoning_stage": "Conclusion \u00b7 Answer the research questions",
+      "hardware": "H200 primary \u00b7 H100 separate"
+    },
+    {
+      "number": 20,
+      "old_slide": 32,
+      "title": "What should the next iteration establish?",
+      "reasoning_stage": "Conclusion & next iteration",
+      "hardware": "Proposed validation \u00b7 no new jobs"
+    },
+    {
+      "number": 21,
+      "old_slide": 4,
+      "title": "Backup \u00b7 two platforms, separate experimental systems",
+      "reasoning_stage": "Backup \u00b7 Environment",
+      "hardware": "H200 + H100"
+    },
+    {
+      "number": 22,
+      "old_slide": 8,
+      "title": "Backup \u00b7 FP8 geometry constrains a topology",
+      "reasoning_stage": "Backup \u00b7 Compatibility mechanism",
+      "hardware": "H200 \u00b7 tested FP8 path"
+    },
+    {
+      "number": 23,
+      "old_slide": 10,
+      "title": "Backup \u00b7 historical milestones behind the decisions",
+      "reasoning_stage": "Backup \u00b7 Chronology as supporting evidence",
+      "hardware": "H200 \u00b7 different loads and runtimes"
+    },
+    {
+      "number": 24,
+      "old_slide": null,
+      "title": "Backup \u00b7 request-scoped descriptor construction",
+      "reasoning_stage": "Backup \u00b7 Intervention & correctness",
+      "hardware": "H200 branch \u00b7 CPU geometry"
+    },
+    {
+      "number": 25,
+      "old_slide": null,
+      "title": "Backup \u00b7 what the KV recovery run actually proves",
+      "reasoning_stage": "Backup \u00b7 End-to-end evidence & limits",
+      "hardware": "H200 \u00b7 jobs 22271 / 22294"
+    },
+    {
+      "number": 26,
+      "old_slide": null,
+      "title": "Backup \u00b7 H100: first-token gain, goodput loss",
+      "reasoning_stage": "Backup \u00b7 Platform-specific tradeoff",
+      "hardware": "H100 \u00b7 NSCC \u00b7 full N54"
+    },
+    {
+      "number": 27,
+      "old_slide": 18,
+      "title": "Backup \u00b7 does a startup saving survive reversed order?",
+      "reasoning_stage": "Backup \u00b7 Cost hypothesis & confirmation",
+      "hardware": "H100 \u00b7 NSCC"
+    },
+    {
+      "number": 28,
+      "old_slide": 21,
+      "title": "Backup \u00b7 source-supported changes that did not win",
+      "reasoning_stage": "Backup \u00b7 Negative measured interventions",
+      "hardware": "H200 \u00b7 full-model comparisons"
+    },
+    {
+      "number": 29,
+      "old_slide": 26,
+      "title": "Backup \u00b7 scope limits of kernel and source evidence",
+      "reasoning_stage": "Backup \u00b7 Diagnostics versus full serving",
+      "hardware": "H200 + H100 + CPU \u00b7 separate rows"
+    },
+    {
+      "number": 30,
+      "old_slide": 27,
+      "title": "Backup \u00b7 the retained settings on each platform",
+      "reasoning_stage": "Backup \u00b7 Exact deployment settings",
+      "hardware": "H200 N64 + H100 N54"
+    },
+    {
+      "number": 31,
+      "old_slide": null,
+      "title": "Backup \u00b7 workload control and prefill chunk trial",
+      "reasoning_stage": "Backup \u00b7 Fixed protocol & negative result",
+      "hardware": "H200 chunk trial \u00b7 shared workload rules"
+    },
+    {
+      "number": 32,
+      "old_slide": 28,
+      "title": "Backup \u00b7 less graph memory did not raise goodput",
+      "reasoning_stage": "Backup \u00b7 Resource metric versus objective",
+      "hardware": "H200 \u00b7 sparse graph trial"
+    }
+  ]
+}

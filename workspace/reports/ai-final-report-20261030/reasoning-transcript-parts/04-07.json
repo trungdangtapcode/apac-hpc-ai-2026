@@ -1,0 +1,422 @@
+[
+  {
+    "slide": 4,
+    "title": "Baseline: workers were ready, but transfer warmup failed",
+    "hardware": "H200 Firmus; the historical heterogeneous-TP branch was prefill P8 with TP8/EP2 to decode D8 with TP4/EP4. This is not the later selected topology of two TP4/EP1 prefill workers plus one TP8/EP8 decode worker.",
+    "en": {
+      "brief": "In job 22271, H200 workers loaded, but the P-to-D pair warmup timed out after 360 seconds. No AIPerf benchmark ran, so this is a transfer-readiness failure, not a throughput measurement.",
+      "purpose": "Establish the observed failure before explaining the proposed fix. Workers had loaded, but the actual heterogeneous prefill-to-decode path had not become ready for a benchmark request. This separates a startup/transfer symptom from an assumed steady-state performance problem.",
+      "visual": "Tell the audience this slide represents the baseline stage of the seven-step reasoning chain: symptom, job evidence, and failure boundary. The title's contrast is literal: model workers were ready, while pair warmup was not. No numeric chart or axes are implied.",
+      "terms": [
+        {
+          "symbol": "H200 Firmus",
+          "meaning": "The GPU platform and site for this historical trial; do not merge this result with H100 NSCC measurements."
+        },
+        {
+          "symbol": "P8 / D8",
+          "meaning": "Labels for the prefill-side and decode-side groups in this topology; retain the labels without assuming they mean eight workers."
+        },
+        {
+          "symbol": "TP8/EP2 → TP4/EP4",
+          "meaning": "Prefill used tensor parallelism eight and expert parallelism two; decode used tensor parallelism four and expert parallelism four. The settings differ across roles."
+        },
+        {
+          "symbol": "job 22271",
+          "meaning": "The retained baseline job. The model workers loaded, but pair warmup ended in an HTTP TimeoutError after 360 seconds."
+        },
+        {
+          "symbol": "360 seconds",
+          "meaning": "The timeout duration for this pair-warmup attempt, not a benchmark measurement window."
+        },
+        {
+          "symbol": "AIPerf",
+          "meaning": "The benchmark client/export path. It did not run for job 22271 because warmup failed first."
+        },
+        {
+          "symbol": "P/D pair warmup",
+          "meaning": "A request sent through both prefill and decode roles to check that the disaggregated path can serve before scoring."
+        }
+      ],
+      "reading": [
+        "Step 1 — Symptom: the client could not complete pair warmup, even though workers had loaded.",
+        "Step 2 — Evidence and boundary: job 22271 timed out after 360 seconds with HTTP TimeoutError; no AIPerf export or throughput score exists.",
+        "The topology is heterogeneous TP: P8 TP8/EP2 to D8 TP4/EP4. It is not the two-TP4 prefill plus TP8/EP8 decode topology selected later.",
+        "The contemporaneous review says bootstrap/transfer was not yet proven. It does not identify bandwidth saturation or a measured slow KV copy."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 loaded the model workers but its heterogeneous P/D warmup request timed out after 360 seconds. The retained log ends in HTTP TimeoutError; AIPerf did not run, so there is no score.",
+        "hypothesis": "The immediate failure lies somewhere in cold P/D bootstrap or transfer readiness; a specific descriptor bottleneck is not yet established by this symptom alone.",
+        "conclusion": "Treat this as a pre-benchmark readiness failure and preserve the exact topology and terminal evidence. Do not call it a throughput regression.",
+        "unknown": "The timeout alone does not locate the stalled work, quantify transfer latency, or rule out other bootstrap and placement causes."
+      },
+      "script": "Our starting symptom was specific. On H200 Firmus, job 22271 used a heterogeneous layout: prefill P8 with TP8 and EP2, sending to decode D8 with TP4 and EP4. The model workers loaded, but a request through the prefill-to-decode pair did not finish warmup. The retained log ends with an HTTP timeout after 360 seconds. AIPerf never ran, so this job produced no benchmark score. We therefore had evidence of a cold path that was not ready, not evidence of steady-state network saturation or slow KV-copy bandwidth. This topology is also different from the two-TP4 prefill and TP8/EP8 decode layout selected later.",
+      "caution": "Never report 22271 as a low score or compare its timeout duration with the later 0.68–0.70 second warmup as a measured speedup. There is no AIPerf result for this baseline.",
+      "transition": "Next we explain why source evidence made descriptor setup a reasonable place to investigate first, while leaving other explanations open."
+    },
+    "vi": {
+      "brief": "Ở job 22271, worker H200 đã nạp mô hình nhưng warmup giữa prefill và decode hết thời gian chờ sau 360 giây. AIPerf chưa chạy, nên đây là lỗi sẵn sàng truyền dữ liệu, không phải phép đo thông lượng.",
+      "purpose": "Xác lập lỗi đã quan sát trước khi giải thích cách sửa. Worker đã nạp mô hình, nhưng đường prefill sang decode thực tế chưa sẵn sàng phục vụ yêu cầu benchmark. Cần phân biệt triệu chứng lúc khởi động/truyền dữ liệu với một vấn đề hiệu năng steady-state giả định.",
+      "visual": "Giới thiệu slide này như giai đoạn nền của chuỗi suy luận bảy bước: triệu chứng, bằng chứng job và ranh giới lỗi. Đối lập trong tiêu đề là theo nghĩa đen: worker sẵn sàng, còn warmup cặp thì không. Không có biểu đồ số hay trục nào được ngụ ý.",
+      "terms": [
+        {
+          "symbol": "H200 Firmus",
+          "meaning": "Nền tảng GPU và địa điểm của phép thử lịch sử này; không gộp kết quả với phép đo H100 ở NSCC."
+        },
+        {
+          "symbol": "P8 / D8",
+          "meaning": "Nhãn nhóm phía prefill và decode trong topology này; giữ nguyên nhãn, không mặc định chúng có nghĩa là tám worker."
+        },
+        {
+          "symbol": "TP8/EP2 → TP4/EP4",
+          "meaning": "Prefill dùng tensor parallelism tám và expert parallelism hai; decode dùng tensor parallelism bốn và expert parallelism bốn. Hai vai trò có cấu hình khác nhau."
+        },
+        {
+          "symbol": "job 22271",
+          "meaning": "Job nền được lưu lại. Worker đã nạp mô hình, nhưng warmup cặp kết thúc bằng HTTP TimeoutError sau 360 giây."
+        },
+        {
+          "symbol": "360 seconds",
+          "meaning": "Thời lượng timeout của lần thử pair-warmup, không phải cửa sổ benchmark."
+        },
+        {
+          "symbol": "AIPerf",
+          "meaning": "Client/xuất kết quả benchmark. AIPerf không chạy trong job 22271 vì warmup thất bại trước đó."
+        },
+        {
+          "symbol": "P/D pair warmup",
+          "meaning": "Yêu cầu đi qua cả hai vai trò prefill và decode để kiểm tra hệ thống tách rời có thể phục vụ trước khi chấm điểm."
+        }
+      ],
+      "reading": [
+        "Bước 1 — Triệu chứng: client không hoàn tất pair-warmup dù worker đã nạp mô hình.",
+        "Bước 2 — Bằng chứng và ranh giới: job 22271 timeout sau 360 giây với HTTP TimeoutError; không có bản xuất AIPerf hay điểm throughput.",
+        "Topology dùng TP khác nhau giữa vai trò: P8 TP8/EP2 sang D8 TP4/EP4. Nó không phải topology hai worker prefill TP4 cộng một worker decode TP8/EP8 được chọn về sau.",
+        "Bản rà soát cùng thời điểm ghi bootstrap/truyền chưa được chứng minh; nó không xác định nghẽn băng thông hay bản sao KV chậm đã được đo."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 nạp được worker mô hình nhưng yêu cầu warmup P/D với TP khác nhau bị timeout sau 360 giây. Log lưu lại kết thúc bằng HTTP TimeoutError; AIPerf chưa chạy nên không có điểm số.",
+        "hypothesis": "Lỗi tức thời nằm đâu đó trong bootstrap lạnh hoặc độ sẵn sàng truyền P/D; riêng triệu chứng này chưa xác lập nút thắt descriptor cụ thể.",
+        "conclusion": "Xem đây là lỗi sẵn sàng trước benchmark, đồng thời giữ lại topology và bằng chứng trạng thái kết thúc chính xác. Không gọi đây là suy giảm throughput.",
+        "unknown": "Chỉ từ timeout không thể xác định công đoạn bị kẹt, định lượng độ trễ truyền hay loại trừ các nguyên nhân bootstrap và bố trí khác."
+      },
+      "script": "Triệu chứng ban đầu của chúng tôi khá cụ thể. Trên H200 Firmus, job 22271 dùng layout TP khác nhau giữa hai vai trò: prefill P8 với TP8, EP2 gửi sang decode D8 với TP4, EP4. Worker đã nạp mô hình, nhưng yêu cầu đi qua cặp prefill–decode không hoàn tất warmup. Log được giữ lại kết thúc bằng lỗi HTTP timeout sau 360 giây. AIPerf chưa chạy, vì vậy job này không có điểm benchmark. Bằng chứng cho thấy đường lạnh chưa sẵn sàng, chứ không chứng minh mạng nghẽn steady-state hay bản sao KV chậm. Topology này cũng khác cấu hình được chọn về sau với hai worker prefill TP4 và decode TP8/EP8.",
+      "caution": "Không báo cáo 22271 như điểm số thấp hoặc so thời gian timeout với warmup 0,68–0,70 giây sau đó như mức tăng tốc đã đo. Baseline này không có kết quả AIPerf.",
+      "transition": "Tiếp theo là lý do bằng chứng từ source khiến chúng tôi ưu tiên khảo sát bước chuẩn bị descriptor, nhưng vẫn để ngỏ các cách giải thích khác."
+    }
+  },
+  {
+    "slide": 5,
+    "title": "Prioritise setup work before tuning steady-state traffic",
+    "hardware": "H200 Firmus; the motivating timeout occurred on heterogeneous P8 TP8/EP2 prefill to D8 TP4/EP4 decode, not on the final selected two-TP4 prefill plus TP8/EP8 decode topology.",
+    "en": {
+      "brief": "Source review found about 403.8 million whole-pool descriptors per source rank, versus 188 for one contiguous 4,000-token request. That justified testing setup work first, but did not rule out bandwidth or placement causes.",
+      "purpose": "Explain the prioritization decision: the symptom occurred before scoring, and source inspection exposed a large amount of descriptor setup work aligned with the cold-warmup failure. This is a reason to test the setup hypothesis, not proof that other bottlenecks were absent.",
+      "visual": "Present the evidence chain as seven-step flow steps 3 and 4: identify the affected component, then state why its setup cost was prioritized. The two counts have different scopes—whole pool per rank versus one request—so they must not be shown as a timing ratio or speedup.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "The transfer path involved in moving KV state between disaggregated prefill and decode workers."
+        },
+        {
+          "symbol": "heterogeneous TP",
+          "meaning": "Different attention tensor-parallel sizes on the prefill and decode sides; this changes how KV heads and byte ranges map to peers."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata describing memory ranges for transfer, not the KV tensor payload itself."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Approximate whole-pool source descriptor count derived for representative TP8 geometry from 2,148,119 KV slots, 94 layers, and K/V entries."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "CPU geometry count for a contiguous 4,000-token TP8-to-TP4 request after adjacent ranges are coalesced."
+        },
+        {
+          "symbol": "source rank",
+          "meaning": "One distributed source-side model process/partition whose descriptor list is being prepared."
+        },
+        {
+          "symbol": "steady-state traffic",
+          "meaning": "The ongoing scored request traffic after the workers and transfer path are ready; it is distinct from cold bootstrap and warmup."
+        }
+      ],
+      "reading": [
+        "Step 3 — Component: source inspection located the affected work in heterogeneous-TP NIXL KV descriptor preparation and transfer.",
+        "Step 4 — Evidence to prioritize: source notes derive about 403.8 million descriptors for the full pool per rank, while CPU geometry gives 188 descriptors for one contiguous 4,000-token request.",
+        "Those values count descriptors, not bytes, seconds, bandwidth, or speed. Their scopes differ and they do not quantify setup time.",
+        "Because the failure was pre-score and the proposed work targeted setup, this was more directly supported than first tuning steady-state bandwidth, KV layout, or scheduler placement. These alternatives were not experimentally ruled out."
+      ],
+      "tradeoff": {
+        "observation": "Source-backed geometry showed a very large whole-pool enumeration signal—about 403.8 million descriptors per source rank—compared with 188 coalesced ranges for one representative request.",
+        "hypothesis": "Building descriptors only for the pages of the current request could reduce cold setup work and help pair warmup complete.",
+        "conclusion": "Descriptor setup was a rational first target because it matched a pre-benchmark symptom and had a concrete source-level cost signal. This is prioritization, not diagnosis of the sole cause.",
+        "unknown": "No old-code initialization duration was measured. Bandwidth utilization, KV layout, scheduling/placement, and other bootstrap work remain possible contributors."
+      },
+      "script": "After locating the failure in the cold prefill-to-decode path, we inspected the NIXL descriptor preparation used for heterogeneous tensor parallelism. The source-level geometry gave us a reason to test that setup first. For a representative TP8 source rank, describing the whole KV pool involved about 403.8 million entries. For a contiguous 4,000-token TP8-to-TP4 request, the CPU geometry calculation gave 188 coalesced entries. Those are descriptor counts with different scopes, not bytes, seconds, or a measured speedup. Since the symptom happened before scoring and descriptor construction was an identifiable setup cost, it was a more direct first experiment than tuning steady-state bandwidth, KV layout, or scheduler placement. But those alternatives were not ruled out.",
+      "caution": "Do not call 403.8 million divided by 188 a two-million-fold speedup. No old-versus-new setup timing, network utilization, or causal decomposition was collected.",
+      "transition": "The next slide describes the exact request-scoped change and separates CPU range correctness from real GPU transport validation."
+    },
+    "vi": {
+      "brief": "Rà soát source thấy khoảng 403,8 triệu descriptor cho toàn pool trên mỗi rank nguồn, so với 188 cho một yêu cầu liên tục 4.000 token. Điều đó đủ để thử giảm việc khởi tạo trước, nhưng chưa loại trừ nguyên nhân từ mạng hay bố trí.",
+      "purpose": "Giải thích quyết định ưu tiên: triệu chứng xảy ra trước khi chấm điểm, còn kiểm tra source cho thấy khối lượng chuẩn bị descriptor lớn, phù hợp với lỗi warmup lạnh. Đây là lý do thử giả thuyết về setup, không phải bằng chứng rằng không có nút thắt khác.",
+      "visual": "Trình bày chuỗi bằng chứng ở bước 3 và 4 của luồng bảy bước: xác định thành phần liên quan, rồi nêu vì sao ưu tiên chi phí setup của nó. Hai số có phạm vi khác nhau—toàn pool mỗi rank so với một yêu cầu—không được diễn giải thành tỷ lệ thời gian hay tăng tốc.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "Đường truyền liên quan đến việc chuyển trạng thái KV giữa worker prefill và decode tách rời."
+        },
+        {
+          "symbol": "heterogeneous TP",
+          "meaning": "Kích thước tensor parallelism attention khác nhau ở prefill và decode; điều này làm thay đổi cách ánh xạ KV head và dải byte giữa các peer."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata mô tả dải bộ nhớ cần truyền, không phải payload tensor KV."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Số gần đúng descriptor nguồn cho toàn pool được suy ra với hình học TP8 đại diện từ 2.148.119 KV slot, 94 layer và các mục K/V."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "Số từ kiểm tra hình học CPU cho yêu cầu liên tục 4.000 token TP8 sang TP4 sau khi gộp dải kề nhau."
+        },
+        {
+          "symbol": "source rank",
+          "meaning": "Một tiến trình/phân vùng mô hình phía nguồn trong phân tán, nơi danh sách descriptor được chuẩn bị."
+        },
+        {
+          "symbol": "steady-state traffic",
+          "meaning": "Luồng yêu cầu được tính điểm sau khi worker và đường truyền sẵn sàng; khác với bootstrap và warmup lạnh."
+        }
+      ],
+      "reading": [
+        "Bước 3 — Thành phần: kiểm tra source xác định phần việc liên quan ở khâu chuẩn bị và truyền descriptor KV NIXL với TP khác nhau.",
+        "Bước 4 — Bằng chứng để ưu tiên: ghi chú source suy ra khoảng 403,8 triệu descriptor cho cả pool mỗi rank, trong khi hình học CPU cho 188 descriptor với yêu cầu liên tục 4.000 token.",
+        "Các số đếm descriptor, không phải byte, giây, băng thông hay tốc độ. Phạm vi hai số khác nhau và chúng không đo thời gian setup.",
+        "Vì lỗi xảy ra trước chấm điểm và thay đổi đề xuất nhắm vào setup, đây là hướng có bằng chứng trực tiếp hơn so với việc chỉnh bandwidth steady-state, bố trí KV hay vị trí scheduler. Các phương án đó chưa bị loại trừ bằng thí nghiệm."
+      ],
+      "tradeoff": {
+        "observation": "Hình học dựa trên source cho thấy khối lượng liệt kê toàn pool rất lớn—khoảng 403,8 triệu descriptor mỗi rank nguồn—so với 188 dải đã gộp cho một yêu cầu đại diện.",
+        "hypothesis": "Tạo descriptor chỉ cho các trang của yêu cầu hiện tại có thể giảm việc setup lúc lạnh và giúp warmup cặp hoàn tất.",
+        "conclusion": "Setup descriptor là mục tiêu hợp lý để thử trước vì khớp triệu chứng trước benchmark và có tín hiệu chi phí cụ thể từ source. Đây là ưu tiên kiểm tra, không phải chẩn đoán nguyên nhân duy nhất.",
+        "unknown": "Không đo thời gian khởi tạo của code cũ. Mức sử dụng băng thông, bố trí KV, lịch đặt tài nguyên/vị trí và công việc bootstrap khác vẫn có thể góp phần."
+      },
+      "script": "Sau khi khoanh vùng lỗi ở đường prefill–decode lạnh, chúng tôi xem phần chuẩn bị descriptor NIXL cho tensor parallelism khác nhau. Hình học từ source cho lý do để thử bước setup này trước. Với rank nguồn TP8 đại diện, mô tả toàn pool KV cần khoảng 403,8 triệu entry. Với yêu cầu liên tục 4.000 token TP8 sang TP4, phép tính hình học CPU cho 188 entry đã gộp. Đây là số descriptor với phạm vi khác nhau, không phải byte, giây hay mức tăng tốc đo được. Vì triệu chứng xuất hiện trước bước chấm điểm và tạo descriptor là một chi phí setup có thể xác định, đây là thử nghiệm trực tiếp hơn so với chỉnh băng thông steady-state, bố trí KV hay vị trí scheduler trước. Tuy nhiên, các phương án đó chưa bị loại trừ.",
+      "caution": "Không chia 403,8 triệu cho 188 rồi gọi đó là tăng tốc hai triệu lần. Không có phép đo thời gian setup cũ-mới, mức dùng mạng hay phân rã nhân quả.",
+      "transition": "Slide tiếp theo mô tả thay đổi theo yêu cầu và phân biệt kiểm tra đúng dải trên CPU với xác minh truyền GPU thật."
+    }
+  },
+  {
+    "slide": 6,
+    "title": "Build descriptors for the request, not the whole pool",
+    "hardware": "The source and CPU geometry checks concern the H200 Firmus heterogeneous-TP NIXL path, especially representative TP8-to-TP4 request mapping; they do not establish a benchmarked GPU-transfer speedup.",
+    "en": {
+      "brief": "The patch builds descriptors for requested KV pages and coalesces contiguous ranges while preserving mapping and stride. CPU tests passed 720 geometry cases; the fixture explicitly did not validate real GPU transport.",
+      "purpose": "Describe the intervention precisely and put its correctness evidence at the right level. The patch changes descriptor scope and coalescing in heterogeneous-TP transfer while retaining the relevant mapping behavior; CPU equivalence is not the same as validating real transport on GPUs.",
+      "visual": "This is step 5 and the first half of step 6 in the seven-step chain: exact change, then the correctness gate that was actually run. Keep the distinction between address-range equivalence and real GPU transfer visible.",
+      "terms": [
+        {
+          "symbol": "request-scoped descriptors",
+          "meaning": "Constructing transfer metadata only for KV pages needed by the current request instead of enumerating the entire KV pool."
+        },
+        {
+          "symbol": "coalesce contiguous ranges",
+          "meaning": "Combine adjacent memory ranges into fewer descriptors while preserving the locations and strides needed for the transfer."
+        },
+        {
+          "symbol": "KV head mapping",
+          "meaning": "The mapping from source KV heads to decode peer ranges; the patch metadata says this mapping was retained."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "The spacing between token-associated data locations when only a KV-head slice is sent; this must remain correct after coalescing."
+        },
+        {
+          "symbol": "720 cases",
+          "meaning": "Number of retained original-versus-patched CPU byte-range equivalence cases that passed."
+        },
+        {
+          "symbol": "real GPU transport: false",
+          "meaning": "The retained geometry fixture explicitly does not claim to have validated a real GPU transfer."
+        },
+        {
+          "symbol": "notifications",
+          "meaning": "Transfer completion signaling retained by the patch scope; it was not the changed experimental factor."
+        }
+      ],
+      "reading": [
+        "Step 5 — Intervention: replace full-pool source and destination descriptor enumeration with request-scoped descriptors, then coalesce contiguous ranges.",
+        "The patch scope retains equal-TP behavior, weights, precision, KV-head mapping, per-token stride where a head slice is sent, and notifications.",
+        "Step 6, correctness part: 720 original-versus-patched CPU geometry cases pass byte-range equivalence.",
+        "The fixture records real GPU transport validation as false. Therefore CPU mapping checks do not prove GPU transfer, server readiness, or valid responses."
+      ],
+      "tradeoff": {
+        "observation": "The patch implements request-only descriptor preparation and contiguous-range coalescing; retained CPU tests pass 720 range-equivalence cases, including the representative count of 188 for the contiguous request.",
+        "hypothesis": "If the mapping is preserved while irrelevant pool ranges are omitted, setup can do less descriptor work without changing the KV bytes required by the request.",
+        "conclusion": "The CPU fixture supports address and byte-range equivalence for its tested geometries. It is a correctness gate for the mapping, not a full deployment validation.",
+        "unknown": "The fixture does not validate real GPU transport. It does not time old and new descriptor creation or establish that this change alone resolves the earlier timeout."
+      },
+      "script": "The patch changed the scope of descriptor preparation. Instead of enumerating source and destination ranges across the whole KV pool, it builds descriptors for the current request and coalesces adjacent ranges. Its metadata says equal-TP transfers, model weights, precision, KV-head mapping, required per-token stride, and transfer notifications remain unchanged. We then checked original-versus-patched address and byte-range behavior on CPU across 720 geometry cases. Those tests support correctness of the tested mapping. The retained fixture explicitly says real GPU transport was not validated. So this step does not prove that the GPU copy worked, that the servers were ready, or that the request returned valid output. It is one correctness gate in the chain, not the end-to-end result.",
+      "caution": "Do not describe 720 CPU geometry cases as 720 GPU transfers. Do not say that the patch changed all NIXL transfers or altered weights/precision.",
+      "transition": "The final slide in this sequence reports what happened in the patched run and what remains unmeasured about speedup and causality."
+    },
+    "vi": {
+      "brief": "Bản vá tạo descriptor cho các trang KV cần thiết rồi gộp dải liên tục, đồng thời giữ nguyên ánh xạ và stride. Kiểm tra CPU đạt 720 trường hợp hình học; fixture ghi rõ chưa xác minh truyền GPU thật.",
+      "purpose": "Mô tả chính xác thay đổi và đặt bằng chứng đúng ở cấp độ của nó. Bản vá đổi phạm vi descriptor và cách gộp trong đường truyền TP khác nhau, đồng thời giữ hành vi ánh xạ liên quan; kiểm tra tương đương trên CPU không đồng nghĩa đã xác minh truyền thật trên GPU.",
+      "visual": "Đây là bước 5 và nửa đầu bước 6 trong chuỗi bảy bước: thay đổi cụ thể, rồi cổng đúng đắn thực sự đã chạy. Cần giữ rõ khác biệt giữa tương đương dải địa chỉ và truyền GPU thật.",
+      "terms": [
+        {
+          "symbol": "request-scoped descriptors",
+          "meaning": "Tạo metadata truyền chỉ cho các trang KV mà yêu cầu hiện tại cần, thay vì liệt kê cả pool KV."
+        },
+        {
+          "symbol": "coalesce contiguous ranges",
+          "meaning": "Gộp các dải bộ nhớ liền kề thành ít descriptor hơn nhưng vẫn giữ đúng vị trí và bước nhảy cần cho truyền dữ liệu."
+        },
+        {
+          "symbol": "KV head mapping",
+          "meaning": "Ánh xạ KV head nguồn sang dải peer decode; metadata bản vá ghi rằng ánh xạ này được giữ nguyên."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "Khoảng cách giữa các vị trí dữ liệu gắn với token khi chỉ gửi một lát KV head; phải giữ đúng sau khi gộp."
+        },
+        {
+          "symbol": "720 cases",
+          "meaning": "Số trường hợp tương đương byte-range giữa hình học CPU code cũ và mới đã được giữ lại và vượt qua."
+        },
+        {
+          "symbol": "real GPU transport: false",
+          "meaning": "Fixture hình học lưu rõ rằng nó không xác minh một lần truyền GPU thật."
+        },
+        {
+          "symbol": "notifications",
+          "meaning": "Tín hiệu báo hoàn tất truyền được giữ nguyên trong phạm vi bản vá; đây không phải yếu tố thí nghiệm bị đổi."
+        }
+      ],
+      "reading": [
+        "Bước 5 — Can thiệp: thay việc liệt kê descriptor nguồn và đích cho toàn pool bằng descriptor theo yêu cầu, sau đó gộp các dải liên tục.",
+        "Phạm vi bản vá giữ nguyên hành vi TP bằng nhau, trọng số, độ chính xác, ánh xạ KV head, stride theo token khi gửi lát head và thông báo hoàn tất.",
+        "Bước 6, phần đúng đắn: 720 trường hợp hình học CPU so sánh code cũ và mới vượt kiểm tra tương đương byte-range.",
+        "Fixture ghi xác minh truyền GPU thật là false. Vì vậy, kiểm tra ánh xạ CPU chưa chứng minh truyền GPU, server sẵn sàng hay phản hồi hợp lệ."
+      ],
+      "tradeoff": {
+        "observation": "Bản vá triển khai chuẩn bị descriptor theo yêu cầu và gộp dải liền kề; 720 trường hợp CPU đã lưu vượt kiểm tra tương đương dải, gồm ví dụ yêu cầu liên tục có 188 descriptor.",
+        "hypothesis": "Nếu giữ nguyên ánh xạ nhưng bỏ các dải toàn pool không liên quan, bước setup có thể làm ít việc descriptor hơn mà không đổi byte KV yêu cầu cần.",
+        "conclusion": "Fixture CPU hỗ trợ tính tương đương địa chỉ và byte-range cho các hình học đã thử. Đây là cổng đúng đắn cho ánh xạ, chưa phải xác minh triển khai đầy đủ.",
+        "unknown": "Fixture chưa xác minh truyền GPU thật. Nó cũng không đo thời gian tạo descriptor cũ và mới hoặc xác lập thay đổi này một mình đã giải quyết timeout trước đó."
+      },
+      "script": "Bản vá thay đổi phạm vi chuẩn bị descriptor. Thay vì liệt kê dải nguồn và đích cho cả pool KV, nó tạo descriptor cho yêu cầu hiện tại rồi gộp các dải liền kề. Metadata ghi rằng truyền TP bằng nhau, trọng số mô hình, độ chính xác, ánh xạ KV head, stride theo token cần thiết và thông báo truyền vẫn được giữ nguyên. Sau đó, chúng tôi kiểm tra hành vi địa chỉ và byte-range giữa bản gốc với bản vá trên CPU qua 720 trường hợp hình học. Các kiểm tra đó hỗ trợ tính đúng của ánh xạ đã thử. Fixture được lưu rõ là chưa xác minh truyền GPU thật. Vì thế bước này chưa chứng minh bản sao GPU chạy được, server đã sẵn sàng hay yêu cầu trả về đầu ra hợp lệ. Đây là một cổng đúng đắn trong chuỗi, chưa phải kết quả đầu cuối.",
+      "caution": "Không gọi 720 trường hợp hình học CPU là 720 lần truyền GPU. Không nói bản vá đổi mọi kiểu truyền NIXL hoặc thay đổi trọng số/độ chính xác.",
+      "transition": "Slide cuối của chuỗi nêu điều gì đã xảy ra trong lần chạy có bản vá và điều gì về tăng tốc, quan hệ nhân quả vẫn chưa được đo."
+    }
+  },
+  {
+    "slide": 7,
+    "title": "The patched path served requests; its speedup is unmeasured",
+    "hardware": "H200 Firmus; job 22294 used the heterogeneous prefill P8 TP8/EP2 to decode D8 TP4/EP4 topology. Its N32 goodput is not the result for the later selected two-TP4 prefill plus TP8/EP8 decode topology.",
+    "en": {
+      "brief": "On patched job 22294, pair warmup took 0.68–0.70 seconds per request and full N32 goodput was 1,422.96 with 95.87% joint SLA and zero errors. No matched unpatched control measures speedup.",
+      "purpose": "Close the seven-step chain with real end-to-end evidence and an explicit limit. The patched heterogeneous topology completed P/D warmup and a full N32 confirmation, but the absence of an equivalent successful no-patch run prevents causal speedup attribution.",
+      "visual": "This is steps 6 and 7: real path/result, then decision and unknowns. State the warmup duration, benchmark score, joint SLA, and zero errors as results of patched job 22294, not as a directly matched speedup over 22271.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "The retained patched run on the same heterogeneous P8 TP8/EP2 to D8 TP4/EP4 topology family."
+        },
+        {
+          "symbol": "0.68–0.70 seconds/request",
+          "meaning": "Observed pair-warmup duration per request after the servers were ready; not a separately isolated descriptor-initialization timer."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Client concurrency target of 32 in-flight requests for the full confirmation benchmark."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Measured good output-token throughput for the full N32 confirmation on the patched topology."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Share of evaluated requests passing both TTFT and mean ITL limits in this result."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "No request errors or cancellations were reported in the retained confirmation result."
+        },
+        {
+          "symbol": "matched unpatched control",
+          "meaning": "An otherwise equivalent run without the patch, required to attribute a performance difference to the patch; no successful one exists for this exact topology."
+        }
+      ],
+      "reading": [
+        "Step 6, end-to-end part: patched job 22294 completed both real prefill/decode warmup paths in 0.68–0.70 seconds per request after workers were ready.",
+        "It then completed a full N32 confirmation: 1,422.96 good output tokens/s, 95.87% joint SLA, zero errors and zero cancellations.",
+        "Step 7 — Decision: the run establishes feasibility of the patched heterogeneous topology and that this run served requests under the local benchmark protocol.",
+        "It does not establish the patch's independent speedup: no successful no-patch end-to-end control exists for the same topology, and no old/new descriptor setup timer or causal latency decomposition was collected."
+      ],
+      "tradeoff": {
+        "observation": "Patched job 22294 completed P/D warmup in 0.68–0.70 seconds per request after server readiness, then scored 1422.96 good tokens/s at N32 with 95.87% joint SLA and zero errors/cancellations.",
+        "hypothesis": "Request-scoped descriptor setup may have helped the previously blocked topology reach a serving state, but differences between attempts could also explain the contrast.",
+        "conclusion": "The supported claim is patched-path feasibility and an end-to-end result for this P8 TP8/EP2 to D8 TP4/EP4 run. The patch's speedup is unmeasured.",
+        "unknown": "There is no successful matched unpatched run for this exact topology; old-versus-new setup time, network utilization, causal warmup decomposition, and the patch's independent goodput contribution remain unknown. Bandwidth, KV layout, placement, and other bootstrap explanations were not ruled out."
+      },
+      "script": "The patched-path result is stronger than the CPU geometry test, but its interpretation still has a boundary. In job 22294, on H200 Firmus with the heterogeneous P8 TP8/EP2 to D8 TP4/EP4 layout, both real prefill and decode warmup paths completed in 0.68 to 0.70 seconds per request after the workers were ready. The full N32 confirmation measured 1,422.96 good output tokens per second, 95.87 percent joint SLA, and zero errors or cancellations. That establishes that this patched topology served requests in this run. It does not measure a patch speedup: we lack a successful no-patch control on the same topology, separate old-versus-new descriptor timings, and a causal latency breakdown. Network use, KV layout, placement, and other bootstrap work remain possible factors.",
+      "caution": "Do not divide the 360-second timeout by 0.68–0.70 seconds and report a speedup. The baseline is a timeout without AIPerf; the patched run is a different attempt, and setup time was not isolated.",
+      "transition": "The seven-step lesson is to move from symptom to source-backed hypothesis, validate each layer, report the end-to-end result, and stop at the limits of the available control."
+    },
+    "vi": {
+      "brief": "Job 22294 có bản vá warmup cặp mất 0,68–0,70 giây mỗi yêu cầu; benchmark N32 đạt 1.422,96 good tokens/s, SLA kết hợp 95,87% và không có lỗi. Chưa có đối chứng cùng topology để đo mức tăng tốc trong lần này.",
+      "purpose": "Khép chuỗi bảy bước bằng bằng chứng đầu cuối thật và giới hạn được nêu rõ. Topology TP khác nhau có bản vá đã hoàn tất warmup P/D và phép xác nhận N32 đầy đủ, nhưng không có lần chạy không bản vá tương đương thành công nên không thể quy mức tăng tốc cho quan hệ nhân quả.",
+      "visual": "Đây là bước 6 và 7: kết quả đường chạy thật, sau đó là quyết định và điều chưa biết. Nêu thời gian warmup, điểm benchmark, SLA kết hợp và không lỗi như kết quả của job 22294 có bản vá, không phải mức tăng tốc so sánh ghép cặp trực tiếp với 22271.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "Lần chạy có bản vá được lưu lại trên topology dị thể P8 TP8/EP2 sang D8 TP4/EP4 cùng nhánh."
+        },
+        {
+          "symbol": "0.68–0.70 seconds/request",
+          "meaning": "Thời gian warmup cặp quan sát được trên mỗi yêu cầu sau khi server sẵn sàng; không phải bộ định giờ riêng cho khởi tạo descriptor."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Mục tiêu concurrency 32 yêu cầu đang xử lý cho benchmark xác nhận đầy đủ."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Thông lượng token đầu ra đạt chuẩn đo được trong xác nhận đầy đủ N32 trên topology có bản vá."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Tỷ lệ yêu cầu được đánh giá đồng thời đạt giới hạn TTFT và mean ITL trong kết quả này."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "Kết quả xác nhận được lưu không báo lỗi yêu cầu hoặc yêu cầu bị hủy."
+        },
+        {
+          "symbol": "matched unpatched control",
+          "meaning": "Lần chạy tương đương nhưng không có bản vá, cần để quy chênh lệch hiệu năng cho bản vá; không có lần nào thành công trên đúng topology này."
+        }
+      ],
+      "reading": [
+        "Bước 6, phần đầu cuối: job 22294 có bản vá hoàn tất cả hai đường warmup prefill/decode thật trong 0,68–0,70 giây mỗi yêu cầu sau khi worker sẵn sàng.",
+        "Sau đó job hoàn tất xác nhận N32: 1.422,96 good output tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy.",
+        "Bước 7 — Quyết định: lần chạy chứng minh topology dị thể có bản vá khả thi và đã phục vụ yêu cầu theo giao thức benchmark cục bộ trong lần chạy này.",
+        "Nó không xác lập mức tăng tốc độc lập của bản vá: không có đối chứng đầu cuối không bản vá thành công trên cùng topology, cũng không có bộ định giờ setup descriptor cũ/mới hay phân rã độ trễ nhân quả."
+      ],
+      "tradeoff": {
+        "observation": "Job 22294 có bản vá hoàn tất warmup P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi đạt 1422,96 good tokens/s ở N32 với SLA kết hợp 95,87%, không lỗi hay hủy.",
+        "hypothesis": "Setup descriptor theo yêu cầu có thể đã giúp topology trước đó bị chặn đạt trạng thái phục vụ, nhưng khác biệt giữa hai lần thử cũng có thể giải thích sự tương phản.",
+        "conclusion": "Khẳng định có căn cứ là đường chạy có bản vá khả thi và có kết quả đầu cuối cho lần chạy P8 TP8/EP2 sang D8 TP4/EP4 này. Mức tăng tốc của bản vá chưa được đo.",
+        "unknown": "Không có lần chạy không bản vá thành công được ghép cặp trên topology chính xác này; thời gian setup cũ-mới, mức sử dụng mạng, phân rã warmup nhân quả và phần goodput riêng do bản vá đóng góp đều chưa biết. Băng thông, bố trí KV, vị trí tài nguyên và bootstrap khác chưa bị loại trừ."
+      },
+      "script": "Kết quả có bản vá mạnh hơn kiểm tra hình học CPU, nhưng cách diễn giải vẫn có giới hạn. Trong job 22294 trên H200 Firmus với layout TP khác nhau P8 TP8/EP2 sang D8 TP4/EP4, cả hai đường warmup prefill và decode thật đều hoàn tất trong 0,68 đến 0,70 giây mỗi yêu cầu sau khi worker sẵn sàng. Phép xác nhận đầy đủ N32 đo được 1.422,96 good output tokens mỗi giây, SLA kết hợp 95,87%, không lỗi và không hủy. Điều đó chứng minh topology có bản vá đã phục vụ yêu cầu trong lần chạy này. Nó không đo mức tăng tốc của bản vá: chúng tôi thiếu đối chứng không bản vá thành công trên cùng topology, thời gian descriptor cũ-mới tách riêng và phân rã độ trễ nhân quả. Mức dùng mạng, bố trí KV, vị trí tài nguyên và công việc bootstrap khác vẫn có thể liên quan.",
+      "caution": "Không lấy timeout 360 giây chia cho 0,68–0,70 giây rồi báo là mức tăng tốc. Baseline timeout không có AIPerf; lần chạy có bản vá là lần thử khác và thời gian setup chưa được tách riêng.",
+      "transition": "Bài học của chuỗi bảy bước là đi từ triệu chứng đến giả thuyết dựa trên source, xác minh từng lớp, báo cáo kết quả đầu cuối rồi dừng kết luận đúng tại giới hạn của đối chứng hiện có."
+    }
+  }
+]
