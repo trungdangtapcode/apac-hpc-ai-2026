@@ -1,0 +1,960 @@
+[
+  {
+    "slide": 8,
+    "title": "Profiles identify candidates for investigation, not a proven time budget",
+    "en": {
+      "hardware": "H200 · N48 diagnostic profile; separate N64 request-tail observations",
+      "brief": "The N48 profile recorded 21.642% GEMM, 23.479% communication and normalization, and 15.064% attention of summed kernel time. These shares suggest what to investigate, not fractions of request wall time or proven bottlenecks.",
+      "purpose": "Use instrumentation to prioritize a follow-up without mistaking recorded GPU activity for an end-to-end time budget or merging evidence from different runs.",
+      "visual": "The profile's categories are matrix operations, communication/normalization, and attention. The displayed percentages divide each category's recorded kernel duration by the sum of recorded kernel durations across profiled ranks. GPU kernels can overlap; queues, CPU work, gaps, and unrecorded activity also contribute to elapsed request time. Separate N64 requests later missed TTFT but passed ITL, which identifies the failed latency condition, not its cause. The N48 profile and N64 request outcomes are different observations.",
+      "terms": [
+        {
+          "symbol": "GEMM",
+          "meaning": "General matrix multiplication, a common GPU computation."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "The NVLink collective communication path between GPUs."
+        },
+        {
+          "symbol": "RMSNorm",
+          "meaning": "A normalization operation applied to model activations."
+        },
+        {
+          "symbol": "kernel-time share",
+          "meaning": "A category's share of summed recorded GPU-kernel durations. Overlap means it is not that share of request elapsed time."
+        },
+        {
+          "symbol": "N48 / N64",
+          "meaning": "Client concurrency targets of 48 and 64 in separate runs; they are not GPU counts."
+        },
+        {
+          "symbol": "profile",
+          "meaning": "A diagnostic recording of selected activity while a workload runs; coverage is limited to the signals collected."
+        }
+      ],
+      "reading": [
+        "The N48 profile attributed 21.642% to GEMM, 23.479% to MNNVL collective plus RMSNorm, and 15.064% to FlashInfer paged attention, as shares of summed recorded kernel duration.",
+        "A separate N64 run had 27 requests fail TTFT, zero fail ITL, and zero request errors among 1,902 profiling requests. This says which service limit was missed; it does not connect that tail to the N48 profile.",
+        "The evidence motivates measuring phase-specific queueing and timing. It does not show that optimizing the largest kernel share yields an equal request-latency reduction."
+      ],
+      "tradeoff": {
+        "observation": "Three kernel groups account for the listed shares of recorded kernel duration; a separate N64 observation has TTFT-only failures.",
+        "hypothesis": "Communication, matrix work, or attention could be useful targets for controlled follow-up; early request-tail timing could also merit investigation.",
+        "conclusion": "Treat the profile as a prioritization clue. Keep its N48 scope separate from N64 service outcomes.",
+        "unknown": "Per-request phase timing, total wall-time attribution, and a causal explanation for the N64 TTFT failures are unavailable."
+      },
+      "reasoning": {
+        "problem": "The campaign needed to choose which performance questions to test without claiming a bottleneck from a profile.",
+        "why_it_matters": "Summed GPU kernel time can overlap and excludes other elapsed-time sources, so its percentages cannot be read as request-latency shares.",
+        "why_this_test": "A separate N48 diagnostic recorded kernel categories; request-level N64 measurements separately identified TTFT failures.",
+        "what_we_learned": "The profile gives candidate components, while the N64 data says only that 27 of 1,902 requests missed TTFT and none missed ITL.",
+        "next_logic": "Use the profile to motivate a controlled service experiment, and treat the N64 tail as a separate unresolved question."
+      },
+      "script": "We used a profile to decide what might deserve testing. It recorded about 23.5 percent of summed kernel time in communication and normalization, but kernels can overlap, so that is not 23.5 percent of request time. A separate N64 run had 27 first-token failures and no inter-token failures. Those data identify a symptom, not its cause. The profile is a lead for experiments, not a proven time budget.",
+      "caution": "Do not attribute N64 request failures to N48 kernel shares or claim an equal speedup from optimizing a percentage of summed kernel time.",
+      "transition": "The next experiment changes the decode implementation while holding the full serving setup fixed."
+    },
+    "vi": {
+      "hardware": "H200 · profile chẩn đoán N48; quan sát đuôi request N64 riêng",
+      "brief": "Profile N48 ghi nhận GEMM 21,642%, giao tiếp/chuẩn hóa 23,479% và attention 15,064% trên tổng thời lượng kernel đã ghi. Các tỷ lệ gợi ý hướng điều tra, không phải phần trăm walltime request hay bottleneck đã chứng minh. Vì vậy cần đo request riêng.",
+      "purpose": "Dùng instrumentation để ưu tiên phép thử tiếp theo, không nhầm hoạt động GPU được ghi với ngân sách thời gian đầu-cuối hoặc gộp bằng chứng từ các lần chạy khác nhau.",
+      "visual": "Các nhóm trong profile là phép toán ma trận, giao tiếp/chuẩn hóa và attention. Phần trăm biểu thị thời lượng kernel của nhóm chia tổng thời lượng kernel ghi được trên các rank được profile. Kernel GPU có thể chạy chồng lấp; hàng đợi, CPU, khoảng chờ và hoạt động không ghi cũng góp vào thời gian request. Các request N64 riêng về sau trượt TTFT nhưng qua ITL, cho biết điều kiện trượt chứ không cho biết nguyên nhân. Profile N48 và kết quả request N64 là hai quan sát khác nhau.",
+      "terms": [
+        {
+          "symbol": "GEMM",
+          "meaning": "Phép nhân ma trận tổng quát, phép tính phổ biến trên GPU."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "Đường giao tiếp collective qua NVLink giữa các GPU."
+        },
+        {
+          "symbol": "RMSNorm",
+          "meaning": "Phép chuẩn hóa áp dụng lên activation của model."
+        },
+        {
+          "symbol": "tỷ trọng kernel-time",
+          "meaning": "Phần của tổng thời lượng kernel GPU đã ghi thuộc một nhóm. Do chồng lấp, đây không phải tỷ trọng thời gian request trôi qua."
+        },
+        {
+          "symbol": "N48 / N64",
+          "meaning": "Mục tiêu concurrency client 48 và 64 ở hai lần chạy riêng; không phải số GPU."
+        },
+        {
+          "symbol": "profile",
+          "meaning": "Bản ghi chẩn đoán một số hoạt động khi workload chạy; phạm vi phụ thuộc tín hiệu được thu thập."
+        }
+      ],
+      "reading": [
+        "Profile N48 ghi GEMM 21,642%, collective MNNVL cộng RMSNorm 23,479%, và FlashInfer paged attention 15,064% trong tổng thời lượng kernel đã ghi.",
+        "Một lần N64 riêng có 27 request trượt TTFT, không request nào trượt ITL, và không có lỗi trong 1.902 request profiling. Điều đó cho biết giới hạn dịch vụ nào bị trượt, không nối đuôi chậm với profile N48.",
+        "Bằng chứng gợi ý cần đo hàng đợi và thời gian từng pha. Nó không chứng minh tối ưu nhóm kernel lớn nhất sẽ giảm latency request tương ứng."
+      ],
+      "tradeoff": {
+        "observation": "Ba nhóm chiếm các tỷ lệ nêu trên trong thời lượng kernel ghi được; một quan sát N64 riêng có lỗi chỉ ở TTFT.",
+        "hypothesis": "Giao tiếp, phép tính ma trận hoặc attention có thể là mục tiêu cho phép thử có kiểm soát; thời điểm request đầu chậm cũng đáng khảo sát riêng.",
+        "conclusion": "Dùng profile như manh mối ưu tiên. Giữ phạm vi N48 riêng với kết quả dịch vụ N64.",
+        "unknown": "Chưa có phân rã thời gian từng pha theo request, quy thuộc tổng walltime hay giải thích nhân quả cho lỗi TTFT N64."
+      },
+      "reasoning": {
+        "problem": "Chiến dịch cần chọn câu hỏi hiệu năng để thử mà không kết luận bottleneck chỉ từ profile.",
+        "why_it_matters": "Tổng thời lượng kernel GPU có thể chồng lấp và bỏ qua nguồn thời gian khác, nên phần trăm không phải tỷ trọng latency request.",
+        "why_this_test": "Chẩn đoán N48 ghi nhóm kernel; số đo N64 riêng xác định lỗi TTFT ở cấp request.",
+        "what_we_learned": "Profile đưa ra thành phần để điều tra; dữ liệu N64 chỉ cho biết 27/1.902 request trượt TTFT và không request nào trượt ITL.",
+        "next_logic": "Dùng profile để đề xuất phép thử dịch vụ có kiểm soát, còn đuôi N64 là câu hỏi chưa giải quyết riêng."
+      },
+      "script": "Chúng tôi dùng profile để chọn hướng đáng thử. Profile ghi khoảng 23,5 phần trăm tổng kernel-time ở giao tiếp và chuẩn hóa, nhưng kernel có thể chồng lấp nên không có nghĩa 23,5 phần trăm thời gian request. Một lần N64 riêng có 27 lỗi token đầu và không lỗi khoảng token sau. Dữ liệu cho biết triệu chứng, chưa cho nguyên nhân. Profile là đầu mối, không phải ngân sách thời gian đã chứng minh.",
+      "caution": "Không quy lỗi request N64 cho tỷ lệ kernel N48 hoặc tuyên bố tối ưu một phần kernel sẽ tăng tốc request đúng bằng tỷ lệ đó.",
+      "transition": "Phép thử tiếp theo đổi cách thực thi decode nhưng giữ nguyên cấu hình serving đầy đủ."
+    }
+  },
+  {
+    "slide": 9,
+    "title": "Test the decode implementation while holding the serving setup fixed",
+    "en": {
+      "hardware": "H200 · full N60 · jobs 24912/24913",
+      "brief": "We compared automatic decode with HPC-Ops on the same full H200 N60 setup, holding DeepGEMM prefill and chunk 8,192 fixed. The hypothesis was that decode execution could improve useful throughput; a separate treatment repeat checks consistency.",
+      "purpose": "Show how a controlled comparison turns a backend idea into a service-level hypothesis, while making clear which factors were held fixed and which result is a repeat.",
+      "visual": "The setup diagram should be read as two otherwise matching full N60 runs: fresh automatic decode control 24912 and HPC-Ops decode treatment/repeat 24913. Both use sixteen H200 GPUs, DeepGEMM prefill, and chunk size 8,192 under the 60-second warmup, 120-second scoring, and 30-second grace protocol. The intended difference is the decode runner. Job 24913 also serves as an independent treatment repeat relative to original treatment 24738. Equal settings reduce confounding; they do not make all runtime randomness identical.",
+      "terms": [
+        {
+          "symbol": "full N60",
+          "meaning": "The full benchmark protocol at 60 simultaneous client requests, not 60 GPUs."
+        },
+        {
+          "symbol": "HPC-Ops",
+          "meaning": "A supplied GPU decode execution backend tested by the team, not a component invented in this work."
+        },
+        {
+          "symbol": "DeepGEMM prefill",
+          "meaning": "The prompt-processing backend held constant in both arms."
+        },
+        {
+          "symbol": "matched comparison",
+          "meaning": "Runs aligned on workload and settings, with one intended change—in this case the decode runner."
+        },
+        {
+          "symbol": "treatment repeat",
+          "meaning": "An independent run of the changed setting to check whether its result is consistent with the original treatment."
+        }
+      ],
+      "reading": [
+        "The experiment holds hardware, load, prefill backend, and chunk size constant. The changed choice is automatic versus HPC-Ops decode.",
+        "The full protocol is 60 seconds warmup, 120 scored seconds, and 30 seconds grace. This allows the comparison to include first-token and streaming behavior under the same workload window.",
+        "The repeat addresses reproducibility of the treatment, not whether every request-level difference or mechanism has been explained."
+      ],
+      "tradeoff": {
+        "observation": "Jobs 24912 and 24913 used the matched H200 N60 setup; 24913 independently repeated the HPC-Ops treatment.",
+        "hypothesis": "Replacing automatic decode with HPC-Ops may improve goodput while altering the balance between first-token delay and later-token spacing.",
+        "conclusion": "This design isolates the intended decode choice more cleanly than historical mixed-configuration milestones.",
+        "unknown": "Generated engine seeds and uncollected phase-level telemetry prevent a fully deterministic or kernel-causal account."
+      },
+      "reasoning": {
+        "problem": "A backend change is only useful if a measured service objective improves under comparable workload conditions.",
+        "why_it_matters": "Without a control and fixed prefill/load settings, observed score changes could come from other configuration differences.",
+        "why_this_test": "Run a fresh full N60 automatic-decode control against an HPC-Ops decode treatment, retaining DeepGEMM prefill, chunk 8,192, and the 60/120/30 protocol; repeat the treatment independently.",
+        "what_we_learned": "The design provides a matched service comparison and a separate repeat, with decoder implementation as the intended factor.",
+        "next_logic": "Read the metric tradeoff and repeat result before deciding whether this setting is supported."
+      },
+      "script": "We asked whether changing decode execution would help the service, so we held the rest of the N60 setup fixed. Both runs used the same H200 allocation, DeepGEMM prefill, and 8,192-token chunk, under the full benchmark schedule. The control used automatic decode; the treatment used HPC-Ops. A second treatment run checks consistency. This design narrows the question, although engine randomness and missing phase telemetry still limit causal detail.",
+      "caution": "The comparison supports only this H200 N60 setting. Do not treat the repeat as another hardware comparison or infer a kernel-level mechanism from score alone.",
+      "transition": "The next slide shows how throughput, first-token delay, and streaming latency moved in the matched result."
+    },
+    "vi": {
+      "hardware": "H200 · N60 đầy đủ · jobs 24912/24913",
+      "brief": "Chúng tôi so decode tự động với HPC-Ops trên cùng cấu hình H200 N60 đầy đủ, giữ prefill DeepGEMM và chunk 8.192 cố định. Giả thuyết là decode có thể tăng thông lượng hữu ích; lần lặp treatment riêng kiểm tra độ nhất quán.",
+      "purpose": "Cho thấy cách phép so sánh có đối chứng biến ý tưởng backend thành giả thuyết ở cấp dịch vụ, đồng thời nêu rõ yếu tố giữ nguyên và kết quả nào là lần lặp.",
+      "visual": "Sơ đồ cấu hình biểu thị hai lần N60 đầy đủ khớp nhau: control decode tự động mới 24912 và treatment/lần lặp HPC-Ops 24913. Cả hai dùng 16 GPU H200, prefill DeepGEMM, chunk 8.192, cùng protocol warmup 60 giây, tính điểm 120 giây và grace 30 giây. Khác biệt dự định là decode runner. Job 24913 cũng là lần lặp độc lập của treatment so với treatment đầu 24738. Cài đặt khớp giảm yếu tố gây nhiễu, nhưng không làm seed runtime giống hệt.",
+      "terms": [
+        {
+          "symbol": "full N60",
+          "meaning": "Protocol benchmark đầy đủ với 60 request client đồng thời, không phải 60 GPU."
+        },
+        {
+          "symbol": "HPC-Ops",
+          "meaning": "Backend thực thi decode GPU được cung cấp và nhóm đem thử, không phải thành phần nhóm tự phát minh."
+        },
+        {
+          "symbol": "prefill DeepGEMM",
+          "meaning": "Backend xử lý prompt được giữ nguyên ở cả hai nhánh."
+        },
+        {
+          "symbol": "so sánh ghép cặp",
+          "meaning": "Các lần chạy khớp workload và cài đặt, chỉ có một thay đổi dự định—ở đây là decode runner."
+        },
+        {
+          "symbol": "lặp treatment",
+          "meaning": "Lần chạy độc lập của cài đặt đã đổi để xem kết quả có nhất quán với treatment đầu không."
+        }
+      ],
+      "reading": [
+        "Thí nghiệm giữ phần cứng, tải, backend prefill và chunk cố định. Lựa chọn đổi là decode tự động hay HPC-Ops.",
+        "Protocol đầy đủ gồm warmup 60 giây, 120 giây tính điểm và grace 30 giây. Nhờ vậy so sánh bao gồm cả token đầu lẫn quá trình stream trong cùng cửa sổ workload.",
+        "Lần lặp kiểm tra độ tái lập treatment; nó không giải thích mọi khác biệt request hay cơ chế gây ra chúng."
+      ],
+      "tradeoff": {
+        "observation": "Jobs 24912 và 24913 dùng cấu hình H200 N60 khớp; 24913 lặp độc lập treatment HPC-Ops.",
+        "hypothesis": "Thay decode tự động bằng HPC-Ops có thể tăng goodput đồng thời đổi cân bằng giữa độ trễ token đầu và khoảng cách token sau.",
+        "conclusion": "Thiết kế này tách lựa chọn decode rõ hơn các mốc lịch sử thay đổi nhiều cấu hình.",
+        "unknown": "Seed engine và telemetry theo pha chưa thu thập ngăn giải thích hoàn toàn tất định hoặc nhân quả ở cấp kernel."
+      },
+      "reasoning": {
+        "problem": "Đổi backend chỉ hữu ích nếu mục tiêu dịch vụ đo được tốt hơn dưới workload tương đương.",
+        "why_it_matters": "Thiếu control và cài đặt prefill/tải cố định thì thay đổi điểm có thể do nhiều cấu hình khác.",
+        "why_this_test": "So control decode tự động N60 đầy đủ với treatment decode HPC-Ops, giữ DeepGEMM, chunk 8.192 và protocol 60/120/30; lặp treatment độc lập.",
+        "what_we_learned": "Thiết kế tạo phép so sánh dịch vụ có đối chứng và lần lặp riêng, với decode runner là yếu tố dự định đổi.",
+        "next_logic": "Đọc đánh đổi chỉ số và kết quả lặp trước khi quyết định có bằng chứng hỗ trợ cấu hình không."
+      },
+      "script": "Chúng tôi hỏi liệu đổi cách thực thi decode có giúp dịch vụ không, nên giữ nguyên phần còn lại của cấu hình N60. Hai lần chạy dùng cùng allocation H200, prefill DeepGEMM và chunk 8.192 theo lịch benchmark đầy đủ. Control dùng decode tự động; treatment dùng HPC-Ops. Một lần treatment thứ hai kiểm tra độ nhất quán. Thiết kế này thu hẹp câu hỏi, dù seed engine và thiếu telemetry theo pha vẫn giới hạn giải thích nhân quả.",
+      "caution": "So sánh chỉ hỗ trợ cấu hình H200 N60 này. Không coi lần lặp là so sánh phần cứng hay suy cơ chế kernel từ điểm số đơn thuần.",
+      "transition": "Slide sau cho thấy thông lượng, độ trễ token đầu và độ trễ stream thay đổi ra sao."
+    }
+  },
+  {
+    "slide": 10,
+    "title": "Higher goodput came with slower first tokens and faster streaming",
+    "en": {
+      "hardware": "H200 · full N60 · HPC-Ops decode",
+      "brief": "The matched H200 N60 result raised goodput 5.295%, from 2,838.853 to 2,989.175 tokens/s. Mean TTFT worsened by 125.335 ms while mean ITL improved by 1.644 ms; the treatment repeat was only 0.033% below the original.",
+      "purpose": "Interpret the decode intervention as a multi-metric tradeoff rather than a single score change, and distinguish evidence of reproducibility from a universal backend claim.",
+      "visual": "The three metric arrows show opposing movements: goodput increases, mean time to first token increases (worse), and mean request-mean inter-token latency decreases (better). The result is from control 24912 versus treatment/repeat 24913 at full N60. Joint SLA changed only slightly, from 98.7599% to 98.8178%. Treatment 24913 measured 2,989.175 good tokens/s, just 0.033% below original treatment 24738 at 2,990.151. This is the observed service outcome; it does not say why each latency component moved.",
+      "terms": [
+        {
+          "symbol": "goodput",
+          "meaning": "Rate of requests that meet both latency limits, multiplied by the fixed 200 output-token target for the reported unit."
+        },
+        {
+          "symbol": "TTFT",
+          "meaning": "Time from request start until its first generated token; a lower value is faster."
+        },
+        {
+          "symbol": "request-mean ITL",
+          "meaning": "Average time between generated tokens within each request; a lower value means faster streaming."
+        },
+        {
+          "symbol": "joint SLA",
+          "meaning": "Percentage of all requests meeting both TTFT and ITL limits together; it is not model accuracy."
+        },
+        {
+          "symbol": "treatment repeat",
+          "meaning": "Independent rerun of the changed configuration, used here to assess whether the throughput observation repeated."
+        }
+      ],
+      "reading": [
+        "Goodput rose 5.295%, from 2,838.853 to 2,989.175 tokens/s.",
+        "Mean TTFT rose 125.335 ms, from 822.292 to 947.627 ms. Mean request-mean ITL fell 1.644 ms, from 16.579 to 14.934 ms.",
+        "The separate treatment repeat was 0.033% below the original treatment. That supports repeatability of this operating point, while the slower first token remains a real tradeoff."
+      ],
+      "tradeoff": {
+        "observation": "The treatment increased goodput and improved ITL but worsened TTFT; the independent treatment run was close to the original score.",
+        "hypothesis": "The decode runner may shift work between startup and per-token streaming costs.",
+        "conclusion": "The complete service result supports this H200 N60 configuration with an explicit first-token tradeoff.",
+        "unknown": "The comparison does not isolate kernel-level causes, queue/compute timing, or behavior on other loads and hardware."
+      },
+      "reasoning": {
+        "problem": "A higher throughput score alone can hide a worse first response or fail to repeat.",
+        "why_it_matters": "Users experience both the wait for the first token and the pace of later tokens; the SLA checks both.",
+        "why_this_test": "Compare the matched full N60 control/treatment on goodput, TTFT, request-mean ITL, and then check a separate treatment repeat.",
+        "what_we_learned": "Goodput rose 5.295%; TTFT slowed about 125 ms; ITL improved about 1.64 ms; the repeat was 0.033% below original.",
+        "next_logic": "Carry this measured tradeoff to the load-selection question without generalizing the backend beyond N60."
+      },
+      "script": "The decode change increased goodput from about 2,839 to 2,989 tokens per second, a 5.295 percent gain. But the first token took about 125 milliseconds longer on average, while later tokens arrived with shorter gaps. A separate treatment run was only 0.033 percent below the original, so the score repeated closely. We support this N60 setting with that tradeoff; we have not identified the exact kernel-level cause.",
+      "caution": "Do not choose from goodput alone or present the repeat as proof across all hardware and loads. The N48 profile is not a causal explanation for this N60 result.",
+      "transition": "Next, choose the request load by comparing N64 repetition with the apparent N68 short-screen gain."
+    },
+    "vi": {
+      "hardware": "H200 · N60 đầy đủ · decode HPC-Ops",
+      "brief": "Kết quả H200 N60 ghép cặp tăng goodput 5,295%, từ 2.838,853 lên 2.989,175 token/s. TTFT trung bình xấu hơn 125,335 ms, còn ITL trung bình tốt hơn 1,644 ms; treatment lặp thấp hơn bản đầu chỉ 0,033%. Chưa đủ để gọi là thắng lợi toàn diện.",
+      "purpose": "Diễn giải can thiệp decode như đánh đổi nhiều chỉ số thay vì chỉ nhìn điểm, đồng thời phân biệt khả năng lặp lại với khẳng định backend phổ quát.",
+      "visual": "Ba mũi tên chỉ các hướng trái ngược: goodput tăng, TTFT trung bình tăng (xấu hơn), và ITL trung bình/request giảm (tốt hơn). Kết quả là control 24912 so với treatment/lặp 24913 ở N60 đầy đủ. SLA chung chỉ đổi nhẹ từ 98,7599% lên 98,8178%. Treatment 24913 đạt 2.989,175 token tốt/giây, thấp hơn treatment đầu 24738 đạt 2.990,151 chỉ 0,033%. Đây là kết quả dịch vụ quan sát được; nó không giải thích vì sao từng phần độ trễ đổi.",
+      "terms": [
+        {
+          "symbol": "goodput",
+          "meaning": "Tốc độ request đạt đồng thời hai giới hạn độ trễ, nhân mục tiêu cố định 200 token đầu ra theo đơn vị báo cáo."
+        },
+        {
+          "symbol": "TTFT",
+          "meaning": "Thời gian từ lúc bắt đầu request đến token đầu tiên; thấp hơn nghĩa là nhanh hơn."
+        },
+        {
+          "symbol": "ITL trung bình/request",
+          "meaning": "Thời gian trung bình giữa các token trong một request; thấp hơn nghĩa là stream nhanh hơn."
+        },
+        {
+          "symbol": "SLA chung",
+          "meaning": "Phần trăm mọi request đạt cả giới hạn TTFT và ITL; không phải độ chính xác model."
+        },
+        {
+          "symbol": "lặp treatment",
+          "meaning": "Chạy lại độc lập cấu hình đã đổi để xem kết quả thông lượng có lặp không."
+        }
+      ],
+      "reading": [
+        "Goodput tăng 5,295%, từ 2.838,853 lên 2.989,175 token/s.",
+        "TTFT trung bình tăng 125,335 ms, từ 822,292 lên 947,627 ms. ITL trung bình/request giảm 1,644 ms, từ 16,579 xuống 14,934 ms.",
+        "Lần treatment lặp riêng thấp hơn bản đầu 0,033%. Điều này hỗ trợ độ lặp lại điểm vận hành, nhưng token đầu chậm hơn vẫn là đánh đổi thực tế."
+      ],
+      "tradeoff": {
+        "observation": "Treatment tăng goodput và cải thiện ITL nhưng làm xấu TTFT; lần chạy treatment độc lập gần điểm ban đầu.",
+        "hypothesis": "Decode runner có thể phân bố lại chi phí giữa lúc bắt đầu và từng token stream.",
+        "conclusion": "Kết quả dịch vụ đầy đủ ủng hộ cấu hình H200 N60 này, kèm đánh đổi TTFT rõ ràng.",
+        "unknown": "So sánh không tách nguyên nhân kernel, thời gian queue/tính toán hay hành vi ở tải và phần cứng khác."
+      },
+      "reasoning": {
+        "problem": "Điểm throughput cao hơn có thể che giấu phản hồi đầu chậm hoặc kết quả không lặp.",
+        "why_it_matters": "Người dùng trải nghiệm cả thời gian chờ token đầu lẫn tốc độ các token sau; SLA xét cả hai.",
+        "why_this_test": "So control/treatment N60 đầy đủ theo goodput, TTFT, ITL trung bình/request rồi kiểm tra lần treatment riêng.",
+        "what_we_learned": "Goodput tăng 5,295%; TTFT chậm khoảng 125 ms; ITL tốt hơn khoảng 1,64 ms; lần lặp thấp hơn bản đầu 0,033%.",
+        "next_logic": "Mang đánh đổi đo được này sang câu hỏi chọn tải, nhưng không khái quát backend ngoài N60."
+      },
+      "script": "Thay đổi decode tăng goodput từ khoảng 2.839 lên 2.989 token mỗi giây, tức 5,295 phần trăm. Nhưng token đầu trung bình chậm thêm khoảng 125 mili giây, còn các token sau có khoảng cách ngắn hơn. Một lần treatment riêng chỉ thấp hơn điểm đầu 0,033 phần trăm, nên điểm lặp gần sát. Kết quả ủng hộ cấu hình N60 cùng đánh đổi đó; chưa xác định nguyên nhân chính xác ở mức kernel.",
+      "caution": "Không chọn chỉ theo goodput hoặc coi lần lặp là bằng chứng cho mọi phần cứng và tải. Profile N48 không giải thích nhân quả kết quả N60 này.",
+      "transition": "Tiếp theo, chọn tải request bằng cách đối chiếu N64 lặp lại với lợi thế N68 trên phép thử ngắn."
+    }
+  },
+  {
+    "slide": 11,
+    "title": "N64 survives a full repeat; N68 loses its short-test advantage",
+    "en": {
+      "hardware": "H200 · client concurrency denotes requests, not GPUs",
+      "brief": "Full N64 beat N62 by 1.082867% and repeated within 0.013634%. N68 looked 2.27% better in a short screen, but the full pair showed only 0.083056%, below the useful-gain gate. N64 is the supported load choice.",
+      "purpose": "Choose an operating load using complete-protocol evidence and a repeat, while rejecting a larger-load claim that did not survive full measurement.",
+      "visual": "Follow the load decision, not a bar-height ranking. Full N62 control 25365 scored 3,011.875 good tokens/s; N64 candidate 25366 scored 3,044.490, a 1.082867% gain. Independent N64 repeat 25373 scored 3,044.075, 0.013634% below the candidate. A short N68 screen appeared 2.27% higher, but the later full N68 comparison reduced the difference to 0.083056%. The load decision is therefore based on N64's full gain and repeatability, not the short N68 signal.",
+      "terms": [
+        {
+          "symbol": "N62 / N64 / N68",
+          "meaning": "Targets for simultaneous client requests in flight; not GPU counts or decode batch sizes."
+        },
+        {
+          "symbol": "full 60/120/30",
+          "meaning": "60 seconds warmup, 120 scored seconds, and 30 seconds grace. Only the middle window supplies the full-run score."
+        },
+        {
+          "symbol": "screen",
+          "meaning": "A shorter exploratory measurement used to choose candidates; it is not equivalent to full confirmation."
+        },
+        {
+          "symbol": "repeat",
+          "meaning": "A separate full run of the same setting to check reproducibility."
+        },
+        {
+          "symbol": "useful-gain threshold",
+          "meaning": "The preselected minimum improvement needed to justify keeping a change; a positive value below it is not automatically useful."
+        }
+      ],
+      "reading": [
+        "Full N64 increased goodput from 3,011.875 at N62 to 3,044.490 tokens/s, +1.082867%.",
+        "N64 repeat 25373 scored 3,044.075, only −0.013634% versus candidate 25366.",
+        "N68's +2.27% short-screen result became +0.083056% in full measurement, so it did not establish a useful improvement over N64."
+      ],
+      "tradeoff": {
+        "observation": "N64 gained 1.082867% over full N62 and repeated closely; N68's apparent short gain shrank to 0.083056% in the full comparison.",
+        "hypothesis": "Increasing client load may raise qualifying throughput until latency costs erase the gain.",
+        "conclusion": "Retain N64 as the supported operating load; do not promote N68 from its short screen or negligible full difference.",
+        "unknown": "The observed load points do not define a universal maximum concurrency or performance curve."
+      },
+      "reasoning": {
+        "problem": "The team needed an operating load that improves useful throughput without trusting a short-test peak.",
+        "why_it_matters": "Higher concurrency can create more work but also increase queueing and latency failures, so the full service objective may stop improving.",
+        "why_this_test": "Compare full 60/120/30 N62 control with N64 candidate and repeat N64; use the full N68 pair to check its earlier short-screen signal.",
+        "what_we_learned": "N64 gained 1.082867% and repeated within 0.013634%; N68's short +2.27% became only +0.083056% full.",
+        "next_logic": "Inspect request-level latency failures at the selected N64 load."
+      },
+      "script": "The full N62-to-N64 comparison gained about 1.08 percent, and another full N64 run was within 0.014 percent of the candidate. N68 first looked 2.27 percent better in a short screen, but the full comparison showed only 0.083 percent. That is too small to justify moving to higher load. We retain N64 because its full gain repeated, while the larger-load signal did not survive confirmation.",
+      "caution": "N is concurrent client requests, not GPU count. Do not treat a short screen as a full result or extrapolate a universal concurrency curve from these points.",
+      "transition": "At the selected N64 load, inspect which request-level latency condition still fails."
+    },
+    "vi": {
+      "hardware": "H200 · concurrency là request client, không phải GPU",
+      "brief": "N64 đầy đủ hơn N62 1,082867% và lặp lại trong 0,013634%. N68 có vẻ hơn 2,27% ở phép thử ngắn, nhưng cặp đầy đủ chỉ còn 0,083056%, dưới ngưỡng hữu ích. N64 là lựa chọn tải có căn cứ. N64 vì thế phù hợp hơn cho vận hành đầy đủ.",
+      "purpose": "Chọn tải vận hành bằng bằng chứng quy trình đầy đủ và lần lặp, đồng thời loại bỏ tuyên bố tải cao hơn không còn đứng vững khi đo đầy đủ.",
+      "visual": "Theo dõi quyết định tải, không chỉ xếp hạng độ cao cột. Control N62 đầy đủ 25365 đạt 3.011,875 token tốt/giây; ứng viên N64 25366 đạt 3.044,490, tăng 1,082867%. Lần lặp N64 độc lập 25373 đạt 3.044,075, thấp hơn ứng viên 0,013634%. N68 có vẻ cao hơn 2,27% trong thử ngắn, nhưng so sánh đầy đủ sau đó chỉ còn 0,083056%. Vì vậy chọn tải theo gain đầy đủ và độ lặp của N64, không theo tín hiệu N68 ngắn.",
+      "terms": [
+        {
+          "symbol": "N62 / N64 / N68",
+          "meaning": "Mục tiêu số request client đồng thời đang xử lý; không phải số GPU hay kích thước batch decode."
+        },
+        {
+          "symbol": "đầy đủ 60/120/30",
+          "meaning": "Warmup 60 giây, đo tính điểm 120 giây và grace 30 giây. Chỉ cửa sổ ở giữa cung cấp điểm đầy đủ."
+        },
+        {
+          "symbol": "screen",
+          "meaning": "Phép đo khám phá ngắn để chọn cấu hình ứng viên; không tương đương xác nhận đầy đủ."
+        },
+        {
+          "symbol": "lần lặp",
+          "meaning": "Lần chạy đầy đủ riêng của cùng cấu hình để kiểm tra khả năng tái lập."
+        },
+        {
+          "symbol": "ngưỡng tăng hữu ích",
+          "meaning": "Mức cải thiện tối thiểu đặt trước để đáng giữ thay đổi; số dương dưới ngưỡng không tự động hữu ích."
+        }
+      ],
+      "reading": [
+        "N64 đầy đủ tăng goodput từ 3.011,875 ở N62 lên 3.044,490 token/s, tức +1,082867%.",
+        "Lần lặp N64 25373 đạt 3.044,075, chỉ thấp hơn ứng viên 25366 là 0,013634%.",
+        "Kết quả N68 +2,27% trên thử ngắn thành +0,083056% khi đo đầy đủ, nên chưa chứng minh lợi ích hữu ích so với N64."
+      ],
+      "tradeoff": {
+        "observation": "N64 tăng 1,082867% so với N62 đầy đủ và lặp sát; gain ngắn N68 giảm còn 0,083056% ở so sánh đầy đủ.",
+        "hypothesis": "Tăng tải client có thể tăng thông lượng request đạt chuẩn đến khi chi phí độ trễ xóa mất lợi ích.",
+        "conclusion": "Giữ N64 làm tải vận hành được bằng chứng hỗ trợ; không chọn N68 theo thử ngắn hay chênh đầy đủ rất nhỏ.",
+        "unknown": "Các điểm tải quan sát được không xác định concurrency tối đa hay đường hiệu năng phổ quát."
+      },
+      "reasoning": {
+        "problem": "Cần chọn tải vận hành tăng thông lượng hữu ích mà không dựa vào đỉnh phép thử ngắn.",
+        "why_it_matters": "Concurrency cao hơn tạo thêm công việc nhưng cũng tăng hàng đợi và lỗi độ trễ; mục tiêu dịch vụ có thể ngừng cải thiện.",
+        "why_this_test": "So control N62 đầy đủ 60/120/30 với ứng viên và lần lặp N64; dùng cặp N68 đầy đủ kiểm tra tín hiệu screen trước đó.",
+        "what_we_learned": "N64 tăng 1,082867% và lặp trong 0,013634%; N68 từ +2,27% ngắn còn +0,083056% đầy đủ.",
+        "next_logic": "Kiểm tra lỗi độ trễ ở cấp request tại tải N64 đã chọn."
+      },
+      "script": "So sánh N62 với N64 đầy đủ tăng khoảng 1,08 phần trăm, và một lần N64 đầy đủ khác nằm trong 0,014 phần trăm. N68 ban đầu có vẻ hơn 2,27 phần trăm trong phép thử ngắn, nhưng đo đầy đủ chỉ còn 0,083 phần trăm. Mức này không đủ để tăng tải. Nhóm giữ N64 vì lợi ích đầy đủ lặp lại, còn tín hiệu tải cao không qua xác nhận.",
+      "caution": "N là số request client đồng thời, không phải số GPU. Không coi thử ngắn là kết quả đầy đủ hoặc ngoại suy đường concurrency phổ quát.",
+      "transition": "Ở tải N64 đã chọn, tiếp theo xem điều kiện độ trễ nào còn bị request trượt."
+    }
+  },
+  {
+    "slide": 12,
+    "title": "The remaining latency failures are first-token tails",
+    "en": {
+      "hardware": "H200 · N64 · job 26766 · 1,902 profiling requests",
+      "brief": "Of 1,902 requests, 1,875 met both latency limits; all 27 misses were TTFT-only. No request missed ITL, and there were zero request errors. The scatter identifies the failed condition, not why those first tokens were late.",
+      "purpose": "Move from aggregate throughput to individual request evidence, showing exactly which SLA condition the remaining failures crossed without assigning an unsupported cause.",
+      "visual": "Each point represents one profiling request. The horizontal position is that request's time to first token in milliseconds; the vertical position is its request-mean inter-token latency in milliseconds. Teal points meet both inclusive limits: TTFT ≤3,000 ms and mean ITL ≤20 ms. Orange points fail at least one limit. The displayed evidence has 1,875 teal passes and 27 orange failures; all 27 are to the right of the TTFT boundary and none exceed the ITL boundary. This shows a first-token tail. It does not show whether queueing, prefill, transfer, or another phase caused the delay.",
+      "terms": [
+        {
+          "symbol": "TTFT",
+          "meaning": "Time from the start of a request until its first generated token; threshold is at most 3,000 ms."
+        },
+        {
+          "symbol": "request-mean ITL",
+          "meaning": "Average interval between generated tokens for one request; threshold is at most 20 ms."
+        },
+        {
+          "symbol": "inclusive boundary",
+          "meaning": "A value exactly at either maximum passes because the requirement is less than or equal to the threshold."
+        },
+        {
+          "symbol": "joint SLA",
+          "meaning": "A request passes only if it meets both latency limits. The denominator includes every profiling request, including failures/errors."
+        },
+        {
+          "symbol": "profiling request",
+          "meaning": "One request counted in the scored measurement window; this plot is request-level, not an average across jobs."
+        }
+      ],
+      "reading": [
+        "Job 26766 contains 1,902 profiling requests; 1,875 pass both conditions, or 98.580442%.",
+        "The 27 failures all miss TTFT. Zero miss request-mean ITL; request errors and cancellations are zero.",
+        "The threshold lines classify pass/fail. Point position shows measured latency, but the plot does not include phase timing needed to explain the tail."
+      ],
+      "tradeoff": {
+        "observation": "The N64 service has 98.580442% joint success; every one of its 27 SLA failures is TTFT-only.",
+        "hypothesis": "A startup-side phase such as admission, queueing, prefill, or KV transfer may contribute to the late first tokens.",
+        "conclusion": "The scatter localizes which latency metric fails but does not establish the responsible phase.",
+        "unknown": "Per-request queue/prefill/transfer phase timing and a causal account of the 27 misses are not available."
+      },
+      "reasoning": {
+        "problem": "A mean score can hide which requests fail and which latency constraint they violate.",
+        "why_it_matters": "The service rule requires each good request to meet both TTFT and ITL limits; aggregate goodput alone does not explain failures.",
+        "why_this_test": "Plot each of the 1,902 scored requests against the two latency limits and classify requests that satisfy both inclusive boundaries.",
+        "what_we_learned": "There are 1,875 joint passes and 27 TTFT-only failures, with zero ITL misses and zero errors.",
+        "next_logic": "Keep the cause unknown unless phase-level timing is collected; assess robustness separately from this request-level diagnosis."
+      },
+      "script": "This scatter shows each of the 1,902 measured requests, with first-token delay horizontally and average token spacing vertically. The two limits are inclusive: at most 3,000 milliseconds to the first token and 20 milliseconds between later tokens on average. 1,875 requests passed both. The other 27 missed only the first-token limit; none missed ITL, and there were no errors. So we know the failure pattern, but not whether queueing, prefill, or transfer caused it.",
+      "caution": "Do not infer a queueing or prefill cause from point location alone, and do not describe the 27 TTFT misses as ITL failures.",
+      "transition": "Next, compare replicated N64 evidence with isolated higher or lower observations without pooling distinct runtime series."
+    },
+    "vi": {
+      "hardware": "H200 · N64 · job 26766 · 1.902 request profiling",
+      "brief": "Trong 1.902 request, có 1.875 đạt cả hai giới hạn; cả 27 request trượt đều chỉ lỗi TTFT. Không request nào trượt ITL và không có lỗi request. Scatter cho biết điều kiện bị vi phạm, không giải thích vì sao token đầu trễ.",
+      "purpose": "Chuyển từ throughput tổng hợp sang từng request, chỉ rõ điều kiện SLA nào còn bị trượt mà không gán nguyên nhân thiếu bằng chứng.",
+      "visual": "Mỗi điểm là một request trong profiling. Vị trí ngang là TTFT request đó tính bằng mili giây; vị trí dọc là ITL trung bình của request, cũng bằng mili giây. Điểm xanh ngọc đạt cả hai giới hạn bao gồm biên: TTFT ≤3.000 ms và ITL trung bình ≤20 ms. Điểm cam trượt ít nhất một giới hạn. Dữ liệu có 1.875 điểm đạt và 27 điểm trượt; cả 27 nằm ngoài biên TTFT, không điểm nào vượt biên ITL. Đây là đuôi token đầu. Scatter không cho biết hàng đợi, prefill, truyền KV hay pha nào khác gây trễ.",
+      "terms": [
+        {
+          "symbol": "TTFT",
+          "meaning": "Thời gian từ khi request bắt đầu đến token đầu tiên; ngưỡng tối đa 3.000 ms."
+        },
+        {
+          "symbol": "ITL trung bình/request",
+          "meaning": "Khoảng trung bình giữa các token sinh trong một request; ngưỡng tối đa 20 ms."
+        },
+        {
+          "symbol": "biên bao gồm",
+          "meaning": "Giá trị đúng bằng ngưỡng tối đa vẫn đạt vì điều kiện là nhỏ hơn hoặc bằng."
+        },
+        {
+          "symbol": "SLA chung",
+          "meaning": "Request chỉ đạt khi qua cả hai giới hạn độ trễ. Mẫu số gồm mọi request profiling, kể cả lỗi."
+        },
+        {
+          "symbol": "request profiling",
+          "meaning": "Một request trong cửa sổ đo được chấm; scatter ở cấp request, không phải trung bình nhiều job."
+        }
+      ],
+      "reading": [
+        "Job 26766 có 1.902 request profiling; 1.875 qua cả hai điều kiện, tức 98,580442%.",
+        "Cả 27 lỗi đều trượt TTFT. Không request nào trượt ITL trung bình/request; lỗi và hủy request bằng không.",
+        "Các đường ngưỡng phân loại đạt/trượt. Vị trí điểm cho biết độ trễ đo được nhưng không có timing theo pha để giải thích đuôi chậm."
+      ],
+      "tradeoff": {
+        "observation": "Dịch vụ N64 đạt đồng thời 98,580442%; cả 27 lỗi SLA chỉ trượt TTFT.",
+        "hypothesis": "Một pha trước token đầu như tiếp nhận, hàng đợi, prefill hoặc truyền KV có thể góp phần gây trễ.",
+        "conclusion": "Scatter xác định metric bị trượt nhưng không xác lập pha chịu trách nhiệm.",
+        "unknown": "Chưa có timing từng request cho queue/prefill/transfer và giải thích nhân quả của 27 lỗi."
+      },
+      "reasoning": {
+        "problem": "Điểm trung bình có thể che khuất request nào trượt và vi phạm ràng buộc độ trễ nào.",
+        "why_it_matters": "Quy tắc dịch vụ yêu cầu request tốt đạt cả TTFT lẫn ITL; goodput tổng hợp không giải thích lỗi.",
+        "why_this_test": "Vẽ từng request trong 1.902 request theo hai giới hạn độ trễ và phân loại điểm đạt đồng thời hai biên tính cả dấu bằng.",
+        "what_we_learned": "Có 1.875 request đạt cả hai và 27 request chỉ trượt TTFT; ITL không trượt, không có lỗi.",
+        "next_logic": "Giữ nguyên nguyên nhân chưa biết nếu chưa thu timing từng pha; đánh giá độ vững riêng với chẩn đoán request này."
+      },
+      "script": "Scatter này vẽ từng request trong 1.902 request đo, với độ trễ token đầu theo chiều ngang và khoảng token trung bình theo chiều dọc. Hai ngưỡng tính cả biên: tối đa 3.000 mili giây tới token đầu và tối đa 20 mili giây giữa các token sau. Có 1.875 request đạt cả hai. 27 request còn lại chỉ trượt TTFT; không request nào trượt ITL và không có lỗi. Ta biết dạng lỗi, nhưng chưa biết hàng đợi, prefill hay truyền KV gây ra.",
+      "caution": "Không suy ra nguyên nhân hàng đợi/prefill chỉ từ vị trí điểm và không gọi 27 lỗi TTFT là lỗi ITL.",
+      "transition": "Tiếp theo, so bằng chứng N64 lặp lại với các quan sát cao/thấp riêng mà không gộp chuỗi runtime khác nhau."
+    }
+  },
+  {
+    "slide": 13,
+    "title": "Repeated evidence supports N64 more strongly than an isolated peak",
+    "en": {
+      "hardware": "H200 · historical and native full-run series reported separately",
+      "brief": "Three historical full N64 runs average 3,044.400475 good tokens/s; separate native full run 26766 reached 3,045.501509. A cache treatment scored 3,048.446289, only 0.2409% above its control, not a useful confirmed gain. Valid lower replay 26313 has no identified cause.",
+      "purpose": "Separate robustness from peak selection: repeated measurements support N64, but distinct runtime series and unexplained drift prevent a single pooled trend or causal story.",
+      "visual": "Use evidence strength, not a single tallest dot, to read these points. The historical series is a three-run N64 mean. Native full run 26766 is a separate later series at nearly the same score. Cache pair 27376/27378 compares a fresh control with one treatment: 3,041.119598 versus 3,048.446289, +0.240921%, below the useful-gain criterion and with worse p95 TTFT. A valid legacy full replay 26313 scored 2,830.923547. The lower replay is retained; completed graph/admission controls did not identify one cause for drift. Keep the series labeled rather than joining them into a misleading line.",
+      "terms": [
+        {
+          "symbol": "replicated mean",
+          "meaning": "Average of three historical full N64 runs; repeat count is evidence of consistency at that setting, not a confidence interval by itself."
+        },
+        {
+          "symbol": "native runtime series",
+          "meaning": "A later full observation using a distinct serving execution path; report separately rather than pool with historical runs."
+        },
+        {
+          "symbol": "isolated peak",
+          "meaning": "One high observation. It can be real but does not show that the setting reliably improves performance."
+        },
+        {
+          "symbol": "useful-gain threshold",
+          "meaning": "A preselected minimum gain for adopting a change; the 0.240921% cache result was below it."
+        },
+        {
+          "symbol": "valid lower replay",
+          "meaning": "A run that completed the full protocol and remains a valid measurement even though its score is lower."
+        }
+      ],
+      "reading": [
+        "Historical N64 three-run mean: 3,044.400475 good output tokens/s. Later native full run 26766: 3,045.501509; keep it as a separate series.",
+        "Fresh control 27376 scored 3,041.119598. Cache treatment 27378 scored 3,048.446289, +0.240921%; its p95 TTFT worsened, so it was not adopted as a useful improvement.",
+        "Legacy full replay 26313 scored 2,830.923547 and remains valid. No completed control isolated a single cause of the difference from the later native series."
+      ],
+      "tradeoff": {
+        "observation": "Replicated historical and separate native N64 results are near 3,044–3,046; an isolated cache peak is slightly higher; a valid legacy replay is lower.",
+        "hypothesis": "N64 is a reproducible operating point, while cache or runtime differences may account for some score variation.",
+        "conclusion": "Support N64 from repeated evidence; do not replace it with the isolated cache score or attribute the drift to one cause.",
+        "unknown": "The relationship among runtime path, graph policy, request cap, harness, and the lower valid replay remains unresolved."
+      },
+      "reasoning": {
+        "problem": "Selecting the maximum observation risks choosing noise or a setting that does not reproduce.",
+        "why_it_matters": "A deployment choice should survive repeated full runs, and distinct protocols/runtime paths should not be pooled as if they were identical experiments.",
+        "why_this_test": "Compare the historical three-run N64 series, separate native full run, matched cache control/treatment, and a valid lower legacy replay.",
+        "what_we_learned": "N64 reproduces near 3,044–3,046 in two separately labeled series; cache gain is only 0.240921%, below adoption threshold; lower replay remains unexplained.",
+        "next_logic": "Choose based on replicated evidence and state the remaining accuracy and deployment validations explicitly."
+      },
+      "script": "Three historical full N64 runs average about 3,044 good tokens per second. A later full run using a different runtime path reached 3,045.5, so it is reassuring but belongs to a separate series. A cache treatment peaked slightly higher at 3,048.4, only 0.24 percent above its control and with worse p95 first-token delay. We keep the replicated N64 setting, preserve the valid lower replay, and do not claim to know why it was lower.",
+      "caution": "Do not pool historical and native runtime series, select a configuration from one peak, or erase a valid lower full replay because its cause is unresolved.",
+      "transition": "Next, test how far a cross-platform ratio predicts a held-out H200 result."
+    },
+    "vi": {
+      "hardware": "H200 · báo riêng chuỗi full lịch sử và native",
+      "brief": "Ba lần N64 đầy đủ lịch sử trung bình 3.044,400475 token tốt/s; lần native đầy đủ riêng 26766 đạt 3.045,501509. Treatment cache đạt 3.048,446289, chỉ hơn control 0,2409%, chưa phải gain hữu ích được xác nhận. Replay hợp lệ 26313 thấp hơn nhưng chưa rõ nguyên nhân.",
+      "purpose": "Tách độ vững khỏi việc chọn đỉnh: phép lặp hỗ trợ N64, nhưng chuỗi runtime khác nhau và drift chưa giải thích ngăn gộp thành xu hướng hay chuyện nhân quả duy nhất.",
+      "visual": "Đọc độ mạnh bằng chứng thay vì chỉ chọn điểm cao nhất. Chuỗi lịch sử là trung bình ba lần N64 đầy đủ. Lần native 26766 là chuỗi đầy đủ về sau riêng, có điểm gần tương đương. Cặp cache 27376/27378 so control mới với một treatment: 3.041,119598 so với 3.048,446289, tăng 0,240921%, dưới tiêu chí gain hữu ích và p95 TTFT xấu hơn. Replay đầy đủ hợp lệ 26313 đạt 2.830,923547. Kết quả thấp được giữ lại; các đối chứng graph/admission hoàn tất không chỉ ra một nguyên nhân. Giữ nhãn chuỗi riêng thay vì nối chúng thành một đường gây hiểu sai.",
+      "terms": [
+        {
+          "symbol": "trung bình có lặp",
+          "meaning": "Trung bình ba lần N64 đầy đủ lịch sử; số lần lặp hỗ trợ tính nhất quán ở setting đó nhưng tự nó không phải khoảng tin cậy."
+        },
+        {
+          "symbol": "chuỗi runtime native",
+          "meaning": "Quan sát đầy đủ về sau qua đường serving riêng; báo riêng thay vì gộp với run lịch sử."
+        },
+        {
+          "symbol": "đỉnh riêng lẻ",
+          "meaning": "Một lần đo cao. Có thể là thật nhưng không chứng minh cấu hình cải thiện ổn định."
+        },
+        {
+          "symbol": "ngưỡng gain hữu ích",
+          "meaning": "Mức gain tối thiểu đặt trước để chọn thay đổi; kết quả cache +0,240921% thấp hơn ngưỡng."
+        },
+        {
+          "symbol": "replay thấp hợp lệ",
+          "meaning": "Run hoàn thành protocol đầy đủ, vẫn là số đo hợp lệ dù điểm thấp hơn."
+        }
+      ],
+      "reading": [
+        "Trung bình ba lần N64 lịch sử: 3.044,400475 token đầu ra tốt/giây. Lần native 26766 về sau: 3.045,501509; giữ là chuỗi riêng.",
+        "Control mới 27376 đạt 3.041,119598. Treatment cache 27378 đạt 3.048,446289, tăng 0,240921%; p95 TTFT xấu hơn nên không chọn làm cải thiện hữu ích.",
+        "Replay đầy đủ legacy 26313 đạt 2.830,923547 và vẫn hợp lệ. Không đối chứng hoàn tất nào cô lập một nguyên nhân duy nhất cho chênh lệch với chuỗi native mới."
+      ],
+      "tradeoff": {
+        "observation": "Kết quả N64 lịch sử lặp và native riêng nằm gần 3.044–3.046; đỉnh cache riêng cao hơn chút; replay legacy hợp lệ thấp hơn.",
+        "hypothesis": "N64 là điểm vận hành có thể tái lập, còn khác biệt cache hoặc runtime có thể góp phần tạo biến động điểm.",
+        "conclusion": "Dùng bằng chứng lặp để hỗ trợ N64; không thay bằng điểm cache đơn lẻ hay quy drift cho một nguyên nhân.",
+        "unknown": "Quan hệ giữa runtime, graph policy, request cap, harness và replay thấp hợp lệ vẫn chưa rõ."
+      },
+      "reasoning": {
+        "problem": "Chọn quan sát cao nhất có thể dẫn đến cấu hình do nhiễu hoặc không tái lập.",
+        "why_it_matters": "Lựa chọn triển khai cần qua nhiều lần chạy đầy đủ; protocol/runtime khác không nên gộp như cùng một thí nghiệm.",
+        "why_this_test": "Đối chiếu chuỗi N64 lịch sử ba lần, lần native đầy đủ riêng, control/treatment cache khớp và replay legacy thấp hợp lệ.",
+        "what_we_learned": "N64 lặp quanh 3.044–3.046 trong hai chuỗi gắn nhãn riêng; gain cache 0,240921% dưới ngưỡng chọn; replay thấp chưa rõ nguyên nhân.",
+        "next_logic": "Chọn theo bằng chứng lặp và nêu rõ xác minh accuracy cùng triển khai còn thiếu."
+      },
+      "script": "Ba lần N64 đầy đủ lịch sử đạt trung bình khoảng 3.044 token tốt mỗi giây. Một lần đầy đủ về sau trên runtime khác đạt 3.045,5, đáng khích lệ nhưng thuộc chuỗi riêng. Treatment cache đạt đỉnh 3.048,4, chỉ hơn control 0,24 phần trăm và p95 token đầu xấu hơn. Nhóm giữ N64 đã lặp lại, bảo toàn replay thấp hợp lệ, và không khẳng định biết vì sao nó thấp.",
+      "caution": "Không gộp chuỗi runtime lịch sử và native, không chọn cấu hình từ một đỉnh, và không xóa replay đầy đủ hợp lệ thấp hơn khi nguyên nhân chưa rõ.",
+      "transition": "Tiếp theo, kiểm tra tỷ số xuyên nền tảng dự báo được kết quả H200 giữ lại chưa dùng tính dự báo đến đâu."
+    }
+  },
+  {
+    "slide": 14,
+    "title": "One held-out check supports a local forecast, not a GPU conversion rule",
+    "en": {
+      "hardware": "H100 N52 calibration inputs · H200 N50 held-out check",
+      "brief": "The same-N52 H200/H100 ratio was 1.188096805. A forecast frozen at 2,642.244 predicted H200 N50 job 24272 within the team’s ±2% tolerance: measured 2,601.629, error −1.5371%. One check does not establish a conversion rule.",
+      "purpose": "Assess whether a platform-specific calibration transfers to a nearby held-out operating point, while keeping an operational tolerance distinct from statistical uncertainty.",
+      "visual": "The calibration comparison uses the same N52 combo configuration: H100 mean 2,215.460 good tokens/s across two allocations and H200 mean 2,632.181 across four, ratio 1.188096805. Applying that ratio to H100 N50 produced a forecast frozen before seeing H200 job 24272: 2,642.244. The held-out H200 measurement is 2,601.629, signed error −1.5371%. It falls within the predeclared ±2% operational tolerance but outside the earlier input-only sensitivity range, which omitted model error. The forecast is not refit after seeing the answer.",
+      "terms": [
+        {
+          "symbol": "calibration ratio",
+          "meaning": "H200 mean divided by H100 mean for the same N52 combo. It is specific to those systems and settings, not a GPU-generation constant."
+        },
+        {
+          "symbol": "allocation",
+          "meaning": "A scheduled resource assignment and run. Two or four allocations are repeat counts and do not prove distinct physical GPU devices."
+        },
+        {
+          "symbol": "held-out check",
+          "meaning": "A measurement not used to calculate the forecast, revealed afterward to test the prediction."
+        },
+        {
+          "symbol": "frozen forecast",
+          "meaning": "A prediction fixed before the held-out measurement; keeping it unchanged prevents tuning the answer after seeing the result."
+        },
+        {
+          "symbol": "sensitivity range",
+          "meaning": "A range produced by varying selected inputs. This earlier range omitted model error, so it did not cover all forecast uncertainty."
+        },
+        {
+          "symbol": "±2% tolerance",
+          "meaning": "The team's operational pass band. It is not a confidence interval, standard error, or proof of general prediction accuracy."
+        }
+      ],
+      "reading": [
+        "Same N52 combo: H100 mean 2,215.460; H200 mean 2,632.181 good tokens/s; ratio 1.188096805.",
+        "Frozen H200 N50 forecast: 2,642.244. Held-out job 24272: 2,601.629, signed error −1.5371%.",
+        "The result is within ±2% operational tolerance but outside the incomplete earlier sensitivity range. These statements are compatible because the range omitted model error."
+      ],
+      "tradeoff": {
+        "observation": "One held-out H200 result is 1.5371% below forecast, within operational tolerance and outside the prior incomplete sensitivity range.",
+        "hypothesis": "A ratio measured at N52 may predict a nearby H200 N50 result when the tested combo is held comparable.",
+        "conclusion": "This one prospective check meets the team's tolerance; preserve the missing-model-error limitation and do not refit the forecast.",
+        "unknown": "Accuracy across other loads/configurations, total predictive uncertainty, physical-device diversity, and a universal platform conversion remain unknown."
+      },
+      "reasoning": {
+        "problem": "A cross-platform score ratio might help plan nearby measurements, but it could be mistaken for a general hardware multiplier.",
+        "why_it_matters": "Hardware, software, and workload interact; one ratio can fit a local setting while failing elsewhere.",
+        "why_this_test": "Use H100/H200 N52 means to freeze an H200 N50 forecast, then compare against a result not used in calibration.",
+        "what_we_learned": "Job 24272 missed the frozen prediction by −1.5371%, within the predeclared ±2% band, while exposing that the earlier sensitivity range omitted model error.",
+        "next_logic": "Retain this as one local prospective check and avoid using it to convert other loads or platforms."
+      },
+      "script": "We measured the same N52 configuration on H100 and H200 and calculated a ratio of 1.1881. Before an H200 N50 run was available, we fixed a forecast of 2,642.244. The held-out result was 2,601.629, an error of minus 1.5371 percent, within our predeclared two-percent tolerance. But it fell outside an earlier sensitivity range that omitted model error. This is one local forecast check, not a general GPU conversion rule.",
+      "caution": "Do not call the ±2% band a confidence interval, infer that allocations were distinct physical GPUs, or refit the forecast after seeing the result.",
+      "transition": "The final evidence question is what service performance leaves unverified about answer quality and deployment completion."
+    },
+    "vi": {
+      "hardware": "Đầu vào calibration H100 N52 · kiểm tra held-out H200 N50",
+      "brief": "Tỷ số H200/H100 cùng cấu hình N52 là 1,188096805. Dự báo khóa ở 2.642,244 dự đoán job H200 N50 24272 trong dung sai ±2%: đo được 2.601,629, sai số −1,5371%. Một phép thử chưa tạo quy tắc quy đổi GPU.",
+      "purpose": "Đánh giá calibration theo nền tảng có chuyển sang điểm vận hành held-out gần đó không, đồng thời phân biệt dung sai vận hành với bất định thống kê.",
+      "visual": "Phép calibration dùng cùng combo N52: trung bình H100 là 2.215,460 token tốt/giây qua hai allocation; H200 là 2.632,181 qua bốn; tỷ số 1,188096805. Áp dụng tỷ số đó cho H100 N50 tạo dự báo H200 được khóa trước khi xem job 24272: 2.642,244. Kết quả H200 held-out là 2.601,629, sai số có dấu −1,5371%. Nó nằm trong dung sai vận hành ±2% đặt trước nhưng ngoài sensitivity range trước đó chỉ thay đầu vào và bỏ model error. Dự báo không được fit lại sau khi thấy đáp án.",
+      "terms": [
+        {
+          "symbol": "tỷ số calibration",
+          "meaning": "Trung bình H200 chia trung bình H100 cho cùng combo N52. Tỷ số chỉ thuộc hệ thống/cài đặt đó, không phải hằng số thế hệ GPU."
+        },
+        {
+          "symbol": "allocation",
+          "meaning": "Một lần scheduler cấp tài nguyên và chạy. Hai hay bốn allocation là số lần lặp, không chứng minh GPU vật lý riêng biệt."
+        },
+        {
+          "symbol": "kiểm tra held-out",
+          "meaning": "Phép đo không dùng để tính dự báo, chỉ được mở sau đó nhằm kiểm tra dự đoán."
+        },
+        {
+          "symbol": "dự báo khóa trước",
+          "meaning": "Dự đoán cố định trước phép đo held-out; giữ nguyên giúp tránh chỉnh đáp án sau khi biết kết quả."
+        },
+        {
+          "symbol": "sensitivity range",
+          "meaning": "Khoảng tạo bằng cách thay một số đầu vào. Khoảng cũ bỏ model error nên không bao hết bất định dự báo."
+        },
+        {
+          "symbol": "dung sai ±2%",
+          "meaning": "Khoảng đạt yêu cầu vận hành do nhóm đặt. Đây không phải khoảng tin cậy, sai số chuẩn hay bằng chứng dự báo đúng nói chung."
+        }
+      ],
+      "reading": [
+        "Combo N52: trung bình H100 2.215,460; H200 2.632,181 token tốt/giây; tỷ số 1,188096805.",
+        "Dự báo H200 N50 đã khóa: 2.642,244. Job held-out 24272: 2.601,629, sai số có dấu −1,5371%.",
+        "Kết quả nằm trong dung sai vận hành ±2% nhưng ngoài sensitivity range cũ chưa đầy đủ. Hai điều này cùng đúng vì phạm vi cũ bỏ model error."
+      ],
+      "tradeoff": {
+        "observation": "Một kết quả H200 held-out thấp hơn dự báo 1,5371%, nằm trong dung sai vận hành và ngoài sensitivity range cũ chưa đầy đủ.",
+        "hypothesis": "Tỷ số đo ở N52 có thể dự đoán kết quả H200 N50 gần đó nếu combo được giữ tương đương.",
+        "conclusion": "Một kiểm tra dự báo trước này đạt dung sai nhóm đặt; giữ rõ giới hạn thiếu model error và không fit lại dự báo.",
+        "unknown": "Độ chính xác ở tải/cấu hình khác, bất định dự báo đầy đủ, độ đa dạng GPU vật lý và quy đổi nền tảng phổ quát vẫn chưa biết."
+      },
+      "reasoning": {
+        "problem": "Tỷ số xuyên nền tảng có thể giúp dự kiến phép đo gần đó nhưng dễ bị hiểu nhầm thành hệ số phần cứng chung.",
+        "why_it_matters": "Phần cứng, phần mềm và workload tương tác; một tỷ số có thể đúng cục bộ nhưng sai ở nơi khác.",
+        "why_this_test": "Dùng trung bình H100/H200 N52 để khóa dự báo H200 N50, rồi so với kết quả không dùng trong calibration.",
+        "what_we_learned": "Job 24272 lệch dự báo −1,5371%, trong dải ±2% định trước, đồng thời cho thấy sensitivity range cũ bỏ model error.",
+        "next_logic": "Giữ đây là một kiểm tra dự báo cục bộ, không dùng để đổi điểm ở tải hay nền tảng khác."
+      },
+      "script": "Chúng tôi đo cùng cấu hình N52 trên H100 và H200, tính tỷ số 1,1881. Trước khi có run H200 N50, nhóm khóa dự báo 2.642,244. Kết quả held-out là 2.601,629, sai số âm 1,5371 phần trăm, trong dung sai hai phần trăm đặt trước. Tuy nhiên nó ngoài sensitivity range cũ vì phạm vi đó bỏ model error. Đây là một lần kiểm tra dự báo cục bộ, không phải quy tắc đổi GPU tổng quát.",
+      "caution": "Không gọi dải ±2% là khoảng tin cậy, không suy các allocation là GPU vật lý riêng, và không fit lại dự báo sau khi thấy kết quả.",
+      "transition": "Câu hỏi bằng chứng cuối là hiệu năng phục vụ chưa xác minh điều gì về chất lượng trả lời và độ hoàn tất triển khai."
+    }
+  },
+  {
+    "slide": 15,
+    "title": "Better proxy metrics did not always improve qualifying throughput",
+    "en": {
+      "hardware": "H200 · two separate trials: sparse decode graphs and shallow EAGLE",
+      "brief": "Sparse graphs reduced capture memory but goodput fell 0.370208% versus control 27376. Full shallow EAGLE scored 2.080318% below target-only control 26949. These separate results reject neither idea universally; they bound the tested settings.",
+      "purpose": "Compare two proposed improvements that optimize a proxy or subcomponent, and explain why the team retained the existing serving choices after full-service outcomes did not improve.",
+      "visual": "Read the two evidence cards separately because they use different controls and answer different questions. Sparse-graph job 27510 compared with earlier control 27376: capture memory fell from 1.15 to 0.36 GB per rank, while goodput fell 0.370208%. This is a lower resource proxy, not a service win; the pair has one earlier control and differing seeds. The full shallow EAGLE run 27238 compared with target-only control 26949: 2,971.628430 versus 3,034.761104 good tokens/s, −2.080318%. The tested speculative configuration lost in its full workload. Neither card is a universal rejection of graph sparsity or speculative decoding; each closes the exact tested setting pending different evidence.",
+      "terms": [
+        {
+          "symbol": "proxy metric",
+          "meaning": "A measurable resource or subcomponent value, such as capture memory, that may relate to the objective but is not the service objective itself."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Rate of requests satisfying both latency limits, reported as good output tokens/s using the fixed 200-token target."
+        },
+        {
+          "symbol": "decode graph sparsity",
+          "meaning": "Using fewer captured decode shapes. It can reduce graph-related memory, but does not guarantee higher service throughput."
+        },
+        {
+          "symbol": "speculative decoding / EAGLE",
+          "meaning": "A draft method proposes tokens for the target model to verify. It can reduce decoding work only if verification and transfer overheads do not outweigh the savings."
+        },
+        {
+          "symbol": "target-only control",
+          "meaning": "The same serving path with only the target model and no draft-model speculation."
+        },
+        {
+          "symbol": "per-rank capture memory",
+          "meaning": "Memory logged for graph capture on one worker rank; it is not total VRAM and not an output-throughput metric."
+        }
+      ],
+      "reading": [
+        "Sparse graph card: 64 to 12 buckets and 1.15 to 0.36 GB capture memory per rank, but goodput is 0.370208% below earlier control 27376.",
+        "EAGLE card: full 27238 reached 2,971.628430 versus target-only 26949 at 3,034.761104 good tokens/s, a 2.080318% loss.",
+        "Each card supports keeping the tested alternative out of the selected configuration. The controls, mechanisms, and uncertainty differ; do not compare the two percentages as one experiment."
+      ],
+      "tradeoff": {
+        "observation": "Sparse capture memory improved while goodput fell slightly; the full shallow EAGLE treatment lost goodput to its target-only control.",
+        "hypothesis": "Less graph storage or draft-token speculation might improve useful serving throughput.",
+        "conclusion": "Retain dense graphs and target-only serving for the tested configurations because the full service objective did not improve.",
+        "unknown": "The results do not establish that all sparse graphs or all speculative methods fail; padding cost, other shapes, and alternative draft settings were not tested here."
+      },
+      "reasoning": {
+        "problem": "Optimizations can improve an attractive proxy while making the actual request-level objective worse.",
+        "why_it_matters": "Resource savings and fewer decode steps matter only if they increase requests meeting both latency limits.",
+        "why_this_test": "Place the sparse-graph control/candidate pair and the separate full EAGLE/target-only pair side by side, preserving each comparison's own baseline.",
+        "what_we_learned": "Sparse capture saved logged memory but reduced goodput 0.370208%; shallow EAGLE lost 2.080318% in its full pair.",
+        "next_logic": "Keep the selected settings and avoid universal claims; any new variant needs its own matched full-service evidence."
+      },
+      "script": "These cards show why a better component metric is not automatically a better service. Sparse graphs cut logged capture memory from 1.15 to 0.36 gigabytes per rank, yet goodput was 0.37 percent lower than its control. In a separate full comparison, shallow EAGLE scored 2.08 percent below the target-only control. The two tests have different controls, so we do not combine them. We retain dense graphs and target-only serving for these tested settings, without rejecting every possible variant.",
+      "caution": "Do not treat capture memory as VRAM or goodput, compare the two percentages as one experiment, or claim universal failure of sparse graphs or speculative decoding.",
+      "transition": "The closing slide separates what the serving evidence supports from two validation questions that remain open."
+    },
+    "vi": {
+      "hardware": "H200 · hai phép thử riêng: graph decode thưa và EAGLE nông",
+      "brief": "Graph thưa giảm bộ nhớ capture nhưng goodput thấp hơn control 27376 là 0,370208%. EAGLE nông đầy đủ đạt thấp hơn control target-only 26949 là 2,080318%. Đây là hai kết quả riêng, giới hạn đúng cấu hình đã thử chứ không bác bỏ mọi biến thể.",
+      "purpose": "Đặt cạnh nhau hai cải tiến đề xuất nhắm vào chỉ số phụ hoặc thành phần, giải thích vì sao nhóm giữ lựa chọn serving cũ khi kết quả dịch vụ đầy đủ không tốt hơn.",
+      "visual": "Đọc riêng hai thẻ bằng chứng vì chúng dùng control khác nhau và trả lời câu hỏi khác nhau. Job graph thưa 27510 so với control trước 27376: bộ nhớ capture giảm 1,15 xuống 0,36 GB mỗi rank, trong khi goodput giảm 0,370208%. Đây là proxy tài nguyên thấp hơn, không phải chiến thắng dịch vụ; cặp chỉ có một control trước và seed khác. Lần EAGLE nông đầy đủ 27238 so với control target-only 26949: 2.971,628430 so với 3.034,761104 token tốt/giây, giảm 2,080318%. Cấu hình speculative đã thử thua trong workload đầy đủ. Hai thẻ không bác bỏ phổ quát graph thưa hay speculative decoding; chúng chỉ đóng cấu hình đã thử trừ khi có bằng chứng khác.",
+      "terms": [
+        {
+          "symbol": "chỉ số proxy",
+          "meaning": "Đại lượng tài nguyên/thành phần đo được như bộ nhớ capture, có thể liên quan mục tiêu nhưng không phải mục tiêu dịch vụ."
+        },
+        {
+          "symbol": "goodput",
+          "meaning": "Tốc độ request đạt cả hai giới hạn độ trễ, báo cáo thành token đầu ra tốt/giây với mục tiêu cố định 200 token."
+        },
+        {
+          "symbol": "độ thưa graph decode",
+          "meaning": "Dùng ít dạng decode được capture hơn. Có thể giảm bộ nhớ liên quan graph nhưng không đảm bảo thông lượng dịch vụ cao hơn."
+        },
+        {
+          "symbol": "speculative decoding / EAGLE",
+          "meaning": "Phương pháp draft đề xuất token để model đích xác minh. Nó chỉ giảm công việc decode nếu chi phí xác minh và truyền không lớn hơn phần tiết kiệm."
+        },
+        {
+          "symbol": "control target-only",
+          "meaning": "Đường serving cùng loại chỉ dùng model đích, không có dự đoán bằng model draft."
+        },
+        {
+          "symbol": "bộ nhớ capture mỗi rank",
+          "meaning": "Bộ nhớ log cho capture graph trên một rank worker; không phải tổng VRAM hay chỉ số thông lượng đầu ra."
+        }
+      ],
+      "reading": [
+        "Thẻ graph thưa: bucket giảm từ 64 xuống 12, bộ nhớ capture mỗi rank từ 1,15 xuống 0,36 GB, nhưng goodput thấp hơn control trước 27376 là 0,370208%.",
+        "Thẻ EAGLE: lần đầy đủ 27238 đạt 2.971,628430, so với target-only 26949 đạt 3.034,761104 token tốt/giây, giảm 2,080318%.",
+        "Mỗi thẻ hỗ trợ không đưa biến thể đã thử vào cấu hình chọn. Control, cơ chế và bất định khác nhau; không so hai phần trăm như cùng một thí nghiệm."
+      ],
+      "tradeoff": {
+        "observation": "Bộ nhớ capture graph thưa tốt hơn trong khi goodput giảm nhẹ; treatment EAGLE nông đầy đủ mất goodput so với control target-only.",
+        "hypothesis": "Ít bộ nhớ graph hoặc dự đoán token draft có thể cải thiện thông lượng serving hữu ích.",
+        "conclusion": "Giữ graph dày và serving target-only cho các cấu hình đã thử vì mục tiêu dịch vụ đầy đủ không cải thiện.",
+        "unknown": "Không thể kết luận mọi graph thưa hay mọi cách speculative đều thất bại; chi phí padding, dạng khác và cấu hình draft khác chưa thử ở đây."
+      },
+      "reasoning": {
+        "problem": "Tối ưu có thể cải thiện proxy hấp dẫn nhưng làm xấu mục tiêu thật ở cấp request.",
+        "why_it_matters": "Tiết kiệm tài nguyên hay giảm bước decode chỉ có ích nếu tăng request đạt cả hai giới hạn độ trễ.",
+        "why_this_test": "Đặt cặp control/ứng viên graph thưa cạnh cặp EAGLE đầy đủ/target-only riêng, giữ đúng baseline của mỗi so sánh.",
+        "what_we_learned": "Capture thưa tiết kiệm bộ nhớ log nhưng giảm goodput 0,370208%; EAGLE nông mất 2,080318% trong cặp đầy đủ.",
+        "next_logic": "Giữ cài đặt đã chọn và tránh khẳng định phổ quát; biến thể mới cần bằng chứng riêng từ serving đầy đủ có đối chứng."
+      },
+      "script": "Hai thẻ cho thấy chỉ số thành phần tốt hơn chưa chắc dịch vụ tốt hơn. Graph thưa giảm bộ nhớ capture trong log từ 1,15 xuống 0,36 gigabyte mỗi rank, nhưng goodput thấp hơn control 0,37 phần trăm. Trong phép so đầy đủ riêng, EAGLE nông thấp hơn control target-only 2,08 phần trăm. Hai phép thử có control khác nên không gộp kết quả. Nhóm giữ graph dày và target-only cho các cấu hình đã thử, không bác bỏ mọi biến thể có thể có.",
+      "caution": "Không coi bộ nhớ capture là VRAM hay goodput, không so hai phần trăm như một thí nghiệm, và không tuyên bố mọi graph thưa hay speculative đều thất bại.",
+      "transition": "Slide kết luận tách điều bằng chứng serving hỗ trợ khỏi hai câu hỏi xác minh còn mở."
+    }
+  },
+  {
+    "slide": 16,
+    "title": "The performance claim is bounded; two validation tasks remain open",
+    "en": {
+      "hardware": "H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33",
+      "brief": "Repeated H200 N64 runs support about 3,044 good output tokens/s, but official accuracy at ≥99% of reference is UNKNOWN. Portable GPU jobs 27136/27145 remain FAILED after reader errors; CPU job 27152 verified reader fixes only. Next visible slide 33 remains unchanged OpenFOAM.",
+      "purpose": "Close the main AI argument at the level the evidence supports, state two unresolved validation tasks, and hand off cleanly to the unchanged OpenFOAM section without implying more AI work was run.",
+      "visual": "The two open cards are independent. First, local output checks were 7/8 on smoke tests and 12/12 on retrieval checks; neither is the organizer's full-set quality evaluation, which requires at least 99% of reference and remains UNKNOWN. Second, portable GPU jobs 27136 and 27145 completed the serving client but ended terminal FAILED in result-reader path handling. CPU-only job 27152 passed the repaired readers against both saved datasets; it did not rerun GPU serving. Thus, raw score recovery cannot convert the original jobs into successful end-to-end deployments. The next visible slide is unchanged OpenFOAM slide 33; AI backup slides 17–32 remain hidden during the main presentation.",
+      "terms": [
+        {
+          "symbol": "official accuracy",
+          "meaning": "Organizer full-set model-quality result; required threshold is at least 99% of the reference, and it has not been measured/verified here."
+        },
+        {
+          "symbol": "smoke / retrieval checks",
+          "meaning": "Small local output sanity checks, 7/8 and 12/12 respectively. They detect some regressions but do not certify full-set accuracy."
+        },
+        {
+          "symbol": "terminal FAILED",
+          "meaning": "The scheduler recorded the original portable GPU jobs as failed at completion. Later reading their outputs does not change that terminal state."
+        },
+        {
+          "symbol": "result reader",
+          "meaning": "Post-processing code that locates benchmark exports and summarizes metrics after serving has run."
+        },
+        {
+          "symbol": "CPU-only reader verification",
+          "meaning": "Job 27152 ran the fixed readers on saved real datasets without GPUs or serving requests; it verifies post-processing only."
+        },
+        {
+          "symbol": "whole-allocation replay",
+          "meaning": "A complete packaged GPU deployment, benchmark-client run, output processing, and review on the assigned allocation."
+        },
+        {
+          "symbol": "hidden backup slides",
+          "meaning": "AI slides 17–32 are retained as supporting material but skipped in the main show; OpenFOAM slide 33 remains unchanged and follows this slide."
+        }
+      ],
+      "reading": [
+        "The selected H200 N64 configuration has repeated full-run evidence near 3,044 good output tokens/s. This supports a serving-performance claim at the tested setting, not official answer quality.",
+        "Smoke checks passed 7/8 and retrieval checks 12/12. The official full-set requirement of at least 99% of reference is still UNKNOWN.",
+        "Portable jobs 27136/27145 remain FAILED due to reader failures after the client; CPU job 27152 verified corrected readers on retained data only. No post-fix full GPU replay is claimed."
+      ],
+      "tradeoff": {
+        "observation": "N64 serving performance is supported by repeated evidence; official quality and complete portable deployment after reader repair remain unverified.",
+        "hypothesis": "Independent full-set quality evaluation and a complete post-repair portable GPU replay would close separate validation gaps.",
+        "conclusion": "Bound the claim to measured H200 serving, keep accuracy UNKNOWN, preserve failed job status, and hand off to the unchanged OpenFOAM slide 33.",
+        "unknown": "Whether official accuracy reaches 99% and whether the packaged portable deployment completes end to end after reader repair remain unknown. No new jobs are implied or scheduled by this summary."
+      },
+      "reasoning": {
+        "problem": "A strong serving score can be mistaken for verified answer quality or successful portable deployment.",
+        "why_it_matters": "Competition quality and end-to-end artifact reliability are independent acceptance dimensions; local metrics cannot substitute for either.",
+        "why_this_test": "Retain local output-check counts, official-quality status, original scheduler outcomes, and the narrow CPU reader-verification result as separate evidence.",
+        "what_we_learned": "Serving performance at H200 N64 is supported; official accuracy is UNKNOWN; original portable GPU jobs failed in post-processing; the reader-only repair passed on CPU data.",
+        "next_logic": "The AI main section ends here. The two validation tasks are open proposals, AI backup slides stay hidden, and the unchanged OpenFOAM slide 33 follows."
+      },
+      "script": "The evidence supports the H200 N64 serving result, around 3,044 good output tokens per second across repeated runs. It does not certify model quality: smoke checks were 7 out of 8 and retrieval checks 12 out of 12, while the official 99-percent-of-reference result remains unknown. Portable GPU jobs 27136 and 27145 are still failed because result reading broke after the client. A CPU-only job verified the reader fixes on saved data, not GPU serving. Two validation tasks remain open; next we hand off to the unchanged OpenFOAM slide 33.",
+      "caution": "Do not claim the accuracy threshold passed, relabel portable jobs as successful, or describe CPU reader verification as a post-fix GPU replay. The open checks are proposals, not scheduled or completed jobs.",
+      "transition": "End the AI main section. AI backups 17–32 remain hidden; the unchanged OpenFOAM slide 33 is next."
+    },
+    "vi": {
+      "hardware": "Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi",
+      "brief": "Các lần H200 N64 lặp hỗ trợ khoảng 3.044 token đầu ra tốt/giây, nhưng độ chính xác chính thức đạt ≥99% tham chiếu vẫn UNKNOWN. Job GPU portable 27136/27145 vẫn FAILED sau lỗi reader; job CPU 27152 chỉ xác minh reader đã sửa. Slide hiện tiếp theo là OpenFOAM 33 không đổi.",
+      "purpose": "Kết thúc lập luận AI ở đúng mức bằng chứng hỗ trợ, nêu hai việc xác minh còn mở và chuyển mạch sạch sang phần OpenFOAM không đổi, không hàm ý đã chạy thêm AI.",
+      "visual": "Hai thẻ đang mở là hai việc độc lập. Thứ nhất, kiểm tra đầu ra nội bộ đạt 7/8 smoke và 12/12 retrieval; không phép nào là đánh giá chất lượng toàn tập của ban tổ chức, yêu cầu ít nhất 99% tham chiếu và hiện UNKNOWN. Thứ hai, job GPU portable 27136 và 27145 chạy xong client serving nhưng kết thúc trạng thái FAILED do lỗi đường dẫn reader kết quả. Job CPU-only 27152 chạy qua reader đã sửa trên hai bộ dữ liệu đã lưu; nó không chạy lại serving GPU. Vì vậy khôi phục được điểm raw không biến job ban đầu thành triển khai end-to-end thành công. Slide hiển thị tiếp theo là OpenFOAM 33 không đổi; AI backup 17–32 được ẩn trong phần trình bày chính.",
+      "terms": [
+        {
+          "symbol": "độ chính xác chính thức",
+          "meaning": "Kết quả chất lượng toàn bộ tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu và chưa được đo/xác minh ở đây."
+        },
+        {
+          "symbol": "smoke / retrieval checks",
+          "meaning": "Kiểm tra đầu ra nội bộ nhỏ, lần lượt 7/8 và 12/12. Chúng phát hiện một số hồi quy nhưng không chứng nhận accuracy toàn tập."
+        },
+        {
+          "symbol": "terminal FAILED",
+          "meaning": "Scheduler ghi job GPU portable ban đầu thất bại khi kết thúc. Đọc được output về sau không đổi trạng thái cuối đó."
+        },
+        {
+          "symbol": "reader kết quả",
+          "meaning": "Mã hậu xử lý tìm export benchmark và tổng hợp chỉ số sau khi serving chạy."
+        },
+        {
+          "symbol": "xác minh reader CPU-only",
+          "meaning": "Job 27152 chạy reader đã sửa trên bộ dữ liệu thật đã lưu, không GPU hay request serving; chỉ xác minh hậu xử lý."
+        },
+        {
+          "symbol": "phát lại toàn allocation",
+          "meaning": "Triển khai GPU đóng gói đầy đủ, chạy benchmark client, xử lý output và xem xét trên allocation được cấp."
+        },
+        {
+          "symbol": "slide backup ẩn",
+          "meaning": "AI slide 17–32 vẫn được giữ làm tài liệu hỗ trợ nhưng bỏ qua trong trình chiếu chính; OpenFOAM 33 vẫn nguyên trạng và theo sau slide này."
+        }
+      ],
+      "reading": [
+        "Cấu hình H200 N64 được hỗ trợ bằng các lần chạy đầy đủ lặp quanh 3.044 token đầu ra tốt/giây. Điều này hỗ trợ tuyên bố hiệu năng serving tại setting đã thử, không phải chất lượng câu trả lời chính thức.",
+        "Kiểm tra smoke đạt 7/8 và retrieval 12/12. Yêu cầu chất lượng toàn tập chính thức ít nhất 99% tham chiếu vẫn UNKNOWN.",
+        "Job portable GPU 27136/27145 vẫn FAILED do lỗi reader sau client; job CPU 27152 chỉ xác minh reader sửa trên dữ liệu lưu. Không tuyên bố đã phát lại GPU đầy đủ sau sửa."
+      ],
+      "tradeoff": {
+        "observation": "Hiệu năng serving N64 có bằng chứng lặp; chất lượng chính thức và triển khai portable hoàn chỉnh sau sửa reader chưa xác minh.",
+        "hypothesis": "Đánh giá chất lượng toàn tập độc lập và chạy portable GPU đầy đủ sau sửa sẽ đóng hai khoảng trống xác minh riêng.",
+        "conclusion": "Giới hạn tuyên bố ở serving H200 đo được, giữ accuracy là UNKNOWN, bảo toàn trạng thái job lỗi và chuyển sang OpenFOAM 33 không đổi.",
+        "unknown": "Chưa biết accuracy chính thức có đạt 99% và triển khai portable đóng gói có chạy end-to-end sau sửa reader hay không. Tóm tắt này không hàm ý job mới đã lên lịch."
+      },
+      "reasoning": {
+        "problem": "Điểm serving tốt dễ bị hiểu nhầm thành chất lượng câu trả lời đã xác minh hoặc triển khai portable thành công.",
+        "why_it_matters": "Chất lượng thi đấu và độ tin cậy artifact end-to-end là hai chiều chấp nhận riêng; chỉ số nội bộ không thay được chúng.",
+        "why_this_test": "Giữ riêng số kiểm tra đầu ra, trạng thái chất lượng chính thức, trạng thái scheduler gốc và kết quả xác minh reader CPU giới hạn.",
+        "what_we_learned": "Hiệu năng H200 N64 được hỗ trợ; accuracy chính thức UNKNOWN; job GPU portable gốc lỗi ở hậu xử lý; bản sửa reader qua trên dữ liệu CPU lưu lại.",
+        "next_logic": "Phần chính AI kết thúc ở đây. Hai việc xác minh vẫn là đề xuất mở, backup AI được ẩn và slide OpenFOAM 33 không đổi sẽ theo sau."
+      },
+      "script": "Bằng chứng hỗ trợ hiệu năng serving H200 N64 khoảng 3.044 token đầu ra tốt mỗi giây qua nhiều lần chạy. Nhưng điều đó không chứng nhận chất lượng: smoke đạt 7 trên 8, retrieval 12 trên 12, còn yêu cầu chính thức 99 phần trăm tham chiếu vẫn chưa biết. Job GPU portable 27136 và 27145 vẫn thất bại vì reader kết quả lỗi sau client. Job CPU chỉ xác minh reader đã sửa trên dữ liệu lưu, không chạy serving GPU. Hai việc xác minh còn mở; sau đây chuyển sang slide OpenFOAM 33 không đổi.",
+      "caution": "Không nói đã đạt ngưỡng accuracy, đổi job portable thành trạng thái thành công, hay gọi xác minh reader CPU là phát lại GPU sau sửa. Các việc mở là đề xuất, chưa phải job đã lên lịch hoặc hoàn tất.",
+      "transition": "Kết thúc phần chính AI. Backup 17–32 được ẩn; tiếp theo là slide OpenFOAM 33 không đổi."
+    }
+  }
+]

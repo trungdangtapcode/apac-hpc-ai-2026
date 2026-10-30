@@ -1,0 +1,837 @@
+[
+  {
+    "slide": 1,
+    "title": "Fast tokens count only when requests meet both latency limits",
+    "hardware": "16 H200 · 2 nodes · Qwen3-235B FP8",
+    "en": {
+      "brief": "We serve Qwen3-235B FP8 on sixteen H200 GPUs. A request contributes only if it meets both latency limits; at least 90% must qualify. We report qualifying output tokens per second, not raw throughput.",
+      "purpose": "Define the service objective before discussing optimizations. The system has a fixed model, GPU budget, request shape, and per-request latency gate. Every later topology or backend decision is judged against qualifying service output, not the largest unfiltered token count.",
+      "visual": "Explain the intended metric pipeline from one request to the final service score: the request enters with a fixed prompt and requested output; TTFT and mean ITL are checked for that request; passing requests contribute to goodput; goodput is multiplied by 200 requested output tokens to report good output tokens per second. Errors remain in the evaluated set. There are no unspecified chart glyphs or decorative encodings to interpret.",
+      "terms": [
+        {
+          "symbol": "Qwen3-235B FP8",
+          "meaning": "The selected language-model checkpoint and eight-bit floating-point weight format."
+        },
+        {
+          "symbol": "16 H200 · 2 nodes",
+          "meaning": "The fixed primary compute envelope: sixteen H200 GPUs across two nodes."
+        },
+        {
+          "symbol": "4,000 input → 200 output tokens",
+          "meaning": "Synthetic workload request shape: a 4,000-token prompt asks the model to generate 200 tokens."
+        },
+        {
+          "symbol": "TTFT ≤ 3,000 ms",
+          "meaning": "Time to first token for an individual request must be at most 3,000 milliseconds."
+        },
+        {
+          "symbol": "Mean ITL ≤ 20 ms",
+          "meaning": "Mean inter-token latency, or average interval between generated tokens for one request, must be at most 20 milliseconds."
+        },
+        {
+          "symbol": "Joint SLA ≥ 90%",
+          "meaning": "At least 90% of all evaluated requests must meet both latency limits together. Errors count against this proportion."
+        },
+        {
+          "symbol": "Goodput × 200 = good output tokens/s",
+          "meaning": "Qualifying requests per second multiplied by the 200 requested output tokens per request. The result is the reported qualifying output-token rate."
+        },
+        {
+          "symbol": "ms",
+          "meaning": "Milliseconds, or thousandths of a second, used for latency."
+        }
+      ],
+      "reading": [
+        "Follow a request through both latency checks; passing only one limit is insufficient.",
+        "The 90% requirement is a share of all evaluated requests, including errors in the denominator.",
+        "Good output tokens per second is a derived service metric. It is not simply all generated tokens divided by run time."
+      ],
+      "tradeoff": {
+        "observation": "The task fixes a 4,000-token prompt, 200 requested output tokens, two per-request latency limits, and a minimum 90% joint pass share.",
+        "hypothesis": "A configuration with high raw output can still be a poor service if too many individual requests miss either latency limit.",
+        "conclusion": "Use qualifying throughput under the joint gate as the objective for later engineering and experimental decisions.",
+        "unknown": "This definition does not by itself establish official model accuracy or a contest ranking; full-set quality remains a separate validation question."
+      },
+      "reasoning": {
+        "problem": "Choose how to serve the specified model within sixteen H200 GPUs while sustaining the fixed synthetic request workload.",
+        "why_it_matters": "Latency failures make output unusable for the stated objective even when the system emits many raw tokens.",
+        "why_this_test": "Fix the request shape and require both TTFT and mean ITL limits on each request, then aggregate only qualifying service as goodput.",
+        "what_we_learned": "The study optimizes useful, latency-qualified output and requires at least 90% of all requests to pass both limits.",
+        "next_logic": "With success defined, the next slide separates which conclusions are engineering choices, direct team contributions, and measured backend findings."
+      },
+      "script": "Our problem is to serve Qwen3-235B FP8 on sixteen H200 GPUs across two nodes. Each synthetic request has 4,000 input tokens and asks for 200 output tokens. A request counts only when it gets its first token within 3,000 milliseconds and its mean spacing between generated tokens is no more than 20 milliseconds. At least 90 percent of all requests must meet both conditions; errors count too. We therefore report goodput multiplied by the requested 200 output tokens. This measures qualifying output, not unrestricted token generation. Official model quality is a separate question.",
+      "caution": "Do not drop errors, infer per-request success from an average latency, or describe this local service metric as official model-accuracy certification.",
+      "transition": "Now that the objective is fixed, we can be precise about which parts of the work are engineering decisions, direct technical contribution, and separate experimental evidence.",
+      "hardware": "16 H200 · 2 nodes · Qwen3-235B FP8"
+    },
+    "vi": {
+      "brief": "Chúng tôi phục vụ Qwen3-235B FP8 trên 16 GPU H200. Một yêu cầu chỉ được tính khi đạt cả hai giới hạn độ trễ; ít nhất 90% phải đạt. Chỉ thông lượng đầu ra đạt chuẩn mới được báo cáo.",
+      "purpose": "Định nghĩa mục tiêu dịch vụ trước khi bàn về tối ưu. Mô hình, ngân sách GPU, hình dạng yêu cầu và cổng độ trễ từng yêu cầu đều được cố định. Mọi quyết định topology hay backend sau đó được đánh giá theo đầu ra dịch vụ đạt chuẩn, không theo số token thô lớn nhất.",
+      "visual": "Giải thích luồng tính chỉ số từ một yêu cầu đến điểm dịch vụ cuối: yêu cầu có prompt và độ dài đầu ra cố định; TTFT và mean ITL được kiểm tra riêng cho yêu cầu đó; yêu cầu đạt chuẩn đóng góp vào goodput; goodput nhân với 200 token đầu ra yêu cầu để báo good output tokens mỗi giây. Lỗi vẫn thuộc tập được đánh giá. Không cần suy diễn ký hiệu biểu đồ hay màu trang trí không được nêu.",
+      "terms": [
+        {
+          "symbol": "Qwen3-235B FP8",
+          "meaning": "Checkpoint mô hình ngôn ngữ được chọn và định dạng trọng số dấu phẩy động tám bit."
+        },
+        {
+          "symbol": "16 H200 · 2 nodes",
+          "meaning": "Phạm vi tính toán chính cố định: mười sáu GPU H200 trên hai nút."
+        },
+        {
+          "symbol": "4,000 input → 200 output tokens",
+          "meaning": "Hình dạng yêu cầu tổng hợp: prompt 4.000 token yêu cầu mô hình sinh 200 token."
+        },
+        {
+          "symbol": "TTFT ≤ 3,000 ms",
+          "meaning": "Thời gian đến token đầu tiên của từng yêu cầu không quá 3.000 mili giây."
+        },
+        {
+          "symbol": "Mean ITL ≤ 20 ms",
+          "meaning": "Độ trễ trung bình giữa các token được sinh trong một yêu cầu không quá 20 mili giây."
+        },
+        {
+          "symbol": "Joint SLA ≥ 90%",
+          "meaning": "Ít nhất 90% toàn bộ yêu cầu được đánh giá phải đồng thời đạt hai giới hạn độ trễ. Yêu cầu lỗi làm giảm tỷ lệ này."
+        },
+        {
+          "symbol": "Goodput × 200 = good output tokens/s",
+          "meaning": "Số yêu cầu đạt chuẩn mỗi giây nhân với 200 token đầu ra được yêu cầu trên mỗi yêu cầu. Kết quả là tốc độ token đầu ra đạt chuẩn được báo cáo."
+        },
+        {
+          "symbol": "ms",
+          "meaning": "Mili giây, bằng một phần nghìn giây, dùng làm đơn vị độ trễ."
+        }
+      ],
+      "reading": [
+        "Theo dõi từng yêu cầu qua cả hai kiểm tra độ trễ; chỉ đạt một giới hạn là chưa đủ.",
+        "Điều kiện 90% tính trên toàn bộ yêu cầu được đánh giá, bao gồm cả lỗi trong mẫu số.",
+        "Good output tokens mỗi giây là chỉ số dịch vụ được suy ra, không đơn giản là tổng token sinh chia cho thời gian chạy."
+      ],
+      "tradeoff": {
+        "observation": "Bài toán cố định prompt 4.000 token, 200 token đầu ra yêu cầu, hai giới hạn độ trễ từng yêu cầu và tỷ lệ đạt kết hợp tối thiểu 90%.",
+        "hypothesis": "Cấu hình tạo nhiều token thô vẫn có thể phục vụ kém nếu quá nhiều yêu cầu riêng lẻ trượt một trong hai giới hạn độ trễ.",
+        "conclusion": "Dùng thông lượng đạt chuẩn dưới cổng kết hợp làm mục tiêu cho các quyết định kỹ thuật và thực nghiệm sau.",
+        "unknown": "Định nghĩa này không chứng minh accuracy chính thức của mô hình hay thứ hạng cuộc thi; chất lượng trên bộ đầy đủ vẫn là câu hỏi xác minh riêng."
+      },
+      "reasoning": {
+        "problem": "Chọn cách phục vụ mô hình đã định trong ngân sách mười sáu H200, đồng thời xử lý workload tổng hợp cố định.",
+        "why_it_matters": "Yêu cầu trượt độ trễ không hữu ích cho mục tiêu đã đặt, dù hệ thống có thể sinh nhiều token thô.",
+        "why_this_test": "Cố định kích thước yêu cầu, kiểm tra cả TTFT lẫn mean ITL trên từng yêu cầu, rồi chỉ tổng hợp phần dịch vụ đạt chuẩn thành goodput.",
+        "what_we_learned": "Nghiên cứu tối ưu đầu ra hữu ích đạt độ trễ và yêu cầu ít nhất 90% toàn bộ yêu cầu vượt qua cả hai giới hạn.",
+        "next_logic": "Sau khi định nghĩa thành công, slide kế tiếp tách kết luận nào là quyết định kỹ thuật, đóng góp trực tiếp của nhóm và bằng chứng thực nghiệm riêng."
+      },
+      "script": "Bài toán của chúng tôi là phục vụ Qwen3-235B FP8 trên mười sáu GPU H200, chia trên hai nút. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ được tính nếu nhận token đầu tiên trong không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% toàn bộ yêu cầu phải đồng thời đạt hai điều kiện; lỗi cũng bị tính. Vì vậy chúng tôi báo cáo goodput nhân với 200 token đầu ra yêu cầu. Chỉ số này phản ánh đầu ra đạt chuẩn, không phải toàn bộ token sinh. Accuracy chính thức là câu hỏi riêng.",
+      "caution": "Không bỏ lỗi, không suy ra tỷ lệ đạt từng yêu cầu từ độ trễ trung bình, và không gọi chỉ số dịch vụ cục bộ này là chứng nhận accuracy chính thức.",
+      "transition": "Khi mục tiêu đã rõ, ta có thể phân biệt chính xác phần nào là quyết định kỹ thuật, đóng góp trực tiếp và bằng chứng thực nghiệm riêng.",
+      "hardware": "16 H200 · 2 nodes · Qwen3-235B FP8"
+    }
+  },
+  {
+    "slide": 2,
+    "title": "Three investigations support three different kinds of claim",
+    "hardware": "H200 primary · H100 kept separate",
+    "en": {
+      "brief": "We separate architecture choices, the team’s request-scoped KV patch, and backend measurements. These claims use different evidence: layout records, source plus transfer validation, and controlled experiments; H100 remains separate from H200.",
+      "purpose": "Map the presentation's contribution and prevent evidence from one type of claim being used to overstate another. Engineering decisions select a workable design; the KV patch is a specific team implementation; backend comparisons are measured findings that require their own controls and repeats.",
+      "visual": "Describe three claim lanes joined by a common objective. The architecture lane is supported by feasible layout records; the KV-transfer lane by source change, geometry checks, and a real patched run; the backend lane by controlled benchmark observations and replication. Each lane points toward the same success criterion but retains its own evidence gate. H100 observations stay in a separately labeled platform lane. This is a claim map, not three additive percentages.",
+      "terms": [
+        {
+          "symbol": "Engineering decision",
+          "meaning": "A reasoned selection among layouts under the fixed hardware and service constraints; not automatically an isolated causal speedup claim."
+        },
+        {
+          "symbol": "Team KV patch",
+          "meaning": "The request-scoped NIXL heterogeneous-TP descriptor change and its tested correctness/feasibility evidence."
+        },
+        {
+          "symbol": "Backend experimental finding",
+          "meaning": "A measured comparison of serving backend choices under a named load and control; it should not be confused with the KV code contribution."
+        },
+        {
+          "symbol": "Evidence gate",
+          "meaning": "The kind of supporting record needed for a claim: deployment feasibility, implementation checks, or matched performance measurements."
+        },
+        {
+          "symbol": "H200 / H100",
+          "meaning": "Different GPU platforms whose measurements are kept in separate series rather than pooled as interchangeable results."
+        }
+      ],
+      "reading": [
+        "Read the three lanes independently: architecture choice, direct KV implementation, and backend experiments.",
+        "A successful engineering deployment does not alone prove a speedup; a source patch does not alone prove a GPU transfer; a backend score does not prove model accuracy.",
+        "All lanes are evaluated against slide 1's latency-qualified goodput objective, but their evidence is not interchangeable.",
+        "The H200 primary and H100 observations must retain their platform labels."
+      ],
+      "tradeoff": {
+        "observation": "The research contains layout decisions, a specific request-scoped transfer change, and separate backend trials; each has a different evidence trail.",
+        "hypothesis": "Separating claim types will make it possible to explain what the team implemented, what it measured, and what remains only an engineering selection.",
+        "conclusion": "Report each contribution at the level its evidence supports and keep H100 results distinct from the H200 primary series.",
+        "unknown": "This contribution map does not make all findings causal, combine them into one gain, or establish official accuracy."
+      },
+      "reasoning": {
+        "problem": "Present a long systems investigation without conflating topology choices, a code change, and performance experiments.",
+        "why_it_matters": "Evidence that supports feasibility may not support speedup; a measured backend effect cannot automatically validate a separate transfer patch.",
+        "why_this_test": "Assign each claim its own evidence gate and preserve the platform and configuration associated with each observation.",
+        "what_we_learned": "The team has an engineering selection, a direct KV-transfer implementation with bounded validation, and backend findings based on separate comparisons.",
+        "next_logic": "First inspect the fixed sixteen-GPU topology tradeoff; then show the retained layout and the distinct historical branch where the KV failure occurred."
+      },
+      "script": "There are three kinds of contribution here. First, engineering decisions: choosing a layout that fits the sixteen-GPU budget and can serve the workload. Second, a direct team contribution: changing heterogeneous-TP KV descriptor construction to work per request. Third, backend findings: measurements from controlled serving comparisons. These use different evidence. A working layout does not by itself prove a speedup. CPU geometry checks do not prove GPU transport. A backend score does not certify model accuracy. All results still use the same latency-qualified objective, but we keep their evidence separate. H200 is our primary platform; H100 results stay a distinct series.",
+      "caution": "Do not combine the three lanes into one additive gain or use evidence from backend tuning to claim the KV patch's causal contribution.",
+      "transition": "We begin with the engineering choice: how replicas and parallel width compete for the same sixteen GPUs.",
+      "hardware": "H200 primary · H100 kept separate"
+    },
+    "vi": {
+      "brief": "Chúng tôi tách lựa chọn kiến trúc, bản vá KV theo yêu cầu của nhóm và phép đo backend. Mỗi kết luận có loại bằng chứng riêng: hồ sơ layout, source cùng xác minh truyền, hoặc thử nghiệm có đối chứng; H100 được giữ riêng với H200.",
+      "purpose": "Lập bản đồ đóng góp của bài trình bày để không dùng bằng chứng của một loại kết luận nhằm nói quá loại khác. Quyết định kỹ thuật chọn thiết kế khả thi; bản vá KV là phần triển khai cụ thể của nhóm; so sánh backend là kết quả đo cần đối chứng và lặp lại riêng.",
+      "visual": "Mô tả ba luồng kết luận cùng hướng đến một mục tiêu. Luồng kiến trúc có hồ sơ layout khả thi hỗ trợ; luồng truyền KV có thay đổi source, kiểm tra hình học và lần chạy thật có bản vá; luồng backend có quan sát benchmark có kiểm soát và phép lặp. Mỗi luồng có cổng bằng chứng riêng. Kết quả H100 nằm trong luồng nền tảng riêng. Đây là bản đồ loại kết luận, không phải ba phần trăm có thể cộng lại.",
+      "terms": [
+        {
+          "symbol": "Engineering decision",
+          "meaning": "Lựa chọn có căn cứ giữa các layout theo ràng buộc phần cứng và dịch vụ; tự nó không phải tuyên bố tăng tốc nhân quả đơn lẻ."
+        },
+        {
+          "symbol": "Team KV patch",
+          "meaning": "Thay đổi NIXL theo yêu cầu cho descriptor TP khác nhau cùng bằng chứng kiểm tra đúng đắn/khả thi đã chạy."
+        },
+        {
+          "symbol": "Backend experimental finding",
+          "meaning": "So sánh đo được giữa lựa chọn backend phục vụ dưới tải và đối chứng đã nêu; không đồng nhất với đóng góp code KV."
+        },
+        {
+          "symbol": "Evidence gate",
+          "meaning": "Loại hồ sơ cần cho một kết luận: khả thi triển khai, kiểm tra thay đổi code, hoặc phép đo hiệu năng ghép cặp."
+        },
+        {
+          "symbol": "H200 / H100",
+          "meaning": "Hai nền tảng GPU khác nhau; kết quả được giữ ở chuỗi riêng, không gộp như thể có thể thay thế nhau."
+        }
+      ],
+      "reading": [
+        "Đọc riêng ba luồng: lựa chọn kiến trúc, triển khai KV trực tiếp và thí nghiệm backend.",
+        "Triển khai thành công chưa tự chứng minh tăng tốc; bản vá source chưa tự chứng minh truyền GPU; điểm backend không chứng nhận accuracy mô hình.",
+        "Mọi luồng đều dùng mục tiêu goodput đạt độ trễ ở slide 1, nhưng bằng chứng giữa chúng không thể thay thế nhau.",
+        "Nhãn nền tảng H200 chính và các quan sát H100 phải được giữ nguyên."
+      ],
+      "tradeoff": {
+        "observation": "Nghiên cứu có quyết định layout, một thay đổi truyền theo yêu cầu cụ thể và các thử nghiệm backend riêng; mỗi phần có đường bằng chứng khác nhau.",
+        "hypothesis": "Tách loại kết luận giúp giải thích điều nhóm triển khai, điều nhóm đo và điều vẫn chỉ là lựa chọn kỹ thuật.",
+        "conclusion": "Báo cáo mỗi đóng góp đúng mức mà bằng chứng hỗ trợ, đồng thời giữ kết quả H100 tách khỏi chuỗi H200 chính.",
+        "unknown": "Bản đồ đóng góp này không làm mọi kết quả thành quan hệ nhân quả, không cộng chúng thành một mức tăng và không xác lập accuracy chính thức."
+      },
+      "reasoning": {
+        "problem": "Trình bày một nghiên cứu hệ thống dài mà không đánh đồng lựa chọn topology, thay đổi code và thí nghiệm hiệu năng.",
+        "why_it_matters": "Bằng chứng khả thi có thể chưa hỗ trợ tuyên bố tăng tốc; hiệu ứng backend đo được cũng không tự xác thực bản vá truyền khác.",
+        "why_this_test": "Gán mỗi kết luận một cổng bằng chứng riêng và giữ nhãn nền tảng/cấu hình gắn với từng quan sát.",
+        "what_we_learned": "Nhóm có một lựa chọn kỹ thuật, một triển khai truyền KV trực tiếp với phạm vi xác minh giới hạn và các kết quả backend từ so sánh riêng.",
+        "next_logic": "Trước hết xem đánh đổi topology trong ngân sách mười sáu GPU; sau đó xem layout được giữ lại và nhánh lịch sử riêng nơi xảy ra lỗi KV."
+      },
+      "script": "Có ba loại đóng góp ở đây. Thứ nhất là quyết định kỹ thuật: chọn layout vừa ngân sách mười sáu GPU và phục vụ được workload. Thứ hai là đóng góp trực tiếp của nhóm: đổi cách tạo descriptor KV cho TP khác nhau sang xử lý theo yêu cầu. Thứ ba là kết quả backend từ các phép so sánh serving có kiểm soát. Mỗi loại cần bằng chứng khác nhau. Layout chạy được chưa tự chứng minh tăng tốc. Kiểm tra hình học CPU chưa chứng minh truyền GPU. Điểm backend không chứng nhận accuracy mô hình. Tất cả vẫn dùng cùng mục tiêu đạt độ trễ, nhưng bằng chứng được giữ riêng. H200 là nền tảng chính; H100 là chuỗi khác.",
+      "caution": "Không cộng ba luồng thành một mức tăng tổng hoặc dùng phép đo backend để nhận công nhân quả riêng cho bản vá KV.",
+      "transition": "Ta bắt đầu từ quyết định kiến trúc: số replica và độ rộng song song cùng cạnh tranh một ngân sách mười sáu GPU.",
+      "hardware": "H200 primary · H100 kept separate"
+    }
+  },
+  {
+    "slide": 3,
+    "title": "Replica count and parallel width compete for the same 16 GPUs",
+    "hardware": "H200 · historical topology observations",
+    "en": {
+      "brief": "More prefill replicas improve request concurrency, while wider parallel groups give each model worker more GPUs. The historical usable points were 1,297 at N32, 1,666 at N40, and 1,912 good tokens/s at N48, but load changed too.",
+      "purpose": "Explain the engineering tradeoff that led to the retained split. The same sixteen GPUs can be spent on more replicas or wider parallelism, and prefill/decode have different needs. Historical topology scores show feasibility and progression, not a matched causal ranking.",
+      "visual": "Use branches for feasible ways to allocate the fixed sixteen GPUs: several narrower prefill replicas and multiple decode groups, then fewer wider prefill workers and a wider decode group. Label the historical usable observations N32/1,297.02, N40/1,666.01, and N48/1,912.30 good tokens/s. Mark N explicitly as client requests in flight. Connect the branches as candidates, not a chronological line or causal ranking, because concurrency and other trial conditions differed.",
+      "terms": [
+        {
+          "symbol": "replica",
+          "meaning": "A separate worker instance that can process requests; more replicas can distribute incoming work but consume GPUs."
+        },
+        {
+          "symbol": "parallel width / TP",
+          "meaning": "Number of GPUs cooperating to serve one model worker through tensor parallelism."
+        },
+        {
+          "symbol": "EP",
+          "meaning": "Expert parallelism, which partitions expert computation in the mixture-of-experts model."
+        },
+        {
+          "symbol": "N32 / N40 / N48",
+          "meaning": "Client concurrency targets of 32, 40, and 48 requests in flight; N is not the number of GPUs."
+        },
+        {
+          "symbol": "good tokens/s",
+          "meaning": "Latency-qualified output tokens per second under the joint service gate."
+        },
+        {
+          "symbol": "17 usable configurations",
+          "meaning": "The reviewed topology recovery ledger counts fourteen measured original layouts plus three measured EP2 replacements. It is not a claim that all attempts succeeded or formed a matched ranking."
+        }
+      ],
+      "reading": [
+        "Four TP2 prefill replicas plus two TP4/EP4 decode groups use the GPUs differently from two TP4 prefill workers plus one TP8/EP8 decode worker.",
+        "The historical observations shown are 1,297.02 at N32, 1,666.01 at N40, and 1,912.30 at N48 good tokens/s.",
+        "N changes across these points, so higher score cannot be attributed to topology alone.",
+        "The count of seventeen usable configurations summarizes reviewed evidence, not a controlled sweep with a common load."
+      ],
+      "tradeoff": {
+        "observation": "The fixed GPU budget forced a choice between replication and parallel width. Reviewed usable examples include N32 at 1297.02, N40 at 1666.01, and N48 at 1912.30 good tokens/s; fourteen original layouts plus three EP2 replacements were counted.",
+        "hypothesis": "A layout with enough prefill replicas and a wider decode worker could balance prompt processing and generation at the intended load.",
+        "conclusion": "Topology recovery established feasible candidates and informed a later selected split. The displayed score progression is not a causal ranking because concurrency and historical conditions differed.",
+        "unknown": "The selected architecture's advantage over every alternative under one matched load is not established by these points; the count does not include a common statistical comparison."
+      },
+      "reasoning": {
+        "problem": "Allocate sixteen H200 GPUs across prefill and decode, balancing the number of worker replicas against the GPUs assigned to each worker.",
+        "why_it_matters": "Too few replicas can limit prompt-side admission, while overly narrow workers may not process their share efficiently; decode also has different parallelism needs.",
+        "why_this_test": "Explore feasible topology branches and record their concurrency and goodput, while retaining failures and replacement configurations as distinct evidence.",
+        "what_we_learned": "Seventeen reviewed usable configurations were recovered, including EP2 replacements; selected examples rose from 1,297 at N32 to 1,912 at N48, but these are different loads.",
+        "next_logic": "The next slide presents the retained architecture as an engineering decision under this tradeoff, not as the causal winner of a matched topology sweep."
+      },
+      "script": "Our first engineering question was how to spend the same sixteen GPUs. We could create more, narrower prefill replicas, or assign more GPUs to fewer workers and to decode. Historical usable examples include 1,297 good tokens per second at concurrency 32, 1,666 at 40, and 1,912 at 48. But concurrency changed between those points, so the higher values do not prove that topology alone caused the increase. The recovery ledger contains seventeen usable measured configurations, including three EP2 replacements; it also preserves failed originals. These trials showed which arrangements could work and informed our retained split. They are not a controlled ranking of every layout at the same load.",
+      "caution": "Do not describe N as GPU count or use the three different-load scores as a causal ranking. EP2 replacements are new configurations, not retroactive passes for failed originals.",
+      "transition": "Given this tradeoff, the next slide states the architecture we retained and the extra transfer path that separation introduces.",
+      "hardware": "H200 · historical topology observations"
+    },
+    "vi": {
+      "brief": "Tăng số replica prefill giúp phục vụ đồng thời nhiều yêu cầu, còn nhóm song song rộng hơn cấp thêm GPU cho mỗi worker mô hình. Các mốc khả thi là 1.297 ở N32, 1.666 ở N40 và 1.912 good tokens/s ở N48, nhưng tải cũng khác nhau.",
+      "purpose": "Giải thích đánh đổi kỹ thuật dẫn đến cách chia được giữ lại. Cùng mười sáu GPU có thể dùng cho nhiều replica hơn hoặc độ song song rộng hơn; prefill và decode có nhu cầu khác nhau. Điểm topology lịch sử cho thấy tính khả thi và tiến trình, không phải xếp hạng nhân quả cùng tải.",
+      "visual": "Dùng các nhánh để biểu diễn những cách khả thi phân bổ mười sáu GPU cố định: nhiều replica prefill hẹp và nhiều nhóm decode, hoặc ít worker prefill rộng hơn cùng nhóm decode rộng. Gắn các mốc khả thi lịch sử N32/1.297,02, N40/1.666,01 và N48/1.912,30 good tokens/s. Ghi rõ N là số yêu cầu client đang xử lý đồng thời. Nối nhánh như các ứng viên, không phải trục thời gian hay thứ hạng nhân quả, vì concurrency và điều kiện thử khác nhau.",
+      "terms": [
+        {
+          "symbol": "replica",
+          "meaning": "Một worker riêng có thể xử lý yêu cầu; nhiều replica hơn có thể chia tải vào nhưng cũng tiêu tốn GPU."
+        },
+        {
+          "symbol": "parallel width / TP",
+          "meaning": "Số GPU phối hợp phục vụ một worker mô hình thông qua tensor parallelism."
+        },
+        {
+          "symbol": "EP",
+          "meaning": "Expert parallelism, cách chia tính toán expert trong mô hình mixture-of-experts."
+        },
+        {
+          "symbol": "N32 / N40 / N48",
+          "meaning": "Mục tiêu concurrency 32, 40 và 48 yêu cầu đang xử lý; N không phải số GPU."
+        },
+        {
+          "symbol": "good tokens/s",
+          "meaning": "Token đầu ra mỗi giây đạt giới hạn độ trễ kết hợp của dịch vụ."
+        },
+        {
+          "symbol": "17 usable configurations",
+          "meaning": "Sổ khôi phục topology đã rà soát đếm mười bốn layout gốc được đo cộng ba cấu hình thay thế EP2 được đo. Đây không phải khẳng định mọi lần thử đều thành công hay tạo thành thứ hạng cùng tải."
+        }
+      ],
+      "reading": [
+        "Bốn replica prefill TP2 cùng hai nhóm decode TP4/EP4 sử dụng GPU khác với hai worker prefill TP4 cộng một worker decode TP8/EP8.",
+        "Các quan sát lịch sử hiển thị là 1.297,02 ở N32, 1.666,01 ở N40 và 1.912,30 good tokens/s ở N48.",
+        "N thay đổi giữa các điểm, nên không thể quy điểm cao hơn chỉ cho topology.",
+        "Con số mười bảy cấu hình dùng được tóm tắt bằng chứng đã rà soát, không phải quét có kiểm soát cùng tải."
+      ],
+      "tradeoff": {
+        "observation": "Ngân sách GPU cố định buộc nhóm chọn giữa số replica và độ rộng song song. Các ví dụ dùng được đã rà soát gồm N32 đạt 1297,02; N40 đạt 1666,01; N48 đạt 1912,30 good tokens/s; tổng cộng đếm mười bốn layout gốc và ba cấu hình thay thế EP2.",
+        "hypothesis": "Layout có đủ replica prefill cùng worker decode rộng hơn có thể cân bằng xử lý prompt và sinh token ở tải dự định.",
+        "conclusion": "Khôi phục topology tạo ra ứng viên khả thi và cung cấp căn cứ cho cách chia được chọn sau đó. Điểm tăng trong ví dụ không phải thứ hạng nhân quả vì concurrency và điều kiện lịch sử khác nhau.",
+        "unknown": "Các điểm này chưa xác lập lợi thế của kiến trúc được chọn so với mọi phương án khi chạy cùng tải; số lượng cấu hình không phải so sánh thống kê có điều kiện chung."
+      },
+      "reasoning": {
+        "problem": "Phân bổ mười sáu H200 giữa prefill và decode, cân bằng số replica worker với số GPU giao cho mỗi worker.",
+        "why_it_matters": "Quá ít replica có thể giới hạn tiếp nhận prompt; worker quá hẹp có thể xử lý phần việc kém hiệu quả; decode cũng có nhu cầu song song khác.",
+        "why_this_test": "Khảo sát các nhánh topology khả thi và ghi lại concurrency cùng goodput, đồng thời giữ thất bại và cấu hình thay thế như các bằng chứng riêng.",
+        "what_we_learned": "Đã khôi phục mười bảy cấu hình dùng được sau rà soát, gồm các thay thế EP2; ví dụ điểm tăng từ 1.297 ở N32 lên 1.912 ở N48 nhưng tải khác nhau.",
+        "next_logic": "Slide kế tiếp trình bày kiến trúc được giữ như một quyết định kỹ thuật dưới các đánh đổi này, không phải người thắng nhân quả của phép quét topology ghép cặp."
+      },
+      "script": "Câu hỏi kỹ thuật đầu tiên là phân bổ mười sáu GPU thế nào. Ta có thể tạo nhiều replica prefill hẹp hơn, hoặc cấp thêm GPU cho ít worker hơn và cho decode. Ví dụ khả thi trong lịch sử đạt 1.297 good tokens mỗi giây ở concurrency 32, 1.666 ở 40 và 1.912 ở 48. Nhưng concurrency thay đổi giữa các điểm, nên số cao hơn không chứng minh riêng topology gây ra mức tăng. Sổ khôi phục có mười bảy cấu hình khả thi đã đo, gồm ba cấu hình thay thế EP2; các layout gốc thất bại cũng được giữ lại. Những thử nghiệm này cho biết cách bố trí nào có thể hoạt động và giúp chọn split sau đó. Chúng không phải bảng xếp hạng có kiểm soát ở cùng tải.",
+      "caution": "Không hiểu N là số GPU và không dùng ba điểm ở tải khác nhau làm thứ hạng nhân quả. Cấu hình thay thế EP2 là thử nghiệm mới, không sửa hồi tố cho cấu hình gốc thất bại.",
+      "transition": "Từ đánh đổi này, slide tiếp theo nêu kiến trúc được giữ và đường truyền bổ sung do việc tách vai trò tạo ra.",
+      "hardware": "H200 · historical topology observations"
+    }
+  },
+  {
+    "slide": 4,
+    "title": "Two TP4 prefills feed one TP8 decode within the two-node budget",
+    "hardware": "16 H200 · Firmus",
+    "en": {
+      "brief": "The retained split uses two four-GPU TP4/EP1 prefill workers on one node and one eight-GPU TP8/EP8 decode worker on the other. This fits sixteen H200s but adds KV transfer between roles.",
+      "purpose": "State the retained architecture clearly as an engineering decision within the two-node GPU budget. Explain how phase specialization uses replicas for prompt processing and wider parallelism for decode, while naming the additional KV transfer path as a cost of disaggregation.",
+      "visual": "Show Node 0 containing P0 and P1, each with four GPUs and TP4/EP1. Show Node 1 containing D0 with eight GPUs and TP8/EP8. Route a request to a prefill worker, then show its KV state crossing to decode, where output generation occurs. The layout sums to sixteen GPUs. This schematic represents roles and placement, not measured utilization or data volume.",
+      "terms": [
+        {
+          "symbol": "Node 0 / Node 1",
+          "meaning": "The two H200 compute nodes used by this retained Firmus layout."
+        },
+        {
+          "symbol": "P0 / P1",
+          "meaning": "Two prefill worker instances on Node 0; each uses four GPUs."
+        },
+        {
+          "symbol": "D0",
+          "meaning": "The single decode worker on Node 1; it uses eight GPUs."
+        },
+        {
+          "symbol": "TP4 / TP8",
+          "meaning": "Tensor parallelism across four or eight GPUs inside a worker."
+        },
+        {
+          "symbol": "EP1 / EP8",
+          "meaning": "Expert parallelism across one or eight expert partitions for the model's expert layers."
+        },
+        {
+          "symbol": "KV state",
+          "meaning": "Key/value attention data created while processing the prompt and needed to generate output tokens."
+        },
+        {
+          "symbol": "Prefill / decode",
+          "meaning": "Prefill processes input tokens and prepares KV state; decode consumes that state to generate output tokens."
+        },
+        {
+          "symbol": "2 × 4 + 1 × 8 = 16",
+          "meaning": "Two four-GPU prefill workers plus one eight-GPU decode worker, totaling sixteen GPUs."
+        }
+      ],
+      "reading": [
+        "The two P workers are replicas to receive prompt work; the D worker uses a wider TP/EP configuration for generation.",
+        "The split respects the two-node budget and keeps each worker's TP group within its node.",
+        "Unlike a single co-located worker, this design must transfer request KV state between prefill and decode."
+      ],
+      "tradeoff": {
+        "observation": "The retained H200 layout places two TP4/EP1 prefill workers on Node 0 and one TP8/EP8 decode worker on Node 1, using all sixteen GPUs.",
+        "hypothesis": "Specializing allocation by phase can match prompt processing and generation to different replica and parallel-width needs.",
+        "conclusion": "This is the retained engineering architecture for the selected service; it is not proof that this exact split causally beat every alternative at a matched load.",
+        "unknown": "The diagram does not quantify the performance benefit of phase specialization or the transfer cost; request KV transfer must work for the architecture to serve."
+      },
+      "reasoning": {
+        "problem": "Turn topology candidates into a two-node serving architecture that uses the full sixteen-H200 allocation.",
+        "why_it_matters": "The two service phases have different resource needs, and the chosen split determines both worker capacity and whether KV must move across nodes.",
+        "why_this_test": "Retain two TP4/EP1 prefill workers and one TP8/EP8 decode worker as a feasible phase-specialized layout, then validate its actual transfer path.",
+        "what_we_learned": "The architecture fits the node budget and offers separate prefill and decode roles, but introduces a required inter-role KV transfer.",
+        "next_logic": "A separate historical heterogeneous-TP recovery branch exposed a failure in that transfer warmup; its topology differs from this retained layout."
+      },
+      "script": "The architecture we retained uses both H200 nodes. Node 0 runs two prefill workers, P0 and P1, each on four GPUs with TP4 and EP1. Node 1 runs one decode worker on eight GPUs with TP8 and EP8. Together that uses all sixteen GPUs. The split reflects different roles: prefill handles the prompt and prepares key/value state, while decode uses that state to generate output. Separating the phases also means the request's KV data must move from one node to the other. This is our retained engineering design; the topology search did not prove a causal win against every alternative at the same load.",
+      "caution": "Do not confuse this selected two-TP4-prefill topology with the historical P8 TP8/EP2 to D8 TP4/EP4 recovery branch on the next slides.",
+      "transition": "To understand why transfer validation mattered, we now examine that separate historical branch where ready workers still could not complete warmup.",
+      "hardware": "16 H200 · Firmus"
+    },
+    "vi": {
+      "brief": "Cách chia được giữ lại dùng hai worker prefill TP4/EP1, mỗi worker bốn GPU, trên một nút; nút kia chạy decode TP8/EP8 trên tám GPU. Cấu hình vừa 16 H200 nhưng cần truyền KV giữa hai vai trò. Cấu hình này được chọn để cân bằng hai pha trong ngân sách GPU.",
+      "purpose": "Nêu rõ kiến trúc được giữ như quyết định kỹ thuật trong ngân sách hai nút. Giải thích cách chuyên biệt theo giai đoạn dùng replica cho xử lý prompt và song song rộng hơn cho decode, đồng thời nêu đường truyền KV bổ sung là chi phí của kiến trúc tách rời.",
+      "visual": "Thể hiện Node 0 có P0 và P1, mỗi worker bốn GPU với TP4/EP1. Node 1 có D0 với tám GPU và TP8/EP8. Yêu cầu đến một worker prefill, sau đó trạng thái KV được chuyển sang decode để sinh đầu ra. Tổng cấu hình là mười sáu GPU. Sơ đồ mô tả vai trò và vị trí, không phải mức sử dụng hay lưu lượng đã đo.",
+      "terms": [
+        {
+          "symbol": "Node 0 / Node 1",
+          "meaning": "Hai nút tính toán H200 trong layout Firmus được giữ lại."
+        },
+        {
+          "symbol": "P0 / P1",
+          "meaning": "Hai worker prefill trên Node 0; mỗi worker dùng bốn GPU."
+        },
+        {
+          "symbol": "D0",
+          "meaning": "Worker decode duy nhất trên Node 1; dùng tám GPU."
+        },
+        {
+          "symbol": "TP4 / TP8",
+          "meaning": "Tensor parallelism trên bốn hoặc tám GPU trong một worker."
+        },
+        {
+          "symbol": "EP1 / EP8",
+          "meaning": "Expert parallelism trên một hoặc tám phân vùng expert của các lớp expert trong mô hình."
+        },
+        {
+          "symbol": "KV state",
+          "meaning": "Dữ liệu key/value attention tạo ra khi xử lý prompt và cần để sinh token đầu ra."
+        },
+        {
+          "symbol": "Prefill / decode",
+          "meaning": "Prefill xử lý token đầu vào và chuẩn bị trạng thái KV; decode dùng trạng thái đó để sinh token đầu ra."
+        },
+        {
+          "symbol": "2 × 4 + 1 × 8 = 16",
+          "meaning": "Hai worker prefill bốn GPU cộng một worker decode tám GPU, tổng cộng mười sáu GPU."
+        }
+      ],
+      "reading": [
+        "Hai worker P là replica nhận việc prompt; worker D dùng cấu hình TP/EP rộng hơn để sinh token.",
+        "Cách chia phù hợp ngân sách hai nút và giữ nhóm TP của mỗi worker trong cùng nút.",
+        "Khác với một worker đặt chung, thiết kế này phải truyền trạng thái KV của yêu cầu giữa prefill và decode."
+      ],
+      "tradeoff": {
+        "observation": "Layout H200 được giữ lại đặt hai worker prefill TP4/EP1 tại Node 0 và một worker decode TP8/EP8 ở Node 1, dùng đủ mười sáu GPU.",
+        "hypothesis": "Chuyên biệt tài nguyên theo giai đoạn có thể đáp ứng khác biệt giữa xử lý prompt và sinh token về số replica và độ rộng song song.",
+        "conclusion": "Đây là kiến trúc kỹ thuật được giữ cho dịch vụ đã chọn; nó chưa chứng minh chính cách chia này nhân quả tốt hơn mọi phương án ở cùng tải.",
+        "unknown": "Sơ đồ không định lượng lợi ích chuyên biệt theo giai đoạn hay chi phí truyền; muốn phục vụ được thì truyền KV giữa vai trò phải hoạt động."
+      },
+      "reasoning": {
+        "problem": "Chuyển các ứng viên topology thành kiến trúc phục vụ hai nút, dùng phân bổ đủ mười sáu H200.",
+        "why_it_matters": "Hai giai đoạn dịch vụ có nhu cầu tài nguyên khác nhau; cách chia quyết định năng lực worker và việc KV phải chuyển qua nút hay không.",
+        "why_this_test": "Giữ hai worker prefill TP4/EP1 cùng một worker decode TP8/EP8 như layout chuyên biệt khả thi, rồi xác minh đường truyền thực tế.",
+        "what_we_learned": "Kiến trúc vừa ngân sách nút và tách riêng vai trò prefill/decode, nhưng tạo ra yêu cầu truyền KV giữa hai vai trò.",
+        "next_logic": "Một nhánh khôi phục lịch sử với TP khác nhau đã gặp lỗi warmup đường truyền; topology của nhánh đó khác layout được giữ lại ở đây."
+      },
+      "script": "Kiến trúc được giữ sử dụng cả hai nút H200. Node 0 chạy hai worker prefill P0 và P1, mỗi worker bốn GPU với TP4, EP1. Node 1 chạy một worker decode trên tám GPU với TP8, EP8. Tổng cộng dùng đủ mười sáu GPU. Cách chia phản ánh hai vai trò khác nhau: prefill xử lý prompt và tạo trạng thái key/value, còn decode dùng trạng thái đó để sinh đầu ra. Khi tách hai giai đoạn, dữ liệu KV của yêu cầu phải chuyển từ nút này sang nút kia. Đây là thiết kế kỹ thuật được giữ lại; tìm kiếm topology chưa chứng minh nó thắng nhân quả mọi phương án khác ở cùng tải.",
+      "caution": "Không nhầm topology được chọn với nhánh khôi phục lịch sử P8 TP8/EP2 sang D8 TP4/EP4 ở các slide kế tiếp.",
+      "transition": "Để hiểu vì sao phải xác minh truyền dữ liệu, ta xem nhánh lịch sử riêng nơi worker sẵn sàng nhưng warmup vẫn thất bại.",
+      "hardware": "16 H200 · Firmus"
+    }
+  },
+  {
+    "slide": 5,
+    "title": "Ready workers still failed before the first usable benchmark",
+    "hardware": "H200 · historical heterogeneous-TP branch",
+    "en": {
+      "brief": "In job 22271, the P8 TP8/EP2 to D8 TP4/EP4 workers loaded but pair warmup timed out after 360 seconds. AIPerf never ran, so there was no baseline score.",
+      "purpose": "Establish the observed transfer-readiness failure before describing a fix. This is a historical recovery branch with heterogeneous tensor parallelism, not the architecture retained on slide 4. The timeout happened before a usable benchmark result.",
+      "visual": "Show the request path from a ready prefill worker toward decode, then mark the pair-warmup request timing out at 360 seconds. Label job 22271 and explicitly mark that AIPerf did not run and no score exists. Do not represent this as a low point on a performance chart or as measured transfer latency.",
+      "terms": [
+        {
+          "symbol": "job 22271",
+          "meaning": "The retained failed warmup attempt in the historical H200 heterogeneous-TP recovery branch."
+        },
+        {
+          "symbol": "P8 TP8/EP2 → D8 TP4/EP4",
+          "meaning": "The branch's prefill and decode configurations. TP and EP differ between roles; this is not slide 4's selected topology."
+        },
+        {
+          "symbol": "pair warmup",
+          "meaning": "A request sent through both prefill and decode to check whether the disaggregated service path can serve before benchmark scoring."
+        },
+        {
+          "symbol": "360-second timeout",
+          "meaning": "The maximum wait before this pair-warmup attempt ended in timeout, not a timed KV transfer measurement."
+        },
+        {
+          "symbol": "AIPerf did not run",
+          "meaning": "No benchmark export or throughput score was produced because warmup failed first."
+        },
+        {
+          "symbol": "bootstrap",
+          "meaning": "Startup work needed to bring both service roles and their transfer path into a state that can handle a request."
+        }
+      ],
+      "reading": [
+        "The model workers loaded, but an actual request through the P/D pair did not finish warmup.",
+        "The retained log ends in HTTP TimeoutError after 360 seconds; there is no AIPerf export and no benchmark score.",
+        "This establishes a cold readiness/bootstrap failure in this attempt, not steady-state bandwidth saturation or a slow KV copy measurement.",
+        "Keep this historical branch distinct from the selected two-TP4 prefill plus TP8/EP8 decode layout."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 loaded model workers on the heterogeneous-TP branch, then pair warmup timed out after 360 seconds with HTTP TimeoutError. AIPerf did not run.",
+        "hypothesis": "The issue lies in cold P/D bootstrap or transfer readiness, but the symptom does not isolate descriptor construction as the cause.",
+        "conclusion": "Classify 22271 as a pre-benchmark readiness failure and preserve the topology and log evidence. It has no baseline throughput value.",
+        "unknown": "The timed-out phase was not decomposed. Descriptor setup, other bootstrap/transfer work, bandwidth, KV mapping, and placement were not individually measured or ruled out."
+      },
+      "reasoning": {
+        "problem": "A historical heterogeneous-TP deployment had loaded workers but could not warm the prefill-to-decode path for a client request.",
+        "why_it_matters": "Without pair readiness, there is no usable benchmark and no service result to optimize.",
+        "why_this_test": "Inspect the retained job and warmup log to identify which stage failed before any performance interpretation.",
+        "what_we_learned": "Job 22271 waited 360 seconds and ended in HTTP TimeoutError; it produced no AIPerf score. The evidence is a readiness symptom, not a measured bandwidth diagnosis.",
+        "next_logic": "Because failure occurred before scoring, the next step is to inspect the cold setup path and prioritize a source-backed hypothesis without claiming other causes are excluded."
+      },
+      "script": "The KV transfer investigation came from a separate historical branch, not the architecture we just selected. In job 22271, prefill P8 used TP8 and EP2, while decode D8 used TP4 and EP4. The model workers loaded, but the pair warmup request never completed. Its retained log ends with an HTTP timeout after 360 seconds. AIPerf did not run, so there is no baseline score. This tells us that the cold path was not ready; it does not tell us that steady-state network bandwidth was saturated or that a KV copy was measured to be slow. Since the failure came before scoring, we next looked for a setup hypothesis that could be tested directly.",
+      "caution": "Do not report 22271 as a low-throughput baseline or divide 360 seconds by a later warmup duration to calculate speedup; these are not matched timed measurements.",
+      "transition": "The pre-score failure leads to the next question: what specific setup work could plausibly prevent pair warmup from completing?",
+      "hardware": "H200 · historical heterogeneous-TP branch"
+    },
+    "vi": {
+      "brief": "Trong job 22271, worker P8 TP8/EP2 sang D8 TP4/EP4 đã nạp mô hình nhưng warmup cặp timeout sau 360 giây. AIPerf chưa chạy, vì vậy không có điểm baseline. Đây là dấu hiệu lỗi khởi động, chưa phải kết quả hiệu năng.",
+      "purpose": "Xác lập lỗi sẵn sàng truyền đã quan sát trước khi trình bày cách sửa. Đây là nhánh khôi phục lịch sử dùng tensor parallelism khác nhau, không phải kiến trúc được giữ ở slide 4. Timeout xảy ra trước khi có kết quả benchmark sử dụng được.",
+      "visual": "Thể hiện đường yêu cầu từ worker prefill sẵn sàng sang decode, rồi đánh dấu yêu cầu pair-warmup timeout sau 360 giây. Ghi job 22271 và nêu rõ AIPerf chưa chạy, không có điểm số. Không biểu diễn lỗi này thành điểm thấp trên biểu đồ hiệu năng hay độ trễ truyền đã đo.",
+      "terms": [
+        {
+          "symbol": "job 22271",
+          "meaning": "Lần thử warmup thất bại được lưu lại trong nhánh khôi phục H200 TP khác nhau lịch sử."
+        },
+        {
+          "symbol": "P8 TP8/EP2 → D8 TP4/EP4",
+          "meaning": "Cấu hình prefill và decode của nhánh này. TP và EP khác nhau giữa hai vai trò; không phải topology được chọn ở slide 4."
+        },
+        {
+          "symbol": "pair warmup",
+          "meaning": "Yêu cầu đi qua cả prefill và decode để kiểm tra đường dịch vụ tách rời có thể hoạt động trước khi benchmark chấm điểm."
+        },
+        {
+          "symbol": "360-second timeout",
+          "meaning": "Thời gian chờ tối đa trước khi lần pair-warmup kết thúc bằng timeout; không phải phép đo thời gian truyền KV."
+        },
+        {
+          "symbol": "AIPerf did not run",
+          "meaning": "Không có bản xuất benchmark hoặc điểm throughput vì warmup thất bại trước."
+        },
+        {
+          "symbol": "bootstrap",
+          "meaning": "Công việc khởi động cần để hai vai trò phục vụ cùng đường truyền sẵn sàng xử lý yêu cầu."
+        }
+      ],
+      "reading": [
+        "Worker mô hình đã nạp, nhưng yêu cầu thật đi qua cặp P/D không hoàn tất warmup.",
+        "Log lưu lại kết thúc bằng HTTP TimeoutError sau 360 giây; không có bản xuất AIPerf và không có điểm benchmark.",
+        "Điều này xác lập lỗi sẵn sàng/bootstrap lúc lạnh trong lần thử, không phải phép đo nghẽn băng thông steady-state hay bản sao KV chậm.",
+        "Giữ nhánh lịch sử này tách khỏi layout được chọn gồm hai prefill TP4 và decode TP8/EP8."
+      ],
+      "tradeoff": {
+        "observation": "Job 22271 nạp worker mô hình ở nhánh TP khác nhau, sau đó warmup cặp timeout sau 360 giây với HTTP TimeoutError. AIPerf chưa chạy.",
+        "hypothesis": "Vấn đề nằm trong bootstrap P/D lạnh hoặc độ sẵn sàng truyền, nhưng triệu chứng chưa tách riêng việc tạo descriptor thành nguyên nhân.",
+        "conclusion": "Phân loại 22271 là lỗi sẵn sàng trước benchmark và giữ nguyên topology cùng bằng chứng log. Job không có giá trị throughput baseline.",
+        "unknown": "Giai đoạn timeout chưa được phân rã. Chuẩn bị descriptor, bootstrap/truyền khác, băng thông, ánh xạ KV và vị trí tài nguyên chưa được đo riêng hoặc loại trừ."
+      },
+      "reasoning": {
+        "problem": "Một triển khai TP khác nhau trong lịch sử đã nạp worker nhưng không warmup được đường prefill sang decode cho yêu cầu client.",
+        "why_it_matters": "Nếu cặp chưa sẵn sàng thì không có benchmark sử dụng được và không có kết quả dịch vụ để tối ưu.",
+        "why_this_test": "Kiểm tra hồ sơ job và log warmup được giữ lại để xác định giai đoạn thất bại trước khi diễn giải hiệu năng.",
+        "what_we_learned": "Job 22271 chờ 360 giây rồi kết thúc với HTTP TimeoutError; không có điểm AIPerf. Bằng chứng là triệu chứng sẵn sàng, không phải chẩn đoán băng thông đã đo.",
+        "next_logic": "Vì lỗi xảy ra trước khi chấm điểm, bước tiếp theo là xem đường setup lạnh và ưu tiên một giả thuyết dựa trên source mà không khẳng định đã loại trừ nguyên nhân khác."
+      },
+      "script": "Điều tra truyền KV xuất phát từ một nhánh lịch sử riêng, không phải kiến trúc vừa chọn. Trong job 22271, prefill P8 dùng TP8, EP2, còn decode D8 dùng TP4, EP4. Worker mô hình đã nạp nhưng yêu cầu pair-warmup không hoàn tất. Log lưu lại kết thúc bằng HTTP timeout sau 360 giây. AIPerf chưa chạy, nên không có điểm baseline. Điều này cho thấy đường lạnh chưa sẵn sàng; nó không cho biết băng thông mạng steady-state bị nghẽn hay một lần truyền KV đã được đo là chậm. Vì lỗi xuất hiện trước khi chấm điểm, tiếp theo chúng tôi tìm một giả thuyết setup cụ thể có thể kiểm tra trực tiếp.",
+      "caution": "Không báo cáo 22271 như baseline throughput thấp hoặc chia 360 giây cho thời gian warmup về sau để tính tăng tốc; đây không phải các phép đo thời gian ghép cặp.",
+      "transition": "Lỗi trước khi chấm điểm dẫn đến câu hỏi tiếp theo: công việc setup cụ thể nào có thể khiến warmup cặp không hoàn tất?",
+      "hardware": "H200 · historical heterogeneous-TP branch"
+    }
+  },
+  {
+    "slide": 6,
+    "title": "Request-scoped descriptors remove work unrelated to the request",
+    "hardware": "H200 transfer path · CPU geometry checks",
+    "en": {
+      "brief": "Source review found about 403.8 million whole-pool descriptors per source rank, versus 188 coalesced ranges for one contiguous 4,000-token request. CPU equivalence passed 720 cases; real GPU validation was false.",
+      "purpose": "Explain why descriptor preparation was prioritized, what the team changed, and what correctness tests actually showed. This is the direct implementation contribution: build transfer descriptions for the request's KV pages rather than enumerate the full pool, while retaining mapping behavior.",
+      "visual": "Show the old full-pool scope beside the patched request scope: about 403.8 million source entries per rank for the representative pool geometry versus 188 coalesced descriptors for one contiguous 4,000-token request. Then separate a CPU range-equivalence gate from a real GPU transport gate marked not validated in the fixture. Do not depict the count ratio as a time or speedup ratio.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "The transfer mechanism used for KV state between disaggregated prefill and decode workers."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata describing memory ranges for a transfer; it is not the KV data itself."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Approximate source descriptor count for whole-pool enumeration in representative TP8 geometry, derived from 2,148,119 KV slots, 94 layers, and K/V entries."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "CPU geometry count after coalescing adjacent ranges for a contiguous 4,000-token TP8-to-TP4 request."
+        },
+        {
+          "symbol": "coalescing",
+          "meaning": "Combining neighboring memory ranges into fewer descriptor entries while preserving required addresses and stride."
+        },
+        {
+          "symbol": "720 CPU cases",
+          "meaning": "Original-versus-patched byte-range equivalence cases that passed CPU geometry checks."
+        },
+        {
+          "symbol": "real GPU transport validation: false",
+          "meaning": "The retained fixture explicitly does not claim that the actual GPU transfer was validated by these geometry tests."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "The spacing of token-associated data when transferring a KV-head slice; it must be preserved when ranges are described."
+        }
+      ],
+      "reading": [
+        "The symptom preceded scoring, and source inspection found whole-pool descriptor enumeration in the heterogeneous-TP path.",
+        "The patch creates source and destination descriptors only for the current request and coalesces contiguous ranges; equal-TP paths, weights, precision, head mapping, and notifications were retained.",
+        "The 403.8 million and 188 values count descriptors at different scopes. They are not bytes, seconds, bandwidth, or a measured speedup.",
+        "The CPU fixture passes 720 byte-range equivalence cases but sets real GPU transport validation to false."
+      ],
+      "tradeoff": {
+        "observation": "Representative source geometry gives about 403.8 million whole-pool source descriptors per rank; a contiguous 4,000-token request uses 188 coalesced descriptors. CPU equivalence checks pass 720 cases.",
+        "hypothesis": "Removing descriptors for KV pages unrelated to the active request should reduce setup work while preserving the exact bytes and mapping needed for transfer.",
+        "conclusion": "The source patch and CPU geometry tests support request-scoped range construction and tested address equivalence. They establish a plausible setup target and implementation correctness for tested cases, not measured end-to-end acceleration.",
+        "unknown": "No old-versus-new descriptor initialization time was measured. The geometry fixture did not validate actual GPU transport, and it does not prove descriptor work was the dominant cause of the timeout."
+      },
+      "reasoning": {
+        "problem": "Full-pool descriptor enumeration appeared in the cold heterogeneous-TP path after pair warmup had failed.",
+        "why_it_matters": "Preparing metadata for pages the request will not transfer could add setup work before the service can handle its first request.",
+        "why_this_test": "Change descriptor construction to the request's pages, preserve KV range mapping, and compare original and patched address geometry across CPU cases.",
+        "what_we_learned": "The patch reduces the illustrated descriptor count from about 403.8 million per rank for the pool to 188 for the request, and 720 tested CPU range cases pass. These counts do not measure elapsed time.",
+        "next_logic": "A real patched deployment is needed to establish feasibility; a matched unpatched deployment and setup timing would still be needed to claim patch-only speedup."
+      },
+      "script": "Source inspection gave us a concrete setup hypothesis. The old heterogeneous-TP path prepared descriptors for the whole KV pool. In representative TP8 geometry that is about 403.8 million source descriptors per rank. The patch instead describes only the current request's KV pages and combines adjacent ranges; a contiguous 4,000-token TP8-to-TP4 request has 188 descriptors in the CPU geometry check. These are counts with different scopes, not elapsed time or a two-million-fold speedup. We compared original and patched byte ranges across 720 CPU cases, and they matched. The fixture explicitly does not validate real GPU transport. So we have evidence that the tested mapping is preserved and a specific implementation change, but not yet evidence that it caused the timeout to disappear or sped up serving.",
+      "caution": "Never describe 403.8 million to 188 as an inference speedup. Do not call CPU geometry equivalence GPU transfer validation or claim that bandwidth, KV layout, placement, or other bootstrap causes were ruled out.",
+      "transition": "The final slide in this sequence asks what the actual patched run establishes, then separates feasibility from the unmeasured causal speedup.",
+      "hardware": "H200 transfer path · CPU geometry checks"
+    },
+    "vi": {
+      "brief": "Kiểm tra source thấy khoảng 403,8 triệu descriptor toàn pool trên mỗi rank nguồn, so với 188 dải gộp cho một yêu cầu liên tục 4.000 token. Kiểm tra CPU đạt 720 trường hợp; fixture chưa xác minh GPU thật. Đây là bằng chứng đúng đắn cho các trường hợp CPU đã thử.",
+      "purpose": "Giải thích vì sao ưu tiên chuẩn bị descriptor, nhóm đã đổi gì và kiểm tra đúng đắn thực sự cho thấy điều gì. Đây là đóng góp triển khai trực tiếp: tạo mô tả truyền cho các trang KV của yêu cầu thay vì liệt kê cả pool, đồng thời giữ cách ánh xạ.",
+      "visual": "Đặt phạm vi cũ toàn pool cạnh phạm vi mới theo yêu cầu: khoảng 403,8 triệu entry nguồn mỗi rank trong hình học pool đại diện so với 188 descriptor đã gộp cho một yêu cầu liên tục 4.000 token. Sau đó tách cổng tương đương dải trên CPU khỏi cổng truyền GPU thật, được fixture đánh dấu chưa xác minh. Không vẽ tỷ lệ số đếm như tỷ lệ thời gian hay tăng tốc.",
+      "terms": [
+        {
+          "symbol": "NIXL",
+          "meaning": "Cơ chế truyền trạng thái KV giữa worker prefill và decode tách rời."
+        },
+        {
+          "symbol": "descriptor",
+          "meaning": "Metadata mô tả các dải bộ nhớ để truyền; không phải bản thân dữ liệu KV."
+        },
+        {
+          "symbol": "403.8 million per source rank",
+          "meaning": "Số gần đúng descriptor nguồn khi liệt kê toàn pool trong hình học TP8 đại diện, suy ra từ 2.148.119 KV slot, 94 layer và các mục K/V."
+        },
+        {
+          "symbol": "188 per request",
+          "meaning": "Số từ hình học CPU sau khi gộp các dải liền kề cho yêu cầu liên tục 4.000 token TP8 sang TP4."
+        },
+        {
+          "symbol": "coalescing",
+          "meaning": "Gộp các dải bộ nhớ kề nhau thành ít entry descriptor hơn mà vẫn giữ đúng địa chỉ và stride cần thiết."
+        },
+        {
+          "symbol": "720 CPU cases",
+          "meaning": "Số trường hợp tương đương byte-range giữa code gốc và bản vá đã vượt kiểm tra hình học CPU."
+        },
+        {
+          "symbol": "real GPU transport validation: false",
+          "meaning": "Fixture lưu rõ rằng các kiểm tra hình học này không xác nhận truyền GPU thực tế."
+        },
+        {
+          "symbol": "per-token stride",
+          "meaning": "Khoảng cách giữa dữ liệu gắn với token khi truyền một lát KV head; cần được giữ đúng khi mô tả các dải."
+        }
+      ],
+      "reading": [
+        "Triệu chứng xảy ra trước khi chấm điểm; xem source cho thấy đường TP khác nhau liệt kê descriptor toàn pool.",
+        "Bản vá chỉ tạo descriptor nguồn và đích cho yêu cầu hiện tại rồi gộp dải liên tục; đường TP bằng nhau, trọng số, độ chính xác, ánh xạ head và thông báo được giữ nguyên.",
+        "403,8 triệu và 188 là số descriptor ở phạm vi khác nhau. Chúng không phải byte, giây, băng thông hay mức tăng tốc đo được.",
+        "Fixture CPU vượt 720 trường hợp tương đương byte-range, nhưng đặt trạng thái xác minh truyền GPU thật là false."
+      ],
+      "tradeoff": {
+        "observation": "Hình học source đại diện cho khoảng 403,8 triệu descriptor nguồn nếu liệt kê cả pool mỗi rank; một yêu cầu liên tục 4.000 token cần 188 descriptor đã gộp. Kiểm tra tương đương CPU đạt 720 trường hợp.",
+        "hypothesis": "Bỏ descriptor cho trang KV không liên quan yêu cầu đang chạy có thể giảm việc setup mà vẫn giữ đúng byte và ánh xạ cần truyền.",
+        "conclusion": "Bản vá source và kiểm tra hình học CPU hỗ trợ cách tạo dải theo yêu cầu cùng tính tương đương địa chỉ trong các trường hợp đã thử. Chúng xác định một mục tiêu setup hợp lý và tính đúng của triển khai ở phạm vi thử, không chứng minh tăng tốc đầu cuối.",
+        "unknown": "Không đo thời gian khởi tạo descriptor cũ và mới. Fixture hình học không xác minh truyền GPU thật và không chứng minh tạo descriptor là nguyên nhân chi phối timeout."
+      },
+      "reasoning": {
+        "problem": "Liệt kê descriptor toàn pool xuất hiện trong đường TP khác nhau khi khởi động lạnh, sau khi pair-warmup thất bại.",
+        "why_it_matters": "Chuẩn bị metadata cho những trang mà yêu cầu không truyền có thể thêm công việc trước khi dịch vụ xử lý được yêu cầu đầu tiên.",
+        "why_this_test": "Đổi cách tạo descriptor sang các trang của yêu cầu, giữ ánh xạ dải KV và so hình học địa chỉ code gốc với bản vá qua các trường hợp CPU.",
+        "what_we_learned": "Bản vá giảm số đếm minh họa từ khoảng 403,8 triệu mỗi rank cho cả pool còn 188 cho yêu cầu; 720 trường hợp dải CPU được thử đều đạt. Số đếm không đo thời gian trôi qua.",
+        "next_logic": "Cần triển khai bản vá thật để xác lập tính khả thi; muốn tuyên bố tăng tốc riêng do bản vá thì vẫn cần lần chạy không vá ghép cặp và đo thời gian setup."
+      },
+      "script": "Kiểm tra source cho chúng tôi một giả thuyết setup cụ thể. Đường TP khác nhau cũ chuẩn bị descriptor cho toàn bộ pool KV. Với hình học TP8 đại diện, con số khoảng 403,8 triệu descriptor nguồn mỗi rank. Bản vá chỉ mô tả trang KV của yêu cầu hiện tại và gộp các dải liền kề; yêu cầu liên tục 4.000 token TP8 sang TP4 có 188 descriptor trong phép tính hình học CPU. Đây là số đếm với phạm vi khác nhau, không phải thời gian hay mức tăng tốc hai triệu lần. Chúng tôi so byte-range gốc và bản vá qua 720 trường hợp CPU, kết quả tương đương. Fixture ghi rõ chưa xác minh truyền GPU thật. Vì vậy, ta có bằng chứng ánh xạ được thử vẫn đúng và biết chính xác thay đổi triển khai, nhưng chưa biết nó có làm hết timeout hay tăng tốc phục vụ hay không.",
+      "caution": "Không gọi chênh lệch 403,8 triệu xuống 188 là tăng tốc suy luận. Không gọi tương đương hình học CPU là xác minh truyền GPU, cũng không nói đã loại trừ băng thông, bố trí KV, vị trí tài nguyên hay nguyên nhân bootstrap khác.",
+      "transition": "Slide cuối trong chuỗi hỏi lần chạy có bản vá thực sự chứng minh điều gì, rồi tách tính khả thi khỏi mức tăng tốc nhân quả chưa đo.",
+      "hardware": "H200 transfer path · CPU geometry checks"
+    }
+  },
+  {
+    "slide": 7,
+    "title": "The patched path became usable; descriptor-only speedup is unknown",
+    "hardware": "H200 · same recovery topology · 22271 / 22294",
+    "en": {
+      "brief": "Patched job 22294 completed warmup in 0.68–0.70 seconds per request and scored 1,422.96 good tokens/s at N32, with 95.87% joint SLA and zero errors. This proves feasibility, not isolated speedup.",
+      "purpose": "Report the end-to-end result of the patched recovery branch and define its evidence boundary. The path became usable and completed a full local N32 benchmark, but this does not measure the descriptor patch's independent contribution because there is no successful matched unpatched control.",
+      "visual": "Show before and after as two distinct job records, not a conventional speedup chart. Before: 22271 loaded workers, then timed out during pair warmup at 360 seconds; no AIPerf result. After: 22294 with the patch completed real P/D warmup in 0.68–0.70 seconds per request, then a full N32 benchmark produced 1,422.96 good tokens/s, 95.87% joint SLA, zero errors and cancellations. Place a clearly separate “not measured” callout for descriptor-only speedup and causal attribution.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "The patched H200 recovery run on the same heterogeneous-TP topology family as the earlier timeout."
+        },
+        {
+          "symbol": "0.68–0.70 s/request",
+          "meaning": "Observed pair-warmup duration per request after the servers were ready; not an isolated descriptor-initialization timer."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Full benchmark concurrency target of 32 client requests in flight."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Measured latency-qualified output-token throughput for the full N32 confirmation in job 22294."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Share of evaluated requests that passed both TTFT and mean ITL limits in the recorded run."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "No request errors or cancellations were recorded in the full confirmation result."
+        },
+        {
+          "symbol": "descriptor-only speedup",
+          "meaning": "The performance change attributable solely to descriptor construction; it requires a matched no-patch control and timing evidence that were not collected."
+        }
+      ],
+      "reading": [
+        "Before: job 22271 had a 360-second pair-warmup timeout and no AIPerf score.",
+        "After: patched job 22294 completed real P/D warmup in 0.68–0.70 seconds per request after server readiness, then completed an N32 benchmark.",
+        "The full result was 1,422.96 good tokens/s, 95.87% joint SLA, and zero errors or cancellations.",
+        "The comparison establishes feasibility of the patched topology in that run. It is not a speedup ratio: there is no successful no-patch control, no isolated old/new setup timer, and no causal latency decomposition."
+      ],
+      "tradeoff": {
+        "observation": "Job 22294's patched path completed both P/D warmup routes in 0.68–0.70 seconds per request after servers were ready, then scored 1422.96 good tokens/s at N32 with 95.87% joint SLA and zero errors/cancellations.",
+        "hypothesis": "Request-scoped descriptors may have helped make the recovery path usable, but other run differences or bootstrap work could also explain why this attempt succeeded.",
+        "conclusion": "The evidence supports patched-path feasibility and a complete local benchmark result for this recovery topology. Descriptor-only speedup and causal attribution are unknown.",
+        "unknown": "There is no successful unpatched end-to-end control for this exact topology, no old-versus-new descriptor setup time, and no controlled warmup decomposition. Network utilization, KV layout, placement, other bootstrap work, and the patch's independent goodput contribution remain unmeasured."
+      },
+      "reasoning": {
+        "problem": "Determine whether the source change was followed by a usable service path, not just a passing CPU fixture.",
+        "why_it_matters": "Only a real end-to-end request and benchmark can show the patched recovery topology became usable; CPU address checks alone cannot do that.",
+        "why_this_test": "Use the actual patched H200 deployment, observe pair warmup, then run a full N32 local confirmation with request-level SLA and error accounting.",
+        "what_we_learned": "Job 22294 warmed both P/D paths in 0.68–0.70 seconds per request after readiness and completed N32 at 1422.96 good tokens/s, 95.87% joint SLA, and zero errors/cancellations. It demonstrates feasibility in that run.",
+        "next_logic": "Close the claim at feasibility. A patch-only speedup would require a successful matched no-patch run plus isolated setup and latency evidence; the available records do not provide these."
+      },
+      "script": "We then tested the patched path in the real H200 recovery topology. Job 22294 completed both prefill and decode warmup routes in 0.68 to 0.70 seconds per request after the servers were ready. Its full N32 local benchmark measured 1,422.96 good output tokens per second, with 95.87 percent of requests passing both latency limits and no errors or cancellations. That is meaningful end-to-end feasibility evidence: this patched topology served the workload in that run. But it is not a measured speedup over job 22271. The earlier job timed out and never ran AIPerf, so it is not a successful matched control. We also lack separate old-versus-new setup timing and a breakdown of the warmup delay. The patch's independent performance effect remains unknown.",
+      "caution": "Do not divide the 360-second timeout by 0.68–0.70 seconds, call the result a speedup, or attribute the full 1,422.96 score to the patch. The jobs are not a matched performance comparison.",
+      "transition": "This closes the KV case: we can claim the patched recovery path became usable, but not how much the descriptor change alone accelerated it. The next investigation turns to separately measured backend choices.",
+      "hardware": "H200 · same recovery topology · 22271 / 22294"
+    },
+    "vi": {
+      "brief": "Job 22294 có bản vá hoàn tất warmup trong 0,68–0,70 giây mỗi yêu cầu và đạt 1.422,96 good tokens/s ở N32, SLA kết hợp 95,87%, không lỗi. Kết quả chứng minh tính khả thi, không phải mức tăng tốc riêng. Đây là bằng chứng khả thi của một lần chạy cụ thể. Cần đối chứng thành công để ước lượng tác động riêng của bản vá.",
+      "purpose": "Báo cáo kết quả đầu cuối của nhánh khôi phục có bản vá và nêu ranh giới bằng chứng. Đường chạy đã dùng được và hoàn tất benchmark N32 cục bộ, nhưng không đo phần đóng góp độc lập của bản vá descriptor vì thiếu đối chứng không vá thành công được ghép cặp.",
+      "visual": "Thể hiện trước và sau như hai hồ sơ job riêng, không dùng biểu đồ tăng tốc thông thường. Trước: job 22271 nạp worker, rồi timeout pair-warmup sau 360 giây; không có kết quả AIPerf. Sau: job 22294 có bản vá hoàn tất warmup P/D thật trong 0,68–0,70 giây mỗi yêu cầu, rồi benchmark N32 đầy đủ đạt 1.422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy. Đặt riêng ô “chưa đo” cho mức tăng tốc chỉ do descriptor và quy kết nhân quả.",
+      "terms": [
+        {
+          "symbol": "job 22294",
+          "meaning": "Lần chạy khôi phục H200 có bản vá trên cùng nhánh topology TP khác nhau với lần timeout trước."
+        },
+        {
+          "symbol": "0.68–0.70 s/request",
+          "meaning": "Thời gian warmup cặp quan sát được mỗi yêu cầu sau khi server sẵn sàng; không phải bộ định giờ riêng cho khởi tạo descriptor."
+        },
+        {
+          "symbol": "N32",
+          "meaning": "Mục tiêu concurrency 32 yêu cầu client đang xử lý cho benchmark đầy đủ."
+        },
+        {
+          "symbol": "1,422.96 good tokens/s",
+          "meaning": "Thông lượng token đầu ra đạt chuẩn đo được trong xác nhận đầy đủ N32 của job 22294."
+        },
+        {
+          "symbol": "95.87% joint SLA",
+          "meaning": "Tỷ lệ yêu cầu được đánh giá đạt cả giới hạn TTFT và mean ITL trong lần chạy đã lưu."
+        },
+        {
+          "symbol": "zero errors/cancellations",
+          "meaning": "Không ghi nhận lỗi yêu cầu hoặc yêu cầu bị hủy trong kết quả xác nhận đầy đủ."
+        },
+        {
+          "symbol": "descriptor-only speedup",
+          "meaning": "Mức thay đổi hiệu năng chỉ do tạo descriptor; cần đối chứng không vá ghép cặp và bằng chứng thời gian, hiện chưa có."
+        }
+      ],
+      "reading": [
+        "Trước: job 22271 timeout pair-warmup sau 360 giây và không có điểm AIPerf.",
+        "Sau: job 22294 có bản vá hoàn tất warmup P/D thật trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi hoàn thành benchmark N32.",
+        "Kết quả đầy đủ là 1.422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi và không hủy.",
+        "So sánh chứng minh tính khả thi của topology có bản vá trong lần chạy đó. Đây không phải tỷ lệ tăng tốc: thiếu đối chứng không vá thành công, bộ định giờ setup cũ/mới riêng và phân rã độ trễ nhân quả."
+      ],
+      "tradeoff": {
+        "observation": "Đường chạy có bản vá của job 22294 hoàn tất cả hai tuyến warmup P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng, rồi đạt 1422,96 good tokens/s ở N32 với SLA kết hợp 95,87%, không lỗi/hủy.",
+        "hypothesis": "Descriptor theo yêu cầu có thể giúp đường khôi phục dùng được, nhưng khác biệt giữa các lần chạy hoặc bootstrap khác cũng có thể giải thích lần này thành công.",
+        "conclusion": "Bằng chứng hỗ trợ tính khả thi của đường có bản vá và kết quả benchmark cục bộ đầy đủ cho topology khôi phục này. Mức tăng tốc riêng do descriptor và quy kết nhân quả vẫn chưa biết.",
+        "unknown": "Không có đối chứng đầu cuối không vá thành công trên đúng topology này, không có thời gian setup descriptor cũ-mới và không có phân rã warmup có kiểm soát. Mức sử dụng mạng, bố trí KV, vị trí tài nguyên, bootstrap khác và phần goodput riêng do bản vá đóng góp đều chưa được đo."
+      },
+      "reasoning": {
+        "problem": "Xác định thay đổi source có dẫn tới đường dịch vụ dùng được hay không, thay vì chỉ có fixture CPU vượt qua.",
+        "why_it_matters": "Chỉ yêu cầu đầu cuối và benchmark thật mới cho biết topology khôi phục có bản vá đã dùng được; kiểm tra địa chỉ CPU không thể chứng minh điều này.",
+        "why_this_test": "Dùng triển khai H200 thật có bản vá, quan sát warmup cặp, rồi chạy xác nhận N32 cục bộ đầy đủ với tính SLA từng yêu cầu và lỗi.",
+        "what_we_learned": "Job 22294 warmup cả hai đường P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng và hoàn tất N32 với 1422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi/hủy. Đây là bằng chứng khả thi trong lần chạy đó.",
+        "next_logic": "Giới hạn kết luận ở tính khả thi. Muốn nói mức tăng tốc riêng do bản vá cần một lần chạy không vá thành công được ghép cặp và dữ liệu setup/độ trễ riêng; hồ sơ hiện có không cung cấp chúng."
+      },
+      "script": "Sau đó chúng tôi thử đường có bản vá trong topology khôi phục H200 thật. Job 22294 hoàn tất cả hai tuyến warmup prefill và decode trong 0,68 đến 0,70 giây mỗi yêu cầu sau khi server sẵn sàng. Benchmark N32 đầy đủ cục bộ đo được 1.422,96 good output tokens mỗi giây; 95,87% yêu cầu đạt cả hai giới hạn độ trễ và không có lỗi hay hủy. Đây là bằng chứng khả thi đầu cuối có ý nghĩa: topology có bản vá đã phục vụ workload trong lần chạy đó. Nhưng nó không phải mức tăng tốc đo so với job 22271. Job trước timeout và chưa chạy AIPerf, nên không phải đối chứng thành công ghép cặp. Chúng tôi cũng thiếu thời gian setup cũ-mới tách riêng và phân rã độ trễ warmup. Tác động hiệu năng độc lập của bản vá vẫn chưa biết.",
+      "caution": "Không chia timeout 360 giây cho 0,68–0,70 giây để báo tăng tốc hoặc quy toàn bộ điểm 1.422,96 cho bản vá. Hai job không phải phép so sánh hiệu năng ghép cặp.",
+      "transition": "Đây là kết luận của ca KV: có thể nói đường khôi phục có bản vá đã dùng được, nhưng chưa thể nói riêng thay đổi descriptor tăng tốc bao nhiêu. Nghiên cứu kế tiếp chuyển sang lựa chọn backend được đo riêng.",
+      "hardware": "H200 · same recovery topology · 22271 / 22294"
+    }
+  }
+]

@@ -1,34 +1,46 @@
-# AI presentation — four research questions, 15–20 minutes
+# Compact AI investigation and protected OpenFOAM handoff
 
-The organising argument is how the team reasoned, using the owner's seven-step flow: problem and constraints → baseline observations → bottleneck analysis → prioritisation and hypothesis → intervention and measurement → causal assessment → decision and next iteration. Experiments support those decisions. Chronology is backup evidence.
+The official combined time and whether it includes Q&A have been requested from the owner and are not yet supplied. The earlier 15–20 minute AI-only allowance is historical context, not permission to consume the whole combined session. This plan proposes a compact AI route of about 10 minutes 40 seconds, with an explicit rehearsal stop by 12 minutes. These are preparation targets, not organiser limits or recorded timings. The independent HPC presenter must agree their time before the mock.
 
-## Main route: about 18 minutes
+## Three technical stories
 
-| Slides | Research question / purpose | Target |
+- Engineering decision: choose a feasible split of the fixed 16-H200 budget, explaining replica/TP tradeoffs and eligibility before scores.
+- Team implementation: target an observed cold transfer setup failure; change request-scoped descriptors and show exactly what CPU and real serving evidence prove.
+- Experimental findings: reuse phase-specific GPU implementations, test a matched full service change, and choose client concurrency using full trials and repetition.
+
+The four research questions remain: resource distribution, performance limits, SLA-qualified interventions and robustness. Each story follows problem → observation → prioritisation/hypothesis → intervention/control → evidence → supported decision/limit. Eligibility, feasibility and performance are different claims.
+
+## Rehearsal targets
+
+| Slide | Spoken purpose | Target |
 |---|---|---:|
-| 1–2 | Four questions, fixed model/resource/workload and success criterion | 1:30 |
-| 3–5 | RQ1: feasible layouts, selected split and why readiness was insufficient | 3:00 |
-| 6–7 | RQ2: what profiling and the historical setup failure do and do not establish | 2:30 |
-| 8–11 | RQ3: backend interaction, matched N60 gain, load and request-level failures | 4:00 |
-| 12–13 | RQ3: reject proxy wins and failed speculative hypotheses | 1:30 |
-| 14–18 | RQ4: repeats, drift, cross-platform forecast, quality and real deployment | 4:00 |
-| 19–20 | Four supported decisions and the next evidence needed | 1:30 |
-| 21–32 | Supporting history, detailed mechanisms and configurations | Q&A backup |
+| 1 | Fixed task and success criterion | 0:35 |
+| 2 | What we own, reuse and learned; how the investigations relate | 0:30 |
+| 3 | Resource tradeoff and what topology evidence permits | 0:40 |
+| 4 | Retained architecture and added transfer cost | 0:35 |
+| 5 | Concrete failure before scoring | 0:40 |
+| 6 | Why setup first; exact patch and CPU checks | 0:50 |
+| 7 | Real patched outcome and missing causal comparison | 0:45 |
+| 8 | Profile-driven hypotheses, not assumed bottlenecks | 0:45 |
+| 9 | Matched implementation test and held-fixed factors | 0:40 |
+| 10 | Goodput/TTFT/ITL tradeoff and independent repeat | 0:50 |
+| 11 | Full N64 result, repeat and N68 stopping rule | 0:45 |
+| 12 | Which request-level condition still fails | 0:40 |
+| 13 | Why repeated evidence wins over an isolated peak | 0:40 |
+| 14 | One cross-platform forecast and incomplete uncertainty | 0:40 |
+| 15 | Reject proxy improvements that lose service throughput | 0:35 |
+| 16 | Remaining validation and handoff to OpenFOAM | 0:30 |
 
-**15-minute route:** compress slide 5 into the layout explanation, combine 12–13 into one negative-trial lesson, and use 16 only when cross-platform comparison is relevant. Preserve the fixed objective, why each test was chosen, strongest controlled evidence and causal limits.
+Total target: 10:40. Reserve the gap to 12:00 for navigation, transitions and natural delivery. If the total session is shorter, reduce optional cross-platform/negative-trial detail first; do not erase the missing-evidence statements or consume the HPC presenter’s slot. Confirm the actual combined allocation and Q&A rule before setting the final script length.
 
-**20-minute route:** use the main route and one requested mechanism backup. Slides 24–25 answer the complete KV-transfer case. Do not spend the buffer reading a job inventory.
+## Slide-show navigation
 
-Slides 33–40 are the independent unchanged HPC section; this plan does not assign the HPC team's time. Confirm whether the organiser includes questions in the allowance. The timings are rehearsal targets, not an organiser timetable.
+The PowerPoint contains 40 physical slides. AI 1–16 is the main talk. AI backups 17–32 are hidden in normal slide-show mode; after 16 the show advances to the unchanged OpenFOAM slide 33, continuing through 40. Backups remain available through the slide navigator for questions. Test this once in the actual presentation application; artifact validation checks the hidden flags, not the live screen-sharing application.
 
-## Explain each experiment as a decision
+TripleU_APAC2026_Main_Talk.pdf contains the 24 visible pages in presentation order: AI 1–16 followed by HPC 33–40. The full 40-page PDF retains the AI backups for Q&A. If presenting from the full PDF, jump to page 33 after AI 16; PDF readers do not follow PowerPoint hidden-slide flags.
 
-1. What blocked the objective or made us question the baseline?
-2. Which observation is measured, and on what hardware/configuration?
-3. What explanation did we suspect, and which alternatives remain possible?
-4. Why was this intervention the next informative test?
-5. What was held fixed, changed and actually measured?
-6. What can the result attribute, and what is still unmeasured?
-7. Did we retain, reject, repeat or propose another validation?
+## Speak the inference, not the table
 
-Use only two or three numbers per spoken explanation. Keep exact controls, job IDs and all failed evidence in the guide for Q&A. Assign an architecture owner, experiment owner and evidence/limits backup; combine roles if needed. Test microphone and screen sharing, keep the PDF ready, and rehearse against a timer.
+For each main slide, state why the question matters, one decisive observation and the decision it supports. Use the short brief if time is tight; use the longer script only for rehearsal and questions. Do not read every job ID, every metric or the complete configuration row. Say “the evidence motivated this test” when it does not establish the causal bottleneck.
+
+The AI speaker owns the AI claims. A support member can supply the exact source/control/limit. Hand OpenFOAM questions to its independent owner; do not improvise CPU causality. Use MOCK_QA_EVIDENCE.md for cross-examination, and record actual timing/feedback only after the human mock occurs.

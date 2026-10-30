@@ -1,40 +1,42 @@
-# Research coverage in the question-led presentation
+# Investigation coverage and supporting history
 
-The main argument follows four research questions and the owner-supplied seven-step reasoning cycle. The timeline is supporting evidence in backup23; original records and losing branches remain retained. This is a navigation remap of the previous coverage audit, not new experiment validation or a claim to reconstruct every historical chat sentence.
+The main talk has 16 AI slides around three complete technical stories and four research questions. AI 17–32 are hidden backups; the slideshow continues from 16 to unchanged OpenFOAM 33. No historical failure or lower result is deleted. This document remaps retained source navigation; it is not a new audit of every experiment or chat statement.
 
-| Previous AI topic/slide | New slide(s) |
+## Previous question-led edition to compact edition
+
+| Prior slide | Current slide(s) |
 |---|---|
-| 1 | 1 |
-| 2 | 14 |
-| 3 | 2 |
-| 4 | 21 |
-| 5 | 4 |
-| 6 | 3 |
-| 7 | 5, 7, 24, 25 |
-| 8 | 22 |
-| 9 | 1, 2 |
-| 10 | 23 |
-| 11 | 8 |
-| 12 | 10, 14 |
-| 13 | 6 |
-| 14 | 9 |
-| 15 | 11 |
-| 16 | 26 |
-| 17 | 12, 26 |
-| 18 | 27 |
-| 19 | 16 |
+| 1 | 1, 2 |
+| 2 | 1 |
+| 3 | 3 |
+| 4 | 4 |
+| 5 | 5 |
+| 6 | 8 |
+| 7 | 6, 7 |
+| 8 | 32 |
+| 9 | 9, 10 |
+| 10 | 11 |
+| 11 | 12 |
+| 12 | 15, 22 |
+| 13 | 15, 30 |
+| 14 | 13 |
+| 15 | 13, 29 |
+| 16 | 14 |
+| 17 | 16 |
+| 18 | 16, 31 |
+| 19 | 2 |
 | 20 | 16 |
-| 21 | 12, 28 |
-| 22 | 17 |
-| 23 | 13 |
-| 24 | 14, 19 |
-| 25 | 15 |
-| 26 | 29 |
-| 27 | 30 |
-| 28 | 12, 32 |
-| 29 | 2, 31 |
-| 30 | 31 |
-| 31 | 18 |
-| 32 | 19, 20 |
+| 21 | 17 |
+| 22 | 18 |
+| 23 | 19 |
+| 24 | 6, 20 |
+| 25 | 7, 21 |
+| 26 | 22 |
+| 27 | 23 |
+| 28 | 24 |
+| 29 | 25 |
+| 30 | 26 |
+| 31 | 27 |
+| 32 | 15, 28 |
 
-The shared source index retains 220 dated journal entries with source hashes, prior slide numbers and new navigation. HPC and operations records retain their scope. The eight independent HPC presentation slides and dependency bytes are protected separately.
+The source index retains 220 dated entries with provenance, prior mappings and the current evidence scope. See FEEDBACK_RESPONSE.md for the requested-stage response and investigation-contributions.json for the contribution classes.
