@@ -1,0 +1,195 @@
+{
+  "title": "What did the investigation contribute?",
+  "purpose": "Separate three kinds of contribution—an engineering decision, a team implementation, and experimental evidence—then show how they relate without turning them into one cumulative speedup claim.",
+  "classifications": [
+    {
+      "id": "topology-decision",
+      "class": "Engineering decision",
+      "label": {
+        "en": "Engineering decision: choose a feasible 16-GPU topology",
+        "vi": "Quyết định kỹ thuật: chọn topology khả thi trên 16 GPU"
+      },
+      "scope": {
+        "en": "H200 cluster, two eight-GPU nodes, Qwen 3-235B FP8; two TP4/EP1 prefill workers and one TP8/EP8 decode worker.",
+        "vi": "Cluster H200 gồm hai node, mỗi node tám GPU, Qwen 3-235B FP8; hai worker prefill TP4/EP1 và một worker decode TP8/EP8."
+      },
+      "story": {
+        "problem": {
+          "en": "We needed to distribute 16 H200 GPUs between prompt processing (prefill) and token generation (decode) while meeting FP8 shard/block compatibility and request-level service gates.",
+          "vi": "Cần chia 16 GPU H200 cho xử lý prompt (prefill) và sinh token (decode), đồng thời bảo đảm cách chia shard tương thích FP8 và đáp ứng các giới hạn dịch vụ ở từng request."
+        },
+        "why_prioritized": {
+          "en": "The team compared 17 usable measured configurations: 14 original layouts and three EP2 replacements. The selected split gave two prefill replicas, kept each tensor-parallel group within one eight-GPU node, and allowed different implementations for prefill and decode. FP8 shard geometry ruled out some otherwise plausible expert/tensor splits: one tested TP8/EP1 MoE partition was 192 elements against a required 128-wide block, while EP2 produced 384-element partitions but still required separate response and performance validation. The layout is a feasible engineering choice under these constraints, not the winner of a uniform tournament.",
+          "vi": "Nhóm so sánh 17 cấu hình đã đo và dùng được: 14 layout ban đầu cùng ba phương án thay thế EP2. Cách chia được chọn tạo hai worker prefill, giữ mỗi nhóm tensor-parallel trong một node tám GPU và cho phép dùng implementation riêng theo pha. Hình học shard FP8 loại một số cách chia expert/tensor có vẻ hợp lý: một phân vùng MoE TP8/EP1 đã thử có 192 phần tử trong khi block yêu cầu bề rộng 128; EP2 tạo phân vùng 384 phần tử nhưng vẫn cần xác minh response và hiệu năng riêng. Đây là quyết định kỹ thuật khả thi theo ràng buộc, không phải quán quân của một cuộc thi đồng nhất."
+        },
+        "hypothesis": {
+          "en": "Replicating prefill while assigning a wider decode group could balance prompt processing and generation, if request KV state transfers correctly between nodes.",
+          "vi": "Nhân đôi prefill và dành một nhóm decode rộng hơn có thể cân bằng xử lý prompt với sinh token, với điều kiện truyền đúng trạng thái KV của request giữa các node."
+        },
+        "change_and_control": {
+          "en": "Selected two TP4/EP1 prefill workers on node 0 and one TP8/EP8 decode worker on node 1, for 16 GPUs total. Requests are routed round-robin to prefill; their KV state then transfers to decode through NIXL. The topology trials were historical comparisons across different loads and transfer histories, not a one-factor matched control.",
+          "vi": "Chọn hai worker prefill TP4/EP1 trên node 0 và một worker decode TP8/EP8 trên node 1, tổng cộng 16 GPU. Request được phân luân phiên tới prefill; trạng thái KV sau đó truyền sang decode qua NIXL. Các phép thử topology là so sánh lịch sử ở tải và lịch sử truyền khác nhau, không phải control ghép cặp chỉ đổi một yếu tố."
+        },
+        "evidence": {
+          "en": "The recovery ledger records 17 usable measured configurations. In the early topology sample, the selected split reached 1,912.30 good output tokens/s at N48, compared with displayed N32 and N40 observations of 1,297.02 and 1,666.01. N48 means client concurrency 48; good output tokens/s is qualifying requests per second multiplied by the fixed 200-token target. These numbers help establish feasibility; the loads differ and do not isolate a topology effect.",
+          "vi": "Sổ phục hồi ghi 17 cấu hình đã đo và dùng được. Trong mẫu topology ban đầu, cách chia được chọn đạt 1.912,30 good output tokens/s ở N48; các quan sát N32 và N40 hiển thị là 1.297,02 và 1.666,01. N48 là concurrency client 48; good output tokens/s bằng request đạt điều kiện mỗi giây nhân mục tiêu 200 token cố định. Các số này giúp xác lập tính khả thi; tải khác nhau nên không cô lập tác động topology."
+        },
+        "decision": {
+          "en": "Retain the split as the measured H200 architecture used for subsequent work. Describe it as a constraint-aware, usable design, not as a globally optimal topology or a causal source of every later score increase.",
+          "vi": "Giữ cách chia này làm kiến trúc H200 đã đo và dùng cho công việc tiếp theo. Mô tả đây là thiết kế khả thi có xét ràng buộc, không phải topology tối ưu toàn cục hay nguyên nhân nhân quả của mọi mức tăng điểm về sau."
+        },
+        "limits": {
+          "en": "Historical layout scores differ in load, software/transport history and other settings; the 17 count does not mean 17 identical controlled candidates. The topology diagram itself does not measure bandwidth, transfer time, utilization or advantage over a unified deployment. FP8 compatibility and correct P/D transfer are eligibility requirements, not measured speedups.",
+          "vi": "Điểm layout lịch sử khác tải, lịch sử phần mềm/truyền dữ liệu và setting khác; con số 17 không có nghĩa 17 ứng viên được kiểm soát giống hệt. Sơ đồ topology không đo băng thông, thời gian truyền, mức sử dụng tài nguyên hay lợi thế so với triển khai thống nhất. Tương thích FP8 và truyền P/D đúng là điều kiện khả thi, không phải mức tăng tốc đã đo."
+        },
+        "bridge": {
+          "en": "This matters because later transfer and kernel experiments need a feasible serving architecture first. The topology narrows what can run; it does not explain later gains by itself.",
+          "vi": "Điều này quan trọng vì các thí nghiệm truyền KV và kernel sau đó cần một kiến trúc phục vụ khả thi. Topology xác định phương án có thể chạy; tự nó không giải thích các gain về sau."
+        }
+      },
+      "evidence_refs": [
+        "Topology recovery ledger: 14 original measured layouts + 3 EP2 replacements.",
+        "Early selected split observation: 1,912.30 good tokens/s at N48; N32 1,297.02; N40 1,666.01.",
+        "Selected topology: two TP4/EP1 prefill workers on node 0; one TP8/EP8 decode worker on node 1; NIXL KV transfer."
+      ]
+    },
+    {
+      "id": "request-scoped-nixl",
+      "class": "Team technical contribution",
+      "label": {
+        "en": "Technical contribution: request-scoped heterogeneous-TP NIXL descriptors",
+        "vi": "Đóng góp kỹ thuật: descriptor NIXL theo request cho TP không đồng nhất"
+      },
+      "scope": {
+        "en": "H200 Firmus recovery branch, heterogeneous P8 TP8/EP2 prefill to D8 TP4/EP4 decode; distinct from the selected two-TP4 prefill plus TP8/EP8 decode topology.",
+        "vi": "Nhánh khôi phục H200 Firmus, prefill P8 TP8/EP2 truyền sang decode D8 TP4/EP4; khác topology được chọn gồm hai prefill TP4 và decode TP8/EP8."
+      },
+      "story": {
+        "problem": {
+          "en": "Job 22271 loaded the model workers, but a real prefill-to-decode pair warmup timed out after 360 seconds. The log ended in HTTP TimeoutError. AIPerf never ran, so this was not a low-throughput result.",
+          "vi": "Job 22271 nạp được model worker nhưng warmup thật qua cặp prefill–decode timeout sau 360 giây. Log kết thúc bằng HTTP TimeoutError. AIPerf chưa chạy, vì vậy đây không phải kết quả throughput thấp."
+        },
+        "why_prioritized": {
+          "en": "Source inspection found whole-pool KV descriptor enumeration in the heterogeneous-TP NIXL path. The estimated scope was about 403.8 million source descriptors per rank for the full pool, versus 188 coalesced ranges for one representative contiguous 4,000-token request. This made setup overhead a concrete first hypothesis that matched the pre-score symptom. It did not rule out bandwidth, KV layout, placement, or other bootstrap causes.",
+          "vi": "Kiểm tra source phát hiện đường NIXL TP không đồng nhất liệt kê descriptor cho toàn bộ KV pool. Ước tính khoảng 403,8 triệu descriptor nguồn mỗi rank cho toàn pool, so với 188 dải đã gộp cho một request liên tục đại diện 4.000 token. Vì vậy chi phí setup là giả thuyết cụ thể đầu tiên, phù hợp triệu chứng trước khi chấm điểm. Điều này không loại trừ băng thông, layout KV, vị trí worker hay nguyên nhân bootstrap khác."
+        },
+        "hypothesis": {
+          "en": "Building source and destination transfer descriptors only for the current request's KV pages, and coalescing adjacent ranges, could reduce irrelevant setup work and allow the heterogeneous pair to warm up.",
+          "vi": "Chỉ tạo descriptor truyền nguồn/đích cho các trang KV của request hiện tại và gộp các dải liền kề có thể giảm việc setup không cần thiết, giúp cặp worker khác TP hoàn tất warmup."
+        },
+        "change_and_control": {
+          "en": "The team patched the heterogeneous-TP NIXL descriptor path to construct request-scoped ranges and coalesce contiguous ranges, while preserving the existing mapping, precision and notification behavior. The geometry patch was checked against 720 CPU range-equivalence cases. A separate fixture explicitly did not validate physical GPU transport. There was no successful unpatched scored control; job 22271 is a 360-second warmup timeout with no AIPerf score, not a performance baseline.",
+          "vi": "Nhóm sửa đường descriptor NIXL TP không đồng nhất để tạo dải theo request và gộp các dải liên tiếp, đồng thời giữ nguyên mapping, precision và cơ chế notification hiện có. Hình học dải được kiểm tra bằng 720 trường hợp tương đương trên CPU. Fixture riêng không xác minh truyền vật lý trên GPU. Không có control cũ thành công để chấm điểm; job 22271 timeout warmup 360 giây, không có điểm AIPerf nên không phải baseline hiệu năng."
+        },
+        "evidence": {
+          "en": "After the patch, job 22294 completed warmup on both real P/D paths in 0.68–0.70 seconds per request. The full N32 run measured 1,422.96 good tokens/s, 95.87% joint SLA, and zero errors/cancellations. This shows the patched heterogeneous path became feasible for measured serving. It does not quantify the descriptor-only end-to-end speedup: the old run timed out before scoring, and CPU geometry tests establish range equivalence rather than GPU transfer performance.",
+          "vi": "Sau patch, job 22294 hoàn tất warmup trên cả hai đường P/D thật trong 0,68–0,70 giây mỗi request. Run N32 đầy đủ đo 1.422,96 good tokens/s, SLA đồng thời 95,87% và không lỗi/hủy. Điều này cho thấy đường TP không đồng nhất đã sửa trở nên khả thi để phục vụ và đo. Nó không định lượng speedup đầu-cuối riêng do descriptor: run cũ timeout trước khi chấm điểm, còn kiểm tra hình học CPU chỉ chứng minh dải tương đương, không chứng minh hiệu năng truyền GPU."
+        },
+        "decision": {
+          "en": "Retain the request-scoped descriptor patch as the team's concrete implementation contribution and as a feasibility repair for this branch. Do not claim the 360-second timeout divided by 0.7 seconds is a measured speedup or attribute the full N32 score to the patch alone.",
+          "vi": "Giữ patch descriptor theo request như đóng góp implementation cụ thể của nhóm và bản sửa giúp nhánh này chạy được. Không lấy 360 giây chia 0,7 giây làm speedup đã đo, cũng không quy toàn bộ điểm N32 cho riêng patch."
+        },
+        "limits": {
+          "en": "No old-code setup timer, successful unpatched full control, descriptor-only ablation, link bandwidth series, or causal latency decomposition is available. The fixed topology branch differs from the later selected architecture. Correctness fixtures and end-to-end feasibility are separate proof layers.",
+          "vi": "Không có timer setup code cũ, control full thành công chưa patch, ablation chỉ đổi descriptor, chuỗi đo băng thông link hay phân rã latency nhân quả. Nhánh topology này khác kiến trúc chọn về sau. Fixture tính đúng và tính khả thi đầu-cuối là hai lớp bằng chứng riêng."
+        },
+        "bridge": {
+          "en": "This contribution removed one concrete readiness barrier, which allowed later performance experiments to run. Once the pair was measurable, profiles could generate new questions—but those profiles do not retrospectively prove what caused the earlier timeout.",
+          "vi": "Đóng góp này gỡ một rào cản sẵn sàng cụ thể để các phép đo hiệu năng sau có thể chạy. Khi cặp worker đo được, profile gợi ra câu hỏi mới; nhưng profile về sau không chứng minh ngược lại điều gì đã gây timeout ban đầu."
+        }
+      },
+      "evidence_refs": [
+        "Job 22271: model workers loaded; heterogeneous P/D warmup timeout after 360 s; HTTP TimeoutError; no AIPerf.",
+        "Source geometry: about 403.8 million full-pool descriptors/source rank vs 188 coalesced ranges for contiguous 4,000-token request.",
+        "Patch: request-scoped source/destination ranges, coalescing, mapping/precision/notifications preserved.",
+        "CPU geometry equivalence: 720 cases; not physical GPU transport validation.",
+        "Job 22294: real P/D warmup 0.68–0.70 s/request; full N32 1,422.96 good tokens/s; 95.87% joint SLA; zero errors/cancellations."
+      ]
+    },
+    {
+      "id": "phase-specific-experiment",
+      "class": "Experimental method and finding",
+      "label": {
+        "en": "Experimental contribution: phase-specific backends, matched tests, and bounded conclusions",
+        "vi": "Đóng góp thực nghiệm: backend theo pha, phép thử đối chứng và kết luận có giới hạn"
+      },
+      "scope": {
+        "en": "H200 full N60 decode-runner comparison and full N62→N64 concurrency study. A separate H200 N48 profile generated hypotheses but is not a matched causal comparison. The team evaluated supplied phase-specific implementations; it does not claim to have invented HPC-Ops, DeepGEMM, MNNVL, or FlashInfer.",
+        "vi": "So sánh decode runner H200 full N60 và nghiên cứu concurrency H200 full N62→N64. Profile H200 N48 riêng gợi ra giả thuyết nhưng không phải phép so sánh nhân quả ghép cặp. Nhóm đánh giá các implementation theo pha được cung cấp; không nhận đã phát minh HPC-Ops, DeepGEMM, MNNVL hay FlashInfer."
+      },
+      "story": {
+        "problem": {
+          "en": "After a feasible service path existed, the question became which execution choices improve the actual request objective—qualifying goodput under joint TTFT and ITL limits—rather than a kernel proxy or one latency metric.",
+          "vi": "Sau khi có đường dịch vụ khả thi, câu hỏi chuyển thành lựa chọn thực thi nào cải thiện mục tiêu request thật—goodput đạt điều kiện giới hạn TTFT và ITL đồng thời—thay vì metric proxy kernel hay một loại latency riêng."
+        },
+        "why_prioritized": {
+          "en": "A separate H200 N48 profile recorded HPC group GEMM 21.642%, MNNVL collective/RMSNorm 23.479%, and FlashInfer attention 15.064% of summed kernel duration. These diagnostic observations suggested questions about phase-specific computation and communication. Kernel durations can overlap and are not fractions of request walltime; the profile motivated independent full tests rather than proving a bottleneck or explaining N60/N64 outcomes.",
+          "vi": "Profile H200 N48 riêng ghi HPC group GEMM 21,642%, MNNVL collective/RMSNorm 23,479% và FlashInfer attention 15,064% tổng thời lượng kernel được ghi. Các quan sát chẩn đoán gợi ý câu hỏi về tính toán và giao tiếp theo pha. Thời lượng kernel có thể chồng lấp, không phải phần walltime request; profile thúc đẩy các phép thử đầy đủ độc lập, không chứng minh bottleneck hay giải thích kết quả N60/N64."
+        },
+        "hypothesis": {
+          "en": "Supplied implementations can be selected by phase, and changing decode execution or client concurrency may improve qualifying full-service throughput. Only matched full runs and repeats can show whether a gain survives request latency and output gates.",
+          "vi": "Có thể chọn implementation được cung cấp riêng theo pha; thay đổi thực thi decode hoặc concurrency client có thể cải thiện throughput dịch vụ đạt chuẩn. Chỉ run đầy đủ ghép cặp và lần lặp mới cho biết gain có giữ được qua giới hạn latency request và output hay không."
+        },
+        "change_and_control": {
+          "en": "At H200 full N60, fresh auto-decode control 24912 was compared with supplied HPC-Ops decode treatment/repeat 24913; both retained supplied DeepGEMM prefill, chunk 8192, and full 60/120/30 protocol. Separately, H200 full N62 control 25365 was compared with N64 candidate 25366 and independent N64 repeat 25373. These are two distinct studies, not a sequence of cumulative one-factor changes.",
+          "vi": "Ở H200 full N60, control auto-decode mới 24912 được so với treatment/lần lặp decode HPC-Ops được cung cấp 24913; cả hai giữ DeepGEMM prefill được cung cấp, chunk 8192 và protocol đầy đủ 60/120/30. Riêng nghiên cứu H200 full N62 so control 25365 với candidate N64 25366 và lần N64 độc lập 25373. Đây là hai nghiên cứu riêng, không phải chuỗi thay đổi tích lũy từng yếu tố."
+        },
+        "evidence": {
+          "en": "N60: goodput 2,838.853→2,989.175 (+5.295%); mean TTFT 822.292→947.627 ms; mean request-mean ITL 16.579→14.934 ms; joint SLA 98.7599→98.8178%. Treatment 24913 is 0.033% below original treatment 24738 at 2,990.151. N62→N64: 3,011.875113→3,044.489701 (+1.082867%); independent N64 25373 is 3,044.074628. The short N68 screen appeared +2.27%, but its full pair was only +0.083056%.",
+          "vi": "N60: goodput 2.838,853→2.989,175 (+5,295%); TTFT trung bình 822,292→947,627 ms; ITL trung bình/request 16,579→14,934 ms; SLA đồng thời 98,7599→98,8178%. Treatment 24913 thấp hơn treatment ban đầu 24738 đạt 2.990,151 là 0,033%. N62→N64: 3.011,875113→3.044,489701 (+1,082867%); N64 độc lập 25373 đạt 3.044,074628. Sàng lọc N68 ngắn có vẻ tăng 2,27%, nhưng cặp đầy đủ chỉ +0,083056%."
+        },
+        "decision": {
+          "en": "Keep claims tied to their own controls: the N60 result supports a supplied phase-specific decode interaction with a first-token latency cost; N64 supports a modest concurrency step with an independent repeat; short N68 does not justify a higher setting. These operating-point findings are separate, not cumulative causal gains.",
+          "vi": "Gắn tuyên bố với control riêng: kết quả N60 hỗ trợ tương tác decode theo pha được cung cấp, kèm chi phí TTFT; N64 hỗ trợ bước concurrency vừa phải có lần lặp độc lập; phép N68 ngắn không biện minh cho setting cao hơn. Đây là các phát hiện operating point riêng, không phải gain nhân quả tích lũy."
+        },
+        "limits": {
+          "en": "The N48 profile is separate from N60/N64 and its kernel-time shares do not prove bottlenecks. The extended inspection for N60 job 24913 lacks dedicated continuous hardware sampling. N64 repeat allocations sampled the same GPU UUID set. These tests do not establish a universal backend ranking, kernel-level causal breakdown, confidence interval, or global optimum.",
+          "vi": "Profile N48 tách khỏi N60/N64 và tỷ trọng kernel không chứng minh bottleneck. Kiểm tra mở rộng job N60 24913 thiếu chuỗi lấy mẫu phần cứng liên tục riêng. Allocation N64 lặp lấy mẫu cùng tập GPU UUID. Các phép thử không xác lập xếp hạng backend phổ quát, phân rã nhân quả tới kernel, khoảng tin cậy hay optimum toàn cục."
+        },
+        "bridge": {
+          "en": "The experimental contribution is the method as well as the score: use profiles to ask a question, keep a full-run control, change a defined serving choice, measure goodput and latency together, then repeat or reject. This prevents a proxy metric or short screen from being mistaken for a service improvement.",
+          "vi": "Đóng góp thực nghiệm nằm ở phương pháp bên cạnh điểm số: dùng profile đặt câu hỏi, giữ control full-run, đổi lựa chọn phục vụ xác định, đo đồng thời goodput và latency, rồi lặp hoặc bác bỏ. Cách này tránh nhầm metric proxy hay phép thử ngắn thành cải thiện dịch vụ."
+        }
+      },
+      "evidence_refs": [
+        "Separate H200 N48 profile 24819: named kernel-duration shares; diagnostic motivation, not N60/N64 causal proof.",
+        "H200 full N60 control/treatment 24912/24913; original treatment 24738.",
+        "H200 full N62/N64 25365/25366; independent N64 25373; N68 full-pair comparison."
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "topology-decision",
+      "to": "request-scoped-nixl",
+      "type": "constrains; separate branches",
+      "en": "The selected split's FP8 and node constraints define a feasible architecture, but the descriptor patch was tested in a different heterogeneous-TP recovery branch. Do not imply the patch caused the selected topology's scores.",
+      "vi": "Ràng buộc FP8 và node của topology được chọn xác định kiến trúc khả thi, nhưng patch descriptor được thử ở nhánh khôi phục TP không đồng nhất khác. Không hàm ý patch gây ra điểm số của topology được chọn."
+    },
+    {
+      "from": "request-scoped-nixl",
+      "to": "phase-specific-experiment",
+      "type": "feasibility prerequisite, not score attribution",
+      "en": "The repaired request-scoped transfer path made measured heterogeneous P/D serving feasible. It enabled further investigation, but it does not explain or add a quantified amount to later H200 N60/N64 results.",
+      "vi": "Đường truyền theo request sau sửa giúp dịch vụ P/D khác TP trở nên khả thi để đo. Nó mở đường cho nghiên cứu tiếp theo, nhưng không giải thích hay cộng thêm một mức định lượng vào kết quả H200 N60/N64 về sau."
+    },
+    {
+      "from": "profile-N48",
+      "to": "phase-specific-experiment",
+      "type": "motivates; does not prove cause",
+      "en": "A separate N48 profile suggested backend and communication questions. Those observations motivated independent matched tests; they are not causal evidence for the N60 decode gain or N64 concurrency result.",
+      "vi": "Profile N48 riêng gợi ý câu hỏi về backend và giao tiếp. Quan sát đó thúc đẩy phép thử ghép cặp độc lập; nó không phải bằng chứng nhân quả cho gain decode N60 hay kết quả concurrency N64."
+    },
+    {
+      "from": "phase-specific-experiment",
+      "to": "selection",
+      "type": "supports local decisions; not cumulative chain",
+      "en": "N60 and N64 have distinct controls, workloads, and repeats. Their results support separate operating-point decisions. Do not add the gains as a single cumulative improvement or assume each later score inherits the prior causal effect.",
+      "vi": "N60 và N64 có control, workload và lần lặp riêng. Kết quả hỗ trợ các quyết định operating point tách biệt. Không cộng gain thành một mức cải thiện tích lũy hay giả định mỗi điểm về sau kế thừa hiệu ứng nhân quả trước."
+    }
+  ],
+  "reader_guide": {
+    "en": "Contribution classes answer different questions: (1) what architecture was selected under constraints, (2) what code the team changed, and (3) what controlled measurements support. The causal map is intentionally limited: topology constrains feasibility; request-scoped transfer repairs one pre-score readiness branch; profile data proposes later hypotheses; matched full tests support bounded settings. No arrow means a quantified speedup unless a measured comparison explicitly says so.",
+    "vi": "Ba loại đóng góp trả lời ba câu hỏi khác nhau: (1) chọn kiến trúc nào dưới ràng buộc, (2) nhóm đã thay đổi code gì, và (3) phép đo có đối chứng nào hỗ trợ kết luận. Sơ đồ quan hệ được giới hạn có chủ ý: topology ràng buộc tính khả thi; truyền theo request sửa một nhánh chưa sẵn sàng trước chấm điểm; profile gợi ý giả thuyết sau; run đầy đủ có đối chứng hỗ trợ setting có phạm vi. Mũi tên nào cũng không hàm ý speedup định lượng trừ khi phép so đo ghi rõ."
+  }
+}
