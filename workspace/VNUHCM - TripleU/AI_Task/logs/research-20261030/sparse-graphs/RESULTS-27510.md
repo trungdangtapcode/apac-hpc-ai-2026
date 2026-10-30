@@ -1,0 +1,13 @@
+# Sparse decode graphs: lower capture memory, no throughput gain
+
+Reviewed 30 October 2026, Vietnam time (UTC+7). Job **27510 completed 0:0 in 13:15**, 16 H200 on g1/g4. Independent frozen raw, runtime, KV, two semantic routes, smoke and retrieval checks pass. Good output throughput is **3029.861122 tokens/s**, **-0.370208%** against control 27376 at 3041.119598. Retain dense graph buckets 1–64.
+
+The hypothesis was that 12 capture buckets could reduce startup/capture resources while preserving common batches 50–56. Actual current-job receipts prove all 12 captures on all eight decode ranks with compile off; the observer disables before benchmarking. Decode capture logs report 95.98–96.05 seconds and 0.36 GB per rank versus 101.46–101.49 seconds and 1.15 GB for the full-list control. These are native log memory labels, not total sampled VRAM. Saving 52 capture buckets did not proportionally reduce startup time, and it did not improve serving goodput.
+
+There are 1870/1896 good requests (98.628692%), 26 TTFT and zero ITL breaches, zero errors/cancellations, smoke 7/8 without regression and retrieval 12/12. Mean/p95 TTFT is 1102.404/1240.481 ms; mean/p95 request-mean ITL is 15.136/15.324 ms. The fresh full-list control has 1119.985/1332.727 ms TTFT and 14.991/15.166 ms ITL. Lower TTFT and capture memory therefore do not imply higher useful throughput.
+
+Inspected role logs, eight actual source/job/experiment-bound capture receipts, physical BF16 KV and semantic paths, raw requests/tails/errors, role-local queue/running/KV gauges, sampled GPU activity/VRAM and host CPU/memory, plus all 72 HTTP-200 server polls. Decode mean running count is 49.542, maximum 55, sampled queue zero and mean token occupancy 0.1142. Five-second sparse samples are bounded by profiling request starts with uncalibrated clocks; they do not prove steady-state utilization or a causal bottleneck. No complete kernel-time, hot CPU-thread, Xid/throttle-reason or final-drain profile exists.
+
+Observed occupancy is 3.533333 GPU-hours, maximum 4.533334, zero PBS SU. All terminal artifacts are sealed. The comparator is an earlier same-config control, not an immediate randomized matched repeat; engine seeds and observer startup differ. This single observation does not establish a universal sparse-graph ranking. Official full-set accuracy remains UNKNOWN.
+
+Decision: close this unchanged list and retain dense graphs. No new job, compile retry or background work follows: the owner stopped research, then authorised this results/presentation/submission update only. Full Qwen compile 27383 remains a separate failed native RoPE interface trial; C++ CPU 27506 is only a prerequisite pass.

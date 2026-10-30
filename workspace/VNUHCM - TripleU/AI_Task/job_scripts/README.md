@@ -53,8 +53,11 @@ requests (98.580442%), zero errors/cancellations. This is one local N64
 observation. The 26766 native-runtime run reproduces the historical N64 score level; this is not a matched runtime gain.
 N60 independently repeated at 2990.150791 and 2989.174711; see the retained raw
 exports and results table for exact values. All platform comparisons remain
-separate. The portable entry point is statically checked and exercised with
-mock orchestration and replayed artifacts; it has no separate GPU replay yet.
+separate. Actual portable jobs 27136 and 27145 completed both semantic routes and the
+official GPU client, then failed in result-reader namespace/alias handling.
+Their original FAILED states remain. The corrected exact readers passed on
+compute CPU job 27152 for both retained raw datasets; a whole-allocation
+end-to-end run after that repair has not been performed.
 
 The organiser full-set accuracy check (at least 99% of reference) remains
 unverified. Small output checks and SLA acceptance do not certify it.
@@ -68,3 +71,18 @@ Rules: https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902
 Before scoring, the primary job starts two independent P/D routers and sends one semantic request through each route. It validates both response bodies and writes replayable receipts tied to the endpoint inventory and current run token. The warmup has a 13-minute absolute deadline from submit start, leaving at least four minutes for scoring and cleanup, and fails closed on a missing, stale or invalid receipt. The official AIPerf command is invoked once after both paths pass.
 
 The selected primary point is reproduced by H200 job 26766 at 3045.501509 good output tokens/s. See `../logs/measured/latest-results.md` for comparison with the historical three-run N64 mean, losing larger-chunk controls, run limits and accuracy status. The measured patch is the base 912b7 NIXL change; no diagnostic observer wrapper is shipped.
+
+
+## Reviewed selection on 30 October 2026
+
+Keep this replicated N64 target-only configuration. The highest complete local
+full pass, prefill ChunkCache job 27378, scored 3048.446289 good output tokens/s,
+only 0.240921% above its fresh native control 27376. That single difference is
+below the prospective 1% useful-gain gate, so it does not justify replacing the
+prefix-cache policy. No speculative decoding, compile option, C++ cache or
+unconfirmed graph setting is added to this primary entry.
+
+The recovered portable raw observation 27145 is 3055.330517 good output tokens/s.
+Its failed scheduler status and compute-only reader verification remain explicit.
+See ../logs/measured/latest-results.md for source IDs, latency units, validity
+classes and the distinction between an isolated peak and a reproduced choice.

@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**Final report and delivery:** [30 October update](ai-final-delivery-20261030.md). Report-only work is complete; research remains stopped.
+
 **STOPPED by owner on 30 October 2026.** Read [stop handoff](ai-stop-20261030.md) first for the newer accepted jobs, CPU result, exact uncaptured drafts and actual scheduler snapshot. The dated sections below are historical. Do not submit or resume research without new owner steering.
 
 Updated 2026-10-29T23:04:43.349902+07:00, Vietnam time (UTC+7). AI fork 01a166eb-33cb-7ce0-9699-ec65de26689a of parent 01a15dd3-3094-7712-a991-8ce55b15cbfe. Preserve independent HPC payloads, queues and budget. English artifacts; Vietnamese chat. No background Codex or schedules.

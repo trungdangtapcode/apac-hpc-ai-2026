@@ -1,0 +1,9 @@
+# Compute mount alias correction, 29 October 2026 Vietnam time
+
+Real job27145 completed the same official GPU benchmark and both semantic routes but ended1:0 while summarizing. The resolver returned canonical /scratch/home paths, while the summary used lexical /home in relative_to. Its input root is now canonicalized too. Regression assertions exercise absolute and relative mount aliases, legacy and nested exports, cancellation evidence and unsafe/ambiguous output rejection. Eight test methods and the fixed readers on both retained real runs pass locally.
+
+Recovered27145 protocol evidence:3055.330517 good output tokens/s,1881 of1907 good (98.636602%), zero errors/cancellations; TTFT mean/p95=1096.029421/1254.518145ms, ITL mean/p95=15.010794/15.154927ms. Original FAILED1:0 remains unchanged. No separate smoke/retrieval/hardware series; official full-set accuracy UNKNOWN. The change from separate native26766 is about0.323%, not a proven optimization.
+
+The official benchmark, model, worker, semantic routes and score limits remain byte-identical. Only reader path handling changes. Actual compute-host regression job27152 is submitted and pending; it will reproduce the old alias exception and execute both fixed readers on retained27136/27145 raw data with zero GPUs. Local regression success is not an observed compute job pass or a single-allocation end-to-end success. Preserve those evidence categories. No further GPU replay is bought merely to discover another postprocessing defect.
+
+Later observed compute validation:27152 completed0:0 in3seconds on g1. It reproduced the original alias exception and passed the corrected exact reader tail for both real raw datasets. This supersedes pending observations above; no new GPU/model run occurred.
