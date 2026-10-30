@@ -16,7 +16,7 @@ Use Vietnamese for chat only. All new code, documentation, notes, reports and su
 | Learn the HPC track, its complete research story, figures and presenter script | [HPC learning and presentation guide](../reports/hpc-research-journey-20261023/README.md) |
 | Combined presentation: 32 AI slides + 8 HPC slides, portable CPU scripts and native logs | [23 October combined delivery](../submission-review/hpc-update-20261023/README.md) |
 | Real portable replay, AI reader correction and current ZIP; HPC/slide bytes preserved | [29 October reader repair](ai-artifact-path-fix-20261029.md) |
-| Final AI report, presentation, PDF and current submission; HPC preserved | [30 October final delivery](ai-final-delivery-20261030.md) |
+| Final AI report, presentation, PDF and current submission; HPC preserved | [30 October journey/panel update](ai-journey-presentation-20261030.md) |
 | Current submission, N64 deployment, measured logs and slides | [28 October AI delivery](ai-submission-update-20261028.md) |
 | Latest checked public repository update | [Pinned upstream review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/upstream-review-20261020/REPORT.md) |
 | Competition points, registration wording and specialist prizes | [Scoring and tracks](contest-scoring-and-tracks-20261020.md) |

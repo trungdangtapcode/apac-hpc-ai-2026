@@ -73,8 +73,20 @@ All work artifacts and slides are in English. The existing theme, gradients and 
 
 No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Updated presentation](../../submission-review/ai-update-20261030/TripleU_APAC2026_Presentation.pptx)
-- [Review PDF](../../submission-review/ai-update-20261030/TripleU_APAC2026_Presentation.pdf)
-- [Speaker notes](../../submission-review/ai-update-20261030/PRESENTER_NOTES.md)
+- [Updated presentation](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pptx)
+- [Review PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf)
+- [Speaker notes](../../submission-review/ai-journey-update-20261030/PRESENTER_NOTES.md)
 - [Current detailed metrics and configuration](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md)
-- [Publication verification](../../submission-review/ai-update-20261030/publication-validation.json)
+- [Publication verification](../../submission-review/ai-journey-update-20261030/publication-validation.json)
+
+
+## Presentation readiness
+
+The AI talk is planned for the team's 15–20 minute allowance, with a 17-minute main route and a 15-minute shortened route. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
+
+The revised slides make previously compressed reasoning explicit: transport recovery and output rejection, reverse-order startup confirmation, role-aware EAGLE debugging, source-guided tokenization/collective tests, controlled regime recovery, and defects exposed by real portable replay. The full shared journal contains independent HPC and administrative records as well as scientific arcs. It is not presented as a count of successes.
+
+- [Journal-to-slide coverage and supporting entry index](JOURNEY_COVERAGE.md)
+- [15–20 minute speaking plan and team handoff](PRESENTATION_PLAN.md)
+- [Three technical evidence cards](EVIDENCE_CARDS.md)
+- [Panel Q&A, with observation/hypothesis/unknown distinctions](PANEL_QA.md)

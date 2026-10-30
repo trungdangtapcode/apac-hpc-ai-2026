@@ -86,3 +86,5 @@ The recovered portable raw observation 27145 is 3055.330517 good output tokens/s
 Its failed scheduler status and compute-only reader verification remain explicit.
 See ../logs/measured/latest-results.md for source IDs, latency units, validity
 classes and the distinction between an isolated peak and a reproduced choice.
+
+For the research decisions behind this unchanged primary, see ../logs/RESEARCH_JOURNEY.md and ../logs/EVIDENCE_CARDS.md. No new serving option is introduced by the presentation revision.

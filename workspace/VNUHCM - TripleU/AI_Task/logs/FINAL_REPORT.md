@@ -78,3 +78,14 @@ No organiser upload or new research job is performed. Large artifact recovery me
 - [Publication and preservation scope](report-update-20261030.json)
 
 The review PDF, full speaker notes and historical journal are retained separately in the research archive.
+
+## Presentation and research decisions
+
+The revised AI talk targets the stated 15–20 minute allowance. The main narrative explains three technical stories, with source/control/observation/decision and explicit unknowns. Supporting files:
+
+- [Research journey coverage](RESEARCH_JOURNEY.md)
+- [Three evidence cards](EVIDENCE_CARDS.md)
+- [Speaking plan and team handoff](PRESENTATION_PLAN.md)
+- [Suggested panel Q&A](PANEL_QA.md)
+
+These preparation questions are not an official question list. No new experiment is performed.

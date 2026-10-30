@@ -13,3 +13,5 @@ The current HPC folder contains unpublished changes from the independent worker 
 The prior delivery is retained in submission-archive. No organiser upload was performed. Git checkpoints capture safe code/reports and artifact recovery metadata; large external objects still require a separate off-host copy. Earlier S109 drafts and unrelated uncompleted source feasibility remain outside this final report checkpoint and were not submitted.
 
 Final ZIP: 119,612,409 bytes; SHA-256 88713dd9006427886f7ddf97b5b19647a754b2f61ee17342c47c82644fd7d842. Primary code is unchanged, global folder/ZIP checksums and CRC passed, and the report's packaged links resolve within the team archive.
+
+A later authorised reporting revision expands the scientific reasoning and panel preparation without changing experiments or primary code. Read [journey/panel update](ai-journey-presentation-20261030.md) for the current deck, PDF, ZIP and checksum; the validation/hash above describes the earlier final-report publication.

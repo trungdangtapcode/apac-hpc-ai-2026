@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**Latest presentation:** [journey coverage and panel preparation](ai-journey-presentation-20261030.md), following the owner’s 15–20 minute AI allowance. No research resumed.
+
 **Final report and delivery:** [30 October update](ai-final-delivery-20261030.md). Report-only work is complete; research remains stopped.
 
 **STOPPED by owner on 30 October 2026.** Read [stop handoff](ai-stop-20261030.md) first for the newer accepted jobs, CPU result, exact uncaptured drafts and actual scheduler snapshot. The dated sections below are historical. Do not submit or resume research without new owner steering.

@@ -464,3 +464,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [29 October: actual Qwen compile fails at native RoPE/fused KV, sparse compile blocked](entries/20261029-qwen-compile-native-rope-failure.md).
 
 - [30 October: final AI report, retained N64 and completed sparse-graph result](entries/20261030-final-ai-report-and-sparse-result.md).
+
+- [30 October: journal coverage, technical reasoning and 15–20 minute panel preparation](entries/20261030-ai-journey-coverage-and-panel-preparation.md).

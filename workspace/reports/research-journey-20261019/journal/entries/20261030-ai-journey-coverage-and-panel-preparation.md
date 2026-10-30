@@ -1,0 +1,11 @@
+# Explain the research process and prepare for the panel
+
+Recorded 30 October 2026, Vietnam time (UTC+7). The owner asked whether the slide deck covered the journal and supplied panel feedback emphasizing technical justification, bottleneck evidence, experiment interpretation and team support. The stated AI time allowance is 15–20 minutes.
+
+The audit found that the previous 32 AI slides covered the main architecture/results but compressed several important reasoning sequences. The update makes those sequences visible: transport diagnosis and response rejection; reversed startup-cost confirmation; role-aware EAGLE debugging and losing measurements; source-supported tokenizer/collective choices; controlled regime recovery; and two real portable-reader failures followed by bounded compute verification.
+
+The coverage document maps all 32 stages in the initial retrospective and indexes 220 shared entries as source navigation. It distinguishes scientific, operational and independent HPC material and does not assert paragraph-by-paragraph or percentage completeness. A plan/receipt/correction/result for one hypothesis is grouped into one research arc. The talk remains 32 AI slides and eight unchanged HPC slides.
+
+Three evidence cards state environment, control, changed factor, observations, supported conclusions and limits. The Q&A guide explicitly distinguishes missing telemetry from zero, client TTFT from an unmeasured phase budget, kernel-duration sums from wall time, local measurements on provided hardware from official quality acceptance, and recovered raw observations from successful whole-job deployment. A 16:45 main route, short route and role-based handoffs support the owner's allowance without inventing an official timetable or team member count.
+
+No experiment, GPU job, authentication, schedule, spending or other-track payload was changed. Scores and primary serving implementation remain unchanged. Presentation text/bounds, 40 distinct backgrounds, internal relationships, eight HPC render pages, 68 HPC parts, checksums/CRC and independent HPC folder/ZIP preservation pass. The prior deck/package are backed up. Publication, report companions and source navigation are retained with the same frequent explicit capture/push workflow.
