@@ -4,7 +4,7 @@
     "title": "Qwen serving: from topology to reproduced performance",
     "en": {
       "purpose": "Open the AI research story and define its scope: turning a distributed Qwen deployment into a reproducible service measurement. The talk follows the engineering and evidence from topology through transfer and kernels to repeated performance; the title does not claim an official win or certified model quality.",
-      "visual": "A photographic server-aisle background is washed out for legibility. Dark teal carries the title, orange identifies the task label and thin rule, and grey carries the date. These are presentation-theme colors, not data categories. The slide has no chart, numeric axes, or legend.",
+      "visual": "The title describes the sequence of technical work: first choose how the model is split across GPUs, then make the prompt-state transfer correct, then tune the GPU implementations, and finally repeat the measurements. Reproduced performance means another run returns a similar result under the stated configuration; it does not mean that the organisers certified it.",
       "terms": [
         {
           "symbol": "Qwen",
@@ -24,9 +24,8 @@
         }
       ],
       "reading": [
-        "Read the title as a journey from system layout to repeatable measurement.",
-        "The server-room photograph is illustrative, not evidence that it depicts the tested installation.",
-        "There are no units or measured values on this opening slide."
+        "The title also states the argument: the distributed system must function correctly before its speed comparisons are meaningful.",
+        "Reproduction here means similar results on another run; it does not establish all-platform or all-workload performance."
       ],
       "tradeoff": {
         "observation": "The work progressed from resolving the two-node serving topology and KV transfer to phase-specific backend experiments and repeated full-protocol measurements.",
@@ -34,13 +33,13 @@
         "conclusion": "The presentation will support a reproduced operating point and selected configuration, while distinguishing that evidence from isolated peaks and official accuracy verification.",
         "unknown": "Official full-set model accuracy remains unverified, and the local result is not an official contest ranking."
       },
-      "script": "Hello. We are VNUHCM–TripleU, and this is our Qwen serving research update through 30 October 2026. Our question was not simply how to make one run produce a larger number. We first had to establish a working two-node deployment, make request data move correctly between prompt processing and token generation, then measure controlled backend changes under the service limits. I will show which results repeated, which attractive changes did not help, and what the evidence still cannot establish. The server image is a visual backdrop, not a photograph of a verified competition installation.",
+      "script": "Hello, we are VNUHCM–TripleU. Our Qwen work starts with a distributed service on sixteen GPUs: choose a layout, transfer prompt state correctly, then test implementations for each phase. I will explain which improvements survived a repeat, which attractive ideas failed, and what our measurements still cannot prove. We report our own experiments on the assigned clusters; we do not present them as organiser-certified scores.",
       "caution": "Do not call the displayed work a contest win, official acceptance, or accuracy certification. The date limits the claim to this research update.",
       "transition": "First I will state what counts as a useful result and how to read the headline numbers."
     },
     "vi": {
       "purpose": "Mở đầu câu chuyện nghiên cứu AI và xác định phạm vi: biến một cấu hình Qwen phân tán thành phép đo dịch vụ có thể tái lập. Bài trình bày đi từ bố trí hệ thống, truyền trạng thái, tối ưu theo giai đoạn đến đo lặp; tiêu đề không khẳng định đã thắng cuộc thi hay chứng nhận chất lượng mô hình.",
-      "visual": "Ảnh nền là lối đi giữa các tủ máy chủ, được làm nhạt để dễ đọc. Màu xanh đậm dùng cho tiêu đề, màu cam cho nhãn nhiệm vụ và đường kẻ, màu xám cho ngày tháng. Đây là màu của giao diện trình bày, không mã hóa nhóm dữ liệu. Slide không có biểu đồ, trục số hay chú giải.",
+      "visual": "Tiêu đề tóm tắt thứ tự giải quyết bài toán: chọn cách chia model lên các GPU, bảo đảm truyền trạng thái prompt đúng, tối ưu các phần tính toán, rồi chạy lại để kiểm tra kết quả. “Reproduced performance” nghĩa là chạy lại với cấu hình đã nêu vẫn thu được mức hiệu năng tương tự; không có nghĩa BTC đã chứng nhận kết quả.",
       "terms": [
         {
           "symbol": "Qwen",
@@ -60,17 +59,16 @@
         }
       ],
       "reading": [
-        "Đọc tiêu đề như hành trình từ bố trí hệ thống đến phép đo có thể lặp lại.",
-        "Ảnh phòng máy chỉ làm nền minh họa, không phải bằng chứng về nơi triển khai đã kiểm chứng.",
-        "Slide mở đầu không có đơn vị hoặc số đo."
+        "Thứ tự trong tiêu đề cũng là thứ tự lập luận: hệ thống phải chạy đúng trước, sau đó mới có ý nghĩa khi so tốc độ.",
+        "“Tái lập” ở đây là kết quả gần nhau khi chạy lại, không phải khẳng định kết quả đúng trên mọi máy hoặc mọi workload."
       ],
       "tradeoff": {
         "observation": "Công việc đi từ khôi phục kiến trúc phục vụ hai nút và truyền KV đến thử nghiệm backend theo từng giai đoạn và các phép đo đầy đủ được lặp lại.",
         "hypothesis": "Muốn tối ưu kernel có ý nghĩa, trước hết phải làm cho đường triển khai và phép đo đầu cuối hoạt động đúng.",
         "conclusion": "Bài trình bày sẽ đưa ra cấu hình vận hành được đo lặp và các lựa chọn có căn cứ, đồng thời tách chúng khỏi điểm cao đơn lẻ và việc xác minh accuracy chính thức.",
-        "unknown": "Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả cục bộ không phải thứ hạng chính thức của cuộc thi."
+        "unknown": "Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả nhóm tự đo không phải thứ hạng chính thức của cuộc thi."
       },
-      "script": "Xin chào, chúng tôi là VNUHCM–TripleU. Đây là cập nhật nghiên cứu phục vụ Qwen đến ngày 30 tháng 10 năm 2026. Câu hỏi của chúng tôi không chỉ là làm sao để một lần chạy cho ra con số lớn hơn. Trước tiên, chúng tôi phải dựng được dịch vụ hai nút, truyền dữ liệu của yêu cầu đúng giữa xử lý prompt và sinh token, rồi đo các thay đổi backend có kiểm soát dưới những giới hạn dịch vụ. Tôi sẽ trình bày kết quả nào lặp lại được, thay đổi hấp dẫn nào không giúp ích, và điều gì dữ liệu hiện có chưa thể khẳng định. Ảnh phòng máy ở đây chỉ là nền minh họa, không phải ảnh lắp đặt thi đấu đã xác minh.",
+      "script": "Xin chào, chúng tôi là VNUHCM–TripleU. Đây là cập nhật nghiên cứu phục vụ Qwen đến ngày 30 tháng 10 năm 2026. Câu hỏi của chúng tôi không chỉ là làm sao để một lần chạy cho ra con số lớn hơn. Trước tiên, chúng tôi phải dựng được dịch vụ hai nút, truyền dữ liệu của yêu cầu đúng giữa xử lý prompt và sinh token, rồi đo các thay đổi backend có kiểm soát dưới những giới hạn dịch vụ. Tôi sẽ trình bày kết quả nào lặp lại được, thay đổi hấp dẫn nào không giúp ích, và điều gì dữ liệu hiện có chưa thể khẳng định.",
       "caution": "Không gọi đây là chiến thắng, được ban tổ chức chấp nhận, hay đã chứng nhận accuracy. Ngày tháng giới hạn kết luận ở bản cập nhật này.",
       "transition": "Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cách đọc các con số chính."
     }
@@ -80,33 +78,41 @@
     "title": "Highest observation and strongest recommendation",
     "en": {
       "purpose": "Separate the largest independently reviewed local full-pass observation from the configuration supported by repeated evidence. The slide teaches that the headline peak and the strongest recommendation need not be the same item.",
-      "visual": "Two large score callouts sit side by side over a faded server image. Orange labels distinguish the two named evidence categories on this slide; dark teal is used for the values. A grey footnote gives the recovered portable raw peak. These colors do not imply pass/fail or a shared global legend. No numeric axes are present.",
+      "visual": "The comparison separates the largest individual measurement from the configuration we can recommend with repeat evidence. The left result is a team-run experiment on the assigned 16-H200 cluster, not a personal computer or an organiser-scored run. The right result is the mean of three full N64 measurements. The higher recovered number in the note belongs to a job whose benchmark produced data but whose result-processing step failed; that is a different level of completion.",
       "terms": [
         {
-          "symbol": "3,048.45 good output tokens/s",
-          "meaning": "Rounded value for one complete local full pass, job 27378; exact reviewed value is 3048.446289."
+          "symbol": "Team-measured / local result",
+          "meaning": "The team launches the benchmark on its assigned cluster and evaluates retained logs. Local describes the scope of validation, not a personal laptop or organiser approval."
         },
         {
-          "symbol": "+0.24%",
-          "meaning": "Rounded difference within the prefill-cache comparison, specifically +0.240921% versus fresh control 27376; below the prospective 1% useful-gain gate."
+          "symbol": "Full run",
+          "meaning": "The campaign protocol: 60-second warmup, 120-second profiling and 30-second grace. It does not mean every quality dataset was evaluated or every request passed."
         },
         {
-          "symbol": "3,044.40 good output tokens/s",
-          "meaning": "Rounded mean of three historical full N64 runs, a separate repeated series."
+          "symbol": "Reviewed pass",
+          "meaning": "The team inspects data against the checks implemented for that run: protocol, actual runtime configuration, latency/errors and small output checks. Job 27378 has smoke 7/8 without added regression and retrieval 12/12; official model accuracy is still unverified."
         },
         {
-          "symbol": "3,055.33",
-          "meaning": "Recovered raw portable result from job 27145; its original scheduler job failed after GPU measurement, so this is not a successful full-allocation completion."
+          "symbol": "3,048.45; +0.24%",
+          "meaning": "Job 27378 measured 3048.446289 good output tokens/s, 0.240921% above control 27376. This is one observation."
         },
         {
-          "symbol": "tokens/s",
-          "meaning": "Good output tokens per second: output tokens belonging to requests that pass the joint per-request latency gate, aggregated as throughput."
+          "symbol": "1% useful-gain threshold",
+          "meaning": "A team-set decision rule declared before the comparison to decide which changes deserve confirmation, not an organiser scoring requirement."
+        },
+        {
+          "symbol": "3,044.40; N64",
+          "meaning": "Mean 3044.400475 good output tokens/s over three full runs; the client keeps up to 64 requests in flight."
+        },
+        {
+          "symbol": "Recovered raw 3,055.33",
+          "meaning": "The GPU benchmark saved data but the reader/summary step failed. Repairing the reader recovered 3055.330517; the original job remains FAILED."
         }
       ],
       "reading": [
-        "The left callout is one full local pass, not a replicated mean.",
-        "The right callout is the mean of three historical full N64 measurements, not a value directly paired with the left run.",
-        "The note below the callouts says that a portable raw peak was recovered even though the original job failed after measuring."
+        "Read 3,048.45 as one observation and 3,044.40 as a three-run mean. They are different series, not a directly matched treatment/control pair.",
+        "Evaluate the cache change against its control 27376, not against the historical 3,044.40 mean.",
+        "A small increase can be mixed with run-to-run variation. A higher single number does not justify replacing a repeatedly measured setup; this comparison did not exceed the team-set threshold."
       ],
       "tradeoff": {
         "observation": "27378 reached 3048.446289 good output tokens/s and passed local gates; its matched cache-pair gain was 0.240921%. The historical N64 series mean is 3044.400475. Recovered portable raw data reached 3055.330517, but the originating job was FAILED.",
@@ -114,49 +120,57 @@
         "conclusion": "Retain replicated N64 as the stronger recommendation. Keep 27378 as the highest reviewed local full-pass observation, not as a demonstrated useful optimization.",
         "unknown": "This slide alone does not compare the two callouts under identical runtime conditions, and the portable raw peak is not a successful end-to-end allocation result."
       },
-      "script": "Here I separate two ideas that are easy to confuse. On the left is our highest independently reviewed local full-pass score: 3,048.45 good output tokens per second, from one run. Its change improved the matched cache comparison by only 0.24 percent, below our one-percent useful-gain threshold. On the right is the 3,044.40 mean from three historical full N64 runs. That repeated result is the stronger basis for a recommendation, even though it is not the single largest number. A portable run has a recovered raw value of 3,055.33, but its original job failed after measurement. We preserve that evidence without calling it a successful deployment run.",
+      "script": "This slide separates the largest measurement from the configuration we recommend. We ran job 27378 on the assigned sixteen-H200 cluster with 60 seconds of warmup, 120 seconds of measurement and 30 seconds of grace. The benchmark and our implemented checks completed, yielding 3,048.45 qualifying output tokens per second. But its cache change improved only 0.24% over a fresh control, below our own 1% threshold for pursuing a useful gain. We therefore retain N64, averaging 3,044.40 across three full runs: a slightly lower number with repeat evidence. These are team-measured results, not organiser-certified scores. The 3,055.33 recovered number came from a job that failed during summary processing; it is not a successful end-to-end job.",
       "caution": "Do not rank these callouts as if they were one matched experiment. The recovered 3055.33 is not a passed scheduler job or proof of a portable end-to-end repeat.",
       "transition": "To understand what good output tokens per second means, we need the workload and its per-request latency gate."
     },
     "vi": {
       "purpose": "Phân biệt điểm cao nhất trong một lần chạy đầy đủ đã được rà soát với cấu hình có bằng chứng lặp lại tốt hơn. Slide nhấn mạnh rằng điểm cực đại và khuyến nghị đáng tin cậy nhất không nhất thiết là cùng một kết quả.",
-      "visual": "Hai con số lớn đặt cạnh nhau trên nền ảnh phòng máy đã làm nhạt. Nhãn màu cam phân biệt hai nhóm bằng chứng được gọi tên ở slide này; số liệu dùng màu xanh đậm. Dòng chú thích màu xám nêu điểm thô phục hồi từ thử nghiệm portable. Màu sắc không hàm ý đạt/trượt và không phải chú giải chung. Không có trục số.",
+      "visual": "Slide tách “số đo đơn lẻ lớn nhất” khỏi “cấu hình có bằng chứng đủ chắc để khuyến nghị”. Kết quả bên trái do nhóm tự chạy trên cluster 16 H200 được cấp, không phải máy cá nhân và chưa phải điểm BTC chấm. Bên phải là trung bình ba lần đo N64 đầy đủ. Con số lớn hơn ở chú thích đến từ job đã tạo dữ liệu benchmark nhưng lỗi ở bước xử lý kết quả; mức hoàn tất của nó khác với job thành công từ đầu đến cuối.",
       "terms": [
         {
-          "symbol": "3,048.45 good output tokens/s",
-          "meaning": "Số đã làm tròn của một lần chạy đầy đủ qua các cổng cục bộ, job 27378; số đã rà soát chính xác là 3048.446289."
+          "symbol": "Nhóm tự đo / local result",
+          "meaning": "Nhóm khởi chạy benchmark trên cluster được cấp và đọc log để tự đánh giá. “Local” chỉ phạm vi kiểm chứng của nhóm, không chỉ vị trí máy cá nhân; BTC chưa xác nhận điểm."
         },
         {
-          "symbol": "+0.24%",
-          "meaning": "Chênh lệch làm tròn trong cặp thử nghiệm cache prefill, chính xác +0.240921% so với đối chứng mới 27376; thấp hơn ngưỡng lợi ích dự kiến 1%."
+          "symbol": "Full run / phép đo đầy đủ",
+          "meaning": "Theo protocol của chiến dịch: warmup 60 giây, profiling 120 giây và grace 30 giây. Không có nghĩa chạy mọi dataset đánh giá chất lượng, và cũng không có nghĩa 100% request đều đạt."
         },
         {
-          "symbol": "3,044.40 good output tokens/s",
-          "meaning": "Trung bình của ba lần chạy N64 đầy đủ trong lịch sử; đây là chuỗi lặp riêng biệt."
+          "symbol": "Reviewed pass / đã kiểm tra đạt",
+          "meaning": "Nhóm xem dữ liệu và kiểm tra những điều kiện đã triển khai cho lần chạy: protocol, cấu hình thực chạy, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Job 27378 có smoke 7/8 không thêm lỗi so với đối chứng và retrieval 12/12; đây chưa phải chứng nhận độ chính xác chính thức."
         },
         {
-          "symbol": "3,055.33",
-          "meaning": "Kết quả thô portable phục hồi từ job 27145; job scheduler gốc FAILED sau khi đã đo GPU, nên không phải job phân bổ đầy đủ hoàn tất thành công."
+          "symbol": "3,048.45; +0.24%",
+          "meaning": "Job 27378 đạt chính xác 3048.446289 good output tokens/s, hơn đối chứng 27376 là 0.240921%. Đây là một quan sát đơn lẻ."
         },
         {
-          "symbol": "tokens/s",
-          "meaning": "Số token đầu ra hữu ích mỗi giây: thông lượng tổng hợp từ các yêu cầu đạt đồng thời cổng độ trễ theo từng yêu cầu."
+          "symbol": "Ngưỡng 1%",
+          "meaning": "Quy tắc nhóm đặt trước để quyết định mức tăng nào đáng chạy xác nhận tiếp, không phải quy định điểm chuẩn của BTC."
+        },
+        {
+          "symbol": "3,044.40; N64",
+          "meaning": "Trung bình 3044.400475 good output tokens/s từ ba lần chạy đầy đủ; client duy trì tối đa 64 request đang hoạt động."
+        },
+        {
+          "symbol": "Recovered raw 3,055.33",
+          "meaning": "Benchmark GPU đã lưu dữ liệu, nhưng chương trình đọc/tổng hợp kết quả lỗi. Sửa reader giúp lấy lại điểm 3055.330517; không thay đổi việc job gốc FAILED."
         }
       ],
       "reading": [
-        "Ô bên trái là một lần chạy đầy đủ, không phải trung bình nhiều lần.",
-        "Ô bên phải là trung bình ba phép đo N64 đầy đủ trong lịch sử, không phải số được ghép cặp trực tiếp với lần chạy bên trái.",
-        "Chú thích dưới cùng nói dữ liệu thô portable đã được phục hồi dù job gốc thất bại sau khi đo."
+        "Đọc 3.048,45 là một lần đo, 3.044,40 là trung bình ba lần đo. Hai con số không tạo thành cặp đối chứng trực tiếp vì khác nhánh và thời điểm.",
+        "Muốn đánh giá thay đổi cache, phải so 27378 với đối chứng 27376, không lấy trung bình lịch sử 3.044,40 làm mốc.",
+        "Mức tăng nhỏ có thể lẫn với biến động giữa các lần chạy; một số đo cao hơn chưa đủ để chọn thay cấu hình đã lặp lại. Ở đây chưa có bằng chứng tăng vượt ngưỡng nhóm đặt ra."
       ],
       "tradeoff": {
-        "observation": "27378 đạt 3048.446289 good output tokens/s và qua các cổng cục bộ; mức tăng trong cặp cache so sánh là 0.240921%. Trung bình chuỗi N64 lịch sử là 3044.400475. Dữ liệu thô portable phục hồi đạt 3055.330517, nhưng job gốc mang trạng thái FAILED.",
+        "observation": "27378 đạt 3048.446289 good output tokens/s và qua các kiểm tra do nhóm thực hiện; mức tăng trong cặp cache so sánh là 0.240921%. Trung bình chuỗi N64 lịch sử là 3044.400475. Dữ liệu thô portable phục hồi đạt 3055.330517, nhưng job gốc mang trạng thái FAILED.",
         "hypothesis": "Chỉ nên chọn điểm cao làm kết quả chính khi thay đổi đạt ngưỡng lợi ích đã định trước và được lặp độc lập trong so sánh phù hợp.",
-        "conclusion": "Giữ N64 có kết quả lặp lại làm khuyến nghị vững hơn. Giữ 27378 là điểm cao nhất của một lần chạy đầy đủ cục bộ đã rà soát, không phải tối ưu có ích đã được chứng minh.",
+        "conclusion": "Giữ N64 có kết quả lặp lại làm khuyến nghị vững hơn. Giữ 27378 là điểm cao nhất của một lần chạy đầy đủ do nhóm tự chạy và kiểm tra trên cluster H200 được cấp, không phải tối ưu có ích đã được chứng minh.",
         "unknown": "Riêng slide này không so sánh hai ô trong cùng điều kiện runtime; điểm raw portable cũng không phải kết quả hoàn tất đầu cuối của một phân bổ thành công."
       },
-      "script": "Ở đây tôi tách hai khái niệm dễ nhầm. Bên trái là điểm cao nhất trong một lần chạy đầy đủ cục bộ đã được rà soát: 3.048,45 good output tokens mỗi giây. Thay đổi trong so sánh cache tương ứng chỉ tăng 0,24%, thấp hơn ngưỡng lợi ích một phần trăm mà chúng tôi đặt ra. Bên phải là trung bình 3.044,40 của ba lần chạy N64 đầy đủ trong lịch sử. Kết quả lặp lại đó là cơ sở khuyến nghị tốt hơn dù không phải con số đơn cao nhất. Một lần chạy portable có dữ liệu raw phục hồi ở mức 3.055,33, nhưng job ban đầu thất bại sau khi đo. Chúng tôi giữ lại bằng chứng ấy mà không gọi nó là một lần triển khai thành công.",
+      "script": "Slide này phân biệt số đo cao nhất với cấu hình nên chọn để nộp. Nhóm tự chạy job 27378 trên 16 H200 của cluster được cấp, dùng 60 giây warmup, 120 giây đo và 30 giây chờ request còn lại. Benchmark và các bước kiểm tra của nhóm hoàn tất, cho 3.048,45 token đầu ra đạt chuẩn mỗi giây. Nhưng thay cache chỉ tăng 0,24% so với đối chứng mới, chưa tới ngưỡng 1% mà nhóm tự đặt để coi là cải tiến đáng theo đuổi. Vì vậy chúng tôi giữ N64 với trung bình ba lần đo khoảng 3.044,40: số thấp hơn một chút nhưng có bằng chứng chạy lại. Cả hai đều là kết quả nhóm tự đo, chưa được BTC xác nhận. Con số 3.055,33 ở dưới được đọc lại từ dữ liệu của job lỗi bước tổng hợp; nó không phải một job hoàn tất thành công.",
       "caution": "Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặp. 3055,33 phục hồi không phải job scheduler đã qua và không chứng minh triển khai portable đầu cuối lặp lại được.",
-      "transition": "Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và cổng độ trễ ở từng yêu cầu."
+      "transition": "Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và điều kiện độ trễ ở từng yêu cầu."
     }
   },
   {
@@ -164,7 +178,7 @@
     "title": "Optimise useful throughput under a latency gate",
     "en": {
       "purpose": "Define the benchmark objective before discussing system changes: maximize qualifying service throughput while meeting both latency thresholds for enough individual requests. This prevents confusing raw generation speed or an average latency with the scoring rule.",
-      "visual": "A workload statement sits above a four-row table. The dark-teal table header identifies metric, meaning, and limit/unit; orange text emphasizes the accounting rule. There is no plotted chart, numeric axis, or color legend.",
+      "visual": "Goodput rewards requests that are both completed and fast enough. A service could generate many tokens overall yet score worse if too many users wait longer than the allowed thresholds. Passing the mean latency of all requests is insufficient: first test both latency limits for each request, then count the qualifying fraction.",
       "terms": [
         {
           "symbol": "4,000 input tokens → 200 output tokens",
@@ -212,7 +226,7 @@
     },
     "vi": {
       "purpose": "Định nghĩa mục tiêu benchmark trước khi bàn về thay đổi hệ thống: tối đa hóa thông lượng dịch vụ đạt chuẩn, đồng thời đủ yêu cầu riêng lẻ phải thỏa cả hai giới hạn độ trễ. Nhờ vậy không nhầm tốc độ sinh thô hay độ trễ trung bình với quy tắc chấm.",
-      "visual": "Mô tả workload nằm phía trên bảng bốn hàng. Đầu bảng xanh đậm nêu chỉ số, ý nghĩa và giới hạn/đơn vị; chữ cam nhấn mạnh cách tính. Không có biểu đồ, trục số hay chú giải màu.",
+      "visual": "Goodput chỉ tính các request vừa hoàn tất vừa đủ nhanh. Dịch vụ có thể sinh rất nhiều token tổng cộng nhưng vẫn có điểm thấp nếu nhiều người dùng phải chờ quá ngưỡng. Trung bình độ trễ của tất cả request tốt chưa đủ: phải kiểm tra hai giới hạn cho từng request rồi mới đếm tỷ lệ đạt.",
       "terms": [
         {
           "symbol": "4,000 input tokens → 200 output tokens",
@@ -251,10 +265,10 @@
       "tradeoff": {
         "observation": "Benchmark cố định kích thước yêu cầu và áp dụng quy tắc độ trễ kết hợp theo từng yêu cầu; lỗi vẫn bị tính. Goodput dựa trên các yêu cầu qua cả hai giới hạn.",
         "hypothesis": "Hệ thống sinh nhiều token thô hơn vẫn có thể kém hơn nếu quá nhiều yêu cầu vi phạm thời gian token đầu hoặc khoảng cách token.",
-        "conclusion": "Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các cổng độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.",
+        "conclusion": "Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các điều kiện độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.",
         "unknown": "Bảng định nghĩa giao thức nhưng không có số đo của ứng viên nào; nó không cho biết phân bố độ trễ thực tế của từng cấu hình."
       },
-      "script": "Mục tiêu của chúng tôi là thông lượng hữu ích dưới một cổng độ trễ. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ đạt nếu thời gian đến token đầu tiên không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% tất cả yêu cầu được đánh giá phải đồng thời đạt hai giới hạn; lỗi cũng bị tính. Goodput là số yêu cầu đạt chuẩn mỗi giây, nhân với 200 sẽ thành good output tokens mỗi giây được trình bày. Vì vậy độ trễ trung bình riêng lẻ không thể cho biết dịch vụ có qua hay không: quyết định được tính ở từng yêu cầu.",
+      "script": "Mục tiêu của chúng tôi là thông lượng hữu ích dưới một điều kiện độ trễ. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ đạt nếu thời gian đến token đầu tiên không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% tất cả yêu cầu được đánh giá phải đồng thời đạt hai giới hạn; lỗi cũng bị tính. Goodput là số yêu cầu đạt chuẩn mỗi giây, nhân với 200 sẽ thành good output tokens mỗi giây được trình bày. Vì vậy độ trễ trung bình riêng lẻ không thể cho biết dịch vụ có qua hay không: quyết định được tính ở từng yêu cầu.",
       "caution": "Không suy ra tỷ lệ đạt theo từng yêu cầu từ một giá trị trung bình tổng hợp. Không bỏ lỗi khỏi mẫu số và không thay 200 bằng độ dài đầu ra khác.",
       "transition": "Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọi so sánh phải đi cùng thông tin nền tảng."
     }
@@ -264,7 +278,7 @@
     "title": "One workload, two deployment systems",
     "en": {
       "purpose": "Show the two hardware environments used for separate platform studies and establish the rule that comparisons must name the platform, topology, backend, and load. Sharing workload and model checkpoint does not make two clusters interchangeable.",
-      "visual": "A two-column comparison table contrasts Firmus with NSCC ASPIRE 2A+. The dark-teal header labels columns and orange takeaway text emphasizes the comparison rule. The pale server-room image is decorative. There are no numeric axes or legend.",
+      "visual": "Both platforms run the same intended model and benchmark workload, but a result also depends on GPU memory, communication, runtime and process placement. Slurm and PBS grant access to compute nodes; they are not inference engines. Containers carry the software environment, while SGLang executes the model and AIPerf sends and times requests. This separation explains why moving a configuration between clusters needs a fresh measurement.",
       "terms": [
         {
           "symbol": "2 × 8 H200",
@@ -298,7 +312,7 @@
       "reading": [
         "Rows describe allocation, scheduler, container launcher, serving/client, and model.",
         "The table says the staged image artifacts and checkpoint are shared, while the GPUs and deployment software differ.",
-        "Orange text at the bottom is the study rule, not a plotted result."
+        "Identify GPU, worker layout, backend, load and measurement duration for every important result; the same model name does not make two runs equivalent."
       ],
       "tradeoff": {
         "observation": "Both sites provide sixteen GPUs in two nodes and use the same staged serving/client artifacts and checkpoint, but hardware, scheduler and container launcher differ.",
@@ -312,7 +326,7 @@
     },
     "vi": {
       "purpose": "Trình bày hai môi trường phần cứng dùng trong các nghiên cứu nền tảng riêng biệt và đặt nguyên tắc: mỗi so sánh phải nêu nền tảng, topology, backend và tải. Dùng chung workload và checkpoint không làm hai cụm tương đương nhau.",
-      "visual": "Bảng hai cột so sánh Firmus với NSCC ASPIRE 2A+. Đầu bảng xanh đậm phân biệt cột; dòng kết luận màu cam nhấn mạnh quy tắc so sánh. Ảnh phòng máy nhạt chỉ làm nền. Không có trục số hay chú giải.",
+      "visual": "Hai hệ thống dùng cùng model và workload dự định, nhưng số đo còn phụ thuộc bộ nhớ GPU, truyền thông, phần mềm thực thi và vị trí tiến trình. Slurm/PBS cấp tài nguyên compute node, không chạy phép suy luận thay SGLang. Container mang môi trường phần mềm; SGLang thực thi model; AIPerf gửi request và đo thời gian. Vì vậy chuyển cấu hình sang cluster khác vẫn phải đo lại.",
       "terms": [
         {
           "symbol": "2 × 8 H200",
@@ -346,7 +360,7 @@
       "reading": [
         "Các hàng mô tả phân bổ GPU, scheduler, công cụ chạy container, serving/client và mô hình.",
         "Bảng ghi cùng image và checkpoint đã staging, nhưng GPU và phần mềm triển khai khác nhau.",
-        "Dòng màu cam cuối slide là nguyên tắc nghiên cứu, không phải kết quả biểu đồ."
+        "Mỗi kết quả quan trọng cần gắn với GPU, bố trí worker, backend, mức tải và thời lượng đo; cùng tên model không đủ để coi hai lần đo là tương đương."
       ],
       "tradeoff": {
         "observation": "Cả hai hệ thống đều cấp mười sáu GPU trên hai nút và dùng cùng image serving/client cùng checkpoint, nhưng khác phần cứng, scheduler và bộ khởi chạy container.",
@@ -364,7 +378,7 @@
     "title": "Separate prompt processing from token generation",
     "en": {
       "purpose": "Explain the disaggregated serving design: dedicate one node to prompt prefill and one to autoregressive decode, then transfer each request's KV state between roles. The figure links hardware placement to the later transfer and layout experiments.",
-      "visual": "Two outlined boxes on Node 0 hold prefill workers P0 and P1; one larger box on Node 1 holds decode worker D0. Four small orange GPU marks in each P box and eight dark-teal marks in D0 visually encode the listed GPU allocation. Orange arrows labeled KV state/NIXL point from prefill to decode. The background photo is decorative. This is a schematic, not a data chart, so it has no numeric axes or legend; colors identify roles only in this diagram.",
+      "visual": "A request is handled in two phases on different GPU groups. One of the two four-GPU prefill workers reads the prompt and produces attention KV state; NIXL transfers that state to the eight-GPU decode worker, which generates the answer. The transferred object is context state, not the entire model weights. Separating phases lets us choose different implementations for prompt processing and token generation, but adds transfer and coordination work.",
       "terms": [
         {
           "symbol": "Prefill",
@@ -416,7 +430,7 @@
     },
     "vi": {
       "purpose": "Giải thích thiết kế serving tách rời: dành một nút cho prefill prompt và nút còn lại cho decode tự hồi quy, sau đó truyền trạng thái KV của từng yêu cầu giữa hai vai trò. Hình nối vị trí phần cứng với các thử nghiệm layout và truyền dữ liệu tiếp theo.",
-      "visual": "Hai khung trên Node 0 chứa worker prefill P0 và P1; khung lớn trên Node 1 chứa worker decode D0. Bốn dấu GPU màu cam trong mỗi khung P và tám dấu xanh đậm trong D0 thể hiện phân bổ GPU ghi trong hình. Mũi tên cam có nhãn KV state/NIXL đi từ prefill đến decode. Ảnh nền chỉ trang trí. Đây là sơ đồ, không phải biểu đồ số, nên không có trục hay chú giải; màu chỉ phân biệt vai trò trong sơ đồ này.",
+      "visual": "Một request đi qua hai giai đoạn trên hai nhóm GPU khác nhau. Một trong hai worker prefill bốn GPU đọc prompt và tạo trạng thái KV của attention; NIXL chuyển trạng thái đó sang worker decode tám GPU để sinh câu trả lời. Thứ được chuyển là trạng thái ngữ cảnh, không phải toàn bộ trọng số model. Tách hai giai đoạn cho phép chọn cách tính phù hợp riêng cho xử lý prompt và sinh token, đổi lại phải trả chi phí truyền và điều phối.",
       "terms": [
         {
           "symbol": "Prefill",
@@ -472,7 +486,7 @@
     "title": "Topology search established the serving layout",
     "en": {
       "purpose": "Show a small selection of topology search results and explain that the selected split emerged from measured, usable configurations. The lower caption protects the experimental record: replacements are new configurations, not retroactive repairs of failed originals.",
-      "visual": "A table lists layout ID, prefill arrangement, decode arrangement, N, and good tokens/s. Dark teal is used for the table header and text; a bold summary counts configurations, with a grey caution beneath. The image is only a washed-out background. There are no numeric axes, plotted marks, or color legend.",
+      "visual": "A topology is a resource layout: how many model workers exist and how many GPUs each worker shares. Changing from four smaller prefill workers to two wider workers changes both per-request work sharing and how many requests those workers can serve. The rows also use different client concurrency, so this table records useful historical layouts rather than isolating the speedup caused by one topology change.",
       "terms": [
         {
           "symbol": "07 / 09",
@@ -520,7 +534,7 @@
     },
     "vi": {
       "purpose": "Cho thấy một số kết quả tìm kiếm topology và giải thích cấu hình được chọn đến từ các thử nghiệm đo được, dùng được. Chú thích phía dưới bảo toàn lịch sử: cấu hình thay thế là thử nghiệm mới, không phải sửa hồi tố cho lần thất bại ban đầu.",
-      "visual": "Bảng liệt kê mã layout, cách bố trí prefill, cách bố trí decode, N và good tokens/s. Đầu bảng và chữ dùng xanh đậm; dòng tổng kết in đậm đếm cấu hình, bên dưới là lưu ý màu xám. Ảnh nền đã làm nhạt chỉ để trang trí. Không có trục số, điểm dữ liệu đồ họa hay chú giải màu.",
+      "visual": "Topology là cách bố trí tài nguyên: có bao nhiêu worker model và mỗi worker chia việc lên bao nhiêu GPU. Đổi từ bốn worker prefill nhỏ sang hai worker rộng hơn làm thay đổi cả cách nhiều GPU xử lý một request lẫn số worker có thể nhận request. Các hàng còn dùng concurrency khác nhau, nên bảng ghi lại những bố trí đã thử có ích; nó không tách riêng mức tăng do một thay đổi topology.",
       "terms": [
         {
           "symbol": "07 / 09",
@@ -544,7 +558,7 @@
         },
         {
           "symbol": "good tokens/s",
-          "meaning": "Thông lượng token đầu ra đạt chuẩn theo cổng độ trễ từng yêu cầu."
+          "meaning": "Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ từng yêu cầu."
         },
         {
           "symbol": "14 + 3 = 17 usable configurations",
@@ -572,7 +586,7 @@
     "title": "Make KV-transfer setup scale with the request",
     "en": {
       "purpose": "Explain why cold-start KV setup was redesigned around the pages a request actually transfers. The numerical comparison is descriptor geometry, demonstrating the scale of metadata enumeration; it is deliberately not presented as an inference speedup.",
-      "visual": "A two-column before/after comparison places “Whole KV pool” on the left in dark teal and “Request pages only” on the right in orange. The left value is 403.8 million source entries per rank; the right value is 188 coalesced entries per request. A bottom line shows the validation sequence. Photo background is decorative. There are no numeric axes or plotted bars; orange is a local emphasis, not a pass/fail legend.",
+      "visual": "Before sending KV bytes, the transfer layer needs a list of memory ranges to read. The original path prepared descriptions for the whole reserved KV pool; the change describes only the pages owned by the current request and merges adjacent ranges. Fewer descriptions can reduce setup work, but descriptor counts have different scopes here and do not measure transfer bandwidth or end-to-end speed. Address correctness must be checked before a smaller list can be trusted.",
       "terms": [
         {
           "symbol": "KV pool",
@@ -620,7 +634,7 @@
     },
     "vi": {
       "purpose": "Giải thích vì sao khởi tạo KV khi chạy lạnh được thiết kế lại theo các trang mà yêu cầu thật sự truyền. So sánh số liệu là hình học descriptor, cho thấy quy mô liệt kê metadata; slide chủ ý không trình bày đây là mức tăng tốc suy luận.",
-      "visual": "So sánh hai cột: “Whole KV pool” bên trái màu xanh đậm và “Request pages only” bên phải màu cam. Giá trị trái là 403,8 triệu source entries mỗi rank; bên phải là 188 mục đã gộp liên tục cho mỗi yêu cầu. Dòng cuối biểu diễn chuỗi xác minh. Ảnh nền chỉ trang trí. Không có trục số hay cột dữ liệu; màu cam chỉ nhấn mạnh cục bộ, không phải chú giải đạt/trượt.",
+      "visual": "Trước khi gửi các byte KV, lớp truyền cần danh sách các vùng nhớ phải đọc. Cách cũ chuẩn bị mô tả cho cả vùng KV đã dành trước; cách sửa chỉ mô tả các trang thuộc request hiện tại rồi gộp những vùng liền nhau. Danh sách ngắn hơn có thể giảm công chuẩn bị, nhưng hai số đếm trên slide khác phạm vi và không đo băng thông hay tốc độ đầu cuối. Trước hết phải kiểm tra địa chỉ đúng; danh sách ít mục nhưng đọc nhầm bộ nhớ vẫn là lỗi.",
       "terms": [
         {
           "symbol": "KV pool",
@@ -654,7 +668,7 @@
       "reading": [
         "Số bên trái là liệt kê nguồn cho cả pool trên mỗi rank; số bên phải là các dải đã gộp cho một yêu cầu. Phạm vi hai số khác nhau.",
         "Đơn vị của số liệu là số descriptor, không phải giây, byte mỗi giây hay điểm benchmark.",
-        "Chuỗi cuối slide là các cổng bằng chứng tiếp nối. Ánh xạ CPU đúng chưa đủ; vẫn cần thử truyền GPU thật và kiểm tra phản hồi."
+        "Chuỗi cuối slide là các bước xác minh tiếp nối. Ánh xạ CPU đúng chưa đủ; vẫn cần thử truyền GPU thật và kiểm tra phản hồi."
       ],
       "tradeoff": {
         "observation": "Serving tách rời khi khởi động lạnh bị chậm ở bước chuẩn bị descriptor cho toàn bộ pool KV. Phiên bản theo yêu cầu tạo dải cho các trang thật sự truyền và gộp dải liên tục; ví dụ TP8 cho thấy khoảng 403,8 triệu entry pool so với 188 entry cho một yêu cầu.",
@@ -672,7 +686,7 @@
     "title": "FP8 block geometry constrains parallelism",
     "en": {
       "purpose": "Explain a concrete deployment failure caused by FP8 block alignment and the geometric change used to recover a compatible partition. The key learning is that compatibility permits a load attempt but does not establish successful service or quality.",
-      "visual": "The slide compares TP8/EP1 at left with TP8/EP2 at right. The left partition is drawn as a dark teal block labeled 128 plus a red block labeled 64, visually showing a partial FP8 block; the right has three orange 128 blocks. Red labels the failure side in this diagram, orange labels full blocks on the compatible side. These are local explanatory colors, not a global legend. There are no axes.",
+      "visual": "The failing implementation requires each weight shard to contain whole FP8 blocks. Dividing the relevant dimension by eight leaves 192 elements: one complete 128-element block plus a 64-element remainder. In this tested TP8/EP2 path the effective MoE tensor split is four, giving 384 elements or three complete blocks. EP2 changes expert distribution; it does not halve the model or reduce numerical precision further.",
       "terms": [
         {
           "symbol": "FP8",
@@ -724,7 +738,7 @@
     },
     "vi": {
       "purpose": "Giải thích một lỗi triển khai cụ thể do căn chỉnh block FP8 và thay đổi hình học dùng để khôi phục một cách chia tương thích. Bài học là tương thích cho phép thử tải, nhưng chưa chứng minh dịch vụ hay chất lượng chạy thành công.",
-      "visual": "Slide so sánh TP8/EP1 bên trái với TP8/EP2 bên phải. Phân vùng bên trái được vẽ thành block xanh đậm ghi 128 cộng block đỏ ghi 64, cho thấy phần block FP8 không đầy; bên phải có ba block màu cam ghi 128. Màu đỏ chỉ phía lỗi và màu cam chỉ các block đầy trong sơ đồ này. Đây là màu giải thích cục bộ, không phải chú giải chung. Không có trục.",
+      "visual": "Đường triển khai bị lỗi yêu cầu mỗi phần trọng số chứa các block FP8 nguyên vẹn. Chia chiều liên quan cho tám được 192 phần tử: một block 128 và dư 64. Trong đường TP8/EP2 đã thử, mức chia tensor hiệu dụng của MoE là bốn, cho 384 phần tử, vừa ba block đầy. EP2 đổi cách phân phối expert; không cắt bỏ nửa model và không tiếp tục giảm độ chính xác số.",
       "terms": [
         {
           "symbol": "FP8",
@@ -762,7 +776,7 @@
       "reading": [
         "Đọc hai phép tính trước: 1536 ÷ 8 = 192 và 1536 ÷ 4 = 384.",
         "Các khối trái biểu thị 128 cộng 64; phần đỏ là block chưa đầy và gây lỗi tải trong đường đã thử.",
-        "Các khối phải là ba đoạn 128 đầy đủ. Chân trang liệt kê các cổng còn phải kiểm tra: startup, SLA và chất lượng đầu ra."
+        "Các khối phải là ba đoạn 128 đầy đủ. Chân trang liệt kê các điều kiện còn phải kiểm tra: startup, SLA và chất lượng đầu ra."
       ],
       "tradeoff": {
         "observation": "Phân vùng prefill TP8/EP1 có 192 phần tử, bằng 128 cộng 64 và không căn với block FP8 rộng 128. Với EP2, tensor parallelism MoE hiệu dụng là bốn và mỗi phân vùng có 384 phần tử, tức ba block đầy.",
@@ -780,7 +794,7 @@
     "title": "A repeatable experiment loop",
     "en": {
       "purpose": "Describe the evidence discipline used to decide which ideas deserve a run and which should be closed. It connects the early engineering stories to the later measured backend results and makes the full measurement phases explicit.",
-      "visual": "Four numbered stages run left to right: hypothesis, controlled trial, validate, then replicate or close. Orange stage numbers are visual navigation markers; dark text describes each stage. A line separates the workflow from the 60/120/30 timing and workload note. There are no axes or chart legend.",
+      "visual": "The loop prevents a plausible idea from becoming a performance claim too early. Write down the proposed cause, preserve a reference configuration, change the intended factor, check that the intended code actually ran and outputs remain valid, then compare the score. Repeat a useful gain before selecting it. A run that ends with an error teaches us about integration, but does not become a valid performance measurement.",
       "terms": [
         {
           "symbol": "01–04",
@@ -828,7 +842,7 @@
     },
     "vi": {
       "purpose": "Mô tả kỷ luật bằng chứng dùng để quyết định ý tưởng nào đáng chạy và nhánh nào nên đóng. Slide nối các câu chuyện kỹ thuật ban đầu với kết quả backend đo sau đó, đồng thời ghi rõ các pha đo đầy đủ.",
-      "visual": "Bốn giai đoạn đánh số chạy từ trái sang phải: giả thuyết, thử nghiệm có kiểm soát, xác minh, rồi lặp lại hoặc đóng. Số màu cam chỉ dẫn thứ tự; chữ xanh đậm mô tả giai đoạn. Đường kẻ phân cách quy trình với thời lượng 60/120/30 và workload. Không có trục hay chú giải biểu đồ.",
+      "visual": "Quy trình giúp tránh biến một ý tưởng hợp lý thành lời khẳng định hiệu năng quá sớm. Nêu nguyên nhân muốn kiểm tra, giữ cấu hình đối chứng, đổi yếu tố cần thử, kiểm tra đúng đường code đã chạy và đầu ra còn hợp lệ, rồi mới so điểm. Mức tăng có ích cần được chạy lại trước khi chọn. Một job kết thúc bằng lỗi có thể cho bài học tích hợp, nhưng chưa trở thành phép đo hiệu năng hợp lệ.",
       "terms": [
         {
           "symbol": "01–04",
@@ -865,9 +879,9 @@
         "Thời lượng bên dưới tính bằng giây, không phải mili giây. Cửa sổ đo kéo dài 120 giây."
       ],
       "tradeoff": {
-        "observation": "Quy trình lưu lại cả giao thức benchmark và các cổng runtime/đầu ra, đồng thời phân biệt job đã kết thúc với kết quả hợp lệ đã được rà soát.",
+        "observation": "Quy trình lưu lại cả giao thức benchmark và các điều kiện về đường thực thi và đầu ra, đồng thời phân biệt job đã kết thúc với kết quả hợp lệ đã được rà soát.",
         "hypothesis": "Thay đổi giới hạn rõ, có đối chứng và quy tắc dừng sẽ tạo bằng chứng dễ diễn giải hơn so với quét rộng hoặc lặp mù.",
-        "conclusion": "Ứng viên cần kiểm tra thực tế việc kích hoạt và lặp lại độc lập trước khi chọn; job thiếu bản xuất hợp lệ hoặc không đạt cổng chưa chứng minh được kết quả.",
+        "conclusion": "Ứng viên cần kiểm tra thực tế việc kích hoạt và lặp lại độc lập trước khi chọn; job thiếu bản xuất hợp lệ hoặc không đạt điều kiện chưa chứng minh được kết quả.",
         "unknown": "Sơ đồ chỉ tóm tắt quy trình; không cho thấy thử nghiệm, chi phí, tỷ lệ lỗi hay thống kê lặp cụ thể nào."
       },
       "script": "Quy trình của chúng tôi có bốn bước. Đầu tiên, dùng log, trace và source để hình thành giả thuyết. Thứ hai, thay đổi một yếu tố xác định so với đối chứng. Thứ ba, xác nhận đúng thiết lập đã thực sự chạy, rồi kiểm tra giao thức, SLA theo từng yêu cầu và đầu ra. Cuối cùng, lặp độc lập kết quả có ích hoặc đóng nhánh. Giao thức đầy đủ trên slide dùng 60 giây warmup, 120 giây đo và 30 giây grace để yêu cầu còn lại hoàn tất. Grace không phải thời gian steady-state tính điểm bổ sung. Kỷ luật này giúp giữ lại job thất bại, phân biệt trạng thái terminal với kết quả hợp lệ, và dừng những thay đổi có thật nhưng quá nhỏ để chọn dùng.",
@@ -880,7 +894,7 @@
     "title": "H200 journey: recover, specialise, then reproduce",
     "en": {
       "purpose": "Give a historical overview of measured H200 goodput as the serving system recovered and acquired phase-specific backends, then reached repeated operating points. This is orientation for the detailed evidence on the following slides, not a causal ablation plot.",
-      "visual": "A vertical bar chart shows nine milestone labels on the categorical x-axis: Initial 07 N32; Initial 09 N40; PD split N48; FI + MNNVL N52; Prefill DG N56; DG + HPC N58; N60 repeated; N62 repeated; N64 three repeats. The y-axis is Good output tokens/s, marked at 0, 500, 1000, 1500, 2000, 2500, and 3000; units are good output tokens per second. Bar labels are rounded values 1,297; 1,666; 1,912; 2,631; 2,716; 2,939; 2,989; 3,023; and 3,044. The gray first three, dark-teal next two, and orange later four bars mark thematic stages only; colors are not pass/fail and have no global meaning. No legend is drawn. The footer explicitly says loads and runtime settings change.",
+      "visual": "Read the bars as a history of operating points, not a single experiment in which one optimization is added at each step. The horizontal categories change layout, backend and client concurrency; the vertical value is latency-qualified output tokens per second. The rise shows the campaign found better measured configurations, but does not assign a causal contribution to each named change.",
       "terms": [
         {
           "symbol": "H200",
@@ -933,7 +947,7 @@
     },
     "vi": {
       "purpose": "Tóm lược theo lịch sử goodput H200 khi hệ thống được khôi phục, dùng backend theo từng giai đoạn, rồi đạt các điểm vận hành có phép đo lặp. Đây là bản đồ để định hướng cho bằng chứng chi tiết ở các slide sau, không phải biểu đồ ablation nhân quả.",
-      "visual": "Biểu đồ cột đứng có chín nhãn phân loại trên trục hoành: Initial 07 N32; Initial 09 N40; PD split N48; FI + MNNVL N52; Prefill DG N56; DG + HPC N58; N60 repeated; N62 repeated; N64 three repeats. Trục tung là Good output tokens/s, có vạch 0, 500, 1000, 1500, 2000, 2500 và 3000; đơn vị là good output tokens mỗi giây. Nhãn cột được làm tròn: 1.297; 1.666; 1.912; 2.631; 2.716; 2.939; 2.989; 3.023; 3.044. Ba cột đầu màu xám, hai cột kế xanh đậm, bốn cột cuối màu cam để chia giai đoạn chủ đề; màu không biểu thị đạt/trượt và không có ý nghĩa chung ngoài biểu đồ này. Slide không vẽ chú giải. Chân trang nói rõ tải và thiết lập runtime thay đổi.",
+      "visual": "Đọc các cột như lịch sử các điểm vận hành, không phải một phép thử chỉ cộng thêm từng tối ưu. Các nhóm ở trục ngang thay đổi bố trí, backend và concurrency client; chiều cao là token đầu ra đạt chuẩn độ trễ mỗi giây. Xu hướng tăng cho thấy quá trình tìm được cấu hình đo tốt hơn, nhưng không cho biết riêng mỗi thay đổi đóng góp bao nhiêu.",
       "terms": [
         {
           "symbol": "H200",
@@ -945,7 +959,7 @@
         },
         {
           "symbol": "Trục tung: Good output tokens/s",
-          "meaning": "Thông lượng token đầu ra đạt chuẩn theo cổng độ trễ kết hợp; nhãn cột đã làm tròn."
+          "meaning": "Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ kết hợp; nhãn cột đã làm tròn."
         },
         {
           "symbol": "FI",
@@ -990,7 +1004,7 @@
     "title": "Backend combinations matter",
     "en": {
       "purpose": "Introduce the first detailed backend interaction result: a combined attention and collective configuration outperformed the individual choices in a same-load H200 N52 comparison. The design lesson is to measure interactions directly rather than add separate gains arithmetically.",
-      "visual": "A four-row table reports configuration, job ID, good tokens/s, and SLA at H200 and N52. The header is dark teal; orange takeaway text emphasizes direct combination measurement. The background photograph is decorative. There are no numeric axes, plotted bars, or color legend.",
+      "visual": "An attention backend performs the attention calculation; a collective backend moves or combines information among cooperating GPU processes. They share GPU execution and communication resources, so changing both can interact. The fresh MNNVL-only measurement is a renewed reference before judging the combination. The combination is measured directly: its benefit is not calculated by adding gains from separate trials.",
       "terms": [
         {
           "symbol": "H200 · N52",
@@ -1042,7 +1056,7 @@
     },
     "vi": {
       "purpose": "Giới thiệu kết quả tương tác backend chi tiết đầu tiên: tổ hợp attention và collective vượt các lựa chọn riêng trong so sánh H200 N52 cùng tải. Bài học thiết kế là phải đo trực tiếp tương tác, không cộng số học các mức tăng riêng lẻ.",
-      "visual": "Bảng bốn hàng ghi cấu hình, mã job, good tokens/s và SLA ở H200, N52. Đầu bảng xanh đậm; câu kết màu cam nhấn mạnh cần đo tổ hợp trực tiếp. Ảnh nền chỉ trang trí. Không có trục số, cột biểu đồ hay chú giải màu.",
+      "visual": "Backend attention thực hiện phép attention; backend collective truyền hoặc kết hợp dữ liệu giữa các tiến trình GPU đang hợp tác. Chúng cùng dùng tài nguyên tính toán và giao tiếp, nên đổi cả hai có thể tạo tương tác. Phép đo MNNVL riêng được chạy mới để có đối chứng gần hơn khi đánh giá tổ hợp. Lợi ích của tổ hợp được đo trực tiếp, không tính bằng cộng mức tăng của các phép thử riêng.",
       "terms": [
         {
           "symbol": "H200 · N52",
@@ -1066,11 +1080,11 @@
         },
         {
           "symbol": "good tokens/s",
-          "meaning": "Token đầu ra đạt chuẩn mỗi giây theo cổng độ trễ cấp yêu cầu."
+          "meaning": "Token đầu ra đạt chuẩn mỗi giây theo điều kiện độ trễ cấp yêu cầu."
         },
         {
           "symbol": "SLA",
-          "meaning": "Tỷ lệ phần trăm yêu cầu đồng thời đạt TTFT và mean ITL; các giá trị hiển thị là đo cục bộ."
+          "meaning": "Phần trăm request đồng thời đạt TTFT và mean ITL trong benchmark nhóm tự chạy trên cluster; chưa được BTC xác nhận."
         },
         {
           "symbol": "job",

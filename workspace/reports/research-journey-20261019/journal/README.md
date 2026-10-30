@@ -2,6 +2,8 @@ Latest continuation: [native prefill routing from observed queue imbalance](entr
 
 Latest AI reporting: [30 October bilingual slide transcripts and explanations](entries/20261030-ai-bilingual-slide-transcripts.md).
 
+Latest AI reporting correction: [30 October clarify technical concepts and remove decoration narration](entries/20261030-ai-transcript-technical-clarity.md).
+
 Latest model continuation: [H100 HPC-Ops prefill/chunk interaction](entries/20261020-h100-hpc-prefill-chunk.md).
 
 Latest dense-kernel continuation: [default-backend losses and native scheduler hypothesis](entries/20261020-dense-kernel-scheduler.md).

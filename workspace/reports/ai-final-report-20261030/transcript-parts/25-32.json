@@ -3,770 +3,760 @@
     "slide": 25,
     "title": "Appendix · diagnose performance drift with controlled cells",
     "en": {
-      "purpose": "Explain the gap between the replicated full N64 result and a later short control without assigning an unproved cause.",
-      "visual": "Columns show observation/test, held or changed setting, and result. Rows cover the historical full run, short control, exact legacy replay, controlled cells, and separate native run. Scores are good output tokens/s. N64 is client concurrency, not GPU count. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Explain why the observed score drift did not identify a cause, and why the later full result is a reproduction rather than a causal recovery claim.",
+      "visual": "Read the scores as three different evidence classes. The historical mean comes from three full N64 runs. The roughly 2,560 control was short and also had changed graph policy, request cap, and harness/observation conditions, so the gap mixes protocol and configuration differences. The 2,830.923547 legacy replay is a valid full run under retained old operational settings. The 3,045.501509 native run is another full observation in a later execution path. Similar endpoints do not prove that a particular changed setting restored performance.",
       "terms": [
         {
           "symbol": "N64",
-          "meaning": "A target client concurrency of 64 in-flight requests."
+          "meaning": "The client aims to keep 64 requests in flight; it is a request load target, not 64 GPUs."
         },
         {
-          "symbol": "graph policy",
-          "meaning": "Rules that decide which decode request shapes receive captured GPU execution graphs."
+          "symbol": "full vs short protocol",
+          "meaning": "Full scoring uses 60 s warmup, 120 s profiling, 30 s grace. A short control uses a shorter measurement and is not directly score-matched to full runs."
         },
         {
-          "symbol": "request cap",
-          "meaning": "A configured upper bound on running requests accepted by the serving engine."
+          "symbol": "score drift",
+          "meaning": "A difference between observations that raises a question; by itself it does not identify the cause."
         },
         {
           "symbol": "native runtime",
-          "meaning": "The later serving execution path used for the separately reported full recovery."
+          "meaning": "The distinct later serving execution path used for full run 26766. The label identifies that tested path; it does not itself mean faster or explain why the score changed."
         },
         {
-          "symbol": "KV",
-          "meaning": "Key-value attention state transferred from prompt processing to token generation."
+          "symbol": "causal recovery",
+          "meaning": "Evidence that a specific change restored a score, usually from controlled comparisons that isolate that change."
+        },
+        {
+          "symbol": "request cap / graph policy",
+          "meaning": "The cap limits running requests. Graph policy decides which decode shapes use captured GPU graphs; both changed in the later control."
         }
       ],
       "reading": [
-        "Historical full N64 mean: 3,044.400475 across three runs. The short control was about 2,560, but its protocol, graph policy, and request cap differed.",
-        "The valid legacy full replay scored 2,830.923547. Modern controls did not isolate one useful cause. Native full 26766 scored 3,045.501509 in a separate series."
+        "A full run uses the fixed 60-second warmup, 120-second scored profiling window, and 30-second grace. A short control does not provide the same observation window, so its score is useful as a drift signal, not a matched full-protocol comparison.",
+        "The legacy replay scored 2,830.923547; the later native full run scored 3,045.501509. Controlled graph/admission comparisons found no single useful cause for the spread. Keep both valid results visible."
       ],
       "tradeoff": {
-        "observation": "Historical and native full results are near 3,044–3,046 good output tokens/s; the short and legacy observations are lower.",
-        "hypothesis": "Graph policy and the running-request cap might explain part of the drift.",
-        "conclusion": "Controlled tests established no single useful cause; retain the valid lower replay.",
-        "unknown": "Remaining variation, including harness and observation differences, is unresolved."
+        "observation": "Historical full N64 averaged 3,044.400475; the short control was about 2,560; a valid legacy full replay scored 2,830.923547; native full run 26766 scored 3,045.501509.",
+        "hypothesis": "Changed prefill graph policy, maximum running-request cap, or harness conditions may contribute to the drift.",
+        "conclusion": "The later full result reproduces the historical level in a distinct runtime series; no single setting was shown to cause the difference.",
+        "unknown": "The relative contribution of graph policy, request cap, protocol length, harness, and observation variation is unresolved."
       },
-      "script": "The historical full result and a later short control differed sharply. We checked effective settings, replayed the old configuration, and tested modern settings separately. Those tests did not identify one useful cause. A later native full run returned near the historical level, but that does not explain why the short control was lower.",
-      "caution": "Do not call the short control a matched full run, attribute recovery to one flag, or omit the valid lower replay.",
-      "transition": "Next, review architecture and kernel leads at the scope their evidence supports."
+      "script": "Three historical full runs at a target load of 64 simultaneous requests averaged about 3,044 good output tokens per second. A later short control was around 2,560, but it used less measurement time and different graph and request-limit settings. Replaying the old full setup scored lower; a later run through a different serving execution path returned near the historical level. That is a separate reproduction, not proof that a setting caused recovery.",
+      "caution": "Do not compare the short control as if it were a full run, attribute the later score to one setting, or discard the valid lower legacy replay.",
+      "transition": "Next, distinguish a promising component probe from evidence about full-model serving."
     },
     "vi": {
-      "purpose": "Giải thích chênh lệch giữa kết quả N64 đầy đủ đã lặp lại và một đối chứng ngắn mới hơn, nhưng không gán nguyên nhân chưa được xác lập.",
-      "visual": "Các cột lần lượt là quan sát/phép thử, cài đặt giữ hoặc đổi, và kết quả. Các hàng gồm lần đầy đủ lịch sử, đối chứng ngắn, phát lại cấu hình cũ, các ô thử có kiểm soát và lần native riêng. Điểm là token đầu ra tốt/giây. N64 là concurrency của client, không phải số GPU. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Giải thích vì sao độ lệch điểm quan sát được chưa chỉ ra nguyên nhân, và vì sao lần chạy đầy đủ về sau là tái lập kết quả chứ chưa chứng minh phục hồi do một thay đổi cụ thể.",
+      "visual": "Hãy đọc điểm theo ba loại bằng chứng. Trung bình lịch sử đến từ ba lần N64 đầy đủ. Đối chứng khoảng 2,560 là phép đo ngắn, đồng thời khác chính sách graph, giới hạn yêu cầu và điều kiện harness/cách quan sát; vì vậy chênh lệch trộn lẫn thay đổi quy trình lẫn cấu hình. Lần phát lại cấu hình cũ đạt 2,830.923547 trong một lần chạy đầy đủ hợp lệ. Lần native đạt 3,045.501509 trong một đường thực thi về sau. Hai kết quả gần nhau không chứng minh cài đặt nào đã khôi phục hiệu năng.",
       "terms": [
         {
           "symbol": "N64",
-          "meaning": "Mức đồng thời mục tiêu của client là 64 yêu cầu đang xử lý."
+          "meaning": "Client nhắm duy trì 64 request đang xử lý; đây là mức tải request, không phải 64 GPU."
         },
         {
-          "symbol": "chính sách graph",
-          "meaning": "Quy tắc chọn hình dạng yêu cầu decode nào được thực thi bằng đồ thị GPU đã capture."
+          "symbol": "protocol đầy đủ và ngắn",
+          "meaning": "Protocol đầy đủ gồm warmup 60 giây, profiling 120 giây và grace 30 giây. Đối chứng ngắn có thời gian đo ngắn hơn nên không so điểm trực tiếp với lần đầy đủ."
         },
         {
-          "symbol": "giới hạn yêu cầu",
-          "meaning": "Ngưỡng cấu hình tối đa cho số yêu cầu đang chạy mà engine phục vụ chấp nhận."
+          "symbol": "độ lệch điểm",
+          "meaning": "Khác biệt giữa các lần đo đặt ra câu hỏi; tự nó không chỉ ra nguyên nhân."
         },
         {
           "symbol": "runtime native",
-          "meaning": "Đường thực thi serving ở lần đo đầy đủ riêng biệt về sau."
+          "meaning": "Đường thực thi serving riêng về sau dùng ở lần đầy đủ 26766. Tên gọi xác định đường đã thử; tự nó không có nghĩa nhanh hơn và không giải thích vì sao điểm đổi."
         },
         {
-          "symbol": "KV",
-          "meaning": "Trạng thái key-value của attention được chuyển từ xử lý prompt sang sinh token."
+          "symbol": "phục hồi nhân quả",
+          "meaning": "Bằng chứng cho thấy một thay đổi cụ thể khôi phục điểm, thường cần so sánh có kiểm soát và cô lập thay đổi đó."
+        },
+        {
+          "symbol": "giới hạn request / chính sách graph",
+          "meaning": "Giới hạn request chặn số request đang chạy; chính sách graph chọn dạng decode nào dùng GPU graph đã capture. Cả hai đã đổi ở đối chứng về sau."
         }
       ],
       "reading": [
-        "Trung bình ba lần N64 đầy đủ lịch sử là 3,044.400475. Đối chứng ngắn đạt khoảng 2,560 nhưng khác quy trình, chính sách graph và giới hạn yêu cầu.",
-        "Phát lại đầy đủ cấu hình cũ hợp lệ đạt 2,830.923547. Các đối chứng mới không tách được một nguyên nhân hữu ích. Lần native đầy đủ 26766 đạt 3,045.501509 trong chuỗi riêng."
+        "Một lần chạy đầy đủ có warmup 60 giây, cửa sổ profiling được tính điểm 120 giây và grace 30 giây. Đối chứng ngắn không có cùng cửa sổ quan sát, nên điểm của nó báo hiệu độ lệch nhưng không phải so sánh khớp quy trình đầy đủ.",
+        "Phát lại cấu hình cũ đạt 2,830.923547; lần native đầy đủ về sau đạt 3,045.501509. So sánh graph/tiếp nhận không tìm ra một nguyên nhân hữu ích duy nhất. Giữ lại cả hai kết quả hợp lệ."
       ],
       "tradeoff": {
-        "observation": "Kết quả đầy đủ lịch sử và native gần 3,044–3,046 token đầu ra tốt/giây; đối chứng ngắn và phát lại cũ thấp hơn.",
-        "hypothesis": "Chính sách graph và giới hạn yêu cầu đang chạy có thể giải thích một phần độ lệch.",
-        "conclusion": "Thử nghiệm không xác lập nguyên nhân hữu ích duy nhất; giữ lại lần phát lại thấp nhưng hợp lệ.",
-        "unknown": "Biến động còn lại, gồm khác biệt harness và cách quan sát, vẫn chưa rõ."
+        "observation": "N64 đầy đủ lịch sử trung bình 3,044.400475; đối chứng ngắn khoảng 2,560; phát lại đầy đủ hợp lệ đạt 2,830.923547; lần native 26766 đạt 3,045.501509.",
+        "hypothesis": "Thay đổi graph prefill, giới hạn request đang chạy hoặc điều kiện harness có thể góp phần tạo độ lệch.",
+        "conclusion": "Lần chạy đầy đủ về sau tái lập gần mức lịch sử trong một chuỗi runtime riêng; chưa chứng minh một cài đặt nào gây ra chênh lệch.",
+        "unknown": "Chưa tách được mức đóng góp của graph, giới hạn request, độ dài protocol, harness và biến động quan sát."
       },
-      "script": "Kết quả đầy đủ lịch sử và đối chứng ngắn về sau chênh lệch đáng kể. Nhóm kiểm tra cấu hình thực tế, phát lại cấu hình cũ rồi tách riêng các cài đặt mới. Các phép thử chưa tìm ra một nguyên nhân hữu ích duy nhất. Lần native đầy đủ gần mức lịch sử, nhưng chưa giải thích vì sao đối chứng ngắn thấp hơn.",
-      "caution": "Không gọi đối chứng ngắn là lần đầy đủ tương đương, không quy phục hồi cho một cờ, và không bỏ lần phát lại thấp nhưng hợp lệ.",
-      "transition": "Tiếp theo là các hướng kiến trúc và kernel, xét theo đúng phạm vi bằng chứng."
+      "script": "Ba lần chạy đầy đủ lịch sử với tải mục tiêu 64 request đồng thời đạt trung bình khoảng 3,044 token đầu ra tốt mỗi giây. Đối chứng ngắn về sau khoảng 2,560, nhưng đo ít thời gian hơn và đổi cài đặt graph cùng giới hạn request. Phát lại cấu hình cũ đầy đủ cho điểm thấp hơn; một lần chạy qua đường serving khác về sau gần mức lịch sử. Đó là lần tái lập riêng, chưa chứng minh cài đặt nào gây phục hồi.",
+      "caution": "Không coi đối chứng ngắn là lần đầy đủ tương đương, không quy điểm về sau cho một cài đặt, và không bỏ lần phát lại cấu hình cũ hợp lệ nhưng thấp hơn.",
+      "transition": "Tiếp theo, phân biệt probe thành phần tiềm năng với bằng chứng serving toàn mô hình."
     }
   },
   {
     "slide": 26,
     "title": "Appendix · profiles and source also close attractive detours",
     "en": {
-      "purpose": "Show why architecture and kernel ideas are bounded leads, not proof of faster full serving.",
-      "visual": "Columns are research direction, evidence, and decision. Rows are separate branches, not one ranking. Attention-DP changed several factors at N52; Triton probes covered representative shapes; SM checks were bounded. Real-model compilation stopped at an assertion and has no score. CPU fixtures are not serving measurements. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Show how component-level experiments and source review can eliminate leads without demonstrating a faster full model.",
+      "visual": "Each row answers a different question. The attention-DP score is an end-to-end observation at N52, but several settings changed together, so it cannot identify which one hurt. Triton results are kernel probes on representative shapes: they test a component, not the complete Qwen serving path. The torch.compile attempt reached real model code but stopped at a RoPE/fused-KV assertion before a score. C++ fixtures exercised CPU helpers only. Those evidence levels explain why the decisions are conservative.",
       "terms": [
         {
-          "symbol": "DP",
-          "meaning": "Data parallelism: multiple model replicas or partitions process separate requests; here it labels an attention configuration."
+          "symbol": "probe",
+          "meaning": "A small, isolated experiment on a component or a few shapes. It says what that component did there, not what the full service will do."
         },
         {
-          "symbol": "FP8",
-          "meaning": "Eight-bit floating-point format used for model weights in the retained deployment."
+          "symbol": "fixture",
+          "meaning": "A small test input used to check helper code or an API. A passing CPU fixture is not a GPU serving run."
         },
         {
-          "symbol": "Triton",
-          "meaning": "A GPU-kernel programming and compilation system; probe results apply only to tested shapes."
+          "symbol": "source review",
+          "meaning": "Reading code to see whether a setting is supported or consumed. It establishes possible behavior, not that the behavior ran in the model."
         },
         {
-          "symbol": "SM",
-          "meaning": "Streaming multiprocessor, a GPU execution unit; an SM budget limits how many units a kernel may use."
+          "symbol": "full-model test",
+          "meaning": "A run that starts the actual distributed model, serves requests, and measures outputs. The compile attempt here stopped before scoring."
         },
         {
-          "symbol": "torch.compile",
-          "meaning": "PyTorch's compilation path for turning model operations into compiled execution."
+          "symbol": "DP / FP8",
+          "meaning": "DP is data parallelism, a way to distribute request/model work. FP8 is 8-bit floating point used for model weights."
         },
         {
-          "symbol": "RoPE",
-          "meaning": "Rotary positional embedding, a position-encoding operation used by the model."
+          "symbol": "Triton / DeepGEMM",
+          "meaning": "GPU-kernel systems tested in representative shapes; conclusions apply only to those probes."
         },
         {
-          "symbol": "C++",
-          "meaning": "The compiled programming language used by the separate cache and API probes."
+          "symbol": "SM budget",
+          "meaning": "A limit on how many GPU streaming multiprocessors a kernel may use; a kernel-level result need not transfer to end-to-end service."
+        },
+        {
+          "symbol": "RoPE / fused-KV",
+          "meaning": "RoPE encodes token positions. The compiled model path asserted when this operation met the fused key-value cache interface."
         }
       ],
       "reading": [
-        "Attention-DP with DeepGEMM/DeepEP scored 2,549.20 at N52, below the retained MNNVL point; coupled changes prevent one-flag attribution.",
-        "Representative FP8 Triton probes lost to DeepGEMM. SM budgets 80, 96, and 120 were mixed or inconsistent. Real-model torch.compile failed at a RoPE/fused-KV assertion; C++ fixtures ran on CPU only."
+        "The attention-DP package with DeepGEMM/DeepEP scored 2,549.20 at N52, below the retained MNNVL point; the coupled settings prevent a single-flag conclusion. Representative FP8 Triton probes lost to DeepGEMM.",
+        "SM budgets 80/96/120 produced mixed results or failed the consistency criterion. The real-model compile asserted before benchmarking. CPU cache/API fixtures can check helper logic, but do not exercise GPU model integration, distributed startup, or serving quality."
       ],
       "tradeoff": {
-        "observation": "Evidence includes a lower coupled-configuration score, losing kernel probes, mixed SM checks, and a compile assertion with no score.",
-        "hypothesis": "Alternative layouts, kernels, resource budgets, compilation, or cache paths might help full serving.",
-        "conclusion": "Only tested-scope conclusions are supported; tested Triton shapes did not beat DeepGEMM and compile produced no score.",
-        "unknown": "Untested shapes and compatible compile paths may differ; CPU fixtures do not settle full-model serving."
+        "observation": "A coupled attention package scored lower; representative kernel probes lost; SM checks were mixed; real-model compilation had no score; C++ fixtures were CPU-only.",
+        "hypothesis": "A different attention layout, kernel, SM budget, compile path, or cache API might improve the full service.",
+        "conclusion": "Component leads can be closed or retained as source findings, but they do not establish a full-model speedup. The tested Triton shapes did not beat DeepGEMM.",
+        "unknown": "Other shapes or a compatible compile interface could behave differently; no full compiled model run passed."
       },
-      "script": "We tested these ideas only as far as evidence allowed. The attention package changed several factors, kernel probes covered representative shapes, and real-model compilation stopped before a score. CPU fixtures can validate a small C++ path but cannot prove GPU serving integration. A library name or profile lead motivates a test; it does not demonstrate a speedup.",
-      "caution": "Do not present coupled changes as a one-factor test, generalize probes to every shape, call CPU fixtures a serving pass, or assign a score to the failed compile.",
-      "transition": "Next, read the retained H200 configuration and the separate H100 operating point."
+      "script": "Some rows test a small GPU kernel, some test helper code on a CPU, and some only inspect source. These checks can reject unsupported ideas, but they do not start the complete distributed model and score its answers. The real compile attempt entered Qwen code, then stopped when rotary position encoding met an incompatible fused key-value-cache interface. It produced no serving score.",
+      "caution": "Do not turn a kernel probe, CPU fixture, or code-path inspection into a claim about full-model speed or correctness.",
+      "transition": "The next slide describes the actual selected H200 and separate H100 serving configurations."
     },
     "vi": {
-      "purpose": "Cho thấy ý tưởng kiến trúc và kernel chỉ là đầu mối thử nghiệm giới hạn, chưa chứng minh serving đầy đủ nhanh hơn.",
-      "visual": "Các cột là hướng nghiên cứu, bằng chứng và quyết định; các hàng là nhánh riêng, không phải xếp hạng chung. Gói attention-DP đổi nhiều yếu tố ở N52; Triton chỉ thử trên dạng đại diện; kiểm tra SM có giới hạn. Compile mô hình thật dừng ở assertion, không có điểm. Fixture CPU không đo serving. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Cho thấy thử nghiệm thành phần và đọc mã nguồn có thể loại bỏ hướng thử mà chưa chứng minh mô hình đầy đủ chạy nhanh hơn.",
+      "visual": "Mỗi hàng trả lời một câu hỏi khác nhau. Điểm attention-DP là quan sát end-to-end ở N52, nhưng nhiều cài đặt đổi cùng lúc nên không thể xác định yếu tố nào làm giảm điểm. Kết quả Triton là probe kernel trên một số dạng đại diện: nó kiểm tra thành phần, không chạy trọn đường serving Qwen. Lần torch.compile đi vào mã mô hình thật nhưng dừng ở assertion RoPE/fused-KV trước khi có điểm. Fixture C++ chỉ chạy helper trên CPU. Các mức bằng chứng đó giải thích vì sao quyết định thận trọng.",
       "terms": [
         {
-          "symbol": "DP",
-          "meaning": "Data parallelism, tức song song dữ liệu: nhiều bản sao hoặc phân vùng xử lý các yêu cầu riêng; ở đây là cấu hình attention."
+          "symbol": "probe",
+          "meaning": "Phép thử nhỏ, cô lập một thành phần hoặc vài dạng dữ liệu. Nó cho biết thành phần hoạt động ra sao trong phép thử đó, không dự đoán toàn bộ dịch vụ."
         },
         {
-          "symbol": "FP8",
-          "meaning": "Định dạng số dấu phẩy động 8 bit dùng cho trọng số trong cấu hình được giữ lại."
+          "symbol": "fixture",
+          "meaning": "Dữ liệu thử nhỏ để kiểm tra helper hoặc API. Fixture CPU qua không đồng nghĩa có lần serving GPU."
         },
         {
-          "symbol": "Triton",
-          "meaning": "Hệ thống lập trình và biên dịch kernel GPU; kết quả probe chỉ áp dụng cho hình dạng đã thử."
+          "symbol": "đọc mã nguồn",
+          "meaning": "Kiểm tra code để biết cài đặt có được hỗ trợ hoặc sử dụng không. Đây là bằng chứng khả năng, không chứng minh mô hình đã chạy theo đường đó."
         },
         {
-          "symbol": "SM",
-          "meaning": "Streaming multiprocessor, một đơn vị thực thi GPU; ngân sách SM giới hạn số đơn vị kernel được dùng."
+          "symbol": "thử nghiệm toàn mô hình",
+          "meaning": "Khởi động mô hình phân tán thật, phục vụ request và đo đầu ra. Lần compile ở đây dừng trước bước chấm điểm."
         },
         {
-          "symbol": "torch.compile",
-          "meaning": "Đường biên dịch của PyTorch để chuyển các phép toán mô hình thành thực thi đã biên dịch."
+          "symbol": "DP / FP8",
+          "meaning": "DP là song song dữ liệu, cách phân phối công việc request/mô hình. FP8 là số dấu phẩy động 8 bit dùng cho trọng số."
         },
         {
-          "symbol": "RoPE",
-          "meaning": "Rotary positional embedding, phép mã hóa vị trí dạng xoay được mô hình sử dụng."
+          "symbol": "Triton / DeepGEMM",
+          "meaning": "Các hệ thống kernel GPU được thử trên dạng đại diện; kết luận chỉ áp dụng cho những probe đó."
         },
         {
-          "symbol": "C++",
-          "meaning": "Ngôn ngữ biên dịch được dùng trong các probe cache và API riêng biệt."
+          "symbol": "ngân sách SM",
+          "meaning": "Giới hạn số streaming multiprocessor GPU mà kernel được dùng; kết quả kernel chưa chắc chuyển thành hiệu năng dịch vụ end-to-end."
+        },
+        {
+          "symbol": "RoPE / fused-KV",
+          "meaning": "RoPE mã hóa vị trí token. Đường mô hình compile gặp assertion khi phép này tương tác với giao diện cache key-value hợp nhất."
         }
       ],
       "reading": [
-        "Gói attention-DP với DeepGEMM/DeepEP đạt 2,549.20 ở N52, thấp hơn điểm MNNVL được giữ lại; nhiều thay đổi cùng lúc nên không thể quy cho một cờ.",
-        "Probe FP8 Triton đại diện thua DeepGEMM. Ngân sách SM 80, 96 và 120 pha trộn hoặc thiếu ổn định. torch.compile mô hình thật gặp assertion RoPE/fused-KV; fixture C++ chỉ chạy trên CPU."
+        "Gói attention-DP với DeepGEMM/DeepEP đạt 2,549.20 ở N52, thấp hơn điểm MNNVL được giữ lại; nhiều cài đặt đi cùng nhau nên không thể kết luận về một cờ. Probe FP8 Triton đại diện thua DeepGEMM.",
+        "Ngân sách SM 80/96/120 cho kết quả pha trộn hoặc không đạt tiêu chí nhất quán. Lần compile mô hình thật gặp assertion trước benchmark. Fixture cache/API C++ kiểm tra logic helper, nhưng không chạy tích hợp GPU, khởi động phân tán hay chất lượng serving."
       ],
       "tradeoff": {
-        "observation": "Bằng chứng gồm điểm thấp hơn ở cấu hình nhiều yếu tố, probe kernel thua, kiểm tra SM pha trộn và assertion compile không có điểm.",
-        "hypothesis": "Bố trí attention, kernel, ngân sách, biên dịch hoặc đường cache khác có thể giúp serving đầy đủ.",
-        "conclusion": "Chỉ kết luận trong phạm vi đã thử; các dạng Triton thử không vượt DeepGEMM và compile không có điểm.",
-        "unknown": "Dạng chưa thử và đường compile tương thích có thể khác; fixture CPU không xác nhận serving mô hình đầy đủ."
+        "observation": "Gói attention nhiều yếu tố có điểm thấp hơn; probe kernel đại diện thua; kiểm tra SM pha trộn; compile mô hình thật không có điểm; fixture C++ chỉ chạy CPU.",
+        "hypothesis": "Bố trí attention, kernel, ngân sách SM, đường compile hoặc API cache khác có thể cải thiện dịch vụ đầy đủ.",
+        "conclusion": "Có thể đóng một đầu mối thành phần hoặc giữ nó như nhận xét mã nguồn, nhưng chưa chứng minh tăng tốc mô hình đầy đủ. Các dạng Triton đã thử không vượt DeepGEMM.",
+        "unknown": "Dạng khác hoặc giao diện compile tương thích có thể cho kết quả khác; chưa có lần chạy mô hình compile đầy đủ nào qua."
       },
-      "script": "Các ý tưởng chỉ được kiểm tra trong phạm vi bằng chứng cho phép. Gói attention đổi nhiều yếu tố, probe kernel gồm dạng đại diện, còn compile mô hình thật dừng trước khi có điểm. Fixture CPU có thể xác nhận một đường C++ nhỏ nhưng không chứng minh tích hợp GPU. Tên thư viện hay profile chỉ gợi ý phép thử, chưa chứng minh tăng tốc.",
-      "caution": "Không coi thay đổi ghép là thử một yếu tố, khái quát probe cho mọi dạng, gọi fixture CPU là serving đạt, hay tự gán điểm cho compile lỗi.",
-      "transition": "Tiếp theo là cấu hình H200 được giữ lại và điểm vận hành H100 riêng."
+      "script": "Một số hàng thử kernel GPU nhỏ, một số chạy helper trên CPU, một số chỉ đọc mã nguồn. Chúng giúp loại bỏ ý tưởng không được hỗ trợ, nhưng không khởi chạy mô hình phân tán đầy đủ để chấm câu trả lời. Lần compile thật đi vào mã Qwen rồi dừng khi phép mã hóa vị trí xoay gặp giao diện cache key-value hợp nhất không tương thích. Không có điểm serving.",
+      "caution": "Không biến probe kernel, fixture CPU hay kiểm tra đường code thành khẳng định về tốc độ hoặc độ đúng của mô hình đầy đủ.",
+      "transition": "Slide sau mô tả cấu hình serving H200 được chọn và cấu hình H100 riêng."
     }
   },
   {
     "slide": 27,
     "title": "Appendix · the selected AI deployment is N64",
     "en": {
-      "purpose": "Summarize the selected H200 N64 deployment and the separate retained H100 setting.",
-      "visual": "Rows name settings; the right columns give H200 and H100 values. Client concurrency is 64 versus 54. Prefill, decode, TP allocation, and precision are distinct settings; the footer lists shared components. This is configuration documentation, not a matched hardware comparison. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Describe the retained AI service configuration without implying H100 and H200 results are directly comparable.",
+      "visual": "Read each row as one operational choice: input processing (prefill), token generation (decode), parallel GPU groups, or numeric precision. H200 uses client concurrency 64; the separate H100 observation uses 54 and a different prefill backend/chunk. Both use target weights in FP8 and activation/KV state in BF16. The bottom line names shared decode and communication components. Because hardware and settings differ, this is a deployment map, not a hardware benchmark.",
       "terms": [
         {
-          "symbol": "H200 / H100",
-          "meaning": "Two different GPU models; results and settings are reported separately."
+          "symbol": "prefill / decode",
+          "meaning": "Prefill processes the prompt before generation; decode produces answer tokens one step at a time."
         },
         {
-          "symbol": "N64",
-          "meaning": "Client concurrency target of 64 requests in flight; H100 retained setting uses 54."
-        },
-        {
-          "symbol": "prefill",
-          "meaning": "Processing the input prompt before generating the answer."
-        },
-        {
-          "symbol": "decode",
-          "meaning": "Generating the output tokens one step at a time."
-        },
-        {
-          "symbol": "TP",
-          "meaning": "Tensor parallelism: splitting tensor operations across GPUs."
-        },
-        {
-          "symbol": "EP",
-          "meaning": "Expert parallelism: distributing mixture-of-experts model experts across GPUs."
+          "symbol": "TP / EP",
+          "meaning": "Tensor parallelism splits tensor operations across GPUs. Expert parallelism distributes mixture-of-experts expert blocks across GPUs."
         },
         {
           "symbol": "FP8 / BF16",
-          "meaning": "Eight-bit floating-point weights; BF16 means brain floating point with 16 bits and is used for activation and KV state."
+          "meaning": "FP8 weights use 8-bit floating point. BF16 activation and KV values use a 16-bit format; the formats describe different tensors."
         },
         {
-          "symbol": "FlashInfer",
-          "meaning": "GPU attention implementation used for decode attention in the retained setting."
+          "symbol": "HPC-Ops / DeepGEMM",
+          "meaning": "GPU execution backends used for different service phases; naming a backend does not alone establish a speed advantage."
         },
         {
-          "symbol": "MNNVL",
-          "meaning": "The selected collective-communication backend for the relevant GPU groups."
+          "symbol": "FlashInfer / MNNVL",
+          "meaning": "FlashInfer supplies decode attention kernels; MNNVL supplies GPU collective communication. They serve different roles."
         },
         {
-          "symbol": "HPC-Ops",
-          "meaning": "The runtime's GPU operations backend used for decode and, on H100, prefill."
+          "symbol": "round-robin",
+          "meaning": "Requests are distributed in turn across the two prefill workers."
+        },
+        {
+          "symbol": "deployment map",
+          "meaning": "A description of how a measured service was configured, not evidence that another GPU or setting has the same performance."
         }
       ],
       "reading": [
-        "H200 uses two TP4 DeepGEMM prefill workers with chunk 8,192 and one TP8/EP8 HPC-Ops decode worker. H100 uses two TP4 HPC-Ops prefill workers with chunk 4,096 and TP8/EP8 decode.",
-        "Both use FP8 weights, BF16 activations and KV state, FlashInfer decode attention, MNNVL, and round-robin routing. Reader fixes passed a compute-only check on real data, not a full GPU replay after repair."
+        "The H200 selection uses two TP4 prefill workers with DeepGEMM and chunk 8,192, plus one TP8/EP8 HPC-Ops decode worker. Its decode graph set is dense, with buckets 1 through 64.",
+        "H100 keeps two TP4 HPC-Ops prefill workers with chunk 4,096 and the same TP8/EP8 decode grouping. FlashInfer decode attention, MNNVL communication, and round-robin prefill routing are shared."
       ],
       "tradeoff": {
-        "observation": "H200 and H100 use distinct concurrency and prefill settings; both retain the listed precision and shared components.",
-        "hypothesis": "The replicated target-only N64 service is a practical primary configuration.",
-        "conclusion": "Report H200 and H100 separately; this table does not rank the GPU models.",
-        "unknown": "Official accuracy and a full portable replay after reader repair remain unverified."
+        "observation": "H200 and H100 differ in concurrency and prefill backend/chunk, while retaining the listed weight and activation/KV formats.",
+        "hypothesis": "A replicated H200 N64 setup is the more defensible primary because it has repeated full-run evidence.",
+        "conclusion": "Report H100 separately; matching a few settings does not make the GPU results a controlled hardware comparison.",
+        "unknown": "Official model accuracy and complete portable deployment verification after the reader fixes remain open."
       },
-      "script": "The selected H200 setup processes prompts on two TP4 workers and generates tokens on one TP8/EP8 worker. H100 uses lower concurrency and a different prefill backend and chunk size. Both retain FP8 weights and BF16 activation and KV state. Reader fixes were checked on real data, but the full GPU allocation was not replayed afterward.",
-      "caution": "Do not make a direct H100-versus-H200 speed claim or say the full portable job passed after repair.",
-      "transition": "Next, compare dense and sparse graph capture against the service objective."
+      "script": "This is the selected H200 deployment, not a direct race against H100. H200 processes prompts on two groups of four GPUs, then generates tokens on one group of eight GPUs with experts distributed across the group. H100 uses fewer simultaneous requests and a different prompt-processing backend and chunk. Both keep 8-bit weights and 16-bit activation and KV values. Reader fixes were checked on real data, but not through a complete GPU replay afterward.",
+      "caution": "Do not pool H100 and H200 scores, infer a hardware multiplier, or confuse FP8 weights with BF16 activation/KV values.",
+      "transition": "Now compare what sparse decode-graph capture saved with what it did to goodput."
     },
     "vi": {
-      "purpose": "Tóm tắt triển khai H200 N64 được chọn và cấu hình H100 riêng được giữ lại.",
-      "visual": "Các hàng nêu cài đặt; hai cột phải ghi giá trị H200 và H100. Concurrency client là 64 so với 54. Prefill, decode, phân bổ TP và độ chính xác số nằm riêng; dòng cuối ghi thành phần chung. Đây là mô tả cấu hình, không phải so sánh phần cứng khớp điều kiện. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Mô tả cấu hình AI được giữ lại mà không hàm ý kết quả H100 và H200 có thể so sánh trực tiếp.",
+      "visual": "Đọc mỗi hàng như một lựa chọn vận hành: xử lý đầu vào (prefill), sinh token (decode), nhóm GPU song song hoặc độ chính xác số. H200 dùng concurrency client 64; quan sát H100 riêng dùng 54 cùng backend/chunk prefill khác. Cả hai dùng trọng số đích FP8 và activation/trạng thái KV BF16. Dòng cuối nêu thành phần decode và giao tiếp chung. Do phần cứng và cài đặt khác nhau, đây là sơ đồ triển khai, không phải benchmark phần cứng.",
       "terms": [
         {
-          "symbol": "H200 / H100",
-          "meaning": "Hai mẫu GPU khác nhau; cấu hình và kết quả được báo cáo riêng."
+          "symbol": "prefill / decode",
+          "meaning": "Prefill xử lý prompt trước khi sinh; decode tạo token câu trả lời từng bước."
         },
         {
-          "symbol": "N64",
-          "meaning": "Mục tiêu đồng thời 64 yêu cầu đang xử lý; cấu hình H100 giữ mức 54."
-        },
-        {
-          "symbol": "prefill",
-          "meaning": "Xử lý prompt đầu vào trước khi sinh câu trả lời."
-        },
-        {
-          "symbol": "decode",
-          "meaning": "Sinh lần lượt từng token đầu ra."
-        },
-        {
-          "symbol": "TP",
-          "meaning": "Tensor parallelism, tức chia phép toán tensor giữa nhiều GPU."
-        },
-        {
-          "symbol": "EP",
-          "meaning": "Expert parallelism, tức phân phối các expert của mô hình mixture-of-experts qua nhiều GPU."
+          "symbol": "TP / EP",
+          "meaning": "Tensor parallelism chia phép toán tensor qua GPU. Expert parallelism phân phối các khối expert của mô hình mixture-of-experts."
         },
         {
           "symbol": "FP8 / BF16",
-          "meaning": "Trọng số dấu phẩy động 8 bit; BF16 là brain floating point 16 bit, dùng cho activation và trạng thái KV."
+          "meaning": "Trọng số FP8 dùng số dấu phẩy động 8 bit. Activation và KV BF16 dùng định dạng 16 bit; đây là hai loại tensor khác nhau."
         },
         {
-          "symbol": "FlashInfer",
-          "meaning": "Cách triển khai attention GPU dùng cho decode trong cấu hình được giữ lại."
+          "symbol": "HPC-Ops / DeepGEMM",
+          "meaning": "Backend thực thi GPU dùng cho các pha dịch vụ khác nhau; tên backend tự nó không chứng minh tăng tốc."
         },
         {
-          "symbol": "MNNVL",
-          "meaning": "Backend giao tiếp collective được chọn cho các nhóm GPU liên quan."
+          "symbol": "FlashInfer / MNNVL",
+          "meaning": "FlashInfer cung cấp kernel attention decode; MNNVL cung cấp giao tiếp collective GPU. Chúng có vai trò khác nhau."
         },
         {
-          "symbol": "HPC-Ops",
-          "meaning": "Backend thao tác GPU của runtime, dùng cho decode và cả prefill trên H100."
+          "symbol": "round-robin",
+          "meaning": "Request được phân lần lượt cho hai worker prefill."
+        },
+        {
+          "symbol": "sơ đồ triển khai",
+          "meaning": "Mô tả cách cấu hình dịch vụ đã đo, không chứng minh GPU hay cài đặt khác có cùng hiệu năng."
         }
       ],
       "reading": [
-        "H200 dùng hai worker prefill TP4 với DeepGEMM, chunk 8.192, và một worker decode TP8/EP8 với HPC-Ops. H100 dùng hai worker prefill TP4 với HPC-Ops, chunk 4.096, và decode TP8/EP8.",
-        "Cả hai dùng trọng số FP8, activation và KV BF16, FlashInfer cho decode attention, MNNVL và định tuyến vòng tròn. Reader qua kiểm tra compute-only trên dữ liệu thật, nhưng chưa phát lại GPU đầy đủ sau sửa."
+        "Cấu hình H200 chọn hai worker prefill TP4 với DeepGEMM và chunk 8.192, cộng một worker decode TP8/EP8 HPC-Ops. Bộ graph decode dày có bucket từ 1 đến 64.",
+        "H100 giữ hai worker prefill TP4 HPC-Ops với chunk 4.096 và cùng nhóm decode TP8/EP8. FlashInfer cho attention decode, MNNVL cho giao tiếp, và định tuyến vòng tròn giữa hai worker prefill được dùng chung."
       ],
       "tradeoff": {
-        "observation": "H200 và H100 khác concurrency và prefill; cả hai giữ độ chính xác số và thành phần chung đã nêu.",
-        "hypothesis": "Dịch vụ target-only N64 đã lặp lại là cấu hình chính thực tế.",
-        "conclusion": "Báo cáo H200 và H100 riêng; bảng không xếp hạng mẫu GPU.",
-        "unknown": "Độ chính xác chính thức và phát lại portable đầy đủ sau sửa reader chưa được xác minh."
+        "observation": "H200 và H100 khác concurrency cùng backend/chunk prefill, nhưng giữ các định dạng trọng số và activation/KV như đã nêu.",
+        "hypothesis": "Cấu hình H200 N64 có cơ sở chọn làm chính tốt hơn vì đã có nhiều lần chạy đầy đủ.",
+        "conclusion": "Báo cáo H100 riêng; vài cài đặt trùng nhau không biến chúng thành phép so sánh phần cứng có kiểm soát.",
+        "unknown": "Độ chính xác chính thức và xác minh triển khai portable đầy đủ sau sửa reader vẫn còn mở."
       },
-      "script": "Cấu hình H200 xử lý prompt trên hai worker TP4 và sinh token trên một worker TP8/EP8. H100 có concurrency thấp hơn, backend prefill và chunk khác. Cả hai giữ trọng số FP8 cùng activation và KV BF16. Bản sửa reader được kiểm tra trên dữ liệu thật, nhưng chưa phát lại toàn bộ GPU allocation sau đó.",
-      "caution": "Không kết luận trực tiếp tốc độ H100 so với H200 và không nói job portable đầy đủ đã qua sau sửa.",
-      "transition": "Tiếp theo là so sánh capture graph dày và thưa theo mục tiêu dịch vụ."
+      "script": "Đây là cấu hình H200 được chọn, không phải cuộc đua trực tiếp với H100. H200 xử lý prompt trên hai nhóm, mỗi nhóm bốn GPU, rồi sinh token trên một nhóm tám GPU có phân phối các expert. H100 dùng ít request đồng thời hơn và backend/chunk xử lý prompt khác. Cả hai giữ trọng số 8 bit và activation cùng KV 16 bit. Bản sửa reader được kiểm tra trên dữ liệu thật nhưng chưa qua phát lại GPU đầy đủ.",
+      "caution": "Không gộp điểm H100 và H200, suy ra hệ số đổi phần cứng, hay nhầm trọng số FP8 với activation/KV BF16.",
+      "transition": "Tiếp theo, so sánh tài nguyên capture graph decode thưa đã tiết kiệm với tác động lên goodput."
     }
   },
   {
     "slide": 28,
     "title": "Appendix · sparse graphs save memory, not goodput",
     "en": {
-      "purpose": "Explain why sparse decode graphs reduced logged capture memory but did not improve measured goodput.",
-      "visual": "Columns are measure, dense control, and sparse candidate. Rows compare those settings. Buckets count captured request shapes, not concurrency or GPU count. Memory is native-log GB per rank, not total VRAM or GiB; capture time is for that phase, not total job wall time. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Explain the sparse-graph tradeoff: less logged capture memory per rank, slightly shorter capture, but lower measured goodput.",
+      "visual": "Compare the same three quantities across the two settings. The 64-to-12 change is the number of captured decode-shape buckets, not 64-to-12 concurrent requests or GPUs. A bucket is a reusable captured execution shape; requests that do not exactly match a supported shape may be padded or mapped to a nearby bucket. Fewer buckets can reduce stored graph and associated capture-buffer memory, but can increase padding work. Padding and its cost were not isolated here. The reported 1.15/0.36 GB is capture-related memory per decode rank, not total VRAM: model weights, KV cache, workspaces, and other allocations are separate. Capture elapsed time is only the capture phase.",
       "terms": [
         {
           "symbol": "decode graph bucket",
-          "meaning": "A request-shape category for which the serving engine captures a GPU execution graph."
+          "meaning": "A captured GPU execution shape the server can replay for a class of decode batches. It is not a request count."
+        },
+        {
+          "symbol": "padding",
+          "meaning": "Filling a batch or shape to a supported graph size. Fewer available buckets may require more padding, but this run did not measure its amount or cost."
+        },
+        {
+          "symbol": "graph-capture memory",
+          "meaning": "Memory associated with recorded reusable GPU execution graphs and their buffers, reported here per decode rank."
+        },
+        {
+          "symbol": "VRAM / GB / GiB",
+          "meaning": "VRAM is all memory on a GPU. The log reports capture-related GB per rank, not total VRAM or GiB; weights and KV cache use other memory too."
         },
         {
           "symbol": "rank",
-          "meaning": "One distributed worker process, typically associated with one GPU in this deployment."
+          "meaning": "One distributed worker process; these values are per decode worker/rank, not summed over eight ranks."
         },
         {
-          "symbol": "GB",
-          "meaning": "Gigabyte as recorded by the native log; do not silently relabel it GiB or total VRAM."
-        },
-        {
-          "symbol": "goodput",
-          "meaning": "Rate of requests that meet the joint latency limits; the displayed score multiplies exported good requests/s by 200 requested output tokens."
-        },
-        {
-          "symbol": "ITL",
-          "meaning": "Inter-token latency: time between generated tokens; the shown mean is in milliseconds."
+          "symbol": "goodput / ITL",
+          "meaning": "Goodput is qualifying requests/s multiplied by 200 requested output tokens. ITL is the interval between generated tokens."
         },
         {
           "symbol": "compile off",
-          "meaning": "Model graph compilation was disabled in this test; successful capture does not establish compiled model support."
+          "meaning": "Model compilation was disabled for this capture test; successful graph capture does not validate the compiled model path."
         }
       ],
       "reading": [
-        "The dense control captured 64 buckets; the candidate captured 12 on all eight ranks with compile off. Memory fell from 1.15 to 0.36 GB/rank; capture time changed from 101.46–101.49 to 95.98–96.05 seconds.",
-        "Goodput was 3,041.119598 for control 27376 and 3,029.861122 for candidate 27510, a 0.370208% decrease. Mean request ITL rose from 14.991 to 15.136 ms; TTFT improved."
+        "The candidate reduced buckets from 64 to 12; captures were observed on all eight decode ranks with compile off. Logged capture memory fell from 1.15 to 0.36 GB per rank. Capture time changed from 101.46–101.49 to 95.98–96.05 seconds.",
+        "Goodput fell from 3,041.119598 in earlier control 27376 to 3,029.861122 in candidate 27510, or 0.370208%. Mean request ITL rose from 14.991 to 15.136 ms, although TTFT improved."
       ],
       "tradeoff": {
-        "observation": "The candidate reduced logged capture memory and slightly shortened capture, but measured goodput was lower.",
-        "hypothesis": "Fewer graph shapes might save memory without harming the service objective.",
-        "conclusion": "Retain dense graphs for this deployment; the measured service objective did not improve.",
-        "unknown": "One earlier control and differing generated seeds limit causal interpretation; capture memory is not total GPU memory."
+        "observation": "Candidate capture memory was lower and capture slightly shorter; measured goodput was 0.370208% below the earlier control.",
+        "hypothesis": "Fewer graph shapes could save capture resources while preserving the service objective.",
+        "conclusion": "The candidate did not improve goodput; the team retained dense graphs. Do not claim padding caused the score change because padding was not separately measured.",
+        "unknown": "There was one earlier control, engine-generated seeds differed, and capture memory is not total GPU memory."
       },
-      "script": "The sparse candidate reduced graph buckets from 64 to 12 and logged capture memory from 1.15 to 0.36 GB per rank. Capture took only a few seconds less. Full goodput was 0.370208 percent below the earlier control, and mean inter-token latency rose slightly. We retain dense graphs; this single comparison does not establish a cause.",
-      "caution": "Do not call bucket count concurrency, interpret capture memory as total VRAM or GiB, or treat capture time as total job duration. Accuracy was not measured here.",
-      "transition": "Next, separate synthetic serving measurements from model-quality evaluation."
+      "script": "The candidate captured 12 decode shapes instead of 64. That cut logged graph-capture memory per rank from 1.15 to 0.36 gigabytes, while capture time changed by only a few seconds. But goodput was 0.370208 percent lower and mean token interval slightly higher. Fewer graph shapes can require extra padding, but padding was not measured here. We retain dense graphs and do not assign a cause to the score difference.",
+      "caution": "Do not call bucket count concurrency, capture memory total VRAM, or capture time total job time. Padding is a possible mechanism, not a measured explanation.",
+      "transition": "Next, see what the synthetic serving score includes and what separate model-quality checks remain."
     },
     "vi": {
-      "purpose": "Giải thích vì sao graph decode thưa giảm bộ nhớ capture theo log nhưng không cải thiện goodput đo được.",
-      "visual": "Các cột là đại lượng đo, đối chứng dày và ứng viên thưa; mỗi hàng so sánh hai cấu hình. Bucket đếm dạng yêu cầu được capture, không phải concurrency hay số GPU. Bộ nhớ là GB mỗi rank theo log native, không phải tổng VRAM hay GiB; thời gian là pha capture, không phải tổng thời gian job. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Giải thích đánh đổi của graph thưa: bộ nhớ capture theo log trên mỗi rank giảm, pha capture ngắn hơn chút ít, nhưng goodput đo được thấp hơn.",
+      "visual": "So sánh cùng các đại lượng giữa hai cấu hình. Thay đổi 64 xuống 12 là số bucket dạng decode được capture, không phải số request đồng thời hay GPU. Bucket là một dạng thực thi đã capture để tái dùng; request không khớp chính xác có thể được đệm hoặc ánh xạ vào bucket gần đó. Ít bucket có thể giảm bộ nhớ graph và buffer capture đi kèm, nhưng có thể tăng công việc padding. Phép thử này không tách riêng lượng hay chi phí padding. Mức 1.15/0.36 GB là bộ nhớ liên quan capture trên mỗi rank decode, không phải tổng VRAM: trọng số, KV cache, workspace và cấp phát khác nằm riêng. Thời gian capture chỉ tính pha capture.",
       "terms": [
         {
           "symbol": "bucket graph decode",
-          "meaning": "Nhóm dạng yêu cầu mà engine serving capture thành đồ thị thực thi GPU."
+          "meaning": "Một dạng thực thi GPU được capture để server phát lại cho một nhóm batch decode. Đây không phải số request."
+        },
+        {
+          "symbol": "padding",
+          "meaning": "Đệm batch hoặc hình dạng lên kích cỡ graph được hỗ trợ. Ít bucket có thể cần đệm nhiều hơn, nhưng lần chạy này không đo lượng hay chi phí đó."
+        },
+        {
+          "symbol": "bộ nhớ graph capture",
+          "meaning": "Bộ nhớ liên quan các graph GPU đã ghi để tái dùng và buffer đi kèm, báo cáo trên mỗi rank decode."
+        },
+        {
+          "symbol": "VRAM / GB / GiB",
+          "meaning": "VRAM là toàn bộ bộ nhớ GPU. Log ghi GB capture trên mỗi rank, không phải tổng VRAM hay GiB; trọng số và KV cache còn dùng bộ nhớ khác."
         },
         {
           "symbol": "rank",
-          "meaning": "Một tiến trình worker phân tán, trong cấu hình này thường gắn với một GPU."
+          "meaning": "Một tiến trình worker phân tán; số liệu tính trên từng rank decode, không cộng tám rank."
         },
         {
-          "symbol": "GB",
-          "meaning": "Gigabyte theo log native; không tự đổi nhãn thành GiB hay tổng VRAM."
-        },
-        {
-          "symbol": "goodput",
-          "meaning": "Tốc độ yêu cầu đạt đồng thời các giới hạn độ trễ; điểm hiển thị lấy số yêu cầu tốt mỗi giây từ client nhân với 200 token đầu ra yêu cầu."
-        },
-        {
-          "symbol": "ITL",
-          "meaning": "Inter-token latency, độ trễ giữa các token sinh ra; giá trị trung bình trên slide là mili giây."
+          "symbol": "goodput / ITL",
+          "meaning": "Goodput là request đủ điều kiện/giây nhân 200 token đầu ra yêu cầu. ITL là khoảng thời gian giữa các token sinh."
         },
         {
           "symbol": "compile off",
-          "meaning": "Biên dịch graph mô hình bị tắt trong phép thử; capture thành công không xác nhận hỗ trợ mô hình đã biên dịch."
+          "meaning": "Biên dịch mô hình bị tắt trong phép thử capture; capture thành công không xác nhận đường mô hình compile hoạt động."
         }
       ],
       "reading": [
-        "Đối chứng capture 64 bucket; ứng viên capture 12 trên cả tám rank khi compile tắt. Bộ nhớ giảm từ 1.15 xuống 0.36 GB/rank; thời gian capture đổi từ 101.46–101.49 xuống 95.98–96.05 giây.",
-        "Goodput đối chứng 27376 là 3,041.119598, ứng viên 27510 là 3,029.861122, giảm 0.370208%. Mean request ITL tăng từ 14.991 lên 15.136 ms; TTFT tốt hơn."
+        "Ứng viên giảm bucket từ 64 xuống 12; capture được ghi nhận trên cả tám rank decode khi compile tắt. Bộ nhớ capture theo log giảm từ 1.15 xuống 0.36 GB mỗi rank. Thời gian capture đổi từ 101.46–101.49 xuống 95.98–96.05 giây.",
+        "Goodput giảm từ 3,041.119598 ở đối chứng trước 27376 xuống 3,029.861122 ở ứng viên 27510, tức giảm 0.370208%. Mean request ITL tăng từ 14.991 lên 15.136 ms, dù TTFT tốt hơn."
       ],
       "tradeoff": {
-        "observation": "Ứng viên giảm bộ nhớ capture theo log và rút ngắn pha này chút ít, nhưng goodput đo được thấp hơn.",
-        "hypothesis": "Ít dạng graph hơn có thể tiết kiệm bộ nhớ mà không hại mục tiêu dịch vụ.",
-        "conclusion": "Giữ graph dày cho triển khai này; mục tiêu dịch vụ đo được không cải thiện.",
-        "unknown": "Một đối chứng trước và seed khác nhau hạn chế kết luận nhân quả; bộ nhớ capture không phải tổng bộ nhớ GPU."
+        "observation": "Bộ nhớ capture của ứng viên thấp hơn và thời gian capture ngắn hơn chút ít; goodput thấp hơn đối chứng trước 0.370208%.",
+        "hypothesis": "Ít dạng graph hơn có thể tiết kiệm tài nguyên capture mà vẫn giữ mục tiêu dịch vụ.",
+        "conclusion": "Ứng viên không cải thiện goodput; nhóm giữ graph dày. Không nói padding gây đổi điểm vì chưa đo riêng padding.",
+        "unknown": "Chỉ có một đối chứng trước, seed engine khác nhau, và bộ nhớ capture không phải tổng bộ nhớ GPU."
       },
-      "script": "Ứng viên thưa giảm bucket graph từ 64 xuống 12 và bộ nhớ capture trong log từ 1.15 xuống 0.36 GB mỗi rank. Pha capture chỉ nhanh hơn vài giây. Goodput đầy đủ thấp hơn đối chứng trước 0.370208 phần trăm, còn ITL trung bình tăng nhẹ. Nhóm giữ graph dày; so sánh đơn lẻ này không xác định nguyên nhân.",
-      "caution": "Không gọi bucket là concurrency, bộ nhớ là tổng VRAM hay GiB, hoặc thời gian capture là toàn bộ thời gian job. Slide này không đo độ chính xác.",
-      "transition": "Tiếp theo, tách phép đo serving tổng hợp khỏi đánh giá chất lượng mô hình."
+      "script": "Ứng viên capture 12 dạng decode thay vì 64. Bộ nhớ graph capture theo log giảm từ 1.15 xuống 0.36 gigabyte mỗi rank, còn thời gian capture chỉ đổi vài giây. Nhưng goodput thấp hơn 0.370208 phần trăm và khoảng token trung bình tăng nhẹ. Ít dạng graph có thể cần padding thêm, nhưng lần này chưa đo padding. Nhóm giữ graph dày và không quy nguyên nhân cho chênh lệch điểm.",
+      "caution": "Không gọi số bucket là concurrency, bộ nhớ capture là tổng VRAM, hay thời gian capture là tổng thời lượng job. Padding chỉ là cơ chế có thể có, chưa phải giải thích đã đo.",
+      "transition": "Tiếp theo là phạm vi của điểm serving tổng hợp và các kiểm tra chất lượng mô hình riêng còn mở."
     }
   },
   {
     "slide": 29,
     "title": "Appendix · what the benchmark actually measures",
     "en": {
-      "purpose": "Clarify what the serving benchmark measures and separate it from model-quality evaluation.",
-      "visual": "Three statements describe synthetic requests of 4,000 input and 200 output tokens, closed-loop traffic, and separate official quality checks. Timing is 60 seconds warmup, 120 seconds scored profiling, and 30 seconds grace. Grace lets outstanding requests settle; it is not extra scoring time. This slide has no table, axes, or colored data-point encoding.",
+      "purpose": "Explain what the serving benchmark actually times, how its score is derived, and why that result is separate from model accuracy.",
+      "visual": "The key distinction is between requested workload and scored evidence. The synthetic client requests 4,000 input and 200 output tokens; it sustains closed-loop concurrency. Workers and serving paths get separate warmup traffic, then AIPerf runs its own 60-second warmup, 120-second scored profiling interval, and 30-second grace. Only profiling contributes to performance metrics. Grace drains outstanding requests and is not another scoring window. The separate 99% criterion is a full-set quality evaluation, not a serving latency result.",
       "terms": [
         {
-          "symbol": "AIPerf",
-          "meaning": "The benchmark client and measurement tool that sends serving requests and exports performance metrics."
+          "symbol": "AIPerf / closed loop",
+          "meaning": "AIPerf sends requests and calculates metrics. Closed loop replaces each completed request to maintain a target number in flight."
         },
         {
-          "symbol": "closed loop",
-          "meaning": "A traffic pattern that holds a target number of requests in flight by replacing each completed request."
+          "symbol": "60/120/30 protocol",
+          "meaning": "Seconds for AIPerf warmup, scored profiling, and grace. Only the middle 120 seconds score; grace lets in-flight requests settle."
         },
         {
-          "symbol": "concurrency",
-          "meaning": "The target count of simultaneously active client requests; the main N64 workload targets 64."
+          "symbol": "goodput",
+          "meaning": "Qualifying requests per second. The official displayed good output tokens/s equals exported goodput multiplied by 200 requested output tokens."
         },
         {
-          "symbol": "warmup",
-          "meaning": "A preliminary phase to initialize workers and serving paths before measured client traffic."
+          "symbol": "request latency limits",
+          "meaning": "A request is good only when TTFT is at most 3,000 ms and request-mean ITL at most 20 ms; at least 90% of all requests must pass both."
         },
         {
-          "symbol": "profiling window",
-          "meaning": "The fixed 120-second interval used for scored performance measurements."
+          "symbol": "99% accuracy requirement",
+          "meaning": "The organizer requires full-set model quality at least 99% of its FP8 reference. Team-run small output checks on the assigned cluster do not establish this."
         },
         {
-          "symbol": "grace",
-          "meaning": "A 30-second allowance for in-flight requests to settle after the scored window."
-        },
-        {
-          "symbol": "99% quality threshold",
-          "meaning": "The official requirement that full-set model quality reach at least 99% of the organizer's FP8 reference score."
+          "symbol": "requested vs actual tokens",
+          "meaning": "4,000/200 are client requests. They do not prove how many token IDs the model actually consumed or generated for every request."
         }
       ],
       "reading": [
-        "AIPerf maintains target concurrency by replacing completed requests. Workers and serving paths receive separate warmup traffic.",
-        "Only the scored window contributes to reported performance. Requested and actual token lengths may differ; physical truncation is not established.",
-        "Official quality requires at least 99% of the organizer FP8 reference and remains unverified."
+        "Goodput is AIPerf Goodput in qualifying requests/s multiplied by the requested 200 output tokens. Do not divide all completed requests by 120: completions can fall in warmup or grace, and goodput counts only requests meeting service limits.",
+        "Requested token counts are client settings; retokenized input and actual generated IDs/usage were not fully retained. The synthetic prompt/answer workload is not the organizer quality dataset. Full-set accuracy remains UNKNOWN."
       ],
       "tradeoff": {
-        "observation": "This serving workload uses synthetic 4,000/200 requests and a 60/120/30-second warmup, profiling, and grace schedule.",
-        "hypothesis": "Fixed workload and timing support comparisons when configuration and protocol match.",
-        "conclusion": "Goodput describes service performance here, not model accuracy; do not divide all completions by 120.",
-        "unknown": "Actual token IDs/usage and official full-set quality remain unknown."
+        "observation": "Serving uses synthetic 4,000/200 requests and a 60/120/30-second warmup, profiling, and grace schedule.",
+        "hypothesis": "A fixed workload and scoring interval permit useful comparisons when protocol and settings match.",
+        "conclusion": "The result describes serving performance under this workload; it neither certifies accuracy nor supplies a simple completion-count rate.",
+        "unknown": "Actual per-request token IDs/usage and the official full-set score have not been established."
       },
-      "script": "This benchmark measures serving on synthetic prompts, not the official model-quality set. The client replaces completed requests to maintain concurrency. After warmup, 120 seconds count toward the score, then grace lets remaining requests settle. Goodput comes from AIPerf accounting; it should not be reconstructed by dividing every completion by 120 seconds.",
-      "caution": "Do not treat grace as scored time, equate requested and actual tokens, or claim the 99% quality criterion passed.",
-      "transition": "Next, compare chunk sizes under the same full protocol."
+      "script": "The serving test uses synthetic prompts requesting 4,000 input and 200 output tokens. The benchmark client keeps a target number of requests active, warms up, scores a fixed 120-second window, then lets outstanding requests finish. Its goodput counts requests meeting both latency limits; multiplying by 200 gives the reported good output tokens per second. This does not test the organizer’s full quality set, whose 99-percent requirement remains unknown.",
+      "caution": "Do not divide all completions by 120, count grace as scored time, infer actual token usage from requested lengths, or claim the accuracy threshold passed.",
+      "transition": "Next, compare chunk-size runs using this same full scoring protocol."
     },
     "vi": {
-      "purpose": "Làm rõ benchmark serving đo gì và tách nó khỏi đánh giá chất lượng mô hình.",
-      "visual": "Ba ý mô tả yêu cầu tổng hợp 4.000 token đầu vào/200 token đầu ra, tải client vòng kín, và kiểm tra chất lượng chính thức riêng. Thời gian gồm warmup 60 giây, profiling 120 giây được chấm điểm, và grace 30 giây. Grace cho request đang chạy hoàn tất, không phải thời gian tính điểm bổ sung. Slide này không có bảng, trục hay mã màu điểm dữ liệu.",
+      "purpose": "Giải thích benchmark serving đo trong khoảng nào, tính điểm ra sao và vì sao kết quả này tách biệt với độ chính xác mô hình.",
+      "visual": "Điểm chính là phân biệt workload được yêu cầu với bằng chứng được tính điểm. Client tổng hợp yêu cầu 4.000 token vào và 200 token ra, đồng thời giữ concurrency theo kiểu vòng kín. Worker và đường serving được làm nóng bằng lưu lượng riêng; sau đó AIPerf có warmup 60 giây, profiling 120 giây được chấm, và grace 30 giây. Chỉ profiling tính vào chỉ số hiệu năng. Grace kết thúc request còn dở, không phải cửa sổ chấm bổ sung. Tiêu chí 99% riêng là đánh giá chất lượng toàn tập, không phải độ trễ serving.",
       "terms": [
         {
-          "symbol": "AIPerf",
-          "meaning": "Công cụ client và đo benchmark gửi yêu cầu serving rồi xuất chỉ số hiệu năng."
+          "symbol": "AIPerf / vòng kín",
+          "meaning": "AIPerf gửi request và tính chỉ số. Tải vòng kín thay mỗi request vừa xong để duy trì mục tiêu số request đang xử lý."
         },
         {
-          "symbol": "vòng kín",
-          "meaning": "Kiểu tải giữ mục tiêu số yêu cầu đang chạy bằng cách thay mỗi yêu cầu vừa hoàn tất bằng một yêu cầu mới."
+          "symbol": "protocol 60/120/30",
+          "meaning": "Số giây cho warmup AIPerf, profiling được chấm và grace. Chỉ 120 giây ở giữa tính điểm; grace cho request còn lại hoàn tất."
         },
         {
-          "symbol": "concurrency",
-          "meaning": "Số yêu cầu client mục tiêu hoạt động cùng lúc; workload chính N64 đặt mục tiêu 64."
+          "symbol": "goodput",
+          "meaning": "Số request đủ điều kiện mỗi giây. Good output tokens/s chính thức bằng goodput AIPerf nhân với 200 token đầu ra yêu cầu."
         },
         {
-          "symbol": "warmup",
-          "meaning": "Pha khởi động worker và đường serving trước khi đo tải client chính thức."
+          "symbol": "giới hạn độ trễ request",
+          "meaning": "Request chỉ được tính tốt nếu TTFT không quá 3.000 ms và ITL trung bình request không quá 20 ms; ít nhất 90% mọi request phải đạt cả hai."
         },
         {
-          "symbol": "cửa sổ profiling",
-          "meaning": "Khoảng cố định 120 giây dùng để tính điểm hiệu năng."
+          "symbol": "yêu cầu độ chính xác 99%",
+          "meaning": "Ban tổ chức yêu cầu chất lượng toàn tập ít nhất 99% tham chiếu FP8. Kiểm tra đầu ra nhỏ do nhóm chạy trên cluster được giao không chứng minh điều này."
         },
         {
-          "symbol": "grace",
-          "meaning": "Khoảng 30 giây cho các yêu cầu còn đang chạy hoàn tất sau cửa sổ được chấm điểm."
-        },
-        {
-          "symbol": "ngưỡng chất lượng 99%",
-          "meaning": "Yêu cầu chính thức: chất lượng trên toàn bộ tập đạt ít nhất 99% điểm tham chiếu FP8 của ban tổ chức."
+          "symbol": "token yêu cầu và token thực",
+          "meaning": "4.000/200 là độ dài client yêu cầu. Chúng không chứng minh chính xác số token ID mô hình đã đọc hay sinh cho từng request."
         }
       ],
       "reading": [
-        "AIPerf giữ mức concurrency mục tiêu bằng cách thay các request đã xong. Worker và đường serving được làm nóng bằng lưu lượng riêng.",
-        "Chỉ cửa sổ được chấm điểm đóng góp vào hiệu năng báo cáo. Độ dài yêu cầu và token thực có thể khác; chưa xác lập việc cắt cụt vật lý.",
-        "Chất lượng chính thức cần ít nhất 99% điểm tham chiếu FP8 của ban tổ chức và vẫn chưa được xác minh."
+        "Goodput là số request đủ điều kiện mỗi giây theo AIPerf nhân với 200 token đầu ra yêu cầu. Không chia mọi request hoàn tất cho 120: request có thể kết thúc trong warmup hoặc grace, còn goodput chỉ đếm request đạt giới hạn dịch vụ.",
+        "Độ dài token yêu cầu là cấu hình client; token hóa lại đầu vào và ID/lượng token thực sinh chưa được lưu đầy đủ. Prompt serving tổng hợp không phải bộ dữ liệu chất lượng của ban tổ chức. Độ chính xác toàn tập vẫn UNKNOWN."
       ],
       "tradeoff": {
-        "observation": "Workload serving này dùng yêu cầu tổng hợp 4.000/200 token và lịch warmup/profiling/grace 60/120/30 giây.",
-        "hypothesis": "Workload và thời gian cố định hỗ trợ so sánh khi cấu hình và quy trình khớp nhau.",
-        "conclusion": "Goodput mô tả hiệu năng serving ở đây, không phải độ chính xác; không chia mọi request hoàn tất cho 120.",
-        "unknown": "Token ID/lượng dùng thực và chất lượng toàn tập chính thức vẫn chưa biết."
+        "observation": "Serving dùng request tổng hợp 4.000/200 token với lịch warmup/profiling/grace 60/120/30 giây.",
+        "hypothesis": "Workload và cửa sổ tính điểm cố định cho phép so sánh hữu ích khi protocol và cấu hình khớp nhau.",
+        "conclusion": "Kết quả mô tả hiệu năng serving theo workload này; nó không chứng nhận độ chính xác và không thể thay bằng phép chia tổng request hoàn tất.",
+        "unknown": "ID/lượng token thực từng request và điểm toàn tập chính thức chưa được xác lập."
       },
-      "script": "Benchmark này đo serving với prompt tổng hợp, không phải bộ đánh giá chất lượng chính thức. Client thay request hoàn tất để giữ concurrency. Sau warmup, 120 giây được tính điểm rồi grace cho request còn lại kết thúc. Goodput lấy theo cách tính của AIPerf; không nên tính lại bằng cách chia mọi request hoàn tất cho 120 giây.",
-      "caution": "Không tính grace là thời gian chấm, không đồng nhất token yêu cầu với token thực, và không nói đã đạt tiêu chí chất lượng 99%.",
-      "transition": "Tiếp theo, so sánh kích thước chunk theo cùng quy trình đầy đủ."
+      "script": "Bài serving dùng prompt tổng hợp, yêu cầu 4.000 token vào và 200 token ra. Client benchmark duy trì số request đang chạy, làm nóng hệ thống, chấm một cửa sổ cố định 120 giây rồi cho request còn lại hoàn tất. Goodput chỉ đếm request đạt cả hai giới hạn độ trễ; nhân với 200 ra token đầu ra tốt mỗi giây. Bài này không kiểm tra bộ chất lượng toàn tập của ban tổ chức; yêu cầu 99% vẫn chưa biết.",
+      "caution": "Không chia mọi request hoàn tất cho 120, tính grace vào cửa sổ chấm, suy ra token thực từ độ dài yêu cầu, hay nói đã đạt độ chính xác.",
+      "transition": "Tiếp theo, so sánh các lần chạy chunk bằng cùng protocol chấm điểm đầy đủ."
     }
   },
   {
     "slide": 30,
     "title": "Appendix · larger prefill chunks did not help",
     "en": {
-      "purpose": "Compare three prefill chunk sizes under the full N64 protocol; larger chunks did not improve the observed service objective.",
-      "visual": "Columns are chunk tokens, good output tokens/s, joint SLA percentage, and p95 TTFT in milliseconds. Each row is one run. All used 60/120/30-second timing, requested 4,000/200 tokens, seed 2026, cold prefixes, and the same model and runtime. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Show that larger prefill chunks passed the team’s local checks but reduced measured goodput and worsened the TTFT tail in this bounded comparison.",
+      "visual": "Each row is one full N64 run; compare the same score and latency columns across chunk sizes. Chunk size is input work handled together, not client concurrency. Good output tokens/s is the qualifying service rate, joint SLA is the share meeting both request latency limits, and p95 TTFT describes the slow tail. As chunk rose 8,192 → 10,240 → 12,288, goodput fell and p95 TTFT rose. One run per setting makes this evidence for retaining 8,192 here, not a universal optimum.",
       "terms": [
         {
           "symbol": "prefill chunk",
-          "meaning": "The number of prompt tokens handled together by the prefill worker in a scheduling unit."
+          "meaning": "Number of prompt tokens handled together in one prefill scheduling unit; it is separate from client concurrency."
         },
         {
-          "symbol": "good output tokens/s",
-          "meaning": "Reported good request rate multiplied by 200 requested output tokens per request."
+          "symbol": "SLA / p95 / TTFT",
+          "meaning": "SLA is the share of all requests meeting both latency limits. p95 is the 95th percentile. TTFT is time from request start to first token."
         },
         {
-          "symbol": "SLA",
-          "meaning": "Service-level agreement: the fraction of all requests meeting both latency thresholds."
+          "symbol": "local review",
+          "meaning": "Here “local” means team-run and reviewed on the assigned cluster. It does not mean a laptop run or organizer approval."
         },
         {
-          "symbol": "p95",
-          "meaning": "The 95th percentile: 95% of measured requests have a value at or below this number."
+          "symbol": "acceptance checks",
+          "meaning": "The team’s protocol, runtime, latency, and output checks. Passing them establishes a valid local result, not official acceptance or a useful improvement."
         },
         {
-          "symbol": "TTFT",
-          "meaning": "Time to first token, the delay from request start until the first generated token."
+          "symbol": "arm",
+          "meaning": "One tested configuration, here one chunk-size setting. There was one full run for each arm."
         },
         {
           "symbol": "seed 2026",
-          "meaning": "The configured workload seed; it does not make engine-generated seeds identical across launches."
+          "meaning": "Configured workload seed. Engine-generated seeds still differed across launches."
         }
       ],
       "reading": [
-        "Chunk 8,192: 3,045.501509 good output tokens/s, 98.580% SLA, 1,311.69 ms p95 TTFT.",
-        "Chunk 10,240: 3,034.088251, 98.524%, 1,518.87 ms. Chunk 12,288: 3,020.943099, 98.310%, 1,624.12 ms. All passed local checks; each arm has one run."
+        "At 8,192, job 26766 recorded 3,045.501509 good output tokens/s, 98.580% joint SLA, and 1,311.69 ms p95 TTFT. At 10,240, job 26768 recorded 3,034.088251, 98.524%, and 1,518.87 ms.",
+        "At 12,288, job 26770 recorded 3,020.943099, 98.310%, and 1,624.12 ms. All three were full 60/120/30 N64 runs using requested 4,000/200 tokens, the same model and runtime, and cold prefixes; each chunk setting was observed once."
       ],
       "tradeoff": {
-        "observation": "Goodput fell and p95 TTFT rose as chunk size increased in these observations.",
-        "hypothesis": "More tokens per prefill batch might raise throughput.",
-        "conclusion": "Retain 8,192 for this setting and close the bounded larger-chunk branch.",
-        "unknown": "One observation per arm does not establish a global optimum."
+        "observation": "Goodput declined and p95 TTFT increased monotonically across the three observed chunk sizes.",
+        "hypothesis": "Larger chunks might increase throughput by processing more prompt tokens per batch.",
+        "conclusion": "Retain chunk 8,192 for this service setting; the larger tested chunks did not improve its objective.",
+        "unknown": "One run per setting leaves order and engine-seed variation; this is not proof of a global optimum."
       },
-      "script": "We tested three chunk sizes in full runs with the same workload and runtime. As size increased from 8,192 to 12,288, goodput declined and p95 first-token delay worsened. All arms passed local checks, but each has one observation. We retain 8,192 for this setting without claiming a universal optimum.",
-      "caution": "Keep chunk, goodput, SLA, and p95 TTFT units distinct. A local pass is not a useful gain or proof of a global optimum.",
-      "transition": "Next, see how real portable replay exposed reader defects missed by static checks."
+      "script": "All three tests used the same full protocol with 64 requests in flight. The 8,192-token prompt chunk scored about 3,045 good tokens per second; larger chunks scored about 3,034 and 3,021. Team checks on the assigned cluster passed for every run, but that only establishes a reviewed local result, not organizer approval or improvement. Larger chunks also worsened the slow first-token tail. With one run per size, we keep 8,192 for this service, not as a universal best.",
+      "caution": "A local pass is team-reviewed evidence from the assigned cluster, not organizer approval. Do not treat a passing arm as an improvement or a global optimum.",
+      "transition": "The next slide separates a completed GPU serving run from result-reader post-processing."
     },
     "vi": {
-      "purpose": "So sánh ba kích thước chunk prefill theo protocol N64 đầy đủ; chunk lớn hơn không cải thiện mục tiêu dịch vụ trong các lần đo này.",
-      "visual": "Các cột là số token mỗi chunk, token đầu ra tốt/giây, tỷ lệ SLA chung và p95 TTFT mili giây. Mỗi hàng là một lần chạy. Cả ba dùng lịch 60/120/30 giây, yêu cầu 4.000/200 token, seed 2026, prefix lạnh, cùng mô hình và runtime. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Cho thấy chunk prefill lớn hơn qua kiểm tra nhóm trên cluster được giao nhưng làm giảm goodput và xấu đuôi TTFT trong phép so sánh có giới hạn này.",
+      "visual": "Mỗi hàng là một lần chạy N64 đầy đủ; so cùng cột điểm và độ trễ giữa các chunk. Kích thước chunk là lượng công việc đầu vào xử lý cùng nhau, không phải concurrency client. Token đầu ra tốt/giây là tốc độ dịch vụ đủ điều kiện; SLA chung là tỷ lệ request đạt đồng thời hai giới hạn; p95 TTFT mô tả nhóm request chậm. Khi chunk tăng 8.192 → 10.240 → 12.288, goodput giảm còn p95 TTFT tăng. Mỗi cấu hình chỉ có một lần chạy, nên đây là cơ sở giữ 8.192 cho cấu hình này, không phải tối ưu phổ quát.",
       "terms": [
         {
           "symbol": "chunk prefill",
-          "meaning": "Số token prompt được worker prefill xử lý cùng nhau trong một đơn vị lập lịch."
+          "meaning": "Số token prompt được xử lý cùng nhau trong một đơn vị lập lịch prefill; khác với concurrency client."
         },
         {
-          "symbol": "good output tokens/s",
-          "meaning": "Tốc độ request tốt được báo cáo nhân với 200 token đầu ra yêu cầu cho mỗi request."
+          "symbol": "SLA / p95 / TTFT",
+          "meaning": "SLA là tỷ lệ request đạt cả hai giới hạn độ trễ. p95 là phân vị 95. TTFT là thời gian từ lúc bắt đầu request đến token đầu tiên."
         },
         {
-          "symbol": "SLA",
-          "meaning": "Service-level agreement: tỷ lệ mọi request đạt đồng thời hai ngưỡng độ trễ."
+          "symbol": "đánh giá local",
+          "meaning": "Ở đây “local” nghĩa là nhóm chạy và xem xét kết quả trên cluster được giao. Không có nghĩa chạy trên laptop hay được ban tổ chức duyệt."
         },
         {
-          "symbol": "p95",
-          "meaning": "Phân vị 95: 95% yêu cầu đo được có giá trị bằng hoặc nhỏ hơn con số này."
+          "symbol": "kiểm tra chấp nhận",
+          "meaning": "Các kiểm tra protocol, runtime, độ trễ và đầu ra của nhóm. Qua chúng xác lập kết quả nội bộ hợp lệ, không phải chấp nhận chính thức hay cải thiện hữu ích."
         },
         {
-          "symbol": "TTFT",
-          "meaning": "Time to first token, độ trễ từ lúc bắt đầu request đến token đầu tiên được sinh."
+          "symbol": "arm",
+          "meaning": "Một cấu hình được thử; ở đây mỗi mức chunk là một arm. Mỗi arm chỉ có một lần chạy đầy đủ."
         },
         {
           "symbol": "seed 2026",
-          "meaning": "Seed workload được cấu hình; nó không khiến seed do engine tạo ra giống hệt giữa các lần khởi chạy."
+          "meaning": "Seed workload đã cấu hình. Seed do engine tạo vẫn khác nhau giữa các lần khởi chạy."
         }
       ],
       "reading": [
-        "Chunk 8.192: 3,045.501509 token đầu ra tốt/giây, SLA 98.580%, p95 TTFT 1,311.69 ms.",
-        "Chunk 10.240: 3,034.088251, SLA 98.524%, p95 1,518.87 ms. Chunk 12.288: 3,020.943099, 98.310%, 1,624.12 ms. Cả ba qua kiểm tra nội bộ; mỗi mức chỉ có một lần chạy."
+        "Ở chunk 8.192, job 26766 ghi nhận 3,045.501509 token tốt/giây, SLA chung 98.580%, p95 TTFT 1,311.69 ms. Với 10.240, job 26768 đạt 3,034.088251, 98.524% và 1,518.87 ms.",
+        "Với 12.288, job 26770 đạt 3,020.943099, 98.310% và 1,624.12 ms. Cả ba là lần N64 đầy đủ 60/120/30, yêu cầu 4.000/200 token, cùng mô hình/runtime và prefix lạnh; mỗi mức chunk chỉ đo một lần."
       ],
       "tradeoff": {
-        "observation": "Goodput giảm và p95 TTFT tăng khi chunk lớn hơn trong các lần đo này.",
-        "hypothesis": "Batch prefill nhiều token hơn có thể tăng thông lượng.",
-        "conclusion": "Giữ 8.192 cho cấu hình này và khép nhánh chunk lớn hơn có giới hạn.",
-        "unknown": "Mỗi nhánh chỉ có một quan sát nên chưa xác định tối ưu toàn cục."
+        "observation": "Goodput giảm và p95 TTFT tăng liên tục qua ba kích thước chunk được quan sát.",
+        "hypothesis": "Chunk lớn hơn có thể tăng thông lượng nhờ xử lý nhiều token prompt hơn trong một batch.",
+        "conclusion": "Giữ chunk 8.192 cho cấu hình dịch vụ này; các chunk lớn hơn đã thử không cải thiện mục tiêu.",
+        "unknown": "Mỗi cấu hình một lần nên thứ tự và seed engine có thể góp phần; đây không phải bằng chứng tối ưu toàn cục."
       },
-      "script": "Nhóm thử ba kích thước chunk trong các lần chạy đầy đủ với cùng workload và runtime. Khi chunk tăng từ 8.192 lên 12.288, goodput giảm và p95 độ trễ token đầu xấu hơn. Tất cả qua kiểm tra nội bộ, nhưng mỗi mức chỉ có một quan sát. Nhóm giữ 8.192 cho cấu hình này, không khẳng định tối ưu phổ quát.",
-      "caution": "Phân biệt đơn vị chunk, goodput, SLA và p95 TTFT. Qua kiểm tra nội bộ không đồng nghĩa có lợi ích hay chứng minh tối ưu toàn cục.",
-      "transition": "Tiếp theo, phát lại portable thật làm lộ lỗi reader mà kiểm tra tĩnh bỏ sót."
+      "script": "Cả ba phép thử dùng cùng protocol đầy đủ với 64 request đồng thời. Chunk prompt 8.192 token đạt khoảng 3.045 token tốt mỗi giây; chunk lớn hơn đạt khoảng 3.034 và 3.021. Kiểm tra của nhóm trên cluster được giao đều qua, nhưng điều đó chỉ xác lập kết quả nội bộ đã xem xét, không phải duyệt của ban tổ chức hay cải thiện. Chunk lớn cũng làm đuôi token đầu chậm hơn. Mỗi mức chỉ có một lần chạy, nên giữ 8.192 cho dịch vụ này, không gọi là tốt nhất phổ quát.",
+      "caution": "Local ở đây là bằng chứng được nhóm xem xét trên cluster được giao, không phải phê duyệt của ban tổ chức. Không coi một arm qua kiểm tra là cải thiện hay tối ưu toàn cục.",
+      "transition": "Slide sau tách một lần chạy serving GPU hoàn tất khỏi hậu xử lý bằng reader kết quả."
     }
   },
   {
     "slide": 31,
     "title": "A real replay can invalidate a static deployment claim",
     "en": {
-      "purpose": "Explain how actual portable outputs exposed two reader defects that static and mock checks missed.",
-      "visual": "Columns are step, what happened, and what changed. Rows proceed from static/mock checks to the first GPU replay, second replay, and compute-only verification. Both GPU clients completed before reader failures. This is a repair sequence, not a performance trend. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Explain that the serving client finished, but each original whole-allocation job still ended FAILED during result-reader processing; later CPU verification did not rerun serving.",
+      "visual": "Follow the sequence by stage. Static and mock checks only exercised prepared examples, so they did not model AIPerf’s actual export directory. In job 27136, both semantic prefill/decode routes and the GPU client finished, then the reader failed on a nested export path. Job 27145 again completed the client, but its summary failed when two aliases of the same home directory were compared as different strings. Job 27152 ran the corrected reader on CPU against both real datasets. It verifies post-processing only; the original GPU jobs remain terminal FAILED.",
       "terms": [
         {
           "symbol": "portable replay",
-          "meaning": "Execution of the packaged serving and benchmark workflow on the separate portable deployment environment."
+          "meaning": "Run the packaged deployment and client on the separate target environment, including its real filesystems and result paths."
         },
         {
-          "symbol": "GPU client",
-          "meaning": "The benchmark client execution that sends requests to the deployed GPU serving system."
+          "symbol": "reader / post-processing",
+          "meaning": "Code that finds client exports, joins them with metadata, and calculates a report after serving. A reader failure can occur after GPU serving has finished."
         },
         {
-          "symbol": "AIPerf 0.12",
-          "meaning": "The retained benchmark-client version whose exports were written in an immediate child directory in the first real replay."
+          "symbol": "canonical vs lexical path",
+          "meaning": "Canonical resolves links and aliases to one filesystem location; lexical is the path text as written. They may name the same directory but compare unequal as strings."
         },
         {
-          "symbol": "canonical path",
-          "meaning": "A normalized absolute filesystem path resolving aliases such as symbolic links."
-        },
-        {
-          "symbol": "lexical path",
-          "meaning": "A path string as written, without resolving aliases or symbolic links."
-        },
-        {
-          "symbol": "compute-only",
-          "meaning": "A job that executes reader verification on CPU without allocating GPUs; it does not replay serving."
+          "symbol": "whole-allocation replay",
+          "meaning": "The full GPU deployment/client job plus its result processing on the assigned allocation. A CPU-only reader check is not this replay."
         },
         {
           "symbol": "scheduler FAILED",
-          "meaning": "The original jobs retain their actual failure state even when their raw outputs are later read successfully."
+          "meaning": "The scheduler’s terminal job state remains failure even if raw measurements can later be recovered and parsed."
+        },
+        {
+          "symbol": "recovered raw score",
+          "meaning": "A metric read successfully from a failed job’s retained outputs. It does not change that job to a successful deployment."
+        },
+        {
+          "symbol": "compute-only",
+          "meaning": "A zero-GPU CPU job used here to test the reader against real saved datasets; it did not start Qwen or send serving requests."
         }
       ],
       "reading": [
-        "Job 27136 completed both semantic routes and the official client, then failed because AIPerf 0.12 exports were in a nested directory. The first repair handled that layout.",
-        "Job 27145 completed its client but the summary failed because /scratch/home and /home aliases used different path forms. Canonicalizing the input root fixed this. Zero-GPU job 27152 passed both readers on both real datasets."
+        "The first repair recognized exports in an immediate child directory. The second resolved /scratch/home and /home to a canonical input root before comparing paths. Both were real reader defects after client completion, not a measured serving regression.",
+        "The recovered raw result for 27145 is 3,055.330517 good output tokens/s. It can be reviewed as raw performance evidence, but the scheduler job did not complete successfully as a whole-allocation deployment, and no whole-allocation GPU replay was run after repair."
       ],
       "tradeoff": {
-        "observation": "Two reader failures occurred: a nested export directory and a canonical-versus-lexical path alias mismatch. Corrected readers passed real outputs in compute-only verification.",
-        "hypothesis": "Reader defects caused the post-client failures.",
-        "conclusion": "The narrow fixes are verified, but the original GPU jobs remain FAILED.",
-        "unknown": "No full-allocation portable GPU replay was performed after both fixes."
+        "observation": "Two actual GPU jobs finished the client and semantic routes but failed in result reading; zero-GPU job 27152 passed both repaired readers on both retained datasets.",
+        "hypothesis": "Path-handling bugs caused the post-client failure states.",
+        "conclusion": "Reader repairs are verified on real outputs; the original 27136/27145 scheduler states remain FAILED.",
+        "unknown": "End-to-end deployment with corrected readers on the full GPU allocation was not rerun."
       },
-      "script": "Static checks passed, but real portable runs found two reader bugs after the GPU clients finished: nested exports, then inconsistent aliases for the same path. A compute-only job verified both fixes on real datasets. The original GPU jobs remain failures, and there was no full portable replay after repair.",
-      "caution": "Do not relabel original jobs, call compute-only verification a serving replay, or present recovered goodput as a successful repaired deployment.",
-      "transition": "Finally, separate retained conclusions from future validation proposals."
+      "script": "The first portable GPU job completed prompt processing, token generation, and the client, then failed when the result reader looked in the wrong export folder. The next job also finished serving, but its summary treated two names for the same home directory as different paths. A CPU-only job later checked the fixed reader against both real datasets. The original GPU jobs remain failed; we did not rerun the complete allocation after repair.",
+      "caution": "Do not convert FAILED scheduler records into passes, call CPU reader verification a GPU replay, or present 3,055.330517 as a successful whole-allocation rerun.",
+      "transition": "The final slide separates retained findings from validation work that remains proposed or unknown."
     },
     "vi": {
-      "purpose": "Giải thích cách đầu ra portable thật làm lộ hai lỗi reader mà kiểm tra tĩnh và giả lập đã bỏ sót.",
-      "visual": "Các cột là bước, điều đã xảy ra và thay đổi. Các hàng đi từ kiểm tra tĩnh/giả lập qua lần phát lại GPU đầu, lần thứ hai và xác minh compute-only. Cả hai client GPU hoàn tất trước khi reader lỗi. Đây là chuỗi sửa lỗi, không phải xu hướng hiệu năng. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Giải thích rằng client serving đã hoàn tất, nhưng mỗi job toàn allocation ban đầu vẫn kết thúc FAILED ở khâu reader kết quả; kiểm tra CPU sau đó không chạy lại serving.",
+      "visual": "Theo dõi chuỗi theo từng bước. Kiểm tra tĩnh và giả lập chỉ dùng ví dụ chuẩn bị sẵn nên không mô phỏng thư mục export thật của AIPerf. Trong job 27136, cả hai đường prefill/decode ngữ nghĩa và client GPU hoàn tất, rồi reader lỗi vì đường dẫn export lồng thư mục. Job 27145 cũng chạy xong client, nhưng phần tổng hợp lỗi vì hai bí danh cùng thư mục home bị so sánh như hai chuỗi khác nhau. Job 27152 chạy reader đã sửa trên CPU với cả hai bộ dữ liệu thật. Nó chỉ xác minh hậu xử lý; trạng thái cuối của job GPU gốc vẫn là FAILED.",
       "terms": [
         {
           "symbol": "portable replay",
-          "meaning": "Chạy quy trình serving và benchmark đã đóng gói trên môi trường triển khai portable riêng."
+          "meaning": "Chạy triển khai đóng gói và client trên môi trường đích riêng, gồm filesystem và đường dẫn kết quả thật."
         },
         {
-          "symbol": "GPU client",
-          "meaning": "Lần chạy client benchmark gửi yêu cầu đến hệ thống serving GPU đã triển khai."
+          "symbol": "reader / hậu xử lý",
+          "meaning": "Mã tìm export client, ghép với metadata và tính báo cáo sau serving. Reader có thể lỗi sau khi GPU serving đã hoàn tất."
         },
         {
-          "symbol": "AIPerf 0.12",
-          "meaning": "Phiên bản benchmark client được lưu; lần chạy thật đầu đặt export trong thư mục con trực tiếp."
+          "symbol": "đường dẫn canonical và dạng chữ",
+          "meaning": "Canonical phân giải liên kết/bí danh về một vị trí filesystem; dạng chữ là chuỗi đường dẫn ghi nguyên. Hai chuỗi có thể khác nhưng cùng chỉ một thư mục."
         },
         {
-          "symbol": "đường dẫn canonical",
-          "meaning": "Đường dẫn tuyệt đối đã chuẩn hóa, xử lý các bí danh như liên kết tượng trưng."
-        },
-        {
-          "symbol": "đường dẫn dạng chữ",
-          "meaning": "Chuỗi đường dẫn được ghi nguyên dạng, chưa phân giải bí danh hoặc liên kết tượng trưng."
-        },
-        {
-          "symbol": "compute-only",
-          "meaning": "Job xác minh reader trên CPU không cấp phát GPU; nó không phát lại serving."
+          "symbol": "phát lại toàn allocation",
+          "meaning": "Job đầy đủ gồm triển khai GPU, client và xử lý kết quả trên allocation được cấp. Kiểm tra reader chỉ chạy CPU không phải lần này."
         },
         {
           "symbol": "scheduler FAILED",
-          "meaning": "Job ban đầu vẫn mang trạng thái thất bại thực tế, dù sau đó có thể đọc được đầu ra thô."
+          "meaning": "Trạng thái job cuối cùng của scheduler vẫn là thất bại, dù số đo raw có thể được khôi phục và đọc về sau."
+        },
+        {
+          "symbol": "điểm raw khôi phục",
+          "meaning": "Chỉ số đọc được từ đầu ra còn lưu của job thất bại. Nó không đổi job thành triển khai thành công."
+        },
+        {
+          "symbol": "compute-only",
+          "meaning": "Job CPU không GPU, dùng ở đây để kiểm reader trên bộ dữ liệu thật đã lưu; nó không khởi chạy Qwen hay gửi request serving."
         }
       ],
       "reading": [
-        "Job 27136 hoàn tất hai đường ngữ nghĩa và client chính thức, rồi lỗi vì export AIPerf 0.12 nằm trong thư mục con. Bản sửa đầu xử lý cấu trúc đó.",
-        "Job 27145 hoàn tất client nhưng phần tổng hợp lỗi vì bí danh /scratch/home và /home ở dạng đường dẫn khác nhau. Chuẩn hóa gốc đầu vào đã sửa lỗi. Job không GPU 27152 qua cả hai reader trên cả hai bộ dữ liệu thật."
+        "Bản sửa đầu nhận diện export trong thư mục con trực tiếp. Bản sửa thứ hai chuẩn hóa /scratch/home và /home về cùng gốc đầu vào trước khi so sánh. Đây là lỗi reader thật sau khi client hoàn tất, không phải suy giảm serving đã đo.",
+        "Điểm raw khôi phục của 27145 là 3,055.330517 token đầu ra tốt/giây. Có thể xem đây là số liệu hiệu năng raw, nhưng job scheduler không hoàn tất thành công toàn bộ triển khai trên allocation và chưa chạy lại toàn GPU allocation sau sửa."
       ],
       "tradeoff": {
-        "observation": "Hai lỗi reader xảy ra: export nằm trong thư mục con và đường dẫn canonical không khớp bí danh dạng chữ. Reader đã sửa qua dữ liệu thật trong kiểm tra compute-only.",
-        "hypothesis": "Lỗi reader gây ra trạng thái thất bại sau khi client hoàn tất.",
-        "conclusion": "Bản sửa hẹp đã được xác minh, nhưng các job GPU ban đầu vẫn FAILED.",
-        "unknown": "Không có lần phát lại GPU toàn allocation sau cả hai bản sửa."
+        "observation": "Hai job GPU thật chạy xong client và các đường ngữ nghĩa nhưng lỗi khi đọc kết quả; job không GPU 27152 qua cả hai reader đã sửa trên hai bộ dữ liệu lưu lại.",
+        "hypothesis": "Lỗi xử lý đường dẫn gây ra trạng thái lỗi sau khi client hoàn tất.",
+        "conclusion": "Reader đã sửa được xác minh với đầu ra thật; trạng thái scheduler của 27136/27145 vẫn FAILED.",
+        "unknown": "Chưa chạy lại triển khai end-to-end với reader đã sửa trên toàn bộ GPU allocation."
       },
-      "script": "Kiểm tra tĩnh đều qua, nhưng chạy portable thật tìm ra hai lỗi reader sau khi client GPU kết thúc: export lồng thư mục, rồi bí danh của cùng đường dẫn không nhất quán. Job compute-only xác minh cả hai bản sửa trên dữ liệu thật. Job GPU ban đầu vẫn thất bại và chưa phát lại portable đầy đủ sau sửa.",
-      "caution": "Không đổi trạng thái job gốc, không gọi kiểm tra compute-only là phát lại serving, và không trình bày goodput khôi phục như triển khai sửa xong thành công.",
-      "transition": "Cuối cùng, tách kết luận hiện có khỏi đề xuất xác minh trong tương lai."
+      "script": "Job GPU portable đầu tiên xử lý xong prompt, sinh token và chạy xong client, rồi lỗi vì reader tìm nhầm thư mục export. Job tiếp theo cũng hoàn tất serving, nhưng phần tổng hợp coi hai tên của cùng thư mục home là hai đường dẫn khác nhau. Một job CPU về sau kiểm tra reader đã sửa trên cả hai bộ dữ liệu thật. Job GPU ban đầu vẫn thất bại; nhóm không chạy lại toàn allocation sau sửa.",
+      "caution": "Không đổi bản ghi scheduler FAILED thành thành công, không gọi kiểm reader CPU là phát lại GPU, và không trình bày 3,055.330517 như lần chạy toàn allocation thành công sau sửa.",
+      "transition": "Slide cuối tách phát hiện được giữ lại khỏi công việc xác minh còn là đề xuất hoặc chưa biết."
     }
   },
   {
     "slide": 32,
     "title": "What the evidence supports next",
     "en": {
-      "purpose": "Close with evidence-supported conclusions and distinguish future validation proposals from completed work.",
-      "visual": "Three recommendations are listed: retain the reproduced service, qualify new execution paths, and complete independent validation. There is no quantitative table or chart. Open checks are official model quality and a full portable replay after reader repair. No plotted axes or colored data-point encoding appears.",
+      "purpose": "Summarize what current evidence supports and make clear that the listed follow-up checks are proposals, not completed runs.",
+      "visual": "The three statements form an evidence-based decision chain: keep the replicated target-only N64 service; require activation, KV transfer, and output evidence for any new path; then complete independent checks. The sparse-graph result does not change the selection because its memory saving did not improve goodput. The missing checks are official full-set accuracy and a whole-allocation portable replay after reader repair. They are not represented as scheduled work.",
       "terms": [
         {
-          "symbol": "target-only",
-          "meaning": "Serving only the target model, without an added speculative draft model."
+          "symbol": "target-only / EAGLE",
+          "meaning": "Target-only serves only the main model. EAGLE proposes draft tokens for that model to verify; the tested shallow full configuration lost performance."
         },
         {
-          "symbol": "N64",
-          "meaning": "The selected client concurrency target of 64 in-flight requests."
+          "symbol": "independent validation",
+          "meaning": "A separate check of official full-set accuracy or the complete deployment, beyond the serving score and helper tests."
         },
         {
-          "symbol": "EAGLE",
-          "meaning": "A speculative decoding approach that proposes draft tokens for the target model to verify; the tested shallow full arm lost performance."
+          "symbol": "adopt a configuration",
+          "meaning": "Choose it as the team’s submission/deployment setting after evidence review. A high isolated observation alone is not enough."
         },
         {
-          "symbol": "RoPE/KV compatibility",
-          "meaning": "Compatibility between the model's rotary position embedding operation and the key-value cache interface needed by the compiled execution path."
+          "symbol": "source or CPU evidence",
+          "meaning": "Source shows what code may support; CPU fixtures test narrow helper behavior. Neither shows that the full GPU service activated the path or produced correct results."
+        },
+        {
+          "symbol": "unknown",
+          "meaning": "No sufficient retained measurement establishes the answer. It must not be described as zero, passed, or healthy."
         },
         {
           "symbol": "official accuracy",
-          "meaning": "The organizer's full-set model-quality score compared with the required FP8 reference threshold."
-        },
-        {
-          "symbol": "end-to-end",
-          "meaning": "A complete run through packaged deployment, client, output processing, and result review."
+          "meaning": "The full organizer quality evaluation; it must reach at least 99% of the FP8 reference and remains unverified."
         }
       ],
       "reading": [
-        "Retain target-only N64: cache, cap, and polling changes showed no useful gain, while the tested full shallow EAGLE arm lost. Sparse graphs scored 0.370208% below the earlier control.",
-        "Before scoring a new path, verify backend activation, KV transfer, and output. Official accuracy and a full portable replay after reader repair remain open; compiled model execution still needs a compatible RoPE/KV solution."
+        "Retain the replicated target-only N64 configuration rather than the highest isolated score. Cache, cap, and polling changes showed no useful gain; the tested shallow EAGLE configuration lost; sparse graph candidate goodput was 0.370208% below the earlier control.",
+        "Any new implementation should show the intended backend active, correct KV movement, and valid outputs before its performance score is interpreted. CPU fixtures or source inspection alone do not satisfy that standard."
       ],
       "tradeoff": {
-        "observation": "N64 has replicated full-run evidence; isolated changes showed no useful gain. Official quality and post-repair portable replay are not available.",
-        "hypothesis": "Path-specific activation, transfer, output, and independent checks can improve deployment confidence.",
-        "conclusion": "Keep the reproduced target-only N64 configuration; listed checks are future requirements, not completed work.",
-        "unknown": "Official model accuracy and end-to-end behavior after reader repair remain unknown."
+        "observation": "The selected N64 service has repeated full-run evidence; several optimization trials did not show useful gain. Accuracy and post-repair portable replay remain open.",
+        "hypothesis": "Path-specific runtime and output checks can prevent unsupported deployment claims.",
+        "conclusion": "Keep the reproduced service and treat the listed validation as future work, not as completed or queued research.",
+        "unknown": "Official accuracy, full deployment behavior after reader repair, and a compatible compiled RoPE/KV path remain unknown."
       },
-      "script": "The replicated target-only N64 service remains the supported choice; a larger isolated score is not enough to replace it. New execution paths should prove backend activation, KV transfer, and output before scoring. Official full-set quality and a complete portable replay after reader repair remain open. These are validation priorities, not work already scheduled or performed.",
-      "caution": "Do not claim official accuracy passed, portable deployment is fully validated, sparse graphs improved goodput, or compile compatibility is fixed.",
-      "transition": "End the appendix here; distinguish observation, supported conclusion, and unknown when answering questions."
+      "script": "Keep the replicated configuration that serves only the target model at a load of 64 simultaneous requests; one isolated high score is not enough to replace it. For a new method, first show that its backend ran, cached attention state moved correctly, and answers passed checks. Still open are the organizer’s full accuracy test and a complete portable GPU replay after reader repair. Those are proposed validation steps, not work already scheduled or completed.",
+      "caution": "Do not claim official accuracy passed, repaired portable serving was fully rerun, sparse graphs improved goodput, or the compiled model interface was fixed.",
+      "transition": "End here. In questions, separate measured observation, supported conclusion, and what remains unknown."
     },
     "vi": {
-      "purpose": "Kết thúc bằng kết luận có bằng chứng và phân biệt đề xuất xác minh tương lai với công việc đã hoàn thành.",
-      "visual": "Slide nêu ba khuyến nghị: giữ dịch vụ đã tái lập, xác nhận đường thực thi mới và hoàn tất kiểm định độc lập. Không có bảng định lượng hay biểu đồ. Các kiểm tra còn mở là chất lượng mô hình chính thức và phát lại portable đầy đủ sau sửa reader. Slide không có trục đồ thị hay mã màu điểm dữ liệu.",
+      "purpose": "Tóm tắt kết luận mà bằng chứng hiện có hỗ trợ và nói rõ các kiểm tra tiếp theo là đề xuất, chưa phải lần chạy đã hoàn tất.",
+      "visual": "Ba ý tạo thành chuỗi quyết định theo bằng chứng: giữ dịch vụ target-only N64 đã lặp lại; yêu cầu bằng chứng kích hoạt, truyền KV và đầu ra cho mọi đường mới; sau đó mới hoàn tất kiểm tra độc lập. Kết quả graph thưa không đổi lựa chọn vì tiết kiệm bộ nhớ nhưng không tăng goodput. Các kiểm tra còn thiếu là độ chính xác toàn tập chính thức và phát lại portable toàn allocation sau sửa reader. Không ý nào được trình bày như công việc đã lên lịch.",
       "terms": [
         {
-          "symbol": "target-only",
-          "meaning": "Chỉ serving mô hình đích, không thêm mô hình draft sinh token dự đoán."
+          "symbol": "target-only / EAGLE",
+          "meaning": "Target-only chỉ phục vụ mô hình chính. EAGLE đề xuất token draft để mô hình chính xác minh; cấu hình nông đầy đủ đã thử làm giảm hiệu năng."
         },
         {
-          "symbol": "N64",
-          "meaning": "Mức đồng thời mục tiêu đã chọn là 64 yêu cầu đang xử lý."
+          "symbol": "xác minh độc lập",
+          "meaning": "Kiểm tra riêng độ chính xác toàn tập chính thức hoặc triển khai đầy đủ, vượt ra ngoài điểm serving và fixture helper."
         },
         {
-          "symbol": "EAGLE",
-          "meaning": "Phương pháp speculative decoding đề xuất token draft để mô hình đích xác minh; nhánh đầy đủ thử ở cấu hình nông làm giảm hiệu năng."
+          "symbol": "chọn cấu hình",
+          "meaning": "Quyết định dùng nó làm cấu hình nộp bài/triển khai sau khi xem xét bằng chứng. Một điểm cao đơn lẻ không đủ."
         },
         {
-          "symbol": "tương thích RoPE/KV",
-          "meaning": "Tương thích giữa phép quay vị trí RoPE của mô hình và giao diện cache key-value mà đường thực thi đã biên dịch cần dùng."
+          "symbol": "bằng chứng mã nguồn hoặc CPU",
+          "meaning": "Mã nguồn cho biết code có thể hỗ trợ gì; fixture CPU thử hành vi helper hẹp. Cả hai không chứng minh service GPU đã kích hoạt đường đó và cho đầu ra đúng."
+        },
+        {
+          "symbol": "chưa biết",
+          "meaning": "Không có phép đo lưu lại đủ để kết luận. Không được mô tả như bằng không, đã qua hoặc khỏe mạnh."
         },
         {
           "symbol": "độ chính xác chính thức",
-          "meaning": "Điểm chất lượng mô hình trên toàn tập của ban tổ chức, so với ngưỡng tham chiếu FP8 bắt buộc."
-        },
-        {
-          "symbol": "end-to-end",
-          "meaning": "Lần chạy hoàn chỉnh qua triển khai đóng gói, client, xử lý đầu ra và xem xét kết quả."
+          "meaning": "Đánh giá chất lượng toàn tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu FP8 và hiện chưa được xác minh."
         }
       ],
       "reading": [
-        "Giữ target-only N64: thay đổi cache, cap và polling chưa có lợi ích; nhánh EAGLE nông đầy đủ đã thử bị giảm điểm. Graph thưa thấp hơn đối chứng trước 0.370208%.",
-        "Trước khi chấm đường mới, xác minh backend hoạt động, KV chuyển đúng và đầu ra hợp lệ. Độ chính xác chính thức và phát lại portable đầy đủ sau sửa còn mở; compile cần giải pháp tương thích RoPE/KV."
+        "Giữ cấu hình target-only N64 đã lặp lại thay vì điểm cao riêng lẻ. Thay đổi cache, cap và polling chưa có lợi ích hữu ích; cấu hình EAGLE đầy đủ với bước dự đoán nông bị giảm hiệu năng; goodput graph thưa thấp hơn đối chứng trước 0.370208%.",
+        "Triển khai mới cần chứng minh backend dự định thực sự chạy, KV được chuyển đúng và đầu ra hợp lệ trước khi diễn giải điểm. Fixture CPU hoặc đọc mã nguồn riêng lẻ không đáp ứng tiêu chuẩn đó."
       ],
       "tradeoff": {
-        "observation": "N64 có bằng chứng qua nhiều lần chạy đầy đủ; thay đổi riêng lẻ chưa cho lợi ích hữu ích. Chưa có kết quả chất lượng chính thức hay phát lại portable sau sửa.",
-        "hypothesis": "Xác minh riêng việc kích hoạt, truyền trạng thái, đầu ra và kiểm tra độc lập có thể tăng độ tin cậy triển khai.",
-        "conclusion": "Giữ cấu hình target-only N64 đã tái lập; các kiểm tra liệt kê là yêu cầu tương lai, chưa phải việc hoàn tất.",
-        "unknown": "Độ chính xác mô hình chính thức và hành vi end-to-end sau sửa reader vẫn chưa biết."
+        "observation": "Dịch vụ N64 được chọn có bằng chứng nhiều lần chạy đầy đủ; vài thử nghiệm tối ưu không cho lợi ích. Độ chính xác và phát lại portable sau sửa vẫn còn mở.",
+        "hypothesis": "Kiểm tra runtime và đầu ra riêng cho từng đường giúp tránh khẳng định triển khai thiếu căn cứ.",
+        "conclusion": "Giữ dịch vụ đã tái lập; xem xác minh liệt kê là việc tương lai, không phải nghiên cứu đã làm hay đang xếp hàng.",
+        "unknown": "Độ chính xác chính thức, hành vi triển khai đầy đủ sau sửa reader, và đường compile RoPE/KV tương thích vẫn chưa biết."
       },
-      "script": "Dịch vụ target-only N64 đã lặp lại vẫn là lựa chọn được bằng chứng hỗ trợ; một điểm riêng cao hơn chưa đủ để thay thế. Đường mới cần chứng minh backend hoạt động, KV được chuyển và đầu ra hợp lệ trước khi chấm. Chất lượng toàn tập chính thức và phát lại portable đầy đủ sau sửa reader vẫn còn mở. Đây là ưu tiên xác minh, chưa phải việc đã lên lịch hay thực hiện.",
-      "caution": "Không nói đã đạt độ chính xác chính thức, portable đã xác minh đầy đủ, graph thưa tăng goodput, hay compile đã được sửa tương thích.",
-      "transition": "Kết thúc phụ lục; khi trả lời, tách quan sát, kết luận có căn cứ và điều chưa biết."
+      "script": "Giữ cấu hình đã lặp lại, chỉ phục vụ mô hình đích ở tải 64 request đồng thời; một điểm cao đơn lẻ chưa đủ để thay thế. Với phương pháp mới, trước hết phải chứng minh backend đã chạy, trạng thái attention được truyền đúng và câu trả lời qua kiểm tra. Hai việc còn mở là bài accuracy toàn tập của ban tổ chức và phát lại GPU portable đầy đủ sau sửa reader. Đó là bước xác minh đề xuất, chưa phải việc đã lên lịch hay hoàn tất.",
+      "caution": "Không khẳng định đã đạt độ chính xác chính thức, đã phát lại serving portable đầy đủ sau sửa, graph thưa tăng goodput, hay giao diện compile đã được sửa.",
+      "transition": "Dừng tại đây. Khi trả lời, tách quan sát đo được, kết luận có căn cứ và điều còn chưa biết."
     }
   }
 ]

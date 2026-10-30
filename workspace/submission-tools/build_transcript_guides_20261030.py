@@ -11,6 +11,12 @@ REPORT = WORKSPACE / 'reports/ai-final-report-20261030'
 DECK = WORKSPACE / 'VNUHCM - TripleU/Presentation/TripleU_APAC2026_Presentation.pptx'
 
 GLOSSARY = [
+    ('cluster / node / job', 'A cluster is a group of connected compute servers; a node is one server. A scheduler job requests resources and runs commands there. A job ID identifies that execution, not its performance rank.', 'Cluster là cụm máy tính kết nối với nhau; node là một máy trong cụm. Job là công việc xin tài nguyên qua scheduler rồi chạy lệnh trên máy được cấp. Job ID nhận diện lần thực thi, không phải thứ hạng hiệu năng.'),
+    ('allocation', 'A scheduler grant of particular nodes, CPUs/GPUs and time. A new allocation is a new grant; it can reuse the same physical GPUs. It is not automatically an independent hardware sample.', 'Một lần scheduler cấp máy, CPU/GPU và thời gian chạy. Lần cấp mới có thể vẫn dùng đúng những GPU cũ; không tự động là kiểm tra trên phần cứng khác.'),
+    ('serving / inference', 'Inference computes a model response. Serving keeps the model loaded behind an API and schedules multiple incoming requests; the benchmark measures that service.', 'Inference là tính câu trả lời bằng model. Serving giữ model trong bộ nhớ, mở API nhận request và điều phối nhiều request; benchmark ở đây đo dịch vụ đó.'),
+    ('Qwen3-235B-A22B', 'The model has about 235 billion total parameters, with about 22 billion active per token. The total weights still need storage; active count is not the total model-memory footprint.', 'Model có khoảng 235 tỷ tham số tổng cộng và khoảng 22 tỷ tham số hoạt động cho mỗi token. Vẫn phải lưu trọng số của model; số tham số hoạt động không phải tổng bộ nhớ cần chứa model.'),
+    ('checkpoint / container image', 'A checkpoint stores the model parameters. A container image supplies the software and dependencies used to run them. Changing one is different from changing the other.', 'Checkpoint chứa tham số đã học của model. Container image chứa môi trường phần mềm và thư viện để chạy model. Đổi checkpoint và đổi image là hai thay đổi khác nhau.'),
+    ('runtime / backend / native', 'Runtime is the software path executing the service. A backend is a selected implementation of one operation, such as attention. Native names the built-in execution path in this pinned software; it does not mean personal-machine execution or automatically faster code.', 'Runtime là phần mềm/đường thực thi chạy dịch vụ. Backend là cách triển khai được chọn cho một phép tính, như attention. Native trong tài liệu chỉ đường thực thi tích hợp của phiên bản phần mềm đã dùng; không có nghĩa chạy máy cá nhân hoặc mặc nhiên nhanh hơn.'),
     ('request', 'One prompt submitted to the service and its generated response.', 'Một prompt gửi đến dịch vụ và câu trả lời được sinh ra.'),
     ('token', 'A model vocabulary unit: a word, word fragment, or punctuation; it is not necessarily one word.', 'Đơn vị trong từ vựng của model: có thể là từ, mảnh từ hoặc dấu câu; không nhất thiết là một từ.'),
     ('prefill / decode', 'Prefill processes the prompt; decode repeatedly generates the next token.', 'Prefill xử lý prompt đầu vào; decode lặp lại việc sinh token tiếp theo.'),
@@ -24,14 +30,20 @@ GLOSSARY = [
     ('TP / EP / replica', 'Tensor parallelism splits model computation; expert parallelism distributes MoE experts; a replica is another worker instance.', 'TP chia phép tính của model; EP phân phối các expert của model MoE; replica là một bản worker khác.'),
     ('MoE', 'Mixture of Experts: a model routes each token to selected expert networks rather than activating every expert.', 'Model có nhiều mạng expert; mỗi token được định tuyến đến một số expert thay vì kích hoạt toàn bộ expert.'),
     ('KV cache', 'Stored attention keys and values representing processed context, used when generating later tokens.', 'Key và value của attention đã lưu, biểu diễn ngữ cảnh được xử lý để dùng khi sinh các token tiếp theo.'),
+    ('attention', 'The model operation that lets the current token use relevant earlier context. Keeping earlier keys and values avoids recomputing those stored representations from scratch at every decode step.', 'Phép tính giúp token hiện tại sử dụng những phần ngữ cảnh trước đó có liên quan. Lưu key/value giúp không phải tính lại từ đầu các biểu diễn đã lưu ở mỗi bước decode.'),
+    ('batch / queue / in-flight', 'A batch groups work for one engine execution. A queue holds work waiting to run. In-flight includes requests sent but not finished. Client concurrency is not necessarily the instantaneous GPU batch size.', 'Batch gom công việc cho một lượt thực thi của engine. Queue chứa công việc đang chờ. In-flight là request đã gửi nhưng chưa xong. Concurrency của client không nhất thiết bằng kích thước batch GPU ở một thời điểm.'),
     ('NIXL', 'The transfer layer used here to move KV state between prefill and decode workers.', 'Lớp truyền dữ liệu được dùng ở đây để chuyển KV từ worker prefill sang worker decode.'),
     ('FP8 / BF16', '8-bit floating-point / 16-bit bfloat formats. Weights, activations and KV can use different formats.', 'Định dạng số thực 8 bit / bfloat 16 bit. Trọng số, activation và KV có thể dùng định dạng khác nhau.'),
     ('FI / FA3 / DG / HPC-Ops', 'FlashInfer / FlashAttention 3 / DeepGEMM / the reused HPC-Ops kernel implementation. HPC-Ops is not the OpenFOAM HPC track.', 'FlashInfer / FlashAttention 3 / DeepGEMM / triển khai kernel HPC-Ops được tái sử dụng. HPC-Ops không phải track HPC OpenFOAM.'),
     ('kernel / GEMM', 'A GPU computation routine / general matrix multiplication. Faster isolated kernels do not automatically improve the whole service.', 'Một chương trình tính toán trên GPU / phép nhân ma trận tổng quát. Kernel riêng lẻ nhanh hơn chưa chắc làm cả dịch vụ nhanh hơn.'),
+    ('profiling / GPU utilization', 'Profiling records selected execution events to investigate time and work. GPU activity shows whether sampled GPU work was active; 100% activity does not establish peak FLOPs, a compute bottleneck, or absence of communication stalls.', 'Profiling ghi một số sự kiện thực thi để điều tra thời gian và công việc. GPU activity cho biết GPU có hoạt động trong khoảng lấy mẫu; 100% hoạt động không chứng minh đạt FLOPs tối đa, bị nghẽn tính toán hay không phải chờ giao tiếp.'),
     ('MNNVL / collective', 'Multi-node NVLink communication path / an operation in which multiple ranks communicate together. The actual enabled path must be checked.', 'Đường giao tiếp Multi-node NVLink / phép giao tiếp có nhiều rank cùng tham gia. Cần kiểm tra đường thực thi thực tế được bật.'),
     ('CUDA graph / bucket', 'A captured GPU execution graph / a selected execution shape to capture. Bucket count is not request concurrency.', 'Đồ thị thực thi GPU được capture / một kích thước thực thi được chọn để capture. Số bucket không phải concurrency.'),
     ('baseline / control / candidate', 'Reference configuration / comparison arm / proposed changed configuration. State the exact baseline for every percentage.', 'Cấu hình mốc / nhánh đối chứng / cấu hình thử thay đổi. Mỗi phần trăm tăng giảm cần chỉ rõ mốc so sánh.'),
     ('matched trial / repeat', 'A comparison preserving intended factors except the tested change / another allocation to check reproducibility. Neither automatically proves causality.', 'So sánh giữ các yếu tố dự định, chỉ đổi yếu tố cần thử / lần cấp tài nguyên khác để kiểm tra tái lập. Cả hai không tự động chứng minh quan hệ nhân quả.'),
+    ('gate / promotion / close a branch', 'A gate is a stated acceptance condition. Promotion means choosing a candidate as the retained setting. Closing a branch means deciding not to repeat the unchanged losing setting; none of these words implies organiser approval.', 'Gate là điều kiện cần đạt. Promotion là chọn ứng viên thay cấu hình đang giữ. Đóng một nhánh là quyết định không lặp tiếp cùng cài đặt không có ích; các từ này không có nghĩa BTC phê duyệt.'),
+    ('99% of reference', 'A relative model-quality requirement, separate from the request latency fraction. As an arithmetic illustration, if a reference metric were 80 points, 99% of it would be 79.2 points, not 99% of answers correct. This example is not a measured contest result.', 'Yêu cầu chất lượng tương đối so với điểm tham chiếu, tách biệt tỷ lệ request đạt độ trễ. Ví dụ tính toán: nếu điểm tham chiếu là 80 thì 99% của nó là 79,2 điểm; không có nghĩa phải trả lời đúng 99% câu hỏi. Ví dụ này không phải kết quả đo của cuộc thi.'),
+    ('cold prefix / cold startup', 'Cold prefix means requests cannot reuse prompt KV from earlier requests. Cold startup means the service is newly starting; OS file caches can still be warm. These are different states.', 'Cold prefix nghĩa là request không dùng lại KV prompt từ request trước. Cold startup là dịch vụ mới khởi động; cache tệp của hệ điều hành vẫn có thể chứa dữ liệu. Không được coi các trạng thái này là một.'),
     ('ms / s / tokens/s / req/s', '1,000 ms = 1 s. tokens/s counts tokens per second; req/s counts requests per second.', '1.000 ms = 1 giây. tokens/s là token mỗi giây; req/s là request mỗi giây.'),
     ('% / percentage points', 'A move from 90% to 95% is +5 percentage points, or +5.56% relative to 90%; these are different.', 'Từ 90% lên 95% là tăng 5 điểm phần trăm, hoặc tăng tương đối 5,56% so với 90%; hai cách nói khác nhau.'),
     ('2,989.175 / 2.989,175', 'The deck uses English separators: comma for thousands and point for decimals. These two forms express the same value in English and Vietnamese conventions.', 'Slide dùng kiểu Anh: dấu phẩy tách hàng nghìn, dấu chấm tách phần thập phân. 2,989.175 trên slide tương đương 2.989,175 theo cách viết Việt; không phải hai kết quả khác nhau.'),
@@ -46,7 +58,7 @@ def introduction(lang, digest):
 
 Đây là **lời thuyết trình mẫu và tài liệu học**, không phải bản chép lại một buổi nói đã diễn ra. Tài liệu đi theo đúng 40 slide của bản trình chiếu hiện tại. Bản tiếng Việt được tạo theo yêu cầu riêng của bạn; mã nguồn và các báo cáo khác vẫn dùng tiếng Anh.
 
-**Cách dùng:** mở slide, đọc phần “Slide muốn nói gì”, nhìn hình theo “Cách đọc”, rồi luyện phần “Lời nói mẫu”. Các phần còn lại giúp chuẩn bị trả lời câu hỏi. Không cần đọc toàn bộ hướng dẫn thành tiếng. Hãy dùng “chúng tôi quan sát”, “giả thuyết của chúng tôi”, và “chưa xác định được” đúng với mức bằng chứng.
+**Cách dùng:** đọc phần “Slide muốn nói gì” và “Giải thích kết quả và lập luận”, sau đó luyện phần “Lời nói mẫu”. Các phần thuật ngữ và bằng chứng giúp trả lời câu hỏi tại sao. Đây là tài liệu giải thích kỹ thuật, không phải lời đọc bố cục slide. Không cần đọc toàn bộ hướng dẫn thành tiếng.
 
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
@@ -57,6 +69,22 @@ def introduction(lang, digest):
 
 Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `{digest}`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
+## Những cách gọi cần hiểu trước khi thuyết trình
+
+**“Nhóm tự đo” thay cho “chạy cục bộ”:** benchmark chạy trên cluster được cấp, gồm các compute node H200 hoặc H100 nêu ở từng kết quả. Nhóm tự gửi job và kiểm tra dữ liệu. Chữ “local” trong bản cũ nói về phạm vi xác minh của nhóm; nó không có nghĩa chạy trên laptop, trên login node hay chỉ một node. Kết quả trên hạ tầng được cấp vẫn chưa tự động thành điểm BTC chấm và xác nhận.
+
+**“Phép đo đầy đủ”:** trong chiến dịch này là 60 giây warmup để dịch vụ hoạt động trước, 120 giây profiling để thu số đo, và 30 giây grace cho request còn lại hoàn tất. “Đầy đủ” phân biệt với phép thử ngắn dùng sàng lọc ý tưởng. Nó không có nghĩa đã chạy mọi bài đánh giá chất lượng hay mọi request đều đạt. Theo luật, ít nhất 90% request phải đồng thời đạt hai giới hạn độ trễ.
+
+**“Đã kiểm tra đạt”:** nhóm kiểm tra dữ liệu theo những điều kiện đã triển khai cho lần chạy đó, chẳng hạn protocol, cấu hình thực sự được bật, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Cần đọc điều kiện cụ thể của từng run; việc scheduler ghi COMPLETED chỉ cho biết script trả mã thành công. Cả hai chưa thay thế đánh giá chất lượng chính thức ≥99% điểm tham chiếu của BTC; yêu cầu đó vẫn chưa được xác minh.
+
+**“Đối chứng” và “ứng viên”:** đối chứng là cấu hình giữ để làm mốc; ứng viên là cấu hình đổi yếu tố muốn thử. Ví dụ cache mới 27378 phải so với đối chứng mới 27376. So nó với trung bình lịch sử của một chuỗi khác sẽ trộn thay đổi cần thử với khác biệt thời điểm và môi trường.
+
+**“Lặp lại” và “cải thiện có ích”:** chạy lại bằng job khác cho kết quả gần nhau làm bằng chứng chắc hơn một đỉnh đơn lẻ, nhưng vẫn có thể dùng lại GPU cũ. Nhóm đặt ngưỡng tăng >1% cho các phép thử gần cuối để chọn nhánh đáng chạy xác nhận; đây là quy tắc quyết định của nhóm, không phải quy định BTC. Kết quả tăng 0,24% chưa đạt quy tắc đó và chưa chứng minh tách được khỏi biến động giữa các lần chạy.
+
+**“Quan sát”, “giả thuyết”, “kết luận”:** “TTFT tăng” là số đã đo; “do hàng đợi dài hơn” là giả thuyết nếu chưa tách thời gian chờ khỏi thời gian tính; “giữ cấu hình cũ vì ứng viên chưa vượt ngưỡng đã đặt” là quyết định được dữ liệu hỗ trợ. Nêu rõ điều chưa đo giúp giải thích trung thực, thay vì biến một suy đoán hợp lý thành nguyên nhân đã chứng minh.
+
+**Ví dụ job có số nhưng vẫn lỗi:** GPU/client có thể đo xong và lưu JSON, rồi script đọc/tổng hợp JSON lỗi khiến cả job FAILED. Sửa chương trình đọc giúp lấy lại số từ dữ liệu cũ; nó không biến job gốc thành thành công, cũng không thay thế việc chạy lại toàn bộ triển khai sau sửa.
+
 ## Từ vựng dùng xuyên suốt
 
 | Ký hiệu / thuật ngữ | Hiểu đơn giản |
@@ -66,7 +94,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 40 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
-**How to use it:** open the slide, read its purpose, follow the reading instructions, then rehearse the spoken script. Use the other sections to prepare answers. Do not read every explanatory paragraph aloud. Distinguish “we observed,” “our hypothesis was,” and “we have not established.”
+**How to use it:** read the purpose and technical interpretation, then rehearse the spoken script. Use the terminology and evidence sections to prepare answers to why questions. This guide explains the research, rather than narrating slide decoration. Do not read every explanatory paragraph aloud.
 
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
@@ -76,6 +104,22 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 - Research has stopped at the owner's request. Future actions shown on slides are proposals or historical next decisions, not newly executed jobs.
 
 Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `{digest}`. This guide describes that version; recheck it if the deck changes.
+
+## Understand the claims before presenting them
+
+**Team-measured, formerly called “local”:** the benchmark ran on the assigned cluster's H200 or H100 compute nodes identified for that result. The team submitted the job and reviewed the data. Local described the scope of validation; it did not mean a laptop, the login node or a single compute node. Running on provided infrastructure does not itself make a result an organiser-scored or certified result.
+
+**Full run:** the campaign protocol uses 60 seconds of warmup, 120 seconds of profiling, and 30 seconds of grace for outstanding requests to finish. Full distinguishes it from a shorter idea-screening test. It does not mean all model-quality datasets were evaluated or every request passed. The latency rule requires at least 90% of all requests to jointly meet both limits.
+
+**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains unverified.
+
+**Control and candidate:** a control is the retained comparison configuration; a candidate changes the factor being tested. Cache candidate 27378 should be compared with fresh control 27376. Comparing it against a historical mean from another series mixes the tested change with time and environment differences.
+
+**Repeat and useful gain:** another job returning a similar result is stronger evidence than one peak, although it may use the same physical GPUs. For late trials, the team used a prospective >1% gain threshold to select changes worth confirming. This is a team decision rule, not an organiser rule. A 0.24% observed increase did not meet it and was not shown to be separable from run-to-run variation.
+
+**Observation, hypothesis and conclusion:** “TTFT rose” is measured. “The queue grew” is a hypothesis until wait and computation times are separated. “Keep the old setting because the candidate did not exceed our stated threshold” is a supported decision. State missing measurements rather than turning a plausible explanation into an established cause.
+
+**A score inside a failed job:** GPU inference and the client can finish and save JSON, followed by a reader/summary exception that makes the job FAILED. Repairing that reader can recover a score from old data; it does not change the original job status or replace a fresh full-deployment replay after the fix.
 
 ## Shared vocabulary
 
@@ -93,7 +137,7 @@ def render(records, lang, digest):
     for s in records:
         assert '\u2026' not in json.dumps(s, ensure_ascii=False), f'Truncated text on slide {s["slide"]}'
         out.append(f"- [Slide {s['slide']:02d} — {s['title']}](#slide-{s['slide']:02d})\n")
-    labels = ['Slide muốn nói gì', 'Nhìn thấy gì trên slide', 'Thuật ngữ và ký hiệu', 'Cách đọc hình, trục, đơn vị và màu', 'Đánh đổi và mức độ bằng chứng', 'Lời nói mẫu', 'Điều không nên nói', 'Câu chuyển slide'] if vi else ['Purpose', 'What is on the slide', 'Terms and symbols', 'How to read the figure, axes, units and colors', 'Tradeoff and strength of evidence', 'Spoken script', 'Avoid this interpretation', 'Transition']
+    labels = ['Slide muốn nói gì', 'Giải thích kết quả và lập luận', 'Thuật ngữ và ký hiệu cần hiểu', 'Cách diễn giải số liệu hoặc sơ đồ', 'Đánh đổi và mức độ bằng chứng', 'Lời nói mẫu', 'Điều không nên nói', 'Câu chuyển slide'] if vi else ['Purpose', 'Technical interpretation and reasoning', 'Terms and symbols to understand', 'Interpreting the evidence or diagram', 'Tradeoff and strength of evidence', 'Spoken script', 'Avoid this interpretation', 'Transition']
     evidence = [('observation', 'Quan sát', 'Observation'), ('hypothesis', 'Giả thuyết', 'Hypothesis'), ('conclusion', 'Kết luận được hỗ trợ', 'Supported conclusion'), ('unknown', 'Chưa biết / giới hạn', 'Unknown / limitation')]
     for s in records:
         n = s['slide']; d = s[lang]

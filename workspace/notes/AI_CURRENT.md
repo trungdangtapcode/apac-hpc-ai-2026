@@ -1,6 +1,6 @@
 # Current AI / Qwen handoff
 
-**Presenter learning guides:** [bilingual transcripts for all 40 slides](ai-bilingual-transcripts-20261030.md), with slide-local terms, axes, units, colors, tradeoffs and spoken scripts. The owner explicitly requested the Vietnamese companion; this narrow exception does not change submission language. Deck and HPC payloads are unchanged.
+**Presenter learning guides:** [bilingual transcripts for all 40 slides](ai-bilingual-transcripts-20261030.md), revised after owner feedback to explain technical concepts and decisions, rather than decoration. “Local” is clarified as team-measured on assigned cluster resources, not a personal machine or organiser approval. Includes full-protocol/review/repeat definitions and analytical scripts. The Vietnamese companion remains a narrow requested exception; deck and HPC payloads are unchanged.
 
 **Latest presentation:** [journey coverage and panel preparation](ai-journey-presentation-20261030.md), following the owner’s 15–20 minute AI allowance. No research resumed.
 

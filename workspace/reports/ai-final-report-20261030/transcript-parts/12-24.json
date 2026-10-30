@@ -4,7 +4,7 @@
     "title": "H200: the N62-to-N64 step survives a full repeat",
     "en": {
       "purpose": "Show why the team selected N64: a full comparison and an independent repeat support a modest gain, while a promising short N68 screen did not survive full measurement.",
-      "visual": "Read the table left to right: full N62 control, N64 source run, independent N64 repeat. Rows show goodput, joint SLA, mean TTFT, mean ITL, and errors/cancellations.",
+      "visual": "The left column is the N62 control, the middle is the first full N64 run, and the right is a new N64 deployment. Compare the goodput row first, then check that request acceptance, latency, and errors do not contradict the throughput gain.",
       "terms": [
         {
           "symbol": "N62/N64",
@@ -12,11 +12,11 @@
         },
         {
           "symbol": "Good tokens/s",
-          "meaning": "Qualifying request rate multiplied by the fixed 200-token output target."
+          "meaning": "Qualifying requests per second multiplied by the fixed 200-token output target."
         },
         {
           "symbol": "Joint SLA",
-          "meaning": "Share of requests meeting both TTFT and request-mean ITL limits."
+          "meaning": "Share of requests meeting both TTFT ≤ 3,000 ms and request-mean ITL ≤ 20 ms."
         },
         {
           "symbol": "60/120/30",
@@ -25,12 +25,24 @@
         {
           "symbol": "N68",
           "meaning": "Higher-concurrency screen whose gain shrank in the full pair."
+        },
+        {
+          "symbol": "Full 60/120/30 protocol",
+          "meaning": "Warm the service for 60 seconds, score requests for 120 seconds, then allow 30 seconds for in-flight requests to finish. The grace period is not scored throughput."
+        },
+        {
+          "symbol": "Independent deployment repeat",
+          "meaning": "A newly scheduled deployment/run of the same N64 setting. It is a repeat allocation, not proof of different GPU hardware; both N64 runs sampled the same GPU UUID set."
+        },
+        {
+          "symbol": "N62 / N64 / N68",
+          "meaning": "Client in-flight concurrency settings, not GPU counts or decode batch sizes."
         }
       ],
       "reading": [
         "Independent N64 deployment 25373 repeats at 3,044.075, only 0.014% below the source. Read columns in order: goodput, joint SLA, mean TTFT, mean ITL, errors/cancellations. N64's higher throughput trades against slightly higher mean TTFT and a small SLA decline. The full protocol is 60 seconds warmup, 120 scored, 30 grace. A short N68 screen suggested +2.27%, but its full pair narrowed to +0.083%; short screens are triage, not final evidence. The repeated N64 pair reused sampled GPU UUIDs, so it supports a local repeatability claim, not a confidence interval or global optimum. Hypothesis: moderate client concurrency improves pipeline utilization. Supported conclusion: keep reproduced N64 at this operating point. Unknown: separate queue, transfer and compute causes, other loads, and global optimum.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
-        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide."
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "The full-run label refers to a fixed protocol: 60 seconds to warm the service, 120 seconds of scored requests, and 30 seconds of grace so outstanding requests can finish. A repeat allocation means the scheduler launched another run; it does not mean different GPU architecture. Here both N64 runs sampled the same GPU UUID set, so the repeat supports reproducibility of this setting but not hardware diversity or a confidence interval."
       ],
       "tradeoff": {
         "observation": "N64 gains 1.083% and repeats within 0.014%; TTFT rises modestly and SLA dips slightly.",
@@ -44,7 +56,7 @@
     },
     "vi": {
       "purpose": "Giải thích vì sao chọn N64: so sánh đầy đủ và lần lặp độc lập ủng hộ mức tăng vừa phải; tín hiệu tốt từ phép thử N68 ngắn không còn đáng kể khi đo đầy đủ.",
-      "visual": "Đọc bảng từ trái sang phải: control N62 đầy đủ, run N64 nguồn và lần lặp N64 độc lập. Các hàng là goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy.",
+      "visual": "Cột trái là control N62, giữa là lần chạy N64 đầy đủ đầu tiên, phải là lần triển khai N64 mới. Trước hết so goodput, sau đó kiểm tra tỷ lệ request đạt, độ trễ và lỗi để xem chúng có làm thay đổi cách hiểu về mức tăng throughput hay không.",
       "terms": [
         {
           "symbol": "N62/N64",
@@ -52,25 +64,37 @@
         },
         {
           "symbol": "Good tokens/s",
-          "meaning": "Tốc độ request đủ điều kiện nhân mục tiêu output cố định 200 token."
+          "meaning": "Request đủ điều kiện mỗi giây nhân mục tiêu output cố định 200 token."
         },
         {
           "symbol": "SLA đồng thời",
-          "meaning": "Tỷ lệ request đạt cả TTFT và ITL trung bình/request."
+          "meaning": "Tỷ lệ request đạt cả TTFT ≤ 3.000 ms và ITL trung bình/request ≤ 20 ms."
         },
         {
           "symbol": "60/120/30",
-          "meaning": "Số giây warmup / đo điểm / grace."
+          "meaning": "Số giây wnhánh thử nghiệmup / đo điểm / grace."
         },
         {
           "symbol": "N68",
           "meaning": "Sàng lọc concurrency cao hơn nhưng gain giảm ở cặp đầy đủ."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Làm nóng dịch vụ 60 giây, tính request trong 120 giây, rồi chờ 30 giây để request đang chạy kết thúc. Grace không tính vào throughput."
+        },
+        {
+          "symbol": "Lần triển khai độc lập",
+          "meaning": "Một lần scheduler cấp tài nguyên và chạy lại setting N64. Đây là allocation lặp, không chứng minh GPU khác loại; hai run N64 lấy mẫu cùng tập GPU UUID."
+        },
+        {
+          "symbol": "N62 / N64 / N68",
+          "meaning": "Mức concurrency request đang chờ của client, không phải số GPU hay batch decode."
         }
       ],
       "reading": [
-        "Lần triển khai N64 độc lập 25373 lặp lại ở 3.044,075, thấp hơn nguồn chỉ 0,014%. Đọc lần lượt các cột goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy. Throughput tăng nhưng TTFT trung bình nhích lên và SLA giảm nhẹ. Protocol gồm warmup 60 giây, đo 120 giây, grace 30 giây. Sàng lọc ngắn N68 gợi ý +2,27%, nhưng cặp đầy đủ chỉ còn +0,083%; phép chạy ngắn để sàng lọc, không thay thế phép đo chính. Hai lần N64 dùng cùng tập GPU UUID được lấy mẫu, nên chỉ hỗ trợ khả năng lặp cục bộ, không tạo khoảng tin cậy hay optimum toàn cục. Giả thuyết: concurrency vừa phải cải thiện sử dụng pipeline. Kết luận: giữ N64 tại operating point đã đo. Chưa biết riêng đóng góp của hàng đợi, truyền dữ liệu và tính toán.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
-        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide."
+        "Lần triển khai N64 độc lập 25373 lặp lại ở 3.044,075, thấp hơn nguồn chỉ 0,014%. Đọc lần lượt các cột goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy. Throughput tăng nhưng TTFT trung bình nhích lên và SLA giảm nhẹ. Protocol gồm wnhánh thử nghiệmup 60 giây, đo 120 giây, grace 30 giây. Sàng lọc ngắn N68 gợi ý +2,27%, nhưng cặp đầy đủ chỉ còn +0,083%; phép chạy ngắn để sàng lọc, không thay thế phép đo chính. Hai lần N64 dùng cùng tập GPU UUID được lấy mẫu, nên chỉ hỗ trợ khả năng lặp do nhóm tự chạy, không tạo khoảng tin cậy hay optimum toàn cục. Giả thuyết: concurrency vừa phải cải thiện sử dụng pipeline. Kết luận: giữ N64 tại operating point đã đo. Chưa biết riêng đóng góp của hàng đợi, truyền dữ liệu và tính toán.",
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "Nhãn run đầy đủ ở đây chỉ protocol cố định: 60 giây làm nóng dịch vụ, 120 giây tính request và 30 giây grace để request còn chạy kết thúc. Allocation lặp nghĩa scheduler khởi chạy run khác; không có nghĩa kiến trúc GPU khác. Hai run N64 này lấy mẫu cùng tập GPU UUID, nên lần lặp hỗ trợ khả năng tái lập setting, nhưng không chứng minh phần cứng đa dạng hay tạo khoảng tin cậy."
       ],
       "tradeoff": {
         "observation": "N64 tăng 1,083% và lặp trong khoảng 0,014%; TTFT nhích lên, SLA giảm nhẹ.",
@@ -88,7 +112,7 @@
     "title": "Profile the deployed interaction",
     "en": {
       "purpose": "Explain how profiling generates the next testable question, while keeping diagnostic kernel shares separate from end-to-end service performance.",
-      "visual": "A three-row table lists decode component, summed kernel-time share, and the follow-up research question. It is a table, not a bar chart. Percentages are descriptive shares of summed recorded kernel durations, not end-to-end wall-time shares.",
+      "visual": "Read each percentage as that named kernel group's portion of all recorded kernel duration in the separate diagnostic traces. The percentages are not slices of request wall time: GPU kernels can overlap, while request wall time also includes queueing and other unprofiled work. Use the rows to choose a test, not to estimate its speedup.",
       "terms": [
         {
           "symbol": "GEMM",
@@ -109,11 +133,27 @@
         {
           "symbol": "N48/N58",
           "meaning": "Separate diagnostic and repeated deployment concurrency settings."
+        },
+        {
+          "symbol": "Profile",
+          "meaning": "A diagnostic run that records selected GPU kernel timings and other runtime signals while serving a workload."
+        },
+        {
+          "symbol": "Kernel-time share",
+          "meaning": "A named group's fraction of summed recorded kernel durations. GPU kernels can overlap, so this is not its fraction of elapsed request walltime."
+        },
+        {
+          "symbol": "N48 diagnostic vs N58 repeat",
+          "meaning": "Separate stages in job 24819: N58 repeats a deployment; N48 collects profile traces. Do not attribute N48 kernel shares to N58 service behavior."
+        },
+        {
+          "symbol": "MNNVL / RMSNorm",
+          "meaning": "MNNVL is the NVLink collective communication path; RMSNorm normalizes model activations."
         }
       ],
       "reading": [
         "Named decode groups are HPC group GEMM 21.642%, MNNVL collective/RMSNorm 23.479%, and FlashInfer paged attention 15.064% of summed recorded kernel duration. These percentages are descriptive sums, not shares of end-to-end wall time: kernels can overlap and the trace covers only recorded activity. Terms: GEMM is matrix multiplication; MNNVL is a communication backend; RMSNorm normalizes hidden activations; rank is one distributed process. The three groups suggest questions about MoE implementation, communication strategy, and phase-specific attention backend. They do not predict equivalent speedups, prove FLOP saturation, or causally explain N58/N60 service results. Keep the N48 diagnostic distinct from the N58 repeat. Hypothesis: large recorded groups deserve follow-up. Conclusion: use traces to design a controlled full-service test. Unknown: per-request phase attribution and causal latency shares.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series."
+        "A profile is instrumentation: it records selected activity while a workload is running. The percentages sum kernel durations across recorded ranks/GPUs. Because kernels overlap and because queueing, CPU work, communication gaps, and unrecorded activity also consume elapsed time, those percentages cannot be read as the fraction of a request spent in each component. The N48 diagnostic was separate from the N58 deployment repeat."
       ],
       "tradeoff": {
         "observation": "Three named groups account for stated shares of recorded kernel duration.",
@@ -127,7 +167,7 @@
     },
     "vi": {
       "purpose": "Giải thích cách dùng profile để đặt câu hỏi có thể kiểm chứng tiếp theo, đồng thời tách tỷ trọng kernel trong phép chẩn đoán khỏi hiệu năng dịch vụ đầu cuối.",
-      "visual": "Bảng ba hàng liệt kê thành phần decode, tỷ trọng tổng thời lượng kernel đã ghi và câu hỏi nghiên cứu tương ứng. Đây là bảng, không phải biểu đồ thanh. Phần trăm mô tả tổng thời lượng kernel, không phải tỷ trọng thời gian đầu cuối.",
+      "visual": "Đọc mỗi tỷ lệ là phần thời lượng kernel đã ghi thuộc nhóm được nêu trong các trace chẩn đoán riêng. Đây không phải phần thời gian request: kernel GPU có thể chạy chồng lấp, còn wall time của request gồm cả hàng đợi và công việc chưa được profile. Dùng các hàng để chọn phép thử tiếp theo, không để dự đoán mức tăng tốc.",
       "terms": [
         {
           "symbol": "GEMM",
@@ -148,11 +188,27 @@
         {
           "symbol": "N48/N58",
           "meaning": "Hai mức concurrency tách biệt cho diagnostic và deployment lặp."
+        },
+        {
+          "symbol": "Profile",
+          "meaning": "Run chẩn đoán ghi thời lượng một số kernel GPU và tín hiệu runtime khi dịch vụ xử lý workload."
+        },
+        {
+          "symbol": "Tỷ trọng thời gian kernel",
+          "meaning": "Phần của tổng thời lượng kernel đã ghi thuộc một nhóm. Kernel GPU có thể chồng lấp, nên đây không phải phần walltime request đã trôi qua."
+        },
+        {
+          "symbol": "Diagnostic N48 và lần lặp N58",
+          "meaning": "Hai giai đoạn riêng trong job 24819: N58 lặp deployment; N48 thu trace profile. Không gán tỷ trọng kernel N48 cho hành vi dịch vụ N58."
+        },
+        {
+          "symbol": "MNNVL / RMSNorm",
+          "meaning": "MNNVL là đường giao tiếp collective qua NVLink; RMSNorm chuẩn hóa activation của model."
         }
       ],
       "reading": [
         "Các nhóm decode được nêu là HPC group GEMM 21,642%, MNNVL collective/RMSNorm 23,479%, và FlashInfer paged attention 15,064% tổng kernel duration đã ghi. Đây là tổng mô tả, không phải tỷ trọng wall time đầu cuối: kernel có thể chạy chồng lấp và trace chỉ ghi hoạt động có coverage. GEMM là phép nhân ma trận; MNNVL là backend giao tiếp; RMSNorm chuẩn hóa activation; rank là một tiến trình phân tán. Ba nhóm gợi ý câu hỏi về MoE, chiến lược giao tiếp và attention theo pha. Chúng không dự đoán mức tăng tương ứng, chứng minh FLOP saturation, hay giải thích nhân quả kết quả dịch vụ N58/N60. Cần tách N48 diagnostic khỏi lần lặp N60. Giả thuyết: nhóm kernel lớn đáng khảo sát. Kết luận: dùng trace để thiết kế phép thử dịch vụ có đối chứng. Chưa biết tỷ lệ latency từng pha cho mỗi request.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng."
+        "Profile là phép ghi đo: công cụ lưu một số hoạt động khi workload chạy. Các tỷ lệ cộng thời lượng kernel trên những rank/GPU được ghi. Vì kernel có thể chồng lấp, đồng thời hàng đợi, CPU, khoảng chờ giao tiếp và hoạt động không được ghi cũng chiếm thời gian trôi qua, không thể đọc tỷ lệ này thành phần thời gian request dành cho từng thành phần. Diagnostic N48 tách biệt với lần lặp deployment N58."
       ],
       "tradeoff": {
         "observation": "Ba nhóm kernel chiếm tỷ lệ đã nêu trong tổng kernel duration được ghi.",
@@ -170,11 +226,11 @@
     "title": "The N60 gain survives an independent deployment",
     "en": {
       "purpose": "Demonstrate a repeatable backend tradeoff: improved useful throughput and token gaps can coexist with worse first-token delay.",
-      "visual": "Compare the full N60 auto-decode control with the HPC-Ops decode repeat. Goodput and ITL improve while mean TTFT rises.",
+      "visual": "Compare the control and treatment at the same N60 load. Throughput rises and token gaps shrink, but the first token arrives later on average. This is a service-level tradeoff measured in a fresh deployment, not a claim about every use of the backend.",
       "terms": [
         {
           "symbol": "HPC-Ops",
-          "meaning": "Provided decode runner/backend in the treatment."
+          "meaning": "The supplied decode runner tested here; this work evaluates it, not claims authorship of it."
         },
         {
           "symbol": "DeepGEMM",
@@ -191,12 +247,28 @@
         {
           "symbol": "N60",
           "meaning": "Configured client concurrency for this full comparison."
+        },
+        {
+          "symbol": "Independent repeat",
+          "meaning": "A separate fresh deployment that repeats the treatment. It confirms a similar score under this setup but does not mean a different hardware generation."
+        },
+        {
+          "symbol": "TTFT / request-mean ITL",
+          "meaning": "Time until the first output token / average time between output tokens within one request."
+        },
+        {
+          "symbol": "Goodput",
+          "meaning": "Here, qualifying AIPerf requests per second × fixed target of 200 output tokens."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "60 seconds of warmup, 120 seconds of scored serving, then 30 seconds for outstanding requests to finish; only the middle interval contributes score."
         }
       ],
       "reading": [
         "Both hold DeepGEMM prefill and chunk 8192 at full N60. Mean TTFT rises 125.335 ms (822.292 to 947.627), while mean request-mean ITL falls 1.644 ms (16.579 to 14.934). Joint SLA is 98.7599% versus 98.8178%. Original treatment 24738 scored 2,990.151; repeat 24913 is 0.033% lower. The close repeat supports reproducibility of this interaction. HPC-Ops is a provided backend, not a team-invented kernel. Terms: TTFT is time to first token; ITL is inter-token interval; joint SLA requires both limits. Conclusion: local full-service evidence supports this setup, not universal HPC-Ops superiority. Official full-set quality remains unverified; no exact kernel cause follows.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
-        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide."
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "“Independent deployment” means another fresh scheduled run of the same treatment, not an experiment on another GPU generation. The repeat at 2,989.175 is 0.033% below original treatment 24738 at 2,990.151. It supports a repeat at this operating point. The higher goodput does not erase the increase in mean TTFT; a service choice can trade first-token delay against the time between subsequent tokens."
       ],
       "tradeoff": {
         "observation": "Goodput rises 5.295%, ITL falls, mean TTFT increases 125.335 ms; treatment repeat is close to original.",
@@ -210,11 +282,11 @@
     },
     "vi": {
       "purpose": "Chứng minh một đánh đổi backend có lần lặp: thông lượng hữu ích và khoảng token tốt hơn vẫn có thể đi cùng thời gian chờ token đầu xấu hơn.",
-      "visual": "So sánh control auto-decode N60 đầy đủ với lần lặp decode HPC-Ops. Goodput và ITL cải thiện trong khi TTFT trung bình tăng.",
+      "visual": "So sánh control và treatment ở cùng tải N60. Throughput tăng và khoảng cách giữa token ngắn lại, nhưng token đầu đến muộn hơn trung bình. Đây là đánh đổi dịch vụ được đo trong một lần triển khai mới, không phải khẳng định backend luôn có kết quả như vậy.",
       "terms": [
         {
           "symbol": "HPC-Ops",
-          "meaning": "Decode runner/backend được cung cấp trong treatment."
+          "meaning": "Decode runner được cung cấp để thử nghiệm; nhóm đánh giá nó chứ không nhận là tác giả."
         },
         {
           "symbol": "DeepGEMM",
@@ -231,12 +303,28 @@
         {
           "symbol": "N60",
           "meaning": "Mức concurrency client trong phép so sánh đầy đủ."
+        },
+        {
+          "symbol": "Lần lặp độc lập",
+          "meaning": "Deployment mới chạy lại treatment. Nó xác nhận điểm tương tự trong thiết lập này, không có nghĩa dùng thế hệ phần cứng khác."
+        },
+        {
+          "symbol": "TTFT / ITL trung bình request",
+          "meaning": "Thời gian tới token đầu / khoảng thời gian trung bình giữa các token trong một request."
+        },
+        {
+          "symbol": "Goodput",
+          "meaning": "Ở đây là request AIPerf đủ điều kiện mỗi giây × mục tiêu cố định 200 output token."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Làm nóng 60 giây, đo dịch vụ trong 120 giây, rồi chờ 30 giây cho request còn chạy kết thúc; chỉ khoảng giữa được tính điểm."
         }
       ],
       "reading": [
         "Cả hai giữ DeepGEMM prefill và chunk 8192 tại full N60. TTFT trung bình tăng 125,335 ms (822,292 lên 947,627), còn ITL trung bình của request giảm 1,644 ms (16,579 xuống 14,934). SLA đồng thời là 98,7599% so với 98,8178%. Treatment ban đầu 24738 đạt 2.990,151; lần lặp 24913 thấp hơn 0,033%. Lần lặp gần bằng củng cố tính tái lập của tương tác này. HPC-Ops là backend được cung cấp, không phải kernel do nhóm phát minh. TTFT là thời gian tới token đầu; ITL là khoảng giữa token; SLA đồng thời cần đạt cả hai giới hạn. Kết luận: bằng chứng dịch vụ đầy đủ hỗ trợ cấu hình này, không chứng minh HPC-Ops luôn hơn. Chất lượng full-set official chưa xác minh; không suy ra nguyên nhân kernel cụ thể.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
-        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide."
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "“Triển khai độc lập” nghĩa là một lần chạy mới do scheduler cấp cho cùng treatment, không phải thử nghiệm trên thế hệ GPU khác. Lần lặp 2.989,175 thấp hơn treatment ban đầu 24738 đạt 2.990,151 chỉ 0,033%. Điều này hỗ trợ tính lặp tại operating point này. Goodput cao hơn không xóa mức tăng TTFT trung bình; cấu hình dịch vụ có thể đánh đổi thời gian token đầu với khoảng cách giữa các token sau."
       ],
       "tradeoff": {
         "observation": "Goodput tăng 5,295%, ITL giảm, TTFT trung bình tăng 125,335 ms; treatment lặp gần bản đầu.",
@@ -254,7 +342,7 @@
     "title": "The reproduced N64 service still loses first-token tails",
     "en": {
       "purpose": "Teach the audience to inspect individual requests: high average performance can hide first-token tail failures, and averages alone do not explain their cause.",
-      "visual": "Each dot is one request. X is TTFT (ms), Y is per-request mean ITL (ms). Red vertical/horizontal lines mark 3,000 ms TTFT and 20 ms ITL. Dark teal (#23373B; may look blue-green) passes both; orange (#EB811B; may look yellow) misses at least one. Pale green marks only the TTFT region. Darker dots are overlap/alpha, not a new category.",
+      "visual": "Read one point as one request, not one token. A point is accepted only when it lies left of the red vertical TTFT threshold at 3,000 ms and below the red horizontal request-mean ITL threshold at 20 ms. Dark teal (#23373B; can appear blue-green) marks requests meeting both; orange (#EB811B; can appear yellow) marks requests missing at least one. The pale green band marks TTFT only, not joint acceptance. Darker clusters show alpha overlap, not a third request class.",
       "terms": [
         {
           "symbol": "TTFT",
@@ -262,11 +350,11 @@
         },
         {
           "symbol": "Request-mean ITL",
-          "meaning": "Mean interval between generated tokens for that request, milliseconds."
+          "meaning": "Average interval between consecutive generated tokens for one request; it is not the same as end-to-end request latency."
         },
         {
           "symbol": "Joint pass",
-          "meaning": "TTFT ≤ 3,000 ms AND request-mean ITL ≤ 20 ms."
+          "meaning": "Both limits apply to the same request. A request under the TTFT line can still fail if it is above the ITL line."
         },
         {
           "symbol": "Good/all",
@@ -275,12 +363,25 @@
         {
           "symbol": "Alpha overlap",
           "meaning": "Overlapping points render darker; darkness is not another outcome class."
+        },
+        {
+          "symbol": "Native runtime",
+          "meaning": "The server's native execution path used by job 26766, distinct from the portable replay path. It describes software execution, not a different GPU model."
+        },
+        {
+          "symbol": "P95",
+          "meaning": "The 95th percentile: 95% of observed requests are at or below this value; it describes a tail, not the mean."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
-        "X is TTFT in milliseconds; Y is per-request mean ITL. Red vertical and horizontal lines mark 3,000 ms and 20 ms. A request passes only if it is left of and below both lines. Teal marks jointly pass; orange marks miss at least one condition. The pale green region represents TTFT only and does not certify the ITL condition. Darker clusters are alpha overlap, not a third class. Result: 1,875/1,902, or 98.580%, jointly pass; 27 miss TTFT, zero miss ITL, zero request errors/cancellations. Mean/p95 TTFT is 1,108.869/1,311.693 ms; mean/p95 ITL is 15.0075/15.1930 ms. All misses begin within 13.004 ms of profiling admission, an association only. Hypothesis: an initial-cohort effect may contribute. Conclusion: all observed SLA misses are TTFT-only in this run. Unknown: causation and queue/prefill/transfer/compute decomposition.",
+        "X is TTFT in milliseconds; Y is per-request mean ITL. Red vertical and horizontal lines mark 3,000 ms and 20 ms. A request passes only if it is left of and below both lines. Dark teal (#23373B; may look blue-green) marks joint passes; orange (#EB811B; may look yellow) marks requests missing at least one condition. The pale green region represents TTFT only and does not certify the ITL condition. Darker clusters are alpha overlap, not a third class. Result: 1,875/1,902, or 98.580%, jointly pass; 27 miss TTFT, zero miss ITL, zero request errors/cancellations. Mean/p95 TTFT is 1,108.869/1,311.693 ms; mean/p95 ITL is 15.0075/15.1930 ms. All misses begin within 13.004 ms of profiling admission, an association only. Hypothesis: an initial-cohort effect may contribute. Conclusion: all observed SLA misses are TTFT-only in this run. Unknown: causation and queue/prefill/transfer/compute decomposition.",
         "Moving left means shorter first-token delay; moving down means shorter mean token gaps. The acceptable region is on or left of x = 3000 AND on or below y = 20; equality passes. Orange points are larger only to make failures easier to see, not because they have larger requests or token counts.",
-        "This is a distribution of individual requests from one run, not a Pareto frontier of competing configurations. It cannot decompose queueing, prefill computation, transfer and decode time."
+        "This is a distribution of individual requests from one run, not a Pareto frontier of competing configurations. It cannot decompose queueing, prefill computation, transfer and decode time.",
+        "This is a profile of requests from the native server runtime, not a synthetic kernel benchmark. TTFT measures the wait until the first token; request-mean ITL summarizes intervals after generation begins. P95 describes the slower tail. The 27 misses began within 13.004 ms after profile admission, but that timing alone cannot say whether queueing, prefill, KV transfer, or compute caused them."
       ],
       "tradeoff": {
         "observation": "1,875/1,902 jointly pass; 27 miss TTFT only and no request errors occur.",
@@ -294,7 +395,7 @@
     },
     "vi": {
       "purpose": "Cho thấy cần xem từng request: hiệu năng trung bình cao vẫn có những request chờ token đầu quá lâu; số trung bình không giải thích được nguyên nhân của phần đuôi này.",
-      "visual": "Mỗi chấm là một request. X là TTFT (ms), Y là ITL trung bình mỗi request (ms). Đường đỏ dọc/ngang lần lượt đánh dấu TTFT 3.000 ms và ITL 20 ms. Teal đậm (#23373B; có thể nhìn xanh lam-lục) đạt cả hai; cam (#EB811B; có thể nhìn vàng) trượt ít nhất một. Vùng xanh nhạt chỉ đánh dấu TTFT. Chấm đậm do chồng điểm/alpha, không phải nhóm mới.",
+      "visual": "Mỗi điểm là một request, không phải một token. Request chỉ đạt khi nằm bên trái ngưỡng TTFT đỏ dọc tại 3.000 ms và dưới ngưỡng ITL trung bình/request đỏ ngang tại 20 ms. Teal đậm (#23373B; có thể nhìn xanh lam-lục) biểu thị đạt cả hai; cam (#EB811B; có thể nhìn vàng) biểu thị trượt ít nhất một điều kiện. Dải xanh nhạt chỉ biểu thị TTFT, không phải đạt đồng thời. Cụm đậm hơn là các điểm chồng alpha, không phải lớp request thứ ba.",
       "terms": [
         {
           "symbol": "TTFT",
@@ -306,7 +407,7 @@
         },
         {
           "symbol": "Đạt đồng thời",
-          "meaning": "TTFT ≤ 3.000 ms VÀ ITL trung bình ≤ 20 ms."
+          "meaning": "Cả hai giới hạn áp dụng cho cùng request. Dưới đường TTFT vẫn có thể trượt nếu trên đường ITL."
         },
         {
           "symbol": "Đạt/tổng",
@@ -315,12 +416,29 @@
         {
           "symbol": "Alpha overlap",
           "meaning": "Điểm chồng làm vùng đậm hơn; không phải lớp kết quả riêng."
+        },
+        {
+          "symbol": "Native runtime",
+          "meaning": "Đường thực thi server gốc dùng trong job 26766, khác đường portable replay. Đây là khác biệt phần mềm chạy, không phải khác model GPU."
+        },
+        {
+          "symbol": "ITL trung bình/request",
+          "meaning": "Khoảng cách trung bình giữa các token liên tiếp trong một request; khác latency đầu-cuối của request."
+        },
+        {
+          "symbol": "P95",
+          "meaning": "Phân vị 95: 95% request quan sát có giá trị không vượt mức này; mô tả phần đuôi, không phải trung bình."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
-        "Trục X là TTFT mili giây; Y là ITL trung bình mỗi request. Hai đường đỏ dọc/ngang đánh dấu 3.000 ms và 20 ms. Request chỉ đạt nếu ở bên trái và phía dưới cả hai đường. Điểm teal đạt đồng thời; cam trượt ít nhất một điều kiện. Vùng xanh nhạt chỉ biểu diễn TTFT, không xác nhận ITL. Cụm đậm hơn là chồng alpha, không phải nhóm thứ ba. Kết quả: 1.875/1.902, tức 98,580%, đạt đồng thời; 27 trượt TTFT, không trượt ITL, không lỗi/hủy request. TTFT trung bình/p95 là 1.108,869/1.311,693 ms; ITL trung bình/p95 là 15,0075/15,1930 ms. Mọi miss bắt đầu trong 13,004 ms từ lúc mở admission đo; đây chỉ là tương quan. Giả thuyết: nhóm request đầu có thể chịu một hiệu ứng khởi đầu. Kết luận: mọi miss SLA quan sát được trong run này chỉ thuộc TTFT. Chưa biết nguyên nhân và phân tách queue/prefill/transfer/compute.",
+        "Trục X là TTFT mili giây; Y là ITL trung bình mỗi request. Hai đường đỏ dọc/ngang đánh dấu 3.000 ms và 20 ms. Request chỉ đạt nếu ở bên trái và phía dưới cả hai đường. Teal đậm (#23373B; có thể nhìn xanh lam-lục) đạt đồng thời; cam (#EB811B; có thể nhìn vàng) trượt ít nhất một điều kiện. Vùng xanh nhạt chỉ biểu diễn TTFT, không xác nhận ITL. Cụm đậm hơn là chồng alpha, không phải nhóm thứ ba. Kết quả: 1.875/1.902, tức 98,580%, đạt đồng thời; 27 trượt TTFT, không trượt ITL, không lỗi/hủy request. TTFT trung bình/p95 là 1.108,869/1.311,693 ms; ITL trung bình/p95 là 15,0075/15,1930 ms. Mọi miss bắt đầu trong 13,004 ms từ lúc mở admission đo; đây chỉ là tương quan. Giả thuyết: nhóm request đầu có thể chịu một hiệu ứng khởi đầu. Kết luận: mọi miss SLA quan sát được trong run này chỉ thuộc TTFT. Chưa biết nguyên nhân và phân tách queue/prefill/transfer/compute.",
         "Đi sang trái là chờ token đầu ít hơn; đi xuống là khoảng token trung bình ngắn hơn. Vùng đạt nằm bên trái hoặc ngay trên đường x = 3000 VÀ bên dưới hoặc ngay trên đường y = 20; bằng ngưỡng vẫn đạt. Chấm cam được vẽ to hơn để dễ thấy lỗi, không có nghĩa request lớn hơn hay nhiều token hơn.",
-        "Đây là phân bố các request trong một lần chạy, không phải đường biên tối ưu giữa nhiều cấu hình. Hình không tách được thời gian chờ hàng đợi, tính prefill, truyền KV và decode."
+        "Đây là phân bố các request trong một lần chạy, không phải đường biên tối ưu giữa nhiều cấu hình. Hình không tách được thời gian chờ hàng đợi, tính prefill, truyền KV và decode.",
+        "Đây là profile request từ native server runtime, không phải benchmark kernel tổng hợp. TTFT đo thời gian chờ token đầu; ITL trung bình/request tóm tắt các khoảng token sau khi sinh bắt đầu. P95 mô tả phần chậm của phân bố. 27 miss bắt đầu trong 13,004 ms sau admission của profile, nhưng thời điểm đó không cho biết hàng đợi, prefill, truyền KV hay tính toán gây ra chúng."
       ],
       "tradeoff": {
         "observation": "1.875/1.902 cùng đạt; 27 chỉ trượt TTFT và không có lỗi request.",
@@ -338,7 +456,7 @@
     "title": "H100 has its own operating point and uncertainty",
     "en": {
       "purpose": "Keep the H100 operating point, backend settings and repeat variation separate from H200 claims.",
-      "visual": "The H100 historical individual peak and fresh full N54 control are shown alongside the H100 backend and parallelism settings.",
+      "visual": "The historical high and the fresh full control answer different questions: one is the best retained individual observation; the other is a new complete run with its own acceptance result. H100 uses different prefill/decode settings from H200, so these numbers cannot isolate a hardware-generation effect.",
       "terms": [
         {
           "symbol": "H100/H200",
@@ -359,12 +477,32 @@
         {
           "symbol": "Chunk 4096",
           "meaning": "Configured prefill chunk size on this H100 setup."
+        },
+        {
+          "symbol": "Allocation",
+          "meaning": "One scheduler-granted resource assignment and run. Allocation counts are repeat counts, not counts of unique GPU models or necessarily unique physical devices."
+        },
+        {
+          "symbol": "Retained individual peak",
+          "meaning": "Highest single observation preserved in the cited historical series; it is not a fresh control or a distribution estimate."
+        },
+        {
+          "symbol": "TP8 / EP8",
+          "meaning": "Tensor parallelism spans eight GPUs; expert parallelism distributes experts across eight partitions."
+        },
+        {
+          "symbol": "Operating point",
+          "meaning": "A result attached to a particular hardware, software, load, and backend configuration."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "Fresh full control 225227 reached 2,399.186728 with 98.015873% joint SLA and zero errors/cancellations. H100 uses HPC-Ops for prefill and decode, chunk 4096, TP8/EP8; H200 uses DeepGEMM prefill and chunk 8192. Thus these values are not a matched hardware comparison or multiplier. Retain both peak and fresh control: they answer different questions. TP means tensor parallelism; EP means expert parallelism. A functional EAGLE transport response is not an accepted aggregate performance result. Hypothesis: hardware families require their own settings. Conclusion: report a distinct H100 point with its actual configuration. Unknown: cross-generation causal effect and universal conversion.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
-        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide."
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "An allocation is a scheduled run/resource assignment, whereas H100 versus H200 is a hardware-family distinction. A retained maximum is one observed run; a fresh control is a new complete observation. Since the H100 setup uses HPC-Ops for both phases and a 4,096-token chunk, while H200 uses a different prefill backend and 8,192-token chunk, the values cannot be divided to obtain a GPU-generation multiplier."
       ],
       "tradeoff": {
         "observation": "Historical individual peak exceeds fresh full control; settings differ from H200.",
@@ -378,7 +516,7 @@
     },
     "vi": {
       "purpose": "Tách điểm vận hành H100, cài đặt backend và biến động giữa các lần chạy khỏi các tuyên bố trên H200.",
-      "visual": "Đỉnh đơn lẻ lịch sử H100 và control N54 đầy đủ mới được đặt cạnh settings backend và song song hóa H100.",
+      "visual": "Kết quả lịch sử cao và control đầy đủ mới trả lời hai câu hỏi khác nhau: một bên là quan sát đơn lẻ cao nhất còn lưu, bên kia là run hoàn chỉnh mới cùng kết quả đạt điều kiện. H100 dùng settings prefill/decode khác H200, nên các số này không cô lập được tác động của thế hệ GPU.",
       "terms": [
         {
           "symbol": "H100/H200",
@@ -399,12 +537,32 @@
         {
           "symbol": "Chunk 4096",
           "meaning": "Kích thước chunk prefill của cấu hình H100 này."
+        },
+        {
+          "symbol": "Allocation",
+          "meaning": "Một lần scheduler cấp tài nguyên và chạy. Số allocation là số lần chạy, không phải số loại GPU hay chắc chắn số thiết bị vật lý riêng biệt."
+        },
+        {
+          "symbol": "Đỉnh đơn lẻ được lưu",
+          "meaning": "Quan sát cao nhất trong chuỗi lịch sử nêu ra; không phải control mới hay ước lượng phân bố."
+        },
+        {
+          "symbol": "TP8 / EP8",
+          "meaning": "Tensor parallelism trải trên tám GPU; expert parallelism phân phối expert trên tám phân vùng."
+        },
+        {
+          "symbol": "Operating point",
+          "meaning": "Kết quả gắn với cấu hình phần cứng, phần mềm, tải và backend cụ thể."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
         "Control đầy đủ mới 225227 đạt 2.399,186728 với SLA đồng thời 98,015873%, không lỗi/hủy. H100 dùng HPC-Ops cho prefill và decode, chunk 4096, TP8/EP8; H200 dùng DeepGEMM prefill và chunk 8192. Vì vậy đây không phải so sánh phần cứng ghép cặp hay hệ số quy đổi. Giữ cả đỉnh và control mới vì chúng trả lời câu hỏi khác nhau. TP là tensor parallelism; EP là expert parallelism. EAGLE truyền dữ liệu chức năng được không đồng nghĩa có kết quả hiệu năng aggregate được chấp nhận. Giả thuyết: mỗi họ phần cứng cần settings riêng. Kết luận: báo riêng điểm H100 cùng cấu hình thật. Chưa biết hiệu ứng nhân quả giữa thế hệ GPU hay hệ số phổ quát.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
-        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide."
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "Allocation là một run/lần cấp tài nguyên theo lịch; H100 so với H200 mới là khác biệt họ phần cứng. Mức cao được lưu là một run đã quan sát; control mới là phép đo hoàn chỉnh mới. H100 dùng HPC-Ops cho cả hai pha và chunk 4.096 token, còn H200 dùng backend prefill và chunk 8.192 khác; vì vậy không thể chia hai số để tạo hệ số thế hệ GPU."
       ],
       "tradeoff": {
         "observation": "Đỉnh đơn lẻ lịch sử cao hơn control đầy đủ mới; cấu hình khác H200.",
@@ -422,7 +580,7 @@
     "title": "FA3: faster first token does not guarantee goodput",
     "en": {
       "purpose": "Use a losing FA3 decode trial to explain why optimizing first-token latency alone can reduce the final throughput objective.",
-      "visual": "The H100 N54 table compares FlashInfer and FA3 for goodput, mean TTFT, mean ITL, and mean request latency.",
+      "visual": "FA3 lowers the time to the first token, but its longer average token interval compounds across a long output. Read the measured mean request latency and goodput rows as the end-to-end decision; do not select a backend from TTFT alone.",
       "terms": [
         {
           "symbol": "FlashInfer",
@@ -443,12 +601,28 @@
         {
           "symbol": "Matched pair",
           "meaning": "Full runs differing only in the intended decode attention factor."
+        },
+        {
+          "symbol": "Mean request latency",
+          "meaning": "Average end-to-end duration for a request, including first-token wait and the remaining output generation."
+        },
+        {
+          "symbol": "Why TTFT can mislead",
+          "meaning": "A reduction before the first token may be outweighed by a small per-token slowdown repeated over a long response."
+        },
+        {
+          "symbol": "Matched change",
+          "meaning": "Only decode attention changes in this H100 N54 pair; prefill remains FA3 in both conditions."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "FlashInfer versus FA3: good tokens/s 2,420.945 vs 2,401.284; mean TTFT 713.199 vs 594.276 ms; mean ITL 18.214 vs 18.988 ms; mean request latency 4,337.853 vs 4,372.813 ms. FA3 saves 118.922 ms to first token, but ITL increases 0.773 ms; over about 199 intervals that adds roughly 154 ms. Mean request latency rises and goodput falls 0.812%. Keep FlashInfer for this decode setting; FA3 remains the prefill backend. One pair cannot rank backends universally or identify exact kernel causality.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
-        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide."
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "The measured mean request latency rises by 34.960 ms (4,372.813 − 4,337.853), and goodput falls 0.812%. The ITL change is small per gap but repeats over a long response; this is a plausible interpretation of the tradeoff, not a separately isolated kernel-level causal measurement. The comparison supports keeping FlashInfer only for this tested H100 decode setting."
       ],
       "tradeoff": {
         "observation": "FA3 reduces TTFT but worsens ITL/request latency and loses 0.812% goodput.",
@@ -462,7 +636,7 @@
     },
     "vi": {
       "purpose": "Dùng phép thử decode FA3 không thành công để giải thích vì sao chỉ tối ưu thời gian token đầu có thể làm mục tiêu thông lượng cuối cùng xấu đi.",
-      "visual": "Bảng H100 N54 so FlashInfer với FA3 về goodput, TTFT trung bình, ITL trung bình và latency request trung bình.",
+      "visual": "FA3 rút ngắn thời gian tới token đầu, nhưng khoảng cách token trung bình dài hơn lặp lại qua phần output dài. Hãy dùng hàng latency request và goodput đo được làm căn cứ đầu-cuối; không chọn backend chỉ dựa trên TTFT.",
       "terms": [
         {
           "symbol": "FlashInfer",
@@ -483,12 +657,28 @@
         {
           "symbol": "Cặp ghép",
           "meaning": "Hai run đầy đủ chỉ khác yếu tố attention decode định thử."
+        },
+        {
+          "symbol": "Latency request trung bình",
+          "meaning": "Thời lượng đầu-cuối trung bình của request, gồm chờ token đầu và thời gian sinh phần output còn lại."
+        },
+        {
+          "symbol": "Vì sao TTFT có thể gây hiểu nhầm",
+          "meaning": "Tiết kiệm trước token đầu có thể nhỏ hơn phần chậm thêm trên mỗi token lặp qua câu trả lời dài."
+        },
+        {
+          "symbol": "Thay đổi ghép cặp",
+          "meaning": "Trong cặp H100 N54 này chỉ attention decode thay đổi; prefill vẫn dùng FA3 ở cả hai nhánh."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
         "FlashInfer so với FA3: good tokens/s 2.420,945 và 2.401,284; TTFT trung bình 713,199 và 594,276 ms; ITL 18,214 và 18,988 ms; latency request 4.337,853 và 4.372,813 ms. FA3 giảm 118,922 ms tới token đầu, nhưng ITL tăng 0,773 ms; khoảng 199 khoảng token làm phát sinh xấp xỉ 154 ms. Latency request tăng và goodput giảm 0,812%. Giữ FlashInfer cho decode setting này; FA3 vẫn dùng ở prefill. Một cặp không thể xếp hạng backend phổ quát hay chỉ ra chính xác nhân quả kernel.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
-        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide."
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "Latency request trung bình đo được tăng 34,960 ms (4.372,813 − 4.337,853), còn goodput giảm 0,812%. Chênh lệch ITL nhỏ trên từng khoảng nhưng lặp qua câu trả lời dài; đây là cách diễn giải hợp lý tradeoff, không phải phép đo nhân quả kernel riêng. So sánh chỉ hỗ trợ giữ FlashInfer cho setting decode H100 đã thử."
       ],
       "tradeoff": {
         "observation": "FA3 giảm TTFT nhưng làm xấu ITL/latency request và mất 0,812% goodput.",
@@ -506,11 +696,11 @@
     "title": "Test the cost hypothesis, then reverse the order",
     "en": {
       "purpose": "Show the value of reversing trial order and enforcing a predeclared promotion gate rather than selecting a favorable first result.",
-      "visual": "Two full H100 pairs show off/read-first walltime, resulting saving, goodput change, and the predeclared cost gate.",
+      "visual": "Compare the second pair after reversing which condition ran first. The first pair's 18.74% walltime saving does not reproduce: the reverse-order pair saves 9.84%, below the predeclared 10% threshold. Scheduler walltime includes startup and cleanup, so it is not the same metric as steady-state goodput.",
       "terms": [
         {
           "symbol": "Read-first",
-          "meaning": "Startup treatment that reads prefill checkpoint data first."
+          "meaning": "Read the prefill checkpoint before the measured service run to test a startup-cost hypothesis."
         },
         {
           "symbol": "Walltime",
@@ -527,11 +717,27 @@
         {
           "symbol": "Goodput change",
           "meaning": "Change in qualifying throughput relative to the paired control."
+        },
+        {
+          "symbol": "Scheduler walltime",
+          "meaning": "Elapsed allocation time includes startup and cleanup; it is distinct from the 120-second scored serving window and from goodput."
+        },
+        {
+          "symbol": "Cold prefix vs cold OS cache",
+          "meaning": "A cold prefix means the prompt prefix is not reused from the model's prefix/KV cache. A cold OS page cache means file data is not already cached by the operating system. This experiment did not verify cold OS cache, so it cannot claim a cold-storage cause."
+        },
+        {
+          "symbol": "Reverse-order confirmation",
+          "meaning": "Repeat the pair with execution order reversed to check whether order or warm cache drove the first difference."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "First full pair: off/read-first 934/759 s, saving 18.74%, goodput −0.66%. Reverse-order confirmation: 854/770 s, saving 9.84%, goodput −0.33%. Prospective gate required at least 10% saving and no more than 2% goodput loss; confirmation meets throughput tolerance but misses walltime gate, so no promotion. Unknown cache state and node differences prevent a cold-storage causal claim. Walltime is scheduler duration, not steady-state throughput.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series."
+        "The read-first idea concerns loading the prefill checkpoint during startup. “Cold prefix” describes whether the model can reuse a prompt-prefix/KV-cache entry; it does not describe operating-system file cache. A cold OS cache means checkpoint pages must be fetched from storage instead of memory cache. Since cache state was not verified and nodes differed, the walltime difference cannot be assigned to cold storage. The reversed-order result misses the predeclared threshold, so the team did not adopt the change."
       ],
       "tradeoff": {
         "observation": "First saving is 18.74%; reversed confirmation is 9.84%, below the 10% gate.",
@@ -539,17 +745,17 @@
         "conclusion": "Close without promotion after the confirmation misses the gate.",
         "unknown": "Cache state and node effects prevent cold-storage attribution."
       },
-      "script": "“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than promote its favorable first result.”",
+      "script": "“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than đưa vào cấu hình chính its favorable first result.”",
       "caution": "Do not report only the favorable first order. Unknown cache state limits causal interpretation.",
-      "transition": "“A separate question asks whether a local hardware ratio can forecast a nearby load.”"
+      "transition": "“A separate question asks whether a do nhóm tự chạy trên cluster được cấp hardware ratio can forecast a nearby load.”"
     },
     "vi": {
       "purpose": "Giải thích giá trị của việc đảo thứ tự thử và giữ ngưỡng chấp nhận đã đặt trước, thay vì chọn kết quả thuận lợi đầu tiên.",
-      "visual": "Hai cặp đầy đủ H100 cho thấy walltime off/read-first, mức tiết kiệm, thay đổi goodput và cổng chi phí định trước.",
+      "visual": "So sánh cặp thứ hai sau khi đảo điều kiện chạy trước. Mức tiết kiệm walltime 18,74% ở cặp đầu không lặp lại: cặp đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã định trước. Walltime scheduler gồm khởi động và dọn dẹp, nên khác với goodput ổn định.",
       "terms": [
         {
           "symbol": "Read-first",
-          "meaning": "Treatment startup đọc dữ liệu checkpoint prefill trước."
+          "meaning": "Đọc checkpoint prefill trước khi chạy dịch vụ đo để thử giả thuyết giảm chi phí startup."
         },
         {
           "symbol": "Walltime",
@@ -557,30 +763,46 @@
         },
         {
           "symbol": "Đảo thứ tự",
-          "meaning": "Phép xác nhận chạy hai arm theo thứ tự ngược."
+          "meaning": "Phép xác nhận chạy hai nhánh thử nghiệm theo thứ tự ngược."
         },
         {
-          "symbol": "Cổng chi phí",
+          "symbol": "Ngưỡng chi phí",
           "meaning": "Điều kiện định trước tiết kiệm walltime tối thiểu 10%."
         },
         {
           "symbol": "Thay đổi goodput",
           "meaning": "Chênh throughput đủ điều kiện so với control ghép cặp."
+        },
+        {
+          "symbol": "Walltime scheduler",
+          "meaning": "Thời gian allocation trôi qua gồm startup và cleanup; khác cửa sổ phục vụ 120 giây được tính điểm và khác goodput."
+        },
+        {
+          "symbol": "Cold prefix và cold OS cache",
+          "meaning": "Cold prefix nghĩa là tiền tố prompt chưa được tái sử dụng từ cache prefix/KV của model. Cold OS page cache nghĩa là dữ liệu tệp chưa có sẵn trong cache hệ điều hành. Thí nghiệm không xác nhận OS cache lạnh nên không thể khẳng định nguyên nhân là đọc lưu trữ lạnh."
+        },
+        {
+          "symbol": "Xác nhận đảo thứ tự",
+          "meaning": "Lặp cặp với thứ tự chạy ngược để xem chênh lệch đầu tiên có do thứ tự hoặc cache ấm không."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
-        "Cặp đầy đủ đầu: off/read-first 934/759 giây, tiết kiệm 18,74%, goodput −0,66%. Cặp xác nhận đảo thứ tự: 854/770 giây, tiết kiệm 9,84%, goodput −0,33%. Cổng định trước yêu cầu tiết kiệm ít nhất 10% và goodput giảm không quá 2%; phép xác nhận đạt điều kiện throughput nhưng trượt ngưỡng walltime nên không promote. Cache chưa rõ trạng thái và node khác nhau nên không thể quy nguyên nhân cho cold storage. Walltime là thời lượng scheduler, không phải throughput ổn định.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng."
+        "Cặp đầy đủ đầu: off/read-first 934/759 giây, tiết kiệm 18,74%, goodput −0,66%. Cặp xác nhận đảo thứ tự: 854/770 giây, tiết kiệm 9,84%, goodput −0,33%. Ngưỡng định trước yêu cầu tiết kiệm ít nhất 10% và goodput giảm không quá 2%; phép xác nhận đạt điều kiện throughput nhưng trượt ngưỡng walltime nên không đưa vào cấu hình chính. Cache chưa rõ trạng thái và node khác nhau nên không thể quy nguyên nhân cho cold storage. Walltime là thời lượng scheduler, không phải throughput ổn định.",
+        "Ý tưởng read-first liên quan việc nạp checkpoint prefill lúc khởi động. “Cold prefix” nói model có tái sử dụng mục cache tiền tố prompt/KV hay không; nó không mô tả cache tệp của hệ điều hành. OS cache lạnh nghĩa là các trang checkpoint phải được đọc từ lưu trữ thay vì cache bộ nhớ. Vì trạng thái cache chưa xác nhận và node khác nhau, không thể quy chênh lệch walltime cho lưu trữ lạnh. Kết quả đảo thứ tự không đạt ngưỡng định trước nên nhóm không áp dụng thay đổi."
       ],
       "tradeoff": {
-        "observation": "Lần đầu tiết kiệm 18,74%; xác nhận đảo thứ tự 9,84%, dưới cổng 10%.",
+        "observation": "Lần đầu tiết kiệm 18,74%; xác nhận đảo thứ tự 9,84%, dưới ngưỡng 10%.",
         "hypothesis": "Read-first có thể giảm walltime startup.",
-        "conclusion": "Đóng nhánh, không promote vì phép xác nhận trượt cổng.",
+        "conclusion": "Đóng nhánh, không đưa vào cấu hình chính vì phép xác nhận không đạt ngưỡng.",
         "unknown": "Cache và khác biệt node không cho phép quy cho cold storage."
       },
-      "script": "“Cặp đầu tiết kiệm 18,74%, nhưng đảo thứ tự chỉ còn 9,84%, thấp hơn cổng 10% đã công bố. Goodput chỉ đổi nhẹ. Vì phép xác nhận trượt ngưỡng, chúng tôi đóng nhánh thay vì promote kết quả thuận lợi đầu tiên.”",
+      "script": "“Cặp đầu tiết kiệm 18,74%, nhưng đảo thứ tự chỉ còn 9,84%, thấp hơn ngưỡng 10% đã công bố. Goodput chỉ đổi nhẹ. Vì phép xác nhận trượt ngưỡng, chúng tôi đóng nhánh thay vì đưa vào cấu hình chính kết quả thuận lợi đầu tiên.”",
       "caution": "Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải nhân quả bị giới hạn.",
-      "transition": "“Một câu hỏi riêng là liệu tỷ số phần cứng cục bộ dự báo được tải gần kề không.”"
+      "transition": "“Một câu hỏi riêng là liệu tỷ số phần cứng do nhóm tự chạy dự báo được tải gần kề không.”"
     }
   },
   {
@@ -588,7 +810,7 @@
     "title": "A local N52 calibration, not a universal multiplier",
     "en": {
       "purpose": "Define a limited, measured bridge between platforms and explain why it is not a universal H100-to-H200 conversion rule.",
-      "visual": "H100 and H200 full-protocol means at the same N52 combo produce a dimensionless observed ratio.",
+      "visual": "The ratio is H200 mean goodput divided by H100 mean goodput for one matched model/configuration at N52. Two and four allocations are repeated scheduled runs; they do not mean two and four different GPU models, nor prove that every allocation used unique hardware. This single ratio is a calibration point, not a conversion law.",
       "terms": [
         {
           "symbol": "N52",
@@ -609,13 +831,33 @@
         {
           "symbol": "Calibration point",
           "meaning": "One load/configuration, not a validated conversion curve."
+        },
+        {
+          "symbol": "Allocation means repeats, not independent hardware",
+          "meaning": "Two H100 and four H200 allocations are scheduled observations. The counts alone do not prove distinct machines, unique GPU devices, or general hardware diversity."
+        },
+        {
+          "symbol": "Ratio 1.188096805",
+          "meaning": "H200 mean 2,632.181 ÷ H100 mean 2,215.460 for this N52 combo. It has no unit and applies only to this comparison."
+        },
+        {
+          "symbol": "Calibration",
+          "meaning": "A measured reference point used to make one prospective estimate; not a validated conversion function across workloads."
+        },
+        {
+          "symbol": "Independent hardware",
+          "meaning": "Different accelerator type (H100 vs H200), not simply another scheduler allocation of the same type."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "H200/H100 observed system ratio is 1.188096805, dimensionless. It describes this measured point only. Repeats at one load do not define a conversion function or prediction interval, and the ratio must not be applied to TTFT, ITL, SLA or other backend branches. Allocation means scheduled resources, not independent hardware generations. Hypothesis: local calibration may inform a nearby held-out forecast. Conclusion: use it only as a scoped forecast input. Unknown: variation across loads/configurations and uncertainty.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
         "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
-        "The printed means are 2215.460 and 2632.181 good output tokens/s, summarized over two H100 and four H200 allocations respectively. The ratio 1.188096805 has no unit; locally it corresponds to about 18.81% higher observed system throughput, not 18.81 percentage points of SLA."
+        "The printed means are 2215.460 and 2632.181 good output tokens/s, summarized over two H100 and four H200 allocations respectively. The ratio 1.188096805 has no unit; locally it corresponds to about 18.81% higher observed system throughput, not 18.81 percentage points of SLA.",
+        "The two H100 and four H200 allocations are repetitions of scheduled runs. They are not evidence of two versus four distinct hardware units, nor of four independent hardware populations. “Independent hardware” here means a different accelerator family, H100 versus H200. Repeating at one load estimates that particular operating point more directly, but cannot establish a conversion function for other concurrency levels or backends."
       ],
       "tradeoff": {
         "observation": "N52 means yield a local H200/H100 ratio of 1.188096805.",
@@ -623,13 +865,13 @@
         "conclusion": "Treat it as a scoped ratio, not a hardware conversion rule.",
         "unknown": "Variation across loads, settings and latency metrics is unknown."
       },
-      "script": "“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a local system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”",
+      "script": "“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a do nhóm tự chạy trên cluster được cấp system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”",
       "caution": "This ratio applies only to the stated load and configuration; it is not a percentage or conversion for latency.",
-      "transition": "“We now check a forecast fixed before seeing held-out H200 data.”"
+      "transition": "“We now check a forecast fixed before seeing held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 data.”"
     },
     "vi": {
       "purpose": "Đặt một cầu nối đo được nhưng có phạm vi giữa hai hệ thống, và giải thích vì sao đây không phải quy tắc đổi mọi kết quả H100 sang H200.",
-      "visual": "Trung bình full protocol của H100 và H200 ở cùng combo N52 tạo thành một tỷ số quan sát không đơn vị.",
+      "visual": "Tỷ số là goodput trung bình H200 chia cho H100 với cùng model/cấu hình tại N52. Hai và bốn allocation là số lần chạy được scheduler cấp tài nguyên; không có nghĩa là có hai và bốn loại GPU khác nhau, cũng không chứng minh mọi allocation dùng phần cứng duy nhất. Một tỷ số này là điểm hiệu chuẩn, không phải quy luật quy đổi.",
       "terms": [
         {
           "symbol": "N52",
@@ -650,23 +892,43 @@
         {
           "symbol": "Điểm calibration",
           "meaning": "Một tải/cấu hình, không phải đường quy đổi đã xác thực."
+        },
+        {
+          "symbol": "Allocation là số lần chạy, không phải phần cứng độc lập",
+          "meaning": "Hai allocation H100 và bốn H200 là các lần chạy do scheduler cấp. Chỉ riêng số lượng không chứng minh máy riêng, GPU vật lý riêng hay đa dạng phần cứng."
+        },
+        {
+          "symbol": "Tỷ số 1,188096805",
+          "meaning": "Trung bình H200 2.632,181 ÷ H100 2.215,460 ở combo N52 này. Tỷ số không đơn vị và chỉ áp dụng cho phép so này."
+        },
+        {
+          "symbol": "Calibration",
+          "meaning": "Điểm tham chiếu được đo để lập một ước lượng cụ thể; không phải hàm quy đổi đã xác thực qua workload."
+        },
+        {
+          "symbol": "Phần cứng độc lập",
+          "meaning": "Loại accelerator khác nhau (H100 với H200), không chỉ là một allocation scheduler khác cùng loại."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
-        "Tỷ số H200/H100 quan sát là 1,188096805, không đơn vị. Nó chỉ mô tả điểm đo này. Lặp ở một tải không định nghĩa hàm quy đổi hay prediction interval; không áp dụng tỷ số cho TTFT, ITL, SLA hay nhánh backend khác. Allocation là lần phân bổ tài nguyên, không phải thế hệ phần cứng độc lập. Giả thuyết: calibration cục bộ có thể hỗ trợ dự báo held-out gần kề. Kết luận: chỉ dùng làm đầu vào dự báo có phạm vi. Chưa biết biến thiên theo tải/cấu hình và uncertainty.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
+        "Tỷ số H200/H100 quan sát là 1,188096805, không đơn vị. Nó chỉ mô tả điểm đo này. Lặp ở một tải không định nghĩa hàm quy đổi hay prediction interval; không áp dụng tỷ số cho TTFT, ITL, SLA hay nhánh backend khác. Allocation là lần phân bổ tài nguyên, không phải thế hệ phần cứng độc lập. Giả thuyết: calibration do nhóm tự chạy có thể hỗ trợ dự báo held-out (phép đo được giữ riêng để kiểm tra dự báo) gần kề. Kết luận: chỉ dùng làm đầu vào dự báo có phạm vi. Chưa biết biến thiên theo tải/cấu hình và uncertainty.",
         "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
-        "Hai trung bình in trên slide là 2.215,460 và 2.632,181 good output tokens/s, lần lượt từ hai lần cấp tài nguyên H100 và bốn lần H200. Tỷ số 1,188096805 không có đơn vị; tại điểm đo này nó tương ứng thông lượng hệ thống cao hơn khoảng 18,81%, không phải tăng 18,81 điểm phần trăm SLA."
+        "Hai trung bình in trên slide là 2.215,460 và 2.632,181 good output tokens/s, lần lượt từ hai lần cấp tài nguyên H100 và bốn lần H200. Tỷ số 1,188096805 không có đơn vị; tại điểm đo này nó tương ứng thông lượng hệ thống cao hơn khoảng 18,81%, không phải tăng 18,81 điểm phần trăm SLA.",
+        "Hai allocation H100 và bốn H200 là số lần lặp run được scheduler cấp. Chúng không chứng minh có hai so với bốn thiết bị phần cứng riêng, cũng không phải bốn quần thể phần cứng độc lập. “Phần cứng độc lập” ở đây nghĩa là họ accelerator khác nhau, H100 so với H200. Lặp tại một tải giúp mô tả điểm vận hành đó, nhưng không xác lập hàm quy đổi ở concurrency hay backend khác."
       ],
       "tradeoff": {
-        "observation": "Trung bình N52 cho tỷ số H200/H100 cục bộ 1,188096805.",
-        "hypothesis": "Calibration cục bộ có thể hỗ trợ điểm held-out gần kề.",
+        "observation": "Trung bình N52 cho tỷ số H200/H100 do nhóm tự chạy 1,188096805.",
+        "hypothesis": "Calibration do nhóm tự chạy có thể hỗ trợ điểm held-out (phép đo được giữ riêng để kiểm tra dự báo) gần kề.",
         "conclusion": "Xem là tỷ số giới hạn, không phải quy luật đổi phần cứng.",
         "unknown": "Biến thiên theo tải, settings và metric latency chưa biết."
       },
-      "script": "“Ở cùng combo N52, goodput H200 chia H100 là 1,1881. Đây là liên hệ hệ thống cục bộ, không phải hệ số quy đổi phổ quát. Slide sau kiểm tra một dự báo đã khóa tại N50.”",
+      "script": "“Ở cùng combo N52, goodput H200 chia H100 là 1,1881. Đây là liên hệ hệ thống do nhóm tự chạy, không phải hệ số quy đổi phổ quát. Slide sau kiểm tra một dự báo đã khóa tại N50.”",
       "caution": "Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần trăm hay hệ số đổi latency.",
-      "transition": "“Giờ kiểm tra dự báo được cố định trước khi thấy dữ liệu H200 held-out.”"
+      "transition": "“Giờ kiểm tra dự báo được cố định trước khi thấy dữ liệu H200 held-out (phép đo được giữ riêng để kiểm tra dự báo).”"
     }
   },
   {
@@ -674,15 +936,15 @@
     "title": "Freeze the forecast, then test it on H200",
     "en": {
       "purpose": "Show an honest forecast test: freeze the prediction, test a held-out point, and report both the operational pass and the missing uncertainty.",
-      "visual": "A prediction frozen before the result is compared with held-out H200 N50 measurement, signed error, and tolerance.",
+      "visual": "The forecast was recorded before the held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 result was examined. Its −1.5371% signed error is within the predeclared ±2% operational tolerance. The earlier sensitivity range varied selected inputs but omitted model error, so it was not a complete prediction-uncertainty interval; being outside it is a real limitation, not a reason to alter the frozen forecast.",
       "terms": [
         {
           "symbol": "Held-out",
-          "meaning": "Observation reserved for checking a frozen prediction."
+          "meaning": "A measurement kept out of calibration and revealed only after the prediction is written down; it tests transfer to a new observation."
         },
         {
           "symbol": "Signed error",
-          "meaning": "Relative difference; negative means measurement is below prediction."
+          "meaning": "(measured − predicted) relative to prediction; negative means measured goodput was lower."
         },
         {
           "symbol": "±2% tolerance",
@@ -690,18 +952,26 @@
         },
         {
           "symbol": "Sensitivity range",
-          "meaning": "Input variation range that omitted model error here."
+          "meaning": "Range from changing selected inputs. It is not total predictive uncertainty if it omits model error, run-to-run variation, or other unmodeled factors."
         },
         {
           "symbol": "N50",
           "meaning": "Client concurrency of this forecast check."
+        },
+        {
+          "symbol": "Operational tolerance",
+          "meaning": "A predeclared practical pass band of ±2%; it is not a 95% confidence interval or measurement error bar."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
-        "Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out pass supports only this local check, not broad predictive validity.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
+        "Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out (phép đo được giữ riêng để kiểm tra dự báo) pass supports only this do nhóm tự chạy trên cluster được cấp check, not broad predictive validity.",
         "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
-        "The minus sign means the measurement is below the forecast: 2601.629 versus 2642.244 good output tokens/s. The signed percentage is (measured − predicted) / predicted × 100; ± means a symmetric allowed tolerance, not a measurement error bar."
+        "The minus sign means the measurement is below the forecast: 2601.629 versus 2642.244 good output tokens/s. The signed percentage is (measured − predicted) / predicted × 100; ± means a symmetric allowed tolerance, not a measurement error bar.",
+        "The prediction is held out because the H200 N50 result was not used to calculate it. The ±2% band is an operational acceptance rule selected before the measurement. A sensitivity interval asks how a calculation changes as chosen inputs change; it becomes a prediction uncertainty interval only if it also represents important errors and variation. This earlier range omitted model error, so the held-out (phép đo được giữ riêng để kiểm tra dự báo) observation exposed a limitation even though it passed the practical tolerance."
       ],
       "tradeoff": {
         "observation": "Held-out error is −1.5371%, within ±2% but outside an incomplete sensitivity range.",
@@ -710,48 +980,56 @@
         "unknown": "Broader predictive accuracy and complete uncertainty are unknown."
       },
       "script": "“The forecast was frozen before the result. H200 measured 2,601.629 against 2,642.244 predicted, a −1.5371 percent error. That is within the predeclared operational tolerance, but outside an earlier incomplete sensitivity range. We keep both findings and do not refit.”",
-      "caution": "±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out data.",
+      "caution": "±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out (phép đo được giữ riêng để kiểm tra dự báo) data.",
       "transition": "“Next, we compare small source-guided hypotheses by complete outcome.”"
     },
     "vi": {
       "purpose": "Minh họa kiểm tra dự báo minh bạch: khóa dự báo trước, thử một điểm chưa dùng để hiệu chỉnh, rồi báo cả việc đạt dung sai lẫn phần bất định còn thiếu.",
-      "visual": "Dự báo được khóa trước kết quả được so với phép đo H200 N50 held-out, sai số có dấu và dung sai.",
+      "visual": "Dự báo được ghi lại trước khi xem kết quả H200 held-out (phép đo được giữ riêng để kiểm tra dự báo). Sai số có dấu −1,5371% nằm trong dung sai vận hành ±2% đã định trước. Sensitivity range trước đó chỉ thay đổi một số đầu vào và bỏ qua sai số mô hình, nên không phải khoảng bất định dự báo đầy đủ; việc kết quả nằm ngoài phạm vi ấy là hạn chế thật, không phải lý do để sửa dự báo đã khóa.",
       "terms": [
         {
           "symbol": "Held-out",
-          "meaning": "Quan sát để riêng kiểm tra dự báo đã khóa."
+          "meaning": "Phép đo không dùng để hiệu chuẩn, chỉ xem sau khi ghi dự báo; nó kiểm tra khả năng chuyển sang quan sát mới."
         },
         {
           "symbol": "Sai số có dấu",
-          "meaning": "Chênh lệch tương đối; âm nghĩa là đo thấp hơn dự báo."
+          "meaning": "(đo được − dự báo) chia theo dự báo; âm nghĩa là goodput đo được thấp hơn."
         },
         {
           "symbol": "Dung sai ±2%",
-          "meaning": "Cổng vận hành định trước, không phải khoảng tin cậy 95%."
+          "meaning": "Ngưỡng vận hành định trước, không phải khoảng tin cậy 95%."
         },
         {
           "symbol": "Sensitivity range",
-          "meaning": "Phạm vi biến thiên đầu vào trước đó, ở đây thiếu model error."
+          "meaning": "Khoảng tạo ra khi thay đổi một số đầu vào. Đây không phải tổng bất định dự báo nếu thiếu sai số mô hình, biến thiên giữa run hoặc yếu tố chưa mô hình hóa."
         },
         {
           "symbol": "N50",
           "meaning": "Concurrency client của phép kiểm tra dự báo."
+        },
+        {
+          "symbol": "Dung sai vận hành",
+          "meaning": "Khoảng đạt thực dụng ±2% đã định trước; không phải khoảng tin cậy 95% hay thanh sai số đo."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
-        "Job held-out 24272 đo 2.601,629; sai số có dấu −1,5371%, trong dung sai vận hành định trước ±2%. Kết quả nằm ngoài sensitivity range cũ vì phạm vi đó bỏ sót model error. Dung sai không phải khoảng tin cậy 95% hay thanh sai số đo. Không fit lại tỷ số sau khi thấy điểm này. Một phép held-out đạt chỉ hỗ trợ kiểm tra cục bộ, không chứng minh độ đúng dự báo rộng.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
+        "Job held-out (phép đo được giữ riêng để kiểm tra dự báo) 24272 đo 2.601,629; sai số có dấu −1,5371%, trong dung sai vận hành định trước ±2%. Kết quả nằm ngoài sensitivity range cũ vì phạm vi đó bỏ sót model error. Dung sai không phải khoảng tin cậy 95% hay thanh sai số đo. Không fit lại tỷ số sau khi thấy điểm này. Một phép held-out (phép đo được giữ riêng để kiểm tra dự báo) đạt chỉ hỗ trợ kiểm tra do nhóm tự chạy, không chứng minh độ đúng dự báo rộng.",
         "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
-        "Dấu âm nghĩa là phép đo thấp hơn dự báo: 2.601,629 so với 2.642,244 good output tokens/s. Sai số có dấu bằng (đo − dự báo) / dự báo × 100; ký hiệu ± là dung sai cho phép hai phía, không phải thanh sai số của phép đo."
+        "Dấu âm nghĩa là phép đo thấp hơn dự báo: 2.601,629 so với 2.642,244 good output tokens/s. Sai số có dấu bằng (đo − dự báo) / dự báo × 100; ký hiệu ± là dung sai cho phép hai phía, không phải thanh sai số của phép đo.",
+        "Dự báo được kiểm tra held-out (phép đo được giữ riêng để kiểm tra dự báo) vì kết quả H200 N50 không được dùng để tính nó. Khoảng ±2% là quy tắc chấp nhận vận hành chọn trước phép đo. Khoảng sensitivity hỏi phép tính đổi thế nào khi thay một số đầu vào; chỉ có thể gọi là khoảng bất định dự báo nếu nó còn phản ánh các sai số và biến thiên quan trọng. Phạm vi cũ bỏ qua sai số mô hình, nên quan sát held-out (phép đo được giữ riêng để kiểm tra dự báo) phát hiện hạn chế dù vẫn qua dung sai thực dụng."
       ],
       "tradeoff": {
-        "observation": "Sai số held-out −1,5371%, trong ±2% nhưng ngoài sensitivity range thiếu sót.",
+        "observation": "Sai số held-out (phép đo được giữ riêng để kiểm tra dự báo) −1,5371%, trong ±2% nhưng ngoài sensitivity range thiếu sót.",
         "hypothesis": "Calibration N52 có thể dự báo throughput N50 gần kề.",
-        "conclusion": "Một cổng cục bộ đạt; vẫn ghi rõ thiếu model error.",
+        "conclusion": "Một tiêu chí vận hành do nhóm áp dụng đạt; vẫn ghi rõ thiếu model error.",
         "unknown": "Độ chính xác rộng và uncertainty đầy đủ chưa biết."
       },
       "script": "“Dự báo được khóa trước khi có kết quả. H200 đo 2.601,629 so với 2.642,244 dự đoán, sai số −1,5371%. Kết quả trong dung sai vận hành định trước, nhưng ngoài sensitivity range cũ chưa đầy đủ. Chúng tôi giữ cả hai phát hiện và không fit lại.”",
-      "caution": "±2% là dung sai vận hành, không phải khoảng tin cậy. Không fit lại sau khi thấy held-out.",
+      "caution": "±2% là dung sai vận hành, không phải khoảng tin cậy. Không fit lại sau khi thấy held-out (phép đo được giữ riêng để kiểm tra dự báo).",
       "transition": "“Tiếp theo so sánh các giả thuyết nhỏ dựa trên source bằng outcome đầy đủ.”"
     }
   },
@@ -760,7 +1038,7 @@
     "title": "Use source evidence to test one small hypothesis",
     "en": {
       "purpose": "Show how source-based ideas are closed or retained after complete measured trials; plausible code paths and small gains are not enough for promotion.",
-      "visual": "Rows connect each source-guided hypothesis to the full observation and the retain-or-close decision.",
+      "visual": "For each row ask three questions: did source inspection predict a real code path, did runtime evidence confirm it was active, and did a full matched run improve the service enough to matter? The small percentages are separate experiments and must not be added together.",
       "terms": [
         {
           "symbol": "Source evidence",
@@ -772,7 +1050,7 @@
         },
         {
           "symbol": "p95 TTFT",
-          "meaning": "95th percentile first-token latency; a tail measure."
+          "meaning": "95th-percentile first-token latency; it can worsen even when the mean improves."
         },
         {
           "symbol": "Useful-gain gate",
@@ -781,25 +1059,41 @@
         {
           "symbol": "Prefill/decode",
           "meaning": "Prompt processing / autoregressive generation phases."
+        },
+        {
+          "symbol": "Source inspection",
+          "meaning": "Read the implementation to identify the branch that should execute; runtime evidence must then confirm the branch actually ran."
+        },
+        {
+          "symbol": "Exact token-ID preflight",
+          "meaning": "A correctness check that batching preserves the same token IDs before measuring speed."
+        },
+        {
+          "symbol": "Useful gain",
+          "meaning": "A predeclared minimum improvement needed to justify changing the serving configuration; a tiny positive number is not automatically useful."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "Source evidence and runtime activation establish what executed; they do not prove a bottleneck. Each decision relies on full matched outcomes and a useful-gain gate. p95 is the 95th percentile tail, not a mean. Do not add percentages across branches.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series."
+        "Source inspection and runtime confirmation answer whether the intended implementation was used; the full matched run answers whether it helped. These are separate evidence steps. A small positive change may be noise or too small to matter, and a metric improvement can coexist with a worse tail or lower goodput. This is why the table retains negative and below-threshold branches instead of accumulating headline gains."
       ],
       "tradeoff": {
         "observation": "Small gains fail the useful-gain threshold; cache tail or attention goodput worsens.",
         "hypothesis": "Source-supported settings may improve a service metric.",
-        "conclusion": "Promote only an activated matched change with useful full-run gain.",
+        "conclusion": "Adopt in the main configuration only an activated matched change with useful full-run gain.",
         "unknown": "A shared bottleneck or cross-setting effect is not established."
       },
-      "script": "“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not promoted; a better ITL that costs 6.39 percent goodput is also not a win.”",
+      "script": "“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not đưa vào cấu hình chínhd; a better ITL that costs 6.39 percent goodput is also not a win.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“Service latency and model accuracy are separate acceptance questions.”"
     },
     "vi": {
       "purpose": "Giải thích cách giữ hoặc đóng ý tưởng có cơ sở từ source sau phép đo đầy đủ; đường code hợp lý hay mức tăng nhỏ chưa đủ để đưa vào cấu hình chính.",
-      "visual": "Các hàng nối từng giả thuyết dựa trên source với quan sát đầy đủ và quyết định giữ hay đóng.",
+      "visual": "Với mỗi hàng, hỏi ba điều: kiểm tra source có dự đoán đúng đường code không, bằng chứng runtime có xác nhận đường đó đang hoạt động không, và run đầy đủ ghép cặp có cải thiện dịch vụ đủ đáng kể không? Các tỷ lệ nhỏ thuộc những thí nghiệm riêng, không được cộng dồn.",
       "terms": [
         {
           "symbol": "Bằng chứng source",
@@ -811,28 +1105,44 @@
         },
         {
           "symbol": "p95 TTFT",
-          "meaning": "Phân vị 95 TTFT; thước đo phần đuôi."
+          "meaning": "Phân vị 95 của thời gian token đầu; có thể xấu hơn dù trung bình cải thiện."
         },
         {
-          "symbol": "Cổng useful-gain",
-          "meaning": "Ngưỡng định trước để promote."
+          "symbol": "Ngưỡng mức tăng hữu ích",
+          "meaning": "Ngưỡng định trước để đưa vào cấu hình chính."
         },
         {
           "symbol": "Prefill/decode",
           "meaning": "Xử lý prompt / sinh token tự hồi quy."
+        },
+        {
+          "symbol": "Kiểm tra source",
+          "meaning": "Đọc phần cài đặt để biết nhánh code dự kiến chạy; bằng chứng runtime phải xác nhận nhánh đó thực sự hoạt động."
+        },
+        {
+          "symbol": "Kiểm tra trước exact token ID",
+          "meaning": "Kiểm tra tính đúng: batching phải giữ nguyên token ID trước khi đo tốc độ."
+        },
+        {
+          "symbol": "Mức tăng hữu ích",
+          "meaning": "Mức cải thiện tối thiểu đặt trước để đáng đổi cấu hình phục vụ; số dương rất nhỏ chưa chắc hữu ích."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
         "Source và runtime activation xác nhận code path chạy, không chứng minh bottleneck. Mỗi quyết định dựa trên kết quả full có control và ngưỡng useful-gain. p95 là đuôi phân vị 95, không phải trung bình. Không cộng phần trăm giữa các nhánh.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng."
+        "Kiểm tra source và xác nhận runtime trả lời implementation dự định có được dùng không; run đầy đủ ghép cặp trả lời nó có giúp ích không. Đây là các bước bằng chứng riêng. Thay đổi dương nhỏ có thể nằm trong biến thiên hoặc quá nhỏ để hữu ích; một metric tốt hơn vẫn có thể đi cùng phần đuôi xấu hơn hay goodput thấp hơn. Vì vậy bảng giữ cả nhánh âm và dưới ngưỡng thay vì cộng dồn các gain nổi bật."
       ],
       "tradeoff": {
         "observation": "Gain nhỏ không đạt ngưỡng; tail cache hoặc goodput attention xấu hơn.",
         "hypothesis": "Settings có cơ sở source có thể cải thiện một metric dịch vụ.",
-        "conclusion": "Chỉ promote thay đổi đã kích hoạt, ghép cặp và có gain đầy đủ hữu ích.",
+        "conclusion": "Chỉ đưa vào cấu hình chính thay đổi đã kích hoạt, ghép cặp và có gain đầy đủ hữu ích.",
         "unknown": "Chưa xác lập bottleneck chung hay hiệu ứng ở cấu hình khác."
       },
-      "script": "“Flag chạy được mới chỉ là khởi đầu. Chúng tôi xác nhận activation, chạy protocol đầy đủ và so với control. Gain nhỏ dưới ngưỡng không được promote; ITL tốt hơn nhưng mất 6,39% goodput cũng không phải cải thiện.”",
+      "script": "“Flag chạy được mới chỉ là khởi đầu. Chúng tôi xác nhận activation, chạy protocol đầy đủ và so với control. Gain nhỏ dưới ngưỡng không được đưa vào cấu hình chính; ITL tốt hơn nhưng mất 6,39% goodput cũng không phải cải thiện.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Latency dịch vụ và độ chính xác model là hai câu hỏi chấp nhận riêng.”"
     }
@@ -842,7 +1152,7 @@
     "title": "Latency acceptance is separate from model accuracy",
     "en": {
       "purpose": "Separate fast service from correct model behavior: local sanity checks and latency acceptance cannot certify the official full-set quality gate.",
-      "visual": "Three evidence bands separate service latency acceptance, small local sanity checks, and unverified official model quality.",
+      "visual": "Latency acceptance asks how quickly requests are served; model quality asks whether answers meet the organiser's reference score. The 7/8 smoke and 12/12 retrieval checks are small team-run regression checks, not the official full-set accuracy evaluation. Passing the latency gate cannot establish the required score of at least 99% of reference.",
       "terms": [
         {
           "symbol": "SLA",
@@ -863,11 +1173,35 @@
         {
           "symbol": "FP8/BF16",
           "meaning": "FP8 weights; BF16 activation and KV cache formats."
+        },
+        {
+          "symbol": "Service performance",
+          "meaning": "Measures speed/latency and request acceptance; it says nothing by itself about semantic correctness."
+        },
+        {
+          "symbol": "Official model quality",
+          "meaning": "Separate organiser evaluation comparing model answers with a reference on the prescribed full test set; the requirement here is at least 99% of reference."
+        },
+        {
+          "symbol": "Smoke / retrieval checks",
+          "meaning": "Small team-run checks for regression and retrieval behavior, not a substitute for the official quality test."
+        },
+        {
+          "symbol": "FP8 weights, BF16 activation/KV",
+          "meaning": "Weight precision differs from activation and KV-cache precision; these labels describe numerical formats, not quality scores."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
+        },
+        {
+          "symbol": "Team-run sanity checks",
+          "meaning": "Small checks run by the team on the assigned environment to look for regressions; they are not the organiser’s prescribed full-set quality evaluation."
         }
       ],
       "reading": [
         "Local smoke is 7/8 with no new regression; retrieval is 12/12. These small local checks do not certify the official quality requirement of at least 99% of reference. The primary retains FP8 weights and BF16 activation/KV; it does not use quantized KV or speculative decoding. Terms: SLA is service-level latency acceptance; reference is organiser's quality comparator. Conclusion: report service performance separately, and leave official quality explicitly unverified.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series."
+        "The latency result is a performance result: it measures request service time and pass fraction. The 99%-of-reference requirement is a quality result: it compares generated answers with the organiser's specified reference evaluation. Smoke and retrieval suites check a limited set of regressions; they do not estimate the full-set quality score. Those checks therefore support “no detected do nhóm tự chạy trên cluster được cấp regression,” not “official accuracy passed.”"
       ],
       "tradeoff": {
         "observation": "Latency SLA and small local checks pass; official model quality is unverified.",
@@ -875,13 +1209,13 @@
         "conclusion": "Report latency and official quality as separate outcomes.",
         "unknown": "The 99%-of-reference full-set threshold remains unverified."
       },
-      "script": "“The service meets its local latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”",
+      "script": "“The service meets its do nhóm tự chạy trên cluster được cấp latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”",
       "caution": "Smoke and retrieval checks are not full accuracy certification.",
       "transition": "“The EAGLE3 case shows how failed hypotheses and repaired tools should be reported.”"
     },
     "vi": {
       "purpose": "Tách dịch vụ nhanh khỏi chất lượng trả lời đúng: sanity check nhỏ và việc đạt độ trễ không chứng nhận yêu cầu chất lượng chính thức trên bộ đánh giá đầy đủ.",
-      "visual": "Ba dải bằng chứng tách chấp nhận latency dịch vụ, sanity check cục bộ nhỏ và chất lượng model official chưa xác minh.",
+      "visual": "Chấp nhận latency hỏi request được phục vụ nhanh đến đâu; chất lượng model hỏi câu trả lời đạt điểm reference của ban tổ chức hay không. Smoke 7/8 và retrieval 12/12 là kiểm tra regression nhỏ do nhóm chạy, không phải đánh giá accuracy official trên toàn bộ tập. Đạt ngưỡng latency không chứng minh đạt tối thiểu 99% điểm reference.",
       "terms": [
         {
           "symbol": "SLA",
@@ -893,7 +1227,7 @@
         },
         {
           "symbol": "Retrieval",
-          "meaning": "Sanity check retrieval cục bộ, không phải benchmark quality official."
+          "meaning": "Sanity check retrieval do nhóm tự chạy, không phải benchmark quality official."
         },
         {
           "symbol": "99% reference",
@@ -902,11 +1236,35 @@
         {
           "symbol": "FP8/BF16",
           "meaning": "Trọng số FP8; activation và KV cache BF16."
+        },
+        {
+          "symbol": "Hiệu năng dịch vụ",
+          "meaning": "Đo tốc độ/độ trễ và tỷ lệ request đạt; tự nó không nói câu trả lời đúng về nghĩa hay không."
+        },
+        {
+          "symbol": "Chất lượng model official",
+          "meaning": "Đánh giá riêng của ban tổ chức, so câu trả lời với reference trên tập kiểm tra đầy đủ quy định; yêu cầu ở đây là ít nhất 99% reference."
+        },
+        {
+          "symbol": "Smoke / retrieval check",
+          "meaning": "Kiểm tra nhỏ do nhóm tự chạy về regression và retrieval; không thay thế bài kiểm tra quality official."
+        },
+        {
+          "symbol": "Trọng số FP8, activation/KV BF16",
+          "meaning": "Định dạng trọng số khác định dạng activation và KV cache; đây là định dạng số, không phải điểm chất lượng."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
+        },
+        {
+          "symbol": "Sanity check do nhóm tự chạy",
+          "meaning": "Một số kiểm tra nhỏ do nhóm chạy trên môi trường được cấp để tìm regression; đây không phải đánh giá chất lượng full-set theo quy trình của ban tổ chức."
         }
       ],
       "reading": [
-        "Smoke cục bộ là 7/8, không regression mới; retrieval là 12/12. Các kiểm tra nhỏ này không chứng nhận yêu cầu chất lượng official tối thiểu 99% reference. Primary giữ trọng số FP8 và activation/KV BF16; không dùng KV lượng tử hóa hay speculative decoding. SLA là chấp nhận latency dịch vụ; reference là chuẩn so chất lượng của organiser. Kết luận: báo riêng hiệu năng dịch vụ và ghi rõ quality official chưa xác minh.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng."
+        "Smoke do nhóm tự chạy là 7/8, không regression mới; retrieval là 12/12. Các kiểm tra nhỏ này không chứng nhận yêu cầu chất lượng official tối thiểu 99% reference. Primary giữ trọng số FP8 và activation/KV BF16; không dùng KV lượng tử hóa hay speculative decoding. SLA là chấp nhận latency dịch vụ; reference là chuẩn so chất lượng của organiser. Kết luận: báo riêng hiệu năng dịch vụ và ghi rõ quality official chưa xác minh.",
+        "Kết quả latency là kết quả hiệu năng: đo thời gian phục vụ request và tỷ lệ đạt giới hạn. Yêu cầu 99% reference là kết quả chất lượng: so câu trả lời sinh ra với bài đánh giá reference do ban tổ chức chỉ định. Smoke và retrieval kiểm tra số trường hợp hạn chế, không ước lượng điểm quality toàn tập. Vì vậy chúng chỉ hỗ trợ kết luận “không phát hiện regression trong bộ kiểm tra nhỏ”, không phải “đã đạt accuracy official”."
       ],
       "tradeoff": {
         "observation": "SLA latency và sanity check nhỏ đạt; chất lượng model official chưa xác minh.",
@@ -914,7 +1272,7 @@
         "conclusion": "Báo latency và quality official như hai kết quả riêng.",
         "unknown": "Ngưỡng full-set 99% reference vẫn chưa xác minh."
       },
-      "script": "“Dịch vụ đạt ngưỡng latency cục bộ, các sanity check nhỏ không có regression mới. Đánh giá chất lượng official ở mức 99% reference chưa được xác minh, nên chúng tôi không tuyên bố chứng nhận hay ranking.”",
+      "script": "“Dịch vụ đạt ngưỡng latency do nhóm tự chạy, các sanity check nhỏ không có regression mới. Đánh giá chất lượng official ở mức 99% reference chưa được xác minh, nên chúng tôi không tuyên bố chứng nhận hay ranking.”",
       "caution": "Smoke và retrieval không phải chứng nhận accuracy đầy đủ.",
       "transition": "“Case EAGLE3 cho thấy cần báo cáo giả thuyết thất bại và công cụ được sửa như thế nào.”"
     }
@@ -924,7 +1282,7 @@
     "title": "EAGLE3: follow the failed hypothesis through its repairs",
     "en": {
       "purpose": "Preserve the entire speculative-decoding failure-and-repair chain, and explain why fixing integration did not establish a speedup.",
-      "visual": "Four chronological EAGLE3 stages show placement failure, validator error and repair, short retry, and full trial.",
+      "visual": "Follow the chronology. First, placing draft workers everywhere misses the joint latency gate. Next, a validator mistakenly demands draft KV regions on target-only prefill; repairing that checker allows a valid retry but does not change the performance. The short retry and later full trial both lose goodput, so the tested variants are closed.",
       "terms": [
         {
           "symbol": "EAGLE3",
@@ -945,11 +1303,31 @@
         {
           "symbol": "Full protocol",
           "meaning": "Complete fixed workload, warmup, score window and grace period."
+        },
+        {
+          "symbol": "EAGLE3 speculative decoding",
+          "meaning": "A draft model proposes tokens; the target model verifies them. Correct draft transfer is a functional result, not proof of faster end-to-end serving."
+        },
+        {
+          "symbol": "Role-aware validator",
+          "meaning": "The check must apply draft-KV expectations only to worker roles that actually host the draft. Target-only prefill has no draft KV region."
+        },
+        {
+          "symbol": "Short vs full run",
+          "meaning": "A short pass establishes limited execution behavior; the full fixed-workload run is required to compare serving goodput."
+        },
+        {
+          "symbol": "Goodput loss",
+          "meaning": "A lower qualifying output-token rate versus the matched target-only control."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
         }
       ],
       "reading": [
         "Decode-only attempt 25988 is rejected by a validator incorrectly applying draft KV-region counts to target-only prefill. A role-aware validator repair preserves the old failure. Short retry 25998 passes its limited protocol but loses 4.74% goodput against its target-only control. Separate shallow full trial 27238 scores 2,971.628430 versus 3,034.761104 for control 26949, a 2.080318% loss. Functional draft transfer is not speedup; low acceptance telemetry is not a causal timing breakdown. Terms: EAGLE3 speculative decoding; KV key/value cache; full protocol complete workload; short protocol limited test. Conclusion: close tested arms while retaining failure and repair history. Unknown: other configs and official quality.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series."
+        "The validator failure was a tooling/interface mistake, not evidence that the model itself failed. The repaired validator applies checks by worker role: target-only prefill should not be required to own draft KV. After that correction, the short decode-only rerun loses 4.74% goodput, and the later full shallow run loses 2.080318%. Functional speculative token transfer and passing a short run do not justify a serving change when complete goodput is lower."
       ],
       "tradeoff": {
         "observation": "Repaired checks permit reruns; decode-only and shallow variants lose goodput.",
@@ -959,11 +1337,11 @@
       },
       "script": "“The first attempt missed latency. A tooling bug then rejected a decode-only run; we repaired the validator and kept the original failure. The short retry ran but lost goodput, and a distinct full trial also lost. These tested settings close; we do not claim the method can never help.”",
       "caution": "Do not erase the validator failure or confuse short and full protocols.",
-      "transition": "“The summary returns to replicated N64 and the small unpromoted cache result.”"
+      "transition": "“The summary returns to replicated N64 and the small unđưa vào cấu hình chínhd cache result.”"
     },
     "vi": {
       "purpose": "Giữ toàn bộ chuỗi lỗi và sửa của speculative decoding, rồi giải thích vì sao sửa được tích hợp vẫn chưa chứng minh có tăng tốc.",
-      "visual": "Bốn giai đoạn EAGLE3 theo thời gian cho thấy lỗi vị trí draft, lỗi validator và cách sửa, retry ngắn và run đầy đủ.",
+      "visual": "Theo dõi đúng trình tự. Đầu tiên, đặt draft worker ở mọi nơi làm trượt ngưỡng latency kết hợp. Sau đó validator nhầm lẫn yêu cầu vùng KV của draft trên prefill chỉ chạy target; sửa bộ kiểm tra cho phép retry hợp lệ nhưng không làm hiệu năng thay đổi. Cả retry ngắn lẫn run đầy đủ sau đó đều giảm goodput, nên các cấu hình đã thử được dừng thử nghiệm.",
       "terms": [
         {
           "symbol": "EAGLE3",
@@ -983,12 +1361,32 @@
         },
         {
           "symbol": "Protocol đầy đủ",
-          "meaning": "Workload, warmup, cửa sổ đo và grace hoàn chỉnh."
+          "meaning": "Workload, wnhánh thử nghiệmup, cửa sổ đo và grace hoàn chỉnh."
+        },
+        {
+          "symbol": "Speculative decoding EAGLE3",
+          "meaning": "Model draft đề xuất token; model target xác minh. Truyền draft đúng là kết quả chức năng, không chứng minh dịch vụ đầu-cuối nhanh hơn."
+        },
+        {
+          "symbol": "Validator nhận biết role",
+          "meaning": "Bộ kiểm tra chỉ đòi KV draft ở role worker thực sự chạy draft. Prefill chỉ chạy target không có vùng KV draft."
+        },
+        {
+          "symbol": "Run ngắn và run đầy đủ",
+          "meaning": "Pass ngắn chỉ xác nhận hành vi giới hạn; cần run workload cố định đầy đủ để so goodput dịch vụ."
+        },
+        {
+          "symbol": "Mất goodput",
+          "meaning": "Tốc độ output token đủ điều kiện thấp hơn control target-only ghép cặp."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
         }
       ],
       "reading": [
-        "Thử nghiệm decode-only 25988 bị validator từ chối sai vì áp số KV region của draft lên prefill target-only. Sửa validator theo role nhưng vẫn giữ lỗi cũ. Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only. Thử nghiệm shallow full riêng 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Truyền draft chức năng không đồng nghĩa tăng tốc; telemetry acceptance thấp không phải phân tích thời gian nhân quả. EAGLE3 là speculative decoding; KV là key/value cache; full protocol là workload hoàn chỉnh; short protocol là phép thử giới hạn. Kết luận: đóng các arm đã đo và giữ lịch sử lỗi/sửa. Chưa biết cấu hình khác và quality official.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng."
+        "Thử nghiệm decode-only 25988 bị validator từ chối sai vì áp số KV region của draft lên prefill target-only. Sửa validator theo role nhưng vẫn giữ lỗi cũ. Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only. Thử nghiệm shallow full riêng 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Truyền draft chức năng không đồng nghĩa tăng tốc; telemetry acceptance thấp không phải phân tích thời gian nhân quả. EAGLE3 là speculative decoding; KV là key/value cache; full protocol là workload hoàn chỉnh; short protocol là phép thử giới hạn. Kết luận: đóng các nhánh thử nghiệm đã đo và giữ lịch sử lỗi/sửa. Chưa biết cấu hình khác và quality official.",
+        "Lỗi validator là sai sót ở công cụ/giao diện, không phải bằng chứng model tự lỗi. Validator sau sửa áp kiểm tra theo vai trò worker: prefill chỉ chạy target không bị yêu cầu sở hữu KV draft. Sau sửa, retry decode-only ngắn mất 4,74% goodput; run shallow đầy đủ sau đó mất 2,080318%. Truyền speculative token đúng chức năng và pass run ngắn không đủ để đổi cấu hình phục vụ khi goodput đầy đủ thấp hơn."
       ],
       "tradeoff": {
         "observation": "Sửa check cho phép chạy lại; nhánh decode-only và shallow đều mất goodput.",
@@ -998,7 +1396,7 @@
       },
       "script": "“Lần đầu trượt latency. Một lỗi tooling sau đó từ chối lần decode-only; chúng tôi sửa validator nhưng giữ lỗi cũ. Retry ngắn chạy nhưng mất goodput, thử nghiệm full riêng cũng giảm. Các settings đã thử được đóng; không kết luận phương pháp này không bao giờ hữu ích.”",
       "caution": "Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.",
-      "transition": "“Tổng kết quay lại N64 được lặp lại và kết quả cache nhỏ không được promote.”"
+      "transition": "“Tổng kết quay lại N64 được lặp lại và kết quả cache nhỏ không được đưa vào cấu hình chính.”"
     }
   },
   {
@@ -1006,7 +1404,7 @@
     "title": "Topology → transport → kernels → replication",
     "en": {
       "purpose": "Close the main AI talk with the replicated configuration and the limits of its evidence, instead of choosing an isolated peak.",
-      "visual": "The replicated historical N64 mean is contrasted with the small cache gain and a separately reported native-runtime run.",
+      "visual": "The selected reference is the mean of three historical full N64 runs. The later native-runtime run is a separate measurement because it used a different server execution environment; do not pool the values as if they were one controlled series. The cache candidate is the numerical high, but its 0.240921% gain is below the declared useful-gain threshold.",
       "terms": [
         {
           "symbol": "Three-run mean",
@@ -1014,7 +1412,7 @@
         },
         {
           "symbol": "Native runtime",
-          "meaning": "Separate runtime path used by job 26766."
+          "meaning": "Job 26766 uses the native server execution environment, separate from the historical runtime path. Runtime means software stack that launches/executes the serving server, not GPU hardware."
         },
         {
           "symbol": "Cache pair",
@@ -1027,26 +1425,46 @@
         {
           "symbol": "Official quality",
           "meaning": "Full-set accuracy requirement, not verified here."
+        },
+        {
+          "symbol": "Historical N64 series",
+          "meaning": "Three full runs 25366/25373/25487 average 3,044.400475 good output tokens/s."
+        },
+        {
+          "symbol": "Fresh cache control",
+          "meaning": "Job 27376 compared with candidate 27378; the +0.240921% score difference is below the useful-gain threshold."
+        },
+        {
+          "symbol": "Team-reviewed run",
+          "meaning": "A run executed by the team on the assigned organiser cluster and checked against local raw-output/runtime gates. This is not an organiser-issued ranking or quality certification."
+        },
+        {
+          "symbol": "Full protocol 60/120/30",
+          "meaning": "For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored."
+        },
+        {
+          "symbol": "Team-run and team-reviewed",
+          "meaning": "The team submitted and inspected the run on the assigned organiser cluster. “Reviewed” means checking retained raw request results, runtime and required gates; it is not organiser certification, a contest ranking, or a claim that the run was on a personal machine."
         }
       ],
       "reading": [
         "Later native-runtime job 26766 independently reaches 3,045.501509 and 98.580442% joint SLA; keep it separate because runtime path differs. Highest full cache result 27378 reaches 3,048.446289, only +0.240921% over fresh control 27376, below useful-gain gate. Lower valid replays around 2,802–2,831 remain retained. Replication supports choosing N64, not a global optimum. No speculative speedup, official quality certificate, or causal native-runtime speedup is claimed.",
-        "There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.",
-        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide."
+        "Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.",
+        "The historical mean and the native-runtime score are both team-run, fully reviewed measurements on the assigned accelerator cluster; “reviewed” means raw request/runtime checks were inspected, not that the organiser certified a ranking or quality score. The native runtime is the software execution environment, not a new GPU generation. Keep its 3,045.501509 separate from the three-run historical mean because the runtime paths differ. A numerically higher cache result is not selected when its gain is below the predeclared useful-change threshold."
       ],
       "tradeoff": {
         "observation": "Historical N64 mean is replicated; cache point gains 0.240921%; native path is separate.",
         "hypothesis": "A reproduced point is a safer selection basis than isolated peak.",
-        "conclusion": "Retain N64; do not promote the small cache gain.",
+        "conclusion": "Retain N64; do not select for the main configuration the small cache gain.",
         "unknown": "Global optimum, official quality and causal runtime differences are unknown."
       },
-      "script": "“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not promoted. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”",
+      "script": "“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not đưa vào cấu hình chínhd. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”",
       "caution": "Keep units and configuration attached; do not state a hypothesis as a measured cause.",
       "transition": "“The next section changes topic to the HPC CPU/OpenFOAM study.”"
     },
     "vi": {
       "purpose": "Kết phần AI chính bằng cấu hình có bằng chứng lặp lại và giới hạn của kết luận, thay vì chọn một đỉnh điểm riêng lẻ.",
-      "visual": "Trung bình N64 lịch sử được lặp lại đặt cạnh gain cache nhỏ và một run native-runtime được báo riêng.",
+      "visual": "Mốc được chọn là trung bình của ba run N64 lịch sử đầy đủ. Run native-runtime sau đó là phép đo riêng vì dùng môi trường thực thi server khác; không gộp hai nhóm như thể chúng thuộc cùng một chuỗi kiểm soát. Candidate cache có số cao nhất, nhưng gain 0,240921% thấp hơn ngưỡng lợi ích đã đặt ra.",
       "terms": [
         {
           "symbol": "Trung bình ba run",
@@ -1054,7 +1472,7 @@
         },
         {
           "symbol": "Native runtime",
-          "meaning": "Đường runtime riêng của job 26766."
+          "meaning": "Job 26766 dùng môi trường thực thi server native, khác runtime lịch sử. Runtime là stack phần mềm khởi chạy/chạy server, không phải phần cứng GPU."
         },
         {
           "symbol": "Cặp cache",
@@ -1062,25 +1480,45 @@
         },
         {
           "symbol": "+0,240921%",
-          "meaning": "Gain candidate, thấp hơn cổng useful-gain định trước."
+          "meaning": "Gain candidate, thấp hơn ngưỡng lợi ích hữu ích định trước."
         },
         {
           "symbol": "Quality official",
           "meaning": "Yêu cầu accuracy full-set, chưa xác minh ở đây."
+        },
+        {
+          "symbol": "Chuỗi N64 lịch sử",
+          "meaning": "Ba run đầy đủ 25366/25373/25487 trung bình 3.044,400475 good output tokens/s."
+        },
+        {
+          "symbol": "Control cache mới",
+          "meaning": "Job 27376 so với candidate 27378; chênh điểm +0,240921% thấp hơn ngưỡng lợi ích hữu ích."
+        },
+        {
+          "symbol": "Run do nhóm review",
+          "meaning": "Run do nhóm chạy trên cluster được cấp và kiểm tra bằng raw output/runtime gate nội bộ. Đây không phải ranking hay chứng nhận quality do ban tổ chức cấp."
+        },
+        {
+          "symbol": "Protocol đầy đủ 60/120/30",
+          "meaning": "Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm."
+        },
+        {
+          "symbol": "Do nhóm chạy và review",
+          "meaning": "Nhóm chạy phép đo trên cluster được cấp và kiểm tra raw request, runtime cùng các điều kiện bắt buộc. “Review” không phải chứng nhận của ban tổ chức, ranking contest, hay chạy trên máy cá nhân."
         }
       ],
       "reading": [
         "Job native-runtime sau đó 26766 đạt độc lập 3.045,501509 và SLA đồng thời 98,580442%; cần báo riêng vì runtime path khác. Kết quả cache full cao nhất 27378 đạt 3.048,446289, chỉ +0,240921% so với control mới 27376, dưới ngưỡng useful-gain. Các replay hợp lệ thấp hơn quanh 2.802–2.831 vẫn được lưu. Lặp lại hỗ trợ chọn N64, không chứng minh optimum toàn cục. Không tuyên bố speculative speedup, chứng nhận quality official hay speedup nhân quả của native runtime.",
-        "Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.",
-        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide."
+        "Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.",
+        "Trung bình lịch sử và điểm native-runtime đều là phép đo nhóm chạy, đã review đầy đủ trên cluster accelerator được cấp; “review” nghĩa raw request và runtime đã được kiểm tra, không phải ban tổ chức chứng nhận thứ hạng hay quality. Native runtime là môi trường phần mềm thực thi, không phải thế hệ GPU mới. Giữ số 3.045,501509 riêng với trung bình lịch sử ba run vì runtime path khác nhau. Không chọn kết quả cache cao hơn về số học khi gain dưới ngưỡng thay đổi hữu ích đã định trước."
       ],
       "tradeoff": {
         "observation": "Trung bình N64 lịch sử được lặp; cache tăng 0,240921%; runtime native báo riêng.",
         "hypothesis": "Điểm được lặp lại đáng chọn hơn một đỉnh đơn độc.",
-        "conclusion": "Giữ N64; không promote gain cache nhỏ.",
+        "conclusion": "Giữ N64; không đưa vào cấu hình chính gain cache nhỏ.",
         "unknown": "Optimum toàn cục, quality official và khác biệt runtime nhân quả chưa biết."
       },
-      "script": "“Điểm được chọn là trung bình N64 lịch sử đã lặp lại. Kết quả native sau đó tương tự nhưng báo riêng. Đỉnh cache chỉ hơn control 0,24% nên không promote. Chúng tôi giữ cả run thấp hợp lệ. Đây là operating point đo được, không phải optimum toàn cục; quality official vẫn cần xác minh.”",
+      "script": "“Điểm được chọn là trung bình N64 lịch sử đã lặp lại. Kết quả native sau đó tương tự nhưng báo riêng. Đỉnh cache chỉ hơn control 0,24% nên không đưa vào cấu hình chính. Chúng tôi giữ cả run thấp hợp lệ. Đây là operating point đo được, không phải optimum toàn cục; quality official vẫn cần xác minh.”",
       "caution": "Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên nhân đã đo.",
       "transition": "“Phần tiếp theo đổi chủ đề sang nghiên cứu HPC CPU/OpenFOAM.”"
     }

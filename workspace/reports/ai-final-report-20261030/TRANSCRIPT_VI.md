@@ -2,7 +2,7 @@
 
 Đây là **lời thuyết trình mẫu và tài liệu học**, không phải bản chép lại một buổi nói đã diễn ra. Tài liệu đi theo đúng 40 slide của bản trình chiếu hiện tại. Bản tiếng Việt được tạo theo yêu cầu riêng của bạn; mã nguồn và các báo cáo khác vẫn dùng tiếng Anh.
 
-**Cách dùng:** mở slide, đọc phần “Slide muốn nói gì”, nhìn hình theo “Cách đọc”, rồi luyện phần “Lời nói mẫu”. Các phần còn lại giúp chuẩn bị trả lời câu hỏi. Không cần đọc toàn bộ hướng dẫn thành tiếng. Hãy dùng “chúng tôi quan sát”, “giả thuyết của chúng tôi”, và “chưa xác định được” đúng với mức bằng chứng.
+**Cách dùng:** đọc phần “Slide muốn nói gì” và “Giải thích kết quả và lập luận”, sau đó luyện phần “Lời nói mẫu”. Các phần thuật ngữ và bằng chứng giúp trả lời câu hỏi tại sao. Đây là tài liệu giải thích kỹ thuật, không phải lời đọc bố cục slide. Không cần đọc toàn bộ hướng dẫn thành tiếng.
 
 - **Slide 1–24:** phần AI chính. Dùng [kế hoạch 15–20 phút](PRESENTATION_PLAN.md); không đọc hết 24 lời nói mẫu nếu vượt thời gian.
 - **Slide 25–32:** phần AI dự phòng khi được hỏi. Slide 31–32 vẫn thuộc nhóm dự phòng dù tiêu đề không có chữ Appendix.
@@ -13,10 +13,32 @@
 
 Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `b2e1c88aba8d5a3d5ec181e3fccc6b95bb6ea12c29f214e7c3c964619dc81616`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
+## Những cách gọi cần hiểu trước khi thuyết trình
+
+**“Nhóm tự đo” thay cho “chạy cục bộ”:** benchmark chạy trên cluster được cấp, gồm các compute node H200 hoặc H100 nêu ở từng kết quả. Nhóm tự gửi job và kiểm tra dữ liệu. Chữ “local” trong bản cũ nói về phạm vi xác minh của nhóm; nó không có nghĩa chạy trên laptop, trên login node hay chỉ một node. Kết quả trên hạ tầng được cấp vẫn chưa tự động thành điểm BTC chấm và xác nhận.
+
+**“Phép đo đầy đủ”:** trong chiến dịch này là 60 giây warmup để dịch vụ hoạt động trước, 120 giây profiling để thu số đo, và 30 giây grace cho request còn lại hoàn tất. “Đầy đủ” phân biệt với phép thử ngắn dùng sàng lọc ý tưởng. Nó không có nghĩa đã chạy mọi bài đánh giá chất lượng hay mọi request đều đạt. Theo luật, ít nhất 90% request phải đồng thời đạt hai giới hạn độ trễ.
+
+**“Đã kiểm tra đạt”:** nhóm kiểm tra dữ liệu theo những điều kiện đã triển khai cho lần chạy đó, chẳng hạn protocol, cấu hình thực sự được bật, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Cần đọc điều kiện cụ thể của từng run; việc scheduler ghi COMPLETED chỉ cho biết script trả mã thành công. Cả hai chưa thay thế đánh giá chất lượng chính thức ≥99% điểm tham chiếu của BTC; yêu cầu đó vẫn chưa được xác minh.
+
+**“Đối chứng” và “ứng viên”:** đối chứng là cấu hình giữ để làm mốc; ứng viên là cấu hình đổi yếu tố muốn thử. Ví dụ cache mới 27378 phải so với đối chứng mới 27376. So nó với trung bình lịch sử của một chuỗi khác sẽ trộn thay đổi cần thử với khác biệt thời điểm và môi trường.
+
+**“Lặp lại” và “cải thiện có ích”:** chạy lại bằng job khác cho kết quả gần nhau làm bằng chứng chắc hơn một đỉnh đơn lẻ, nhưng vẫn có thể dùng lại GPU cũ. Nhóm đặt ngưỡng tăng >1% cho các phép thử gần cuối để chọn nhánh đáng chạy xác nhận; đây là quy tắc quyết định của nhóm, không phải quy định BTC. Kết quả tăng 0,24% chưa đạt quy tắc đó và chưa chứng minh tách được khỏi biến động giữa các lần chạy.
+
+**“Quan sát”, “giả thuyết”, “kết luận”:** “TTFT tăng” là số đã đo; “do hàng đợi dài hơn” là giả thuyết nếu chưa tách thời gian chờ khỏi thời gian tính; “giữ cấu hình cũ vì ứng viên chưa vượt ngưỡng đã đặt” là quyết định được dữ liệu hỗ trợ. Nêu rõ điều chưa đo giúp giải thích trung thực, thay vì biến một suy đoán hợp lý thành nguyên nhân đã chứng minh.
+
+**Ví dụ job có số nhưng vẫn lỗi:** GPU/client có thể đo xong và lưu JSON, rồi script đọc/tổng hợp JSON lỗi khiến cả job FAILED. Sửa chương trình đọc giúp lấy lại số từ dữ liệu cũ; nó không biến job gốc thành thành công, cũng không thay thế việc chạy lại toàn bộ triển khai sau sửa.
+
 ## Từ vựng dùng xuyên suốt
 
 | Ký hiệu / thuật ngữ | Hiểu đơn giản |
 |---|---|
+| cluster / node / job | Cluster là cụm máy tính kết nối với nhau; node là một máy trong cụm. Job là công việc xin tài nguyên qua scheduler rồi chạy lệnh trên máy được cấp. Job ID nhận diện lần thực thi, không phải thứ hạng hiệu năng. |
+| allocation | Một lần scheduler cấp máy, CPU/GPU và thời gian chạy. Lần cấp mới có thể vẫn dùng đúng những GPU cũ; không tự động là kiểm tra trên phần cứng khác. |
+| serving / inference | Inference là tính câu trả lời bằng model. Serving giữ model trong bộ nhớ, mở API nhận request và điều phối nhiều request; benchmark ở đây đo dịch vụ đó. |
+| Qwen3-235B-A22B | Model có khoảng 235 tỷ tham số tổng cộng và khoảng 22 tỷ tham số hoạt động cho mỗi token. Vẫn phải lưu trọng số của model; số tham số hoạt động không phải tổng bộ nhớ cần chứa model. |
+| checkpoint / container image | Checkpoint chứa tham số đã học của model. Container image chứa môi trường phần mềm và thư viện để chạy model. Đổi checkpoint và đổi image là hai thay đổi khác nhau. |
+| runtime / backend / native | Runtime là phần mềm/đường thực thi chạy dịch vụ. Backend là cách triển khai được chọn cho một phép tính, như attention. Native trong tài liệu chỉ đường thực thi tích hợp của phiên bản phần mềm đã dùng; không có nghĩa chạy máy cá nhân hoặc mặc nhiên nhanh hơn. |
 | request | Một prompt gửi đến dịch vụ và câu trả lời được sinh ra. |
 | token | Đơn vị trong từ vựng của model: có thể là từ, mảnh từ hoặc dấu câu; không nhất thiết là một từ. |
 | prefill / decode | Prefill xử lý prompt đầu vào; decode lặp lại việc sinh token tiếp theo. |
@@ -30,14 +52,20 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 | TP / EP / replica | TP chia phép tính của model; EP phân phối các expert của model MoE; replica là một bản worker khác. |
 | MoE | Model có nhiều mạng expert; mỗi token được định tuyến đến một số expert thay vì kích hoạt toàn bộ expert. |
 | KV cache | Key và value của attention đã lưu, biểu diễn ngữ cảnh được xử lý để dùng khi sinh các token tiếp theo. |
+| attention | Phép tính giúp token hiện tại sử dụng những phần ngữ cảnh trước đó có liên quan. Lưu key/value giúp không phải tính lại từ đầu các biểu diễn đã lưu ở mỗi bước decode. |
+| batch / queue / in-flight | Batch gom công việc cho một lượt thực thi của engine. Queue chứa công việc đang chờ. In-flight là request đã gửi nhưng chưa xong. Concurrency của client không nhất thiết bằng kích thước batch GPU ở một thời điểm. |
 | NIXL | Lớp truyền dữ liệu được dùng ở đây để chuyển KV từ worker prefill sang worker decode. |
 | FP8 / BF16 | Định dạng số thực 8 bit / bfloat 16 bit. Trọng số, activation và KV có thể dùng định dạng khác nhau. |
 | FI / FA3 / DG / HPC-Ops | FlashInfer / FlashAttention 3 / DeepGEMM / triển khai kernel HPC-Ops được tái sử dụng. HPC-Ops không phải track HPC OpenFOAM. |
 | kernel / GEMM | Một chương trình tính toán trên GPU / phép nhân ma trận tổng quát. Kernel riêng lẻ nhanh hơn chưa chắc làm cả dịch vụ nhanh hơn. |
+| profiling / GPU utilization | Profiling ghi một số sự kiện thực thi để điều tra thời gian và công việc. GPU activity cho biết GPU có hoạt động trong khoảng lấy mẫu; 100% hoạt động không chứng minh đạt FLOPs tối đa, bị nghẽn tính toán hay không phải chờ giao tiếp. |
 | MNNVL / collective | Đường giao tiếp Multi-node NVLink / phép giao tiếp có nhiều rank cùng tham gia. Cần kiểm tra đường thực thi thực tế được bật. |
 | CUDA graph / bucket | Đồ thị thực thi GPU được capture / một kích thước thực thi được chọn để capture. Số bucket không phải concurrency. |
 | baseline / control / candidate | Cấu hình mốc / nhánh đối chứng / cấu hình thử thay đổi. Mỗi phần trăm tăng giảm cần chỉ rõ mốc so sánh. |
 | matched trial / repeat | So sánh giữ các yếu tố dự định, chỉ đổi yếu tố cần thử / lần cấp tài nguyên khác để kiểm tra tái lập. Cả hai không tự động chứng minh quan hệ nhân quả. |
+| gate / promotion / close a branch | Gate là điều kiện cần đạt. Promotion là chọn ứng viên thay cấu hình đang giữ. Đóng một nhánh là quyết định không lặp tiếp cùng cài đặt không có ích; các từ này không có nghĩa BTC phê duyệt. |
+| 99% of reference | Yêu cầu chất lượng tương đối so với điểm tham chiếu, tách biệt tỷ lệ request đạt độ trễ. Ví dụ tính toán: nếu điểm tham chiếu là 80 thì 99% của nó là 79,2 điểm; không có nghĩa phải trả lời đúng 99% câu hỏi. Ví dụ này không phải kết quả đo của cuộc thi. |
+| cold prefix / cold startup | Cold prefix nghĩa là request không dùng lại KV prompt từ request trước. Cold startup là dịch vụ mới khởi động; cache tệp của hệ điều hành vẫn có thể chứa dữ liệu. Không được coi các trạng thái này là một. |
 | ms / s / tokens/s / req/s | 1.000 ms = 1 giây. tokens/s là token mỗi giây; req/s là request mỗi giây. |
 | % / percentage points | Từ 90% lên 95% là tăng 5 điểm phần trăm, hoặc tăng tương đối 5,56% so với 90%; hai cách nói khác nhau. |
 | 2,989.175 / 2.989,175 | Slide dùng kiểu Anh: dấu phẩy tách hàng nghìn, dấu chấm tách phần thập phân. 2,989.175 trên slide tương đương 2.989,175 theo cách viết Việt; không phải hai kết quả khác nhau. |
@@ -99,33 +127,32 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 Mở đầu câu chuyện nghiên cứu AI và xác định phạm vi: biến một cấu hình Qwen phân tán thành phép đo dịch vụ có thể tái lập. Bài trình bày đi từ bố trí hệ thống, truyền trạng thái, tối ưu theo giai đoạn đến đo lặp; tiêu đề không khẳng định đã thắng cuộc thi hay chứng nhận chất lượng mô hình.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Ảnh nền là lối đi giữa các tủ máy chủ, được làm nhạt để dễ đọc. Màu xanh đậm dùng cho tiêu đề, màu cam cho nhãn nhiệm vụ và đường kẻ, màu xám cho ngày tháng. Đây là màu của giao diện trình bày, không mã hóa nhóm dữ liệu. Slide không có biểu đồ, trục số hay chú giải.
+Tiêu đề tóm tắt thứ tự giải quyết bài toán: chọn cách chia model lên các GPU, bảo đảm truyền trạng thái prompt đúng, tối ưu các phần tính toán, rồi chạy lại để kiểm tra kết quả. “Reproduced performance” nghĩa là chạy lại với cấu hình đã nêu vẫn thu được mức hiệu năng tương tự; không có nghĩa BTC đã chứng nhận kết quả.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Qwen:** Dòng mô hình ngôn ngữ dùng trong bài toán; nghiên cứu phục vụ checkpoint Qwen3-235B được chỉ định.
 - **APAC HPC-AI 2026:** Bối cảnh cuộc thi của nghiên cứu, không đồng nghĩa với giải thưởng hay được ban tổ chức chấp nhận.
 - **30 October 2026:** Ngày của bản cập nhật nghiên cứu; các kết quả được trình bày là ghi nhận đến ngày này.
 - **VNUHCM - TripleU:** Tên nhóm trình bày.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Đọc tiêu đề như hành trình từ bố trí hệ thống đến phép đo có thể lặp lại.
-- Ảnh phòng máy chỉ làm nền minh họa, không phải bằng chứng về nơi triển khai đã kiểm chứng.
-- Slide mở đầu không có đơn vị hoặc số đo.
+- Thứ tự trong tiêu đề cũng là thứ tự lập luận: hệ thống phải chạy đúng trước, sau đó mới có ý nghĩa khi so tốc độ.
+- “Tái lập” ở đây là kết quả gần nhau khi chạy lại, không phải khẳng định kết quả đúng trên mọi máy hoặc mọi workload.
 
 ### Đánh đổi và mức độ bằng chứng
 
 - **Quan sát:** Công việc đi từ khôi phục kiến trúc phục vụ hai nút và truyền KV đến thử nghiệm backend theo từng giai đoạn và các phép đo đầy đủ được lặp lại.
 - **Giả thuyết:** Muốn tối ưu kernel có ý nghĩa, trước hết phải làm cho đường triển khai và phép đo đầu cuối hoạt động đúng.
 - **Kết luận được hỗ trợ:** Bài trình bày sẽ đưa ra cấu hình vận hành được đo lặp và các lựa chọn có căn cứ, đồng thời tách chúng khỏi điểm cao đơn lẻ và việc xác minh accuracy chính thức.
-- **Chưa biết / giới hạn:** Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả cục bộ không phải thứ hạng chính thức của cuộc thi.
+- **Chưa biết / giới hạn:** Accuracy trên toàn bộ bộ đánh giá chính thức vẫn chưa được xác minh; kết quả nhóm tự đo không phải thứ hạng chính thức của cuộc thi.
 
 ### Lời nói mẫu
 
-Xin chào, chúng tôi là VNUHCM–TripleU. Đây là cập nhật nghiên cứu phục vụ Qwen đến ngày 30 tháng 10 năm 2026. Câu hỏi của chúng tôi không chỉ là làm sao để một lần chạy cho ra con số lớn hơn. Trước tiên, chúng tôi phải dựng được dịch vụ hai nút, truyền dữ liệu của yêu cầu đúng giữa xử lý prompt và sinh token, rồi đo các thay đổi backend có kiểm soát dưới những giới hạn dịch vụ. Tôi sẽ trình bày kết quả nào lặp lại được, thay đổi hấp dẫn nào không giúp ích, và điều gì dữ liệu hiện có chưa thể khẳng định. Ảnh phòng máy ở đây chỉ là nền minh họa, không phải ảnh lắp đặt thi đấu đã xác minh.
+Xin chào, chúng tôi là VNUHCM–TripleU. Đây là cập nhật nghiên cứu phục vụ Qwen đến ngày 30 tháng 10 năm 2026. Câu hỏi của chúng tôi không chỉ là làm sao để một lần chạy cho ra con số lớn hơn. Trước tiên, chúng tôi phải dựng được dịch vụ hai nút, truyền dữ liệu của yêu cầu đúng giữa xử lý prompt và sinh token, rồi đo các thay đổi backend có kiểm soát dưới những giới hạn dịch vụ. Tôi sẽ trình bày kết quả nào lặp lại được, thay đổi hấp dẫn nào không giúp ích, và điều gì dữ liệu hiện có chưa thể khẳng định.
 
 ### Điều không nên nói
 
@@ -147,34 +174,36 @@ Trước hết, tôi sẽ nói rõ thế nào là kết quả hữu ích và cá
 
 Phân biệt điểm cao nhất trong một lần chạy đầy đủ đã được rà soát với cấu hình có bằng chứng lặp lại tốt hơn. Slide nhấn mạnh rằng điểm cực đại và khuyến nghị đáng tin cậy nhất không nhất thiết là cùng một kết quả.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Hai con số lớn đặt cạnh nhau trên nền ảnh phòng máy đã làm nhạt. Nhãn màu cam phân biệt hai nhóm bằng chứng được gọi tên ở slide này; số liệu dùng màu xanh đậm. Dòng chú thích màu xám nêu điểm thô phục hồi từ thử nghiệm portable. Màu sắc không hàm ý đạt/trượt và không phải chú giải chung. Không có trục số.
+Slide tách “số đo đơn lẻ lớn nhất” khỏi “cấu hình có bằng chứng đủ chắc để khuyến nghị”. Kết quả bên trái do nhóm tự chạy trên cluster 16 H200 được cấp, không phải máy cá nhân và chưa phải điểm BTC chấm. Bên phải là trung bình ba lần đo N64 đầy đủ. Con số lớn hơn ở chú thích đến từ job đã tạo dữ liệu benchmark nhưng lỗi ở bước xử lý kết quả; mức hoàn tất của nó khác với job thành công từ đầu đến cuối.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **3,048.45 good output tokens/s:** Số đã làm tròn của một lần chạy đầy đủ qua các cổng cục bộ, job 27378; số đã rà soát chính xác là 3048.446289.
-- **+0.24%:** Chênh lệch làm tròn trong cặp thử nghiệm cache prefill, chính xác +0.240921% so với đối chứng mới 27376; thấp hơn ngưỡng lợi ích dự kiến 1%.
-- **3,044.40 good output tokens/s:** Trung bình của ba lần chạy N64 đầy đủ trong lịch sử; đây là chuỗi lặp riêng biệt.
-- **3,055.33:** Kết quả thô portable phục hồi từ job 27145; job scheduler gốc FAILED sau khi đã đo GPU, nên không phải job phân bổ đầy đủ hoàn tất thành công.
-- **tokens/s:** Số token đầu ra hữu ích mỗi giây: thông lượng tổng hợp từ các yêu cầu đạt đồng thời cổng độ trễ theo từng yêu cầu.
+- **Nhóm tự đo / local result:** Nhóm khởi chạy benchmark trên cluster được cấp và đọc log để tự đánh giá. “Local” chỉ phạm vi kiểm chứng của nhóm, không chỉ vị trí máy cá nhân; BTC chưa xác nhận điểm.
+- **Full run / phép đo đầy đủ:** Theo protocol của chiến dịch: warmup 60 giây, profiling 120 giây và grace 30 giây. Không có nghĩa chạy mọi dataset đánh giá chất lượng, và cũng không có nghĩa 100% request đều đạt.
+- **Reviewed pass / đã kiểm tra đạt:** Nhóm xem dữ liệu và kiểm tra những điều kiện đã triển khai cho lần chạy: protocol, cấu hình thực chạy, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Job 27378 có smoke 7/8 không thêm lỗi so với đối chứng và retrieval 12/12; đây chưa phải chứng nhận độ chính xác chính thức.
+- **3,048.45; +0.24%:** Job 27378 đạt chính xác 3048.446289 good output tokens/s, hơn đối chứng 27376 là 0.240921%. Đây là một quan sát đơn lẻ.
+- **Ngưỡng 1%:** Quy tắc nhóm đặt trước để quyết định mức tăng nào đáng chạy xác nhận tiếp, không phải quy định điểm chuẩn của BTC.
+- **3,044.40; N64:** Trung bình 3044.400475 good output tokens/s từ ba lần chạy đầy đủ; client duy trì tối đa 64 request đang hoạt động.
+- **Recovered raw 3,055.33:** Benchmark GPU đã lưu dữ liệu, nhưng chương trình đọc/tổng hợp kết quả lỗi. Sửa reader giúp lấy lại điểm 3055.330517; không thay đổi việc job gốc FAILED.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Ô bên trái là một lần chạy đầy đủ, không phải trung bình nhiều lần.
-- Ô bên phải là trung bình ba phép đo N64 đầy đủ trong lịch sử, không phải số được ghép cặp trực tiếp với lần chạy bên trái.
-- Chú thích dưới cùng nói dữ liệu thô portable đã được phục hồi dù job gốc thất bại sau khi đo.
+- Đọc 3.048,45 là một lần đo, 3.044,40 là trung bình ba lần đo. Hai con số không tạo thành cặp đối chứng trực tiếp vì khác nhánh và thời điểm.
+- Muốn đánh giá thay đổi cache, phải so 27378 với đối chứng 27376, không lấy trung bình lịch sử 3.044,40 làm mốc.
+- Mức tăng nhỏ có thể lẫn với biến động giữa các lần chạy; một số đo cao hơn chưa đủ để chọn thay cấu hình đã lặp lại. Ở đây chưa có bằng chứng tăng vượt ngưỡng nhóm đặt ra.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** 27378 đạt 3048.446289 good output tokens/s và qua các cổng cục bộ; mức tăng trong cặp cache so sánh là 0.240921%. Trung bình chuỗi N64 lịch sử là 3044.400475. Dữ liệu thô portable phục hồi đạt 3055.330517, nhưng job gốc mang trạng thái FAILED.
+- **Quan sát:** 27378 đạt 3048.446289 good output tokens/s và qua các kiểm tra do nhóm thực hiện; mức tăng trong cặp cache so sánh là 0.240921%. Trung bình chuỗi N64 lịch sử là 3044.400475. Dữ liệu thô portable phục hồi đạt 3055.330517, nhưng job gốc mang trạng thái FAILED.
 - **Giả thuyết:** Chỉ nên chọn điểm cao làm kết quả chính khi thay đổi đạt ngưỡng lợi ích đã định trước và được lặp độc lập trong so sánh phù hợp.
-- **Kết luận được hỗ trợ:** Giữ N64 có kết quả lặp lại làm khuyến nghị vững hơn. Giữ 27378 là điểm cao nhất của một lần chạy đầy đủ cục bộ đã rà soát, không phải tối ưu có ích đã được chứng minh.
+- **Kết luận được hỗ trợ:** Giữ N64 có kết quả lặp lại làm khuyến nghị vững hơn. Giữ 27378 là điểm cao nhất của một lần chạy đầy đủ do nhóm tự chạy và kiểm tra trên cluster H200 được cấp, không phải tối ưu có ích đã được chứng minh.
 - **Chưa biết / giới hạn:** Riêng slide này không so sánh hai ô trong cùng điều kiện runtime; điểm raw portable cũng không phải kết quả hoàn tất đầu cuối của một phân bổ thành công.
 
 ### Lời nói mẫu
 
-Ở đây tôi tách hai khái niệm dễ nhầm. Bên trái là điểm cao nhất trong một lần chạy đầy đủ cục bộ đã được rà soát: 3.048,45 good output tokens mỗi giây. Thay đổi trong so sánh cache tương ứng chỉ tăng 0,24%, thấp hơn ngưỡng lợi ích một phần trăm mà chúng tôi đặt ra. Bên phải là trung bình 3.044,40 của ba lần chạy N64 đầy đủ trong lịch sử. Kết quả lặp lại đó là cơ sở khuyến nghị tốt hơn dù không phải con số đơn cao nhất. Một lần chạy portable có dữ liệu raw phục hồi ở mức 3.055,33, nhưng job ban đầu thất bại sau khi đo. Chúng tôi giữ lại bằng chứng ấy mà không gọi nó là một lần triển khai thành công.
+Slide này phân biệt số đo cao nhất với cấu hình nên chọn để nộp. Nhóm tự chạy job 27378 trên 16 H200 của cluster được cấp, dùng 60 giây warmup, 120 giây đo và 30 giây chờ request còn lại. Benchmark và các bước kiểm tra của nhóm hoàn tất, cho 3.048,45 token đầu ra đạt chuẩn mỗi giây. Nhưng thay cache chỉ tăng 0,24% so với đối chứng mới, chưa tới ngưỡng 1% mà nhóm tự đặt để coi là cải tiến đáng theo đuổi. Vì vậy chúng tôi giữ N64 với trung bình ba lần đo khoảng 3.044,40: số thấp hơn một chút nhưng có bằng chứng chạy lại. Cả hai đều là kết quả nhóm tự đo, chưa được BTC xác nhận. Con số 3.055,33 ở dưới được đọc lại từ dữ liệu của job lỗi bước tổng hợp; nó không phải một job hoàn tất thành công.
 
 ### Điều không nên nói
 
@@ -182,7 +211,7 @@ Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặ
 
 ### Câu chuyển slide
 
-Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và cổng độ trễ ở từng yêu cầu.
+Để hiểu thông lượng good output tokens mỗi giây, cần xem workload và điều kiện độ trễ ở từng yêu cầu.
 
 ---
 
@@ -196,11 +225,11 @@ Không xếp hạng hai ô như thể chúng là một thử nghiệm ghép cặ
 
 Định nghĩa mục tiêu benchmark trước khi bàn về thay đổi hệ thống: tối đa hóa thông lượng dịch vụ đạt chuẩn, đồng thời đủ yêu cầu riêng lẻ phải thỏa cả hai giới hạn độ trễ. Nhờ vậy không nhầm tốc độ sinh thô hay độ trễ trung bình với quy tắc chấm.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Mô tả workload nằm phía trên bảng bốn hàng. Đầu bảng xanh đậm nêu chỉ số, ý nghĩa và giới hạn/đơn vị; chữ cam nhấn mạnh cách tính. Không có biểu đồ, trục số hay chú giải màu.
+Goodput chỉ tính các request vừa hoàn tất vừa đủ nhanh. Dịch vụ có thể sinh rất nhiều token tổng cộng nhưng vẫn có điểm thấp nếu nhiều người dùng phải chờ quá ngưỡng. Trung bình độ trễ của tất cả request tốt chưa đủ: phải kiểm tra hai giới hạn cho từng request rồi mới đếm tỷ lệ đạt.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **4,000 input tokens → 200 output tokens:** Kích thước yêu cầu tổng hợp cố định: prompt 4.000 token và yêu cầu sinh 200 token đầu ra.
 - **TTFT ↓:** Time to first token, thời gian đến token đầu tiên; càng thấp càng tốt, giới hạn cho mỗi yêu cầu là 3.000 mili giây.
@@ -210,7 +239,7 @@ Mô tả workload nằm phía trên bảng bốn hàng. Đầu bảng xanh đậ
 - **ms:** Mili giây, bằng một phần nghìn giây; đơn vị độ trễ.
 - **req/s × 200:** Số yêu cầu đạt chuẩn mỗi giây nhân với 200 token đầu ra được yêu cầu trên mỗi yêu cầu.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Mũi tên chỉ hướng mong muốn: độ trễ giảm, tỷ lệ đạt và goodput tăng.
 - Một yêu cầu phải đồng thời đạt TTFT và mean ITL mới được tính là đạt chuẩn.
@@ -220,12 +249,12 @@ Mô tả workload nằm phía trên bảng bốn hàng. Đầu bảng xanh đậ
 
 - **Quan sát:** Benchmark cố định kích thước yêu cầu và áp dụng quy tắc độ trễ kết hợp theo từng yêu cầu; lỗi vẫn bị tính. Goodput dựa trên các yêu cầu qua cả hai giới hạn.
 - **Giả thuyết:** Hệ thống sinh nhiều token thô hơn vẫn có thể kém hơn nếu quá nhiều yêu cầu vi phạm thời gian token đầu hoặc khoảng cách token.
-- **Kết luận được hỗ trợ:** Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các cổng độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.
+- **Kết luận được hỗ trợ:** Chúng tôi đánh giá cấu hình bằng throughput đạt chuẩn cùng các điều kiện độ trễ và đầu ra, không chỉ bằng một giá trị trung bình hay lượng token thô.
 - **Chưa biết / giới hạn:** Bảng định nghĩa giao thức nhưng không có số đo của ứng viên nào; nó không cho biết phân bố độ trễ thực tế của từng cấu hình.
 
 ### Lời nói mẫu
 
-Mục tiêu của chúng tôi là thông lượng hữu ích dưới một cổng độ trễ. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ đạt nếu thời gian đến token đầu tiên không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% tất cả yêu cầu được đánh giá phải đồng thời đạt hai giới hạn; lỗi cũng bị tính. Goodput là số yêu cầu đạt chuẩn mỗi giây, nhân với 200 sẽ thành good output tokens mỗi giây được trình bày. Vì vậy độ trễ trung bình riêng lẻ không thể cho biết dịch vụ có qua hay không: quyết định được tính ở từng yêu cầu.
+Mục tiêu của chúng tôi là thông lượng hữu ích dưới một điều kiện độ trễ. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ đạt nếu thời gian đến token đầu tiên không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% tất cả yêu cầu được đánh giá phải đồng thời đạt hai giới hạn; lỗi cũng bị tính. Goodput là số yêu cầu đạt chuẩn mỗi giây, nhân với 200 sẽ thành good output tokens mỗi giây được trình bày. Vì vậy độ trễ trung bình riêng lẻ không thể cho biết dịch vụ có qua hay không: quyết định được tính ở từng yêu cầu.
 
 ### Điều không nên nói
 
@@ -247,11 +276,11 @@ Khi đã cố định mục tiêu đo, slide tiếp theo cho thấy vì sao mọ
 
 Trình bày hai môi trường phần cứng dùng trong các nghiên cứu nền tảng riêng biệt và đặt nguyên tắc: mỗi so sánh phải nêu nền tảng, topology, backend và tải. Dùng chung workload và checkpoint không làm hai cụm tương đương nhau.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bảng hai cột so sánh Firmus với NSCC ASPIRE 2A+. Đầu bảng xanh đậm phân biệt cột; dòng kết luận màu cam nhấn mạnh quy tắc so sánh. Ảnh phòng máy nhạt chỉ làm nền. Không có trục số hay chú giải.
+Hai hệ thống dùng cùng model và workload dự định, nhưng số đo còn phụ thuộc bộ nhớ GPU, truyền thông, phần mềm thực thi và vị trí tiến trình. Slurm/PBS cấp tài nguyên compute node, không chạy phép suy luận thay SGLang. Container mang môi trường phần mềm; SGLang thực thi model; AIPerf gửi request và đo thời gian. Vì vậy chuyển cấu hình sang cluster khác vẫn phải đo lại.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **2 × 8 H200:** Hai nút, mỗi nút có tám GPU NVIDIA H200; tổng cộng mười sáu GPU trong phân bổ Firmus.
 - **2 × 8 H100 80GB:** Hai nút NSCC ASPIRE 2A+, mỗi nút có tám GPU H100 bộ nhớ 80 gigabyte. Đây là thế hệ GPU và môi trường khác.
@@ -261,11 +290,11 @@ Bảng hai cột so sánh Firmus với NSCC ASPIRE 2A+. Đầu bảng xanh đậ
 - **Qwen3-235B FP8:** Mô hình/checkpoint và độ chính xác trọng số được giữ chung trong thiết lập so sánh nền tảng.
 - **80GB:** Dung lượng bộ nhớ GPU danh định mỗi H100 như bảng ghi; đây không phải đơn vị hiệu năng.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Các hàng mô tả phân bổ GPU, scheduler, công cụ chạy container, serving/client và mô hình.
 - Bảng ghi cùng image và checkpoint đã staging, nhưng GPU và phần mềm triển khai khác nhau.
-- Dòng màu cam cuối slide là nguyên tắc nghiên cứu, không phải kết quả biểu đồ.
+- Mỗi kết quả quan trọng cần gắn với GPU, bố trí worker, backend, mức tải và thời lượng đo; cùng tên model không đủ để coi hai lần đo là tương đương.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -298,11 +327,11 @@ Tiếp theo, ta xem topology H200 mười sáu GPU đã chọn và lần theo y�
 
 Giải thích thiết kế serving tách rời: dành một nút cho prefill prompt và nút còn lại cho decode tự hồi quy, sau đó truyền trạng thái KV của từng yêu cầu giữa hai vai trò. Hình nối vị trí phần cứng với các thử nghiệm layout và truyền dữ liệu tiếp theo.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Hai khung trên Node 0 chứa worker prefill P0 và P1; khung lớn trên Node 1 chứa worker decode D0. Bốn dấu GPU màu cam trong mỗi khung P và tám dấu xanh đậm trong D0 thể hiện phân bổ GPU ghi trong hình. Mũi tên cam có nhãn KV state/NIXL đi từ prefill đến decode. Ảnh nền chỉ trang trí. Đây là sơ đồ, không phải biểu đồ số, nên không có trục hay chú giải; màu chỉ phân biệt vai trò trong sơ đồ này.
+Một request đi qua hai giai đoạn trên hai nhóm GPU khác nhau. Một trong hai worker prefill bốn GPU đọc prompt và tạo trạng thái KV của attention; NIXL chuyển trạng thái đó sang worker decode tám GPU để sinh câu trả lời. Thứ được chuyển là trạng thái ngữ cảnh, không phải toàn bộ trọng số model. Tách hai giai đoạn cho phép chọn cách tính phù hợp riêng cho xử lý prompt và sinh token, đổi lại phải trả chi phí truyền và điều phối.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Prefill:** Giai đoạn xử lý prompt. Nó đọc token đầu vào và tạo trạng thái KV cần cho quá trình sinh.
 - **Decode:** Giai đoạn sinh token tự hồi quy. Nó dùng trạng thái KV của prompt để tạo token đầu ra được yêu cầu.
@@ -313,7 +342,7 @@ Hai khung trên Node 0 chứa worker prefill P0 và P1; khung lớn trên Node 1
 - **NIXL:** Cơ chế truyền dùng ở đây để chuyển dữ liệu KV giữa phía prefill và decode.
 - **2 × 4 + 1 × 8 = 16 GPUs:** Hai worker prefill, mỗi worker bốn GPU, cộng một worker decode tám GPU; tổng cộng mười sáu GPU.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Đọc từ trái sang phải: yêu cầu vào một trong hai P0/P1 để prefill, rồi trạng thái KV được chuyển sang D0 để sinh đầu ra.
 - Mỗi worker prefill dùng TP4/EP1; worker decode dùng TP8/EP8. Nhóm TP nằm trong cùng nút.
@@ -350,21 +379,21 @@ Slide tiếp theo cho thấy các thử nghiệm topology ban đầu dẫn đế
 
 Cho thấy một số kết quả tìm kiếm topology và giải thích cấu hình được chọn đến từ các thử nghiệm đo được, dùng được. Chú thích phía dưới bảo toàn lịch sử: cấu hình thay thế là thử nghiệm mới, không phải sửa hồi tố cho lần thất bại ban đầu.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bảng liệt kê mã layout, cách bố trí prefill, cách bố trí decode, N và good tokens/s. Đầu bảng và chữ dùng xanh đậm; dòng tổng kết in đậm đếm cấu hình, bên dưới là lưu ý màu xám. Ảnh nền đã làm nhạt chỉ để trang trí. Không có trục số, điểm dữ liệu đồ họa hay chú giải màu.
+Topology là cách bố trí tài nguyên: có bao nhiêu worker model và mỗi worker chia việc lên bao nhiêu GPU. Đổi từ bốn worker prefill nhỏ sang hai worker rộng hơn làm thay đổi cả cách nhiều GPU xử lý một request lẫn số worker có thể nhận request. Các hàng còn dùng concurrency khác nhau, nên bảng ghi lại những bố trí đã thử có ích; nó không tách riêng mức tăng do một thay đổi topology.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **07 / 09:** Mã định danh của các thử nghiệm layout đầu tiên, không phải phiên bản phần mềm.
 - **4 × TP2 / 2 × TP4:** Bốn worker prefill với tensor parallelism bằng hai; hàng kế tiếp dùng hai worker prefill với tensor parallelism bằng bốn.
 - **TP4/EP4:** Worker decode cấu hình tensor parallelism bốn và expert parallelism bốn.
 - **Selected split: 2 × TP4; 1 × TP8/EP8:** Hai worker prefill, mỗi worker TP4, và một worker decode TP8/EP8.
 - **N:** Concurrency của client: mục tiêu số yêu cầu được giữ đang xử lý đồng thời, không phải số GPU hoặc token.
-- **good tokens/s:** Thông lượng token đầu ra đạt chuẩn theo cổng độ trễ từng yêu cầu.
+- **good tokens/s:** Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ từng yêu cầu.
 - **14 + 3 = 17 usable configurations:** Mười bốn layout gốc đã đo cộng ba cấu hình thay thế EP2 đã đo trong sổ phục hồi.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - So sánh mỗi hàng theo topology của hai vai trò, concurrency N và good output tokens mỗi giây.
 - N tăng từ 32 lên 40 rồi 48 trong các hàng minh họa; tải và lịch sử truyền dữ liệu cũng khác nhau.
@@ -401,11 +430,11 @@ Trở ngại kế tiếp không chỉ là chọn mức song song: khởi động
 
 Giải thích vì sao khởi tạo KV khi chạy lạnh được thiết kế lại theo các trang mà yêu cầu thật sự truyền. So sánh số liệu là hình học descriptor, cho thấy quy mô liệt kê metadata; slide chủ ý không trình bày đây là mức tăng tốc suy luận.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-So sánh hai cột: “Whole KV pool” bên trái màu xanh đậm và “Request pages only” bên phải màu cam. Giá trị trái là 403,8 triệu source entries mỗi rank; bên phải là 188 mục đã gộp liên tục cho mỗi yêu cầu. Dòng cuối biểu diễn chuỗi xác minh. Ảnh nền chỉ trang trí. Không có trục số hay cột dữ liệu; màu cam chỉ nhấn mạnh cục bộ, không phải chú giải đạt/trượt.
+Trước khi gửi các byte KV, lớp truyền cần danh sách các vùng nhớ phải đọc. Cách cũ chuẩn bị mô tả cho cả vùng KV đã dành trước; cách sửa chỉ mô tả các trang thuộc request hiện tại rồi gộp những vùng liền nhau. Danh sách ngắn hơn có thể giảm công chuẩn bị, nhưng hai số đếm trên slide khác phạm vi và không đo băng thông hay tốc độ đầu cuối. Trước hết phải kiểm tra địa chỉ đúng; danh sách ít mục nhưng đọc nhầm bộ nhớ vẫn là lỗi.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **KV pool:** Toàn bộ không gian địa chỉ cache key/value được cấp cho một rank, phần lớn không cần truyền cho một yêu cầu cụ thể.
 - **403.8 million source entries per rank:** Số gần đúng entry nguồn của descriptor được liệt kê cho hình học toàn pool trong ví dụ TP8 đại diện.
@@ -415,11 +444,11 @@ So sánh hai cột: “Whole KV pool” bên trái màu xanh đậm và “Reque
 - **coalescing:** Gộp các dải bộ nhớ liền kề thành ít mô tả dải lớn hơn.
 - **CPU range tests → GPU transfer → response checks:** Chuỗi xác minh nhiều lớp: kiểm tra tính toán địa chỉ, thử truyền thật trên GPU, rồi kiểm tra ý nghĩa phản hồi yêu cầu.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Số bên trái là liệt kê nguồn cho cả pool trên mỗi rank; số bên phải là các dải đã gộp cho một yêu cầu. Phạm vi hai số khác nhau.
 - Đơn vị của số liệu là số descriptor, không phải giây, byte mỗi giây hay điểm benchmark.
-- Chuỗi cuối slide là các cổng bằng chứng tiếp nối. Ánh xạ CPU đúng chưa đủ; vẫn cần thử truyền GPU thật và kiểm tra phản hồi.
+- Chuỗi cuối slide là các bước xác minh tiếp nối. Ánh xạ CPU đúng chưa đủ; vẫn cần thử truyền GPU thật và kiểm tra phản hồi.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -452,11 +481,11 @@ Lần khôi phục EP2 cũng làm lộ một điều kiện tiên quyết khác:
 
 Giải thích một lỗi triển khai cụ thể do căn chỉnh block FP8 và thay đổi hình học dùng để khôi phục một cách chia tương thích. Bài học là tương thích cho phép thử tải, nhưng chưa chứng minh dịch vụ hay chất lượng chạy thành công.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Slide so sánh TP8/EP1 bên trái với TP8/EP2 bên phải. Phân vùng bên trái được vẽ thành block xanh đậm ghi 128 cộng block đỏ ghi 64, cho thấy phần block FP8 không đầy; bên phải có ba block màu cam ghi 128. Màu đỏ chỉ phía lỗi và màu cam chỉ các block đầy trong sơ đồ này. Đây là màu giải thích cục bộ, không phải chú giải chung. Không có trục.
+Đường triển khai bị lỗi yêu cầu mỗi phần trọng số chứa các block FP8 nguyên vẹn. Chia chiều liên quan cho tám được 192 phần tử: một block 128 và dư 64. Trong đường TP8/EP2 đã thử, mức chia tensor hiệu dụng của MoE là bốn, cho 384 phần tử, vừa ba block đầy. EP2 đổi cách phân phối expert; không cắt bỏ nửa model và không tiếp tục giảm độ chính xác số.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **FP8:** Định dạng trọng số dấu phẩy động 8-bit của checkpoint; trọng số được tổ chức thành block có độ rộng cố định trong đường kernel liên quan.
 - **1,536:** Kích thước chiều trung gian MoE dùng trong phép tính phân vùng này.
@@ -467,11 +496,11 @@ Slide so sánh TP8/EP1 bên trái với TP8/EP2 bên phải. Phân vùng bên tr
 - **3 × 128 = 384:** Phân vùng EP2 khớp ba block 128 phần tử đầy đủ. Đây là đổi bố trí, không loại bỏ expert hay trọng số.
 - **SLA:** Thỏa thuận mức dịch vụ: quy tắc chấp nhận độ trễ kết hợp theo yêu cầu đã nêu ở slide trước.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Đọc hai phép tính trước: 1536 ÷ 8 = 192 và 1536 ÷ 4 = 384.
 - Các khối trái biểu thị 128 cộng 64; phần đỏ là block chưa đầy và gây lỗi tải trong đường đã thử.
-- Các khối phải là ba đoạn 128 đầy đủ. Chân trang liệt kê các cổng còn phải kiểm tra: startup, SLA và chất lượng đầu ra.
+- Các khối phải là ba đoạn 128 đầy đủ. Chân trang liệt kê các điều kiện còn phải kiểm tra: startup, SLA và chất lượng đầu ra.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -504,11 +533,11 @@ Khi đường triển khai đã khả thi, slide kế tiếp mô tả cách bi�
 
 Mô tả kỷ luật bằng chứng dùng để quyết định ý tưởng nào đáng chạy và nhánh nào nên đóng. Slide nối các câu chuyện kỹ thuật ban đầu với kết quả backend đo sau đó, đồng thời ghi rõ các pha đo đầy đủ.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bốn giai đoạn đánh số chạy từ trái sang phải: giả thuyết, thử nghiệm có kiểm soát, xác minh, rồi lặp lại hoặc đóng. Số màu cam chỉ dẫn thứ tự; chữ xanh đậm mô tả giai đoạn. Đường kẻ phân cách quy trình với thời lượng 60/120/30 và workload. Không có trục hay chú giải biểu đồ.
+Quy trình giúp tránh biến một ý tưởng hợp lý thành lời khẳng định hiệu năng quá sớm. Nêu nguyên nhân muốn kiểm tra, giữ cấu hình đối chứng, đổi yếu tố cần thử, kiểm tra đúng đường code đã chạy và đầu ra còn hợp lệ, rồi mới so điểm. Mức tăng có ích cần được chạy lại trước khi chọn. Một job kết thúc bằng lỗi có thể cho bài học tích hợp, nhưng chưa trở thành phép đo hiệu năng hợp lệ.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **01–04:** Số thứ tự của bốn bước thí nghiệm, không phải điểm số hay mã job.
 - **60 s warmup:** Một phút khởi động theo giao thức đo trước cửa sổ tính điểm.
@@ -518,7 +547,7 @@ Bốn giai đoạn đánh số chạy từ trái sang phải: giả thuyết, th
 - **4,000 / 200 tokens:** Kích thước cố định của token đầu vào và đầu ra được yêu cầu như slide trước.
 - **SLA accounting:** Đánh giá độ trễ và thành công theo từng yêu cầu, kể cả tính yêu cầu lỗi vào mẫu số.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Bước 1 dùng log, trace và source để hình thành giả thuyết; bước 2 thay một yếu tố được xác định rõ.
 - Bước 3 xác minh giao thức, runtime thực sự kích hoạt, SLA và đầu ra; bước 4 xác nhận lợi ích có ý nghĩa hoặc đóng nhánh thua.
@@ -526,9 +555,9 @@ Bốn giai đoạn đánh số chạy từ trái sang phải: giả thuyết, th
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Quy trình lưu lại cả giao thức benchmark và các cổng runtime/đầu ra, đồng thời phân biệt job đã kết thúc với kết quả hợp lệ đã được rà soát.
+- **Quan sát:** Quy trình lưu lại cả giao thức benchmark và các điều kiện về đường thực thi và đầu ra, đồng thời phân biệt job đã kết thúc với kết quả hợp lệ đã được rà soát.
 - **Giả thuyết:** Thay đổi giới hạn rõ, có đối chứng và quy tắc dừng sẽ tạo bằng chứng dễ diễn giải hơn so với quét rộng hoặc lặp mù.
-- **Kết luận được hỗ trợ:** Ứng viên cần kiểm tra thực tế việc kích hoạt và lặp lại độc lập trước khi chọn; job thiếu bản xuất hợp lệ hoặc không đạt cổng chưa chứng minh được kết quả.
+- **Kết luận được hỗ trợ:** Ứng viên cần kiểm tra thực tế việc kích hoạt và lặp lại độc lập trước khi chọn; job thiếu bản xuất hợp lệ hoặc không đạt điều kiện chưa chứng minh được kết quả.
 - **Chưa biết / giới hạn:** Sơ đồ chỉ tóm tắt quy trình; không cho thấy thử nghiệm, chi phí, tỷ lệ lỗi hay thống kê lặp cụ thể nào.
 
 ### Lời nói mẫu
@@ -555,22 +584,22 @@ Tiếp theo, tôi tóm tắt tiến trình H200, đồng thời lưu ý đây kh
 
 Tóm lược theo lịch sử goodput H200 khi hệ thống được khôi phục, dùng backend theo từng giai đoạn, rồi đạt các điểm vận hành có phép đo lặp. Đây là bản đồ để định hướng cho bằng chứng chi tiết ở các slide sau, không phải biểu đồ ablation nhân quả.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Biểu đồ cột đứng có chín nhãn phân loại trên trục hoành: Initial 07 N32; Initial 09 N40; PD split N48; FI + MNNVL N52; Prefill DG N56; DG + HPC N58; N60 repeated; N62 repeated; N64 three repeats. Trục tung là Good output tokens/s, có vạch 0, 500, 1000, 1500, 2000, 2500 và 3000; đơn vị là good output tokens mỗi giây. Nhãn cột được làm tròn: 1.297; 1.666; 1.912; 2.631; 2.716; 2.939; 2.989; 3.023; 3.044. Ba cột đầu màu xám, hai cột kế xanh đậm, bốn cột cuối màu cam để chia giai đoạn chủ đề; màu không biểu thị đạt/trượt và không có ý nghĩa chung ngoài biểu đồ này. Slide không vẽ chú giải. Chân trang nói rõ tải và thiết lập runtime thay đổi.
+Đọc các cột như lịch sử các điểm vận hành, không phải một phép thử chỉ cộng thêm từng tối ưu. Các nhóm ở trục ngang thay đổi bố trí, backend và concurrency client; chiều cao là token đầu ra đạt chuẩn độ trễ mỗi giây. Xu hướng tăng cho thấy quá trình tìm được cấu hình đo tốt hơn, nhưng không cho biết riêng mỗi thay đổi đóng góp bao nhiêu.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **H200:** Nền tảng GPU của các mốc này; không gộp các giá trị với kết quả H100.
 - **Trục hoành: milestones và N:** Các giai đoạn thí nghiệm dạng phân loại và concurrency của client, không phải thời gian đã trôi qua hay biến liên tục. N là số yêu cầu mục tiêu đang xử lý đồng thời.
-- **Trục tung: Good output tokens/s:** Thông lượng token đầu ra đạt chuẩn theo cổng độ trễ kết hợp; nhãn cột đã làm tròn.
+- **Trục tung: Good output tokens/s:** Thông lượng token đầu ra đạt chuẩn theo điều kiện độ trễ kết hợp; nhãn cột đã làm tròn.
 - **FI:** FlashInfer, backend attention trong giai đoạn có nhãn tương ứng.
 - **MNNVL:** Backend collective/truyền thông dùng trong tổ hợp phía decode.
 - **DG:** DeepGEMM, dùng cho prefill ở các mốc có nhãn này.
 - **HPC:** Backend decode HPC-Ops trong mốc “DG + HPC”.
 - **N60 / N62 / N64 repeated:** Các điểm vận hành đầy đủ về sau có phép đo lặp; cột N64 ở 3.044 tóm tắt trung bình ba lần chạy đầy đủ lịch sử.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Đọc trục hoành như chuỗi mốc lịch sử có tên; khoảng cách không phải thời gian hoặc khoảng đều nhau.
 - Đọc trục tung theo good output tokens mỗi giây, càng lên cao giá trị càng lớn; nhãn số đã làm tròn.
@@ -608,22 +637,22 @@ Slide tiếp theo phóng to một so sánh có kiểm soát hơn: tổ hợp bac
 
 Giới thiệu kết quả tương tác backend chi tiết đầu tiên: tổ hợp attention và collective vượt các lựa chọn riêng trong so sánh H200 N52 cùng tải. Bài học thiết kế là phải đo trực tiếp tương tác, không cộng số học các mức tăng riêng lẻ.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bảng bốn hàng ghi cấu hình, mã job, good tokens/s và SLA ở H200, N52. Đầu bảng xanh đậm; câu kết màu cam nhấn mạnh cần đo tổ hợp trực tiếp. Ảnh nền chỉ trang trí. Không có trục số, cột biểu đồ hay chú giải màu.
+Backend attention thực hiện phép attention; backend collective truyền hoặc kết hợp dữ liệu giữa các tiến trình GPU đang hợp tác. Chúng cùng dùng tài nguyên tính toán và giao tiếp, nên đổi cả hai có thể tạo tương tác. Phép đo MNNVL riêng được chạy mới để có đối chứng gần hơn khi đánh giá tổ hợp. Lợi ích của tổ hợp được đo trực tiếp, không tính bằng cộng mức tăng của các phép thử riêng.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **H200 · N52:** Nền tảng GPU và concurrency của client trong so sánh này. N52 là mục tiêu giữ 52 yêu cầu đang xử lý.
 - **FlashInfer decode only:** Đường attention decode dùng FlashInfer trong khi cấu hình collective giữ ở thiết lập đối chứng.
 - **MNNVL decode only:** Đường collective/truyền thông decode dùng MNNVL, chưa kết hợp FlashInfer như hàng cuối.
 - **MNNVL fresh control:** Phép đo đối chứng mới ở thiết lập MNNVL, dùng để giảm phụ thuộc vào một điểm so sánh cũ.
 - **MNNVL + FlashInfer:** Tổ hợp backend được đo trực tiếp trong job 23904.
-- **good tokens/s:** Token đầu ra đạt chuẩn mỗi giây theo cổng độ trễ cấp yêu cầu.
-- **SLA:** Tỷ lệ phần trăm yêu cầu đồng thời đạt TTFT và mean ITL; các giá trị hiển thị là đo cục bộ.
+- **good tokens/s:** Token đầu ra đạt chuẩn mỗi giây theo điều kiện độ trễ cấp yêu cầu.
+- **SLA:** Phần trăm request đồng thời đạt TTFT và mean ITL trong benchmark nhóm tự chạy trên cluster; chưa được BTC xác nhận.
 - **job:** Mã hồ sơ scheduler liên kết hàng với bằng chứng lần chạy; không phải thứ hạng.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - So sánh 23777 (2.440,39), 23778 (2.592,16) và tổ hợp 23904 (2.631,09) như bằng chứng thăm dò cùng tải.
 - Đối chứng MNNVL mới 23974 đạt 2.594,03, là so sánh liên quan hơn với tổ hợp; chênh lệch khoảng 1,43%.
@@ -660,23 +689,26 @@ Các slide tiếp theo kiểm tra sâu hơn các kết quả backend này, gồm
 
 Giải thích vì sao chọn N64: so sánh đầy đủ và lần lặp độc lập ủng hộ mức tăng vừa phải; tín hiệu tốt từ phép thử N68 ngắn không còn đáng kể khi đo đầy đủ.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Đọc bảng từ trái sang phải: control N62 đầy đủ, run N64 nguồn và lần lặp N64 độc lập. Các hàng là goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy.
+Cột trái là control N62, giữa là lần chạy N64 đầy đủ đầu tiên, phải là lần triển khai N64 mới. Trước hết so goodput, sau đó kiểm tra tỷ lệ request đạt, độ trễ và lỗi để xem chúng có làm thay đổi cách hiểu về mức tăng throughput hay không.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **N62/N64:** Mức concurrency client được cấu hình; không phải số GPU hay batch decode.
-- **Good tokens/s:** Tốc độ request đủ điều kiện nhân mục tiêu output cố định 200 token.
-- **SLA đồng thời:** Tỷ lệ request đạt cả TTFT và ITL trung bình/request.
-- **60/120/30:** Số giây warmup / đo điểm / grace.
+- **Good tokens/s:** Request đủ điều kiện mỗi giây nhân mục tiêu output cố định 200 token.
+- **SLA đồng thời:** Tỷ lệ request đạt cả TTFT ≤ 3.000 ms và ITL trung bình/request ≤ 20 ms.
+- **60/120/30:** Số giây wnhánh thử nghiệmup / đo điểm / grace.
 - **N68:** Sàng lọc concurrency cao hơn nhưng gain giảm ở cặp đầy đủ.
+- **Protocol đầy đủ 60/120/30:** Làm nóng dịch vụ 60 giây, tính request trong 120 giây, rồi chờ 30 giây để request đang chạy kết thúc. Grace không tính vào throughput.
+- **Lần triển khai độc lập:** Một lần scheduler cấp tài nguyên và chạy lại setting N64. Đây là allocation lặp, không chứng minh GPU khác loại; hai run N64 lấy mẫu cùng tập GPU UUID.
+- **N62 / N64 / N68:** Mức concurrency request đang chờ của client, không phải số GPU hay batch decode.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Lần triển khai N64 độc lập 25373 lặp lại ở 3.044,075, thấp hơn nguồn chỉ 0,014%. Đọc lần lượt các cột goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy. Throughput tăng nhưng TTFT trung bình nhích lên và SLA giảm nhẹ. Protocol gồm warmup 60 giây, đo 120 giây, grace 30 giây. Sàng lọc ngắn N68 gợi ý +2,27%, nhưng cặp đầy đủ chỉ còn +0,083%; phép chạy ngắn để sàng lọc, không thay thế phép đo chính. Hai lần N64 dùng cùng tập GPU UUID được lấy mẫu, nên chỉ hỗ trợ khả năng lặp cục bộ, không tạo khoảng tin cậy hay optimum toàn cục. Giả thuyết: concurrency vừa phải cải thiện sử dụng pipeline. Kết luận: giữ N64 tại operating point đã đo. Chưa biết riêng đóng góp của hàng đợi, truyền dữ liệu và tính toán.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Lần triển khai N64 độc lập 25373 lặp lại ở 3.044,075, thấp hơn nguồn chỉ 0,014%. Đọc lần lượt các cột goodput, SLA đồng thời, TTFT trung bình, ITL trung bình và lỗi/hủy. Throughput tăng nhưng TTFT trung bình nhích lên và SLA giảm nhẹ. Protocol gồm wnhánh thử nghiệmup 60 giây, đo 120 giây, grace 30 giây. Sàng lọc ngắn N68 gợi ý +2,27%, nhưng cặp đầy đủ chỉ còn +0,083%; phép chạy ngắn để sàng lọc, không thay thế phép đo chính. Hai lần N64 dùng cùng tập GPU UUID được lấy mẫu, nên chỉ hỗ trợ khả năng lặp do nhóm tự chạy, không tạo khoảng tin cậy hay optimum toàn cục. Giả thuyết: concurrency vừa phải cải thiện sử dụng pipeline. Kết luận: giữ N64 tại operating point đã đo. Chưa biết riêng đóng góp của hàng đợi, truyền dữ liệu và tính toán.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
+- Nhãn run đầy đủ ở đây chỉ protocol cố định: 60 giây làm nóng dịch vụ, 120 giây tính request và 30 giây grace để request còn chạy kết thúc. Allocation lặp nghĩa scheduler khởi chạy run khác; không có nghĩa kiến trúc GPU khác. Hai run N64 này lấy mẫu cùng tập GPU UUID, nên lần lặp hỗ trợ khả năng tái lập setting, nhưng không chứng minh phần cứng đa dạng hay tạo khoảng tin cậy.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -709,22 +741,26 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 Giải thích cách dùng profile để đặt câu hỏi có thể kiểm chứng tiếp theo, đồng thời tách tỷ trọng kernel trong phép chẩn đoán khỏi hiệu năng dịch vụ đầu cuối.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bảng ba hàng liệt kê thành phần decode, tỷ trọng tổng thời lượng kernel đã ghi và câu hỏi nghiên cứu tương ứng. Đây là bảng, không phải biểu đồ thanh. Phần trăm mô tả tổng thời lượng kernel, không phải tỷ trọng thời gian đầu cuối.
+Đọc mỗi tỷ lệ là phần thời lượng kernel đã ghi thuộc nhóm được nêu trong các trace chẩn đoán riêng. Đây không phải phần thời gian request: kernel GPU có thể chạy chồng lấp, còn wall time của request gồm cả hàng đợi và công việc chưa được profile. Dùng các hàng để chọn phép thử tiếp theo, không để dự đoán mức tăng tốc.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **GEMM:** Phép nhân ma trận tổng quát trong kernel tính toán.
 - **MNNVL:** Backend giao tiếp qua NVIDIA NVLink.
 - **RMSNorm:** Phép chuẩn hóa căn bậc hai trung bình bình phương.
 - **Kernel duration:** Thời lượng kernel GPU được ghi; không phải wall time đầu-cuối.
 - **N48/N58:** Hai mức concurrency tách biệt cho diagnostic và deployment lặp.
+- **Profile:** Run chẩn đoán ghi thời lượng một số kernel GPU và tín hiệu runtime khi dịch vụ xử lý workload.
+- **Tỷ trọng thời gian kernel:** Phần của tổng thời lượng kernel đã ghi thuộc một nhóm. Kernel GPU có thể chồng lấp, nên đây không phải phần walltime request đã trôi qua.
+- **Diagnostic N48 và lần lặp N58:** Hai giai đoạn riêng trong job 24819: N58 lặp deployment; N48 thu trace profile. Không gán tỷ trọng kernel N48 cho hành vi dịch vụ N58.
+- **MNNVL / RMSNorm:** MNNVL là đường giao tiếp collective qua NVLink; RMSNorm chuẩn hóa activation của model.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Các nhóm decode được nêu là HPC group GEMM 21,642%, MNNVL collective/RMSNorm 23,479%, và FlashInfer paged attention 15,064% tổng kernel duration đã ghi. Đây là tổng mô tả, không phải tỷ trọng wall time đầu cuối: kernel có thể chạy chồng lấp và trace chỉ ghi hoạt động có coverage. GEMM là phép nhân ma trận; MNNVL là backend giao tiếp; RMSNorm chuẩn hóa activation; rank là một tiến trình phân tán. Ba nhóm gợi ý câu hỏi về MoE, chiến lược giao tiếp và attention theo pha. Chúng không dự đoán mức tăng tương ứng, chứng minh FLOP saturation, hay giải thích nhân quả kết quả dịch vụ N58/N60. Cần tách N48 diagnostic khỏi lần lặp N60. Giả thuyết: nhóm kernel lớn đáng khảo sát. Kết luận: dùng trace để thiết kế phép thử dịch vụ có đối chứng. Chưa biết tỷ lệ latency từng pha cho mỗi request.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Profile là phép ghi đo: công cụ lưu một số hoạt động khi workload chạy. Các tỷ lệ cộng thời lượng kernel trên những rank/GPU được ghi. Vì kernel có thể chồng lấp, đồng thời hàng đợi, CPU, khoảng chờ giao tiếp và hoạt động không được ghi cũng chiếm thời gian trôi qua, không thể đọc tỷ lệ này thành phần thời gian request dành cho từng thành phần. Diagnostic N48 tách biệt với lần lặp deployment N58.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -757,23 +793,27 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 Chứng minh một đánh đổi backend có lần lặp: thông lượng hữu ích và khoảng token tốt hơn vẫn có thể đi cùng thời gian chờ token đầu xấu hơn.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-So sánh control auto-decode N60 đầy đủ với lần lặp decode HPC-Ops. Goodput và ITL cải thiện trong khi TTFT trung bình tăng.
+So sánh control và treatment ở cùng tải N60. Throughput tăng và khoảng cách giữa token ngắn lại, nhưng token đầu đến muộn hơn trung bình. Đây là đánh đổi dịch vụ được đo trong một lần triển khai mới, không phải khẳng định backend luôn có kết quả như vậy.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **HPC-Ops:** Decode runner/backend được cung cấp trong treatment.
+- **HPC-Ops:** Decode runner được cung cấp để thử nghiệm; nhóm đánh giá nó chứ không nhận là tác giả.
 - **DeepGEMM:** Backend nhân ma trận prefill được giữ cố định.
 - **TTFT:** Thời gian tới token đầu, tính bằng mili giây.
 - **ITL:** Độ trễ giữa token; ở đây là trung bình theo request.
 - **N60:** Mức concurrency client trong phép so sánh đầy đủ.
+- **Lần lặp độc lập:** Deployment mới chạy lại treatment. Nó xác nhận điểm tương tự trong thiết lập này, không có nghĩa dùng thế hệ phần cứng khác.
+- **TTFT / ITL trung bình request:** Thời gian tới token đầu / khoảng thời gian trung bình giữa các token trong một request.
+- **Goodput:** Ở đây là request AIPerf đủ điều kiện mỗi giây × mục tiêu cố định 200 output token.
+- **Protocol đầy đủ 60/120/30:** Làm nóng 60 giây, đo dịch vụ trong 120 giây, rồi chờ 30 giây cho request còn chạy kết thúc; chỉ khoảng giữa được tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Cả hai giữ DeepGEMM prefill và chunk 8192 tại full N60. TTFT trung bình tăng 125,335 ms (822,292 lên 947,627), còn ITL trung bình của request giảm 1,644 ms (16,579 xuống 14,934). SLA đồng thời là 98,7599% so với 98,8178%. Treatment ban đầu 24738 đạt 2.990,151; lần lặp 24913 thấp hơn 0,033%. Lần lặp gần bằng củng cố tính tái lập của tương tác này. HPC-Ops là backend được cung cấp, không phải kernel do nhóm phát minh. TTFT là thời gian tới token đầu; ITL là khoảng giữa token; SLA đồng thời cần đạt cả hai giới hạn. Kết luận: bằng chứng dịch vụ đầy đủ hỗ trợ cấu hình này, không chứng minh HPC-Ops luôn hơn. Chất lượng full-set official chưa xác minh; không suy ra nguyên nhân kernel cụ thể.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
+- “Triển khai độc lập” nghĩa là một lần chạy mới do scheduler cấp cho cùng treatment, không phải thử nghiệm trên thế hệ GPU khác. Lần lặp 2.989,175 thấp hơn treatment ban đầu 24738 đạt 2.990,151 chỉ 0,033%. Điều này hỗ trợ tính lặp tại operating point này. Goodput cao hơn không xóa mức tăng TTFT trung bình; cấu hình dịch vụ có thể đánh đổi thời gian token đầu với khoảng cách giữa các token sau.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -806,23 +846,28 @@ Mũi tên xuống ở hàng TTFT chỉ hướng mong muốn; TTFT thực tế t�
 
 Cho thấy cần xem từng request: hiệu năng trung bình cao vẫn có những request chờ token đầu quá lâu; số trung bình không giải thích được nguyên nhân của phần đuôi này.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Mỗi chấm là một request. X là TTFT (ms), Y là ITL trung bình mỗi request (ms). Đường đỏ dọc/ngang lần lượt đánh dấu TTFT 3.000 ms và ITL 20 ms. Teal đậm (#23373B; có thể nhìn xanh lam-lục) đạt cả hai; cam (#EB811B; có thể nhìn vàng) trượt ít nhất một. Vùng xanh nhạt chỉ đánh dấu TTFT. Chấm đậm do chồng điểm/alpha, không phải nhóm mới.
+Mỗi điểm là một request, không phải một token. Request chỉ đạt khi nằm bên trái ngưỡng TTFT đỏ dọc tại 3.000 ms và dưới ngưỡng ITL trung bình/request đỏ ngang tại 20 ms. Teal đậm (#23373B; có thể nhìn xanh lam-lục) biểu thị đạt cả hai; cam (#EB811B; có thể nhìn vàng) biểu thị trượt ít nhất một điều kiện. Dải xanh nhạt chỉ biểu thị TTFT, không phải đạt đồng thời. Cụm đậm hơn là các điểm chồng alpha, không phải lớp request thứ ba.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **TTFT:** Thời gian từ khi request bắt đầu tới token đầu, mili giây.
 - **Request-mean ITL:** Khoảng cách trung bình token của request đó, mili giây.
-- **Đạt đồng thời:** TTFT ≤ 3.000 ms VÀ ITL trung bình ≤ 20 ms.
+- **Đạt đồng thời:** Cả hai giới hạn áp dụng cho cùng request. Dưới đường TTFT vẫn có thể trượt nếu trên đường ITL.
 - **Đạt/tổng:** 1.875 request đạt cả hai trên toàn bộ 1.902 request.
 - **Alpha overlap:** Điểm chồng làm vùng đậm hơn; không phải lớp kết quả riêng.
+- **Native runtime:** Đường thực thi server gốc dùng trong job 26766, khác đường portable replay. Đây là khác biệt phần mềm chạy, không phải khác model GPU.
+- **ITL trung bình/request:** Khoảng cách trung bình giữa các token liên tiếp trong một request; khác latency đầu-cuối của request.
+- **P95:** Phân vị 95: 95% request quan sát có giá trị không vượt mức này; mô tả phần đuôi, không phải trung bình.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Trục X là TTFT mili giây; Y là ITL trung bình mỗi request. Hai đường đỏ dọc/ngang đánh dấu 3.000 ms và 20 ms. Request chỉ đạt nếu ở bên trái và phía dưới cả hai đường. Điểm teal đạt đồng thời; cam trượt ít nhất một điều kiện. Vùng xanh nhạt chỉ biểu diễn TTFT, không xác nhận ITL. Cụm đậm hơn là chồng alpha, không phải nhóm thứ ba. Kết quả: 1.875/1.902, tức 98,580%, đạt đồng thời; 27 trượt TTFT, không trượt ITL, không lỗi/hủy request. TTFT trung bình/p95 là 1.108,869/1.311,693 ms; ITL trung bình/p95 là 15,0075/15,1930 ms. Mọi miss bắt đầu trong 13,004 ms từ lúc mở admission đo; đây chỉ là tương quan. Giả thuyết: nhóm request đầu có thể chịu một hiệu ứng khởi đầu. Kết luận: mọi miss SLA quan sát được trong run này chỉ thuộc TTFT. Chưa biết nguyên nhân và phân tách queue/prefill/transfer/compute.
+- Trục X là TTFT mili giây; Y là ITL trung bình mỗi request. Hai đường đỏ dọc/ngang đánh dấu 3.000 ms và 20 ms. Request chỉ đạt nếu ở bên trái và phía dưới cả hai đường. Teal đậm (#23373B; có thể nhìn xanh lam-lục) đạt đồng thời; cam (#EB811B; có thể nhìn vàng) trượt ít nhất một điều kiện. Vùng xanh nhạt chỉ biểu diễn TTFT, không xác nhận ITL. Cụm đậm hơn là chồng alpha, không phải nhóm thứ ba. Kết quả: 1.875/1.902, tức 98,580%, đạt đồng thời; 27 trượt TTFT, không trượt ITL, không lỗi/hủy request. TTFT trung bình/p95 là 1.108,869/1.311,693 ms; ITL trung bình/p95 là 15,0075/15,1930 ms. Mọi miss bắt đầu trong 13,004 ms từ lúc mở admission đo; đây chỉ là tương quan. Giả thuyết: nhóm request đầu có thể chịu một hiệu ứng khởi đầu. Kết luận: mọi miss SLA quan sát được trong run này chỉ thuộc TTFT. Chưa biết nguyên nhân và phân tách queue/prefill/transfer/compute.
 - Đi sang trái là chờ token đầu ít hơn; đi xuống là khoảng token trung bình ngắn hơn. Vùng đạt nằm bên trái hoặc ngay trên đường x = 3000 VÀ bên dưới hoặc ngay trên đường y = 20; bằng ngưỡng vẫn đạt. Chấm cam được vẽ to hơn để dễ thấy lỗi, không có nghĩa request lớn hơn hay nhiều token hơn.
 - Đây là phân bố các request trong một lần chạy, không phải đường biên tối ưu giữa nhiều cấu hình. Hình không tách được thời gian chờ hàng đợi, tính prefill, truyền KV và decode.
+- Đây là profile request từ native server runtime, không phải benchmark kernel tổng hợp. TTFT đo thời gian chờ token đầu; ITL trung bình/request tóm tắt các khoảng token sau khi sinh bắt đầu. P95 mô tả phần chậm của phân bố. 27 miss bắt đầu trong 13,004 ms sau admission của profile, nhưng thời điểm đó không cho biết hàng đợi, prefill, truyền KV hay tính toán gây ra chúng.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -855,23 +900,28 @@ Dải xanh chỉ đánh dấu TTFT, không phải vùng đạt đồng thời. G
 
 Tách điểm vận hành H100, cài đặt backend và biến động giữa các lần chạy khỏi các tuyên bố trên H200.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Đỉnh đơn lẻ lịch sử H100 và control N54 đầy đủ mới được đặt cạnh settings backend và song song hóa H100.
+Kết quả lịch sử cao và control đầy đủ mới trả lời hai câu hỏi khác nhau: một bên là quan sát đơn lẻ cao nhất còn lưu, bên kia là run hoàn chỉnh mới cùng kết quả đạt điều kiện. H100 dùng settings prefill/decode khác H200, nên các số này không cô lập được tác động của thế hệ GPU.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **H100/H200:** Hai hệ thống GPU với operating point được đo riêng.
 - **N54:** Concurrency client của so sánh H100.
 - **TP8:** Tensor parallelism trên tám GPU.
 - **EP8:** Expert parallelism trên tám phân vùng.
 - **Chunk 4096:** Kích thước chunk prefill của cấu hình H100 này.
+- **Allocation:** Một lần scheduler cấp tài nguyên và chạy. Số allocation là số lần chạy, không phải số loại GPU hay chắc chắn số thiết bị vật lý riêng biệt.
+- **Đỉnh đơn lẻ được lưu:** Quan sát cao nhất trong chuỗi lịch sử nêu ra; không phải control mới hay ước lượng phân bố.
+- **TP8 / EP8:** Tensor parallelism trải trên tám GPU; expert parallelism phân phối expert trên tám phân vùng.
+- **Operating point:** Kết quả gắn với cấu hình phần cứng, phần mềm, tải và backend cụ thể.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Control đầy đủ mới 225227 đạt 2.399,186728 với SLA đồng thời 98,015873%, không lỗi/hủy. H100 dùng HPC-Ops cho prefill và decode, chunk 4096, TP8/EP8; H200 dùng DeepGEMM prefill và chunk 8192. Vì vậy đây không phải so sánh phần cứng ghép cặp hay hệ số quy đổi. Giữ cả đỉnh và control mới vì chúng trả lời câu hỏi khác nhau. TP là tensor parallelism; EP là expert parallelism. EAGLE truyền dữ liệu chức năng được không đồng nghĩa có kết quả hiệu năng aggregate được chấp nhận. Giả thuyết: mỗi họ phần cứng cần settings riêng. Kết luận: báo riêng điểm H100 cùng cấu hình thật. Chưa biết hiệu ứng nhân quả giữa thế hệ GPU hay hệ số phổ quát.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
+- Allocation là một run/lần cấp tài nguyên theo lịch; H100 so với H200 mới là khác biệt họ phần cứng. Mức cao được lưu là một run đã quan sát; control mới là phép đo hoàn chỉnh mới. H100 dùng HPC-Ops cho cả hai pha và chunk 4.096 token, còn H200 dùng backend prefill và chunk 8.192 khác; vì vậy không thể chia hai số để tạo hệ số thế hệ GPU.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -904,23 +954,27 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 Dùng phép thử decode FA3 không thành công để giải thích vì sao chỉ tối ưu thời gian token đầu có thể làm mục tiêu thông lượng cuối cùng xấu đi.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bảng H100 N54 so FlashInfer với FA3 về goodput, TTFT trung bình, ITL trung bình và latency request trung bình.
+FA3 rút ngắn thời gian tới token đầu, nhưng khoảng cách token trung bình dài hơn lặp lại qua phần output dài. Hãy dùng hàng latency request và goodput đo được làm căn cứ đầu-cuối; không chọn backend chỉ dựa trên TTFT.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **FlashInfer:** Backend attention decode của control.
 - **FA3:** Backend attention decode treatment; prefill vẫn dùng FA3.
 - **Goodput:** Số output token đủ điều kiện trên giây.
 - **Request latency:** Thời lượng request đầu-cuối, gồm sinh token.
 - **Cặp ghép:** Hai run đầy đủ chỉ khác yếu tố attention decode định thử.
+- **Latency request trung bình:** Thời lượng đầu-cuối trung bình của request, gồm chờ token đầu và thời gian sinh phần output còn lại.
+- **Vì sao TTFT có thể gây hiểu nhầm:** Tiết kiệm trước token đầu có thể nhỏ hơn phần chậm thêm trên mỗi token lặp qua câu trả lời dài.
+- **Thay đổi ghép cặp:** Trong cặp H100 N54 này chỉ attention decode thay đổi; prefill vẫn dùng FA3 ở cả hai nhánh.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - FlashInfer so với FA3: good tokens/s 2.420,945 và 2.401,284; TTFT trung bình 713,199 và 594,276 ms; ITL 18,214 và 18,988 ms; latency request 4.337,853 và 4.372,813 ms. FA3 giảm 118,922 ms tới token đầu, nhưng ITL tăng 0,773 ms; khoảng 199 khoảng token làm phát sinh xấp xỉ 154 ms. Latency request tăng và goodput giảm 0,812%. Giữ FlashInfer cho decode setting này; FA3 vẫn dùng ở prefill. Một cặp không thể xếp hạng backend phổ quát hay chỉ ra chính xác nhân quả kernel.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
+- Latency request trung bình đo được tăng 34,960 ms (4.372,813 − 4.337,853), còn goodput giảm 0,812%. Chênh lệch ITL nhỏ trên từng khoảng nhưng lặp qua câu trả lời dài; đây là cách diễn giải hợp lý tradeoff, không phải phép đo nhân quả kernel riêng. So sánh chỉ hỗ trợ giữ FlashInfer cho setting decode H100 đã thử.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -953,33 +1007,37 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 Giải thích giá trị của việc đảo thứ tự thử và giữ ngưỡng chấp nhận đã đặt trước, thay vì chọn kết quả thuận lợi đầu tiên.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Hai cặp đầy đủ H100 cho thấy walltime off/read-first, mức tiết kiệm, thay đổi goodput và cổng chi phí định trước.
+So sánh cặp thứ hai sau khi đảo điều kiện chạy trước. Mức tiết kiệm walltime 18,74% ở cặp đầu không lặp lại: cặp đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã định trước. Walltime scheduler gồm khởi động và dọn dẹp, nên khác với goodput ổn định.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **Read-first:** Treatment startup đọc dữ liệu checkpoint prefill trước.
+- **Read-first:** Đọc checkpoint prefill trước khi chạy dịch vụ đo để thử giả thuyết giảm chi phí startup.
 - **Walltime:** Thời gian chạy scheduler đo bằng giây.
-- **Đảo thứ tự:** Phép xác nhận chạy hai arm theo thứ tự ngược.
-- **Cổng chi phí:** Điều kiện định trước tiết kiệm walltime tối thiểu 10%.
+- **Đảo thứ tự:** Phép xác nhận chạy hai nhánh thử nghiệm theo thứ tự ngược.
+- **Ngưỡng chi phí:** Điều kiện định trước tiết kiệm walltime tối thiểu 10%.
 - **Thay đổi goodput:** Chênh throughput đủ điều kiện so với control ghép cặp.
+- **Walltime scheduler:** Thời gian allocation trôi qua gồm startup và cleanup; khác cửa sổ phục vụ 120 giây được tính điểm và khác goodput.
+- **Cold prefix và cold OS cache:** Cold prefix nghĩa là tiền tố prompt chưa được tái sử dụng từ cache prefix/KV của model. Cold OS page cache nghĩa là dữ liệu tệp chưa có sẵn trong cache hệ điều hành. Thí nghiệm không xác nhận OS cache lạnh nên không thể khẳng định nguyên nhân là đọc lưu trữ lạnh.
+- **Xác nhận đảo thứ tự:** Lặp cặp với thứ tự chạy ngược để xem chênh lệch đầu tiên có do thứ tự hoặc cache ấm không.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Cặp đầy đủ đầu: off/read-first 934/759 giây, tiết kiệm 18,74%, goodput −0,66%. Cặp xác nhận đảo thứ tự: 854/770 giây, tiết kiệm 9,84%, goodput −0,33%. Cổng định trước yêu cầu tiết kiệm ít nhất 10% và goodput giảm không quá 2%; phép xác nhận đạt điều kiện throughput nhưng trượt ngưỡng walltime nên không promote. Cache chưa rõ trạng thái và node khác nhau nên không thể quy nguyên nhân cho cold storage. Walltime là thời lượng scheduler, không phải throughput ổn định.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Cặp đầy đủ đầu: off/read-first 934/759 giây, tiết kiệm 18,74%, goodput −0,66%. Cặp xác nhận đảo thứ tự: 854/770 giây, tiết kiệm 9,84%, goodput −0,33%. Ngưỡng định trước yêu cầu tiết kiệm ít nhất 10% và goodput giảm không quá 2%; phép xác nhận đạt điều kiện throughput nhưng trượt ngưỡng walltime nên không đưa vào cấu hình chính. Cache chưa rõ trạng thái và node khác nhau nên không thể quy nguyên nhân cho cold storage. Walltime là thời lượng scheduler, không phải throughput ổn định.
+- Ý tưởng read-first liên quan việc nạp checkpoint prefill lúc khởi động. “Cold prefix” nói model có tái sử dụng mục cache tiền tố prompt/KV hay không; nó không mô tả cache tệp của hệ điều hành. OS cache lạnh nghĩa là các trang checkpoint phải được đọc từ lưu trữ thay vì cache bộ nhớ. Vì trạng thái cache chưa xác nhận và node khác nhau, không thể quy chênh lệch walltime cho lưu trữ lạnh. Kết quả đảo thứ tự không đạt ngưỡng định trước nên nhóm không áp dụng thay đổi.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Lần đầu tiết kiệm 18,74%; xác nhận đảo thứ tự 9,84%, dưới cổng 10%.
+- **Quan sát:** Lần đầu tiết kiệm 18,74%; xác nhận đảo thứ tự 9,84%, dưới ngưỡng 10%.
 - **Giả thuyết:** Read-first có thể giảm walltime startup.
-- **Kết luận được hỗ trợ:** Đóng nhánh, không promote vì phép xác nhận trượt cổng.
+- **Kết luận được hỗ trợ:** Đóng nhánh, không đưa vào cấu hình chính vì phép xác nhận không đạt ngưỡng.
 - **Chưa biết / giới hạn:** Cache và khác biệt node không cho phép quy cho cold storage.
 
 ### Lời nói mẫu
 
-“Cặp đầu tiết kiệm 18,74%, nhưng đảo thứ tự chỉ còn 9,84%, thấp hơn cổng 10% đã công bố. Goodput chỉ đổi nhẹ. Vì phép xác nhận trượt ngưỡng, chúng tôi đóng nhánh thay vì promote kết quả thuận lợi đầu tiên.”
+“Cặp đầu tiết kiệm 18,74%, nhưng đảo thứ tự chỉ còn 9,84%, thấp hơn ngưỡng 10% đã công bố. Goodput chỉ đổi nhẹ. Vì phép xác nhận trượt ngưỡng, chúng tôi đóng nhánh thay vì đưa vào cấu hình chính kết quả thuận lợi đầu tiên.”
 
 ### Điều không nên nói
 
@@ -987,7 +1045,7 @@ Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải
 
 ### Câu chuyển slide
 
-“Một câu hỏi riêng là liệu tỷ số phần cứng cục bộ dự báo được tải gần kề không.”
+“Một câu hỏi riêng là liệu tỷ số phần cứng do nhóm tự chạy dự báo được tải gần kề không.”
 
 ---
 
@@ -1001,35 +1059,40 @@ Không chỉ báo cặp đầu thuận lợi. Cache chưa rõ nên diễn giải
 
 Đặt một cầu nối đo được nhưng có phạm vi giữa hai hệ thống, và giải thích vì sao đây không phải quy tắc đổi mọi kết quả H100 sang H200.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Trung bình full protocol của H100 và H200 ở cùng combo N52 tạo thành một tỷ số quan sát không đơn vị.
+Tỷ số là goodput trung bình H200 chia cho H100 với cùng model/cấu hình tại N52. Hai và bốn allocation là số lần chạy được scheduler cấp tài nguyên; không có nghĩa là có hai và bốn loại GPU khác nhau, cũng không chứng minh mọi allocation dùng phần cứng duy nhất. Một tỷ số này là điểm hiệu chuẩn, không phải quy luật quy đổi.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **N52:** Concurrency client của điểm calibration này.
 - **Allocation:** Một lần phân bổ tài nguyên/run theo lịch.
 - **Tỷ số hệ thống:** Goodput trung bình H200 chia H100 trong phép đo này.
 - **Không đơn vị:** Tỷ số không mang đơn vị vật lý.
 - **Điểm calibration:** Một tải/cấu hình, không phải đường quy đổi đã xác thực.
+- **Allocation là số lần chạy, không phải phần cứng độc lập:** Hai allocation H100 và bốn H200 là các lần chạy do scheduler cấp. Chỉ riêng số lượng không chứng minh máy riêng, GPU vật lý riêng hay đa dạng phần cứng.
+- **Tỷ số 1,188096805:** Trung bình H200 2.632,181 ÷ H100 2.215,460 ở combo N52 này. Tỷ số không đơn vị và chỉ áp dụng cho phép so này.
+- **Calibration:** Điểm tham chiếu được đo để lập một ước lượng cụ thể; không phải hàm quy đổi đã xác thực qua workload.
+- **Phần cứng độc lập:** Loại accelerator khác nhau (H100 với H200), không chỉ là một allocation scheduler khác cùng loại.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Tỷ số H200/H100 quan sát là 1,188096805, không đơn vị. Nó chỉ mô tả điểm đo này. Lặp ở một tải không định nghĩa hàm quy đổi hay prediction interval; không áp dụng tỷ số cho TTFT, ITL, SLA hay nhánh backend khác. Allocation là lần phân bổ tài nguyên, không phải thế hệ phần cứng độc lập. Giả thuyết: calibration cục bộ có thể hỗ trợ dự báo held-out gần kề. Kết luận: chỉ dùng làm đầu vào dự báo có phạm vi. Chưa biết biến thiên theo tải/cấu hình và uncertainty.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Tỷ số H200/H100 quan sát là 1,188096805, không đơn vị. Nó chỉ mô tả điểm đo này. Lặp ở một tải không định nghĩa hàm quy đổi hay prediction interval; không áp dụng tỷ số cho TTFT, ITL, SLA hay nhánh backend khác. Allocation là lần phân bổ tài nguyên, không phải thế hệ phần cứng độc lập. Giả thuyết: calibration do nhóm tự chạy có thể hỗ trợ dự báo held-out (phép đo được giữ riêng để kiểm tra dự báo) gần kề. Kết luận: chỉ dùng làm đầu vào dự báo có phạm vi. Chưa biết biến thiên theo tải/cấu hình và uncertainty.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
 - Hai trung bình in trên slide là 2.215,460 và 2.632,181 good output tokens/s, lần lượt từ hai lần cấp tài nguyên H100 và bốn lần H200. Tỷ số 1,188096805 không có đơn vị; tại điểm đo này nó tương ứng thông lượng hệ thống cao hơn khoảng 18,81%, không phải tăng 18,81 điểm phần trăm SLA.
+- Hai allocation H100 và bốn H200 là số lần lặp run được scheduler cấp. Chúng không chứng minh có hai so với bốn thiết bị phần cứng riêng, cũng không phải bốn quần thể phần cứng độc lập. “Phần cứng độc lập” ở đây nghĩa là họ accelerator khác nhau, H100 so với H200. Lặp tại một tải giúp mô tả điểm vận hành đó, nhưng không xác lập hàm quy đổi ở concurrency hay backend khác.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Trung bình N52 cho tỷ số H200/H100 cục bộ 1,188096805.
-- **Giả thuyết:** Calibration cục bộ có thể hỗ trợ điểm held-out gần kề.
+- **Quan sát:** Trung bình N52 cho tỷ số H200/H100 do nhóm tự chạy 1,188096805.
+- **Giả thuyết:** Calibration do nhóm tự chạy có thể hỗ trợ điểm held-out (phép đo được giữ riêng để kiểm tra dự báo) gần kề.
 - **Kết luận được hỗ trợ:** Xem là tỷ số giới hạn, không phải quy luật đổi phần cứng.
 - **Chưa biết / giới hạn:** Biến thiên theo tải, settings và metric latency chưa biết.
 
 ### Lời nói mẫu
 
-“Ở cùng combo N52, goodput H200 chia H100 là 1,1881. Đây là liên hệ hệ thống cục bộ, không phải hệ số quy đổi phổ quát. Slide sau kiểm tra một dự báo đã khóa tại N50.”
+“Ở cùng combo N52, goodput H200 chia H100 là 1,1881. Đây là liên hệ hệ thống do nhóm tự chạy, không phải hệ số quy đổi phổ quát. Slide sau kiểm tra một dự báo đã khóa tại N50.”
 
 ### Điều không nên nói
 
@@ -1037,7 +1100,7 @@ Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần tră
 
 ### Câu chuyển slide
 
-“Giờ kiểm tra dự báo được cố định trước khi thấy dữ liệu H200 held-out.”
+“Giờ kiểm tra dự báo được cố định trước khi thấy dữ liệu H200 held-out (phép đo được giữ riêng để kiểm tra dự báo).”
 
 ---
 
@@ -1051,30 +1114,32 @@ Tỷ số chỉ áp dụng cho tải/cấu hình nêu; không phải phần tră
 
 Minh họa kiểm tra dự báo minh bạch: khóa dự báo trước, thử một điểm chưa dùng để hiệu chỉnh, rồi báo cả việc đạt dung sai lẫn phần bất định còn thiếu.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Dự báo được khóa trước kết quả được so với phép đo H200 N50 held-out, sai số có dấu và dung sai.
+Dự báo được ghi lại trước khi xem kết quả H200 held-out (phép đo được giữ riêng để kiểm tra dự báo). Sai số có dấu −1,5371% nằm trong dung sai vận hành ±2% đã định trước. Sensitivity range trước đó chỉ thay đổi một số đầu vào và bỏ qua sai số mô hình, nên không phải khoảng bất định dự báo đầy đủ; việc kết quả nằm ngoài phạm vi ấy là hạn chế thật, không phải lý do để sửa dự báo đã khóa.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **Held-out:** Quan sát để riêng kiểm tra dự báo đã khóa.
-- **Sai số có dấu:** Chênh lệch tương đối; âm nghĩa là đo thấp hơn dự báo.
-- **Dung sai ±2%:** Cổng vận hành định trước, không phải khoảng tin cậy 95%.
-- **Sensitivity range:** Phạm vi biến thiên đầu vào trước đó, ở đây thiếu model error.
+- **Held-out:** Phép đo không dùng để hiệu chuẩn, chỉ xem sau khi ghi dự báo; nó kiểm tra khả năng chuyển sang quan sát mới.
+- **Sai số có dấu:** (đo được − dự báo) chia theo dự báo; âm nghĩa là goodput đo được thấp hơn.
+- **Dung sai ±2%:** Ngưỡng vận hành định trước, không phải khoảng tin cậy 95%.
+- **Sensitivity range:** Khoảng tạo ra khi thay đổi một số đầu vào. Đây không phải tổng bất định dự báo nếu thiếu sai số mô hình, biến thiên giữa run hoặc yếu tố chưa mô hình hóa.
 - **N50:** Concurrency client của phép kiểm tra dự báo.
+- **Dung sai vận hành:** Khoảng đạt thực dụng ±2% đã định trước; không phải khoảng tin cậy 95% hay thanh sai số đo.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Job held-out 24272 đo 2.601,629; sai số có dấu −1,5371%, trong dung sai vận hành định trước ±2%. Kết quả nằm ngoài sensitivity range cũ vì phạm vi đó bỏ sót model error. Dung sai không phải khoảng tin cậy 95% hay thanh sai số đo. Không fit lại tỷ số sau khi thấy điểm này. Một phép held-out đạt chỉ hỗ trợ kiểm tra cục bộ, không chứng minh độ đúng dự báo rộng.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Job held-out (phép đo được giữ riêng để kiểm tra dự báo) 24272 đo 2.601,629; sai số có dấu −1,5371%, trong dung sai vận hành định trước ±2%. Kết quả nằm ngoài sensitivity range cũ vì phạm vi đó bỏ sót model error. Dung sai không phải khoảng tin cậy 95% hay thanh sai số đo. Không fit lại tỷ số sau khi thấy điểm này. Một phép held-out (phép đo được giữ riêng để kiểm tra dự báo) đạt chỉ hỗ trợ kiểm tra do nhóm tự chạy, không chứng minh độ đúng dự báo rộng.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
 - Dấu âm nghĩa là phép đo thấp hơn dự báo: 2.601,629 so với 2.642,244 good output tokens/s. Sai số có dấu bằng (đo − dự báo) / dự báo × 100; ký hiệu ± là dung sai cho phép hai phía, không phải thanh sai số của phép đo.
+- Dự báo được kiểm tra held-out (phép đo được giữ riêng để kiểm tra dự báo) vì kết quả H200 N50 không được dùng để tính nó. Khoảng ±2% là quy tắc chấp nhận vận hành chọn trước phép đo. Khoảng sensitivity hỏi phép tính đổi thế nào khi thay một số đầu vào; chỉ có thể gọi là khoảng bất định dự báo nếu nó còn phản ánh các sai số và biến thiên quan trọng. Phạm vi cũ bỏ qua sai số mô hình, nên quan sát held-out (phép đo được giữ riêng để kiểm tra dự báo) phát hiện hạn chế dù vẫn qua dung sai thực dụng.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Sai số held-out −1,5371%, trong ±2% nhưng ngoài sensitivity range thiếu sót.
+- **Quan sát:** Sai số held-out (phép đo được giữ riêng để kiểm tra dự báo) −1,5371%, trong ±2% nhưng ngoài sensitivity range thiếu sót.
 - **Giả thuyết:** Calibration N52 có thể dự báo throughput N50 gần kề.
-- **Kết luận được hỗ trợ:** Một cổng cục bộ đạt; vẫn ghi rõ thiếu model error.
+- **Kết luận được hỗ trợ:** Một tiêu chí vận hành do nhóm áp dụng đạt; vẫn ghi rõ thiếu model error.
 - **Chưa biết / giới hạn:** Độ chính xác rộng và uncertainty đầy đủ chưa biết.
 
 ### Lời nói mẫu
@@ -1083,7 +1148,7 @@ Dự báo được khóa trước kết quả được so với phép đo H200 N
 
 ### Điều không nên nói
 
-±2% là dung sai vận hành, không phải khoảng tin cậy. Không fit lại sau khi thấy held-out.
+±2% là dung sai vận hành, không phải khoảng tin cậy. Không fit lại sau khi thấy held-out (phép đo được giữ riêng để kiểm tra dự báo).
 
 ### Câu chuyển slide
 
@@ -1101,33 +1166,37 @@ Dự báo được khóa trước kết quả được so với phép đo H200 N
 
 Giải thích cách giữ hoặc đóng ý tưởng có cơ sở từ source sau phép đo đầy đủ; đường code hợp lý hay mức tăng nhỏ chưa đủ để đưa vào cấu hình chính.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các hàng nối từng giả thuyết dựa trên source với quan sát đầy đủ và quyết định giữ hay đóng.
+Với mỗi hàng, hỏi ba điều: kiểm tra source có dự đoán đúng đường code không, bằng chứng runtime có xác nhận đường đó đang hoạt động không, và run đầy đủ ghép cặp có cải thiện dịch vụ đủ đáng kể không? Các tỷ lệ nhỏ thuộc những thí nghiệm riêng, không được cộng dồn.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Bằng chứng source:** Code và runtime xác nhận đường nào được chọn/kích hoạt.
 - **Exact-ID preflight:** Kiểm tra batching tokenizer giữ đúng token ID.
-- **p95 TTFT:** Phân vị 95 TTFT; thước đo phần đuôi.
-- **Cổng useful-gain:** Ngưỡng định trước để promote.
+- **p95 TTFT:** Phân vị 95 của thời gian token đầu; có thể xấu hơn dù trung bình cải thiện.
+- **Ngưỡng mức tăng hữu ích:** Ngưỡng định trước để đưa vào cấu hình chính.
 - **Prefill/decode:** Xử lý prompt / sinh token tự hồi quy.
+- **Kiểm tra source:** Đọc phần cài đặt để biết nhánh code dự kiến chạy; bằng chứng runtime phải xác nhận nhánh đó thực sự hoạt động.
+- **Kiểm tra trước exact token ID:** Kiểm tra tính đúng: batching phải giữ nguyên token ID trước khi đo tốc độ.
+- **Mức tăng hữu ích:** Mức cải thiện tối thiểu đặt trước để đáng đổi cấu hình phục vụ; số dương rất nhỏ chưa chắc hữu ích.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Source và runtime activation xác nhận code path chạy, không chứng minh bottleneck. Mỗi quyết định dựa trên kết quả full có control và ngưỡng useful-gain. p95 là đuôi phân vị 95, không phải trung bình. Không cộng phần trăm giữa các nhánh.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Kiểm tra source và xác nhận runtime trả lời implementation dự định có được dùng không; run đầy đủ ghép cặp trả lời nó có giúp ích không. Đây là các bước bằng chứng riêng. Thay đổi dương nhỏ có thể nằm trong biến thiên hoặc quá nhỏ để hữu ích; một metric tốt hơn vẫn có thể đi cùng phần đuôi xấu hơn hay goodput thấp hơn. Vì vậy bảng giữ cả nhánh âm và dưới ngưỡng thay vì cộng dồn các gain nổi bật.
 
 ### Đánh đổi và mức độ bằng chứng
 
 - **Quan sát:** Gain nhỏ không đạt ngưỡng; tail cache hoặc goodput attention xấu hơn.
 - **Giả thuyết:** Settings có cơ sở source có thể cải thiện một metric dịch vụ.
-- **Kết luận được hỗ trợ:** Chỉ promote thay đổi đã kích hoạt, ghép cặp và có gain đầy đủ hữu ích.
+- **Kết luận được hỗ trợ:** Chỉ đưa vào cấu hình chính thay đổi đã kích hoạt, ghép cặp và có gain đầy đủ hữu ích.
 - **Chưa biết / giới hạn:** Chưa xác lập bottleneck chung hay hiệu ứng ở cấu hình khác.
 
 ### Lời nói mẫu
 
-“Flag chạy được mới chỉ là khởi đầu. Chúng tôi xác nhận activation, chạy protocol đầy đủ và so với control. Gain nhỏ dưới ngưỡng không được promote; ITL tốt hơn nhưng mất 6,39% goodput cũng không phải cải thiện.”
+“Flag chạy được mới chỉ là khởi đầu. Chúng tôi xác nhận activation, chạy protocol đầy đủ và so với control. Gain nhỏ dưới ngưỡng không được đưa vào cấu hình chính; ITL tốt hơn nhưng mất 6,39% goodput cũng không phải cải thiện.”
 
 ### Điều không nên nói
 
@@ -1149,22 +1218,28 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 Tách dịch vụ nhanh khỏi chất lượng trả lời đúng: sanity check nhỏ và việc đạt độ trễ không chứng nhận yêu cầu chất lượng chính thức trên bộ đánh giá đầy đủ.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Ba dải bằng chứng tách chấp nhận latency dịch vụ, sanity check cục bộ nhỏ và chất lượng model official chưa xác minh.
+Chấp nhận latency hỏi request được phục vụ nhanh đến đâu; chất lượng model hỏi câu trả lời đạt điểm reference của ban tổ chức hay không. Smoke 7/8 và retrieval 12/12 là kiểm tra regression nhỏ do nhóm chạy, không phải đánh giá accuracy official trên toàn bộ tập. Đạt ngưỡng latency không chứng minh đạt tối thiểu 99% điểm reference.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **SLA:** Tiêu chí latency dịch vụ ở cấp request.
 - **Smoke:** Bộ kiểm tra nhỏ về hành vi cơ bản/regression.
-- **Retrieval:** Sanity check retrieval cục bộ, không phải benchmark quality official.
+- **Retrieval:** Sanity check retrieval do nhóm tự chạy, không phải benchmark quality official.
 - **99% reference:** Ngưỡng chất lượng model official, hiện chưa xác minh.
 - **FP8/BF16:** Trọng số FP8; activation và KV cache BF16.
+- **Hiệu năng dịch vụ:** Đo tốc độ/độ trễ và tỷ lệ request đạt; tự nó không nói câu trả lời đúng về nghĩa hay không.
+- **Chất lượng model official:** Đánh giá riêng của ban tổ chức, so câu trả lời với reference trên tập kiểm tra đầy đủ quy định; yêu cầu ở đây là ít nhất 99% reference.
+- **Smoke / retrieval check:** Kiểm tra nhỏ do nhóm tự chạy về regression và retrieval; không thay thế bài kiểm tra quality official.
+- **Trọng số FP8, activation/KV BF16:** Định dạng trọng số khác định dạng activation và KV cache; đây là định dạng số, không phải điểm chất lượng.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
+- **Sanity check do nhóm tự chạy:** Một số kiểm tra nhỏ do nhóm chạy trên môi trường được cấp để tìm regression; đây không phải đánh giá chất lượng full-set theo quy trình của ban tổ chức.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Smoke cục bộ là 7/8, không regression mới; retrieval là 12/12. Các kiểm tra nhỏ này không chứng nhận yêu cầu chất lượng official tối thiểu 99% reference. Primary giữ trọng số FP8 và activation/KV BF16; không dùng KV lượng tử hóa hay speculative decoding. SLA là chấp nhận latency dịch vụ; reference là chuẩn so chất lượng của organiser. Kết luận: báo riêng hiệu năng dịch vụ và ghi rõ quality official chưa xác minh.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Smoke do nhóm tự chạy là 7/8, không regression mới; retrieval là 12/12. Các kiểm tra nhỏ này không chứng nhận yêu cầu chất lượng official tối thiểu 99% reference. Primary giữ trọng số FP8 và activation/KV BF16; không dùng KV lượng tử hóa hay speculative decoding. SLA là chấp nhận latency dịch vụ; reference là chuẩn so chất lượng của organiser. Kết luận: báo riêng hiệu năng dịch vụ và ghi rõ quality official chưa xác minh.
+- Kết quả latency là kết quả hiệu năng: đo thời gian phục vụ request và tỷ lệ đạt giới hạn. Yêu cầu 99% reference là kết quả chất lượng: so câu trả lời sinh ra với bài đánh giá reference do ban tổ chức chỉ định. Smoke và retrieval kiểm tra số trường hợp hạn chế, không ước lượng điểm quality toàn tập. Vì vậy chúng chỉ hỗ trợ kết luận “không phát hiện regression trong bộ kiểm tra nhỏ”, không phải “đã đạt accuracy official”.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -1175,7 +1250,7 @@ Ba dải bằng chứng tách chấp nhận latency dịch vụ, sanity check c�
 
 ### Lời nói mẫu
 
-“Dịch vụ đạt ngưỡng latency cục bộ, các sanity check nhỏ không có regression mới. Đánh giá chất lượng official ở mức 99% reference chưa được xác minh, nên chúng tôi không tuyên bố chứng nhận hay ranking.”
+“Dịch vụ đạt ngưỡng latency do nhóm tự chạy, các sanity check nhỏ không có regression mới. Đánh giá chất lượng official ở mức 99% reference chưa được xác minh, nên chúng tôi không tuyên bố chứng nhận hay ranking.”
 
 ### Điều không nên nói
 
@@ -1197,22 +1272,27 @@ Smoke và retrieval không phải chứng nhận accuracy đầy đủ.
 
 Giữ toàn bộ chuỗi lỗi và sửa của speculative decoding, rồi giải thích vì sao sửa được tích hợp vẫn chưa chứng minh có tăng tốc.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bốn giai đoạn EAGLE3 theo thời gian cho thấy lỗi vị trí draft, lỗi validator và cách sửa, retry ngắn và run đầy đủ.
+Theo dõi đúng trình tự. Đầu tiên, đặt draft worker ở mọi nơi làm trượt ngưỡng latency kết hợp. Sau đó validator nhầm lẫn yêu cầu vùng KV của draft trên prefill chỉ chạy target; sửa bộ kiểm tra cho phép retry hợp lệ nhưng không làm hiệu năng thay đổi. Cả retry ngắn lẫn run đầy đủ sau đó đều giảm goodput, nên các cấu hình đã thử được dừng thử nghiệm.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **EAGLE3:** Phương pháp speculative decoding đề xuất draft token.
 - **Vị trí draft:** Vai trò worker chạy draft model.
 - **KV region:** Vùng bộ nhớ KV cache gắn với một role.
 - **Protocol ngắn:** Phép thử giới hạn, không phải benchmark hoàn chỉnh.
-- **Protocol đầy đủ:** Workload, warmup, cửa sổ đo và grace hoàn chỉnh.
+- **Protocol đầy đủ:** Workload, wnhánh thử nghiệmup, cửa sổ đo và grace hoàn chỉnh.
+- **Speculative decoding EAGLE3:** Model draft đề xuất token; model target xác minh. Truyền draft đúng là kết quả chức năng, không chứng minh dịch vụ đầu-cuối nhanh hơn.
+- **Validator nhận biết role:** Bộ kiểm tra chỉ đòi KV draft ở role worker thực sự chạy draft. Prefill chỉ chạy target không có vùng KV draft.
+- **Run ngắn và run đầy đủ:** Pass ngắn chỉ xác nhận hành vi giới hạn; cần run workload cố định đầy đủ để so goodput dịch vụ.
+- **Mất goodput:** Tốc độ output token đủ điều kiện thấp hơn control target-only ghép cặp.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Thử nghiệm decode-only 25988 bị validator từ chối sai vì áp số KV region của draft lên prefill target-only. Sửa validator theo role nhưng vẫn giữ lỗi cũ. Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only. Thử nghiệm shallow full riêng 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Truyền draft chức năng không đồng nghĩa tăng tốc; telemetry acceptance thấp không phải phân tích thời gian nhân quả. EAGLE3 là speculative decoding; KV là key/value cache; full protocol là workload hoàn chỉnh; short protocol là phép thử giới hạn. Kết luận: đóng các arm đã đo và giữ lịch sử lỗi/sửa. Chưa biết cấu hình khác và quality official.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
+- Thử nghiệm decode-only 25988 bị validator từ chối sai vì áp số KV region của draft lên prefill target-only. Sửa validator theo role nhưng vẫn giữ lỗi cũ. Retry ngắn 25998 qua protocol giới hạn nhưng mất 4,74% goodput so với control target-only. Thử nghiệm shallow full riêng 27238 đạt 2.971,628430 so với control 26949 ở 3.034,761104, giảm 2,080318%. Truyền draft chức năng không đồng nghĩa tăng tốc; telemetry acceptance thấp không phải phân tích thời gian nhân quả. EAGLE3 là speculative decoding; KV là key/value cache; full protocol là workload hoàn chỉnh; short protocol là phép thử giới hạn. Kết luận: đóng các nhánh thử nghiệm đã đo và giữ lịch sử lỗi/sửa. Chưa biết cấu hình khác và quality official.
+- Lỗi validator là sai sót ở công cụ/giao diện, không phải bằng chứng model tự lỗi. Validator sau sửa áp kiểm tra theo vai trò worker: prefill chỉ chạy target không bị yêu cầu sở hữu KV draft. Sau sửa, retry decode-only ngắn mất 4,74% goodput; run shallow đầy đủ sau đó mất 2,080318%. Truyền speculative token đúng chức năng và pass run ngắn không đủ để đổi cấu hình phục vụ khi goodput đầy đủ thấp hơn.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -1231,7 +1311,7 @@ Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.
 
 ### Câu chuyển slide
 
-“Tổng kết quay lại N64 được lặp lại và kết quả cache nhỏ không được promote.”
+“Tổng kết quay lại N64 được lặp lại và kết quả cache nhỏ không được đưa vào cấu hình chính.”
 
 ---
 
@@ -1245,34 +1325,39 @@ Không xóa lỗi validator hoặc nhầm protocol ngắn với đầy đủ.
 
 Kết phần AI chính bằng cấu hình có bằng chứng lặp lại và giới hạn của kết luận, thay vì chọn một đỉnh điểm riêng lẻ.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Trung bình N64 lịch sử được lặp lại đặt cạnh gain cache nhỏ và một run native-runtime được báo riêng.
+Mốc được chọn là trung bình của ba run N64 lịch sử đầy đủ. Run native-runtime sau đó là phép đo riêng vì dùng môi trường thực thi server khác; không gộp hai nhóm như thể chúng thuộc cùng một chuỗi kiểm soát. Candidate cache có số cao nhất, nhưng gain 0,240921% thấp hơn ngưỡng lợi ích đã đặt ra.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Trung bình ba run:** Trung bình các run N64 đầy đủ lịch sử 25366/25373/25487.
-- **Native runtime:** Đường runtime riêng của job 26766.
+- **Native runtime:** Job 26766 dùng môi trường thực thi server native, khác runtime lịch sử. Runtime là stack phần mềm khởi chạy/chạy server, không phải phần cứng GPU.
 - **Cặp cache:** Control mới 27376 so với candidate 27378.
-- **+0,240921%:** Gain candidate, thấp hơn cổng useful-gain định trước.
+- **+0,240921%:** Gain candidate, thấp hơn ngưỡng lợi ích hữu ích định trước.
 - **Quality official:** Yêu cầu accuracy full-set, chưa xác minh ở đây.
+- **Chuỗi N64 lịch sử:** Ba run đầy đủ 25366/25373/25487 trung bình 3.044,400475 good output tokens/s.
+- **Control cache mới:** Job 27376 so với candidate 27378; chênh điểm +0,240921% thấp hơn ngưỡng lợi ích hữu ích.
+- **Run do nhóm review:** Run do nhóm chạy trên cluster được cấp và kiểm tra bằng raw output/runtime gate nội bộ. Đây không phải ranking hay chứng nhận quality do ban tổ chức cấp.
+- **Protocol đầy đủ 60/120/30:** Với benchmark này: warmup 60 giây, đo tính điểm 120 giây và grace 30 giây cho request đang chạy; grace không tính điểm.
+- **Do nhóm chạy và review:** Nhóm chạy phép đo trên cluster được cấp và kiểm tra raw request, runtime cùng các điều kiện bắt buộc. “Review” không phải chứng nhận của ban tổ chức, ranking contest, hay chạy trên máy cá nhân.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Job native-runtime sau đó 26766 đạt độc lập 3.045,501509 và SLA đồng thời 98,580442%; cần báo riêng vì runtime path khác. Kết quả cache full cao nhất 27378 đạt 3.048,446289, chỉ +0,240921% so với control mới 27376, dưới ngưỡng useful-gain. Các replay hợp lệ thấp hơn quanh 2.802–2.831 vẫn được lưu. Lặp lại hỗ trợ chọn N64, không chứng minh optimum toàn cục. Không tuyên bố speculative speedup, chứng nhận quality official hay speedup nhân quả của native runtime.
-- Slide này không có trục số X/Y. Đọc các hàng, cột hoặc ô thông tin được in; đầu mục xanh đậm tổ chức nội dung, chữ cam nhấn mạnh thông điệp. Các màu này không tạo thêm một nhóm dữ liệu đạt/trượt riêng.
 - Good output tokens/s là đơn vị thông lượng (mong muốn cao hơn); độ trễ dùng mili giây (mong muốn thấp hơn); joint SLA là phần trăm request, không phải độ chính xác model. N là request đồng thời ở client, không phải GPU. Chỉ đọc những đại lượng thực sự có trên slide.
+- Trung bình lịch sử và điểm native-runtime đều là phép đo nhóm chạy, đã review đầy đủ trên cluster accelerator được cấp; “review” nghĩa raw request và runtime đã được kiểm tra, không phải ban tổ chức chứng nhận thứ hạng hay quality. Native runtime là môi trường phần mềm thực thi, không phải thế hệ GPU mới. Giữ số 3.045,501509 riêng với trung bình lịch sử ba run vì runtime path khác nhau. Không chọn kết quả cache cao hơn về số học khi gain dưới ngưỡng thay đổi hữu ích đã định trước.
 
 ### Đánh đổi và mức độ bằng chứng
 
 - **Quan sát:** Trung bình N64 lịch sử được lặp; cache tăng 0,240921%; runtime native báo riêng.
 - **Giả thuyết:** Điểm được lặp lại đáng chọn hơn một đỉnh đơn độc.
-- **Kết luận được hỗ trợ:** Giữ N64; không promote gain cache nhỏ.
+- **Kết luận được hỗ trợ:** Giữ N64; không đưa vào cấu hình chính gain cache nhỏ.
 - **Chưa biết / giới hạn:** Optimum toàn cục, quality official và khác biệt runtime nhân quả chưa biết.
 
 ### Lời nói mẫu
 
-“Điểm được chọn là trung bình N64 lịch sử đã lặp lại. Kết quả native sau đó tương tự nhưng báo riêng. Đỉnh cache chỉ hơn control 0,24% nên không promote. Chúng tôi giữ cả run thấp hợp lệ. Đây là operating point đo được, không phải optimum toàn cục; quality official vẫn cần xác minh.”
+“Điểm được chọn là trung bình N64 lịch sử đã lặp lại. Kết quả native sau đó tương tự nhưng báo riêng. Đỉnh cache chỉ hơn control 0,24% nên không đưa vào cấu hình chính. Chúng tôi giữ cả run thấp hợp lệ. Đây là operating point đo được, không phải optimum toàn cục; quality official vẫn cần xác minh.”
 
 ### Điều không nên nói
 
@@ -1294,43 +1379,44 @@ Luôn kèm đơn vị và cấu hình; không nêu giả thuyết như nguyên n
 
 ### Slide muốn nói gì
 
-Giải thích chênh lệch giữa kết quả N64 đầy đủ đã lặp lại và một đối chứng ngắn mới hơn, nhưng không gán nguyên nhân chưa được xác lập.
+Giải thích vì sao độ lệch điểm quan sát được chưa chỉ ra nguyên nhân, và vì sao lần chạy đầy đủ về sau là tái lập kết quả chứ chưa chứng minh phục hồi do một thay đổi cụ thể.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các cột lần lượt là quan sát/phép thử, cài đặt giữ hoặc đổi, và kết quả. Các hàng gồm lần đầy đủ lịch sử, đối chứng ngắn, phát lại cấu hình cũ, các ô thử có kiểm soát và lần native riêng. Điểm là token đầu ra tốt/giây. N64 là concurrency của client, không phải số GPU. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Hãy đọc điểm theo ba loại bằng chứng. Trung bình lịch sử đến từ ba lần N64 đầy đủ. Đối chứng khoảng 2,560 là phép đo ngắn, đồng thời khác chính sách graph, giới hạn yêu cầu và điều kiện harness/cách quan sát; vì vậy chênh lệch trộn lẫn thay đổi quy trình lẫn cấu hình. Lần phát lại cấu hình cũ đạt 2,830.923547 trong một lần chạy đầy đủ hợp lệ. Lần native đạt 3,045.501509 trong một đường thực thi về sau. Hai kết quả gần nhau không chứng minh cài đặt nào đã khôi phục hiệu năng.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **N64:** Mức đồng thời mục tiêu của client là 64 yêu cầu đang xử lý.
-- **chính sách graph:** Quy tắc chọn hình dạng yêu cầu decode nào được thực thi bằng đồ thị GPU đã capture.
-- **giới hạn yêu cầu:** Ngưỡng cấu hình tối đa cho số yêu cầu đang chạy mà engine phục vụ chấp nhận.
-- **runtime native:** Đường thực thi serving ở lần đo đầy đủ riêng biệt về sau.
-- **KV:** Trạng thái key-value của attention được chuyển từ xử lý prompt sang sinh token.
+- **N64:** Client nhắm duy trì 64 request đang xử lý; đây là mức tải request, không phải 64 GPU.
+- **protocol đầy đủ và ngắn:** Protocol đầy đủ gồm warmup 60 giây, profiling 120 giây và grace 30 giây. Đối chứng ngắn có thời gian đo ngắn hơn nên không so điểm trực tiếp với lần đầy đủ.
+- **độ lệch điểm:** Khác biệt giữa các lần đo đặt ra câu hỏi; tự nó không chỉ ra nguyên nhân.
+- **runtime native:** Đường thực thi serving riêng về sau dùng ở lần đầy đủ 26766. Tên gọi xác định đường đã thử; tự nó không có nghĩa nhanh hơn và không giải thích vì sao điểm đổi.
+- **phục hồi nhân quả:** Bằng chứng cho thấy một thay đổi cụ thể khôi phục điểm, thường cần so sánh có kiểm soát và cô lập thay đổi đó.
+- **giới hạn request / chính sách graph:** Giới hạn request chặn số request đang chạy; chính sách graph chọn dạng decode nào dùng GPU graph đã capture. Cả hai đã đổi ở đối chứng về sau.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Trung bình ba lần N64 đầy đủ lịch sử là 3,044.400475. Đối chứng ngắn đạt khoảng 2,560 nhưng khác quy trình, chính sách graph và giới hạn yêu cầu.
-- Phát lại đầy đủ cấu hình cũ hợp lệ đạt 2,830.923547. Các đối chứng mới không tách được một nguyên nhân hữu ích. Lần native đầy đủ 26766 đạt 3,045.501509 trong chuỗi riêng.
+- Một lần chạy đầy đủ có warmup 60 giây, cửa sổ profiling được tính điểm 120 giây và grace 30 giây. Đối chứng ngắn không có cùng cửa sổ quan sát, nên điểm của nó báo hiệu độ lệch nhưng không phải so sánh khớp quy trình đầy đủ.
+- Phát lại cấu hình cũ đạt 2,830.923547; lần native đầy đủ về sau đạt 3,045.501509. So sánh graph/tiếp nhận không tìm ra một nguyên nhân hữu ích duy nhất. Giữ lại cả hai kết quả hợp lệ.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Kết quả đầy đủ lịch sử và native gần 3,044–3,046 token đầu ra tốt/giây; đối chứng ngắn và phát lại cũ thấp hơn.
-- **Giả thuyết:** Chính sách graph và giới hạn yêu cầu đang chạy có thể giải thích một phần độ lệch.
-- **Kết luận được hỗ trợ:** Thử nghiệm không xác lập nguyên nhân hữu ích duy nhất; giữ lại lần phát lại thấp nhưng hợp lệ.
-- **Chưa biết / giới hạn:** Biến động còn lại, gồm khác biệt harness và cách quan sát, vẫn chưa rõ.
+- **Quan sát:** N64 đầy đủ lịch sử trung bình 3,044.400475; đối chứng ngắn khoảng 2,560; phát lại đầy đủ hợp lệ đạt 2,830.923547; lần native 26766 đạt 3,045.501509.
+- **Giả thuyết:** Thay đổi graph prefill, giới hạn request đang chạy hoặc điều kiện harness có thể góp phần tạo độ lệch.
+- **Kết luận được hỗ trợ:** Lần chạy đầy đủ về sau tái lập gần mức lịch sử trong một chuỗi runtime riêng; chưa chứng minh một cài đặt nào gây ra chênh lệch.
+- **Chưa biết / giới hạn:** Chưa tách được mức đóng góp của graph, giới hạn request, độ dài protocol, harness và biến động quan sát.
 
 ### Lời nói mẫu
 
-Kết quả đầy đủ lịch sử và đối chứng ngắn về sau chênh lệch đáng kể. Nhóm kiểm tra cấu hình thực tế, phát lại cấu hình cũ rồi tách riêng các cài đặt mới. Các phép thử chưa tìm ra một nguyên nhân hữu ích duy nhất. Lần native đầy đủ gần mức lịch sử, nhưng chưa giải thích vì sao đối chứng ngắn thấp hơn.
+Ba lần chạy đầy đủ lịch sử với tải mục tiêu 64 request đồng thời đạt trung bình khoảng 3,044 token đầu ra tốt mỗi giây. Đối chứng ngắn về sau khoảng 2,560, nhưng đo ít thời gian hơn và đổi cài đặt graph cùng giới hạn request. Phát lại cấu hình cũ đầy đủ cho điểm thấp hơn; một lần chạy qua đường serving khác về sau gần mức lịch sử. Đó là lần tái lập riêng, chưa chứng minh cài đặt nào gây phục hồi.
 
 ### Điều không nên nói
 
-Không gọi đối chứng ngắn là lần đầy đủ tương đương, không quy phục hồi cho một cờ, và không bỏ lần phát lại thấp nhưng hợp lệ.
+Không coi đối chứng ngắn là lần đầy đủ tương đương, không quy điểm về sau cho một cài đặt, và không bỏ lần phát lại cấu hình cũ hợp lệ nhưng thấp hơn.
 
 ### Câu chuyển slide
 
-Tiếp theo là các hướng kiến trúc và kernel, xét theo đúng phạm vi bằng chứng.
+Tiếp theo, phân biệt probe thành phần tiềm năng với bằng chứng serving toàn mô hình.
 
 ---
 
@@ -1342,45 +1428,46 @@ Tiếp theo là các hướng kiến trúc và kernel, xét theo đúng phạm v
 
 ### Slide muốn nói gì
 
-Cho thấy ý tưởng kiến trúc và kernel chỉ là đầu mối thử nghiệm giới hạn, chưa chứng minh serving đầy đủ nhanh hơn.
+Cho thấy thử nghiệm thành phần và đọc mã nguồn có thể loại bỏ hướng thử mà chưa chứng minh mô hình đầy đủ chạy nhanh hơn.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các cột là hướng nghiên cứu, bằng chứng và quyết định; các hàng là nhánh riêng, không phải xếp hạng chung. Gói attention-DP đổi nhiều yếu tố ở N52; Triton chỉ thử trên dạng đại diện; kiểm tra SM có giới hạn. Compile mô hình thật dừng ở assertion, không có điểm. Fixture CPU không đo serving. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Mỗi hàng trả lời một câu hỏi khác nhau. Điểm attention-DP là quan sát end-to-end ở N52, nhưng nhiều cài đặt đổi cùng lúc nên không thể xác định yếu tố nào làm giảm điểm. Kết quả Triton là probe kernel trên một số dạng đại diện: nó kiểm tra thành phần, không chạy trọn đường serving Qwen. Lần torch.compile đi vào mã mô hình thật nhưng dừng ở assertion RoPE/fused-KV trước khi có điểm. Fixture C++ chỉ chạy helper trên CPU. Các mức bằng chứng đó giải thích vì sao quyết định thận trọng.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **DP:** Data parallelism, tức song song dữ liệu: nhiều bản sao hoặc phân vùng xử lý các yêu cầu riêng; ở đây là cấu hình attention.
-- **FP8:** Định dạng số dấu phẩy động 8 bit dùng cho trọng số trong cấu hình được giữ lại.
-- **Triton:** Hệ thống lập trình và biên dịch kernel GPU; kết quả probe chỉ áp dụng cho hình dạng đã thử.
-- **SM:** Streaming multiprocessor, một đơn vị thực thi GPU; ngân sách SM giới hạn số đơn vị kernel được dùng.
-- **torch.compile:** Đường biên dịch của PyTorch để chuyển các phép toán mô hình thành thực thi đã biên dịch.
-- **RoPE:** Rotary positional embedding, phép mã hóa vị trí dạng xoay được mô hình sử dụng.
-- **C++:** Ngôn ngữ biên dịch được dùng trong các probe cache và API riêng biệt.
+- **probe:** Phép thử nhỏ, cô lập một thành phần hoặc vài dạng dữ liệu. Nó cho biết thành phần hoạt động ra sao trong phép thử đó, không dự đoán toàn bộ dịch vụ.
+- **fixture:** Dữ liệu thử nhỏ để kiểm tra helper hoặc API. Fixture CPU qua không đồng nghĩa có lần serving GPU.
+- **đọc mã nguồn:** Kiểm tra code để biết cài đặt có được hỗ trợ hoặc sử dụng không. Đây là bằng chứng khả năng, không chứng minh mô hình đã chạy theo đường đó.
+- **thử nghiệm toàn mô hình:** Khởi động mô hình phân tán thật, phục vụ request và đo đầu ra. Lần compile ở đây dừng trước bước chấm điểm.
+- **DP / FP8:** DP là song song dữ liệu, cách phân phối công việc request/mô hình. FP8 là số dấu phẩy động 8 bit dùng cho trọng số.
+- **Triton / DeepGEMM:** Các hệ thống kernel GPU được thử trên dạng đại diện; kết luận chỉ áp dụng cho những probe đó.
+- **ngân sách SM:** Giới hạn số streaming multiprocessor GPU mà kernel được dùng; kết quả kernel chưa chắc chuyển thành hiệu năng dịch vụ end-to-end.
+- **RoPE / fused-KV:** RoPE mã hóa vị trí token. Đường mô hình compile gặp assertion khi phép này tương tác với giao diện cache key-value hợp nhất.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Gói attention-DP với DeepGEMM/DeepEP đạt 2,549.20 ở N52, thấp hơn điểm MNNVL được giữ lại; nhiều thay đổi cùng lúc nên không thể quy cho một cờ.
-- Probe FP8 Triton đại diện thua DeepGEMM. Ngân sách SM 80, 96 và 120 pha trộn hoặc thiếu ổn định. torch.compile mô hình thật gặp assertion RoPE/fused-KV; fixture C++ chỉ chạy trên CPU.
+- Gói attention-DP với DeepGEMM/DeepEP đạt 2,549.20 ở N52, thấp hơn điểm MNNVL được giữ lại; nhiều cài đặt đi cùng nhau nên không thể kết luận về một cờ. Probe FP8 Triton đại diện thua DeepGEMM.
+- Ngân sách SM 80/96/120 cho kết quả pha trộn hoặc không đạt tiêu chí nhất quán. Lần compile mô hình thật gặp assertion trước benchmark. Fixture cache/API C++ kiểm tra logic helper, nhưng không chạy tích hợp GPU, khởi động phân tán hay chất lượng serving.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Bằng chứng gồm điểm thấp hơn ở cấu hình nhiều yếu tố, probe kernel thua, kiểm tra SM pha trộn và assertion compile không có điểm.
-- **Giả thuyết:** Bố trí attention, kernel, ngân sách, biên dịch hoặc đường cache khác có thể giúp serving đầy đủ.
-- **Kết luận được hỗ trợ:** Chỉ kết luận trong phạm vi đã thử; các dạng Triton thử không vượt DeepGEMM và compile không có điểm.
-- **Chưa biết / giới hạn:** Dạng chưa thử và đường compile tương thích có thể khác; fixture CPU không xác nhận serving mô hình đầy đủ.
+- **Quan sát:** Gói attention nhiều yếu tố có điểm thấp hơn; probe kernel đại diện thua; kiểm tra SM pha trộn; compile mô hình thật không có điểm; fixture C++ chỉ chạy CPU.
+- **Giả thuyết:** Bố trí attention, kernel, ngân sách SM, đường compile hoặc API cache khác có thể cải thiện dịch vụ đầy đủ.
+- **Kết luận được hỗ trợ:** Có thể đóng một đầu mối thành phần hoặc giữ nó như nhận xét mã nguồn, nhưng chưa chứng minh tăng tốc mô hình đầy đủ. Các dạng Triton đã thử không vượt DeepGEMM.
+- **Chưa biết / giới hạn:** Dạng khác hoặc giao diện compile tương thích có thể cho kết quả khác; chưa có lần chạy mô hình compile đầy đủ nào qua.
 
 ### Lời nói mẫu
 
-Các ý tưởng chỉ được kiểm tra trong phạm vi bằng chứng cho phép. Gói attention đổi nhiều yếu tố, probe kernel gồm dạng đại diện, còn compile mô hình thật dừng trước khi có điểm. Fixture CPU có thể xác nhận một đường C++ nhỏ nhưng không chứng minh tích hợp GPU. Tên thư viện hay profile chỉ gợi ý phép thử, chưa chứng minh tăng tốc.
+Một số hàng thử kernel GPU nhỏ, một số chạy helper trên CPU, một số chỉ đọc mã nguồn. Chúng giúp loại bỏ ý tưởng không được hỗ trợ, nhưng không khởi chạy mô hình phân tán đầy đủ để chấm câu trả lời. Lần compile thật đi vào mã Qwen rồi dừng khi phép mã hóa vị trí xoay gặp giao diện cache key-value hợp nhất không tương thích. Không có điểm serving.
 
 ### Điều không nên nói
 
-Không coi thay đổi ghép là thử một yếu tố, khái quát probe cho mọi dạng, gọi fixture CPU là serving đạt, hay tự gán điểm cho compile lỗi.
+Không biến probe kernel, fixture CPU hay kiểm tra đường code thành khẳng định về tốc độ hoặc độ đúng của mô hình đầy đủ.
 
 ### Câu chuyển slide
 
-Tiếp theo là cấu hình H200 được giữ lại và điểm vận hành H100 riêng.
+Slide sau mô tả cấu hình serving H200 được chọn và cấu hình H100 riêng.
 
 ---
 
@@ -1392,48 +1479,45 @@ Tiếp theo là cấu hình H200 được giữ lại và điểm vận hành H1
 
 ### Slide muốn nói gì
 
-Tóm tắt triển khai H200 N64 được chọn và cấu hình H100 riêng được giữ lại.
+Mô tả cấu hình AI được giữ lại mà không hàm ý kết quả H100 và H200 có thể so sánh trực tiếp.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các hàng nêu cài đặt; hai cột phải ghi giá trị H200 và H100. Concurrency client là 64 so với 54. Prefill, decode, phân bổ TP và độ chính xác số nằm riêng; dòng cuối ghi thành phần chung. Đây là mô tả cấu hình, không phải so sánh phần cứng khớp điều kiện. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Đọc mỗi hàng như một lựa chọn vận hành: xử lý đầu vào (prefill), sinh token (decode), nhóm GPU song song hoặc độ chính xác số. H200 dùng concurrency client 64; quan sát H100 riêng dùng 54 cùng backend/chunk prefill khác. Cả hai dùng trọng số đích FP8 và activation/trạng thái KV BF16. Dòng cuối nêu thành phần decode và giao tiếp chung. Do phần cứng và cài đặt khác nhau, đây là sơ đồ triển khai, không phải benchmark phần cứng.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **H200 / H100:** Hai mẫu GPU khác nhau; cấu hình và kết quả được báo cáo riêng.
-- **N64:** Mục tiêu đồng thời 64 yêu cầu đang xử lý; cấu hình H100 giữ mức 54.
-- **prefill:** Xử lý prompt đầu vào trước khi sinh câu trả lời.
-- **decode:** Sinh lần lượt từng token đầu ra.
-- **TP:** Tensor parallelism, tức chia phép toán tensor giữa nhiều GPU.
-- **EP:** Expert parallelism, tức phân phối các expert của mô hình mixture-of-experts qua nhiều GPU.
-- **FP8 / BF16:** Trọng số dấu phẩy động 8 bit; BF16 là brain floating point 16 bit, dùng cho activation và trạng thái KV.
-- **FlashInfer:** Cách triển khai attention GPU dùng cho decode trong cấu hình được giữ lại.
-- **MNNVL:** Backend giao tiếp collective được chọn cho các nhóm GPU liên quan.
-- **HPC-Ops:** Backend thao tác GPU của runtime, dùng cho decode và cả prefill trên H100.
+- **prefill / decode:** Prefill xử lý prompt trước khi sinh; decode tạo token câu trả lời từng bước.
+- **TP / EP:** Tensor parallelism chia phép toán tensor qua GPU. Expert parallelism phân phối các khối expert của mô hình mixture-of-experts.
+- **FP8 / BF16:** Trọng số FP8 dùng số dấu phẩy động 8 bit. Activation và KV BF16 dùng định dạng 16 bit; đây là hai loại tensor khác nhau.
+- **HPC-Ops / DeepGEMM:** Backend thực thi GPU dùng cho các pha dịch vụ khác nhau; tên backend tự nó không chứng minh tăng tốc.
+- **FlashInfer / MNNVL:** FlashInfer cung cấp kernel attention decode; MNNVL cung cấp giao tiếp collective GPU. Chúng có vai trò khác nhau.
+- **round-robin:** Request được phân lần lượt cho hai worker prefill.
+- **sơ đồ triển khai:** Mô tả cách cấu hình dịch vụ đã đo, không chứng minh GPU hay cài đặt khác có cùng hiệu năng.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- H200 dùng hai worker prefill TP4 với DeepGEMM, chunk 8.192, và một worker decode TP8/EP8 với HPC-Ops. H100 dùng hai worker prefill TP4 với HPC-Ops, chunk 4.096, và decode TP8/EP8.
-- Cả hai dùng trọng số FP8, activation và KV BF16, FlashInfer cho decode attention, MNNVL và định tuyến vòng tròn. Reader qua kiểm tra compute-only trên dữ liệu thật, nhưng chưa phát lại GPU đầy đủ sau sửa.
+- Cấu hình H200 chọn hai worker prefill TP4 với DeepGEMM và chunk 8.192, cộng một worker decode TP8/EP8 HPC-Ops. Bộ graph decode dày có bucket từ 1 đến 64.
+- H100 giữ hai worker prefill TP4 HPC-Ops với chunk 4.096 và cùng nhóm decode TP8/EP8. FlashInfer cho attention decode, MNNVL cho giao tiếp, và định tuyến vòng tròn giữa hai worker prefill được dùng chung.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** H200 và H100 khác concurrency và prefill; cả hai giữ độ chính xác số và thành phần chung đã nêu.
-- **Giả thuyết:** Dịch vụ target-only N64 đã lặp lại là cấu hình chính thực tế.
-- **Kết luận được hỗ trợ:** Báo cáo H200 và H100 riêng; bảng không xếp hạng mẫu GPU.
-- **Chưa biết / giới hạn:** Độ chính xác chính thức và phát lại portable đầy đủ sau sửa reader chưa được xác minh.
+- **Quan sát:** H200 và H100 khác concurrency cùng backend/chunk prefill, nhưng giữ các định dạng trọng số và activation/KV như đã nêu.
+- **Giả thuyết:** Cấu hình H200 N64 có cơ sở chọn làm chính tốt hơn vì đã có nhiều lần chạy đầy đủ.
+- **Kết luận được hỗ trợ:** Báo cáo H100 riêng; vài cài đặt trùng nhau không biến chúng thành phép so sánh phần cứng có kiểm soát.
+- **Chưa biết / giới hạn:** Độ chính xác chính thức và xác minh triển khai portable đầy đủ sau sửa reader vẫn còn mở.
 
 ### Lời nói mẫu
 
-Cấu hình H200 xử lý prompt trên hai worker TP4 và sinh token trên một worker TP8/EP8. H100 có concurrency thấp hơn, backend prefill và chunk khác. Cả hai giữ trọng số FP8 cùng activation và KV BF16. Bản sửa reader được kiểm tra trên dữ liệu thật, nhưng chưa phát lại toàn bộ GPU allocation sau đó.
+Đây là cấu hình H200 được chọn, không phải cuộc đua trực tiếp với H100. H200 xử lý prompt trên hai nhóm, mỗi nhóm bốn GPU, rồi sinh token trên một nhóm tám GPU có phân phối các expert. H100 dùng ít request đồng thời hơn và backend/chunk xử lý prompt khác. Cả hai giữ trọng số 8 bit và activation cùng KV 16 bit. Bản sửa reader được kiểm tra trên dữ liệu thật nhưng chưa qua phát lại GPU đầy đủ.
 
 ### Điều không nên nói
 
-Không kết luận trực tiếp tốc độ H100 so với H200 và không nói job portable đầy đủ đã qua sau sửa.
+Không gộp điểm H100 và H200, suy ra hệ số đổi phần cứng, hay nhầm trọng số FP8 với activation/KV BF16.
 
 ### Câu chuyển slide
 
-Tiếp theo là so sánh capture graph dày và thưa theo mục tiêu dịch vụ.
+Tiếp theo, so sánh tài nguyên capture graph decode thưa đã tiết kiệm với tác động lên goodput.
 
 ---
 
@@ -1445,44 +1529,45 @@ Tiếp theo là so sánh capture graph dày và thưa theo mục tiêu dịch v�
 
 ### Slide muốn nói gì
 
-Giải thích vì sao graph decode thưa giảm bộ nhớ capture theo log nhưng không cải thiện goodput đo được.
+Giải thích đánh đổi của graph thưa: bộ nhớ capture theo log trên mỗi rank giảm, pha capture ngắn hơn chút ít, nhưng goodput đo được thấp hơn.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các cột là đại lượng đo, đối chứng dày và ứng viên thưa; mỗi hàng so sánh hai cấu hình. Bucket đếm dạng yêu cầu được capture, không phải concurrency hay số GPU. Bộ nhớ là GB mỗi rank theo log native, không phải tổng VRAM hay GiB; thời gian là pha capture, không phải tổng thời gian job. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+So sánh cùng các đại lượng giữa hai cấu hình. Thay đổi 64 xuống 12 là số bucket dạng decode được capture, không phải số request đồng thời hay GPU. Bucket là một dạng thực thi đã capture để tái dùng; request không khớp chính xác có thể được đệm hoặc ánh xạ vào bucket gần đó. Ít bucket có thể giảm bộ nhớ graph và buffer capture đi kèm, nhưng có thể tăng công việc padding. Phép thử này không tách riêng lượng hay chi phí padding. Mức 1.15/0.36 GB là bộ nhớ liên quan capture trên mỗi rank decode, không phải tổng VRAM: trọng số, KV cache, workspace và cấp phát khác nằm riêng. Thời gian capture chỉ tính pha capture.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **bucket graph decode:** Nhóm dạng yêu cầu mà engine serving capture thành đồ thị thực thi GPU.
-- **rank:** Một tiến trình worker phân tán, trong cấu hình này thường gắn với một GPU.
-- **GB:** Gigabyte theo log native; không tự đổi nhãn thành GiB hay tổng VRAM.
-- **goodput:** Tốc độ yêu cầu đạt đồng thời các giới hạn độ trễ; điểm hiển thị lấy số yêu cầu tốt mỗi giây từ client nhân với 200 token đầu ra yêu cầu.
-- **ITL:** Inter-token latency, độ trễ giữa các token sinh ra; giá trị trung bình trên slide là mili giây.
-- **compile off:** Biên dịch graph mô hình bị tắt trong phép thử; capture thành công không xác nhận hỗ trợ mô hình đã biên dịch.
+- **bucket graph decode:** Một dạng thực thi GPU được capture để server phát lại cho một nhóm batch decode. Đây không phải số request.
+- **padding:** Đệm batch hoặc hình dạng lên kích cỡ graph được hỗ trợ. Ít bucket có thể cần đệm nhiều hơn, nhưng lần chạy này không đo lượng hay chi phí đó.
+- **bộ nhớ graph capture:** Bộ nhớ liên quan các graph GPU đã ghi để tái dùng và buffer đi kèm, báo cáo trên mỗi rank decode.
+- **VRAM / GB / GiB:** VRAM là toàn bộ bộ nhớ GPU. Log ghi GB capture trên mỗi rank, không phải tổng VRAM hay GiB; trọng số và KV cache còn dùng bộ nhớ khác.
+- **rank:** Một tiến trình worker phân tán; số liệu tính trên từng rank decode, không cộng tám rank.
+- **goodput / ITL:** Goodput là request đủ điều kiện/giây nhân 200 token đầu ra yêu cầu. ITL là khoảng thời gian giữa các token sinh.
+- **compile off:** Biên dịch mô hình bị tắt trong phép thử capture; capture thành công không xác nhận đường mô hình compile hoạt động.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Đối chứng capture 64 bucket; ứng viên capture 12 trên cả tám rank khi compile tắt. Bộ nhớ giảm từ 1.15 xuống 0.36 GB/rank; thời gian capture đổi từ 101.46–101.49 xuống 95.98–96.05 giây.
-- Goodput đối chứng 27376 là 3,041.119598, ứng viên 27510 là 3,029.861122, giảm 0.370208%. Mean request ITL tăng từ 14.991 lên 15.136 ms; TTFT tốt hơn.
+- Ứng viên giảm bucket từ 64 xuống 12; capture được ghi nhận trên cả tám rank decode khi compile tắt. Bộ nhớ capture theo log giảm từ 1.15 xuống 0.36 GB mỗi rank. Thời gian capture đổi từ 101.46–101.49 xuống 95.98–96.05 giây.
+- Goodput giảm từ 3,041.119598 ở đối chứng trước 27376 xuống 3,029.861122 ở ứng viên 27510, tức giảm 0.370208%. Mean request ITL tăng từ 14.991 lên 15.136 ms, dù TTFT tốt hơn.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Ứng viên giảm bộ nhớ capture theo log và rút ngắn pha này chút ít, nhưng goodput đo được thấp hơn.
-- **Giả thuyết:** Ít dạng graph hơn có thể tiết kiệm bộ nhớ mà không hại mục tiêu dịch vụ.
-- **Kết luận được hỗ trợ:** Giữ graph dày cho triển khai này; mục tiêu dịch vụ đo được không cải thiện.
-- **Chưa biết / giới hạn:** Một đối chứng trước và seed khác nhau hạn chế kết luận nhân quả; bộ nhớ capture không phải tổng bộ nhớ GPU.
+- **Quan sát:** Bộ nhớ capture của ứng viên thấp hơn và thời gian capture ngắn hơn chút ít; goodput thấp hơn đối chứng trước 0.370208%.
+- **Giả thuyết:** Ít dạng graph hơn có thể tiết kiệm tài nguyên capture mà vẫn giữ mục tiêu dịch vụ.
+- **Kết luận được hỗ trợ:** Ứng viên không cải thiện goodput; nhóm giữ graph dày. Không nói padding gây đổi điểm vì chưa đo riêng padding.
+- **Chưa biết / giới hạn:** Chỉ có một đối chứng trước, seed engine khác nhau, và bộ nhớ capture không phải tổng bộ nhớ GPU.
 
 ### Lời nói mẫu
 
-Ứng viên thưa giảm bucket graph từ 64 xuống 12 và bộ nhớ capture trong log từ 1.15 xuống 0.36 GB mỗi rank. Pha capture chỉ nhanh hơn vài giây. Goodput đầy đủ thấp hơn đối chứng trước 0.370208 phần trăm, còn ITL trung bình tăng nhẹ. Nhóm giữ graph dày; so sánh đơn lẻ này không xác định nguyên nhân.
+Ứng viên capture 12 dạng decode thay vì 64. Bộ nhớ graph capture theo log giảm từ 1.15 xuống 0.36 gigabyte mỗi rank, còn thời gian capture chỉ đổi vài giây. Nhưng goodput thấp hơn 0.370208 phần trăm và khoảng token trung bình tăng nhẹ. Ít dạng graph có thể cần padding thêm, nhưng lần này chưa đo padding. Nhóm giữ graph dày và không quy nguyên nhân cho chênh lệch điểm.
 
 ### Điều không nên nói
 
-Không gọi bucket là concurrency, bộ nhớ là tổng VRAM hay GiB, hoặc thời gian capture là toàn bộ thời gian job. Slide này không đo độ chính xác.
+Không gọi số bucket là concurrency, bộ nhớ capture là tổng VRAM, hay thời gian capture là tổng thời lượng job. Padding chỉ là cơ chế có thể có, chưa phải giải thích đã đo.
 
 ### Câu chuyển slide
 
-Tiếp theo, tách phép đo serving tổng hợp khỏi đánh giá chất lượng mô hình.
+Tiếp theo là phạm vi của điểm serving tổng hợp và các kiểm tra chất lượng mô hình riêng còn mở.
 
 ---
 
@@ -1494,46 +1579,44 @@ Tiếp theo, tách phép đo serving tổng hợp khỏi đánh giá chất lư�
 
 ### Slide muốn nói gì
 
-Làm rõ benchmark serving đo gì và tách nó khỏi đánh giá chất lượng mô hình.
+Giải thích benchmark serving đo trong khoảng nào, tính điểm ra sao và vì sao kết quả này tách biệt với độ chính xác mô hình.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Ba ý mô tả yêu cầu tổng hợp 4.000 token đầu vào/200 token đầu ra, tải client vòng kín, và kiểm tra chất lượng chính thức riêng. Thời gian gồm warmup 60 giây, profiling 120 giây được chấm điểm, và grace 30 giây. Grace cho request đang chạy hoàn tất, không phải thời gian tính điểm bổ sung. Slide này không có bảng, trục hay mã màu điểm dữ liệu.
+Điểm chính là phân biệt workload được yêu cầu với bằng chứng được tính điểm. Client tổng hợp yêu cầu 4.000 token vào và 200 token ra, đồng thời giữ concurrency theo kiểu vòng kín. Worker và đường serving được làm nóng bằng lưu lượng riêng; sau đó AIPerf có warmup 60 giây, profiling 120 giây được chấm, và grace 30 giây. Chỉ profiling tính vào chỉ số hiệu năng. Grace kết thúc request còn dở, không phải cửa sổ chấm bổ sung. Tiêu chí 99% riêng là đánh giá chất lượng toàn tập, không phải độ trễ serving.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **AIPerf:** Công cụ client và đo benchmark gửi yêu cầu serving rồi xuất chỉ số hiệu năng.
-- **vòng kín:** Kiểu tải giữ mục tiêu số yêu cầu đang chạy bằng cách thay mỗi yêu cầu vừa hoàn tất bằng một yêu cầu mới.
-- **concurrency:** Số yêu cầu client mục tiêu hoạt động cùng lúc; workload chính N64 đặt mục tiêu 64.
-- **warmup:** Pha khởi động worker và đường serving trước khi đo tải client chính thức.
-- **cửa sổ profiling:** Khoảng cố định 120 giây dùng để tính điểm hiệu năng.
-- **grace:** Khoảng 30 giây cho các yêu cầu còn đang chạy hoàn tất sau cửa sổ được chấm điểm.
-- **ngưỡng chất lượng 99%:** Yêu cầu chính thức: chất lượng trên toàn bộ tập đạt ít nhất 99% điểm tham chiếu FP8 của ban tổ chức.
+- **AIPerf / vòng kín:** AIPerf gửi request và tính chỉ số. Tải vòng kín thay mỗi request vừa xong để duy trì mục tiêu số request đang xử lý.
+- **protocol 60/120/30:** Số giây cho warmup AIPerf, profiling được chấm và grace. Chỉ 120 giây ở giữa tính điểm; grace cho request còn lại hoàn tất.
+- **goodput:** Số request đủ điều kiện mỗi giây. Good output tokens/s chính thức bằng goodput AIPerf nhân với 200 token đầu ra yêu cầu.
+- **giới hạn độ trễ request:** Request chỉ được tính tốt nếu TTFT không quá 3.000 ms và ITL trung bình request không quá 20 ms; ít nhất 90% mọi request phải đạt cả hai.
+- **yêu cầu độ chính xác 99%:** Ban tổ chức yêu cầu chất lượng toàn tập ít nhất 99% tham chiếu FP8. Kiểm tra đầu ra nhỏ do nhóm chạy trên cluster được giao không chứng minh điều này.
+- **token yêu cầu và token thực:** 4.000/200 là độ dài client yêu cầu. Chúng không chứng minh chính xác số token ID mô hình đã đọc hay sinh cho từng request.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- AIPerf giữ mức concurrency mục tiêu bằng cách thay các request đã xong. Worker và đường serving được làm nóng bằng lưu lượng riêng.
-- Chỉ cửa sổ được chấm điểm đóng góp vào hiệu năng báo cáo. Độ dài yêu cầu và token thực có thể khác; chưa xác lập việc cắt cụt vật lý.
-- Chất lượng chính thức cần ít nhất 99% điểm tham chiếu FP8 của ban tổ chức và vẫn chưa được xác minh.
+- Goodput là số request đủ điều kiện mỗi giây theo AIPerf nhân với 200 token đầu ra yêu cầu. Không chia mọi request hoàn tất cho 120: request có thể kết thúc trong warmup hoặc grace, còn goodput chỉ đếm request đạt giới hạn dịch vụ.
+- Độ dài token yêu cầu là cấu hình client; token hóa lại đầu vào và ID/lượng token thực sinh chưa được lưu đầy đủ. Prompt serving tổng hợp không phải bộ dữ liệu chất lượng của ban tổ chức. Độ chính xác toàn tập vẫn UNKNOWN.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Workload serving này dùng yêu cầu tổng hợp 4.000/200 token và lịch warmup/profiling/grace 60/120/30 giây.
-- **Giả thuyết:** Workload và thời gian cố định hỗ trợ so sánh khi cấu hình và quy trình khớp nhau.
-- **Kết luận được hỗ trợ:** Goodput mô tả hiệu năng serving ở đây, không phải độ chính xác; không chia mọi request hoàn tất cho 120.
-- **Chưa biết / giới hạn:** Token ID/lượng dùng thực và chất lượng toàn tập chính thức vẫn chưa biết.
+- **Quan sát:** Serving dùng request tổng hợp 4.000/200 token với lịch warmup/profiling/grace 60/120/30 giây.
+- **Giả thuyết:** Workload và cửa sổ tính điểm cố định cho phép so sánh hữu ích khi protocol và cấu hình khớp nhau.
+- **Kết luận được hỗ trợ:** Kết quả mô tả hiệu năng serving theo workload này; nó không chứng nhận độ chính xác và không thể thay bằng phép chia tổng request hoàn tất.
+- **Chưa biết / giới hạn:** ID/lượng token thực từng request và điểm toàn tập chính thức chưa được xác lập.
 
 ### Lời nói mẫu
 
-Benchmark này đo serving với prompt tổng hợp, không phải bộ đánh giá chất lượng chính thức. Client thay request hoàn tất để giữ concurrency. Sau warmup, 120 giây được tính điểm rồi grace cho request còn lại kết thúc. Goodput lấy theo cách tính của AIPerf; không nên tính lại bằng cách chia mọi request hoàn tất cho 120 giây.
+Bài serving dùng prompt tổng hợp, yêu cầu 4.000 token vào và 200 token ra. Client benchmark duy trì số request đang chạy, làm nóng hệ thống, chấm một cửa sổ cố định 120 giây rồi cho request còn lại hoàn tất. Goodput chỉ đếm request đạt cả hai giới hạn độ trễ; nhân với 200 ra token đầu ra tốt mỗi giây. Bài này không kiểm tra bộ chất lượng toàn tập của ban tổ chức; yêu cầu 99% vẫn chưa biết.
 
 ### Điều không nên nói
 
-Không tính grace là thời gian chấm, không đồng nhất token yêu cầu với token thực, và không nói đã đạt tiêu chí chất lượng 99%.
+Không chia mọi request hoàn tất cho 120, tính grace vào cửa sổ chấm, suy ra token thực từ độ dài yêu cầu, hay nói đã đạt độ chính xác.
 
 ### Câu chuyển slide
 
-Tiếp theo, so sánh kích thước chunk theo cùng quy trình đầy đủ.
+Tiếp theo, so sánh các lần chạy chunk bằng cùng protocol chấm điểm đầy đủ.
 
 ---
 
@@ -1545,44 +1628,44 @@ Tiếp theo, so sánh kích thước chunk theo cùng quy trình đầy đủ.
 
 ### Slide muốn nói gì
 
-So sánh ba kích thước chunk prefill theo protocol N64 đầy đủ; chunk lớn hơn không cải thiện mục tiêu dịch vụ trong các lần đo này.
+Cho thấy chunk prefill lớn hơn qua kiểm tra nhóm trên cluster được giao nhưng làm giảm goodput và xấu đuôi TTFT trong phép so sánh có giới hạn này.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các cột là số token mỗi chunk, token đầu ra tốt/giây, tỷ lệ SLA chung và p95 TTFT mili giây. Mỗi hàng là một lần chạy. Cả ba dùng lịch 60/120/30 giây, yêu cầu 4.000/200 token, seed 2026, prefix lạnh, cùng mô hình và runtime. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Mỗi hàng là một lần chạy N64 đầy đủ; so cùng cột điểm và độ trễ giữa các chunk. Kích thước chunk là lượng công việc đầu vào xử lý cùng nhau, không phải concurrency client. Token đầu ra tốt/giây là tốc độ dịch vụ đủ điều kiện; SLA chung là tỷ lệ request đạt đồng thời hai giới hạn; p95 TTFT mô tả nhóm request chậm. Khi chunk tăng 8.192 → 10.240 → 12.288, goodput giảm còn p95 TTFT tăng. Mỗi cấu hình chỉ có một lần chạy, nên đây là cơ sở giữ 8.192 cho cấu hình này, không phải tối ưu phổ quát.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **chunk prefill:** Số token prompt được worker prefill xử lý cùng nhau trong một đơn vị lập lịch.
-- **good output tokens/s:** Tốc độ request tốt được báo cáo nhân với 200 token đầu ra yêu cầu cho mỗi request.
-- **SLA:** Service-level agreement: tỷ lệ mọi request đạt đồng thời hai ngưỡng độ trễ.
-- **p95:** Phân vị 95: 95% yêu cầu đo được có giá trị bằng hoặc nhỏ hơn con số này.
-- **TTFT:** Time to first token, độ trễ từ lúc bắt đầu request đến token đầu tiên được sinh.
-- **seed 2026:** Seed workload được cấu hình; nó không khiến seed do engine tạo ra giống hệt giữa các lần khởi chạy.
+- **chunk prefill:** Số token prompt được xử lý cùng nhau trong một đơn vị lập lịch prefill; khác với concurrency client.
+- **SLA / p95 / TTFT:** SLA là tỷ lệ request đạt cả hai giới hạn độ trễ. p95 là phân vị 95. TTFT là thời gian từ lúc bắt đầu request đến token đầu tiên.
+- **đánh giá local:** Ở đây “local” nghĩa là nhóm chạy và xem xét kết quả trên cluster được giao. Không có nghĩa chạy trên laptop hay được ban tổ chức duyệt.
+- **kiểm tra chấp nhận:** Các kiểm tra protocol, runtime, độ trễ và đầu ra của nhóm. Qua chúng xác lập kết quả nội bộ hợp lệ, không phải chấp nhận chính thức hay cải thiện hữu ích.
+- **arm:** Một cấu hình được thử; ở đây mỗi mức chunk là một arm. Mỗi arm chỉ có một lần chạy đầy đủ.
+- **seed 2026:** Seed workload đã cấu hình. Seed do engine tạo vẫn khác nhau giữa các lần khởi chạy.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Chunk 8.192: 3,045.501509 token đầu ra tốt/giây, SLA 98.580%, p95 TTFT 1,311.69 ms.
-- Chunk 10.240: 3,034.088251, SLA 98.524%, p95 1,518.87 ms. Chunk 12.288: 3,020.943099, 98.310%, 1,624.12 ms. Cả ba qua kiểm tra nội bộ; mỗi mức chỉ có một lần chạy.
+- Ở chunk 8.192, job 26766 ghi nhận 3,045.501509 token tốt/giây, SLA chung 98.580%, p95 TTFT 1,311.69 ms. Với 10.240, job 26768 đạt 3,034.088251, 98.524% và 1,518.87 ms.
+- Với 12.288, job 26770 đạt 3,020.943099, 98.310% và 1,624.12 ms. Cả ba là lần N64 đầy đủ 60/120/30, yêu cầu 4.000/200 token, cùng mô hình/runtime và prefix lạnh; mỗi mức chunk chỉ đo một lần.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Goodput giảm và p95 TTFT tăng khi chunk lớn hơn trong các lần đo này.
-- **Giả thuyết:** Batch prefill nhiều token hơn có thể tăng thông lượng.
-- **Kết luận được hỗ trợ:** Giữ 8.192 cho cấu hình này và khép nhánh chunk lớn hơn có giới hạn.
-- **Chưa biết / giới hạn:** Mỗi nhánh chỉ có một quan sát nên chưa xác định tối ưu toàn cục.
+- **Quan sát:** Goodput giảm và p95 TTFT tăng liên tục qua ba kích thước chunk được quan sát.
+- **Giả thuyết:** Chunk lớn hơn có thể tăng thông lượng nhờ xử lý nhiều token prompt hơn trong một batch.
+- **Kết luận được hỗ trợ:** Giữ chunk 8.192 cho cấu hình dịch vụ này; các chunk lớn hơn đã thử không cải thiện mục tiêu.
+- **Chưa biết / giới hạn:** Mỗi cấu hình một lần nên thứ tự và seed engine có thể góp phần; đây không phải bằng chứng tối ưu toàn cục.
 
 ### Lời nói mẫu
 
-Nhóm thử ba kích thước chunk trong các lần chạy đầy đủ với cùng workload và runtime. Khi chunk tăng từ 8.192 lên 12.288, goodput giảm và p95 độ trễ token đầu xấu hơn. Tất cả qua kiểm tra nội bộ, nhưng mỗi mức chỉ có một quan sát. Nhóm giữ 8.192 cho cấu hình này, không khẳng định tối ưu phổ quát.
+Cả ba phép thử dùng cùng protocol đầy đủ với 64 request đồng thời. Chunk prompt 8.192 token đạt khoảng 3.045 token tốt mỗi giây; chunk lớn hơn đạt khoảng 3.034 và 3.021. Kiểm tra của nhóm trên cluster được giao đều qua, nhưng điều đó chỉ xác lập kết quả nội bộ đã xem xét, không phải duyệt của ban tổ chức hay cải thiện. Chunk lớn cũng làm đuôi token đầu chậm hơn. Mỗi mức chỉ có một lần chạy, nên giữ 8.192 cho dịch vụ này, không gọi là tốt nhất phổ quát.
 
 ### Điều không nên nói
 
-Phân biệt đơn vị chunk, goodput, SLA và p95 TTFT. Qua kiểm tra nội bộ không đồng nghĩa có lợi ích hay chứng minh tối ưu toàn cục.
+Local ở đây là bằng chứng được nhóm xem xét trên cluster được giao, không phải phê duyệt của ban tổ chức. Không coi một arm qua kiểm tra là cải thiện hay tối ưu toàn cục.
 
 ### Câu chuyển slide
 
-Tiếp theo, phát lại portable thật làm lộ lỗi reader mà kiểm tra tĩnh bỏ sót.
+Slide sau tách một lần chạy serving GPU hoàn tất khỏi hậu xử lý bằng reader kết quả.
 
 ---
 
@@ -1594,45 +1677,45 @@ Tiếp theo, phát lại portable thật làm lộ lỗi reader mà kiểm tra t
 
 ### Slide muốn nói gì
 
-Giải thích cách đầu ra portable thật làm lộ hai lỗi reader mà kiểm tra tĩnh và giả lập đã bỏ sót.
+Giải thích rằng client serving đã hoàn tất, nhưng mỗi job toàn allocation ban đầu vẫn kết thúc FAILED ở khâu reader kết quả; kiểm tra CPU sau đó không chạy lại serving.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Các cột là bước, điều đã xảy ra và thay đổi. Các hàng đi từ kiểm tra tĩnh/giả lập qua lần phát lại GPU đầu, lần thứ hai và xác minh compute-only. Cả hai client GPU hoàn tất trước khi reader lỗi. Đây là chuỗi sửa lỗi, không phải xu hướng hiệu năng. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Theo dõi chuỗi theo từng bước. Kiểm tra tĩnh và giả lập chỉ dùng ví dụ chuẩn bị sẵn nên không mô phỏng thư mục export thật của AIPerf. Trong job 27136, cả hai đường prefill/decode ngữ nghĩa và client GPU hoàn tất, rồi reader lỗi vì đường dẫn export lồng thư mục. Job 27145 cũng chạy xong client, nhưng phần tổng hợp lỗi vì hai bí danh cùng thư mục home bị so sánh như hai chuỗi khác nhau. Job 27152 chạy reader đã sửa trên CPU với cả hai bộ dữ liệu thật. Nó chỉ xác minh hậu xử lý; trạng thái cuối của job GPU gốc vẫn là FAILED.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **portable replay:** Chạy quy trình serving và benchmark đã đóng gói trên môi trường triển khai portable riêng.
-- **GPU client:** Lần chạy client benchmark gửi yêu cầu đến hệ thống serving GPU đã triển khai.
-- **AIPerf 0.12:** Phiên bản benchmark client được lưu; lần chạy thật đầu đặt export trong thư mục con trực tiếp.
-- **đường dẫn canonical:** Đường dẫn tuyệt đối đã chuẩn hóa, xử lý các bí danh như liên kết tượng trưng.
-- **đường dẫn dạng chữ:** Chuỗi đường dẫn được ghi nguyên dạng, chưa phân giải bí danh hoặc liên kết tượng trưng.
-- **compute-only:** Job xác minh reader trên CPU không cấp phát GPU; nó không phát lại serving.
-- **scheduler FAILED:** Job ban đầu vẫn mang trạng thái thất bại thực tế, dù sau đó có thể đọc được đầu ra thô.
+- **portable replay:** Chạy triển khai đóng gói và client trên môi trường đích riêng, gồm filesystem và đường dẫn kết quả thật.
+- **reader / hậu xử lý:** Mã tìm export client, ghép với metadata và tính báo cáo sau serving. Reader có thể lỗi sau khi GPU serving đã hoàn tất.
+- **đường dẫn canonical và dạng chữ:** Canonical phân giải liên kết/bí danh về một vị trí filesystem; dạng chữ là chuỗi đường dẫn ghi nguyên. Hai chuỗi có thể khác nhưng cùng chỉ một thư mục.
+- **phát lại toàn allocation:** Job đầy đủ gồm triển khai GPU, client và xử lý kết quả trên allocation được cấp. Kiểm tra reader chỉ chạy CPU không phải lần này.
+- **scheduler FAILED:** Trạng thái job cuối cùng của scheduler vẫn là thất bại, dù số đo raw có thể được khôi phục và đọc về sau.
+- **điểm raw khôi phục:** Chỉ số đọc được từ đầu ra còn lưu của job thất bại. Nó không đổi job thành triển khai thành công.
+- **compute-only:** Job CPU không GPU, dùng ở đây để kiểm reader trên bộ dữ liệu thật đã lưu; nó không khởi chạy Qwen hay gửi request serving.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Job 27136 hoàn tất hai đường ngữ nghĩa và client chính thức, rồi lỗi vì export AIPerf 0.12 nằm trong thư mục con. Bản sửa đầu xử lý cấu trúc đó.
-- Job 27145 hoàn tất client nhưng phần tổng hợp lỗi vì bí danh /scratch/home và /home ở dạng đường dẫn khác nhau. Chuẩn hóa gốc đầu vào đã sửa lỗi. Job không GPU 27152 qua cả hai reader trên cả hai bộ dữ liệu thật.
+- Bản sửa đầu nhận diện export trong thư mục con trực tiếp. Bản sửa thứ hai chuẩn hóa /scratch/home và /home về cùng gốc đầu vào trước khi so sánh. Đây là lỗi reader thật sau khi client hoàn tất, không phải suy giảm serving đã đo.
+- Điểm raw khôi phục của 27145 là 3,055.330517 token đầu ra tốt/giây. Có thể xem đây là số liệu hiệu năng raw, nhưng job scheduler không hoàn tất thành công toàn bộ triển khai trên allocation và chưa chạy lại toàn GPU allocation sau sửa.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Hai lỗi reader xảy ra: export nằm trong thư mục con và đường dẫn canonical không khớp bí danh dạng chữ. Reader đã sửa qua dữ liệu thật trong kiểm tra compute-only.
-- **Giả thuyết:** Lỗi reader gây ra trạng thái thất bại sau khi client hoàn tất.
-- **Kết luận được hỗ trợ:** Bản sửa hẹp đã được xác minh, nhưng các job GPU ban đầu vẫn FAILED.
-- **Chưa biết / giới hạn:** Không có lần phát lại GPU toàn allocation sau cả hai bản sửa.
+- **Quan sát:** Hai job GPU thật chạy xong client và các đường ngữ nghĩa nhưng lỗi khi đọc kết quả; job không GPU 27152 qua cả hai reader đã sửa trên hai bộ dữ liệu lưu lại.
+- **Giả thuyết:** Lỗi xử lý đường dẫn gây ra trạng thái lỗi sau khi client hoàn tất.
+- **Kết luận được hỗ trợ:** Reader đã sửa được xác minh với đầu ra thật; trạng thái scheduler của 27136/27145 vẫn FAILED.
+- **Chưa biết / giới hạn:** Chưa chạy lại triển khai end-to-end với reader đã sửa trên toàn bộ GPU allocation.
 
 ### Lời nói mẫu
 
-Kiểm tra tĩnh đều qua, nhưng chạy portable thật tìm ra hai lỗi reader sau khi client GPU kết thúc: export lồng thư mục, rồi bí danh của cùng đường dẫn không nhất quán. Job compute-only xác minh cả hai bản sửa trên dữ liệu thật. Job GPU ban đầu vẫn thất bại và chưa phát lại portable đầy đủ sau sửa.
+Job GPU portable đầu tiên xử lý xong prompt, sinh token và chạy xong client, rồi lỗi vì reader tìm nhầm thư mục export. Job tiếp theo cũng hoàn tất serving, nhưng phần tổng hợp coi hai tên của cùng thư mục home là hai đường dẫn khác nhau. Một job CPU về sau kiểm tra reader đã sửa trên cả hai bộ dữ liệu thật. Job GPU ban đầu vẫn thất bại; nhóm không chạy lại toàn allocation sau sửa.
 
 ### Điều không nên nói
 
-Không đổi trạng thái job gốc, không gọi kiểm tra compute-only là phát lại serving, và không trình bày goodput khôi phục như triển khai sửa xong thành công.
+Không đổi bản ghi scheduler FAILED thành thành công, không gọi kiểm reader CPU là phát lại GPU, và không trình bày 3,055.330517 như lần chạy toàn allocation thành công sau sửa.
 
 ### Câu chuyển slide
 
-Cuối cùng, tách kết luận hiện có khỏi đề xuất xác minh trong tương lai.
+Slide cuối tách phát hiện được giữ lại khỏi công việc xác minh còn là đề xuất hoặc chưa biết.
 
 ---
 
@@ -1644,44 +1727,44 @@ Cuối cùng, tách kết luận hiện có khỏi đề xuất xác minh trong 
 
 ### Slide muốn nói gì
 
-Kết thúc bằng kết luận có bằng chứng và phân biệt đề xuất xác minh tương lai với công việc đã hoàn thành.
+Tóm tắt kết luận mà bằng chứng hiện có hỗ trợ và nói rõ các kiểm tra tiếp theo là đề xuất, chưa phải lần chạy đã hoàn tất.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Slide nêu ba khuyến nghị: giữ dịch vụ đã tái lập, xác nhận đường thực thi mới và hoàn tất kiểm định độc lập. Không có bảng định lượng hay biểu đồ. Các kiểm tra còn mở là chất lượng mô hình chính thức và phát lại portable đầy đủ sau sửa reader. Slide không có trục đồ thị hay mã màu điểm dữ liệu.
+Ba ý tạo thành chuỗi quyết định theo bằng chứng: giữ dịch vụ target-only N64 đã lặp lại; yêu cầu bằng chứng kích hoạt, truyền KV và đầu ra cho mọi đường mới; sau đó mới hoàn tất kiểm tra độc lập. Kết quả graph thưa không đổi lựa chọn vì tiết kiệm bộ nhớ nhưng không tăng goodput. Các kiểm tra còn thiếu là độ chính xác toàn tập chính thức và phát lại portable toàn allocation sau sửa reader. Không ý nào được trình bày như công việc đã lên lịch.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
-- **target-only:** Chỉ serving mô hình đích, không thêm mô hình draft sinh token dự đoán.
-- **N64:** Mức đồng thời mục tiêu đã chọn là 64 yêu cầu đang xử lý.
-- **EAGLE:** Phương pháp speculative decoding đề xuất token draft để mô hình đích xác minh; nhánh đầy đủ thử ở cấu hình nông làm giảm hiệu năng.
-- **tương thích RoPE/KV:** Tương thích giữa phép quay vị trí RoPE của mô hình và giao diện cache key-value mà đường thực thi đã biên dịch cần dùng.
-- **độ chính xác chính thức:** Điểm chất lượng mô hình trên toàn tập của ban tổ chức, so với ngưỡng tham chiếu FP8 bắt buộc.
-- **end-to-end:** Lần chạy hoàn chỉnh qua triển khai đóng gói, client, xử lý đầu ra và xem xét kết quả.
+- **target-only / EAGLE:** Target-only chỉ phục vụ mô hình chính. EAGLE đề xuất token draft để mô hình chính xác minh; cấu hình nông đầy đủ đã thử làm giảm hiệu năng.
+- **xác minh độc lập:** Kiểm tra riêng độ chính xác toàn tập chính thức hoặc triển khai đầy đủ, vượt ra ngoài điểm serving và fixture helper.
+- **chọn cấu hình:** Quyết định dùng nó làm cấu hình nộp bài/triển khai sau khi xem xét bằng chứng. Một điểm cao đơn lẻ không đủ.
+- **bằng chứng mã nguồn hoặc CPU:** Mã nguồn cho biết code có thể hỗ trợ gì; fixture CPU thử hành vi helper hẹp. Cả hai không chứng minh service GPU đã kích hoạt đường đó và cho đầu ra đúng.
+- **chưa biết:** Không có phép đo lưu lại đủ để kết luận. Không được mô tả như bằng không, đã qua hoặc khỏe mạnh.
+- **độ chính xác chính thức:** Đánh giá chất lượng toàn tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu FP8 và hiện chưa được xác minh.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
-- Giữ target-only N64: thay đổi cache, cap và polling chưa có lợi ích; nhánh EAGLE nông đầy đủ đã thử bị giảm điểm. Graph thưa thấp hơn đối chứng trước 0.370208%.
-- Trước khi chấm đường mới, xác minh backend hoạt động, KV chuyển đúng và đầu ra hợp lệ. Độ chính xác chính thức và phát lại portable đầy đủ sau sửa còn mở; compile cần giải pháp tương thích RoPE/KV.
+- Giữ cấu hình target-only N64 đã lặp lại thay vì điểm cao riêng lẻ. Thay đổi cache, cap và polling chưa có lợi ích hữu ích; cấu hình EAGLE đầy đủ với bước dự đoán nông bị giảm hiệu năng; goodput graph thưa thấp hơn đối chứng trước 0.370208%.
+- Triển khai mới cần chứng minh backend dự định thực sự chạy, KV được chuyển đúng và đầu ra hợp lệ trước khi diễn giải điểm. Fixture CPU hoặc đọc mã nguồn riêng lẻ không đáp ứng tiêu chuẩn đó.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** N64 có bằng chứng qua nhiều lần chạy đầy đủ; thay đổi riêng lẻ chưa cho lợi ích hữu ích. Chưa có kết quả chất lượng chính thức hay phát lại portable sau sửa.
-- **Giả thuyết:** Xác minh riêng việc kích hoạt, truyền trạng thái, đầu ra và kiểm tra độc lập có thể tăng độ tin cậy triển khai.
-- **Kết luận được hỗ trợ:** Giữ cấu hình target-only N64 đã tái lập; các kiểm tra liệt kê là yêu cầu tương lai, chưa phải việc hoàn tất.
-- **Chưa biết / giới hạn:** Độ chính xác mô hình chính thức và hành vi end-to-end sau sửa reader vẫn chưa biết.
+- **Quan sát:** Dịch vụ N64 được chọn có bằng chứng nhiều lần chạy đầy đủ; vài thử nghiệm tối ưu không cho lợi ích. Độ chính xác và phát lại portable sau sửa vẫn còn mở.
+- **Giả thuyết:** Kiểm tra runtime và đầu ra riêng cho từng đường giúp tránh khẳng định triển khai thiếu căn cứ.
+- **Kết luận được hỗ trợ:** Giữ dịch vụ đã tái lập; xem xác minh liệt kê là việc tương lai, không phải nghiên cứu đã làm hay đang xếp hàng.
+- **Chưa biết / giới hạn:** Độ chính xác chính thức, hành vi triển khai đầy đủ sau sửa reader, và đường compile RoPE/KV tương thích vẫn chưa biết.
 
 ### Lời nói mẫu
 
-Dịch vụ target-only N64 đã lặp lại vẫn là lựa chọn được bằng chứng hỗ trợ; một điểm riêng cao hơn chưa đủ để thay thế. Đường mới cần chứng minh backend hoạt động, KV được chuyển và đầu ra hợp lệ trước khi chấm. Chất lượng toàn tập chính thức và phát lại portable đầy đủ sau sửa reader vẫn còn mở. Đây là ưu tiên xác minh, chưa phải việc đã lên lịch hay thực hiện.
+Giữ cấu hình đã lặp lại, chỉ phục vụ mô hình đích ở tải 64 request đồng thời; một điểm cao đơn lẻ chưa đủ để thay thế. Với phương pháp mới, trước hết phải chứng minh backend đã chạy, trạng thái attention được truyền đúng và câu trả lời qua kiểm tra. Hai việc còn mở là bài accuracy toàn tập của ban tổ chức và phát lại GPU portable đầy đủ sau sửa reader. Đó là bước xác minh đề xuất, chưa phải việc đã lên lịch hay hoàn tất.
 
 ### Điều không nên nói
 
-Không nói đã đạt độ chính xác chính thức, portable đã xác minh đầy đủ, graph thưa tăng goodput, hay compile đã được sửa tương thích.
+Không khẳng định đã đạt độ chính xác chính thức, đã phát lại serving portable đầy đủ sau sửa, graph thưa tăng goodput, hay giao diện compile đã được sửa.
 
 ### Câu chuyển slide
 
-Kết thúc phụ lục; khi trả lời, tách quan sát, kết luận có căn cứ và điều chưa biết.
+Dừng tại đây. Khi trả lời, tách quan sát đo được, kết luận có căn cứ và điều còn chưa biết.
 
 ---
 
@@ -1697,17 +1780,18 @@ Kết thúc phụ lục; khi trả lời, tách quan sát, kết luận có căn
 
 Xác định khối lượng tính toán CPU cố định và đại lượng hiệu năng cần tối ưu. Phép so sánh giữ nguyên bài toán được quy định, rồi xem cụm máy thực hiện nó hiệu quả đến đâu.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Slide nêu lưới 65,3 triệu ô, bốn nút, 512 MPI rank (128 rank mỗi nút), và 150 bước bộ giải, trong đó 149 bước được tính giờ. Chỉ số là số giây đã trôi qua trung bình cho mỗi bước; thấp hơn là tốt hơn. Màu cam nhấn số ô lưới và điều kiện chạy ở dòng cuối. Slide không có trục đồ thị hay chuỗi dữ liệu.
+Các con số xác định khối lượng công việc cố định: 65.334.765 ô lưới được chia trên bốn nút và 512 MPI rank, tức 128 rank mỗi nút. MPI rank là một tiến trình phần mềm, không đồng nghĩa với một lõi CPU vật lý. Phép tính quy định chạy 150 vòng lặp bộ giải; có 149 mẫu được tính giờ vì vòng đầu không nằm trong trung bình báo cáo. Đơn vị là giây thời gian thực trên mỗi bước bộ giải; số nhỏ hơn nghĩa là mỗi vòng lặp mất ít thời gian hơn. Slide định nghĩa công việc và chỉ số, chưa báo cáo kết quả tối ưu.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **65,3 triệu:** Số làm tròn từ lưới chính xác gồm 65.334.765 ô.
 - **MPI rank:** Một tiến trình bộ giải phân tán; 512 rank tổng cộng tương ứng 128 rank mỗi nút.
 - **s/step:** Giây thời gian thực trên mỗi vòng lặp bộ giải, không phải giây thời gian lái xe mô phỏng.
+- **lõi CPU vật lý:** Một lõi thực thi phần cứng. MPI rank là tiến trình phần mềm; rank có thể được gắn với lõi, nhưng cần xác minh ánh xạ thay vì mặc định là một-một.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Đọc đây là định nghĩa khối lượng công việc, chưa phải so sánh kết quả: cùng lưới và cùng lượng tính toán bắt buộc trên bốn nút CPU.
 - 149 mẫu tính giờ bắt đầu sau bước bộ giải đầu tiên; toàn bộ lần chạy vẫn thực hiện đủ 150 bước.
@@ -1746,17 +1830,18 @@ Tiếp theo, trình bày các bước chuẩn bị cần giữ nguyên để m�
 
 Giải thích vì sao chỉ số hiệu năng chỉ có ý nghĩa khi giữ nguyên toàn bộ quy trình bắt buộc, đồng thời phân biệt phân rã lưới với gán tiến trình vào CPU.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Năm ô trắng nối từ trái sang phải bằng mũi tên cam: decomposePar gán ô lưới cho các rank; renumberMesh sắp xếp lại dữ liệu cục bộ; potentialFoam khởi tạo trường dòng chảy; applyBoundaryLayer áp dụng lớp biên được quy định; simpleFoam chạy đủ 150 bước bộ giải. Hai nhãn bên dưới giải thích phân rã là quyết định quyền sở hữu ô, còn CPU affinity là quyết định CPU nào chạy mỗi rank. Không có trục số; mũi tên biểu thị trình tự bắt buộc.
+Trình tự này là một phần của công việc được đo: decomposePar gán ô lưới cho MPI rank; renumberMesh đổi thứ tự dữ liệu ô cục bộ; potentialFoam khởi tạo trường dòng chảy; applyBoundaryLayer áp dụng điều kiện lớp biên bắt buộc; sau đó simpleFoam thực hiện đủ 150 bước. Phân rã quyết định tiến trình sở hữu ô nào, từ đó quyết định trao đổi dữ liệu qua ranh giới tiến trình. CPU affinity quyết định rank chạy ở đâu. Affinity có thể ảnh hưởng việc rank truy cập lõi CPU và bộ nhớ gần nó, nhưng không đổi các ô mà rank sở hữu. Hai quyết định đều có thể ảnh hưởng hiệu năng và không nên nhầm lẫn.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **MPI:** Message Passing Interface; các rank riêng biệt trao đổi dữ liệu, đặc biệt ở ranh giới phân vùng.
 - **decomposePar:** Tiện ích OpenFOAM chia ô lưới cho các rank.
 - **CPU affinity:** Gắn tiến trình hoặc rank với tài nguyên CPU; khác với việc gán ô lưới.
+- **trao đổi ô lân cận:** Các rank trao đổi giá trị trường cho ô nằm hai phía ranh giới phân vùng; nhiều cạnh bị cắt chỉ là proxy cho lượng và chi phí lưu lượng này.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Đi theo mũi tên cam từ các bước chuẩn bị tới bộ giải; phép đo cuối không thể thay thế các bước đó.
 - Phân rã trả lời rank sở hữu ô nào. Affinity trả lời rank chạy trên CPU nào.
@@ -1775,11 +1860,11 @@ Trước khi so sánh thời gian bộ giải, chúng tôi giữ toàn bộ quy 
 
 ### Điều không nên nói
 
-Không nói ảnh nền là cụm máy dự thi. Slide chỉ cho trình tự, không cho thời gian từng giai đoạn và cũng không xác nhận affinity đã được đo hay tối ưu trong một kết quả cụ thể.
+Slide chỉ cho trình tự, không cho thời gian từng giai đoạn và cũng không xác nhận affinity đã được đo hay tối ưu trong một kết quả cụ thể.
 
 ### Câu chuyển slide
 
-Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm tra liệu một chỉ số cục bộ có dự báo được thời gian bộ giải hay không.
+Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm tra liệu graph cut, một chỉ số đại diện cho biên phân vùng, có dự báo được thời gian bộ giải hay không.
 
 ---
 
@@ -1795,18 +1880,21 @@ Khi khối lượng và quy trình đã cố định, slide tiếp theo kiểm t
 
 Trình bày giả thuyết NUMA về tính cục bộ không thành công và giải thích vì sao chỉ số đại diện của đồ thị phân vùng không thể thay phép đo thời gian chạy.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Slide đặt mức giảm graph cut −10,63% màu cam cạnh mức bộ giải chậm hơn +3,4416% màu đỏ, ngăn bởi dấu không bằng. Không có trục hay chuỗi dữ liệu. Phép so sánh thời gian được nêu là 13,881 so với 14,359 giây mỗi bước. Dòng kết luận nói proxy đồ thị không phải runtime và liệt kê các nguyên nhân chưa đo: MPI wait, băng thông, tần số, công suất và vị trí trang bộ nhớ.
+Mức −10,63% màu cam là mức giảm của proxy graph cut: ít kết nối lưới có trọng số hơn đi qua ranh giới cục bộ đã chọn. Điều đó không có nghĩa thời gian trao đổi dữ liệu giảm 10,63%. Trao đổi thực tế còn phụ thuộc kích thước và tần suất thông điệp, mạng và hoạt động MPI; thời gian bộ giải cũng gồm tính toán, đồng bộ, truy cập bộ nhớ và công việc khác. Trung bình đo được lại xấu đi, từ 13,881 lên 14,359 giây mỗi bước (+3,4416%, chậm hơn). Vì vậy, proxy tốt hơn không tạo ra cải thiện runtime trong phép so sánh này. Nguyên nhân còn bỏ ngỏ vì chưa đo MPI wait, băng thông, tần số CPU, công suất và vị trí trang bộ nhớ.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **NUMA:** Truy cập bộ nhớ không đồng nhất: chi phí truy cập có thể phụ thuộc socket CPU hoặc vùng cục bộ sở hữu bộ nhớ.
 - **graph cut:** Chỉ số proxy về số hoặc trọng số kết nối phân vùng đi qua ranh giới được chọn; không đo trực tiếp thời gian trao đổi.
 - **−10,63%:** Proxy graph cut giảm 10,63% ở cấu hình này.
 - **+3,4416%:** Thời gian trung bình bộ giải tăng, tức chậm hơn 3,4416% trong quan sát so sánh.
+- **graph cut của phân vùng:** Tổng có trọng số của các kết nối ô lưới lân cận bị chia giữa các phân vùng. Nó ước lượng lưu lượng giao diện tiềm năng, nhưng không đo byte đã truyền, MPI wait, thời gian mạng hay runtime tổng thể.
+- **tính cục bộ NUMA:** Trên máy nhiều socket, lõi CPU thường truy cập bộ nhớ gắn với socket của nó trực tiếp hơn bộ nhớ thuộc socket khác; cách đặt tiến trình vì vậy có thể ảnh hưởng độ trễ và băng thông.
+- **MPI wait:** Thời gian một tiến trình phải chờ tiến trình khác hoặc trao đổi dữ liệu hoàn tất; slide ghi nhận đại lượng này chưa được đo.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Màu cam biểu thị proxy cải thiện; màu đỏ biểu thị thời gian bộ giải đo được xấu hơn. Dấu và màu cho thấy sự không tương ứng.
 - Proxy nhỏ hơn vẫn có thể đi cùng thời gian chạy dài hơn vì thuộc tính phân vùng khác và hiệu ứng lúc chạy cũng quan trọng.
@@ -1845,17 +1933,18 @@ Tiếp theo, ta xem cách phân rã quan sát tốt hơn có thay đổi theo s�
 
 So sánh thời gian trung bình quan sát được của Scotch và hierarchical trên các cấp phát một, hai và bốn nút, đồng thời giới hạn kết luận vì điểm kết thúc công việc và cấp phát khác nhau.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Ba cặp thanh ngang được ghi 1 node · 40 steps, 2 nodes · 80 steps và 4 nodes · 150 steps. Thanh cam là Scotch; thanh xanh đậm là Hierarchical, theo nhãn đi kèm. Giá trị là giây mỗi bước bộ giải: 14,451 so với 14,366; 7,463 so với 7,170; 3,678 so với 3,820. Thanh dài biểu thị nhiều giây hơn, tức thời gian trung bình chậm hơn. Không có nhãn trục riêng hay khoảng bất định.
+Nhãn Scotch màu cam và Hierarchical xanh đậm cho biết hai phương pháp phân rã; mọi giá trị là thời gian trung bình tính bằng giây mỗi bước bộ giải, nên thấp hơn là nhanh hơn. Hierarchical thấp hơn trong quan sát một nút (14,366 so với 14,451) và hai nút (7,170 so với 7,463); Scotch thấp hơn ở bốn nút (3,678 so với 3,820). Đây không phải các điểm của một đường cong mở rộng có kiểm soát: mỗi điểm dùng một cấp phát riêng, còn điểm kết thúc bắt buộc thay đổi từ 40 lên 80 rồi 150 bước. Vì vậy, số nút, độ dài lần chạy, điều kiện cấp phát và cấu hình cùng thay đổi. Các thanh mô tả quan sát; chúng không tách riêng được số nút là nguyên nhân đổi thứ hạng.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Scotch:** Phương pháp phân rã lưới dựa trên đồ thị trong quy trình OpenFOAM.
 - **Hierarchical:** Phương pháp phân rã lưới chia không gian theo cấu trúc phân cấp.
 - **s/step:** Số giây thời gian thực trung bình trên mỗi vòng lặp bộ giải được tính giờ; thấp hơn là tốt hơn.
+- **so sánh mô tả:** Báo cáo các giá trị đã quan sát. Vì số nút, điểm kết thúc bước và cấp phát cùng thay đổi, phép so sánh không tách riêng ảnh hưởng của một yếu tố.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Ở một nút, hierarchical thấp hơn một chút; ở hai nút, hierarchical thấp hơn; ở bốn nút, Scotch thấp hơn.
 - Số bước kết thúc được hiển thị không giống nhau và mỗi kết quả đến từ một cấp phát riêng.
@@ -1894,17 +1983,18 @@ Có thể tách kết quả bốn nút theo số rank mỗi nút; đó là phép
 
 Cho thấy thứ hạng phân rã trên bốn nút thay đổi theo mật độ tiến trình và xác định giá trị trung bình thấp nhất đã được xem xét, nhưng không nâng nó thành tối ưu phổ quát.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Sáu thanh ngang so sánh Scotch và Hierarchical tại 64, 96 và 128 rank mỗi nút. Màu cam là Scotch; xanh đậm là Hierarchical. Giá trị ở cuối thanh là giây mỗi bước: Scotch/Hierarchical lần lượt là 10,310/4,489 ở 64; 7,146/4,922 ở 96; và 3,678/3,820 ở 128. Giá trị thấp hơn hiện thành thanh ngắn hơn và nghĩa là bước trung bình quan sát nhanh hơn. Không thấy trục số hay khoảng bất định.
+Trên bốn nút, các thanh so sánh số giây trung bình mỗi bước tại 64, 96 và 128 MPI rank mỗi nút. Màu cam là Scotch, xanh đậm là Hierarchical. Hierarchical có trung bình thấp hơn ở 64 rank (4,489 so với 10,310) và 96 rank (4,922 so với 7,146); Scotch thấp hơn một chút ở 128 rank (3,678 so với 3,820). Trên bốn nút, các cấu hình này lần lượt dùng 256, 384 và 512 rank, nhưng rank là tiến trình, không mặc nhiên tương ứng với một lõi vật lý. Quan sát Scotch-128 có trung bình thấp nhất trong sáu log đã xem xét. Cấp phát riêng và số CPU yêu cầu khác nhau làm nhiễu phép so sánh; đây là ứng viên cần chạy lặp, không chứng minh mật độ rank hay phương pháp riêng lẻ gây ra chênh lệch.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **ranks per node:** Số tiến trình MPI đặt trên mỗi nút; trên bốn nút, các cấu hình hiển thị tương ứng 256, 384 và 512 rank.
 - **s/step:** Số giây thời gian thực trung bình được đo trên mỗi bước bộ giải.
 - **lowest reviewed mean:** Trung bình nhỏ nhất trong nhóm quan sát đã xem xét, không phải bằng chứng tối ưu toàn cục.
+- **mật độ rank:** Số tiến trình MPI được gán cho mỗi nút. Khái niệm này khác số lõi vật lý và tự nó không chứng minh tiến trình được gắn CPU hay dùng lõi độc quyền.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Ở 64 và 96 rank mỗi nút, hierarchical thấp hơn; ở 128, Scotch thấp hơn khoảng 0,142 giây mỗi bước.
 - Kết luận được nhấn mạnh là Scotch-128 đạt 3,677906731 giây mỗi bước, trung bình thấp nhất trong các hồ sơ đã xem xét.
@@ -1943,18 +2033,20 @@ Slide kế tiếp xem phân bố thời gian đầy đủ của trung bình Scot
 
 Giải thích vì sao mọi vòng lặp được tính giờ, kể cả bước chậm cực độ, vẫn nằm trong trung bình số học kiểu chính thức; đồng thời phân biệt quan sát với chẩn đoán nguyên nhân.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Ba thống kê ở đầu slide: trung vị 3,298742 s, phân vị thứ 95 là 3,795740 s, và cực đại 35,883552 s tại solver Time 119. Vạch dọc cam nhỏ biểu thị trung vị; vạch đỏ cao hơn nhiều nhấn mạnh cực đại. Slide không có thang trục số, vì vậy đọc giá trị in sẵn thay vì ước lượng vị trí bằng mắt. Nội dung ghi giữ lại 149/149 mẫu và trung bình số học gồm mọi bước được đo.
+Đây là các thống kê phân bố của 149 bước được tính giờ: trung vị 3,298742 giây, phân vị thứ 95 là 3,795740 giây, và cực đại 35,883552 giây tại solver Time 119. Trung vị là quan sát ở giữa; p95 là mốc mà khoảng 95% quan sát nằm tại hoặc thấp hơn. Trung bình số học khác với hai đại lượng đó: cộng mọi mẫu rồi chia cho 149, nên bước 35,9 giây vẫn được giữ và kéo trung bình lên. Giữ mẫu này phản ánh lần chạy thực tế thay vì che đi một sự kiện chậm. Vạch cam và đỏ phân biệt thời gian điển hình với cực đại; con số in sẵn cho biết đơn vị chính xác. Đột biến được nhìn thấy, nhưng chỉ các thời gian này không xác định được nguyên nhân.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **median:** Giá trị ở giữa sau khi sắp xếp 149 mẫu tính giờ.
 - **95th percentile (p95):** Giá trị mà xấp xỉ 95% mẫu nằm tại hoặc dưới đó, theo quy ước phân vị sử dụng.
 - **maximum:** Mẫu lớn nhất được ghi nhận; ở đây là 35,883552 giây tại solver Time 119.
 - **Time 119:** Chỉ số thời gian/vòng lặp bộ giải được báo cáo, không phải 119 giây thời gian thực.
+- **trung bình số học:** Tổng mọi giá trị thời gian chia cho số lượng giá trị. Khác trung vị, một mẫu rất lớn có thể làm trung bình tăng đáng kể.
+- **phần đuôi:** Phần chậm nhất của phân bố thời gian; p95 tóm tắt phân vị cao, còn cực đại là mẫu chậm nhất duy nhất.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Trung vị và p95 ở khoảng 3,3–3,8 giây, nhưng một bước được giữ lại mất khoảng 35,9 giây.
 - Cả 149 mẫu vẫn nằm trong trung bình số học; bỏ ngoại lệ sẽ làm thay đổi chỉ số hiệu năng đã nêu.
@@ -1993,17 +2085,22 @@ Sự bất định đó dẫn tới yêu cầu ở slide sau: chạy lặp độ
 
 Phân biệt thời gian ứng viên đã được xem xét với kết quả chính thức được chấp nhận, đồng thời liệt kê bằng chứng cần có từ lần xác nhận độc lập.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Cột trái ghi trung bình ứng viên đã xem xét: 3,677906731 giây mỗi bước cho Scotch-128 với 149 mẫu. Cột phải ghi lần lặp độc lập, job 25940700, hàng đợi Q/q5 lúc 15:06 UTC, trạng thái “Not running: node_pool insufficient” và “No result.” Sáu mục dấu vuông cam nêu gói đầu vào 54 tệp đã đóng băng, toàn bộ khởi tạo cộng 150 bước, mã trả về tường minh cho từng giai đoạn, 512 lõi vật lý trên bốn máy, và dấu niêm phong nguồn/lưới/đầu ra. Không có trục đồ thị; hai cột đối chiếu bằng chứng hiện có với bằng chứng đang chờ.
+Bên trái là quan sát ứng viên đã được xem xét: Scotch-128 đạt trung bình 3,677906731 giây mỗi bước trên 149 mẫu. Bên phải là trạng thái bằng chứng khác: job 25940700 được ghi đang chờ trong Q/q5 lúc 15:06 UTC vì thiếu tài nguyên node_pool, chưa có kết quả. Gói 54 tệp đóng băng là bộ đầu vào cố định, không thay đổi; hash và dấu kiểm tra xác nhận nguồn, lưới và đầu ra trùng với các tệp đã ghi nhận. Provenance là hồ sơ cho biết đầu vào, lệnh, tài nguyên và đầu ra nào tạo nên lần chạy. Danh sách còn yêu cầu mã trả về thành công ở mọi giai đoạn và bằng chứng thực sự cấp phát 512 lõi CPU vật lý trên bốn máy. Đây là yêu cầu xác nhận, chưa phải các kiểm tra đã đạt.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **Q/q5:** Nhãn hàng đợi/trạng thái bộ lập lịch trong quan sát đã ghi; slide nói job đang chờ, không phải đang chạy.
 - **Scotch-128:** Phân rã Scotch với 128 MPI rank mỗi nút trên bốn nút.
 - **seal:** Bằng chứng ghi nhận danh tính/tính toàn vẹn của tệp nguồn, lưới hoặc đầu ra; đây là kiểm tra yêu cầu, chưa phải kiểm tra đã hoàn tất.
+- **gói đầu vào đóng băng:** Tập hợp tệp đầu vào có phiên bản, được giữ nguyên khi chạy lặp để các phép so sánh dùng cùng bộ đầu vào đã khai báo.
+- **hash / dấu kiểm tra:** Giá trị băm mật mã hoặc hồ sơ toàn vẹn dùng kiểm tra tệp có trùng từng byte với phiên bản đã ghi nhận hay không; đây là bằng chứng cần xác minh, không phải kết quả hiệu năng.
+- **provenance:** Hồ sơ truy xuất gồm danh tính đầu vào, phần mềm/mã nguồn, lệnh chạy, tài nguyên được cấp và đầu ra tạo ra.
+- **bằng chứng kết thúc từ bộ lập lịch:** Bản ghi của bộ lập lịch cho thấy trạng thái cuối xác định như hoàn tất hoặc thất bại, thay vì chỉ đang chờ hay đang chạy.
+- **mã trả về:** Trạng thái thoát của chương trình; kiểm tra từng giai đoạn giúp xác nhận mọi lệnh bắt buộc hoàn tất thành công.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Ứng viên có thời gian trung bình và 149 mẫu đã đo, nhưng riêng điều đó không chứng minh được chấp nhận chính thức.
 - Job độc lập đang chờ và chưa có kết quả trong ảnh chụp trạng thái được hiển thị.
@@ -2042,17 +2139,18 @@ Slide cuối tổng kết nguyên tắc bằng chứng và quyết định xem x
 
 Khép lại phần HPC bằng bốn nguyên tắc đo lường và điểm quyết định tiếp theo: xem xét bằng chứng xác nhận đầy đủ trước khi chọn cấu hình khác.
 
-### Nhìn thấy gì trên slide
+### Giải thích kết quả và lập luận
 
-Bốn cột đánh số nêu: đo toàn bộ job; tin bằng chứng runtime; giữ mọi mẫu; xác nhận độc lập. Giải thích ngắn nhấn mạnh giữ khâu chuẩn bị và nguồn gốc, phân biệt graph cut với tốc độ, điều tra phần đuôi bằng thiết bị đo, và xem lại job 25940700. Dòng trạng thái có ngày ghi 23 Oct 15:06 UTC, vẫn Q/q5, thiếu node_pool, chưa có kết quả. Màu cam nhấn hành động kế tiếp: xem phần đuôi, bằng chứng kết thúc và các mẫu phần cứng có giới hạn. Không có đồ thị số.
+Bốn nguyên tắc nối phép đo đáng tin cậy với bằng chứng có thể tái lập: tính cả khâu chuẩn bị và toàn bộ lời giải; đánh giá runtime thay vì proxy graph cut; giữ mọi mẫu, kể cả sự kiện chậm ở phần đuôi; và chạy lặp độc lập. Dòng trạng thái là ảnh chụp lịch sử: ngày 23 October lúc 15:06 UTC, job 25940700 vẫn chờ tài nguyên node_pool và chưa có kết quả. Truy vấn bộ lập lịch hoặc hồ sơ kết thúc chứng minh job có chạy hay không và kết thúc thế nào; bản thân chúng không chứng minh đầu vào đúng hoặc phép đo hợp lệ. Hash, mã trả về từng giai đoạn, bằng chứng bố trí tài nguyên và provenance đầu ra đầy đủ giải quyết các câu hỏi riêng đó. Hành động kế tiếp ghi trên slide là xem bằng chứng kết thúc và phần đuôi thời gian của lần xác nhận, rồi lấy mẫu phần cứng có giới hạn để nghiên cứu độ ổn định. Không khẳng định kết quả nào xảy ra sau đó.
 
-### Thuật ngữ và ký hiệu
+### Thuật ngữ và ký hiệu cần hiểu
 
 - **terminal proof:** Bằng chứng job đã tới trạng thái kết thúc xác định trong bộ lập lịch, đi cùng đầu ra đầy đủ và mã trả về.
 - **bounded hardware samples:** Các mẫu đo phần cứng có phạm vi và giới hạn được hoạch định, không phải phiên profiling không giới hạn.
 - **Q/q5:** Hàng đợi/trạng thái trong ảnh chụp đã ghi, không phải truy vấn hiện tại.
+- **lấy mẫu phần cứng có giới hạn:** Một tập nhỏ phép đo phần cứng được hoạch định trước cho khoảng thời gian hoặc giai đoạn xác định, với phạm vi giới hạn để không làm thay đổi đáng kể khối lượng công việc.
 
-### Cách đọc hình, trục, đơn vị và màu
+### Cách diễn giải số liệu hoặc sơ đồ
 
 - Bốn nguyên tắc nối tính hợp lệ, runtime đo được, bảo toàn ngoại lệ và khả năng tái lập độc lập.
 - Bước tiếp theo là xem xét bằng chứng, không tuyên bố cải thiện hiệu năng từ job đang chờ.

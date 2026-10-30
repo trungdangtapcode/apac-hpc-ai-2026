@@ -2,7 +2,7 @@
 
 This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 40 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
-**How to use it:** open the slide, read its purpose, follow the reading instructions, then rehearse the spoken script. Use the other sections to prepare answers. Do not read every explanatory paragraph aloud. Distinguish “we observed,” “our hypothesis was,” and “we have not established.”
+**How to use it:** read the purpose and technical interpretation, then rehearse the spoken script. Use the terminology and evidence sections to prepare answers to why questions. This guide explains the research, rather than narrating slide decoration. Do not read every explanatory paragraph aloud.
 
 - **Slides 1–24:** main AI talk. Follow the [15–20 minute plan](PRESENTATION_PLAN.md); select and shorten the scripts when rehearsing.
 - **Slides 25–32:** AI backup material. Slides 31–32 remain backups even though their titles omit Appendix.
@@ -13,10 +13,32 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 
 Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-journey-update-20261030/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `b2e1c88aba8d5a3d5ec181e3fccc6b95bb6ea12c29f214e7c3c964619dc81616`. This guide describes that version; recheck it if the deck changes.
 
+## Understand the claims before presenting them
+
+**Team-measured, formerly called “local”:** the benchmark ran on the assigned cluster's H200 or H100 compute nodes identified for that result. The team submitted the job and reviewed the data. Local described the scope of validation; it did not mean a laptop, the login node or a single compute node. Running on provided infrastructure does not itself make a result an organiser-scored or certified result.
+
+**Full run:** the campaign protocol uses 60 seconds of warmup, 120 seconds of profiling, and 30 seconds of grace for outstanding requests to finish. Full distinguishes it from a shorter idea-screening test. It does not mean all model-quality datasets were evaluated or every request passed. The latency rule requires at least 90% of all requests to jointly meet both limits.
+
+**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains unverified.
+
+**Control and candidate:** a control is the retained comparison configuration; a candidate changes the factor being tested. Cache candidate 27378 should be compared with fresh control 27376. Comparing it against a historical mean from another series mixes the tested change with time and environment differences.
+
+**Repeat and useful gain:** another job returning a similar result is stronger evidence than one peak, although it may use the same physical GPUs. For late trials, the team used a prospective >1% gain threshold to select changes worth confirming. This is a team decision rule, not an organiser rule. A 0.24% observed increase did not meet it and was not shown to be separable from run-to-run variation.
+
+**Observation, hypothesis and conclusion:** “TTFT rose” is measured. “The queue grew” is a hypothesis until wait and computation times are separated. “Keep the old setting because the candidate did not exceed our stated threshold” is a supported decision. State missing measurements rather than turning a plausible explanation into an established cause.
+
+**A score inside a failed job:** GPU inference and the client can finish and save JSON, followed by a reader/summary exception that makes the job FAILED. Repairing that reader can recover a score from old data; it does not change the original job status or replace a fresh full-deployment replay after the fix.
+
 ## Shared vocabulary
 
 | Symbol / term | Plain explanation |
 |---|---|
+| cluster / node / job | A cluster is a group of connected compute servers; a node is one server. A scheduler job requests resources and runs commands there. A job ID identifies that execution, not its performance rank. |
+| allocation | A scheduler grant of particular nodes, CPUs/GPUs and time. A new allocation is a new grant; it can reuse the same physical GPUs. It is not automatically an independent hardware sample. |
+| serving / inference | Inference computes a model response. Serving keeps the model loaded behind an API and schedules multiple incoming requests; the benchmark measures that service. |
+| Qwen3-235B-A22B | The model has about 235 billion total parameters, with about 22 billion active per token. The total weights still need storage; active count is not the total model-memory footprint. |
+| checkpoint / container image | A checkpoint stores the model parameters. A container image supplies the software and dependencies used to run them. Changing one is different from changing the other. |
+| runtime / backend / native | Runtime is the software path executing the service. A backend is a selected implementation of one operation, such as attention. Native names the built-in execution path in this pinned software; it does not mean personal-machine execution or automatically faster code. |
 | request | One prompt submitted to the service and its generated response. |
 | token | A model vocabulary unit: a word, word fragment, or punctuation; it is not necessarily one word. |
 | prefill / decode | Prefill processes the prompt; decode repeatedly generates the next token. |
@@ -30,14 +52,20 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 | TP / EP / replica | Tensor parallelism splits model computation; expert parallelism distributes MoE experts; a replica is another worker instance. |
 | MoE | Mixture of Experts: a model routes each token to selected expert networks rather than activating every expert. |
 | KV cache | Stored attention keys and values representing processed context, used when generating later tokens. |
+| attention | The model operation that lets the current token use relevant earlier context. Keeping earlier keys and values avoids recomputing those stored representations from scratch at every decode step. |
+| batch / queue / in-flight | A batch groups work for one engine execution. A queue holds work waiting to run. In-flight includes requests sent but not finished. Client concurrency is not necessarily the instantaneous GPU batch size. |
 | NIXL | The transfer layer used here to move KV state between prefill and decode workers. |
 | FP8 / BF16 | 8-bit floating-point / 16-bit bfloat formats. Weights, activations and KV can use different formats. |
 | FI / FA3 / DG / HPC-Ops | FlashInfer / FlashAttention 3 / DeepGEMM / the reused HPC-Ops kernel implementation. HPC-Ops is not the OpenFOAM HPC track. |
 | kernel / GEMM | A GPU computation routine / general matrix multiplication. Faster isolated kernels do not automatically improve the whole service. |
+| profiling / GPU utilization | Profiling records selected execution events to investigate time and work. GPU activity shows whether sampled GPU work was active; 100% activity does not establish peak FLOPs, a compute bottleneck, or absence of communication stalls. |
 | MNNVL / collective | Multi-node NVLink communication path / an operation in which multiple ranks communicate together. The actual enabled path must be checked. |
 | CUDA graph / bucket | A captured GPU execution graph / a selected execution shape to capture. Bucket count is not request concurrency. |
 | baseline / control / candidate | Reference configuration / comparison arm / proposed changed configuration. State the exact baseline for every percentage. |
 | matched trial / repeat | A comparison preserving intended factors except the tested change / another allocation to check reproducibility. Neither automatically proves causality. |
+| gate / promotion / close a branch | A gate is a stated acceptance condition. Promotion means choosing a candidate as the retained setting. Closing a branch means deciding not to repeat the unchanged losing setting; none of these words implies organiser approval. |
+| 99% of reference | A relative model-quality requirement, separate from the request latency fraction. As an arithmetic illustration, if a reference metric were 80 points, 99% of it would be 79.2 points, not 99% of answers correct. This example is not a measured contest result. |
+| cold prefix / cold startup | Cold prefix means requests cannot reuse prompt KV from earlier requests. Cold startup means the service is newly starting; OS file caches can still be warm. These are different states. |
 | ms / s / tokens/s / req/s | 1,000 ms = 1 s. tokens/s counts tokens per second; req/s counts requests per second. |
 | % / percentage points | A move from 90% to 95% is +5 percentage points, or +5.56% relative to 90%; these are different. |
 | 2,989.175 / 2.989,175 | The deck uses English separators: comma for thousands and point for decimals. These two forms express the same value in English and Vietnamese conventions. |
@@ -99,22 +127,21 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 Open the AI research story and define its scope: turning a distributed Qwen deployment into a reproducible service measurement. The talk follows the engineering and evidence from topology through transfer and kernels to repeated performance; the title does not claim an official win or certified model quality.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A photographic server-aisle background is washed out for legibility. Dark teal carries the title, orange identifies the task label and thin rule, and grey carries the date. These are presentation-theme colors, not data categories. The slide has no chart, numeric axes, or legend.
+The title describes the sequence of technical work: first choose how the model is split across GPUs, then make the prompt-state transfer correct, then tune the GPU implementations, and finally repeat the measurements. Reproduced performance means another run returns a similar result under the stated configuration; it does not mean that the organisers certified it.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Qwen:** The family of language models used in the serving task; this study serves the specified Qwen3-235B checkpoint.
 - **APAC HPC-AI 2026:** The competition context for the research, not a statement of award or official acceptance.
 - **30 October 2026:** The date of this research update; results are historical observations through that date.
 - **VNUHCM - TripleU:** The presenting team identity.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Read the title as a journey from system layout to repeatable measurement.
-- The server-room photograph is illustrative, not evidence that it depicts the tested installation.
-- There are no units or measured values on this opening slide.
+- The title also states the argument: the distributed system must function correctly before its speed comparisons are meaningful.
+- Reproduction here means similar results on another run; it does not establish all-platform or all-workload performance.
 
 ### Tradeoff and strength of evidence
 
@@ -125,7 +152,7 @@ A photographic server-aisle background is washed out for legibility. Dark teal c
 
 ### Spoken script
 
-Hello. We are VNUHCM–TripleU, and this is our Qwen serving research update through 30 October 2026. Our question was not simply how to make one run produce a larger number. We first had to establish a working two-node deployment, make request data move correctly between prompt processing and token generation, then measure controlled backend changes under the service limits. I will show which results repeated, which attractive changes did not help, and what the evidence still cannot establish. The server image is a visual backdrop, not a photograph of a verified competition installation.
+Hello, we are VNUHCM–TripleU. Our Qwen work starts with a distributed service on sixteen GPUs: choose a layout, transfer prompt state correctly, then test implementations for each phase. I will explain which improvements survived a repeat, which attractive ideas failed, and what our measurements still cannot prove. We report our own experiments on the assigned clusters; we do not present them as organiser-certified scores.
 
 ### Avoid this interpretation
 
@@ -147,23 +174,25 @@ First I will state what counts as a useful result and how to read the headline n
 
 Separate the largest independently reviewed local full-pass observation from the configuration supported by repeated evidence. The slide teaches that the headline peak and the strongest recommendation need not be the same item.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Two large score callouts sit side by side over a faded server image. Orange labels distinguish the two named evidence categories on this slide; dark teal is used for the values. A grey footnote gives the recovered portable raw peak. These colors do not imply pass/fail or a shared global legend. No numeric axes are present.
+The comparison separates the largest individual measurement from the configuration we can recommend with repeat evidence. The left result is a team-run experiment on the assigned 16-H200 cluster, not a personal computer or an organiser-scored run. The right result is the mean of three full N64 measurements. The higher recovered number in the note belongs to a job whose benchmark produced data but whose result-processing step failed; that is a different level of completion.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **3,048.45 good output tokens/s:** Rounded value for one complete local full pass, job 27378; exact reviewed value is 3048.446289.
-- **+0.24%:** Rounded difference within the prefill-cache comparison, specifically +0.240921% versus fresh control 27376; below the prospective 1% useful-gain gate.
-- **3,044.40 good output tokens/s:** Rounded mean of three historical full N64 runs, a separate repeated series.
-- **3,055.33:** Recovered raw portable result from job 27145; its original scheduler job failed after GPU measurement, so this is not a successful full-allocation completion.
-- **tokens/s:** Good output tokens per second: output tokens belonging to requests that pass the joint per-request latency gate, aggregated as throughput.
+- **Team-measured / local result:** The team launches the benchmark on its assigned cluster and evaluates retained logs. Local describes the scope of validation, not a personal laptop or organiser approval.
+- **Full run:** The campaign protocol: 60-second warmup, 120-second profiling and 30-second grace. It does not mean every quality dataset was evaluated or every request passed.
+- **Reviewed pass:** The team inspects data against the checks implemented for that run: protocol, actual runtime configuration, latency/errors and small output checks. Job 27378 has smoke 7/8 without added regression and retrieval 12/12; official model accuracy is still unverified.
+- **3,048.45; +0.24%:** Job 27378 measured 3048.446289 good output tokens/s, 0.240921% above control 27376. This is one observation.
+- **1% useful-gain threshold:** A team-set decision rule declared before the comparison to decide which changes deserve confirmation, not an organiser scoring requirement.
+- **3,044.40; N64:** Mean 3044.400475 good output tokens/s over three full runs; the client keeps up to 64 requests in flight.
+- **Recovered raw 3,055.33:** The GPU benchmark saved data but the reader/summary step failed. Repairing the reader recovered 3055.330517; the original job remains FAILED.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- The left callout is one full local pass, not a replicated mean.
-- The right callout is the mean of three historical full N64 measurements, not a value directly paired with the left run.
-- The note below the callouts says that a portable raw peak was recovered even though the original job failed after measuring.
+- Read 3,048.45 as one observation and 3,044.40 as a three-run mean. They are different series, not a directly matched treatment/control pair.
+- Evaluate the cache change against its control 27376, not against the historical 3,044.40 mean.
+- A small increase can be mixed with run-to-run variation. A higher single number does not justify replacing a repeatedly measured setup; this comparison did not exceed the team-set threshold.
 
 ### Tradeoff and strength of evidence
 
@@ -174,7 +203,7 @@ Two large score callouts sit side by side over a faded server image. Orange labe
 
 ### Spoken script
 
-Here I separate two ideas that are easy to confuse. On the left is our highest independently reviewed local full-pass score: 3,048.45 good output tokens per second, from one run. Its change improved the matched cache comparison by only 0.24 percent, below our one-percent useful-gain threshold. On the right is the 3,044.40 mean from three historical full N64 runs. That repeated result is the stronger basis for a recommendation, even though it is not the single largest number. A portable run has a recovered raw value of 3,055.33, but its original job failed after measurement. We preserve that evidence without calling it a successful deployment run.
+This slide separates the largest measurement from the configuration we recommend. We ran job 27378 on the assigned sixteen-H200 cluster with 60 seconds of warmup, 120 seconds of measurement and 30 seconds of grace. The benchmark and our implemented checks completed, yielding 3,048.45 qualifying output tokens per second. But its cache change improved only 0.24% over a fresh control, below our own 1% threshold for pursuing a useful gain. We therefore retain N64, averaging 3,044.40 across three full runs: a slightly lower number with repeat evidence. These are team-measured results, not organiser-certified scores. The 3,055.33 recovered number came from a job that failed during summary processing; it is not a successful end-to-end job.
 
 ### Avoid this interpretation
 
@@ -196,11 +225,11 @@ To understand what good output tokens per second means, we need the workload and
 
 Define the benchmark objective before discussing system changes: maximize qualifying service throughput while meeting both latency thresholds for enough individual requests. This prevents confusing raw generation speed or an average latency with the scoring rule.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A workload statement sits above a four-row table. The dark-teal table header identifies metric, meaning, and limit/unit; orange text emphasizes the accounting rule. There is no plotted chart, numeric axis, or color legend.
+Goodput rewards requests that are both completed and fast enough. A service could generate many tokens overall yet score worse if too many users wait longer than the allowed thresholds. Passing the mean latency of all requests is insufficient: first test both latency limits for each request, then count the qualifying fraction.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **4,000 input tokens → 200 output tokens:** The fixed synthetic request shape: a 4,000-token prompt and 200 requested output tokens.
 - **TTFT ↓:** Time to first token; lower is better, with a per-request limit of 3,000 milliseconds.
@@ -210,7 +239,7 @@ A workload statement sits above a four-row table. The dark-teal table header ide
 - **ms:** Milliseconds, one thousandth of a second; a latency unit.
 - **req/s × 200:** Qualifying requests per second multiplied by the requested 200 output tokens per request.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Read each arrow as the preferred direction: latency down, qualifying share and goodput up.
 - Both TTFT and mean ITL limits must pass on the same request for it to count as qualifying.
@@ -247,11 +276,11 @@ With the objective fixed, the next slide shows why platform details must travel 
 
 Show the two hardware environments used for separate platform studies and establish the rule that comparisons must name the platform, topology, backend, and load. Sharing workload and model checkpoint does not make two clusters interchangeable.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A two-column comparison table contrasts Firmus with NSCC ASPIRE 2A+. The dark-teal header labels columns and orange takeaway text emphasizes the comparison rule. The pale server-room image is decorative. There are no numeric axes or legend.
+Both platforms run the same intended model and benchmark workload, but a result also depends on GPU memory, communication, runtime and process placement. Slurm and PBS grant access to compute nodes; they are not inference engines. Containers carry the software environment, while SGLang executes the model and AIPerf sends and times requests. This separation explains why moving a configuration between clusters needs a fresh measurement.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **2 × 8 H200:** Two nodes with eight NVIDIA H200 GPUs each, sixteen GPUs in the Firmus allocation.
 - **2 × 8 H100 80GB:** Two nodes with eight 80-gigabyte H100 GPUs each on NSCC ASPIRE 2A+. This is a different GPU generation and environment.
@@ -261,11 +290,11 @@ A two-column comparison table contrasts Firmus with NSCC ASPIRE 2A+. The dark-te
 - **Qwen3-235B FP8:** The model/checkpoint and weight precision held in common for the displayed platform setup.
 - **80GB:** Nominal GPU memory capacity per H100 as shown in the table; it is not a performance unit.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Rows describe allocation, scheduler, container launcher, serving/client, and model.
 - The table says the staged image artifacts and checkpoint are shared, while the GPUs and deployment software differ.
-- Orange text at the bottom is the study rule, not a plotted result.
+- Identify GPU, worker layout, backend, load and measurement duration for every important result; the same model name does not make two runs equivalent.
 
 ### Tradeoff and strength of evidence
 
@@ -298,11 +327,11 @@ Now we can look inside the selected sixteen-GPU H200 topology and follow the req
 
 Explain the disaggregated serving design: dedicate one node to prompt prefill and one to autoregressive decode, then transfer each request's KV state between roles. The figure links hardware placement to the later transfer and layout experiments.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Two outlined boxes on Node 0 hold prefill workers P0 and P1; one larger box on Node 1 holds decode worker D0. Four small orange GPU marks in each P box and eight dark-teal marks in D0 visually encode the listed GPU allocation. Orange arrows labeled KV state/NIXL point from prefill to decode. The background photo is decorative. This is a schematic, not a data chart, so it has no numeric axes or legend; colors identify roles only in this diagram.
+A request is handled in two phases on different GPU groups. One of the two four-GPU prefill workers reads the prompt and produces attention KV state; NIXL transfers that state to the eight-GPU decode worker, which generates the answer. The transferred object is context state, not the entire model weights. Separating phases lets us choose different implementations for prompt processing and token generation, but adds transfer and coordination work.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Prefill:** The prompt-processing phase. It reads the input tokens and creates the KV state needed for generation.
 - **Decode:** The token-generation phase. It produces the requested output tokens using the prompt's KV state.
@@ -313,7 +342,7 @@ Two outlined boxes on Node 0 hold prefill workers P0 and P1; one larger box on N
 - **NIXL:** The transfer mechanism used here to move KV data between the prefill and decode sides.
 - **2 × 4 + 1 × 8 = 16 GPUs:** Two four-GPU prefill workers plus one eight-GPU decode worker, for sixteen GPUs total.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Read from left to right: requests are processed for prefill on either P0 or P1, then KV data moves to D0 for generated output.
 - Each prefill worker is TP4/EP1; the decode worker is TP8/EP8. The TP groups stay within their node.
@@ -350,11 +379,11 @@ The next slide shows how earlier topology trials led to this split, while keepin
 
 Show a small selection of topology search results and explain that the selected split emerged from measured, usable configurations. The lower caption protects the experimental record: replacements are new configurations, not retroactive repairs of failed originals.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A table lists layout ID, prefill arrangement, decode arrangement, N, and good tokens/s. Dark teal is used for the table header and text; a bold summary counts configurations, with a grey caution beneath. The image is only a washed-out background. There are no numeric axes, plotted marks, or color legend.
+A topology is a resource layout: how many model workers exist and how many GPUs each worker shares. Changing from four smaller prefill workers to two wider workers changes both per-request work sharing and how many requests those workers can serve. The rows also use different client concurrency, so this table records useful historical layouts rather than isolating the speedup caused by one topology change.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **07 / 09:** Identifiers for early layout trials, not software versions.
 - **4 × TP2 / 2 × TP4:** Four prefill workers with tensor parallelism two; the next listed layout uses two prefill workers with tensor parallelism four.
@@ -364,7 +393,7 @@ A table lists layout ID, prefill arrangement, decode arrangement, N, and good to
 - **good tokens/s:** Qualifying output token throughput under the per-request latency gate.
 - **14 + 3 = 17 usable configurations:** Fourteen measured original layouts plus three measured EP2 replacements in the recovery ledger.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Compare rows horizontally across role topology, concurrency N, and good output tokens per second.
 - N rises from 32 to 40 to 48 across these illustrative rows; the measurements also differ in load and transport history.
@@ -401,11 +430,11 @@ The next obstacle was not just choosing parallelism: cold request setup examined
 
 Explain why cold-start KV setup was redesigned around the pages a request actually transfers. The numerical comparison is descriptor geometry, demonstrating the scale of metadata enumeration; it is deliberately not presented as an inference speedup.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A two-column before/after comparison places “Whole KV pool” on the left in dark teal and “Request pages only” on the right in orange. The left value is 403.8 million source entries per rank; the right value is 188 coalesced entries per request. A bottom line shows the validation sequence. Photo background is decorative. There are no numeric axes or plotted bars; orange is a local emphasis, not a pass/fail legend.
+Before sending KV bytes, the transfer layer needs a list of memory ranges to read. The original path prepared descriptions for the whole reserved KV pool; the change describes only the pages owned by the current request and merges adjacent ranges. Fewer descriptions can reduce setup work, but descriptor counts have different scopes here and do not measure transfer bandwidth or end-to-end speed. Address correctness must be checked before a smaller list can be trusted.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **KV pool:** The full allocated key/value cache address space available to a rank, much of which a particular request will not transfer.
 - **403.8 million source entries per rank:** Approximate count of descriptor source entries enumerated for the whole-pool geometry in a representative TP8 case.
@@ -415,7 +444,7 @@ A two-column before/after comparison places “Whole KV pool” on the left in d
 - **coalescing:** Combining adjacent memory ranges into fewer larger range descriptions.
 - **CPU range tests → GPU transfer → response checks:** The layered validation path: check address calculations, then actual transfer, then request response semantics.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - The left count describes whole-pool source enumeration per rank; the right count describes coalesced ranges for one request. Their scopes differ.
 - The values are descriptor counts, with no seconds, bytes-per-second, or score unit on the slide.
@@ -452,11 +481,11 @@ That EP2 recovery also exposed a different prerequisite: the FP8 weight blocks m
 
 Explain a concrete deployment failure caused by FP8 block alignment and the geometric change used to recover a compatible partition. The key learning is that compatibility permits a load attempt but does not establish successful service or quality.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The slide compares TP8/EP1 at left with TP8/EP2 at right. The left partition is drawn as a dark teal block labeled 128 plus a red block labeled 64, visually showing a partial FP8 block; the right has three orange 128 blocks. Red labels the failure side in this diagram, orange labels full blocks on the compatible side. These are local explanatory colors, not a global legend. There are no axes.
+The failing implementation requires each weight shard to contain whole FP8 blocks. Dividing the relevant dimension by eight leaves 192 elements: one complete 128-element block plus a 64-element remainder. In this tested TP8/EP2 path the effective MoE tensor split is four, giving 384 elements or three complete blocks. EP2 changes expert distribution; it does not halve the model or reduce numerical precision further.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **FP8:** Eight-bit floating-point weight format used by the checkpoint; weights are organized into fixed-width blocks for the relevant kernel path.
 - **1,536:** MoE intermediate dimension used in this partition calculation.
@@ -467,7 +496,7 @@ The slide compares TP8/EP1 at left with TP8/EP2 at right. The left partition is 
 - **3 × 128 = 384:** The EP2 partition maps to three complete 128-element blocks. This changes the layout; it does not drop experts or weights.
 - **SLA:** Service-level agreement: the joint request latency acceptance rule defined earlier.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Read both equations before the blocks: 1536 ÷ 8 = 192 and 1536 ÷ 4 = 384.
 - Left blocks show 128 plus 64; the red remainder marks a partial block and load failure in the tested path.
@@ -504,11 +533,11 @@ With the deployment path made workable, the next slide lays out how we turn each
 
 Describe the evidence discipline used to decide which ideas deserve a run and which should be closed. It connects the early engineering stories to the later measured backend results and makes the full measurement phases explicit.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Four numbered stages run left to right: hypothesis, controlled trial, validate, then replicate or close. Orange stage numbers are visual navigation markers; dark text describes each stage. A line separates the workflow from the 60/120/30 timing and workload note. There are no axes or chart legend.
+The loop prevents a plausible idea from becoming a performance claim too early. Write down the proposed cause, preserve a reference configuration, change the intended factor, check that the intended code actually ran and outputs remain valid, then compare the score. Repeat a useful gain before selecting it. A run that ends with an error teaches us about integration, but does not become a valid performance measurement.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **01–04:** Sequence numbers for the four experimental stages, not scores or job IDs.
 - **60 s warmup:** A one-minute measured-protocol warmup before the scoring window.
@@ -518,7 +547,7 @@ Four numbered stages run left to right: hypothesis, controlled trial, validate, 
 - **4,000 / 200 tokens:** Fixed input and requested output sizes for the workload described earlier.
 - **SLA accounting:** Evaluating latency and success for each request, including failed requests in the denominator.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Stage 1 uses logs, traces and source to formulate a hypothesis; stage 2 changes one defined factor.
 - Stage 3 checks protocol, runtime activation, SLA and output; stage 4 confirms useful gains or closes losing branches.
@@ -555,11 +584,11 @@ Now I will use that evidence framework to summarize the H200 progression, while 
 
 Give a historical overview of measured H200 goodput as the serving system recovered and acquired phase-specific backends, then reached repeated operating points. This is orientation for the detailed evidence on the following slides, not a causal ablation plot.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A vertical bar chart shows nine milestone labels on the categorical x-axis: Initial 07 N32; Initial 09 N40; PD split N48; FI + MNNVL N52; Prefill DG N56; DG + HPC N58; N60 repeated; N62 repeated; N64 three repeats. The y-axis is Good output tokens/s, marked at 0, 500, 1000, 1500, 2000, 2500, and 3000; units are good output tokens per second. Bar labels are rounded values 1,297; 1,666; 1,912; 2,631; 2,716; 2,939; 2,989; 3,023; and 3,044. The gray first three, dark-teal next two, and orange later four bars mark thematic stages only; colors are not pass/fail and have no global meaning. No legend is drawn. The footer explicitly says loads and runtime settings change.
+Read the bars as a history of operating points, not a single experiment in which one optimization is added at each step. The horizontal categories change layout, backend and client concurrency; the vertical value is latency-qualified output tokens per second. The rise shows the campaign found better measured configurations, but does not assign a causal contribution to each named change.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **H200:** The GPU platform used for these milestones; do not combine these values with H100 results.
 - **x-axis milestones and N:** Categorical experiment stages and client concurrency values, not elapsed time or a continuous independent variable. N is target in-flight requests.
@@ -570,7 +599,7 @@ A vertical bar chart shows nine milestone labels on the categorical x-axis: Init
 - **HPC:** HPC-Ops decode backend in the “DG + HPC” milestone.
 - **N60 / N62 / N64 repeated:** Later full operating points with repeated observations; N64's 3,044 bar summarizes three historical full runs.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Read the x-axis as a sequence of named historical milestones; it does not encode calendar time or equal intervals.
 - Read the y-axis in good output tokens per second, increasing upward; each label is a rounded score.
@@ -608,11 +637,11 @@ The next slide zooms into one more controlled comparison: attention and collecti
 
 Introduce the first detailed backend interaction result: a combined attention and collective configuration outperformed the individual choices in a same-load H200 N52 comparison. The design lesson is to measure interactions directly rather than add separate gains arithmetically.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A four-row table reports configuration, job ID, good tokens/s, and SLA at H200 and N52. The header is dark teal; orange takeaway text emphasizes direct combination measurement. The background photograph is decorative. There are no numeric axes, plotted bars, or color legend.
+An attention backend performs the attention calculation; a collective backend moves or combines information among cooperating GPU processes. They share GPU execution and communication resources, so changing both can interact. The fresh MNNVL-only measurement is a renewed reference before judging the combination. The combination is measured directly: its benefit is not calculated by adding gains from separate trials.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **H200 · N52:** The GPU platform and client concurrency for the displayed comparison. N52 means a target of 52 in-flight requests.
 - **FlashInfer decode only:** The decode attention path uses FlashInfer while collective configuration remains at its comparison setting.
@@ -623,7 +652,7 @@ A four-row table reports configuration, job ID, good tokens/s, and SLA at H200 a
 - **SLA:** Percentage of requests satisfying both TTFT and mean ITL limits; the displayed values are local measurements.
 - **job:** Scheduler record identifier linking a row to its run evidence; not a ranking.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Compare 23777 (2,440.39), 23778 (2,592.16), and combo 23904 (2,631.09) as exploratory same-load evidence.
 - The fresh MNNVL control 23974 reaches 2,594.03, giving the more relevant comparison to the combo; the difference is about 1.43%.
@@ -660,23 +689,26 @@ The following slides test these backend observations more deeply, including prof
 
 Show why the team selected N64: a full comparison and an independent repeat support a modest gain, while a promising short N68 screen did not survive full measurement.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Read the table left to right: full N62 control, N64 source run, independent N64 repeat. Rows show goodput, joint SLA, mean TTFT, mean ITL, and errors/cancellations.
+The left column is the N62 control, the middle is the first full N64 run, and the right is a new N64 deployment. Compare the goodput row first, then check that request acceptance, latency, and errors do not contradict the throughput gain.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **N62/N64:** Configured client concurrency; not GPU count or decode batch size.
-- **Good tokens/s:** Qualifying request rate multiplied by the fixed 200-token output target.
-- **Joint SLA:** Share of requests meeting both TTFT and request-mean ITL limits.
+- **Good tokens/s:** Qualifying requests per second multiplied by the fixed 200-token output target.
+- **Joint SLA:** Share of requests meeting both TTFT ≤ 3,000 ms and request-mean ITL ≤ 20 ms.
 - **60/120/30:** Warmup seconds / scored seconds / grace seconds.
 - **N68:** Higher-concurrency screen whose gain shrank in the full pair.
+- **Full 60/120/30 protocol:** Warm the service for 60 seconds, score requests for 120 seconds, then allow 30 seconds for in-flight requests to finish. The grace period is not scored throughput.
+- **Independent deployment repeat:** A newly scheduled deployment/run of the same N64 setting. It is a repeat allocation, not proof of different GPU hardware; both N64 runs sampled the same GPU UUID set.
+- **N62 / N64 / N68:** Client in-flight concurrency settings, not GPU counts or decode batch sizes.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Independent N64 deployment 25373 repeats at 3,044.075, only 0.014% below the source. Read columns in order: goodput, joint SLA, mean TTFT, mean ITL, errors/cancellations. N64's higher throughput trades against slightly higher mean TTFT and a small SLA decline. The full protocol is 60 seconds warmup, 120 scored, 30 grace. A short N68 screen suggested +2.27%, but its full pair narrowed to +0.083%; short screens are triage, not final evidence. The repeated N64 pair reused sampled GPU UUIDs, so it supports a local repeatability claim, not a confidence interval or global optimum. Hypothesis: moderate client concurrency improves pipeline utilization. Supported conclusion: keep reproduced N64 at this operating point. Unknown: separate queue, transfer and compute causes, other loads, and global optimum.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
+- The full-run label refers to a fixed protocol: 60 seconds to warm the service, 120 seconds of scored requests, and 30 seconds of grace so outstanding requests can finish. A repeat allocation means the scheduler launched another run; it does not mean different GPU architecture. Here both N64 runs sampled the same GPU UUID set, so the repeat supports reproducibility of this setting but not hardware diversity or a confidence interval.
 
 ### Tradeoff and strength of evidence
 
@@ -709,22 +741,26 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 Explain how profiling generates the next testable question, while keeping diagnostic kernel shares separate from end-to-end service performance.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A three-row table lists decode component, summed kernel-time share, and the follow-up research question. It is a table, not a bar chart. Percentages are descriptive shares of summed recorded kernel durations, not end-to-end wall-time shares.
+Read each percentage as that named kernel group's portion of all recorded kernel duration in the separate diagnostic traces. The percentages are not slices of request wall time: GPU kernels can overlap, while request wall time also includes queueing and other unprofiled work. Use the rows to choose a test, not to estimate its speedup.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **GEMM:** General matrix multiplication used in compute kernels.
 - **MNNVL:** NVIDIA NVLink communication backend.
 - **RMSNorm:** Root mean square normalization operation.
 - **Kernel duration:** Recorded GPU-kernel time; not end-to-end wall time.
 - **N48/N58:** Separate diagnostic and repeated deployment concurrency settings.
+- **Profile:** A diagnostic run that records selected GPU kernel timings and other runtime signals while serving a workload.
+- **Kernel-time share:** A named group's fraction of summed recorded kernel durations. GPU kernels can overlap, so this is not its fraction of elapsed request walltime.
+- **N48 diagnostic vs N58 repeat:** Separate stages in job 24819: N58 repeats a deployment; N48 collects profile traces. Do not attribute N48 kernel shares to N58 service behavior.
+- **MNNVL / RMSNorm:** MNNVL is the NVLink collective communication path; RMSNorm normalizes model activations.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Named decode groups are HPC group GEMM 21.642%, MNNVL collective/RMSNorm 23.479%, and FlashInfer paged attention 15.064% of summed recorded kernel duration. These percentages are descriptive sums, not shares of end-to-end wall time: kernels can overlap and the trace covers only recorded activity. Terms: GEMM is matrix multiplication; MNNVL is a communication backend; RMSNorm normalizes hidden activations; rank is one distributed process. The three groups suggest questions about MoE implementation, communication strategy, and phase-specific attention backend. They do not predict equivalent speedups, prove FLOP saturation, or causally explain N58/N60 service results. Keep the N48 diagnostic distinct from the N58 repeat. Hypothesis: large recorded groups deserve follow-up. Conclusion: use traces to design a controlled full-service test. Unknown: per-request phase attribution and causal latency shares.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- A profile is instrumentation: it records selected activity while a workload is running. The percentages sum kernel durations across recorded ranks/GPUs. Because kernels overlap and because queueing, CPU work, communication gaps, and unrecorded activity also consume elapsed time, those percentages cannot be read as the fraction of a request spent in each component. The N48 diagnostic was separate from the N58 deployment repeat.
 
 ### Tradeoff and strength of evidence
 
@@ -757,23 +793,27 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 Demonstrate a repeatable backend tradeoff: improved useful throughput and token gaps can coexist with worse first-token delay.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Compare the full N60 auto-decode control with the HPC-Ops decode repeat. Goodput and ITL improve while mean TTFT rises.
+Compare the control and treatment at the same N60 load. Throughput rises and token gaps shrink, but the first token arrives later on average. This is a service-level tradeoff measured in a fresh deployment, not a claim about every use of the backend.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **HPC-Ops:** Provided decode runner/backend in the treatment.
+- **HPC-Ops:** The supplied decode runner tested here; this work evaluates it, not claims authorship of it.
 - **DeepGEMM:** Prefill matrix multiplication backend held fixed.
 - **TTFT:** Time to first token, in milliseconds.
 - **ITL:** Inter-token latency; here request-mean intervals.
 - **N60:** Configured client concurrency for this full comparison.
+- **Independent repeat:** A separate fresh deployment that repeats the treatment. It confirms a similar score under this setup but does not mean a different hardware generation.
+- **TTFT / request-mean ITL:** Time until the first output token / average time between output tokens within one request.
+- **Goodput:** Here, qualifying AIPerf requests per second × fixed target of 200 output tokens.
+- **Full protocol 60/120/30:** 60 seconds of warmup, 120 seconds of scored serving, then 30 seconds for outstanding requests to finish; only the middle interval contributes score.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Both hold DeepGEMM prefill and chunk 8192 at full N60. Mean TTFT rises 125.335 ms (822.292 to 947.627), while mean request-mean ITL falls 1.644 ms (16.579 to 14.934). Joint SLA is 98.7599% versus 98.8178%. Original treatment 24738 scored 2,990.151; repeat 24913 is 0.033% lower. The close repeat supports reproducibility of this interaction. HPC-Ops is a provided backend, not a team-invented kernel. Terms: TTFT is time to first token; ITL is inter-token interval; joint SLA requires both limits. Conclusion: local full-service evidence supports this setup, not universal HPC-Ops superiority. Official full-set quality remains unverified; no exact kernel cause follows.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
+- “Independent deployment” means another fresh scheduled run of the same treatment, not an experiment on another GPU generation. The repeat at 2,989.175 is 0.033% below original treatment 24738 at 2,990.151. It supports a repeat at this operating point. The higher goodput does not erase the increase in mean TTFT; a service choice can trade first-token delay against the time between subsequent tokens.
 
 ### Tradeoff and strength of evidence
 
@@ -806,23 +846,27 @@ The down arrow beside TTFT states the desired direction; actual TTFT rises in th
 
 Teach the audience to inspect individual requests: high average performance can hide first-token tail failures, and averages alone do not explain their cause.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Each dot is one request. X is TTFT (ms), Y is per-request mean ITL (ms). Red vertical/horizontal lines mark 3,000 ms TTFT and 20 ms ITL. Dark teal (#23373B; may look blue-green) passes both; orange (#EB811B; may look yellow) misses at least one. Pale green marks only the TTFT region. Darker dots are overlap/alpha, not a new category.
+Read one point as one request, not one token. A point is accepted only when it lies left of the red vertical TTFT threshold at 3,000 ms and below the red horizontal request-mean ITL threshold at 20 ms. Dark teal (#23373B; can appear blue-green) marks requests meeting both; orange (#EB811B; can appear yellow) marks requests missing at least one. The pale green band marks TTFT only, not joint acceptance. Darker clusters show alpha overlap, not a third request class.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **TTFT:** Request start to first generated token, milliseconds.
-- **Request-mean ITL:** Mean interval between generated tokens for that request, milliseconds.
-- **Joint pass:** TTFT ≤ 3,000 ms AND request-mean ITL ≤ 20 ms.
+- **Request-mean ITL:** Average interval between consecutive generated tokens for one request; it is not the same as end-to-end request latency.
+- **Joint pass:** Both limits apply to the same request. A request under the TTFT line can still fail if it is above the ITL line.
 - **Good/all:** 1,875 joint passes divided by all 1,902 requests.
 - **Alpha overlap:** Overlapping points render darker; darkness is not another outcome class.
+- **Native runtime:** The server's native execution path used by job 26766, distinct from the portable replay path. It describes software execution, not a different GPU model.
+- **P95:** The 95th percentile: 95% of observed requests are at or below this value; it describes a tail, not the mean.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- X is TTFT in milliseconds; Y is per-request mean ITL. Red vertical and horizontal lines mark 3,000 ms and 20 ms. A request passes only if it is left of and below both lines. Teal marks jointly pass; orange marks miss at least one condition. The pale green region represents TTFT only and does not certify the ITL condition. Darker clusters are alpha overlap, not a third class. Result: 1,875/1,902, or 98.580%, jointly pass; 27 miss TTFT, zero miss ITL, zero request errors/cancellations. Mean/p95 TTFT is 1,108.869/1,311.693 ms; mean/p95 ITL is 15.0075/15.1930 ms. All misses begin within 13.004 ms of profiling admission, an association only. Hypothesis: an initial-cohort effect may contribute. Conclusion: all observed SLA misses are TTFT-only in this run. Unknown: causation and queue/prefill/transfer/compute decomposition.
+- X is TTFT in milliseconds; Y is per-request mean ITL. Red vertical and horizontal lines mark 3,000 ms and 20 ms. A request passes only if it is left of and below both lines. Dark teal (#23373B; may look blue-green) marks joint passes; orange (#EB811B; may look yellow) marks requests missing at least one condition. The pale green region represents TTFT only and does not certify the ITL condition. Darker clusters are alpha overlap, not a third class. Result: 1,875/1,902, or 98.580%, jointly pass; 27 miss TTFT, zero miss ITL, zero request errors/cancellations. Mean/p95 TTFT is 1,108.869/1,311.693 ms; mean/p95 ITL is 15.0075/15.1930 ms. All misses begin within 13.004 ms of profiling admission, an association only. Hypothesis: an initial-cohort effect may contribute. Conclusion: all observed SLA misses are TTFT-only in this run. Unknown: causation and queue/prefill/transfer/compute decomposition.
 - Moving left means shorter first-token delay; moving down means shorter mean token gaps. The acceptable region is on or left of x = 3000 AND on or below y = 20; equality passes. Orange points are larger only to make failures easier to see, not because they have larger requests or token counts.
 - This is a distribution of individual requests from one run, not a Pareto frontier of competing configurations. It cannot decompose queueing, prefill computation, transfer and decode time.
+- This is a profile of requests from the native server runtime, not a synthetic kernel benchmark. TTFT measures the wait until the first token; request-mean ITL summarizes intervals after generation begins. P95 describes the slower tail. The 27 misses began within 13.004 ms after profile admission, but that timing alone cannot say whether queueing, prefill, KV transfer, or compute caused them.
 
 ### Tradeoff and strength of evidence
 
@@ -855,23 +899,28 @@ The green band marks TTFT only. Do not treat it as the joint pass region; every 
 
 Keep the H100 operating point, backend settings and repeat variation separate from H200 claims.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The H100 historical individual peak and fresh full N54 control are shown alongside the H100 backend and parallelism settings.
+The historical high and the fresh full control answer different questions: one is the best retained individual observation; the other is a new complete run with its own acceptance result. H100 uses different prefill/decode settings from H200, so these numbers cannot isolate a hardware-generation effect.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **H100/H200:** Distinct accelerator systems with separately measured operating points.
 - **N54:** Configured client concurrency in the H100 comparison.
 - **TP8:** Tensor parallelism across eight GPUs.
 - **EP8:** Expert parallelism across eight partitions.
 - **Chunk 4096:** Configured prefill chunk size on this H100 setup.
+- **Allocation:** One scheduler-granted resource assignment and run. Allocation counts are repeat counts, not counts of unique GPU models or necessarily unique physical devices.
+- **Retained individual peak:** Highest single observation preserved in the cited historical series; it is not a fresh control or a distribution estimate.
+- **TP8 / EP8:** Tensor parallelism spans eight GPUs; expert parallelism distributes experts across eight partitions.
+- **Operating point:** A result attached to a particular hardware, software, load, and backend configuration.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Fresh full control 225227 reached 2,399.186728 with 98.015873% joint SLA and zero errors/cancellations. H100 uses HPC-Ops for prefill and decode, chunk 4096, TP8/EP8; H200 uses DeepGEMM prefill and chunk 8192. Thus these values are not a matched hardware comparison or multiplier. Retain both peak and fresh control: they answer different questions. TP means tensor parallelism; EP means expert parallelism. A functional EAGLE transport response is not an accepted aggregate performance result. Hypothesis: hardware families require their own settings. Conclusion: report a distinct H100 point with its actual configuration. Unknown: cross-generation causal effect and universal conversion.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
+- An allocation is a scheduled run/resource assignment, whereas H100 versus H200 is a hardware-family distinction. A retained maximum is one observed run; a fresh control is a new complete observation. Since the H100 setup uses HPC-Ops for both phases and a 4,096-token chunk, while H200 uses a different prefill backend and 8,192-token chunk, the values cannot be divided to obtain a GPU-generation multiplier.
 
 ### Tradeoff and strength of evidence
 
@@ -904,23 +953,27 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 Use a losing FA3 decode trial to explain why optimizing first-token latency alone can reduce the final throughput objective.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The H100 N54 table compares FlashInfer and FA3 for goodput, mean TTFT, mean ITL, and mean request latency.
+FA3 lowers the time to the first token, but its longer average token interval compounds across a long output. Read the measured mean request latency and goodput rows as the end-to-end decision; do not select a backend from TTFT alone.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **FlashInfer:** Control decode-attention backend.
 - **FA3:** Treatment decode-attention backend; prefill remains FA3.
 - **Goodput:** Qualifying output tokens per second.
 - **Request latency:** End-to-end request duration, including generation.
 - **Matched pair:** Full runs differing only in the intended decode attention factor.
+- **Mean request latency:** Average end-to-end duration for a request, including first-token wait and the remaining output generation.
+- **Why TTFT can mislead:** A reduction before the first token may be outweighed by a small per-token slowdown repeated over a long response.
+- **Matched change:** Only decode attention changes in this H100 N54 pair; prefill remains FA3 in both conditions.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - FlashInfer versus FA3: good tokens/s 2,420.945 vs 2,401.284; mean TTFT 713.199 vs 594.276 ms; mean ITL 18.214 vs 18.988 ms; mean request latency 4,337.853 vs 4,372.813 ms. FA3 saves 118.922 ms to first token, but ITL increases 0.773 ms; over about 199 intervals that adds roughly 154 ms. Mean request latency rises and goodput falls 0.812%. Keep FlashInfer for this decode setting; FA3 remains the prefill backend. One pair cannot rank backends universally or identify exact kernel causality.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
+- The measured mean request latency rises by 34.960 ms (4,372.813 − 4,337.853), and goodput falls 0.812%. The ITL change is small per gap but repeats over a long response; this is a plausible interpretation of the tradeoff, not a separately isolated kernel-level causal measurement. The comparison supports keeping FlashInfer only for this tested H100 decode setting.
 
 ### Tradeoff and strength of evidence
 
@@ -953,22 +1006,26 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 Show the value of reversing trial order and enforcing a predeclared promotion gate rather than selecting a favorable first result.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Two full H100 pairs show off/read-first walltime, resulting saving, goodput change, and the predeclared cost gate.
+Compare the second pair after reversing which condition ran first. The first pair's 18.74% walltime saving does not reproduce: the reverse-order pair saves 9.84%, below the predeclared 10% threshold. Scheduler walltime includes startup and cleanup, so it is not the same metric as steady-state goodput.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **Read-first:** Startup treatment that reads prefill checkpoint data first.
+- **Read-first:** Read the prefill checkpoint before the measured service run to test a startup-cost hypothesis.
 - **Walltime:** Scheduler-measured runtime in seconds.
 - **Reverse order:** Confirmation that runs the pair in the opposite sequence.
 - **Cost gate:** Predeclared requirement of at least 10% walltime saving.
 - **Goodput change:** Change in qualifying throughput relative to the paired control.
+- **Scheduler walltime:** Elapsed allocation time includes startup and cleanup; it is distinct from the 120-second scored serving window and from goodput.
+- **Cold prefix vs cold OS cache:** A cold prefix means the prompt prefix is not reused from the model's prefix/KV cache. A cold OS page cache means file data is not already cached by the operating system. This experiment did not verify cold OS cache, so it cannot claim a cold-storage cause.
+- **Reverse-order confirmation:** Repeat the pair with execution order reversed to check whether order or warm cache drove the first difference.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - First full pair: off/read-first 934/759 s, saving 18.74%, goodput −0.66%. Reverse-order confirmation: 854/770 s, saving 9.84%, goodput −0.33%. Prospective gate required at least 10% saving and no more than 2% goodput loss; confirmation meets throughput tolerance but misses walltime gate, so no promotion. Unknown cache state and node differences prevent a cold-storage causal claim. Walltime is scheduler duration, not steady-state throughput.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- The read-first idea concerns loading the prefill checkpoint during startup. “Cold prefix” describes whether the model can reuse a prompt-prefix/KV-cache entry; it does not describe operating-system file cache. A cold OS cache means checkpoint pages must be fetched from storage instead of memory cache. Since cache state was not verified and nodes differed, the walltime difference cannot be assigned to cold storage. The reversed-order result misses the predeclared threshold, so the team did not adopt the change.
 
 ### Tradeoff and strength of evidence
 
@@ -979,7 +1036,7 @@ Two full H100 pairs show off/read-first walltime, resulting saving, goodput chan
 
 ### Spoken script
 
-“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than promote its favorable first result.”
+“The first pair saved 18.74 percent, but reversing the order gave 9.84 percent, below the declared 10 percent gate. Goodput changed only slightly. Since the confirmation misses the threshold, we close this branch rather than đưa vào cấu hình chính its favorable first result.”
 
 ### Avoid this interpretation
 
@@ -987,7 +1044,7 @@ Do not report only the favorable first order. Unknown cache state limits causal 
 
 ### Transition
 
-“A separate question asks whether a local hardware ratio can forecast a nearby load.”
+“A separate question asks whether a do nhóm tự chạy trên cluster được cấp hardware ratio can forecast a nearby load.”
 
 ---
 
@@ -1001,24 +1058,29 @@ Do not report only the favorable first order. Unknown cache state limits causal 
 
 Define a limited, measured bridge between platforms and explain why it is not a universal H100-to-H200 conversion rule.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-H100 and H200 full-protocol means at the same N52 combo produce a dimensionless observed ratio.
+The ratio is H200 mean goodput divided by H100 mean goodput for one matched model/configuration at N52. Two and four allocations are repeated scheduled runs; they do not mean two and four different GPU models, nor prove that every allocation used unique hardware. This single ratio is a calibration point, not a conversion law.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **N52:** Client concurrency used for this calibration point.
 - **Allocation:** One scheduled resource assignment/run.
 - **System ratio:** H200 mean goodput divided by H100 mean goodput here.
 - **Dimensionless:** A ratio with no physical units.
 - **Calibration point:** One load/configuration, not a validated conversion curve.
+- **Allocation means repeats, not independent hardware:** Two H100 and four H200 allocations are scheduled observations. The counts alone do not prove distinct machines, unique GPU devices, or general hardware diversity.
+- **Ratio 1.188096805:** H200 mean 2,632.181 ÷ H100 mean 2,215.460 for this N52 combo. It has no unit and applies only to this comparison.
+- **Calibration:** A measured reference point used to make one prospective estimate; not a validated conversion function across workloads.
+- **Independent hardware:** Different accelerator type (H100 vs H200), not simply another scheduler allocation of the same type.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - H200/H100 observed system ratio is 1.188096805, dimensionless. It describes this measured point only. Repeats at one load do not define a conversion function or prediction interval, and the ratio must not be applied to TTFT, ITL, SLA or other backend branches. Allocation means scheduled resources, not independent hardware generations. Hypothesis: local calibration may inform a nearby held-out forecast. Conclusion: use it only as a scoped forecast input. Unknown: variation across loads/configurations and uncertainty.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
 - The printed means are 2215.460 and 2632.181 good output tokens/s, summarized over two H100 and four H200 allocations respectively. The ratio 1.188096805 has no unit; locally it corresponds to about 18.81% higher observed system throughput, not 18.81 percentage points of SLA.
+- The two H100 and four H200 allocations are repetitions of scheduled runs. They are not evidence of two versus four distinct hardware units, nor of four independent hardware populations. “Independent hardware” here means a different accelerator family, H100 versus H200. Repeating at one load estimates that particular operating point more directly, but cannot establish a conversion function for other concurrency levels or backends.
 
 ### Tradeoff and strength of evidence
 
@@ -1029,7 +1091,7 @@ H100 and H200 full-protocol means at the same N52 combo produce a dimensionless 
 
 ### Spoken script
 
-“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a local system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”
+“At the same N52 combo, H200 goodput divided by H100 goodput is 1.1881. It is a do nhóm tự chạy trên cluster được cấp system association, not a universal conversion factor. The next slide tests one frozen forecast at N50.”
 
 ### Avoid this interpretation
 
@@ -1037,7 +1099,7 @@ This ratio applies only to the stated load and configuration; it is not a percen
 
 ### Transition
 
-“We now check a forecast fixed before seeing held-out H200 data.”
+“We now check a forecast fixed before seeing held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 data.”
 
 ---
 
@@ -1051,24 +1113,26 @@ This ratio applies only to the stated load and configuration; it is not a percen
 
 Show an honest forecast test: freeze the prediction, test a held-out point, and report both the operational pass and the missing uncertainty.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-A prediction frozen before the result is compared with held-out H200 N50 measurement, signed error, and tolerance.
+The forecast was recorded before the held-out (phép đo được giữ riêng để kiểm tra dự báo) H200 result was examined. Its −1.5371% signed error is within the predeclared ±2% operational tolerance. The earlier sensitivity range varied selected inputs but omitted model error, so it was not a complete prediction-uncertainty interval; being outside it is a real limitation, not a reason to alter the frozen forecast.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **Held-out:** Observation reserved for checking a frozen prediction.
-- **Signed error:** Relative difference; negative means measurement is below prediction.
+- **Held-out:** A measurement kept out of calibration and revealed only after the prediction is written down; it tests transfer to a new observation.
+- **Signed error:** (measured − predicted) relative to prediction; negative means measured goodput was lower.
 - **±2% tolerance:** Predeclared operational gate, not a 95% confidence interval.
-- **Sensitivity range:** Input variation range that omitted model error here.
+- **Sensitivity range:** Range from changing selected inputs. It is not total predictive uncertainty if it omits model error, run-to-run variation, or other unmodeled factors.
 - **N50:** Client concurrency of this forecast check.
+- **Operational tolerance:** A predeclared practical pass band of ±2%; it is not a 95% confidence interval or measurement error bar.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out pass supports only this local check, not broad predictive validity.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- Held-out job 24272 measures 2,601.629; signed error is −1.5371%, within the predeclared ±2% operational tolerance. It is outside the earlier sensitivity range because that range omitted model error. The tolerance is not a 95% confidence interval or measurement error bar. Do not refit the frozen ratio after observing the point. One held-out (phép đo được giữ riêng để kiểm tra dự báo) pass supports only this do nhóm tự chạy trên cluster được cấp check, not broad predictive validity.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
 - The minus sign means the measurement is below the forecast: 2601.629 versus 2642.244 good output tokens/s. The signed percentage is (measured − predicted) / predicted × 100; ± means a symmetric allowed tolerance, not a measurement error bar.
+- The prediction is held out because the H200 N50 result was not used to calculate it. The ±2% band is an operational acceptance rule selected before the measurement. A sensitivity interval asks how a calculation changes as chosen inputs change; it becomes a prediction uncertainty interval only if it also represents important errors and variation. This earlier range omitted model error, so the held-out (phép đo được giữ riêng để kiểm tra dự báo) observation exposed a limitation even though it passed the practical tolerance.
 
 ### Tradeoff and strength of evidence
 
@@ -1083,7 +1147,7 @@ A prediction frozen before the result is compared with held-out H200 N50 measure
 
 ### Avoid this interpretation
 
-±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out data.
+±2% is an operational tolerance, not a confidence interval. Do not refit after observing held-out (phép đo được giữ riêng để kiểm tra dự báo) data.
 
 ### Transition
 
@@ -1101,33 +1165,37 @@ A prediction frozen before the result is compared with held-out H200 N50 measure
 
 Show how source-based ideas are closed or retained after complete measured trials; plausible code paths and small gains are not enough for promotion.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Rows connect each source-guided hypothesis to the full observation and the retain-or-close decision.
+For each row ask three questions: did source inspection predict a real code path, did runtime evidence confirm it was active, and did a full matched run improve the service enough to matter? The small percentages are separate experiments and must not be added together.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Source evidence:** Code and runtime show which path was selected/activated.
 - **Exact-ID preflight:** Checks tokenizer batching preserves intended token IDs.
-- **p95 TTFT:** 95th percentile first-token latency; a tail measure.
+- **p95 TTFT:** 95th-percentile first-token latency; it can worsen even when the mean improves.
 - **Useful-gain gate:** Prospective threshold for promotion.
 - **Prefill/decode:** Prompt processing / autoregressive generation phases.
+- **Source inspection:** Read the implementation to identify the branch that should execute; runtime evidence must then confirm the branch actually ran.
+- **Exact token-ID preflight:** A correctness check that batching preserves the same token IDs before measuring speed.
+- **Useful gain:** A predeclared minimum improvement needed to justify changing the serving configuration; a tiny positive number is not automatically useful.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Source evidence and runtime activation establish what executed; they do not prove a bottleneck. Each decision relies on full matched outcomes and a useful-gain gate. p95 is the 95th percentile tail, not a mean. Do not add percentages across branches.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- Source inspection and runtime confirmation answer whether the intended implementation was used; the full matched run answers whether it helped. These are separate evidence steps. A small positive change may be noise or too small to matter, and a metric improvement can coexist with a worse tail or lower goodput. This is why the table retains negative and below-threshold branches instead of accumulating headline gains.
 
 ### Tradeoff and strength of evidence
 
 - **Observation:** Small gains fail the useful-gain threshold; cache tail or attention goodput worsens.
 - **Hypothesis:** Source-supported settings may improve a service metric.
-- **Supported conclusion:** Promote only an activated matched change with useful full-run gain.
+- **Supported conclusion:** Adopt in the main configuration only an activated matched change with useful full-run gain.
 - **Unknown / limitation:** A shared bottleneck or cross-setting effect is not established.
 
 ### Spoken script
 
-“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not promoted; a better ITL that costs 6.39 percent goodput is also not a win.”
+“A working flag is only the start. We verify activation, run the full protocol, and compare the result to its control. Small gains below the useful threshold are not đưa vào cấu hình chínhd; a better ITL that costs 6.39 percent goodput is also not a win.”
 
 ### Avoid this interpretation
 
@@ -1149,22 +1217,28 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 Separate fast service from correct model behavior: local sanity checks and latency acceptance cannot certify the official full-set quality gate.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Three evidence bands separate service latency acceptance, small local sanity checks, and unverified official model quality.
+Latency acceptance asks how quickly requests are served; model quality asks whether answers meet the organiser's reference score. The 7/8 smoke and 12/12 retrieval checks are small team-run regression checks, not the official full-set accuracy evaluation. Passing the latency gate cannot establish the required score of at least 99% of reference.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **SLA:** Request-level service latency acceptance.
 - **Smoke:** Small basic-behavior/regression check suite.
 - **Retrieval:** Local retrieval sanity suite, not official quality benchmark.
 - **99% of reference:** Official model-quality threshold, still unverified.
 - **FP8/BF16:** FP8 weights; BF16 activation and KV cache formats.
+- **Service performance:** Measures speed/latency and request acceptance; it says nothing by itself about semantic correctness.
+- **Official model quality:** Separate organiser evaluation comparing model answers with a reference on the prescribed full test set; the requirement here is at least 99% of reference.
+- **Smoke / retrieval checks:** Small team-run checks for regression and retrieval behavior, not a substitute for the official quality test.
+- **FP8 weights, BF16 activation/KV:** Weight precision differs from activation and KV-cache precision; these labels describe numerical formats, not quality scores.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
+- **Team-run sanity checks:** Small checks run by the team on the assigned environment to look for regressions; they are not the organiser’s prescribed full-set quality evaluation.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Local smoke is 7/8 with no new regression; retrieval is 12/12. These small local checks do not certify the official quality requirement of at least 99% of reference. The primary retains FP8 weights and BF16 activation/KV; it does not use quantized KV or speculative decoding. Terms: SLA is service-level latency acceptance; reference is organiser's quality comparator. Conclusion: report service performance separately, and leave official quality explicitly unverified.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- The latency result is a performance result: it measures request service time and pass fraction. The 99%-of-reference requirement is a quality result: it compares generated answers with the organiser's specified reference evaluation. Smoke and retrieval suites check a limited set of regressions; they do not estimate the full-set quality score. Those checks therefore support “no detected do nhóm tự chạy trên cluster được cấp regression,” not “official accuracy passed.”
 
 ### Tradeoff and strength of evidence
 
@@ -1175,7 +1249,7 @@ Three evidence bands separate service latency acceptance, small local sanity che
 
 ### Spoken script
 
-“The service meets its local latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”
+“The service meets its do nhóm tự chạy trên cluster được cấp latency gate, and small sanity checks show no new regression. The official 99-percent-of-reference quality evaluation has not been verified. We therefore make no quality certificate or ranking claim.”
 
 ### Avoid this interpretation
 
@@ -1197,22 +1271,27 @@ Smoke and retrieval checks are not full accuracy certification.
 
 Preserve the entire speculative-decoding failure-and-repair chain, and explain why fixing integration did not establish a speedup.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Four chronological EAGLE3 stages show placement failure, validator error and repair, short retry, and full trial.
+Follow the chronology. First, placing draft workers everywhere misses the joint latency gate. Next, a validator mistakenly demands draft KV regions on target-only prefill; repairing that checker allows a valid retry but does not change the performance. The short retry and later full trial both lose goodput, so the tested variants are closed.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **EAGLE3:** Speculative decoding method that proposes draft tokens.
 - **Draft placement:** Worker role on which the draft model is run.
 - **KV region:** Role-specific key/value cache memory region.
 - **Short protocol:** Limited test, not the complete benchmark protocol.
 - **Full protocol:** Complete fixed workload, warmup, score window and grace period.
+- **EAGLE3 speculative decoding:** A draft model proposes tokens; the target model verifies them. Correct draft transfer is a functional result, not proof of faster end-to-end serving.
+- **Role-aware validator:** The check must apply draft-KV expectations only to worker roles that actually host the draft. Target-only prefill has no draft KV region.
+- **Short vs full run:** A short pass establishes limited execution behavior; the full fixed-workload run is required to compare serving goodput.
+- **Goodput loss:** A lower qualifying output-token rate versus the matched target-only control.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Decode-only attempt 25988 is rejected by a validator incorrectly applying draft KV-region counts to target-only prefill. A role-aware validator repair preserves the old failure. Short retry 25998 passes its limited protocol but loses 4.74% goodput against its target-only control. Separate shallow full trial 27238 scores 2,971.628430 versus 3,034.761104 for control 26949, a 2.080318% loss. Functional draft transfer is not speedup; low acceptance telemetry is not a causal timing breakdown. Terms: EAGLE3 speculative decoding; KV key/value cache; full protocol complete workload; short protocol limited test. Conclusion: close tested arms while retaining failure and repair history. Unknown: other configs and official quality.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
+- The validator failure was a tooling/interface mistake, not evidence that the model itself failed. The repaired validator applies checks by worker role: target-only prefill should not be required to own draft KV. After that correction, the short decode-only rerun loses 4.74% goodput, and the later full shallow run loses 2.080318%. Functional speculative token transfer and passing a short run do not justify a serving change when complete goodput is lower.
 
 ### Tradeoff and strength of evidence
 
@@ -1231,7 +1310,7 @@ Do not erase the validator failure or confuse short and full protocols.
 
 ### Transition
 
-“The summary returns to replicated N64 and the small unpromoted cache result.”
+“The summary returns to replicated N64 and the small unđưa vào cấu hình chínhd cache result.”
 
 ---
 
@@ -1245,34 +1324,39 @@ Do not erase the validator failure or confuse short and full protocols.
 
 Close the main AI talk with the replicated configuration and the limits of its evidence, instead of choosing an isolated peak.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The replicated historical N64 mean is contrasted with the small cache gain and a separately reported native-runtime run.
+The selected reference is the mean of three historical full N64 runs. The later native-runtime run is a separate measurement because it used a different server execution environment; do not pool the values as if they were one controlled series. The cache candidate is the numerical high, but its 0.240921% gain is below the declared useful-gain threshold.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Three-run mean:** Mean of historical full N64 runs 25366/25373/25487.
-- **Native runtime:** Separate runtime path used by job 26766.
+- **Native runtime:** Job 26766 uses the native server execution environment, separate from the historical runtime path. Runtime means software stack that launches/executes the serving server, not GPU hardware.
 - **Cache pair:** 27376 fresh control versus 27378 candidate.
 - **+0.240921%:** Candidate gain, below the prospective useful-gain gate.
 - **Official quality:** Full-set accuracy requirement, not verified here.
+- **Historical N64 series:** Three full runs 25366/25373/25487 average 3,044.400475 good output tokens/s.
+- **Fresh cache control:** Job 27376 compared with candidate 27378; the +0.240921% score difference is below the useful-gain threshold.
+- **Team-reviewed run:** A run executed by the team on the assigned organiser cluster and checked against local raw-output/runtime gates. This is not an organiser-issued ranking or quality certification.
+- **Full protocol 60/120/30:** For this benchmark: 60 seconds warmup, 120 seconds scored measurement, and 30 seconds grace for in-flight requests; grace is not scored.
+- **Team-run and team-reviewed:** The team submitted and inspected the run on the assigned organiser cluster. “Reviewed” means checking retained raw request results, runtime and required gates; it is not organiser certification, a contest ranking, or a claim that the run was on a personal machine.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Later native-runtime job 26766 independently reaches 3,045.501509 and 98.580442% joint SLA; keep it separate because runtime path differs. Highest full cache result 27378 reaches 3,048.446289, only +0.240921% over fresh control 27376, below useful-gain gate. Lower valid replays around 2,802–2,831 remain retained. Replication supports choosing N64, not a global optimum. No speculative speedup, official quality certificate, or causal native-runtime speedup is claimed.
-- There are no numerical X/Y axes on this slide. Read the printed rows, columns or cards; dark teal headings organize the content and orange text emphasizes the message. These colors do not add a separate pass/fail data series.
 - Good output tokens/s is a throughput unit (higher is desirable); latency values are milliseconds (lower is desirable); joint SLA is a percentage of requests, not model accuracy. N is concurrent client requests, not GPUs. Read only the metrics actually printed on this slide.
+- The historical mean and the native-runtime score are both team-run, fully reviewed measurements on the assigned accelerator cluster; “reviewed” means raw request/runtime checks were inspected, not that the organiser certified a ranking or quality score. The native runtime is the software execution environment, not a new GPU generation. Keep its 3,045.501509 separate from the three-run historical mean because the runtime paths differ. A numerically higher cache result is not selected when its gain is below the predeclared useful-change threshold.
 
 ### Tradeoff and strength of evidence
 
 - **Observation:** Historical N64 mean is replicated; cache point gains 0.240921%; native path is separate.
 - **Hypothesis:** A reproduced point is a safer selection basis than isolated peak.
-- **Supported conclusion:** Retain N64; do not promote the small cache gain.
+- **Supported conclusion:** Retain N64; do not select for the main configuration the small cache gain.
 - **Unknown / limitation:** Global optimum, official quality and causal runtime differences are unknown.
 
 ### Spoken script
 
-“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not promoted. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”
+“The selected point is the replicated historical N64 mean. A later native result is similar but separately reported. The cache high is only 0.24 percent above its control and is not đưa vào cấu hình chínhd. We retain lower valid runs too. This is a measured operating point, not a global optimum; official quality still needs verification.”
 
 ### Avoid this interpretation
 
@@ -1294,43 +1378,44 @@ Keep units and configuration attached; do not state a hypothesis as a measured c
 
 ### Purpose
 
-Explain the gap between the replicated full N64 result and a later short control without assigning an unproved cause.
+Explain why the observed score drift did not identify a cause, and why the later full result is a reproduction rather than a causal recovery claim.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Columns show observation/test, held or changed setting, and result. Rows cover the historical full run, short control, exact legacy replay, controlled cells, and separate native run. Scores are good output tokens/s. N64 is client concurrency, not GPU count. No plotted axes or colored data-point encoding appears.
+Read the scores as three different evidence classes. The historical mean comes from three full N64 runs. The roughly 2,560 control was short and also had changed graph policy, request cap, and harness/observation conditions, so the gap mixes protocol and configuration differences. The 2,830.923547 legacy replay is a valid full run under retained old operational settings. The 3,045.501509 native run is another full observation in a later execution path. Similar endpoints do not prove that a particular changed setting restored performance.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **N64:** A target client concurrency of 64 in-flight requests.
-- **graph policy:** Rules that decide which decode request shapes receive captured GPU execution graphs.
-- **request cap:** A configured upper bound on running requests accepted by the serving engine.
-- **native runtime:** The later serving execution path used for the separately reported full recovery.
-- **KV:** Key-value attention state transferred from prompt processing to token generation.
+- **N64:** The client aims to keep 64 requests in flight; it is a request load target, not 64 GPUs.
+- **full vs short protocol:** Full scoring uses 60 s warmup, 120 s profiling, 30 s grace. A short control uses a shorter measurement and is not directly score-matched to full runs.
+- **score drift:** A difference between observations that raises a question; by itself it does not identify the cause.
+- **native runtime:** The distinct later serving execution path used for full run 26766. The label identifies that tested path; it does not itself mean faster or explain why the score changed.
+- **causal recovery:** Evidence that a specific change restored a score, usually from controlled comparisons that isolate that change.
+- **request cap / graph policy:** The cap limits running requests. Graph policy decides which decode shapes use captured GPU graphs; both changed in the later control.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Historical full N64 mean: 3,044.400475 across three runs. The short control was about 2,560, but its protocol, graph policy, and request cap differed.
-- The valid legacy full replay scored 2,830.923547. Modern controls did not isolate one useful cause. Native full 26766 scored 3,045.501509 in a separate series.
+- A full run uses the fixed 60-second warmup, 120-second scored profiling window, and 30-second grace. A short control does not provide the same observation window, so its score is useful as a drift signal, not a matched full-protocol comparison.
+- The legacy replay scored 2,830.923547; the later native full run scored 3,045.501509. Controlled graph/admission comparisons found no single useful cause for the spread. Keep both valid results visible.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Historical and native full results are near 3,044–3,046 good output tokens/s; the short and legacy observations are lower.
-- **Hypothesis:** Graph policy and the running-request cap might explain part of the drift.
-- **Supported conclusion:** Controlled tests established no single useful cause; retain the valid lower replay.
-- **Unknown / limitation:** Remaining variation, including harness and observation differences, is unresolved.
+- **Observation:** Historical full N64 averaged 3,044.400475; the short control was about 2,560; a valid legacy full replay scored 2,830.923547; native full run 26766 scored 3,045.501509.
+- **Hypothesis:** Changed prefill graph policy, maximum running-request cap, or harness conditions may contribute to the drift.
+- **Supported conclusion:** The later full result reproduces the historical level in a distinct runtime series; no single setting was shown to cause the difference.
+- **Unknown / limitation:** The relative contribution of graph policy, request cap, protocol length, harness, and observation variation is unresolved.
 
 ### Spoken script
 
-The historical full result and a later short control differed sharply. We checked effective settings, replayed the old configuration, and tested modern settings separately. Those tests did not identify one useful cause. A later native full run returned near the historical level, but that does not explain why the short control was lower.
+Three historical full runs at a target load of 64 simultaneous requests averaged about 3,044 good output tokens per second. A later short control was around 2,560, but it used less measurement time and different graph and request-limit settings. Replaying the old full setup scored lower; a later run through a different serving execution path returned near the historical level. That is a separate reproduction, not proof that a setting caused recovery.
 
 ### Avoid this interpretation
 
-Do not call the short control a matched full run, attribute recovery to one flag, or omit the valid lower replay.
+Do not compare the short control as if it were a full run, attribute the later score to one setting, or discard the valid lower legacy replay.
 
 ### Transition
 
-Next, review architecture and kernel leads at the scope their evidence supports.
+Next, distinguish a promising component probe from evidence about full-model serving.
 
 ---
 
@@ -1342,45 +1427,46 @@ Next, review architecture and kernel leads at the scope their evidence supports.
 
 ### Purpose
 
-Show why architecture and kernel ideas are bounded leads, not proof of faster full serving.
+Show how component-level experiments and source review can eliminate leads without demonstrating a faster full model.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Columns are research direction, evidence, and decision. Rows are separate branches, not one ranking. Attention-DP changed several factors at N52; Triton probes covered representative shapes; SM checks were bounded. Real-model compilation stopped at an assertion and has no score. CPU fixtures are not serving measurements. No plotted axes or colored data-point encoding appears.
+Each row answers a different question. The attention-DP score is an end-to-end observation at N52, but several settings changed together, so it cannot identify which one hurt. Triton results are kernel probes on representative shapes: they test a component, not the complete Qwen serving path. The torch.compile attempt reached real model code but stopped at a RoPE/fused-KV assertion before a score. C++ fixtures exercised CPU helpers only. Those evidence levels explain why the decisions are conservative.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **DP:** Data parallelism: multiple model replicas or partitions process separate requests; here it labels an attention configuration.
-- **FP8:** Eight-bit floating-point format used for model weights in the retained deployment.
-- **Triton:** A GPU-kernel programming and compilation system; probe results apply only to tested shapes.
-- **SM:** Streaming multiprocessor, a GPU execution unit; an SM budget limits how many units a kernel may use.
-- **torch.compile:** PyTorch's compilation path for turning model operations into compiled execution.
-- **RoPE:** Rotary positional embedding, a position-encoding operation used by the model.
-- **C++:** The compiled programming language used by the separate cache and API probes.
+- **probe:** A small, isolated experiment on a component or a few shapes. It says what that component did there, not what the full service will do.
+- **fixture:** A small test input used to check helper code or an API. A passing CPU fixture is not a GPU serving run.
+- **source review:** Reading code to see whether a setting is supported or consumed. It establishes possible behavior, not that the behavior ran in the model.
+- **full-model test:** A run that starts the actual distributed model, serves requests, and measures outputs. The compile attempt here stopped before scoring.
+- **DP / FP8:** DP is data parallelism, a way to distribute request/model work. FP8 is 8-bit floating point used for model weights.
+- **Triton / DeepGEMM:** GPU-kernel systems tested in representative shapes; conclusions apply only to those probes.
+- **SM budget:** A limit on how many GPU streaming multiprocessors a kernel may use; a kernel-level result need not transfer to end-to-end service.
+- **RoPE / fused-KV:** RoPE encodes token positions. The compiled model path asserted when this operation met the fused key-value cache interface.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Attention-DP with DeepGEMM/DeepEP scored 2,549.20 at N52, below the retained MNNVL point; coupled changes prevent one-flag attribution.
-- Representative FP8 Triton probes lost to DeepGEMM. SM budgets 80, 96, and 120 were mixed or inconsistent. Real-model torch.compile failed at a RoPE/fused-KV assertion; C++ fixtures ran on CPU only.
+- The attention-DP package with DeepGEMM/DeepEP scored 2,549.20 at N52, below the retained MNNVL point; the coupled settings prevent a single-flag conclusion. Representative FP8 Triton probes lost to DeepGEMM.
+- SM budgets 80/96/120 produced mixed results or failed the consistency criterion. The real-model compile asserted before benchmarking. CPU cache/API fixtures can check helper logic, but do not exercise GPU model integration, distributed startup, or serving quality.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Evidence includes a lower coupled-configuration score, losing kernel probes, mixed SM checks, and a compile assertion with no score.
-- **Hypothesis:** Alternative layouts, kernels, resource budgets, compilation, or cache paths might help full serving.
-- **Supported conclusion:** Only tested-scope conclusions are supported; tested Triton shapes did not beat DeepGEMM and compile produced no score.
-- **Unknown / limitation:** Untested shapes and compatible compile paths may differ; CPU fixtures do not settle full-model serving.
+- **Observation:** A coupled attention package scored lower; representative kernel probes lost; SM checks were mixed; real-model compilation had no score; C++ fixtures were CPU-only.
+- **Hypothesis:** A different attention layout, kernel, SM budget, compile path, or cache API might improve the full service.
+- **Supported conclusion:** Component leads can be closed or retained as source findings, but they do not establish a full-model speedup. The tested Triton shapes did not beat DeepGEMM.
+- **Unknown / limitation:** Other shapes or a compatible compile interface could behave differently; no full compiled model run passed.
 
 ### Spoken script
 
-We tested these ideas only as far as evidence allowed. The attention package changed several factors, kernel probes covered representative shapes, and real-model compilation stopped before a score. CPU fixtures can validate a small C++ path but cannot prove GPU serving integration. A library name or profile lead motivates a test; it does not demonstrate a speedup.
+Some rows test a small GPU kernel, some test helper code on a CPU, and some only inspect source. These checks can reject unsupported ideas, but they do not start the complete distributed model and score its answers. The real compile attempt entered Qwen code, then stopped when rotary position encoding met an incompatible fused key-value-cache interface. It produced no serving score.
 
 ### Avoid this interpretation
 
-Do not present coupled changes as a one-factor test, generalize probes to every shape, call CPU fixtures a serving pass, or assign a score to the failed compile.
+Do not turn a kernel probe, CPU fixture, or code-path inspection into a claim about full-model speed or correctness.
 
 ### Transition
 
-Next, read the retained H200 configuration and the separate H100 operating point.
+The next slide describes the actual selected H200 and separate H100 serving configurations.
 
 ---
 
@@ -1392,48 +1478,45 @@ Next, read the retained H200 configuration and the separate H100 operating point
 
 ### Purpose
 
-Summarize the selected H200 N64 deployment and the separate retained H100 setting.
+Describe the retained AI service configuration without implying H100 and H200 results are directly comparable.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Rows name settings; the right columns give H200 and H100 values. Client concurrency is 64 versus 54. Prefill, decode, TP allocation, and precision are distinct settings; the footer lists shared components. This is configuration documentation, not a matched hardware comparison. No plotted axes or colored data-point encoding appears.
+Read each row as one operational choice: input processing (prefill), token generation (decode), parallel GPU groups, or numeric precision. H200 uses client concurrency 64; the separate H100 observation uses 54 and a different prefill backend/chunk. Both use target weights in FP8 and activation/KV state in BF16. The bottom line names shared decode and communication components. Because hardware and settings differ, this is a deployment map, not a hardware benchmark.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **H200 / H100:** Two different GPU models; results and settings are reported separately.
-- **N64:** Client concurrency target of 64 requests in flight; H100 retained setting uses 54.
-- **prefill:** Processing the input prompt before generating the answer.
-- **decode:** Generating the output tokens one step at a time.
-- **TP:** Tensor parallelism: splitting tensor operations across GPUs.
-- **EP:** Expert parallelism: distributing mixture-of-experts model experts across GPUs.
-- **FP8 / BF16:** Eight-bit floating-point weights; BF16 means brain floating point with 16 bits and is used for activation and KV state.
-- **FlashInfer:** GPU attention implementation used for decode attention in the retained setting.
-- **MNNVL:** The selected collective-communication backend for the relevant GPU groups.
-- **HPC-Ops:** The runtime's GPU operations backend used for decode and, on H100, prefill.
+- **prefill / decode:** Prefill processes the prompt before generation; decode produces answer tokens one step at a time.
+- **TP / EP:** Tensor parallelism splits tensor operations across GPUs. Expert parallelism distributes mixture-of-experts expert blocks across GPUs.
+- **FP8 / BF16:** FP8 weights use 8-bit floating point. BF16 activation and KV values use a 16-bit format; the formats describe different tensors.
+- **HPC-Ops / DeepGEMM:** GPU execution backends used for different service phases; naming a backend does not alone establish a speed advantage.
+- **FlashInfer / MNNVL:** FlashInfer supplies decode attention kernels; MNNVL supplies GPU collective communication. They serve different roles.
+- **round-robin:** Requests are distributed in turn across the two prefill workers.
+- **deployment map:** A description of how a measured service was configured, not evidence that another GPU or setting has the same performance.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- H200 uses two TP4 DeepGEMM prefill workers with chunk 8,192 and one TP8/EP8 HPC-Ops decode worker. H100 uses two TP4 HPC-Ops prefill workers with chunk 4,096 and TP8/EP8 decode.
-- Both use FP8 weights, BF16 activations and KV state, FlashInfer decode attention, MNNVL, and round-robin routing. Reader fixes passed a compute-only check on real data, not a full GPU replay after repair.
+- The H200 selection uses two TP4 prefill workers with DeepGEMM and chunk 8,192, plus one TP8/EP8 HPC-Ops decode worker. Its decode graph set is dense, with buckets 1 through 64.
+- H100 keeps two TP4 HPC-Ops prefill workers with chunk 4,096 and the same TP8/EP8 decode grouping. FlashInfer decode attention, MNNVL communication, and round-robin prefill routing are shared.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** H200 and H100 use distinct concurrency and prefill settings; both retain the listed precision and shared components.
-- **Hypothesis:** The replicated target-only N64 service is a practical primary configuration.
-- **Supported conclusion:** Report H200 and H100 separately; this table does not rank the GPU models.
-- **Unknown / limitation:** Official accuracy and a full portable replay after reader repair remain unverified.
+- **Observation:** H200 and H100 differ in concurrency and prefill backend/chunk, while retaining the listed weight and activation/KV formats.
+- **Hypothesis:** A replicated H200 N64 setup is the more defensible primary because it has repeated full-run evidence.
+- **Supported conclusion:** Report H100 separately; matching a few settings does not make the GPU results a controlled hardware comparison.
+- **Unknown / limitation:** Official model accuracy and complete portable deployment verification after the reader fixes remain open.
 
 ### Spoken script
 
-The selected H200 setup processes prompts on two TP4 workers and generates tokens on one TP8/EP8 worker. H100 uses lower concurrency and a different prefill backend and chunk size. Both retain FP8 weights and BF16 activation and KV state. Reader fixes were checked on real data, but the full GPU allocation was not replayed afterward.
+This is the selected H200 deployment, not a direct race against H100. H200 processes prompts on two groups of four GPUs, then generates tokens on one group of eight GPUs with experts distributed across the group. H100 uses fewer simultaneous requests and a different prompt-processing backend and chunk. Both keep 8-bit weights and 16-bit activation and KV values. Reader fixes were checked on real data, but not through a complete GPU replay afterward.
 
 ### Avoid this interpretation
 
-Do not make a direct H100-versus-H200 speed claim or say the full portable job passed after repair.
+Do not pool H100 and H200 scores, infer a hardware multiplier, or confuse FP8 weights with BF16 activation/KV values.
 
 ### Transition
 
-Next, compare dense and sparse graph capture against the service objective.
+Now compare what sparse decode-graph capture saved with what it did to goodput.
 
 ---
 
@@ -1445,44 +1528,45 @@ Next, compare dense and sparse graph capture against the service objective.
 
 ### Purpose
 
-Explain why sparse decode graphs reduced logged capture memory but did not improve measured goodput.
+Explain the sparse-graph tradeoff: less logged capture memory per rank, slightly shorter capture, but lower measured goodput.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Columns are measure, dense control, and sparse candidate. Rows compare those settings. Buckets count captured request shapes, not concurrency or GPU count. Memory is native-log GB per rank, not total VRAM or GiB; capture time is for that phase, not total job wall time. No plotted axes or colored data-point encoding appears.
+Compare the same three quantities across the two settings. The 64-to-12 change is the number of captured decode-shape buckets, not 64-to-12 concurrent requests or GPUs. A bucket is a reusable captured execution shape; requests that do not exactly match a supported shape may be padded or mapped to a nearby bucket. Fewer buckets can reduce stored graph and associated capture-buffer memory, but can increase padding work. Padding and its cost were not isolated here. The reported 1.15/0.36 GB is capture-related memory per decode rank, not total VRAM: model weights, KV cache, workspaces, and other allocations are separate. Capture elapsed time is only the capture phase.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **decode graph bucket:** A request-shape category for which the serving engine captures a GPU execution graph.
-- **rank:** One distributed worker process, typically associated with one GPU in this deployment.
-- **GB:** Gigabyte as recorded by the native log; do not silently relabel it GiB or total VRAM.
-- **goodput:** Rate of requests that meet the joint latency limits; the displayed score multiplies exported good requests/s by 200 requested output tokens.
-- **ITL:** Inter-token latency: time between generated tokens; the shown mean is in milliseconds.
-- **compile off:** Model graph compilation was disabled in this test; successful capture does not establish compiled model support.
+- **decode graph bucket:** A captured GPU execution shape the server can replay for a class of decode batches. It is not a request count.
+- **padding:** Filling a batch or shape to a supported graph size. Fewer available buckets may require more padding, but this run did not measure its amount or cost.
+- **graph-capture memory:** Memory associated with recorded reusable GPU execution graphs and their buffers, reported here per decode rank.
+- **VRAM / GB / GiB:** VRAM is all memory on a GPU. The log reports capture-related GB per rank, not total VRAM or GiB; weights and KV cache use other memory too.
+- **rank:** One distributed worker process; these values are per decode worker/rank, not summed over eight ranks.
+- **goodput / ITL:** Goodput is qualifying requests/s multiplied by 200 requested output tokens. ITL is the interval between generated tokens.
+- **compile off:** Model compilation was disabled for this capture test; successful graph capture does not validate the compiled model path.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- The dense control captured 64 buckets; the candidate captured 12 on all eight ranks with compile off. Memory fell from 1.15 to 0.36 GB/rank; capture time changed from 101.46–101.49 to 95.98–96.05 seconds.
-- Goodput was 3,041.119598 for control 27376 and 3,029.861122 for candidate 27510, a 0.370208% decrease. Mean request ITL rose from 14.991 to 15.136 ms; TTFT improved.
+- The candidate reduced buckets from 64 to 12; captures were observed on all eight decode ranks with compile off. Logged capture memory fell from 1.15 to 0.36 GB per rank. Capture time changed from 101.46–101.49 to 95.98–96.05 seconds.
+- Goodput fell from 3,041.119598 in earlier control 27376 to 3,029.861122 in candidate 27510, or 0.370208%. Mean request ITL rose from 14.991 to 15.136 ms, although TTFT improved.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** The candidate reduced logged capture memory and slightly shortened capture, but measured goodput was lower.
-- **Hypothesis:** Fewer graph shapes might save memory without harming the service objective.
-- **Supported conclusion:** Retain dense graphs for this deployment; the measured service objective did not improve.
-- **Unknown / limitation:** One earlier control and differing generated seeds limit causal interpretation; capture memory is not total GPU memory.
+- **Observation:** Candidate capture memory was lower and capture slightly shorter; measured goodput was 0.370208% below the earlier control.
+- **Hypothesis:** Fewer graph shapes could save capture resources while preserving the service objective.
+- **Supported conclusion:** The candidate did not improve goodput; the team retained dense graphs. Do not claim padding caused the score change because padding was not separately measured.
+- **Unknown / limitation:** There was one earlier control, engine-generated seeds differed, and capture memory is not total GPU memory.
 
 ### Spoken script
 
-The sparse candidate reduced graph buckets from 64 to 12 and logged capture memory from 1.15 to 0.36 GB per rank. Capture took only a few seconds less. Full goodput was 0.370208 percent below the earlier control, and mean inter-token latency rose slightly. We retain dense graphs; this single comparison does not establish a cause.
+The candidate captured 12 decode shapes instead of 64. That cut logged graph-capture memory per rank from 1.15 to 0.36 gigabytes, while capture time changed by only a few seconds. But goodput was 0.370208 percent lower and mean token interval slightly higher. Fewer graph shapes can require extra padding, but padding was not measured here. We retain dense graphs and do not assign a cause to the score difference.
 
 ### Avoid this interpretation
 
-Do not call bucket count concurrency, interpret capture memory as total VRAM or GiB, or treat capture time as total job duration. Accuracy was not measured here.
+Do not call bucket count concurrency, capture memory total VRAM, or capture time total job time. Padding is a possible mechanism, not a measured explanation.
 
 ### Transition
 
-Next, separate synthetic serving measurements from model-quality evaluation.
+Next, see what the synthetic serving score includes and what separate model-quality checks remain.
 
 ---
 
@@ -1494,46 +1578,44 @@ Next, separate synthetic serving measurements from model-quality evaluation.
 
 ### Purpose
 
-Clarify what the serving benchmark measures and separate it from model-quality evaluation.
+Explain what the serving benchmark actually times, how its score is derived, and why that result is separate from model accuracy.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Three statements describe synthetic requests of 4,000 input and 200 output tokens, closed-loop traffic, and separate official quality checks. Timing is 60 seconds warmup, 120 seconds scored profiling, and 30 seconds grace. Grace lets outstanding requests settle; it is not extra scoring time. This slide has no table, axes, or colored data-point encoding.
+The key distinction is between requested workload and scored evidence. The synthetic client requests 4,000 input and 200 output tokens; it sustains closed-loop concurrency. Workers and serving paths get separate warmup traffic, then AIPerf runs its own 60-second warmup, 120-second scored profiling interval, and 30-second grace. Only profiling contributes to performance metrics. Grace drains outstanding requests and is not another scoring window. The separate 99% criterion is a full-set quality evaluation, not a serving latency result.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **AIPerf:** The benchmark client and measurement tool that sends serving requests and exports performance metrics.
-- **closed loop:** A traffic pattern that holds a target number of requests in flight by replacing each completed request.
-- **concurrency:** The target count of simultaneously active client requests; the main N64 workload targets 64.
-- **warmup:** A preliminary phase to initialize workers and serving paths before measured client traffic.
-- **profiling window:** The fixed 120-second interval used for scored performance measurements.
-- **grace:** A 30-second allowance for in-flight requests to settle after the scored window.
-- **99% quality threshold:** The official requirement that full-set model quality reach at least 99% of the organizer's FP8 reference score.
+- **AIPerf / closed loop:** AIPerf sends requests and calculates metrics. Closed loop replaces each completed request to maintain a target number in flight.
+- **60/120/30 protocol:** Seconds for AIPerf warmup, scored profiling, and grace. Only the middle 120 seconds score; grace lets in-flight requests settle.
+- **goodput:** Qualifying requests per second. The official displayed good output tokens/s equals exported goodput multiplied by 200 requested output tokens.
+- **request latency limits:** A request is good only when TTFT is at most 3,000 ms and request-mean ITL at most 20 ms; at least 90% of all requests must pass both.
+- **99% accuracy requirement:** The organizer requires full-set model quality at least 99% of its FP8 reference. Team-run small output checks on the assigned cluster do not establish this.
+- **requested vs actual tokens:** 4,000/200 are client requests. They do not prove how many token IDs the model actually consumed or generated for every request.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- AIPerf maintains target concurrency by replacing completed requests. Workers and serving paths receive separate warmup traffic.
-- Only the scored window contributes to reported performance. Requested and actual token lengths may differ; physical truncation is not established.
-- Official quality requires at least 99% of the organizer FP8 reference and remains unverified.
+- Goodput is AIPerf Goodput in qualifying requests/s multiplied by the requested 200 output tokens. Do not divide all completed requests by 120: completions can fall in warmup or grace, and goodput counts only requests meeting service limits.
+- Requested token counts are client settings; retokenized input and actual generated IDs/usage were not fully retained. The synthetic prompt/answer workload is not the organizer quality dataset. Full-set accuracy remains UNKNOWN.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** This serving workload uses synthetic 4,000/200 requests and a 60/120/30-second warmup, profiling, and grace schedule.
-- **Hypothesis:** Fixed workload and timing support comparisons when configuration and protocol match.
-- **Supported conclusion:** Goodput describes service performance here, not model accuracy; do not divide all completions by 120.
-- **Unknown / limitation:** Actual token IDs/usage and official full-set quality remain unknown.
+- **Observation:** Serving uses synthetic 4,000/200 requests and a 60/120/30-second warmup, profiling, and grace schedule.
+- **Hypothesis:** A fixed workload and scoring interval permit useful comparisons when protocol and settings match.
+- **Supported conclusion:** The result describes serving performance under this workload; it neither certifies accuracy nor supplies a simple completion-count rate.
+- **Unknown / limitation:** Actual per-request token IDs/usage and the official full-set score have not been established.
 
 ### Spoken script
 
-This benchmark measures serving on synthetic prompts, not the official model-quality set. The client replaces completed requests to maintain concurrency. After warmup, 120 seconds count toward the score, then grace lets remaining requests settle. Goodput comes from AIPerf accounting; it should not be reconstructed by dividing every completion by 120 seconds.
+The serving test uses synthetic prompts requesting 4,000 input and 200 output tokens. The benchmark client keeps a target number of requests active, warms up, scores a fixed 120-second window, then lets outstanding requests finish. Its goodput counts requests meeting both latency limits; multiplying by 200 gives the reported good output tokens per second. This does not test the organizer’s full quality set, whose 99-percent requirement remains unknown.
 
 ### Avoid this interpretation
 
-Do not treat grace as scored time, equate requested and actual tokens, or claim the 99% quality criterion passed.
+Do not divide all completions by 120, count grace as scored time, infer actual token usage from requested lengths, or claim the accuracy threshold passed.
 
 ### Transition
 
-Next, compare chunk sizes under the same full protocol.
+Next, compare chunk-size runs using this same full scoring protocol.
 
 ---
 
@@ -1545,44 +1627,44 @@ Next, compare chunk sizes under the same full protocol.
 
 ### Purpose
 
-Compare three prefill chunk sizes under the full N64 protocol; larger chunks did not improve the observed service objective.
+Show that larger prefill chunks passed the team’s local checks but reduced measured goodput and worsened the TTFT tail in this bounded comparison.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Columns are chunk tokens, good output tokens/s, joint SLA percentage, and p95 TTFT in milliseconds. Each row is one run. All used 60/120/30-second timing, requested 4,000/200 tokens, seed 2026, cold prefixes, and the same model and runtime. No plotted axes or colored data-point encoding appears.
+Each row is one full N64 run; compare the same score and latency columns across chunk sizes. Chunk size is input work handled together, not client concurrency. Good output tokens/s is the qualifying service rate, joint SLA is the share meeting both request latency limits, and p95 TTFT describes the slow tail. As chunk rose 8,192 → 10,240 → 12,288, goodput fell and p95 TTFT rose. One run per setting makes this evidence for retaining 8,192 here, not a universal optimum.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **prefill chunk:** The number of prompt tokens handled together by the prefill worker in a scheduling unit.
-- **good output tokens/s:** Reported good request rate multiplied by 200 requested output tokens per request.
-- **SLA:** Service-level agreement: the fraction of all requests meeting both latency thresholds.
-- **p95:** The 95th percentile: 95% of measured requests have a value at or below this number.
-- **TTFT:** Time to first token, the delay from request start until the first generated token.
-- **seed 2026:** The configured workload seed; it does not make engine-generated seeds identical across launches.
+- **prefill chunk:** Number of prompt tokens handled together in one prefill scheduling unit; it is separate from client concurrency.
+- **SLA / p95 / TTFT:** SLA is the share of all requests meeting both latency limits. p95 is the 95th percentile. TTFT is time from request start to first token.
+- **local review:** Here “local” means team-run and reviewed on the assigned cluster. It does not mean a laptop run or organizer approval.
+- **acceptance checks:** The team’s protocol, runtime, latency, and output checks. Passing them establishes a valid local result, not official acceptance or a useful improvement.
+- **arm:** One tested configuration, here one chunk-size setting. There was one full run for each arm.
+- **seed 2026:** Configured workload seed. Engine-generated seeds still differed across launches.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Chunk 8,192: 3,045.501509 good output tokens/s, 98.580% SLA, 1,311.69 ms p95 TTFT.
-- Chunk 10,240: 3,034.088251, 98.524%, 1,518.87 ms. Chunk 12,288: 3,020.943099, 98.310%, 1,624.12 ms. All passed local checks; each arm has one run.
+- At 8,192, job 26766 recorded 3,045.501509 good output tokens/s, 98.580% joint SLA, and 1,311.69 ms p95 TTFT. At 10,240, job 26768 recorded 3,034.088251, 98.524%, and 1,518.87 ms.
+- At 12,288, job 26770 recorded 3,020.943099, 98.310%, and 1,624.12 ms. All three were full 60/120/30 N64 runs using requested 4,000/200 tokens, the same model and runtime, and cold prefixes; each chunk setting was observed once.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Goodput fell and p95 TTFT rose as chunk size increased in these observations.
-- **Hypothesis:** More tokens per prefill batch might raise throughput.
-- **Supported conclusion:** Retain 8,192 for this setting and close the bounded larger-chunk branch.
-- **Unknown / limitation:** One observation per arm does not establish a global optimum.
+- **Observation:** Goodput declined and p95 TTFT increased monotonically across the three observed chunk sizes.
+- **Hypothesis:** Larger chunks might increase throughput by processing more prompt tokens per batch.
+- **Supported conclusion:** Retain chunk 8,192 for this service setting; the larger tested chunks did not improve its objective.
+- **Unknown / limitation:** One run per setting leaves order and engine-seed variation; this is not proof of a global optimum.
 
 ### Spoken script
 
-We tested three chunk sizes in full runs with the same workload and runtime. As size increased from 8,192 to 12,288, goodput declined and p95 first-token delay worsened. All arms passed local checks, but each has one observation. We retain 8,192 for this setting without claiming a universal optimum.
+All three tests used the same full protocol with 64 requests in flight. The 8,192-token prompt chunk scored about 3,045 good tokens per second; larger chunks scored about 3,034 and 3,021. Team checks on the assigned cluster passed for every run, but that only establishes a reviewed local result, not organizer approval or improvement. Larger chunks also worsened the slow first-token tail. With one run per size, we keep 8,192 for this service, not as a universal best.
 
 ### Avoid this interpretation
 
-Keep chunk, goodput, SLA, and p95 TTFT units distinct. A local pass is not a useful gain or proof of a global optimum.
+A local pass is team-reviewed evidence from the assigned cluster, not organizer approval. Do not treat a passing arm as an improvement or a global optimum.
 
 ### Transition
 
-Next, see how real portable replay exposed reader defects missed by static checks.
+The next slide separates a completed GPU serving run from result-reader post-processing.
 
 ---
 
@@ -1594,45 +1676,45 @@ Next, see how real portable replay exposed reader defects missed by static check
 
 ### Purpose
 
-Explain how actual portable outputs exposed two reader defects that static and mock checks missed.
+Explain that the serving client finished, but each original whole-allocation job still ended FAILED during result-reader processing; later CPU verification did not rerun serving.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Columns are step, what happened, and what changed. Rows proceed from static/mock checks to the first GPU replay, second replay, and compute-only verification. Both GPU clients completed before reader failures. This is a repair sequence, not a performance trend. No plotted axes or colored data-point encoding appears.
+Follow the sequence by stage. Static and mock checks only exercised prepared examples, so they did not model AIPerf’s actual export directory. In job 27136, both semantic prefill/decode routes and the GPU client finished, then the reader failed on a nested export path. Job 27145 again completed the client, but its summary failed when two aliases of the same home directory were compared as different strings. Job 27152 ran the corrected reader on CPU against both real datasets. It verifies post-processing only; the original GPU jobs remain terminal FAILED.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **portable replay:** Execution of the packaged serving and benchmark workflow on the separate portable deployment environment.
-- **GPU client:** The benchmark client execution that sends requests to the deployed GPU serving system.
-- **AIPerf 0.12:** The retained benchmark-client version whose exports were written in an immediate child directory in the first real replay.
-- **canonical path:** A normalized absolute filesystem path resolving aliases such as symbolic links.
-- **lexical path:** A path string as written, without resolving aliases or symbolic links.
-- **compute-only:** A job that executes reader verification on CPU without allocating GPUs; it does not replay serving.
-- **scheduler FAILED:** The original jobs retain their actual failure state even when their raw outputs are later read successfully.
+- **portable replay:** Run the packaged deployment and client on the separate target environment, including its real filesystems and result paths.
+- **reader / post-processing:** Code that finds client exports, joins them with metadata, and calculates a report after serving. A reader failure can occur after GPU serving has finished.
+- **canonical vs lexical path:** Canonical resolves links and aliases to one filesystem location; lexical is the path text as written. They may name the same directory but compare unequal as strings.
+- **whole-allocation replay:** The full GPU deployment/client job plus its result processing on the assigned allocation. A CPU-only reader check is not this replay.
+- **scheduler FAILED:** The scheduler’s terminal job state remains failure even if raw measurements can later be recovered and parsed.
+- **recovered raw score:** A metric read successfully from a failed job’s retained outputs. It does not change that job to a successful deployment.
+- **compute-only:** A zero-GPU CPU job used here to test the reader against real saved datasets; it did not start Qwen or send serving requests.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Job 27136 completed both semantic routes and the official client, then failed because AIPerf 0.12 exports were in a nested directory. The first repair handled that layout.
-- Job 27145 completed its client but the summary failed because /scratch/home and /home aliases used different path forms. Canonicalizing the input root fixed this. Zero-GPU job 27152 passed both readers on both real datasets.
+- The first repair recognized exports in an immediate child directory. The second resolved /scratch/home and /home to a canonical input root before comparing paths. Both were real reader defects after client completion, not a measured serving regression.
+- The recovered raw result for 27145 is 3,055.330517 good output tokens/s. It can be reviewed as raw performance evidence, but the scheduler job did not complete successfully as a whole-allocation deployment, and no whole-allocation GPU replay was run after repair.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Two reader failures occurred: a nested export directory and a canonical-versus-lexical path alias mismatch. Corrected readers passed real outputs in compute-only verification.
-- **Hypothesis:** Reader defects caused the post-client failures.
-- **Supported conclusion:** The narrow fixes are verified, but the original GPU jobs remain FAILED.
-- **Unknown / limitation:** No full-allocation portable GPU replay was performed after both fixes.
+- **Observation:** Two actual GPU jobs finished the client and semantic routes but failed in result reading; zero-GPU job 27152 passed both repaired readers on both retained datasets.
+- **Hypothesis:** Path-handling bugs caused the post-client failure states.
+- **Supported conclusion:** Reader repairs are verified on real outputs; the original 27136/27145 scheduler states remain FAILED.
+- **Unknown / limitation:** End-to-end deployment with corrected readers on the full GPU allocation was not rerun.
 
 ### Spoken script
 
-Static checks passed, but real portable runs found two reader bugs after the GPU clients finished: nested exports, then inconsistent aliases for the same path. A compute-only job verified both fixes on real datasets. The original GPU jobs remain failures, and there was no full portable replay after repair.
+The first portable GPU job completed prompt processing, token generation, and the client, then failed when the result reader looked in the wrong export folder. The next job also finished serving, but its summary treated two names for the same home directory as different paths. A CPU-only job later checked the fixed reader against both real datasets. The original GPU jobs remain failed; we did not rerun the complete allocation after repair.
 
 ### Avoid this interpretation
 
-Do not relabel original jobs, call compute-only verification a serving replay, or present recovered goodput as a successful repaired deployment.
+Do not convert FAILED scheduler records into passes, call CPU reader verification a GPU replay, or present 3,055.330517 as a successful whole-allocation rerun.
 
 ### Transition
 
-Finally, separate retained conclusions from future validation proposals.
+The final slide separates retained findings from validation work that remains proposed or unknown.
 
 ---
 
@@ -1644,44 +1726,44 @@ Finally, separate retained conclusions from future validation proposals.
 
 ### Purpose
 
-Close with evidence-supported conclusions and distinguish future validation proposals from completed work.
+Summarize what current evidence supports and make clear that the listed follow-up checks are proposals, not completed runs.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Three recommendations are listed: retain the reproduced service, qualify new execution paths, and complete independent validation. There is no quantitative table or chart. Open checks are official model quality and a full portable replay after reader repair. No plotted axes or colored data-point encoding appears.
+The three statements form an evidence-based decision chain: keep the replicated target-only N64 service; require activation, KV transfer, and output evidence for any new path; then complete independent checks. The sparse-graph result does not change the selection because its memory saving did not improve goodput. The missing checks are official full-set accuracy and a whole-allocation portable replay after reader repair. They are not represented as scheduled work.
 
-### Terms and symbols
+### Terms and symbols to understand
 
-- **target-only:** Serving only the target model, without an added speculative draft model.
-- **N64:** The selected client concurrency target of 64 in-flight requests.
-- **EAGLE:** A speculative decoding approach that proposes draft tokens for the target model to verify; the tested shallow full arm lost performance.
-- **RoPE/KV compatibility:** Compatibility between the model's rotary position embedding operation and the key-value cache interface needed by the compiled execution path.
-- **official accuracy:** The organizer's full-set model-quality score compared with the required FP8 reference threshold.
-- **end-to-end:** A complete run through packaged deployment, client, output processing, and result review.
+- **target-only / EAGLE:** Target-only serves only the main model. EAGLE proposes draft tokens for that model to verify; the tested shallow full configuration lost performance.
+- **independent validation:** A separate check of official full-set accuracy or the complete deployment, beyond the serving score and helper tests.
+- **adopt a configuration:** Choose it as the team’s submission/deployment setting after evidence review. A high isolated observation alone is not enough.
+- **source or CPU evidence:** Source shows what code may support; CPU fixtures test narrow helper behavior. Neither shows that the full GPU service activated the path or produced correct results.
+- **unknown:** No sufficient retained measurement establishes the answer. It must not be described as zero, passed, or healthy.
+- **official accuracy:** The full organizer quality evaluation; it must reach at least 99% of the FP8 reference and remains unverified.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
-- Retain target-only N64: cache, cap, and polling changes showed no useful gain, while the tested full shallow EAGLE arm lost. Sparse graphs scored 0.370208% below the earlier control.
-- Before scoring a new path, verify backend activation, KV transfer, and output. Official accuracy and a full portable replay after reader repair remain open; compiled model execution still needs a compatible RoPE/KV solution.
+- Retain the replicated target-only N64 configuration rather than the highest isolated score. Cache, cap, and polling changes showed no useful gain; the tested shallow EAGLE configuration lost; sparse graph candidate goodput was 0.370208% below the earlier control.
+- Any new implementation should show the intended backend active, correct KV movement, and valid outputs before its performance score is interpreted. CPU fixtures or source inspection alone do not satisfy that standard.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** N64 has replicated full-run evidence; isolated changes showed no useful gain. Official quality and post-repair portable replay are not available.
-- **Hypothesis:** Path-specific activation, transfer, output, and independent checks can improve deployment confidence.
-- **Supported conclusion:** Keep the reproduced target-only N64 configuration; listed checks are future requirements, not completed work.
-- **Unknown / limitation:** Official model accuracy and end-to-end behavior after reader repair remain unknown.
+- **Observation:** The selected N64 service has repeated full-run evidence; several optimization trials did not show useful gain. Accuracy and post-repair portable replay remain open.
+- **Hypothesis:** Path-specific runtime and output checks can prevent unsupported deployment claims.
+- **Supported conclusion:** Keep the reproduced service and treat the listed validation as future work, not as completed or queued research.
+- **Unknown / limitation:** Official accuracy, full deployment behavior after reader repair, and a compatible compiled RoPE/KV path remain unknown.
 
 ### Spoken script
 
-The replicated target-only N64 service remains the supported choice; a larger isolated score is not enough to replace it. New execution paths should prove backend activation, KV transfer, and output before scoring. Official full-set quality and a complete portable replay after reader repair remain open. These are validation priorities, not work already scheduled or performed.
+Keep the replicated configuration that serves only the target model at a load of 64 simultaneous requests; one isolated high score is not enough to replace it. For a new method, first show that its backend ran, cached attention state moved correctly, and answers passed checks. Still open are the organizer’s full accuracy test and a complete portable GPU replay after reader repair. Those are proposed validation steps, not work already scheduled or completed.
 
 ### Avoid this interpretation
 
-Do not claim official accuracy passed, portable deployment is fully validated, sparse graphs improved goodput, or compile compatibility is fixed.
+Do not claim official accuracy passed, repaired portable serving was fully rerun, sparse graphs improved goodput, or the compiled model interface was fixed.
 
 ### Transition
 
-End the appendix here; distinguish observation, supported conclusion, and unknown when answering questions.
+End here. In questions, separate measured observation, supported conclusion, and what remains unknown.
 
 ---
 
@@ -1697,17 +1779,18 @@ End the appendix here; distinguish observation, supported conclusion, and unknow
 
 Define the fixed CPU workload and the performance quantity being optimized. The comparison holds the prescribed calculation constant and asks how efficiently the cluster executes it.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The slide gives 65.3 million mesh cells, four nodes, 512 MPI ranks (128 on each node), and 150 solver steps, of which 149 are timed. The metric is average elapsed seconds per solver step; lower is better. Orange highlights the cell count and the progress rule at the bottom. There are no plotted axes or data series here.
+Read the figures as the fixed-work contract: 65,334,765 mesh cells are distributed over four nodes and 512 MPI ranks, or 128 ranks on each node. An MPI rank is a software process; it is not the same thing as a physical CPU core. The prescribed calculation runs 150 solver iterations, with 149 timed samples because the first iteration is excluded from the reported mean. The unit is wall-clock seconds per solver step, so a smaller value means less elapsed time for each iteration. This slide defines the work and metric; it does not report an optimization result.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **65.3 million:** Rounded display of the 65,334,765-cell mesh.
 - **MPI rank:** One distributed solver process; 512 total means 128 per node on four nodes.
 - **s/step:** Wall-clock seconds per solver iteration, not seconds of simulated driving.
+- **physical CPU core:** A hardware execution core. An MPI rank is a software process; ranks may be bound to cores, but the mapping must be verified rather than assumed.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Read this as a workload definition, not a result comparison: same mesh and required solver work, executed on four CPU nodes.
 - The 149 timed samples begin after the first solver iteration; the complete run still performs all 150 steps.
@@ -1746,17 +1829,18 @@ Next, show which preparation stages must be retained for a valid end-to-end run.
 
 Explain why the score is meaningful only after preserving the full required pipeline, and distinguish mesh decomposition from CPU affinity.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Five white cards run left to right with orange arrows: decomposePar assigns mesh cells to ranks; renumberMesh reorders local cell data; potentialFoam initializes flow fields; applyBoundaryLayer applies the prescribed boundary layer; simpleFoam performs all 150 solver steps. The two labels beneath define decomposition as deciding cell ownership and CPU affinity as deciding which CPU runs each rank. There are no numerical axes; the arrows show required sequence.
+The sequence is part of the measured task: decomposePar assigns mesh cells to MPI ranks; renumberMesh changes the ordering of local cell data; potentialFoam initializes flow fields; applyBoundaryLayer applies the required boundary treatment; simpleFoam then performs all 150 solver steps. Decomposition determines which cells a process owns and therefore which neighboring-cell exchanges cross process boundaries. CPU affinity determines where a rank runs. Affinity can affect access to nearby CPU cores and memory, but it does not change the cells owned by that rank. Both decisions can affect performance, and they must not be confused.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **MPI:** Message Passing Interface; separate ranks exchange data, especially across partition boundaries.
 - **decomposePar:** OpenFOAM utility that partitions mesh cells among ranks.
 - **CPU affinity:** Binding a process or rank to CPU resources; distinct from assigning it mesh cells.
+- **neighbor exchange:** Ranks exchange field values for cells adjacent across their partition boundary; more cut edges are only a proxy for the amount and cost of this traffic.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Follow the orange arrows from preprocessing into the solver; the final timing is not a substitute for those stages.
 - A decomposition answers which cells a rank owns. Affinity answers where that rank executes.
@@ -1775,7 +1859,7 @@ Before comparing solver times, we keep the entire required pipeline: assign cell
 
 ### Avoid this interpretation
 
-Do not imply that the background photograph depicts the contest cluster. The slide gives process order, not per-stage timings, and it does not establish that affinity was measured or optimized in a particular result.
+The slide gives process order, not per-stage timings, and it does not establish that affinity was measured or optimized in a particular result.
 
 ### Transition
 
@@ -1795,18 +1879,21 @@ With the workload and pipeline fixed, the next slide tests whether a locality pr
 
 Show a failed NUMA-aware locality hypothesis and explain why a partition-graph proxy cannot stand in for a runtime measurement.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The slide pairs an orange −10.63% graph-cut change with a red +3.4416% slower solver mean, separated by an unequal sign. No axes or plotted series are shown. The stated runtime comparison is 13.881 versus 14.359 seconds per step. The lower lesson says a graph proxy is not runtime, and lists potential unmeasured causes: MPI wait, bandwidth, frequency, power, and page residency.
+The orange −10.63% is a reduction in a partition-graph cut proxy: fewer weighted mesh connections cross the selected locality boundary. It does not mean communication time fell by 10.63%. Actual exchanges also depend on message sizes, frequency, network and MPI behavior, while solver time includes computation, synchronization, memory access and other work. The measured mean moved in the wrong direction, from 13.881 to 14.359 seconds per step (+3.4416%, slower). Thus the proxy improvement did not produce a runtime improvement in this comparison. The slide leaves the cause open because MPI wait, bandwidth, CPU frequency, power and memory-page placement were not measured.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **NUMA:** Non-Uniform Memory Access: memory access cost can depend on which CPU socket or locality domain owns the memory.
 - **graph cut:** A proxy count/weight of partition connections crossing a selected boundary; it is not a direct measurement of communication time.
 - **−10.63%:** The graph-cut proxy was reduced by 10.63% for this candidate.
 - **+3.4416%:** The solver mean became 3.4416% slower in the compared observation.
+- **partition graph cut:** A weighted count of mesh-neighbor connections split between partitions. It estimates potential interface traffic, but does not measure bytes transferred, MPI wait, network time or total solver runtime.
+- **NUMA locality:** On multi-socket servers, a CPU core can access memory attached to its own socket more directly than memory attached to another socket; placement can therefore affect latency and bandwidth.
+- **MPI wait:** Time a process spends waiting for other processes or communication to complete; it was listed as unmeasured here.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - Orange marks proxy improvement; red marks worse measured solver time. Their signs make the mismatch clear.
 - A smaller proxy can coexist with slower execution because other partition properties and runtime effects also matter.
@@ -1845,17 +1932,18 @@ The next comparison asks whether the better observed decomposition changes with 
 
 Compare the observed Scotch and hierarchical means across one-, two-, and four-node allocations, while explicitly limiting the inference because work endpoints and allocations differ.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Three grouped pairs of horizontal bars are labeled 1 node · 40 steps, 2 nodes · 80 steps, and 4 nodes · 150 steps. Orange bars are Scotch; dark teal bars are Hierarchical, as confirmed by the adjacent labels. Values are seconds per solver step: 14.451 vs 14.366; 7.463 vs 7.170; 3.678 vs 3.820. Longer bars mean more seconds and therefore slower means. No separate axis labels or uncertainty intervals are shown.
+The orange Scotch and dark-teal Hierarchical labels identify the two decomposition methods; every value is a mean in seconds per solver step, so lower is faster. Hierarchical is lower in the one-node observation (14.366 vs 14.451) and the two-node observation (7.170 vs 7.463); Scotch is lower in the four-node observation (3.678 vs 3.820). These are not points on a controlled scaling curve: each used a separate allocation, and the required endpoint changed from 40 to 80 to 150 steps. Node count, run length, allocation conditions and configuration therefore vary together. The bars describe what was observed; they cannot isolate node count as the cause of the ranking change.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Scotch:** A graph-based mesh-decomposition method used by the OpenFOAM workflow.
 - **Hierarchical:** A decomposition method that partitions the mesh using a hierarchy of spatial divisions.
 - **s/step:** Mean wall-clock seconds for each timed solver iteration; lower is better.
+- **descriptive comparison:** A report of observed values. Because node count, step endpoint and allocation changed together, it cannot isolate the effect of any one factor.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - At one node hierarchical is slightly lower; at two nodes hierarchical is lower; at four nodes Scotch is lower.
 - The displayed step endpoints are not identical, and each result came from a separate allocation.
@@ -1894,17 +1982,18 @@ The four-node results can be split further by ranks per node, which is the next 
 
 Show that the four-node decomposition ranking changes with process density, and identify the lowest reviewed mean without overstating it as a universal optimum.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Six horizontal bars compare Scotch and Hierarchical at 64, 96, and 128 ranks per node. Orange represents Scotch; dark teal represents Hierarchical. Values printed at bar ends are seconds per step: Scotch/Hierarchical are 10.310/4.489 at 64; 7.146/4.922 at 96; and 3.678/3.820 at 128. Lower values appear as shorter bars and mean faster observed average steps. There is no visible numeric axis or uncertainty interval.
+At four nodes, the bars compare observed mean seconds per step at 64, 96 and 128 MPI ranks per node. Orange denotes Scotch and dark teal denotes Hierarchical. Hierarchical has the lower mean at 64 ranks (4.489 vs 10.310) and 96 ranks (4.922 vs 7.146); Scotch is slightly lower at 128 ranks (3.678 vs 3.820). Across four nodes these settings use 256, 384 and 512 ranks, respectively, but a rank is a process, not automatically one physical core. The 128-rank Scotch observation is the lowest reviewed mean among these six logs. Separate allocations and differences in requested CPU counts confound the comparison, so it identifies a candidate to repeat, not proof that rank density or method alone caused the difference.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **ranks per node:** Number of MPI processes placed on each node; across four nodes the displayed settings correspond to 256, 384, and 512 ranks.
 - **s/step:** Mean measured wall-clock seconds per solver step.
 - **lowest reviewed mean:** The smallest mean among the reviewed observations in this set, not proof of global optimality.
+- **rank density:** The number of MPI processes assigned per node. It is distinct from physical-core count and does not by itself prove CPU binding or exclusive core use.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - At 64 and 96 ranks per node hierarchical is lower; at 128 ranks per node Scotch is lower by about 0.142 seconds per step.
 - The highlighted takeaway identifies Scotch-128 at 3.677906731 seconds per step as the lowest reviewed mean.
@@ -1943,18 +2032,20 @@ The next slide examines the full timing distribution behind the Scotch-128 mean,
 
 Explain why every timed iteration, including an extreme slow step, remains in the official-style arithmetic mean, and separate observation from causal diagnosis.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Three summary statistics are presented across the top: median 3.298742 s, 95th percentile 3.795740 s, and maximum 35.883552 s at solver Time 119. The small orange vertical marker corresponds to the median and a much taller red marker calls attention to the maximum; the slide has no numeric axis scale, so use printed values rather than visually estimating positions. It states 149/149 samples retained and says the arithmetic mean includes every measured step.
+These are distribution summaries for the 149 timed steps: median 3.298742 s, 95th percentile 3.795740 s, and maximum 35.883552 s at solver Time 119. The median is the middle observation; the p95 marks the point below which about 95% of observations fall. The arithmetic mean is different: add every sample and divide by 149, so the 35.9-second step remains in it and pulls the mean upward. Keeping that sample preserves the actual run rather than hiding a slow event. The orange and red markers distinguish typical timing from the extreme maximum; printed numbers carry the exact units. The event is visible, but its cause is not identified by these timings.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **median:** Middle value after sorting the 149 timed samples.
 - **95th percentile (p95):** A value at or below which approximately 95% of samples fall, under the percentile convention used.
 - **maximum:** Largest recorded sample; here 35.883552 seconds at solver Time 119.
 - **Time 119:** Solver iteration/time index reported by the run, not 119 seconds of wall-clock duration.
+- **arithmetic mean:** Sum of all timed values divided by the number of values. Unlike the median, a very large sample can noticeably raise it.
+- **tail:** The slowest portion of the timing distribution; p95 summarizes a high percentile, while the maximum records the single slowest sample.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - The median and p95 are near 3.3–3.8 seconds, but one retained step is about 35.9 seconds.
 - All 149 samples stay in the arithmetic mean; removing the outlier would change the stated performance metric.
@@ -1993,17 +2084,22 @@ That uncertainty is why the next slide asks for an independently repeated, fully
 
 Distinguish a reviewed candidate timing from an accepted official result and list the proofs required from an independent confirmation.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-The left column reports reviewed candidate mean 3.677906731 seconds per step for Scotch-128 across 149 samples. The right column identifies independent-repeat job 25940700, queue Q/q5 at 15:06 UTC, with status “Not running: node_pool insufficient” and “No result.” Six orange-square checklist items specify a frozen 54-file bundle, all initialization plus 150 steps, explicit stage return codes, 512 physical cores on four hosts, source/mesh/output seals. No chart axes are present; columns contrast existing evidence with pending evidence.
+The left side is an already reviewed candidate observation: Scotch-128 averaged 3.677906731 seconds per step over 149 samples. The right side is a different state of evidence: job 25940700 was shown waiting in Q/q5 at 15:06 UTC because node_pool resources were insufficient, with no result yet. Its frozen 54-file bundle is an exact, fixed input package; hashes and seals are checks that source, mesh and outputs match the recorded files. Provenance means the record of which inputs, commands, resources and outputs produced a run. The checklist also asks for successful return codes from every stage and proof that 512 physical CPU cores across four hosts were actually allocated. These are requirements for confirmation, not checks already passed.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **Q/q5:** Scheduler queue/state labels shown in the dated observation; the slide reports the job waiting, not executing.
 - **Scotch-128:** Scotch decomposition at 128 MPI ranks per node on four nodes.
 - **seal:** Recorded identity/integrity evidence for source, mesh, or output files; the slide lists required checks, not completed checks.
+- **frozen input bundle:** A fixed, versioned set of input files kept unchanged for a repeat, so the comparison uses the same declared inputs.
+- **hash / seal:** A cryptographic digest or integrity record used to check whether a file is byte-for-byte the recorded version; a seal is evidence to verify, not a performance result.
+- **provenance:** Traceable record of input identities, software/source, commands, allocated resources and produced outputs.
+- **scheduler terminal proof:** A scheduler record showing a definite final state such as completed or failed, rather than merely queued or running.
+- **return code:** A program exit status; checking each stage helps establish that every required command completed successfully.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - The candidate has a measured mean and 149 samples, but that alone does not establish official acceptance.
 - The independent job is queued and has no result in the shown status snapshot.
@@ -2042,17 +2138,18 @@ The final slide summarizes the evidence discipline and the next review decision 
 
 Close the HPC section with four measurement principles and the next decision point: inspect complete confirmation evidence before selecting another configuration.
 
-### What is on the slide
+### Technical interpretation and reasoning
 
-Four numbered columns state: measure the whole job; trust runtime evidence; preserve every sample; confirm independently. Their short explanations emphasize keeping preparation and provenance, treating graph cut as distinct from speed, investigating tails with instrumentation, and reviewing job 25940700. A dated status line says 23 Oct 15:06 UTC, still Q/q5, node_pool insufficient, no result. Orange highlights the next action: review tails, terminal proof, and bounded hardware samples. No numerical plot is shown.
+The four principles connect a credible measurement to reproducible evidence: include preparation and the full solve; judge runtime rather than a graph-cut proxy; retain all samples, including slow-tail events; and repeat independently. The status line is explicitly a historical snapshot: on 23 October at 15:06 UTC, job 25940700 was still waiting for node_pool resources and had no result. A scheduler query or terminal record proves whether the job ran and how it ended; it does not by itself prove correct inputs or a valid measurement. Hashes, stage return codes, resource-placement evidence and complete output provenance address those separate questions. The next action stated here is to review the confirmation's terminal evidence and timing tails, then use bounded hardware sampling to investigate stability. No later outcome is asserted.
 
-### Terms and symbols
+### Terms and symbols to understand
 
 - **terminal proof:** Evidence that the scheduler job reached a definite terminal state, paired with complete run outputs and return codes.
 - **bounded hardware samples:** Limited, planned instrumentation samples collected with controlled scope, not an unbounded profiling run.
 - **Q/q5:** The queue/state shown in the dated status snapshot, not a current query.
+- **bounded hardware sampling:** A small, preplanned set of hardware measurements taken for a stated interval or phase, with scope limited to avoid changing the workload materially.
 
-### How to read the figure, axes, units and colors
+### Interpreting the evidence or diagram
 
 - The four principles connect validity, measured runtime, preservation of outliers, and independent reproducibility.
 - The next step is review, not claiming a performance gain from the queued job.
