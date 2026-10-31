@@ -1,3 +1,5 @@
+Latest AI verification: [31 October hardware-transfer hypothesis and bounded job count](entries/20261031-h100-to-h200-verification.md).
+
 Latest AI status/result reconciliation: [31 October queues, terminal coverage and archive correction](entries/20261031-ai-final-queue-reconciliation.md).
 
 Latest AI presentation completion: [engineering investigation, visual evidence and protected OpenFOAM handoff](entries/20261031-ai-investigation-presentation-final.md).

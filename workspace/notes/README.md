@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Current bounded H100-to-H200 verification and job count | [Verification scope](ai-h100-to-h200-verification-20261031.md) |
 | Latest actual AI queues, final job coverage and H100/H200 separation | [31 October queue/result reconciliation](ai-final-queue-reconciliation-20261031.md) |
 | Current presentation: engineering investigation, visual reasoning and protected HPC handoff | [Current deck, guides and verified-source Q&A](ai-investigation-presentation-20261031.md) |
 | Read or print the complete presenter transcripts as PDFs | [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf) |

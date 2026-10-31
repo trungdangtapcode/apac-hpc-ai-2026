@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**New owner steering — 31 October 2026:** [bounded H100-to-H200 verification](ai-h100-to-h200-verification-20261031.md) resumes only a matched H200 decode-attention pair. Two jobs are prepared and CPU gates pass; no acceptance is claimed yet. The global stop statements below are historical for this narrow scope; other branches remain stopped. No H100 spending/authentication, HPC changes, schedules or background Codex.
+
 **Fresh queue/result audit:** [31 October reconciliation](ai-final-queue-reconciliation-20261031.md), checked 09:54:58 Vietnam time (UTC+7). H200 own queue is empty; latest 27506/27510 are terminal and final-report results are unchanged. H100 PBS remains UNKNOWN because the existing VPN path is unavailable; no fresh authentication. Stale final ledger/status entries are corrected, and CPU 27506 gets a source-bound terminal review and original-path seal. Research stays stopped.
 
 **Current presentation:** [engineering investigation edition](ai-investigation-presentation-20261031.md). 16 main AI slides + 16 hidden AI backups + eight unchanged HPC slides. Three stories distinguish engineering decisions, team implementation and experimental findings. The main KV case now covers failure, prioritisation, patch, evidence and causal limits. Research remains stopped.
