@@ -160,3 +160,8 @@ Dated scheduler observation:
 27806|ap42-s115-hpc8192|PENDING|0:00|2|(Resources)
 27804|ap42-s114-hpc6144|RUNNING|0:21|2|g[1,4]
 ```
+
+## Review of the two distinct chunk ports
+
+**Reviewed chunk followups — 2026-10-31T14:18:02.757137+07:00, Vietnam time (UTC+7):** 27804 HPC-Ops prefill 6144 **2821.884862** and 27806 prefill 8192 **2900.606831 good tokens/s**, both COMPLETED 0:0/full local pass, zero scored errors/cancellations, smoke 7/8 non-regression and retrieval 12/12. Relative to prior same-runner 4096, gains are +3.676555%/+6.568815%; relative to H200 DeepGEMM 8192 control 27777 they still lose 7.114431%/4.523207%. Keep the existing H200 recipe; no promotion or unchanged repeat. Same-chunk 8192 native argument audit isolates the selected prefill runner plus generated seeds and inactive fallback metadata; no kernel causal proof. Own queue is empty in the fresh audit. [Complete result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md). Two distinct additional ports have been reviewed, not four; two qualified slots remain unfilled. Actual pair 6.062222 GPU-hours, zero PBS SU, official accuracy UNKNOWN. No H100 auth/spending, HPC, schedules or published submission change.
+

@@ -132,3 +132,25 @@ runner/chunk comparison to one factor. These new results are added to this
 working report; the published PowerPoint and ZIP have not been regenerated.
 
 [Complete four-job evidence and limitations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md).
+
+
+## Additional chunk interaction after the H100 recipe transfer
+
+31 October 2026: native H200 N64 HPC-Ops prefill variants 27804 (chunk 6144) and
+27806 (chunk 8192) both pass full local gates at 2821.884862 and 2900.606831 good
+output tokens/s. Relative to prior HPC 4096 port 27783, gains 3.676555%/6.568815%
+partially recover the earlier loss. Relative to DeepGEMM 8192 control 27777 they
+still lose 7.114431%/4.523207%. Keep the H200 incumbent; no new winning score.
+The 8192 comparison holds chunk and graph settings fixed and differs in prefill
+runner, inactive fallback metadata and generated engine seeds; this narrows the
+engineering choice, but it is not a per-kernel causal profile.
+
+Both have zero scored errors/cancellations, 30 TTFT/0 ITL breaches, smoke 7/8
+non-regression and retrieval 12/12. Larger chunks coincide with lower prefill
+queue means and TTFT; direct queue/compute/transport time is uncollected. Full
+official quality UNKNOWN, actual pair 6.062222 GPU-hours, zero PBS SU. This is two
+additional distinct ports, not four; two further qualified candidates remain
+unfilled. Raw artifacts, runtime/source checks and cost are preserved. Published
+PowerPoint/ZIP remain unchanged by this working-report append.
+
+[Complete evidence and limitations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md).

@@ -1,3 +1,7 @@
+## 31 October: both additional chunk ports reviewed; incumbent retained
+
+27804 HPC-Ops chunk 6144 = **2821.884862 good tokens/s** (+3.676555% versus prior HPC4096, -7.114431% versus incumbent); 27806 chunk 8192 = **2900.606831** (+6.568815%, -4.523207%). Both 16 H200/N64, COMPLETED 0:0/full local gate pass, zero scored errors/cancellations, smoke 7/8 non-regression and retrieval 12/12. Same-chunk8192 runtime audit narrows the remaining deployment difference to prefill runner plus generated seeds/inactive fallback; no kernel causal proof. Larger chunks help the HPC branch but do not beat DeepGEMM prefill. Actual pair 6.062222 GPU-hours, zero PBS SU. Own queue empty in the dated audit. Two new distinct ports reviewed, not four. [Complete raw/telemetry/cost/decision review](h200-hpc-chunk-transfer-20261031/RESULTS.md). Official quality UNKNOWN; no promotion or blind repeat.
+
 ## 31 October: actual new H100-derived chunk ports, count correction
 
 Slurm accepted **27804** (HPC-Ops prefill chunk 6144) and **27806** (chunk 8192), both 16 H200/two nodes/N64/FlashInfer decode/17-minute maximum, combined maximum 9.066667 GPU-hours, no PBS SU. Sixteen strict native chunk/graph/backend CPU fixtures passed and source checkpoint94980434 preceded admission. These are two distinct new ports, not four; the old four-job wave included a control and two loads of one recipe. Two additional qualified configurations remain unfilled. [Actual receipts, fresh queue and limits](h200-hpc-chunk-transfer-20261031/STATUS.md). No new performance result or promotion.
