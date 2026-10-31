@@ -35,3 +35,21 @@ Actual IDs and reservations follow after admission. Preserve prior raw failures,
 H100/H200 attribution and the other worker's HPC payloads.
 
 [Plan and source evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/PLAN.md).
+
+## Definite admission
+
+At 2026-10-31T13:30:58.841019+07:00, Slurm accepted **27804** (HPC-Ops prefill 6144) and **27806**
+(prefill 8192), both N64/16 H200/two nodes/17 minutes. The shared admission lock
+protected fresh cap-five/site/queue checks, frozen hashes and sbatch validation.
+Preparation/16 CPU fixtures were committed and pushed in 94980434 before actual
+submission. Maximum pair 9.066667 GPU-hours, zero PBS SU. Actual queue snapshot:
+
+```text
+27806|ap42-s115-hpc8192|PENDING|0:00|2|(Resources)
+27804|ap42-s114-hpc6144|RUNNING|0:21|2|g[1,4]
+```
+
+No measured result yet, and the request for four distinct additional ports is
+not fully satisfied: only two qualified candidates were identified/admitted.
+Preserve that gap. Do not count prepared ideas, controls, retries or separate
+loads as additional H100 methods. [Actual receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/STATUS.md).

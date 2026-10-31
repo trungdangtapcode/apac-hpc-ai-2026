@@ -149,3 +149,14 @@ evidence, and attention/MNNVL alternatives already have H200 tests. Do not fill
 the missing count with duplicates or relabel prepared work as submitted.
 
 [Current plan and audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/PLAN.md).
+
+## Actual two additional ports
+
+**Actual distinct followups — 2026-10-31T13:30:58.841019+07:00, Vietnam time (UTC+7):** Slurm accepted **27804** (HPC-Ops prefill chunk 6144) and **27806** (chunk 8192), both 16 H200/two nodes/N64/FlashInfer decode/max 17 minutes. [Actual queue, manifests and reservations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/STATUS.md). These are **two**, not four new distinct ports; two further qualified configurations remain unfilled. No new performance result yet. Source/16 CPU fixtures captured in 94980434 before admission. No unchanged retry of the previous 4096/FA3 losses; test current-native chunk/runner interaction under the owner's original requested verification. Other-track and authentication state remain untouched.
+
+Dated scheduler observation:
+
+```text
+27806|ap42-s115-hpc8192|PENDING|0:00|2|(Resources)
+27804|ap42-s114-hpc6144|RUNNING|0:21|2|g[1,4]
+```
