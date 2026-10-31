@@ -48,3 +48,22 @@ The latest actual acceptance state belongs in AI_CURRENT and the study STATUS.
 At 2026-10-31T10:26:03.546470+07:00, Slurm accepted **27777** (FlashInfer control) and **27779**
 (FA3 decode). Both are Resources-pending in the dated observation. No new
 measurement or improvement yet. [Actual admission record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/STATUS.md).
+
+## Owner expands the wave to four measurements
+
+Later on 31 October the owner explicitly requested four promising H100-related
+jobs on H200. Preserve 27777/27779 and prepare two additional ports of the retained
+H100 recipe: HPC-Ops prefill and decode, chunk 4096, FA3 prefill / FlashInfer
+decode, MNNVL and round-robin, at N54 and N64. This supersedes the previous
+agent-created two-job initial envelope; it is not four independent H100 wins.
+The four-job wave includes one incumbent control. The new pair maximum is
+9.066667 GPU-hours and total wave maximum 18.133334 GPU-hours, zero PBS SU.
+
+N54 retains the H100 operating point. N64 tests the same recipe at the current
+H200 load. Compare N64 against 27777 as a coupled recipe, not isolated runner or
+chunk causality; compare N54/N64 as load sensitivity. Existing earlier H200
+investigations favour the current DeepGEMM/chunk 8192 recipe, so no gain is
+promised. This current native remeasurement answers the requested hardware
+transfer question. Do not copy H100 CPU masks or PBS launchers into H200.
+Twenty CPU runtime/client-load fixtures pass; actual GPU acceptance is not yet
+claimed for the additional ports. [Exact preparation plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/PLAN.md).

@@ -1,3 +1,5 @@
+Latest AI port: [31 October four-job H100 recipe verification wave](entries/20261031-h100-incumbent-transfer.md).
+
 Latest AI verification: [31 October hardware-transfer hypothesis and bounded job count](entries/20261031-h100-to-h200-verification.md).
 
 Latest AI status/result reconciliation: [31 October queues, terminal coverage and archive correction](entries/20261031-ai-final-queue-reconciliation.md).
