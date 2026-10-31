@@ -206,3 +206,19 @@ Dated queue:
 27828|ap42-s117-im-decode|PENDING|0:00|2|(Resources)
 27826|ap42-s116-im-control|PENDING|0:00|2|(Resources)
 ```
+
+## Complete four distinct H100-derived intervention reviews
+
+**Four distinct ports fully reviewed — 2026-10-31T21:54:43.696307+07:00, Vietnam time (UTC+7):** all four additional ports **27804/27806/27828/27830** are reviewed local passes; **27826** is their extra explicit mode control, not a candidate. Phase results: control **3039.167093**, decode-only **3039.356215 (+0.006223%)**, prefill-only **3043.141258 (+0.130765%)** good tokens/s on 16 H200/N64. All source/provider/physical KV/semantic/raw/output gates pass, zero scored errors/cancellations, smoke 7/8 non-regression, retrieval 12/12; official full-set accuracy UNKNOWN. No gain reaches the prospective 1% usefulness gate. Keep the current H200 recipe and native no_grad; no repeat, combined sweep or promotion. [Final phase review and completed four-port register](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md). Own queue empty in the fresh audit. Actual phase stage 9.604444 GPU-hours, zero PBS SU. This completes the standing four-intervention verification; it does not reopen unrelated research, H100 login/spending, HPC, schedules/background Codex or update published PPTX/ZIP.
+
+
+The two phase native source/context checks actually passed in the allocated
+containers, including expected inference-mode boolean and restored context.
+Mode was enabled only on the intended phase. No missing CPU Torch fixture
+was promoted to GPU evidence. Role-launch preflights and inherited environment
+are proven; steady-state per-rank mode/kernel tracing is still uncollected.
+Prefill-only has a lower observed TTFT p95, but all three have 26 TTFT breaches
+and a single small score delta; no robust tail gain or cause is established.
+The earlier statement that only two qualified ports existed was a provisional
+selection, superseded by actual source-qualified phase trials and their results.
+No assumption of four H100 winners or full-recipe reproductions is introduced.

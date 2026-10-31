@@ -1,3 +1,5 @@
+Latest AI completion: [31 October final phase results and four distinct transfer reviews](entries/20261031-phase-inference-results-final.md).
+
 Latest AI continuation: [31 October qualify two phase inference-mode H200 ports and their explicit control](entries/20261031-phase-inference-transfer.md).
 
 Latest AI chunk review: [31 October recover HPC-Ops chunk performance and isolate the remaining runner gap](entries/20261031-hpc-chunk-ports-results.md).

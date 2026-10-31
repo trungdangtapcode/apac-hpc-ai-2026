@@ -1,3 +1,7 @@
+**Four distinct ports fully reviewed — 2026-10-31T21:54:43.696307+07:00, Vietnam time (UTC+7):** all four additional ports **27804/27806/27828/27830** are reviewed local passes; **27826** is their extra explicit mode control, not a candidate. Phase results: control **3039.167093**, decode-only **3039.356215 (+0.006223%)**, prefill-only **3043.141258 (+0.130765%)** good tokens/s on 16 H200/N64. All source/provider/physical KV/semantic/raw/output gates pass, zero scored errors/cancellations, smoke 7/8 non-regression, retrieval 12/12; official full-set accuracy UNKNOWN. No gain reaches the prospective 1% usefulness gate. Keep the current H200 recipe and native no_grad; no repeat, combined sweep or promotion. [Final phase review and completed four-port register](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md). Own queue empty in the fresh audit. Actual phase stage 9.604444 GPU-hours, zero PBS SU. This completes the standing four-intervention verification; it does not reopen unrelated research, H100 login/spending, HPC, schedules/background Codex or update published PPTX/ZIP.
+
+Earlier admission/queue snapshots below are historical. All three terminal raw runs and the four-intervention register are now reviewed.
+
 # Actual H200 admission: explicit control and the remaining two phase ports
 
 Observed 2026-10-31T14:52:15.009695+07:00, Vietnam time (UTC+7). Slurm accepted all three:
