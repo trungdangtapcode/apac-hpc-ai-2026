@@ -37,3 +37,28 @@ Preparation is not admission; actual IDs/reservations follow separately. No H100
 authentication/spending, HPC, background Codex or published package changes.
 
 [Plan and source evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/PLAN.md).
+
+## Definite admission
+
+At 2026-10-31T14:52:15.009695+07:00, Slurm accepted 27826 explicit control, 27828 decode-only and
+27830 prefill-only. Each 16 H200/two nodes/N64/17 minutes, combined maximum 13.6
+GPU-hours and zero PBS SU. Shared admission lock protected fresh own cap-five,
+site/queue, checksum and sbatch-test checks. Source/21 fixture preparation was
+committed and pushed in f5a95ac8 before actual IDs. Frozen receipts/reservations
+are retained; no pre-existing job or payload was changed.
+
+Four source-intervention candidates now have H200 IDs: 27804/27806 already reviewed,
+27828/27830 submitted but unmeasured. 27826 is extra explicit control, not another
+candidate. The source/full-recipe distinction and weak H100 effects remain
+explicit. Actual native provider and full distributed acceptance are unknown
+until the jobs execute. No gain or official quality certification.
+
+Fresh queue:
+
+```text
+27830|ap42-s118-im-prefill|PENDING|0:00|2|(Resources)
+27828|ap42-s117-im-decode|PENDING|0:00|2|(Resources)
+27826|ap42-s116-im-control|PENDING|0:00|2|(Resources)
+```
+
+[Definite admission](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/STATUS.md).

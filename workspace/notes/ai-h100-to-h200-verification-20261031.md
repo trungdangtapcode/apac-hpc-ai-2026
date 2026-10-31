@@ -194,3 +194,15 @@ The existing 27804/27806 chunk ports plus these two phase ports give four distin
 source interventions, with H200-specific bases documented, not four invented
 H100 winners. Nothing is called submitted before definite receipts.
 [Exact plan and candidate register](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/PLAN.md).
+
+## Actual phase admission completes the four-port selection
+
+**Phase ports definitely submitted — 2026-10-31T14:52:15.009695+07:00, Vietnam time (UTC+7):** **27826** fresh explicit no_grad control; **27828** decode-only inference_mode; **27830** prefill-only inference_mode. All 16 H200/two nodes/N64/max 17 minutes, combined maximum 13.6 GPU-hours, zero PBS SU. [Actual queue and frozen receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/STATUS.md). Together with reviewed 27804/27806, **four distinct source-intervention ports now have H200 IDs**; the extra 27826 control is not counted. These are not four H100 wins or full-recipe reproductions; phase settings are ported into the current stronger H200 base. No new phase performance or native activation result yet. Compare with 27826 only after its full gate passes. Source/21 CPU fixtures captured in f5a95ac8 before admission. Earlier unfilled-slot statements are historical; no background Codex, H100 spending/auth, HPC or package change.
+
+Dated queue:
+
+```text
+27830|ap42-s118-im-prefill|PENDING|0:00|2|(Resources)
+27828|ap42-s117-im-decode|PENDING|0:00|2|(Resources)
+27826|ap42-s116-im-control|PENDING|0:00|2|(Resources)
+```
