@@ -115,3 +115,13 @@ Fresh queue:
 
 **Final H200 verification — 2026-10-31T13:05:20.255825+07:00, Vietnam time (UTC+7):** **4/4 reviewed local passes, own queue empty.** 27777 fresh control **3038.022907**; 27779 FA3 **2999.245473 (-1.276404%)**; 27781 H100 recipe N54 **2738.940099**; 27783 H100 recipe N64 **2721.815800 (-10.408319%)**, all good output tokens/s. Keep the existing H200 DeepGEMM/chunk 8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64; no new winner or promotion. H100-recipe N54->N64 does not improve goodput and increases mean TTFT 896.156 -> 1591.493 ms with larger sampled prefill queues; no direct causal time decomposition. Official quality UNKNOWN. Actual wave 12.671111 GPU-hours, zero PBS SU. [Final review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md). The requested four-job verification is complete; no useful-gain repeat qualifies. Unrelated research remains stopped, no background Codex/schedule, H100 authentication/spending or HPC change. Published slides/ZIP unchanged.
 
+
+## Clarify that there is no next four-job wave yet
+
+Checked 2026-10-31T13:13:20.513610+07:00, Vietnam time (UTC+7), after the owner asked whether the
+next four jobs were already measuring on H200. The actual own Slurm queue is
+empty. Accounting lists completed 27777, 27779, 27781 and 27783; no next wave
+has been submitted. These are the completed original four, not an additional
+set of four. No candidate from that wave qualified a useful-gain repeat.
+The queue check does not constitute a new submission, broader research restart,
+H100 login/spending or background automation. [Fresh scheduler record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/post-wave-queue-check.json).
