@@ -125,3 +125,27 @@ has been submitted. These are the completed original four, not an additional
 set of four. No candidate from that wave qualified a useful-gain repeat.
 The queue check does not constitute a new submission, broader research restart,
 H100 login/spending or background automation. [Fresh scheduler record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/post-wave-queue-check.json).
+
+## Correct distinct-configuration count and continue justified trials
+
+The owner's repeated question clarifies that four distinct H100 configurations
+were intended. The prior answer counted four allocations, including a H200
+control and two loads of one H100 recipe. That did not fulfil the requested
+distinct-configuration count. Do not count incumbent repeats or load points as
+new technical methods, and do not call the H100 FA3 losing variant a winner.
+
+A retained-source audit finds two ready informative ports: HPC-Ops prefill
+chunks 6144 and 8192 under current native H200 N64, keeping FlashInfer decode.
+They address the coupled runner/chunk ambiguity in the preceding H200 loss.
+The earlier H100 measurements were near-flat/losing, not wins; changed hardware,
+load and decode runner plus actual H200 prefill queues motivate this interaction
+check. Existing DeepGEMM 6144 or older N56/HPC-prefill measurements are not the
+same experiment. The two trials preserve all original gates and add explicit
+chunk-derived prefill capture maximum/buckets verification.
+
+Two further distinct qualified ports have not been identified. CPU-envelope,
+forced-protocol and phase inference-mode suggestions have weak/sub-threshold
+evidence, and attention/MNNVL alternatives already have H200 tests. Do not fill
+the missing count with duplicates or relabel prepared work as submitted.
+
+[Current plan and audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/PLAN.md).
