@@ -1,3 +1,5 @@
+Latest AI status/result reconciliation: [31 October queues, terminal coverage and archive correction](entries/20261031-ai-final-queue-reconciliation.md).
+
 Latest AI presentation completion: [engineering investigation, visual evidence and protected OpenFOAM handoff](entries/20261031-ai-investigation-presentation-final.md).
 
 Latest continuation: [native prefill routing from observed queue imbalance](entries/20261020-prefill-routing.md).

@@ -1,3 +1,13 @@
+# Final result reconciliation — 31 October 2026
+
+[Fresh queue and result audit](final-status-audit-20261031/README.md): H200 Slurm has no own queued/running job at 09:54:58 Vietnam time (UTC+7). H100 PBS is UNKNOWN because the existing VPN path is unavailable. Research remains stopped; no fresh login or new measurement is attempted. The dated sections below are historical.
+
+H200 selected historical N64 mean remains 3044.400475 good output tokens/s; native 26766 is 3045.501509 as a separate series. Isolated cache 27378 is 3048.446289 (+0.240921% vs 27376), not a confirmed replacement. H100 retained peak 222048 is 2433.019859 at N54; fresh 225227 is 2399.186728. Keep platforms/configurations separate.
+
+Final accepted GPU job **27510** completed 0:0/13:15 at **3029.861122 good output tokens/s**, -0.370208% versus 27376; keep dense graphs. [Existing complete result](h200-sparse-decode-compile-20261029/RESULTS-27510.md). CPU-only **27506** completed 0:0/95 s with 26.605 s JIT and two passed fixtures; [CPU review](h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md). No inference score follows from that fixture. Both outcomes were already in the final report; mutable status and the main job ledger are now reconciled. Official full-set quality remains unverified.
+
+---
+
 ## 28 October 2026 14:44 Vietnam time: tokenizer arms failed before scoring
 
 26849/26851/26853 are FAILED 1:0 at the outer warmup timeout, although all six semantic P/D response receipts and actual requested tokenizer flags replay correctly. No benchmark score exists. Actual repaired jobs 26947/26949/26951/26953 are accepted. The semantic 120-second budget, existing absolute warmup deadline and 17-minute full-job hard stop remain. [Failure review, uncertainty and exact repair](h200-tokenizer-warmup-repair-20261028/REVIEW.md). Earlier dated snapshots below are historical. Last reproduced full local result remains 26766 at 3045.501509 good output tokens/s; official accuracy is UNKNOWN.

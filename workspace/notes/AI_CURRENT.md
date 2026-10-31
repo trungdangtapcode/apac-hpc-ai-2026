@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**Fresh queue/result audit:** [31 October reconciliation](ai-final-queue-reconciliation-20261031.md), checked 09:54:58 Vietnam time (UTC+7). H200 own queue is empty; latest 27506/27510 are terminal and final-report results are unchanged. H100 PBS remains UNKNOWN because the existing VPN path is unavailable; no fresh authentication. Stale final ledger/status entries are corrected, and CPU 27506 gets a source-bound terminal review and original-path seal. Research stays stopped.
+
 **Current presentation:** [engineering investigation edition](ai-investigation-presentation-20261031.md). 16 main AI slides + 16 hidden AI backups + eight unchanged HPC slides. Three stories distinguish engineering decisions, team implementation and experimental findings. The main KV case now covers failure, prioritisation, patch, evidence and causal limits. Research remains stopped.
 
 **Presentation route:** [PowerPoint](../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [24-page main-talk PDF](../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Main_Talk.pdf), [full 40-page PDF](../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf). The main show goes AI 1–16 → HPC 33–40; backups 17–32 stay available for Q&A.
@@ -18,7 +20,9 @@
 
 Updated 2026-10-29T23:04:43.349902+07:00, Vietnam time (UTC+7). AI fork 01a166eb-33cb-7ce0-9699-ec65de26689a of parent 01a15dd3-3094-7712-a991-8ce55b15cbfe. Preserve independent HPC payloads, queues and budget. English artifacts; Vietnamese chat. No background Codex or schedules.
 
-## Actual queue and next decisions
+## Historical research handoff — 29 October 2026
+
+The active/pending statements below are historical and superseded by the fresh audit above. They do not authorise further research.
 
 The former queued jobs 27383 and 27387 are now terminal failures, with no new performance score. Independent sparse compile-off graph preparation and a revised CPU prerequisite are active; neither has an acceptance receipt yet. Query the actual queue before admission; own active/pending cap remains 5.
 

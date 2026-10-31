@@ -1,0 +1,105 @@
+{
+  "reviewed_utc": "2026-10-31T02:54:58.497091+00:00",
+  "reviewed_vietnam_time": "2026-10-31T09:54:58.497091+07:00",
+  "job": "27506",
+  "state": "REVIEWED_CPU_FIXTURES_ONLY",
+  "scheduler": {
+    "JobIDRaw": "27506",
+    "JobName": "ap42-cpp-radix-r2",
+    "Partition": "hpcai",
+    "State": "COMPLETED",
+    "ExitCode": "0:0",
+    "Elapsed": "00:01:35",
+    "Start": "2026-10-30T05:44:23",
+    "End": "2026-10-30T05:45:58",
+    "ReqTRES": "billing=4,cpu=4,mem=16G,node=1",
+    "NodeList": "g4"
+  },
+  "gpu_count": 0,
+  "cpu_count": 4,
+  "elapsed_scheduler_seconds": 95,
+  "observed_CPU_hours": 0.10555555555555556,
+  "maximum_CPU_hours": 0.4,
+  "PBS_SU": 0,
+  "jit_seconds": 26.605,
+  "container_create_seconds": 56,
+  "internal_batch_seconds": 92,
+  "cases": [
+    {
+      "page_size": 1,
+      "interpretation": "page1 is the production-page-size fixture; page16 is metadata-only and does not qualify page16 KV behavior",
+      "initial_insert_matched_tokens": 0,
+      "exact_repeat_matched_tokens": 32,
+      "prefix_tokens_checked": 16,
+      "overlap_matched_tokens": 16,
+      "unique_cached_indices_after_split": 48,
+      "protected_indices_while_locked": 32,
+      "indices_evicted_while_locked": 16,
+      "indices_evicted_after_unlock": 32,
+      "reset_sizes": {
+        "total": 0,
+        "evictable": 0,
+        "protected": 0
+      },
+      "result": "PASS"
+    },
+    {
+      "page_size": 16,
+      "interpretation": "page1 is the production-page-size fixture; page16 is metadata-only and does not qualify page16 KV behavior",
+      "initial_insert_matched_tokens": 0,
+      "exact_repeat_matched_tokens": 32,
+      "prefix_tokens_checked": 16,
+      "overlap_matched_tokens": 16,
+      "unique_cached_indices_after_split": 48,
+      "protected_indices_while_locked": 32,
+      "indices_evicted_while_locked": 16,
+      "indices_evicted_after_unlock": 32,
+      "reset_sizes": {
+        "total": 0,
+        "evictable": 0,
+        "protected": 0
+      },
+      "result": "PASS"
+    }
+  ],
+  "checks": {
+    "frozen_pins_match": true,
+    "runtime_source_hashes_match": true,
+    "native_cleanup_observed": true,
+    "supervisor_child_completed": true,
+    "GPU_hidden_and_unavailable": true
+  },
+  "limits": [
+    "Synthetic CPU radix-tree fixtures only; not full RadixCacheCpp integration",
+    "Page16 is metadata-only, not a page16 KV behavior qualification",
+    "No Qwen load, distributed P/D path, answer quality or inference score",
+    "CPU utilization/bandwidth profiling not collected"
+  ],
+  "decision": "Retain prerequisite success; no full GPU follow-up under owner stop",
+  "source_files": {
+    "runs/27506/compiler-import.log": {
+      "bytes": 1098,
+      "sha256": "efcdb01a3a831c71046cc23b21b6565f09a8cfbd06f6682003bb7248e1ff7053"
+    },
+    "runs/27506/deadline-supervisor.json": {
+      "bytes": 277,
+      "sha256": "4154e8d97622c4eb050b44b846933b42e15e769fc041ca1e8b87016ea8d8988c"
+    },
+    "runs/27506/host-start.txt": {
+      "bytes": 224,
+      "sha256": "01cf884fc228edb67fbb019aaf5d39090b517707c937766e9bbc91e8e15a4ff4"
+    },
+    "runs/27506/probe.json": {
+      "bytes": 4487,
+      "sha256": "86f384e1ac0902850affe945e81ec4724dd74cbd0bdbe5d64a7d460f5d66edbd"
+    },
+    "runs/27506.out": {
+      "bytes": 1961,
+      "sha256": "aa750c05c239d4aa2cd47e7a5e71bca6c9857d0c4154dcd1187364224fa03092"
+    },
+    "runs/27506.err": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -2519,3 +2519,13 @@ Final polling review,29October: all three full local passes; interval1=3039.0533
 ## 2026-10-29T23:04:43.349902+07:00: full compile interface failure reviewed
 
 27383 FAILED 1:0, 3:35 on g1/g4 (16 H200), no AIPerf score. Actual first compiled shape 54 raises native RoPE fused_set_kv_buffer_arg assertion. Eight current distributed/source-bound receipts are retained; ordinary larger-shape captures do not qualify full compile. Startup hardware is not ranked telemetry. Occupancy 0.955556 GPU-hours, no PBS SU; frozen payload and failed raw allocation sealed. Close unchanged S105 and block unchanged sparse compile S108, since fewer buckets cannot fix this interface error. Independent compile-off sparse graph preparation and source-supported compatibility research continue. See h200-decode-compile-full-20261029/FAILURE-27383.md and failure-review-27383.json. 27387 separately FAILED 124:0 after 93 seconds; CPU fixture incomplete after 76-second extraction, with R2 preparation pending.
+
+
+## 31 October 2026: final queue and completion reconciliation after research stop
+
+Read-only check at 09:54:58 Vietnam time (UTC+7): own H200 Slurm queue is empty. Accounting since 29 October UTC lists 13 terminal AI-worker allocations, no job newer than 27510. H100/PBS remains UNKNOWN because the existing VPN path is unavailable; no new authentication/DUO or submission is initiated. [Fresh snapshot and hardware-separated result summary](final-status-audit-20261031/README.md).
+
+- **27510:** completed 0:0/13:15 on 16 H200; 3029.861122 good output tokens/s, 1870/1896 good (98.628692%), zero errors/cancellations. Lower graph-capture memory did not raise goodput (-0.370208% vs 27376); retain dense graphs. [Existing full result](h200-sparse-decode-compile-20261029/RESULTS-27510.md). This outcome was already in the final report; this entry closes the ledger/status gap.
+- **27506:** completed 0:0/95 s, zero GPUs/four CPUs. Cold JIT 26.605 s, two synthetic radix-tree CPU fixtures pass, native cleanup observed. [New terminal review](h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md). It is not a Qwen/P-D/quality or serving score. Original raw files already had identical archived delivery copies; the canonical run path is now sealed and captured.
+
+No new score changes the selected H200 N64 configuration or historical H100 N54 point. Draft S109 and blocked compile paths remain unsubmitted. Research, background Codex and schedules stay stopped. Slides/ZIP and the independent HPC worker's queues/payloads/budget are unchanged.

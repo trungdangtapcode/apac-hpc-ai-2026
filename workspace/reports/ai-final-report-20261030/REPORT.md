@@ -84,11 +84,23 @@ No organiser upload or new research job is performed. Large artifact recovery me
 
 ## Presentation readiness
 
-The AI talk is planned for the team's 15–20 minute allowance, with a 17-minute main route and a 15-minute shortened route. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
+The current compact AI route targets about 10:40, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The official combined time and Q&A inclusion remain awaiting clarification; earlier 15–20-minute AI-only planning is historical. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
 
 The revised slides make previously compressed reasoning explicit: transport recovery and output rejection, reverse-order startup confirmation, role-aware EAGLE debugging, source-guided tokenization/collective tests, controlled regime recovery, and defects exposed by real portable replay. The full shared journal contains independent HPC and administrative records as well as scientific arcs. It is not presented as a count of successes.
 
 - [Journal-to-slide coverage and supporting entry index](JOURNEY_COVERAGE.md)
-- [15–20 minute speaking plan and team handoff](PRESENTATION_PLAN.md)
+- [Compact speaking plan and protected OpenFOAM handoff](PRESENTATION_PLAN.md)
 - [Three technical evidence cards](EVIDENCE_CARDS.md)
 - [Panel Q&A, with observation/hypothesis/unknown distinctions](PANEL_QA.md)
+
+
+## Final queue and terminal-result reconciliation — 31 October 2026
+
+Read-only query at **09:54:58 Vietnam time (UTC+7)**: the H200 Slurm queue has no job for this account. All 13 AI allocations in the fresh accounting window starting 29 October UTC are terminal; the latest is 27510. H100/PBS state remains **UNKNOWN** because this machine's existing VPN path is unavailable. No fresh login, DUO request or new job is initiated. [Snapshot and hardware-separated audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-status-audit-20261031/README.md).
+
+The two final jobs were already included in this report, so there is no omitted winning result:
+
+- **27510 (H200):** completed 0:0/13:15; 3029.861122 good output tokens/s, -0.370208% versus 27376. Keep dense graphs. The experiment admission note and main ledger were stale; they now point to the reviewed terminal result.
+- **27506 (CPU only):** completed 0:0/95 seconds, zero GPUs/four CPUs; JIT 26.605 seconds, both CPU fixtures pass and native cleanup observed. It is not a Qwen integration or inference score. A terminal review and canonical source-path seal are added. Hashes confirm the four raw artifacts already had byte-identical captured copies in the final delivery.
+
+No selected configuration or slide/submission result changes. H100 2433.019859 and H200 3044.400475 remain separate historical series, not one combined score. Inaccessible newer PBS results cannot be excluded without restored read-only access. [CPU terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md), [sparse GPU review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-sparse-decode-compile-20261029/RESULTS-27510.md).
