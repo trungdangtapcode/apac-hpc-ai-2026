@@ -1,3 +1,5 @@
+**Final update:** all four jobs are now reviewed. [Read the completed comparison](FINAL_RESULTS.md); the three-reviewed-run snapshot below is historical.
+
 # H200 verification: three reviewed runs, one candidate still running
 
 Checked 31 October 2026, Vietnam time (UTC+7). This is the owner-requested

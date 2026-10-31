@@ -1,3 +1,5 @@
+Latest AI outcome: [31 October four-job H200 verification completed](entries/20261031-h200-four-job-transfer-final.md).
+
 Latest AI results: [31 October FA3 decode loss and H100-recipe N54 transfer](entries/20261031-h200-fa3-and-h100-n54-results.md).
 
 Latest AI result: [31 October fresh H200 control and ongoing transfer tests](entries/20261031-h200-transfer-control-result.md).

@@ -1,3 +1,7 @@
+## 31 October: all four transfer trials reviewed, keep current H200 recipe
+
+27777 control **3038.022907**; 27779 FA3 decode **2999.245473 (-1.276404%)**; 27781 H100 recipe N54 **2738.940099**; 27783 same recipe N64 **2721.815800 (-10.408319%)**, all good output tokens/s on 16 H200. All complete 0:0 and pass full local raw/source/runtime/KV/semantic/output gates, zero scored errors/cancellations, smoke 7/8 non-regression, retrieval 12/12; official accuracy UNKNOWN. N54->N64 on the transferred recipe raises mean TTFT 896.156->1591.493 ms without goodput gain; sampled prefill queues grow, but causal time decomposition is uncollected. Actual wave 12.671111 GPU-hours, no PBS SU. Keep DeepGEMM/chunk 8192 prefill and FlashInfer/HPC-Ops/MNNVL decode at N64. Own queue empty in the linked dated audit; requested four-job scope complete, no losing repeat. [Final comparison and exact limits](h200-h100-transfer-review-20261031/FINAL_RESULTS.md).
+
 ## 31 October: FA3 decode loses on H200; H100 recipe N54 passes
 
 27779 **2999.245473 good tokens/s**, -1.276404% versus 27777; keep FlashInfer decode. 27781 H100 recipe at N54 **2738.940099 good tokens/s**; await running N64 recipe 27783 before a same-load recipe comparison. Both complete 0:0, full raw/source/runtime/KV/semantic gates pass, zero scored errors/cancellations, smoke 7/8 non-regression and retrieval 12/12. Official full-set quality remains UNKNOWN. [Results, raw tails, role telemetry, cost and limits](h200-h100-transfer-review-20261031/RESULTS.md).

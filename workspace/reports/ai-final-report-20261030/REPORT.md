@@ -104,3 +104,31 @@ The two final jobs were already included in this report, so there is no omitted 
 - **27506 (CPU only):** completed 0:0/95 seconds, zero GPUs/four CPUs; JIT 26.605 seconds, both CPU fixtures pass and native cleanup observed. It is not a Qwen integration or inference score. A terminal review and canonical source-path seal are added. Hashes confirm the four raw artifacts already had byte-identical captured copies in the final delivery.
 
 No selected configuration or slide/submission result changes. H100 2433.019859 and H200 3044.400475 remain separate historical series, not one combined score. Inaccessible newer PBS results cannot be excluded without restored read-only access. [CPU terminal review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md), [sparse GPU review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-sparse-decode-compile-20261029/RESULTS-27510.md).
+
+
+## Additional H200 verification after the panel's cross-hardware question
+
+31 October 2026: the owner authorised four same-H200 measurements to validate
+H100-derived choices. All four completed and passed the full local protocol on
+16 H200 / g1,g4. Fresh control 27777 scored 3038.022907 good tokens/s; FA3 decode
+27779 scored 2999.245473 (-1.276404%). H100 both-HPC-Ops/chunk 4096 recipe port 27781
+at N54 scored 2738.940099; same-load N64 port 27783 scored 2721.815800 (-10.408319%
+versus control). Keep the existing H200 DeepGEMM/chunk 8192 prefill plus HPC-Ops/
+FlashInfer/MNNVL decode at N64. This does not replace the historical repeated
+H200 series or claim a global optimum.
+
+On the transferred recipe, N54->N64 gives no goodput gain while mean TTFT rises
+896.156->1591.493 ms and sampled prefill queues increase. Direct per-request
+queue/compute/transfer decomposition is absent; the added latency cannot be
+causally assigned to one kernel. All four have zero scored errors/cancellations,
+smoke 7/8 non-regression and retrieval 12/12; official full-set quality remains
+UNKNOWN. Actual wave 12.671111 GPU-hours, no PBS SU.
+
+The panel-facing lesson is measured: H100 screened compatibility and tradeoffs;
+we validated selected alternatives against a fresh H200 control, and retained
+the H200-specific recipe after the H100-selected recipe lost. Do not pool GPU
+scores, quote a universal conversion multiplier, or attribute this coupled
+runner/chunk comparison to one factor. These new results are added to this
+working report; the published PowerPoint and ZIP have not been regenerated.
+
+[Complete four-job evidence and limitations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md).
