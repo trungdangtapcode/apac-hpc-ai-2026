@@ -32,3 +32,14 @@ speedup or official quality certification.
 [Study plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/PLAN.md),
 [H100 evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0132/RESULTS.md),
 [owner explanation](../../../../notes/ai-h100-to-h200-verification-20261031.md).
+
+## Definite admission
+
+At 2026-10-31T10:26:03.546470+07:00, actual scheduler receipts confirm **27777** FlashInfer control
+and **27779** FA3 decode, each 16 H200 / two nodes / at most 17 minutes.
+Both are Resources-pending in this observation, not measured results. The
+shared Slurm admission lock protected the fresh own cap-five check, frozen
+manifests and site/test-only validation. No dependency, cancellation, requeue,
+H100 spending or HPC edit. Preparation was safely captured and pushed in
+b0bbbd5a before actual submission. Retain this stage separately from later
+terminal acceptance, interpretation and any conditional repeat.

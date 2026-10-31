@@ -1,3 +1,7 @@
+## 31 October: bounded H100-to-H200 verification reopened
+
+Owner requested same-hardware validation after the panel questioned unlike-GPU comparisons. **27777** (fresh FlashInfer decode control) and **27779** (FA3 decode candidate) are definitely submitted, each 16 H200 / two nodes / maximum 17 minutes and 4.533334 GPU-hours; zero PBS SU. Both Resources-pending at 2026-10-31T10:26:03.546470+07:00; no new score. Keep N64/full60/120/30/source/output/physical-KV/two-PD-route gates and telemetry. Only a valid >1% gain warrants an independent second pair. Other stopped branches stay stopped. [Plan, receipts and limits](h200-h100-attention-transfer-20261031/STATUS.md).
+
 ## 28 October 2026 14:44 Vietnam time: tokenizer arms failed before scoring
 
 26849/26851/26853 are FAILED 1:0 at the outer warmup timeout, although all six semantic P/D response receipts and actual requested tokenizer flags replay correctly. No benchmark score exists. Actual repaired jobs 26947/26949/26951/26953 are accepted. The semantic 120-second budget, existing absolute warmup deadline and 17-minute full-job hard stop remain. [Failure review, uncertainty and exact repair](h200-tokenizer-warmup-repair-20261028/REVIEW.md). Earlier dated snapshots below are historical. Last reproduced full local result remains 26766 at 3045.501509 good output tokens/s; official accuracy is UNKNOWN.

@@ -42,3 +42,9 @@ full-set quality remains UNKNOWN. No score improvement is claimed by submission.
 
 [Plan, exact controls, validation and later receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/PLAN.md).
 The latest actual acceptance state belongs in AI_CURRENT and the study STATUS.
+
+## Accepted jobs
+
+At 2026-10-31T10:26:03.546470+07:00, Slurm accepted **27777** (FlashInfer control) and **27779**
+(FA3 decode). Both are Resources-pending in the dated observation. No new
+measurement or improvement yet. [Actual admission record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/STATUS.md).
