@@ -1,3 +1,7 @@
+## 31 October: owner-requested four-job H200 verification wave admitted
+
+New **27781** ports the retained H100 both-HPC-Ops/chunk 4096 recipe at N54; **27783** uses the same recipe at N64. Preserve existing **27777** FlashInfer control and **27779** FA3 decode: four measurements total, including control. Each 16 H200/two nodes/at most 17 minutes; total wave maximum 18.133334 GPU-hours, zero PBS SU. Checked 2026-10-31T10:34:46.460360+07:00: 27777 running, other three Resources-pending. Twenty runtime/client-load CPU fixtures pass; no new measured score. Compare recipes at N64 as coupled changes and N54/N64 as load sensitivity, with all original output/runtime/semantic/KV/error gates. [Actual receipts and review contract](h200-h100-incumbent-transfer-20261031/STATUS.md).
+
 ## 31 October: bounded H100-to-H200 verification reopened
 
 Owner requested same-hardware validation after the panel questioned unlike-GPU comparisons. **27777** (fresh FlashInfer decode control) and **27779** (FA3 decode candidate) are definitely submitted, each 16 H200 / two nodes / maximum 17 minutes and 4.533334 GPU-hours; zero PBS SU. Both Resources-pending at 2026-10-31T10:26:03.546470+07:00; no new score. Keep N64/full60/120/30/source/output/physical-KV/two-PD-route gates and telemetry. Only a valid >1% gain warrants an independent second pair. Other stopped branches stay stopped. [Plan, receipts and limits](h200-h100-attention-transfer-20261031/STATUS.md).

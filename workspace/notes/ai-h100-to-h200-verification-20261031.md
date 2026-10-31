@@ -67,3 +67,20 @@ promised. This current native remeasurement answers the requested hardware
 transfer question. Do not copy H100 CPU masks or PBS launchers into H200.
 Twenty CPU runtime/client-load fixtures pass; actual GPU acceptance is not yet
 claimed for the additional ports. [Exact preparation plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/PLAN.md).
+
+## Definite additional acceptances
+
+Slurm accepted **27781** (H100 recipe at N54) and **27783** (same recipe at N64).
+Together with 27777/27779 this fulfils the four-measurement wave, with one control.
+Preparation/20-fixture review was committed and pushed in 538bd026 before sbatch.
+
+Queue checked 2026-10-31T10:34:46.460360+07:00:
+
+```text
+27783|ap42-s113-h100n64|PENDING|0:00|2|(Resources)
+27781|ap42-s112-h100n54|PENDING|0:00|2|(Resources)
+27779|ap42-s111-fa3|PENDING|0:00|2|(Resources)
+27777|ap42-s110-flashinfer|RUNNING|4:08|2|g[1,4]
+```
+
+[Definite reservations and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/STATUS.md). No new performance claim.

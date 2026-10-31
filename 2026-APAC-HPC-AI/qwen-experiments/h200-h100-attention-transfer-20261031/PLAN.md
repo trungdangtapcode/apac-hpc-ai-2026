@@ -1,3 +1,5 @@
+**Later owner expansion, 31 October:** the original two-job initial stage below is historical. The owner explicitly requested four total H200 measurements. Existing 27777/27779 are preserved; new 27781/27783 port the H100 recipe at N54/N64. [Current four-job scope and receipts](../h200-h100-incumbent-transfer-20261031/STATUS.md). Submitted bundle bytes remain unchanged.
+
 # Verify a hardware-dependent H100 attention tradeoff on H200
 
 Owner authorisation: 31 October 2026, Vietnam time. After stopping broad research,

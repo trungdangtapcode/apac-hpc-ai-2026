@@ -35,3 +35,16 @@ resource/cost review belong below. A useful gain above 1% still needs independen
 confirmation; terminal error is not a valid measurement.
 
 [Exact plan](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/PLAN.md).
+
+## Actual admission and next review
+
+At 2026-10-31T10:34:46.460360+07:00, Slurm accepted **27781** (N54) and **27783** (N64),
+with frozen manifests and maximum reservations recorded under the shared
+admission lock. Existing 27777/27779 were preserved; actual wave has four jobs.
+The fresh snapshot shows 27777 running and the remaining three Resources-pending.
+Source and 20 CPU fixtures were captured and pushed in 538bd026 before sbatch.
+Neither scheduler acceptance nor a passing fixture is a new performance result.
+Inspect each terminal outcome and all retained gates before scoring or promotion;
+keep H100 and H200 measurements separate.
+
+[Actual receipt and queue record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/STATUS.md).
