@@ -1,3 +1,7 @@
+**Latest AI review — 2026-10-31T11:24:39.696311+07:00, Vietnam time (UTC+7):** **3/4 reviewed local passes**: 27777 control 3038.022907; 27779 FA3 decode 2999.245473 good tokens/s (**-1.276404%** versus fresh control); 27781 H100 recipe N54=2738.940099. All have zero scored errors/cancellations, smoke 7/8 non-regression, retrieval 12/12. Keep FlashInfer decode and close this FA3 candidate; official quality UNKNOWN. 27783 H100 recipe N64 is running; do not isolate recipe effects from N54 versus N64. [Full review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/RESULTS.md). Preserve its admitted position; no redundant fifth trial.
+
+Earlier dated snapshots below remain historical.
+
 **Latest reviewed progress — 2026-10-31T10:53:26.134276+07:00, Vietnam time (UTC+7):** 27777 COMPLETED 0:0/13:08 and independently passes all local gates at 3038.022907 good output tokens/s, 1872/1898 good (98.630137%), 26 TTFT/0 ITL breaches, zero scored errors/cancellations, smoke 7/8 no regression, retrieval 12/12. It is a fresh control, not an improvement. 27779 is running with actual FA3 decode/runtime gate passed; 27781/27783 remain Resources-pending. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md). No additional GPU submission: three admitted candidates remain unfinished; four-job scope is preserved. Official quality remains UNKNOWN.
 
 The admission snapshot below is historical; see this latest review and fresh scheduler evidence for current state.

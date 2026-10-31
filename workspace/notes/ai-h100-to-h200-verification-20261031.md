@@ -100,3 +100,13 @@ UNKNOWN. Actual allocated 3.502222 GPU-hours, zero PBS SU.
 are Resources-pending in the dated observation. Three candidate trials remain
 unfinished, so no fifth job or duplicate baseline is justified by this status
 check. [Raw-backed control review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md).
+
+## Three reviewed measurements
+
+**Latest AI review — 2026-10-31T11:24:39.696311+07:00, Vietnam time (UTC+7):** **3/4 reviewed local passes**: 27777 control 3038.022907; 27779 FA3 decode 2999.245473 good tokens/s (**-1.276404%** versus fresh control); 27781 H100 recipe N54=2738.940099. All have zero scored errors/cancellations, smoke 7/8 non-regression, retrieval 12/12. Keep FlashInfer decode and close this FA3 candidate; official quality UNKNOWN. 27783 H100 recipe N64 is running; do not isolate recipe effects from N54 versus N64. [Full review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/RESULTS.md). Preserve its admitted position; no redundant fifth trial.
+
+Fresh queue:
+
+```text
+27783|ap42-s113-h100n64|RUNNING|9:24|2|g[1,4]
+```

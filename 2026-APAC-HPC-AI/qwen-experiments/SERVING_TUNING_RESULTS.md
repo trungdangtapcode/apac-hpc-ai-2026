@@ -1,3 +1,7 @@
+## 31 October: FA3 decode loses on H200; H100 recipe N54 passes
+
+27779 **2999.245473 good tokens/s**, -1.276404% versus 27777; keep FlashInfer decode. 27781 H100 recipe at N54 **2738.940099 good tokens/s**; await running N64 recipe 27783 before a same-load recipe comparison. Both complete 0:0, full raw/source/runtime/KV/semantic gates pass, zero scored errors/cancellations, smoke 7/8 non-regression and retrieval 12/12. Official full-set quality remains UNKNOWN. [Results, raw tails, role telemetry, cost and limits](h200-h100-transfer-review-20261031/RESULTS.md).
+
 ## 31 October: fresh transfer-study control reviewed
 
 27777 is a full local pass at **3038.022907 good output tokens/s**, 1872/1898 good (98.630137%), zero scored errors/cancellations, 26 TTFT/0 ITL breaches. This is the fresh H200 control, not a gain. Actual FlashInfer/native N64/source/KV/both semantic paths/smoke7/8 non-regression/retrieval12/12 pass. 27779 is running with actual FA3 decode; 27781/27783 remain pending in the linked dated snapshot. [Complete review, telemetry, cost and limits](h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md). Official quality UNKNOWN; no promotion.
