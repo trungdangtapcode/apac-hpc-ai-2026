@@ -165,3 +165,32 @@ Dated scheduler observation:
 
 **Reviewed chunk followups — 2026-10-31T14:18:02.757137+07:00, Vietnam time (UTC+7):** 27804 HPC-Ops prefill 6144 **2821.884862** and 27806 prefill 8192 **2900.606831 good tokens/s**, both COMPLETED 0:0/full local pass, zero scored errors/cancellations, smoke 7/8 non-regression and retrieval 12/12. Relative to prior same-runner 4096, gains are +3.676555%/+6.568815%; relative to H200 DeepGEMM 8192 control 27777 they still lose 7.114431%/4.523207%. Keep the existing H200 recipe; no promotion or unchanged repeat. Same-chunk 8192 native argument audit isolates the selected prefill runner plus generated seeds and inactive fallback metadata; no kernel causal proof. Own queue is empty in the fresh audit. [Complete result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md). Two distinct additional ports have been reviewed, not four; two qualified slots remain unfilled. Actual pair 6.062222 GPU-hours, zero PBS SU, official accuracy UNKNOWN. No H100 auth/spending, HPC, schedules or published submission change.
 
+
+## Qualify the remaining phase-mode ports rather than stop at two
+
+The earlier candidate audit treated flat H100 inference-mode results as a reason
+to exclude hardware-transfer trials entirely. That was too strong. Actual H100
+221924 decode-only 2430.657 and 221966 prefill-only 2424.089 good tokens/s exist,
+versus 221923 control 2424.365. They are distinct measured settings, with small
++0.2596%/-0.0114% differences, not established H100 improvements. A one-time
+current H200 source-qualified test can answer transferability without reopening
+unchanged H100 research or pretending those are strong wins.
+
+Port only the phase-mode intervention into the current DeepGEMM/chunk 8192/N64
+H200 incumbent; this is not a full H100 both-HPC-Ops/chunk 4096/N54 reproduction.
+Prepare decode-only and prefill-only arms plus a fresh explicit no_grad control,
+all with identical native source/context receipt machinery. The old worker did
+not capture explicit mode state; do not silently assume ambient state for the
+comparison. The fresh control does not count among the four requested candidates.
+
+Twenty-one CPU wrong/missing/duplicate-mode/backend/graph rejection fixtures pass.
+Host Torch is unavailable, so real provider/context and distributed acceptance
+remain UNKNOWN until allocated native checks. Verify exact common/scheduler
+source hashes, native provider mode inside context and restoration after exit;
+then retain all normal full workload, physical KV, semantic and output gates.
+Three jobs maximum 13.6 GPU-hours, zero PBS SU, own active/pending cap five.
+
+The existing 27804/27806 chunk ports plus these two phase ports give four distinct
+source interventions, with H200-specific bases documented, not four invented
+H100 winners. Nothing is called submitted before definite receipts.
+[Exact plan and candidate register](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/PLAN.md).
