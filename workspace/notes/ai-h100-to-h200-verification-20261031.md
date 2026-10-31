@@ -84,3 +84,19 @@ Queue checked 2026-10-31T10:34:46.460360+07:00:
 ```
 
 [Definite reservations and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-incumbent-transfer-20261031/STATUS.md). No new performance claim.
+
+## First reviewed control
+
+Checked 2026-10-31T10:53:26.134276+07:00: 27777 completed 0:0 in 13:08 and passed the full local
+protocol at 3038.022907 good tokens/s; 1872/1898 good, 26 TTFT/0 ITL breaches, zero
+scored errors/cancellations. Actual FlashInfer decode, physical KV, both semantic
+routes, smoke 7/8 non-regression and retrieval 12/12 pass. Two initial setup 503
+responses were retried successfully before scoring; do not call every log
+error-free. Sampled decode GPU activity 100% and KV token usage 0.12 are different
+quantities and do not identify a kernel bottleneck. Full official quality is
+UNKNOWN. Actual allocated 3.502222 GPU-hours, zero PBS SU.
+
+27779 is running with actual FA3 decode passed by the runtime gate; 27781/27783
+are Resources-pending in the dated observation. Three candidate trials remain
+unfinished, so no fifth job or duplicate baseline is justified by this status
+check. [Raw-backed control review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md).

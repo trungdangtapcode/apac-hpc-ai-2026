@@ -1,3 +1,7 @@
+## 31 October: fresh transfer-study control reviewed
+
+27777 is a full local pass at **3038.022907 good output tokens/s**, 1872/1898 good (98.630137%), zero scored errors/cancellations, 26 TTFT/0 ITL breaches. This is the fresh H200 control, not a gain. Actual FlashInfer/native N64/source/KV/both semantic paths/smoke7/8 non-regression/retrieval12/12 pass. 27779 is running with actual FA3 decode; 27781/27783 remain pending in the linked dated snapshot. [Complete review, telemetry, cost and limits](h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md). Official quality UNKNOWN; no promotion.
+
 ## 31 October: owner-requested four-job H200 verification wave admitted
 
 New **27781** ports the retained H100 both-HPC-Ops/chunk 4096 recipe at N54; **27783** uses the same recipe at N64. Preserve existing **27777** FlashInfer control and **27779** FA3 decode: four measurements total, including control. Each 16 H200/two nodes/at most 17 minutes; total wave maximum 18.133334 GPU-hours, zero PBS SU. Checked 2026-10-31T10:34:46.460360+07:00: 27777 running, other three Resources-pending. Twenty runtime/client-load CPU fixtures pass; no new measured score. Compare recipes at N64 as coupled changes and N54/N64 as load sensitivity, with all original output/runtime/semantic/KV/error gates. [Actual receipts and review contract](h200-h100-incumbent-transfer-20261031/STATUS.md).

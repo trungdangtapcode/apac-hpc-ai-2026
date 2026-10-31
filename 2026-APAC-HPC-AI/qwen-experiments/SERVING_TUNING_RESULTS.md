@@ -1,3 +1,7 @@
+## 31 October: fresh transfer-study control reviewed
+
+27777 is a full local pass at **3038.022907 good output tokens/s**, 1872/1898 good (98.630137%), zero scored errors/cancellations, 26 TTFT/0 ITL breaches. This is the fresh H200 control, not a gain. Actual FlashInfer/native N64/source/KV/both semantic paths/smoke7/8 non-regression/retrieval12/12 pass. 27779 is running with actual FA3 decode; 27781/27783 remain pending in the linked dated snapshot. [Complete review, telemetry, cost and limits](h200-h100-attention-transfer-20261031/CONTROL_RESULTS-27777.md). Official quality UNKNOWN; no promotion.
+
 # Final result reconciliation — 31 October 2026
 
 [Fresh queue and result audit](final-status-audit-20261031/README.md): H200 Slurm has no own queued/running job at 09:54:58 Vietnam time (UTC+7). H100 PBS is UNKNOWN because the existing VPN path is unavailable. Research remains stopped; no fresh login or new measurement is attempted. The dated sections below are historical.

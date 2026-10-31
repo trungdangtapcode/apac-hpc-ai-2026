@@ -1,3 +1,5 @@
+Latest AI result: [31 October fresh H200 control and ongoing transfer tests](entries/20261031-h200-transfer-control-result.md).
+
 Latest AI port: [31 October four-job H100 recipe verification wave](entries/20261031-h100-incumbent-transfer.md).
 
 Latest AI verification: [31 October hardware-transfer hypothesis and bounded job count](entries/20261031-h100-to-h200-verification.md).
