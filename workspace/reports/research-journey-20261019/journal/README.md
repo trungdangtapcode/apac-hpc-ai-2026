@@ -1,3 +1,5 @@
+Latest AI release audit: [1 November whole-submission preflight and final handoff gaps](entries/20261101-final-submission-preflight.md).
+
 Latest AI follow-through: [1 November queues and complete nine-run source/archive integrity audit](entries/20261101-h200-transfer-integrity-check.md).
 
 Latest AI completion: [31 October final phase results and four distinct transfer reviews](entries/20261031-phase-inference-results-final.md).
