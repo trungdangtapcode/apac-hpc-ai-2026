@@ -1,0 +1,11 @@
+# Reverse the promising collated I/O pair
+
+Parent job **2294634** completed on iris001: default first 31.600735680 s/step, collated second 29.681757101 s/step, an observed 6.0726% lower mean. Independent review passed all 116 selected file hashes, source/copy/field/runtime checks and both 40-step native replays. All Cd rows match exactly. The second arm's first-10 mean is 34.407829191 s and last-10 mean 26.818858285 s; temporal drift remains a competing explanation. Native sample recommendation 192 exceeds 39 observations. This is not a confirmed optimization.
+
+This derived job reverses order: **B-collated first, A-default second**, same initialized Scotch source and socket/core MPI command, 40 steps / 39 intervals each, unmodified fixed work, physics and original function objects. Only B adds `-fileHandler collated`. New passive before/after snapshots include `/proc/cpuinfo` outside the timed solver; reported MHz snapshots cannot establish sustained frequency or a cause of speed differences. Source hashes and initialized field/inode isolation gates are retained. No changed timer or tolerance variant from the supplied ZIP is imported.
+
+One exclusive Iris node, 56 CPUs, zero GPUs, at most 75 minutes / 70 allocated CPU-hours. Old parent maximum must be retired once from terminal accounting before fresh locked admission. The owner's current Continue instruction is applied to only this bounded confirmation; 630 is an agent-selected internal planning ceiling, not an owner numeric limit or site balance. It covers 560 consumed plus this 70-hour maximum, a transparent increase of 43 from the prior 587 stage. No NSCC/AI credit transfer or schedule.
+
+Promotion requires joint parent/reverse review: actual headers/steps/iterations/Cd, all timing samples/tails, native confidence warnings, source/runtime integrity, stderr and available resource evidence. A favorable aggregate alone does not resolve nonlinear drift or allocation effects. These are Iris one-node results, not NSCC improvements, a Gadi four-node reproduction, or official scores.
+
+The separate exact-socket-versus-default mapping ABBA payload is deferred, unsubmitted and unreserved until this more immediate confirmation is reviewed. Scripts and source evidence remain preserved; there is no blind duplicate or frozen-payload mutation.
