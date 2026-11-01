@@ -1,5 +1,7 @@
 # Explicit preparation for teacher Thanh's questions
 
+**Study entry point:** [reading order, four key reasoning chains and self-check prompts](../reports/teacher-qa-preparation-20261101/README.md). The owner explicitly requested an easy place to return for revision.
+
 **Reasoning emphasis corrected — 2026-11-01T13:14:25.952752+07:00, Vietnam time (UTC+7):** the owner clarified that answers must explain how ideas arose and why they were plausible before testing. Read [how the configuration emerged](../reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md) first. Eight source-linked cases trace observation, mechanism, hypothesis/counterhypothesis, controlled test and changed decision. Nine core spoken answers were rewritten and the 14 quick cards regenerated. A pre-run rationale is not invented where only retrospective evidence exists. The published deck/ZIP and experiment records remain unchanged.
 
 Prepared 2026-11-01T13:05:45.270271+07:00, Vietnam time (UTC+7). [Quick spoken-answer cards](../reports/teacher-qa-preparation-20261101/QUICK_ANSWERS_EN.md) and [full question-by-question guide](../reports/teacher-qa-preparation-20261101/ANSWERS_EN.md) map the teacher's prompts to 14 AI answers with slide references, follow-up detail, actual units/controls, evidence links and statements to avoid.
