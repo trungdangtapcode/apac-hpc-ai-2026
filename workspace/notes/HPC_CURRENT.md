@@ -31,3 +31,7 @@ Let 2294637 finish all four independent native arms; collect once and replay wit
 ## Latest actual progress — 2 November 06:41:34 Vietnam
 
 2294637 remains RUNNING on iris001, elapsed 29:36. A1-organizer is complete 40/40 with runtime mean 25.581958377 s/step; B1-teammate is at **23/40**, with no observed native fatal marker. B2/A2 remain pending in the same allocation. No final relative winner; preserve all four-arm measurements and the 140-hour maximum reservation.
+
+## Two completed arms — 2 November 06:54:35 Vietnam
+
+Actual 2294637 remains RUNNING on iris001, elapsed 42:37. A1 organizer **25.581958377 s/step**, B1 teammate **22.396949743 s/step**, both complete 40 steps / 39 timings. Structured result arithmetic checks pass and their 40-row Cd trajectories match exactly; terminal raw-log replay remains pending. The first adjacent teammate mean is 12.4502% lower, but A2 is still needed to test time drift. **B2 teammate is at 11/40**, A2 organizer not started. No observed native fatal marker or scheduler stderr; no final winner. No new duplicate trial or extra budget reserved while this controlled comparison remains incomplete.
