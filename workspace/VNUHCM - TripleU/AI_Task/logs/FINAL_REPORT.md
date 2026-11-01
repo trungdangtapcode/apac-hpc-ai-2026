@@ -1,6 +1,8 @@
 # TripleU AI task — final research report
 
-Prepared 30 October 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
+The current presentation is an [engineering investigation](<TEACHER_FEEDBACK_RESPONSE.md>): 16 main AI slides and 18 hidden backups, with complete technical stories and explicit evidence limits. The 24-page main-talk PDF (retained research source: `/home/apacsc42/workspace/submission-review/ai-final-update-20261101/TripleU_APAC2026_Main_Talk.pdf`; outside this compact package) goes directly from AI to the eight unchanged HPC pages. Both bilingual guides and the concise spoken scripts cover the current deck. The nine final 31 October H200 trials are included in main slide 14 and backup 34; the historical forecast is backup 33. This reporting update launches no experiment.
+
+Updated 1 November 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
 
 ## Result and submission choice
 
@@ -33,7 +35,7 @@ Do not substitute aggregate output throughput or divide completed counts by an a
 5. **Inspect beyond the headline score.** Per-request tails, errors, actual runtime activation, KV ownership, both P/D routes, GPU/host samples and source bindings distinguish a valid measurement from a terminal job. Initial TTFT misses remain in the score.
 6. **Close losing or unsupported branches.** Recent cache, request-cap, tokenization, polling, speculative and graph trials did not displace the reproduced operating choice. Full Qwen compile exposed a real RoPE/KV interface incompatibility. A successful small C++ fixture remains only an integration prerequisite.
 
-The complete historical reasoning, including failed attempts and corrected interpretations, remains in the research journal retained in the research archive. The presentation illustrates the topology, transfer change, backend interaction, replication, cross-platform calibration and later negative results.
+The complete historical reasoning, including failed attempts and corrected interpretations, remains in the research journal (retained research source: `/home/apacsc42/workspace/reports/research-journey-20261019/journal/README.md`; outside this compact package). The presentation illustrates the topology, transfer change, backend interaction, replication, cross-platform calibration and later negative results.
 
 ## Recent measured decisions
 
@@ -69,23 +71,109 @@ A historical same-configuration N52 calibration produced an observed system rati
 
 The package retains the portable N64 entry and the corrected result readers. The official model/client command, serving implementation and latency limits are unchanged in this report update. Recent configurations, raw profiling exports, requests, runtime logs and independent reviews accompany the report.
 
-All work artifacts and slides are in English. The existing theme, gradients and distinct background photographs are retained. The eight HPC slides and their 68 transitive OOXML parts remain protected. Current live HPC files and the existing ZIP's HPC contents are preserved independently because another worker has unpublished folder changes; this AI update does not silently package them.
+Submission artifacts and slides are in English; the owner-requested Vietnamese learning transcript is a separate exception. The existing theme, gradients and distinct background photographs are retained. The eight HPC slides and their 68 transitive OOXML parts remain protected. Current live HPC files and the existing ZIP's HPC contents are preserved independently because another worker has unpublished folder changes; this AI update does not silently package them.
 
 No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Team presentation](../../Presentation/TripleU_APAC2026_Presentation.pptx)
-- [Detailed metrics and configuration](measured/latest-results.md)
-- [Publication and preservation scope](report-update-20261030.json)
+- [Updated presentation](<../../Presentation/TripleU_APAC2026_Presentation.pptx>)
+- Review PDF (retained research source: `/home/apacsc42/workspace/submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pdf`; outside this compact package)
+- Speaker notes (retained research source: `/home/apacsc42/workspace/submission-review/ai-final-update-20261101/PRESENTER_NOTES.md`; outside this compact package)
+- [Current detailed metrics and configuration](<measured/latest-results.md>)
+- Publication verification (retained research source: `/home/apacsc42/workspace/submission-review/ai-final-update-20261101/publication-validation.json`; outside this compact package)
 
-The review PDF, full speaker notes and historical journal are retained separately in the research archive.
 
-## Presentation and research decisions
+## Presentation readiness
 
-The revised AI talk targets the stated 15–20 minute allowance. The main narrative explains three technical stories, with source/control/observation/decision and explicit unknowns. Supporting files:
+The current compact AI route targets about 10:50, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The public rules provide 15–20 minutes for the combined AI/HPC talk plus a separate 10-minute Q&A; earlier AI-only planning is historical. Agree the split with the HPC speaker and test it in a real timed mock. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
 
-- [Research journey coverage](RESEARCH_JOURNEY.md)
-- [Three evidence cards](EVIDENCE_CARDS.md)
-- [Speaking plan and team handoff](PRESENTATION_PLAN.md)
-- [Suggested panel Q&A](PANEL_QA.md)
+The revised slides make previously compressed reasoning explicit: transport recovery and output rejection, reverse-order startup confirmation, role-aware EAGLE debugging, source-guided tokenization/collective tests, controlled regime recovery, and defects exposed by real portable replay. The full shared journal contains independent HPC and administrative records as well as scientific arcs. It is not presented as a count of successes.
 
-These preparation questions are not an official question list. No new experiment is performed.
+- [Journal-to-slide coverage and supporting entry index](<RESEARCH_JOURNEY.md>)
+- [Compact speaking plan and protected OpenFOAM handoff](<PRESENTATION_PLAN.md>)
+- [Three technical evidence cards](<EVIDENCE_CARDS.md>)
+- [Panel Q&A, with observation/hypothesis/unknown distinctions](<PANEL_QA.md>)
+
+
+## Final queue and terminal-result reconciliation — 31 October 2026
+
+Read-only query at **09:54:58 Vietnam time (UTC+7)**: the H200 Slurm queue has no job for this account. All 13 AI allocations in the fresh accounting window starting 29 October UTC are terminal; the latest is 27510. H100/PBS state remains **UNKNOWN** because this machine's existing VPN path is unavailable. No fresh login, DUO request or new job is initiated. Snapshot and hardware-separated audit (retained research source: `/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-status-audit-20261031/README.md`; outside this compact package).
+
+The two final jobs were already included in this report, so there is no omitted winning result:
+
+- **27510 (H200):** completed 0:0/13:15; 3029.861122 good output tokens/s, -0.370208% versus 27376. Keep dense graphs. The experiment admission note and main ledger were stale; they now point to the reviewed terminal result.
+- **27506 (CPU only):** completed 0:0/95 seconds, zero GPUs/four CPUs; JIT 26.605 seconds, both CPU fixtures pass and native cleanup observed. It is not a Qwen integration or inference score. A terminal review and canonical source-path seal are added. Hashes confirm the four raw artifacts already had byte-identical captured copies in the final delivery.
+
+No selected configuration or slide/submission result changes. H100 2433.019859 and H200 3044.400475 remain separate historical series, not one combined score. Inaccessible newer PBS results cannot be excluded without restored read-only access. CPU terminal review (retained research source: `/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md`; outside this compact package), [sparse GPU review](<research-20261030/sparse-graphs/RESULTS-27510.md>).
+
+
+## Additional H200 verification after the panel's cross-hardware question
+
+31 October 2026: the owner authorised four same-H200 measurements to validate
+H100-derived choices. All four completed and passed the full local protocol on
+16 H200 / g1,g4. Fresh control 27777 scored 3038.022907 good tokens/s; FA3 decode
+27779 scored 2999.245473 (-1.276404%). H100 both-HPC-Ops/chunk 4096 recipe port 27781
+at N54 scored 2738.940099; same-load N64 port 27783 scored 2721.815800 (-10.408319%
+versus control). Keep the existing H200 DeepGEMM/chunk 8192 prefill plus HPC-Ops/
+FlashInfer/MNNVL decode at N64. This does not replace the historical repeated
+H200 series or claim a global optimum.
+
+On the transferred recipe, N54->N64 gives no goodput gain while mean TTFT rises
+896.156->1591.493 ms and sampled prefill queues increase. Direct per-request
+queue/compute/transfer decomposition is absent; the added latency cannot be
+causally assigned to one kernel. All four have zero scored errors/cancellations,
+smoke 7/8 non-regression and retrieval 12/12; official full-set quality remains
+UNKNOWN. Actual wave 12.671111 GPU-hours, no PBS SU.
+
+The panel-facing lesson is measured: H100 screened compatibility and tradeoffs;
+we validated selected alternatives against a fresh H200 control, and retained
+the H200-specific recipe after the H100-selected recipe lost. Do not pool GPU
+scores, quote a universal conversion multiplier, or attribute this coupled
+runner/chunk comparison to one factor. These results are now represented in main slide 14 and the complete final-run ledger in backup 34 of the 1 November edition.
+
+[Complete four-job evidence and limitations](<research-20261101/source-reports/h200-h100-transfer-review-20261031/FINAL_RESULTS.md>).
+
+
+## Additional chunk interaction after the H100 recipe transfer
+
+31 October 2026: native H200 N64 HPC-Ops prefill variants 27804 (chunk 6144) and
+27806 (chunk 8192) both pass full local gates at 2821.884862 and 2900.606831 good
+output tokens/s. Relative to prior HPC 4096 port 27783, gains 3.676555%/6.568815%
+partially recover the earlier loss. Relative to DeepGEMM 8192 control 27777 they
+still lose 7.114431%/4.523207%. Keep the H200 incumbent; no new winning score.
+The 8192 comparison holds chunk and graph settings fixed and differs in prefill
+runner, inactive fallback metadata and generated engine seeds; this narrows the
+engineering choice, but it is not a per-kernel causal profile.
+
+Both have zero scored errors/cancellations, 30 TTFT/0 ITL breaches, smoke 7/8
+non-regression and retrieval 12/12. Larger chunks coincide with lower prefill
+queue means and TTFT; direct queue/compute/transport time is uncollected. Full
+official quality UNKNOWN, actual pair 6.062222 GPU-hours, zero PBS SU. At this historical chunk-stage checkpoint only two additional distinct ports had completed; the later phase results below complete the four-intervention set. Raw artifacts, runtime/source checks and cost are preserved. The final deck summarises the decision in main slide 14 and preserves the complete nine-job ledger in backup 34.
+
+[Complete evidence and limitations](<research-20261101/source-reports/h200-hpc-chunk-transfer-20261031/RESULTS.md>).
+
+
+## Final phase-mode transfer results and completed candidate count
+
+31 October 2026: all three native H200 N64 phase jobs completed and replay the
+full local source/runtime/KV/semantic/raw/output gates. Explicit no_grad control
+27826 scores 3039.167093 good tokens/s; decode-only 27828 scores 3039.356215
+(+0.006223%); prefill-only 27830 scores 3043.141258 (+0.130765%). None clears the
+prospective 1% useful-gain gate. Keep the current H200 recipe and native default
+provider; no unchanged repeat, combined sweep or publication promotion.
+
+Actual common/scheduler hashes and per-role native mode/context/restoration
+preflights pass; workers differ only in phase flag exports and resolved native
+arguments only in engine seeds. Do not describe the role-launch receipt as a
+per-rank steady-state mode or kernel trace. Prefill-only TTFT p95 improves in
+one observation, but each arm retains 26 TTFT/0 ITL breaches and the score effect
+is small. Zero scored errors/cancellations, smoke 7/8 non-regression and retrieval
+12/12; full official model quality UNKNOWN. Actual phase cost 9.604444 GPU-hours,
+zero PBS SU.
+
+Four distinct additional H100-derived interventions have now been reviewed on
+H200: 27804/27806 chunk settings and 27828/27830 phase settings; extra 27826 control
+is not counted as a candidate. These are intervention transfers into documented
+H200-specific bases, not four H100 winners or exact full-recipe reproductions.
+Raw data, controls and accounting are preserved. The 1 November presentation update incorporates this final decision and all nine allocations without promoting a subthreshold result.
+
+[Final phase evidence and completed register](<research-20261101/source-reports/h200-phase-inference-transfer-20261031/RESULTS.md>).

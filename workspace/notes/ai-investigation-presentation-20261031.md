@@ -1,5 +1,7 @@
 # Engineering investigation presentation — current delivery
 
+**Historical edition/assessment:** superseded for current material by the [1 November final AI revision](ai-final-presentation-release-20261101.md). The actual teacher-audit reasoning gaps are corrected; human rehearsal remains unverified. Original dated content below is retained.
+
 Updated 2026-10-31T00:53:11.262480+07:00, Vietnam time (UTC+7). Research remains stopped. This edition implements the owner's detailed feedback on reasoning, contribution ownership, visual evidence, verbal transitions, balanced task timing and defensible Q&A. It supersedes the earlier question-led draft, which still relied too heavily on tables and did not complete the KV case in the main route.
 
 ## Current files

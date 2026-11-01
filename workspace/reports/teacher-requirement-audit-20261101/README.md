@@ -1,5 +1,7 @@
 # Teacher Thanh requirement audit — 1 November 2026
 
+**Historical edition/assessment:** superseded for current material by the [1 November final AI revision](../../submission-review/ai-final-update-20261101/REQUIREMENT_CLOSURE.md). The actual teacher-audit reasoning gaps are corrected; human rehearsal remains unverified. Original dated content below is retained.
+
 Reviewed 2026-11-01T11:59:59.278098+07:00, Vietnam time (UTC+7). **Verdict: substantially aligned, not fully satisfied.** This is an AI presentation audit against the owner's exact `/home/apacsc42/requirement.md`, not a certification of the separate HPC worker's technical claims or of delivery readiness.
 
 ## What was inspected

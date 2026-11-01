@@ -1,0 +1,22 @@
+# Teacher requirement closure — AI materials, 1 November 2026
+
+Verified 2026-11-01T12:44:00.671790+07:00, Vietnam time (UTC+7). The actual published presentation SHA-256 is `1ba55e8007f0ef7796076a35e82a1afc372a706c13500b80fbf9b27d723a2195`. This supersedes the earlier [partial content assessment](../../reports/teacher-requirement-audit-20261101/README.md) for that older deck. It does not retroactively erase the earlier gaps or certify a human rehearsal.
+
+| Requirement | Current material and evidence | State |
+|---|---|---|
+| Problem-driven engineering reasoning instead of experiment chronology | Main 1–16: constraints → eligible layouts → concrete setup symptom → bounded implementation → separate controlled service probe → load/repetition → hardware transfer → retain/reject and limits. Historical chronology is backup 19. | Addressed in prepared material |
+| Explain topology decision | Visible four-gate selection diagram on 3; architecture on 4; same-load/global-best limitations in both scripts and notes. | Addressed without inventing a matched topology leaderboard |
+| Explain why descriptors before bandwidth/layout/scheduling | 5–7 show pre-score warmup symptom, source-visible request-irrelevant enumeration, cheap 720-case range-equivalence gate, real patched serving outcome and missing unpatched scored control. | Addressed as a bounded setup hypothesis, not a proven dominant bottleneck or isolated speedup |
+| Explain what profiling justifies and why the next experiment follows | 8 distinguishes N48 kernel sums and separate N64 request observations; 9–10 introduce the supported decode choice as a separate controlled probe, with a fresh control/repeat and TTFT/ITL tradeoff. | Addressed; no profile-to-cause claim |
+| Separate decisions, implementation and findings | Main 2 visibly identifies the three claim classes; existing runtime kernels are attributed and failed/subthreshold branches retained. | Addressed |
+| One clear message, relationship diagrams, decisive evidence and appendix | Four topology gates, architecture, failure pipeline, range comparison, control/treatment setup, metric tradeoff and request scatter; 18 hidden AI backups. | Rendered and reviewed; real projector/application check unverified |
+| Clear verbal script with protected HPC time | Bilingual per-slide quick briefs and learning guides plus concise EN/VI main-talk scripts. Proposed AI 10–12 minutes inside combined 15–20; separate 10-minute Q&A. | Prepared; actual delivery time unmeasured |
+| Current evidence and transparent hardware attribution | Main 14 direct H200 transfer, 33 historical forecast with limits, 34 complete nine-job ledger: eight N64 and one N54, separate controls. Nine exact score exports and nine lossless request records verified. | Current through all reviewed final 31 October H200 runs |
+| Evidence-backed Q&A | Updated questions, short answers, linked packaged/source evidence and honest missing-evidence boundaries. | Prepared; human mock not performed/recorded here |
+| Final human mock, comprehension, member ownership and device rehearsal | Team must rehearse the combined talk with the HPC presenter and an unfamiliar listener; test screen share, microphones and hidden-slide navigation. | Still requires the team; cannot be fulfilled by artifact checks |
+
+Published: 42-slide PowerPoint, 24-page main talk and 42-page full PDF, English/Vietnamese Markdown and matching 109/104-page learning PDFs. The English submission has the updated report, speaking plan/script, Q&A, coverage, evidence cards and compact nine-run evidence. Vietnamese material is kept in learning/report sources outside the English package.
+
+Publication verified exact preservation of eight HPC slides and 68 dependency parts, 277 folder HPC files/modes and 265 ZIP HPC files/member metadata. The 13 prior folder/ZIP differences remain. Only the presentation, explicit AI logs/documents and global manifests changed; frozen primary serving scripts were preserved. Package SHA-256: `a0da31120fa6cb5d1c49bfbb693ca74af20610e5cf368f9c3cc18dd703c3659e`; bytes: 148233835.
+
+Official full-set quality and complete post-reader-repair portable GPU replay remain open scientific/reproduction limits, not claimed as completed. No new experiment, authentication, scheduler change, other-track change or organiser upload occurred. The local publication and Git backups are separate from any final portal upload. Large Git external objects still require a separate off-host byte copy.

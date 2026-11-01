@@ -57,3 +57,23 @@ The official full-set model-quality gate (at least 99% of the organiser's unchan
 All full runs above use closed-loop N64, requested 4000 input / 200 output tokens, seed 2026, cold prefixes, 60 s warmup / 120 s profiling / 30 s grace. Client-retokenized lengths can differ from requested counts; actual generated token IDs are not retained. Keep the official fixed ×200 multiplier and original gates.
 
 Raw profiling JSONL, exports, configuration, submitted payloads, runtime/semantic evidence and selected role telemetry are provided in the new job directories and research reports. Large generated inputs.json, model weights and disposable caches are omitted. Historical raw originals remain in the research archive. Sparse five-second request-start-envelope telemetry does not prove a causal bottleneck; final drain, calibrated clocks, heavy kernel profiles, hot CPU threads and Xid/throttle reasons were not collected as a complete series.
+
+
+## Final H200 verification — 31 October 2026
+
+# Final H200 verification evidence — 31 October 2026
+
+
+| Job | Change | N | Good output tokens/s | Control interpretation |
+|---:|---|---:|---:|---|
+| 27777 | Fresh H200 incumbent control; DeepGEMM prefill chunk 8192, FlashInfer attention | 64 | 3038.022907 | 98.6301% joint pass |
+| 27779 | FA3 decode alternative against job 27777 | 64 | 2999.245473 | 98.5075% joint pass |
+| 27781 | H100-derived HPC-Ops prefill and decode, chunk 4096, N54 load point | 54 | 2738.940099 | 98.9443% joint pass |
+| 27783 | Same transferred recipe at N64; matched-load comparison against 27777 | 64 | 2721.815800 | 98.3692% joint pass |
+| 27804 | HPC-Ops prefill chunk 6144; runner and chunk branch versus incumbent | 64 | 2821.884862 | 98.3108% joint pass |
+| 27806 | HPC-Ops prefill chunk 8192; same-chunk runner comparison versus 27777 | 64 | 2900.606831 | 98.3516% joint pass |
+| 27826 | Explicit no_grad control for phase-mode ports | 64 | 3039.167093 | 98.6309% joint pass |
+| 27828 | Decode-only inference_mode port versus 27826 | 64 | 3039.356215 | 98.6330% joint pass |
+| 27830 | Prefill-only inference_mode port versus 27826 | 64 | 3043.141258 | 98.6330% joint pass |
+
+The native H200 recipe remains the selected operating choice. Full official quality remains unknown. See `research-20261101/README.md` and its three reviews for controls, raw files, limitations and diagnostic coverage.
