@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Recover the session list after moving CODEX_HOME; distinguish the temporary-directory warning | [1 November Codex recovery](codex-home-session-recovery-20261101.md) |
 | Study the AI reasoning and practise presentation answers: start here | [Study entry point](../reports/teacher-qa-preparation-20261101/README.md) |
 | Understand why each AI idea was worth trying and how the tests changed the decision | [Thinking process and hypothesis development](../reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md) |
 | Prepare answers to teacher Thanh’s questions, with actual evidence and limits | [Quick cards and detailed Q&A](ai-teacher-qa-preparation-20261101.md) |
