@@ -1,0 +1,15 @@
+# Native 40-step default versus collated I/O trial
+
+Question: does the supplied Gadi recipe's collated file handler improve the same fixed-work Scotch case on accessible Iris hardware? The current graph-mapping branch is closed after its reverse screen failed to reproduce a gain. This trial tests a distinct runtime setting.
+
+One exclusive Iris node, 56 MPI ranks, zero GPUs, at most 75 minutes / 70 allocated CPU-hours. Both arms use `--map-by socket --bind-to core`; only the candidate adds `-fileHandler collated`. A-default runs before B-collated. Each arm runs the complete one-node workload of 40 steps, with 39 native timer intervals. This is practice-cluster evidence and cannot reproduce Gadi's four-node 2.079 seconds or establish an NSCC gain.
+
+The original Scotch initialization ran the full mandatory preparation chain in separate reviewed jobs. The accepted 1,040-file source manifest comes from retained source-before evidence of job 2294047. Before any solver, check the same initialized source, the canonical text inputs and isolated copy inode/hash integrity. Set only endTime to 40, preserve fixedIter, physics, all function objects and time-zero fields, and verify fields/source after execution. The supplied ZIP's changed timer and tolerance variants are not imported.
+
+Common socket binding is the exact teammate command syntax. Earlier Iris probe 2294358 established equivalence only for `ppr:28:package --rank-by fill` versus defaults; it did not test `--map-by socket`. Do not claim those mappings are identical or that core binding establishes page locality. This experiment holds its MPI command fixed and tests only I/O.
+
+Success requires both native End markers, zero command exit statuses, scalar=64 / v2512 / 56 ranks, all 40 steps, 39 finite timing samples agreeing with the native wall-clock file, expected 15/12/8/8 iteration counts, 40 finite Cd rows, identical initialized fields, stable runtime libraries and frozen payload. Native headers must confirm actual uncollated versus collated file handlers. Keep failures and slow intervals. Slurm terminal status must be collected independently.
+
+A single A/B pair cannot separate treatment from order or allocation drift. Reverse and repeat any promising gain before promoting it; no promise of improvement. Closed graph screens and missing hardware counters remain in the research record. GNU time, node procfs snapshots and stderr are collected, but per-rank hardware bandwidth, frequency and solver helper affinity are not.
+
+The shared local Iris ledger is locked before admission. The previous 532-hour internal stage is agent-selected, not a site balance or owner numerical cap. The owner's current instruction to improve is applied to only this bounded trial; a transparent 55-hour internal extension covers 517 consumed plus this 70-hour maximum, total 587. No NSCC/AI credit transfer or background schedule. Query fresh site queue/association before one durable sbatch attempt, retaining its receipt and maximum reservation even if the result is uncertain.

@@ -1,0 +1,27 @@
+{
+  "name": "collated40",
+  "question": "Does collated file handling from supplied Gadi recipe improve native one-node Iris fixed-work timing?",
+  "source_method": "scotch",
+  "steps_each": 40,
+  "arms": [
+    "A-default",
+    "B-collated"
+  ],
+  "common_mpi": [
+    "--map-by",
+    "socket",
+    "--bind-to",
+    "core"
+  ],
+  "sole_treatment_change": [
+    "-fileHandler",
+    "collated"
+  ],
+  "ranks": 56,
+  "nodes": 1,
+  "maximum_seconds": 4500,
+  "maximum_CPU_hours": 70,
+  "scored_result": false,
+  "parent_screen": "2294390 closed: no reproduced graph-placement gain",
+  "promotion_gate": "Full native output checks, matched reverse/repeat; no transfer claim from Iris."
+}
