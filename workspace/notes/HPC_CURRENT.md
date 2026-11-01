@@ -31,3 +31,7 @@ Read-only NSCC transport at 05:29:43 Vietnam still showed namespace unavailable;
 On 2294635 terminal, collect selected text, replay native outputs, jointly inspect A/B and B/A per-arm trends/tails/Cd/resources/runtime and warnings, then reconcile once under iris-scotch56 budget.lock. A favorable pooled mean is insufficient against inconsistent within-pair effects or nonlinear drift. Proceed to a justified distinct trial within gates, not blind repeats. Submission materials/AI payloads remain unchanged. Safe milestone commits are explicit; external large objects still require separate off-host backup.
 
 [Current journal](../reports/research-journey-20261019/journal/entries/20261101-hpc-collated-signal-and-reverse-submitted.md); [historical handoff](history/HPC_CURRENT-before-io40-reversal-20261101.md).
+
+## Native execution confirmed — 2 November 05:40:07 Vietnam
+
+Actual **2294635 RUNNING on iris001**, elapsed 158 seconds. Frozen payload, accepted source, canonical inputs and isolated clone/inode checks pass. B-collated solver started 05:38:47 Vietnam and reached **step 2/40**; native header confirms collated I/O, with no observed fatal marker or scheduler stderr. A-default remains pending inside the same accepted job. No new completed result or confirmed gain; retain 70-hour reservation and cap 1.

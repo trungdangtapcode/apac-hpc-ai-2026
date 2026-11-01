@@ -15,3 +15,7 @@ Accounting: parent actual 42.591111 CPU-hours, conservative 43, original 70-hour
 Next: collect terminal 2294635, replay and compare both orderings jointly, preserving tails, drift, native sample warnings, Cd and cost. A pooled favorable mean alone is not sufficient if pair directions conflict. Keep the one-allocation cap and shared-account provenance. Best reviewed NSCC result remains baseline reproduction 3.364622070 s/step. Submission folders/slides and the other track are unchanged.
 
 [Parent full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-20261101/completed-2294634/RESULTS.md); [reverse receipt/status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-reverse-20261101/STATUS.md).
+
+## Native execution confirmed — 2 November 05:40:07 Vietnam
+
+Actual **2294635 RUNNING on iris001**, elapsed 158 seconds. Frozen payload, accepted source, canonical inputs and isolated clone/inode checks pass. B-collated solver started 05:38:47 Vietnam and reached **step 2/40**; native header confirms collated I/O, with no observed fatal marker or scheduler stderr. A-default remains pending inside the same accepted job. No new completed result or confirmed gain; retain 70-hour reservation and cap 1.
