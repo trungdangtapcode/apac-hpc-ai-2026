@@ -518,3 +518,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [1 November UTC / 2 November Vietnam: recover Iris, close reversed graph result and submit native40 collated I/O job2294634](entries/20261101-hpc-iris-recovered-and-native-io-submitted.md).
 
 - [1 November UTC / 2 November Vietnam: review positive collated I/O pair and submit reversed confirmation2294635](entries/20261101-hpc-collated-signal-and-reverse-submitted.md).
+
+- [1 November UTC / 2 November Vietnam: submit same-Iris organizer versus teammate ABBA comparison2294637 with verified dependency](entries/20261101-hpc-matched-organizer-teammate-submitted.md).
