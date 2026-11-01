@@ -7,3 +7,7 @@ Actual **2294637 RUNNING on iris001**, observed 2026-11-01T23:31:42 UTC (2 Novem
 The first A1/B1 launcher reports contain all 56 ranks and identical package/logical-core assignment maps. This is launcher evidence, not worker-thread affinity or memory locality. I/O headers confirm uncollated A1 and collated B1. No separate duplicate placement-only allocation is justified; its prepared proposal is closed unsubmitted. Full four-arm performance/Cd/runtime/tail review remains required.
 
 Frozen 57-file runtime remains unchanged. Maximum 140 CPU-hours remains reserved; global ledger 593 consumed + 140 reserved = 733 CPU-hours under internal stage 770. Source files/logs and exact commands are retained. Collect/review after terminal; do not infer completion from one arm or compare these Iris seconds directly with Gadi/NSCC results.
+
+## Latest actual progress — 2 November 06:41:34 Vietnam
+
+2294637 remains RUNNING on iris001, elapsed 29:36. A1-organizer is complete 40/40 with runtime mean 25.581958377 s/step; B1-teammate is at **23/40**, with no observed native fatal marker. B2/A2 remain pending in the same allocation. No final relative winner; preserve all four-arm measurements and the 140-hour maximum reservation.

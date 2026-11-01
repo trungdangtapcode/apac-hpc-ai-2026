@@ -27,3 +27,7 @@ NSCC read-only transport at 06:31:35 Vietnam still showed namespace unavailable;
 ## Next action
 
 Let 2294637 finish all four independent native arms; collect once and replay with its collector/reviewer, inspect map reports for all arms, work/Cd/source/runtime invariants, raw trends/tails, adjacent effects, control repeat and available telemetry, then reconcile maximum 140-hour reservation once. A one-arm lead or pooled favorable mean alone cannot establish a winner. Select new distinct hypotheses from complete evidence and accessible authorized clusters, preserving budgets/caps and queue positions. [Current journal](../reports/research-journey-20261019/journal/entries/20261101-hpc-io-reversal-no-gain-and-direct-comparison-running.md); [historical handoff](history/HPC_CURRENT-before-reverse-io-review-20261101.md).
+
+## Latest actual progress — 2 November 06:41:34 Vietnam
+
+2294637 remains RUNNING on iris001, elapsed 29:36. A1-organizer is complete 40/40 with runtime mean 25.581958377 s/step; B1-teammate is at **23/40**, with no observed native fatal marker. B2/A2 remain pending in the same allocation. No final relative winner; preserve all four-arm measurements and the 140-hour maximum reservation.
