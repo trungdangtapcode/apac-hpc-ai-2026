@@ -516,3 +516,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [1 November UTC / 2 November Vietnam: verify supplied Gadi 2.079-second package and record runtime access blockers](entries/20261101-hpc-supplied-gadi-package-verification.md).
 
 - [1 November UTC / 2 November Vietnam: recover Iris, close reversed graph result and submit native40 collated I/O job2294634](entries/20261101-hpc-iris-recovered-and-native-io-submitted.md).
+
+- [1 November UTC / 2 November Vietnam: review positive collated I/O pair and submit reversed confirmation2294635](entries/20261101-hpc-collated-signal-and-reverse-submitted.md).
