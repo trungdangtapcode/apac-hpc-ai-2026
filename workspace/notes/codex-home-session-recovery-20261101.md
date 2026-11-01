@@ -17,3 +17,5 @@ The pasted `9;5:3u` resembles terminal keyboard-protocol input escaping into the
 Private SQLite backups, temporary recovery contents, transcripts, authentication state and terminal session data remain outside the research Git archive. Only this sanitized explanation and its index entry are captured.
 
 Official references: [resume command](https://learn.chatgpt.com/docs/developer-commands?surface=cli) and [local state under CODEX_HOME](https://learn.chatgpt.com/docs/config-file/config-advanced).
+
+For the owner's requested reusable setup and troubleshooting explanation, read [Separate Codex environments under one Linux account](../tutorial/21-separate-codex-homes-shared-linux-user.md). Its follow-up read-only check again found all 230 indexed paths valid. The guide also records the distinction between a shared executable path and separate state, SQLite overrides, migration precautions and the remaining cleanup limitation.
