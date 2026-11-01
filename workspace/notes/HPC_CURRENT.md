@@ -1,5 +1,21 @@
 # Current HPC/OpenFOAM handoff
 
+Updated **2 November 2026, 04:11 Vietnam (1 November 21:11 UTC)** after actual access attempts and a supplied-package audit. This worker remains the HPC fork; AI ownership is unchanged. No background Codex or schedules.
+
+The owner supplied `OPENFOAM_Task-20261101T205436Z-1-001.zip` and requested a test of its 2.x s/step claim. Independent text replay confirms **2.079045460 s/step**, 150 steps / 149 intervals, four **Gadi Sapphire Rapids** nodes / 416 ranks, final Cd **0.291876135**. All three scaling logs pass fixed-iteration, finite coefficient and 65,334,765-cell sum checks. This is supplied evidence, not a new solver measurement or submission by us. [Full audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/incoming-openfoam-20261101/REPORT.md); [journey entry](../reports/research-journey-20261019/journal/entries/20261101-hpc-supplied-gadi-package-verification.md).
+
+The final variant is Scotch + socket/core binding + collated I/O. It is about 0.414% below a retained organizer Gadi reuse-Scotch run, across separate jobs; there is no matched improvement claim. Our NSCC 3.364622070 result remains on a different CPU platform. Missing actual fvSolution/source hashes and a timer-code provenance difference remain explicit limitations. The package's separate tolerance-changing variants are prohibited despite their Bonus comments; they are not the 2.079 variant.
+
+**Current access is blocked.** Iris bridge exited before a cluster prompt; a further bounded interactive check timed out after 18 seconds. NSCC namespace was absent. A local credential helper initially failed before authentication because Codex sessions moved; repairing only its private lookup path allowed one real bounded retry, which returned Authentication failed. The cause is unresolved. No credential or session material was recorded. No Gadi SSH identity is available in this worker's context; the owner was asked for existing access without passwords. No new job was submitted or resource reserved.
+
+**Old Iris 2294390 is UNKNOWN now.** Its 29 October RUNNING state below is historical. Do not infer completion, retire its 46.666667 CPU-hour maximum or submit past the own allocation cap until an authenticated scheduler/terminal observation is available. NSCC queues, credits and older job commitments are also unknown. Existing budgets and locks remain in force; no account or ledger was increased.
+
+Next: recover authorized site access, reconcile old actual allocations, then run a same-Gadi full-work matched comparison of baseline versus supplied binding/I/O within checked capacity and budget. Preserve approved function objects, source hashes, all native timings, Cd and receipts. Repeating on NSCC only tests portability. The supplied ZIP and selected evidence are preserved in the active audit directory and captured explicitly to Git; submission folders/slides are unchanged.
+
+## Historical handoff — 29 October (not live)
+
+### Retained 29 October snapshot
+
 Updated from actual scheduler observation **2026-10-29T10:40:05.719413+07:00 (Vietnam, UTC+7)**. HPC fork 01a17c4b-65e6-75e0-be95-c5bea1b25502 continues parent 01a1508d-26b0-7dd0-9dc1-f217ce0aff40. AI is separate. No background Codex, schedules or automatic notifications.
 
 ## Actual running work

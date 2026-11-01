@@ -512,3 +512,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [30 October: final AI report, retained N64 and completed sparse-graph result](entries/20261030-final-ai-report-and-sparse-result.md).
 
 - [30 October: journal coverage, technical reasoning and 15–20 minute panel preparation](entries/20261030-ai-journey-coverage-and-panel-preparation.md).
+
+- [1 November UTC / 2 November Vietnam: verify supplied Gadi 2.079-second package and record runtime access blockers](entries/20261101-hpc-supplied-gadi-package-verification.md).
