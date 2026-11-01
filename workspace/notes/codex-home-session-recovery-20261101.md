@@ -1,6 +1,6 @@
 # Codex session recovery after moving CODEX_HOME
 
-Verified on 1 November 2026 at 20:05–20:08 Vietnam time (UTC+7), on the login host, using Codex CLI 0.166.0. This maintenance session owns neither research track and made no scheduler, budget or submission changes.
+Verified on 1 November 2026, Vietnam time (UTC+7), on the login host, using Codex CLI 0.166.0. This maintenance session owns neither research track and made no scheduler, budget or submission changes.
 
 The owner reported an empty resume list after separating their Codex home from the shared account's default home. The shell alias already used `CODEX_HOME="$HOME/.codex-tmp"` and the standalone `current/bin/codex` with `--no-daemon`. The supported environment variable is `CODEX_HOME`, including the underscore.
 
