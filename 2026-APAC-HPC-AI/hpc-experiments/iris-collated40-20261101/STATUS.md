@@ -11,3 +11,7 @@ After terminal, run `python3 collect_completed.py` once, then `PYTHONDONTWRITEBY
 ## Native solver confirmed, 2 November 04:49:59 Vietnam
 
 Actual scheduler still reports RUNNING on iris001 (189 seconds elapsed). Payload/source/input and isolated-copy hash/inode checks pass. A-default native simpleFoam started at21:48:12UTC and reached step2/40; its header confirms uncollated I/O, with no observed fatal marker and no scheduler stderr. This confirms actual solver execution, not a finished measurement. B-collated remains pending within the same allocation.
+
+## Progress checked at 2 November 04:58:10 Vietnam
+
+Job **2294634 remains RUNNING on iris001**, 680 seconds into the allocation. Native A-default is at **step 18/40**, with no observed fatal marker or scheduler stderr. B-collated has not started; this is not a completed metric or improvement. The one-own-allocation cap remains occupied and the full 70 CPU-hour maximum stays reserved. Read-only NSCC transport at 04:58:27 Vietnam still reports namespace unavailable; no additional authentication was triggered in this checkpoint. Current NSCC/Gadi performance results are unchanged. Preserve this job and review both complete native outputs before another decision.

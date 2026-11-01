@@ -16,11 +16,11 @@ Iris queue was empty and partition up at 21:40 UTC; one actual sbatch was admitt
 
 Best own reviewed scored-platform full result stays **NSCC 3.364622070 s/step**, job 25940700, 4 nodes / 512 ranks / default Scotch / 150 steps. It is an organizer-recipe reproduction, not a demonstrated new configuration gain. External organizer NSCC 3.210832548 remains separate.
 
-The supplied teammate Gadi logs independently replay to **2.079045460 s/step**,4 nodes / 416 ranks / 150 steps, Cd 0.291876135. This is supplied evidence, not our rerun. Same-platform organizer Gadi reuse-Scotch is 2.087688606, a separate-run gap of 0.414%; neither cross-platform comparison nor this gap isolates a tuning gain. Missing actual fvSolution/source hashes and timer provenance remain qualified. [Package audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/incoming-openfoam-20261101/REPORT.md).
+The supplied teammate Gadi logs independently replay to **2.079045460 s/step**, 4 nodes / 416 ranks / 150 steps, Cd 0.291876135. This is supplied evidence, not our rerun. Same-platform organizer Gadi reuse-Scotch is 2.087688606, a separate-run gap of 0.414%; neither cross-platform comparison nor this gap isolates a tuning gain. Missing actual fvSolution/source hashes and timer provenance remain qualified. [Package audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/incoming-openfoam-20261101/REPORT.md).
 
 ## Accounting and access
 
-Old2294390 actual 31.251111 CPU-hours was conservatively counted32 and its 46.666667-hour maximum retired exactly once. Iris ledger now **517 consumed +70 reserved =587 CPUh**, internal stage587. Current owner instruction to improve funds only this one bounded75min job; the agent transparently adds 55 to its prior 532 internal envelope. The owner did not specify 587 numerically; no site SU rate/balance is known. No NSCC/AI credit moved. [Authority](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-20261101/budget-authorisation.json). Do not silently extend again or exceed cap 1.
+Old 2294390 actual 31.251111 CPU-hours was conservatively counted 32 and its 46.666667-hour maximum retired exactly once. Iris ledger now **517 consumed + 70 reserved = 587 CPU-hours**, internal stage 587. Current owner instruction to improve funds only this one bounded 75-minute job; the agent transparently adds 55 to its prior 532 internal envelope. The owner did not specify 587 numerically; no site SU rate/balance is known. No NSCC/AI credit moved. [Authority](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-20261101/budget-authorisation.json). Do not silently extend again or exceed cap 1.
 
 NSCC namespace was unavailable at 04:39 Vietnam; one bounded actual retry again returned Authentication failed. No confirmed tunnel/CPU login, queue or fresh credit; states unknown, not empty. No Gadi login was supplied to this worker. Do not repeatedly ask the owner about the captain's phone. No new NSCC deployment/reservation/submission. Existing CPU and combined PBS gates/locks still apply before recovery.
 
@@ -33,3 +33,7 @@ Collect actual 2294634 terminal accounting and selected text with its `collect_c
 ## Latest actual execution checkpoint
 
 At **2 November 04:49:59 Vietnam**, job **2294634 is RUNNING on iris001**, elapsed 189 seconds. Payload, accepted source, canonical text inputs and isolated clone hash/inode gates pass. Native A-default solver started at 04:48:12 Vietnam and has reached **step 2/40**, with its header confirming uncollated I/O. No observed fatal marker or scheduler stderr. B-collated has not started; no completed performance result yet. Preserve the running allocation and its reservation.
+
+## Progress checked at 2 November 04:58:10 Vietnam
+
+Job **2294634 remains RUNNING on iris001**, 680 seconds into the allocation. Native A-default is at **step 18/40**, with no observed fatal marker or scheduler stderr. B-collated has not started; this is not a completed metric or improvement. The one-own-allocation cap remains occupied and the full 70 CPU-hour maximum stays reserved. Read-only NSCC transport at 04:58:27 Vietnam still reports namespace unavailable; no additional authentication was triggered in this checkpoint. Current NSCC/Gadi performance results are unchanged. Preserve this job and review both complete native outputs before another decision.
