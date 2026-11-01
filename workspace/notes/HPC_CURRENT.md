@@ -37,3 +37,7 @@ At **2 November 04:49:59 Vietnam**, job **2294634 is RUNNING on iris001**, elaps
 ## Progress checked at 2 November 04:58:10 Vietnam
 
 Job **2294634 remains RUNNING on iris001**, 680 seconds into the allocation. Native A-default is at **step 18/40**, with no observed fatal marker or scheduler stderr. B-collated has not started; this is not a completed metric or improvement. The one-own-allocation cap remains occupied and the full 70 CPU-hour maximum stays reserved. Read-only NSCC transport at 04:58:27 Vietnam still reports namespace unavailable; no additional authentication was triggered in this checkpoint. Current NSCC/Gadi performance results are unchanged. Preserve this job and review both complete native outputs before another decision.
+
+## Run request checkpoint — 2 November 05:04:25 Vietnam
+
+The owner requested execution. Actual **2294634 remains RUNNING on iris001**, elapsed 1,055 seconds; A-default is at **step 30/40**. No observed native fatal marker or scheduler stderr. B-collated is already part of this accepted job and will follow the completed/reviewed control. No new allocation was submitted: cap 1 is occupied and the existing 70 CPU-hour maximum remains reserved. No completed timing or performance gain is claimed. Preserve this running work; the job payload handles the next arm without another owner instruction.
