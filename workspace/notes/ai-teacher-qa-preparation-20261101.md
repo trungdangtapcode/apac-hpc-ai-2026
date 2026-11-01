@@ -1,0 +1,7 @@
+# Explicit preparation for teacher Thanh's questions
+
+Prepared 2026-11-01T13:05:45.270271+07:00, Vietnam time (UTC+7). [Quick spoken-answer cards](../reports/teacher-qa-preparation-20261101/QUICK_ANSWERS_EN.md) and [full question-by-question guide](../reports/teacher-qa-preparation-20261101/ANSWERS_EN.md) map the teacher's prompts to 14 AI answers with slide references, follow-up detail, actual units/controls, evidence links and statements to avoid.
+
+The guide explicitly covers topology selection, deployment blocker versus steady-state bottleneck, N48/N64 representativeness, descriptor prioritisation and end-to-end attribution, individual optimisation gains, concurrency/TTFT and role-specific GPU sampling, quality, H100/H200 transfer, replication/peak classes, failed hypotheses, scaling, ownership and score accounting. A teacher example about N8/N16 is not passed off as an experiment we ran. Diagnostic profiler errors remain distinct from scored request errors. Two OpenFOAM questions are preserved for the independent HPC owner; no CPU cause or rank-count rationale is invented.
+
+This is a post-release rehearsal companion, separate from the published deck/ZIP and its frozen hashes. The existing short scripts and released evidence remain unchanged. No new experiment, live queue query, auth, HPC edit, package rebuild or actual mock is claimed. Capture and push this safe documentation checkpoint; no extra GPU spending or automation.
