@@ -7,3 +7,7 @@ Remote root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-io40-20261
 A-default then B-collated; Scotch, same initialized source, same `--map-by socket --bind-to core`, 40 steps / 39 native intervals per arm. Only B adds `-fileHandler collated`. Maximum75min. This is an Iris one-node measurement, not Gadi four-node reproduction or an NSCC improvement.
 
 After terminal, run `python3 collect_completed.py` once, then `PYTHONDONTWRITEBYTECODE=1 python3 review_completed.py`. Review all intervals/Cd, native I/O headers, runtime/source stability, stderr/resources and timing drift; reconcile once under `iris-scotch56-20261025/budget.lock`. No promotion from one A/B pair without a matched reverse/repeat. Old graph branch is closed after BAAB +5.3685% slower, not a robust gain.
+
+## Native solver confirmed, 2 November 04:49:59 Vietnam
+
+Actual scheduler still reports RUNNING on iris001 (189 seconds elapsed). Payload/source/input and isolated-copy hash/inode checks pass. A-default native simpleFoam started at21:48:12UTC and reached step2/40; its header confirms uncollated I/O, with no observed fatal marker and no scheduler stderr. This confirms actual solver execution, not a finished measurement. B-collated remains pending within the same allocation.
