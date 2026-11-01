@@ -1,25 +1,25 @@
 {
-  "observed_utc": "2026-10-29T03:53:21.145299+00:00",
+  "observed_utc": "2026-11-01T21:39:33.896005+00:00",
   "job_id": "2294390",
   "root": "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-gmap14r-20261029T033908Z",
   "queue": {
-    "returncode": 0,
-    "stdout": "2294390|tu-iris-gmap14r|RUNNING|13:49|56|iris005\n",
-    "stderr": ""
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "slurm_load_jobs error: Invalid job id specified\n"
   },
   "accounting": {
     "returncode": 0,
-    "stdout": "JobID|JobName|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294390|tu-iris-gmap14r|RUNNING|0:0|829|56|iris005\n2294390.batch|batch|RUNNING|0:0|829|56|iris005\n",
+    "stdout": "JobID|JobName|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294390|tu-iris-gmap14r|COMPLETED|0:0|2009|56|iris005\n2294390.batch|batch|COMPLETED|0:0|2009|56|iris005\n",
     "stderr": ""
   },
   "recent_phases": [
-    "{\"mean_seconds_per_step\": 21.051168941923077, \"phase\": \"B1-graph\", \"solver_elapsed_seconds\": 333.8393632210791, \"state\": \"reviewed\", \"utc\": \"2026-10-29T03:46:34.635509+00:00\"}",
-    "{\"cap_seconds\": 150, \"phase\": \"A1-default-copy\", \"state\": \"start\", \"utc\": \"2026-10-29T03:46:34.639075+00:00\"}",
-    "{\"elapsed_seconds\": 11.136127321049571, \"phase\": \"A1-default-copy\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-29T03:46:45.776579+00:00\"}",
-    "{\"cap_seconds\": 90, \"phase\": \"A1-default-copy-check\", \"state\": \"start\", \"utc\": \"2026-10-29T03:46:45.777069+00:00\"}",
-    "{\"elapsed_seconds\": 27.45013842266053, \"phase\": \"A1-default-copy-check\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-29T03:47:13.228486+00:00\"}",
-    "{\"mean_seconds_per_step\": 23.24196483423077, \"phase\": \"A1-default\", \"solver_elapsed_seconds\": 360.7380799856037, \"state\": \"reviewed\", \"utc\": \"2026-10-29T03:53:18.385531+00:00\"}",
-    "{\"cap_seconds\": 150, \"phase\": \"A2-default-copy\", \"state\": \"start\", \"utc\": \"2026-10-29T03:53:18.388874+00:00\"}"
+    "{\"cap_seconds\": 90, \"phase\": \"B2-graph-copy-check\", \"state\": \"start\", \"utc\": \"2026-10-29T04:02:25.395288+00:00\"}",
+    "{\"elapsed_seconds\": 27.34946708381176, \"phase\": \"B2-graph-copy-check\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-29T04:02:52.746170+00:00\"}",
+    "{\"mean_seconds_per_step\": 38.462424713384614, \"phase\": \"B2-graph\", \"solver_elapsed_seconds\": 574.5663433438167, \"state\": \"reviewed\", \"utc\": \"2026-10-29T04:12:31.715789+00:00\"}",
+    "{\"cap_seconds\": 80, \"phase\": \"source-tree-unchanged\", \"state\": \"start\", \"utc\": \"2026-10-29T04:12:32.935633+00:00\"}",
+    "{\"elapsed_seconds\": 28.75168946944177, \"phase\": \"source-tree-unchanged\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-29T04:13:01.688653+00:00\"}",
+    "{\"cap_seconds\": 40, \"phase\": \"payload-hash-after\", \"state\": \"start\", \"utc\": \"2026-10-29T04:13:01.704682+00:00\"}",
+    "{\"elapsed_seconds\": 0.06679014023393393, \"phase\": \"payload-hash-after\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-10-29T04:13:01.772556+00:00\"}"
   ],
   "gates": {
     "rankmap-validation.json": {
@@ -217,6 +217,17 @@
       "order": "zyx",
       "passed": true,
       "processor_graph_sha256": "bbdd0e7308a782923d28ed2c95c47227cc3f4edbc70ed786848854f8f991c33c"
+    },
+    "final-status.json": {
+      "completed_arms": [
+        "B1-graph",
+        "A1-default",
+        "A2-default",
+        "B2-graph"
+      ],
+      "passed": true,
+      "scored_result": false,
+      "terminal": "IRIS_GRAPHMAP_BAAB14_REVIEWED"
     }
   },
   "arms": {
@@ -229,9 +240,19 @@
       "latest_time_step": 14,
       "End_marker": true,
       "fatal_marker_seen": false
+    },
+    "B2-graph": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
+    },
+    "A2-default": {
+      "latest_time_step": 14,
+      "End_marker": true,
+      "fatal_marker_seen": false
     }
   },
   "scheduler_stderr": {
-    "runs/2294390.err": ""
+    "runs/2294390.err": "slurmstepd: error: slurm_get_node_energy: Socket timed out on send/recv operation\nslurmstepd: error: _get_joules_task: can't get info from slurmd\n"
   }
 }
