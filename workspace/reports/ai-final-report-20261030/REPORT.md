@@ -1,8 +1,8 @@
 # TripleU AI task — final research report
 
-The current presentation is an [engineering investigation](FEEDBACK_RESPONSE.md): 16 main AI slides and 16 hidden backups, with complete technical stories and explicit evidence limits. [The 24-page main-talk PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Main_Talk.pdf) goes directly from AI to the eight unchanged HPC pages. Both bilingual guides are remapped; no new scientific result is introduced.
+The current presentation is an [engineering investigation](FEEDBACK_RESPONSE.md): 16 main AI slides and 18 hidden backups, with complete technical stories and explicit evidence limits. [The 24-page main-talk PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Main_Talk.pdf) goes directly from AI to the eight unchanged HPC pages. Both bilingual guides and the concise spoken scripts cover the current deck. The nine final 31 October H200 trials are included in main slide 14 and backup 34; the historical forecast is backup 33. This reporting update launches no experiment.
 
-Prepared 30 October 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
+Updated 1 November 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
 
 ## Result and submission choice
 
@@ -75,16 +75,16 @@ Submission artifacts and slides are in English; the owner-requested Vietnamese l
 
 No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Updated presentation](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pptx)
-- [Review PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf)
-- [Speaker notes](../../submission-review/ai-investigation-update-20261030/PRESENTER_NOTES.md)
+- [Updated presentation](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pptx)
+- [Review PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pdf)
+- [Speaker notes](../../submission-review/ai-final-update-20261101/PRESENTER_NOTES.md)
 - [Current detailed metrics and configuration](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md)
-- [Publication verification](../../submission-review/ai-investigation-update-20261030/publication-validation.json)
+- [Publication verification](../../submission-review/ai-final-update-20261101/publication-validation.json)
 
 
 ## Presentation readiness
 
-The current compact AI route targets about 10:40, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The official combined time and Q&A inclusion remain awaiting clarification; earlier 15–20-minute AI-only planning is historical. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
+The current compact AI route targets about 10:50, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The public rules provide 15–20 minutes for the combined AI/HPC talk plus a separate 10-minute Q&A; earlier AI-only planning is historical. Agree the split with the HPC speaker and test it in a real timed mock. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
 
 The revised slides make previously compressed reasoning explicit: transport recovery and output rejection, reverse-order startup confirmation, role-aware EAGLE debugging, source-guided tokenization/collective tests, controlled regime recovery, and defects exposed by real portable replay. The full shared journal contains independent HPC and administrative records as well as scientific arcs. It is not presented as a count of successes.
 
@@ -128,8 +128,7 @@ The panel-facing lesson is measured: H100 screened compatibility and tradeoffs;
 we validated selected alternatives against a fresh H200 control, and retained
 the H200-specific recipe after the H100-selected recipe lost. Do not pool GPU
 scores, quote a universal conversion multiplier, or attribute this coupled
-runner/chunk comparison to one factor. These new results are added to this
-working report; the published PowerPoint and ZIP have not been regenerated.
+runner/chunk comparison to one factor. These results are now represented in main slide 14 and the complete final-run ledger in backup 34 of the 1 November edition.
 
 [Complete four-job evidence and limitations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md).
 
@@ -148,10 +147,7 @@ engineering choice, but it is not a per-kernel causal profile.
 Both have zero scored errors/cancellations, 30 TTFT/0 ITL breaches, smoke 7/8
 non-regression and retrieval 12/12. Larger chunks coincide with lower prefill
 queue means and TTFT; direct queue/compute/transport time is uncollected. Full
-official quality UNKNOWN, actual pair 6.062222 GPU-hours, zero PBS SU. This is two
-additional distinct ports, not four; two further qualified candidates remain
-unfilled. Raw artifacts, runtime/source checks and cost are preserved. Published
-PowerPoint/ZIP remain unchanged by this working-report append.
+official quality UNKNOWN, actual pair 6.062222 GPU-hours, zero PBS SU. At this historical chunk-stage checkpoint only two additional distinct ports had completed; the later phase results below complete the four-intervention set. Raw artifacts, runtime/source checks and cost are preserved. The final deck summarises the decision in main slide 14 and preserves the complete nine-job ledger in backup 34.
 
 [Complete evidence and limitations](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md).
 
@@ -178,7 +174,6 @@ Four distinct additional H100-derived interventions have now been reviewed on
 H200: 27804/27806 chunk settings and 27828/27830 phase settings; extra 27826 control
 is not counted as a candidate. These are intervention transfers into documented
 H200-specific bases, not four H100 winners or exact full-recipe reproductions.
-Raw data, controls and accounting are preserved. Published PPTX/ZIP have not been
-regenerated by this working-report append.
+Raw data, controls and accounting are preserved. The 1 November presentation update incorporates this final decision and all nine allocations without promoting a subthreshold result.
 
 [Final phase evidence and completed register](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md).

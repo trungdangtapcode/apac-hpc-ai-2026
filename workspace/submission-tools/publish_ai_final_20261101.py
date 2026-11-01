@@ -21,16 +21,10 @@ O = W / 'submission-review/ai-final-update-20261101'
 DECK_REL = 'Presentation/TripleU_APAC2026_Presentation.pptx'
 MANIFEST_REL = 'AI_Task/logs/FILE_MANIFEST.json'
 SUMS_REL = 'AI_Task/logs/SHA256SUMS'
-DOC_SOURCES = {
-    'AI_Task/logs/PRESENTATION_PLAN.md': 'PRESENTATION_PLAN.md',
-    'AI_Task/logs/EVIDENCE_CARDS.md': 'EVIDENCE_CARDS.md',
-    'AI_Task/logs/PANEL_QA.md': 'PANEL_QA.md',
-    'AI_Task/logs/FINAL_REPORT.md': 'REPORT.md',
-    'AI_Task/logs/TALK_SCRIPT_EN.md': 'TALK_SCRIPT_EN.md',
-    'AI_Task/logs/TEACHER_FEEDBACK_RESPONSE.md': 'FEEDBACK_RESPONSE.md',
-    'AI_Task/logs/MOCK_QA_EVIDENCE.md': 'MOCK_QA_EVIDENCE.md',
-}
-REPORT = W / 'reports/ai-final-report-20261030'
+PACKAGE_MAP_PATH = O / 'package-file-map.json'
+DOC_SOURCES = json.loads(PACKAGE_MAP_PATH.read_text())
+assert all(path.startswith('AI_Task/logs/') and '..' not in Path(path).parts for path in DOC_SOURCES)
+assert all(Path(source).is_file() and (O / 'package-files') in Path(source).parents for source in DOC_SOURCES.values())
 MUTABLE_ARCHIVE_PATHS = {DECK_REL, MANIFEST_REL, SUMS_REL, *DOC_SOURCES}
 
 
@@ -189,12 +183,12 @@ def main():
         folder_after = dict(before)
         folder_after[DECK_REL] = staged_deck
         for target, source in DOC_SOURCES.items():
-            folder_after[target] = (REPORT / source).read_bytes()
+            folder_after[target] = Path(source).read_bytes()
         write_global_manifests(folder_after, now)
         archive_after = dict(zip_before)
         archive_after[DECK_REL] = staged_deck
         for target, source in DOC_SOURCES.items():
-            archive_after[target] = (REPORT / source).read_bytes()
+            archive_after[target] = Path(source).read_bytes()
         write_global_manifests(archive_after, now)
         verify_sum_file(folder_after)
         verify_sum_file(archive_after)
@@ -294,7 +288,7 @@ def main():
         validation = {
             'passed': True,
             'updated_utc': now.isoformat(),
-            'scope': '34 AI slides, reviewed English presenter/report documents and global manifests; frozen serving implementation and raw measurements unchanged',
+            'scope': '34 AI slides, reviewed English presenter/report documents, exact selected final raw evidence and global manifests; frozen primary serving implementation and HPC unchanged',
             'pptx_sha256': sha(staged_deck),
             'original_pptx_sha256': snapshot['presentation']['sha256'],
             'slides': 42,

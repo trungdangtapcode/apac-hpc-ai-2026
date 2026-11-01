@@ -1,18 +1,18 @@
 # Slide-by-slide transcript and learning guide — English
 
-This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 40 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
+This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 42 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
 **How to use it:** each slide starts with a **“Quick brief · 10–20 seconds”** that can be spoken directly: the main point, a standout result and its meaning. Essential terminology is explained within the brief, such as repeated meaning rerunning a benchmark to check reproducibility. Timing is a rehearsal target, not a timed recording. Continue with the purpose, technical interpretation, terms and longer script for deeper preparation or questions.
 
-- **Slides 1–16:** main AI talk. Follow the [compact 10–12 minute AI rehearsal plan](PRESENTATION_PLAN.md), pending the official combined time; preserve the agreed OpenFOAM allocation.
-- **Slides 17–32:** AI backup material. Backups are hidden in the PowerPoint slide show: AI 16 advances to OpenFOAM 33. This guide keeps all 40 slides for study and questions.
-- **Slides 33–40:** read-only explanation of the existing HPC section. Its scheduler statements are **23 October snapshots**, not live 30 October status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
+- **Slides 1–16:** main AI talk. Follow the [compact 10–12 minute AI rehearsal plan](PRESENTATION_PLAN.md), within the combined public 15–20 minute talk plus a separate 10-minute Q&A; preserve the agreed OpenFOAM allocation.
+- **Slides 17–34:** AI backup material. Backups are hidden in the PowerPoint slide show: AI 16 advances to OpenFOAM 35. This guide keeps all 42 slides for study and questions.
+- **Slides 35–42:** read-only explanation of the preserved HPC section. Its scheduler statements are **23 October snapshots**, not current scheduler status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
 - Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Research has stopped at the owner's request. Future actions shown on slides are proposals or historical next decisions, not newly executed jobs.
 
-Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-investigation-update-20261030/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `dcc56658f7efa1b43294d32316de4eb27c65d765d2a9f1806e18c67a40ca9d13`. This guide describes that version; recheck it if the deck changes.
+Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `1ba55e8007f0ef7796076a35e82a1afc372a706c13500b80fbf9b27d723a2195`. This guide describes that version; recheck it if the deck changes.
 
 ## Understand the claims before presenting them
 
@@ -26,7 +26,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 **Repeat and useful gain:** another job returning a similar result is stronger evidence than one peak, although it may use the same physical GPUs. For late trials, the team used a prospective >1% gain threshold to select changes worth confirming. This is a team decision rule, not an organiser rule. A 0.24% observed increase did not meet it and was not shown to be separable from run-to-run variation.
 
-**Observation, hypothesis and conclusion:** “TTFT rose” is measured. “The queue grew” is a hypothesis until wait and computation times are separated. “Keep the old setting because the candidate did not exceed our stated threshold” is a supported decision. State missing measurements rather than turning a plausible explanation into an established cause.
+**Observation, hypothesis and conclusion:** “TTFT rose” is measured. “Longer queuing caused the TTFT increase” is a hypothesis until wait and computation times are separated. A sampled queue increase is an observation, but does not alone establish the latency cause. “Keep the old setting because the candidate did not exceed our stated threshold” is a supported decision. State missing measurements rather than turning a plausible explanation into an established cause.
 
 **A score inside a failed job:** GPU inference and the client can finish and save JSON, followed by a reader/summary exception that makes the job FAILED. Repairing that reader can recover a score from old data; it does not change the original job status or replace a fresh full-deployment replay after the fix.
 
@@ -88,9 +88,9 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage](#slide-11)
 - [Slide 12 — The remaining latency failures are first-token tails](#slide-12)
 - [Slide 13 — Repeated evidence supports N64 more strongly than an isolated peak](#slide-13)
-- [Slide 14 — One held-out check supports a local forecast, not a GPU conversion rule](#slide-14)
+- [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — The performance claim is bounded; two validation tasks remain open](#slide-16)
+- [Slide 16 — The H200 recipe holds; official quality and replay remain open](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
 - [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
@@ -107,14 +107,16 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 30 — Did speculative decoding solve this workload?](#slide-30)
 - [Slide 31 — Does the packaged deployment complete end to end?](#slide-31)
 - [Slide 32 — Do attention and communication choices interact?](#slide-32)
-- [Slide 33 — The task: same 65-million-cell airflow calculation](#slide-33)
-- [Slide 34 — The whole required pipeline comes before the score](#slide-34)
-- [Slide 35 — A smaller partition cut did not make the solver faster](#slide-35)
-- [Slide 36 — Observed scaling changed which decomposition led](#slide-36)
-- [Slide 37 — At four nodes, the winner depends on ranks per node](#slide-37)
-- [Slide 38 — Keep the slow step in the mean; inspect the tail](#slide-38)
-- [Slide 39 — A reproducible candidate needs more than a fast log](#slide-39)
-- [Slide 40 — What we learned — and the next measurement](#slide-40)
+- [Slide 33 — Backup · one held-out forecast is not a GPU conversion rule](#slide-33)
+- [Slide 34 — Backup · nine final H200 runs support retaining the recipe](#slide-34)
+- [Slide 35 — The task: same 65-million-cell airflow calculation](#slide-35)
+- [Slide 36 — The whole required pipeline comes before the score](#slide-36)
+- [Slide 37 — A smaller partition cut did not make the solver faster](#slide-37)
+- [Slide 38 — Observed scaling changed which decomposition led](#slide-38)
+- [Slide 39 — At four nodes, the winner depends on ranks per node](#slide-39)
+- [Slide 40 — Keep the slow step in the mean; inspect the tail](#slide-40)
+- [Slide 41 — A reproducible candidate needs more than a fast log](#slide-41)
+- [Slide 42 — What we learned — and the next measurement](#slide-42)
 
 ---
 
@@ -130,7 +132,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 We serve Qwen3-235B FP8 on sixteen H200 GPUs. A request contributes only if it meets both latency limits; at least 90% must qualify. We report qualifying output tokens per second, not raw throughput.
 
-![Slide 01](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-final-update-20261101/slides/assets/slide-01.png)
 
 ### Reasoning to communicate
 
@@ -198,7 +200,7 @@ Now that the objective is fixed, we can be precise about which parts of the work
 
 We separate architecture choices, the team’s request-scoped KV patch, and backend measurements. These claims use different evidence: layout records, source plus transfer validation, and controlled experiments; H100 remains separate from H200.
 
-![Slide 02](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-final-update-20261101/slides/assets/slide-02.png)
 
 ### Reasoning to communicate
 
@@ -262,25 +264,25 @@ We begin with the engineering choice: how replicas and parallel width compete fo
 
 ### Quick brief · 10–20 seconds
 
-More prefill replicas improve request concurrency, while wider parallel groups give each model worker more GPUs. The historical usable points were 1,297 at N32, 1,666 at N40, and 1,912 good tokens/s at N48, but load changed too.
+The topology trials exposed a tradeoff between more prompt workers and wider workers. We retained a split that fits two eight-GPU nodes, has a working transfer path and survives later full N64 repeats. The different-load scores do not prove it is globally best.
 
-![Slide 03](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-final-update-20261101/slides/assets/slide-03.png)
 
 ### Reasoning to communicate
 
 - **Problem:** Allocate sixteen H200 GPUs across prefill and decode, balancing the number of worker replicas against the GPUs assigned to each worker.
 - **Why it matters:** Too few replicas can limit prompt-side admission, while overly narrow workers may not process their share efficiently; decode also has different parallelism needs.
-- **Why this test:** Explore feasible topology branches and record their concurrency and goodput, while retaining failures and replacement configurations as distinct evidence.
-- **What we learned:** Seventeen reviewed usable configurations were recovered, including EP2 replacements; selected examples rose from 1,297 at N32 to 1,912 at N48, but these are different loads.
-- **Why the next step follows:** The next slide presents the retained architecture as an engineering decision under this tradeoff, not as the causal winner of a matched topology sweep.
+- **Why this test:** Apply the constraints in order: allocation and FP8 compatibility first, successful real P/D transfer second, then full latency-qualified performance and repeatability. Use historical different-load points only to understand the search.
+- **What we learned:** The retained split is feasible and its N64 operating point is repeatable. Because the topology scores shown were measured at different concurrency settings, we cannot say the split beat all alternatives under the same load.
+- **Why the next step follows:** After stating why this layout was retained, examine a separate heterogeneous-TP recovery branch. That branch teaches us about transfer readiness; it is not a topology comparison against this selected layout.
 
 ### Purpose
 
-Explain the engineering tradeoff that led to the retained split. The same sixteen GPUs can be spent on more replicas or wider parallelism, and prefill/decode have different needs. Historical topology scores show feasibility and progression, not a matched causal ranking.
+Explain the actual decision rule behind the retained topology. The choice was made from feasible model-compatible layouts that use the fixed two-node budget, can complete disaggregated requests and support a latency-qualified operating point that was later repeated. Historical scores at N32, N40 and N48 motivated the choice but cannot rank topology independently because load and trial conditions differ.
 
 ### Technical interpretation and reasoning
 
-Use branches for feasible ways to allocate the fixed sixteen GPUs: several narrower prefill replicas and multiple decode groups, then fewer wider prefill workers and a wider decode group. Label the historical usable observations N32/1,297.02, N40/1,666.01, and N48/1,912.30 good tokens/s. Mark N explicitly as client requests in flight. Connect the branches as candidates, not a chronological line or causal ranking, because concurrency and other trial conditions differed.
+The left column lists four selection gates: fit two nodes of eight H200, pass FP8 parallel-shape compatibility, complete the real prefill/decode KV path, and establish a full-run SLA-qualified operating point with later repeats. The right column gives three historical layout observations at N32, N40 and N48. Orange highlights the retained split and the repeat requirement; it does not mark a controlled topology winner. There are no chart axes; the throughput unit is good output tokens/s. P means prefill workers and D means decode workers. Different loads prevent a topology-only causal ranking.
 
 ### Terms and symbols to understand
 
@@ -293,29 +295,30 @@ Use branches for feasible ways to allocate the fixed sixteen GPUs: several narro
 
 ### Interpreting the evidence or diagram
 
-- Four TP2 prefill replicas plus two TP4/EP4 decode groups use the GPUs differently from two TP4 prefill workers plus one TP8/EP8 decode worker.
-- The historical observations shown are 1,297.02 at N32, 1,666.01 at N40, and 1,912.30 at N48 good tokens/s.
-- N changes across these points, so higher score cannot be attributed to topology alone.
-- The count of seventeen usable configurations summarizes reviewed evidence, not a controlled sweep with a common load.
+- The resource constraint is exactly two nodes of eight H200 GPUs; each candidate must fit those resources.
+- The model’s FP8 block geometry rules out some nominal parallel shapes before performance comparison.
+- A split is useful only if real requests complete the prefill-to-decode KV transfer and the service meets the joint latency gate.
+- The retained operating point later has full N64 repeats around 3,044 good output tokens/s; these repeats support the operating point, not its causal advantage over every topology.
+- The older N32/N40/N48 values are shown to explain the search, not to claim increasing topology-only performance.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** The fixed GPU budget forced a choice between replication and parallel width. Reviewed usable examples include N32 at 1297.02, N40 at 1666.01, and N48 at 1912.30 good tokens/s; fourteen original layouts plus three EP2 replacements were counted.
-- **Hypothesis:** A layout with enough prefill replicas and a wider decode worker could balance prompt processing and generation at the intended load.
-- **Supported conclusion:** Topology recovery established feasible candidates and informed a later selected split. The displayed score progression is not a causal ranking because concurrency and historical conditions differed.
-- **Unknown / limitation:** The selected architecture's advantage over every alternative under one matched load is not established by these points; the count does not include a common statistical comparison.
+- **Observation:** Seventeen usable measured topology configurations were recovered, including three EP2 replacements. Displayed examples use N32, N40 and N48, so they are not a common-load ranking.
+- **Hypothesis:** A feasible phase-specialized split can provide a working transfer path and a repeatable latency-qualified service point within two nodes.
+- **Supported conclusion:** Retain the documented two-TP4-prefill plus TP8/EP8-decode layout because it fits the allocation, is model-compatible, serves across the split and supports later repeated N64 measurements. This is a practical evidence-based selection, not a proven global optimum.
+- **Unknown / limitation:** No matched, repeated comparison of every feasible topology at a shared load establishes the causal performance winner.
 
 ### Spoken script
 
-Our first engineering question was how to spend the same sixteen GPUs. We could create more, narrower prefill replicas, or assign more GPUs to fewer workers and to decode. Historical usable examples include 1,297 good tokens per second at concurrency 32, 1,666 at 40, and 1,912 at 48. But concurrency changed between those points, so the higher values do not prove that topology alone caused the increase. The recovery ledger contains seventeen usable measured configurations, including three EP2 replacements; it also preserves failed originals. These trials showed which arrangements could work and informed our retained split. They are not a controlled ranking of every layout at the same load.
+We had two nodes with eight H200s each, and some apparent parallel layouts were not valid for this FP8 model. We therefore applied four practical gates: fit the allocation, pass the model’s parallel-shape constraints, complete a real request across prefill and decode, and sustain the latency rule in full runs. The retained two-TP4 prefill plus TP8/EP8 decode layout passes those feasibility gates, and its later N64 service point repeats around 3,044 good tokens per second. The N32, N40 and N48 topology scores on this slide used different loads. They explain what we explored; they do not prove this layout is the global performance winner. We chose a feasible, repeatable operating point with the evidence available.
 
 ### Avoid this interpretation
 
-Do not describe N as GPU count or use the three different-load scores as a causal ranking. EP2 replacements are new configurations, not retroactive passes for failed originals.
+Do not say the different N32/N40/N48 points prove the topology caused their score differences or that the retained layout is globally optimal. Feasibility and a repeated operating point are the supported selection rationale.
 
 ### Transition
 
-Given this tradeoff, the next slide states the architecture we retained and the extra transfer path that separation introduces.
+A separate historical heterogeneous-TP branch then exposed a transfer-readiness failure. We use it to explain the KV investigation, not as a matched topology control.
 
 ---
 
@@ -331,7 +334,7 @@ Given this tradeoff, the next slide states the architecture we retained and the 
 
 The retained split uses two four-GPU TP4/EP1 prefill workers on one node and one eight-GPU TP8/EP8 decode worker on the other. This fits sixteen H200s but adds KV transfer between roles.
 
-![Slide 04](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-final-update-20261101/slides/assets/slide-04.png)
 
 ### Reasoning to communicate
 
@@ -399,7 +402,7 @@ To understand why transfer validation mattered, we now examine that separate his
 
 In job 22271, the P8 TP8/EP2 to D8 TP4/EP4 workers loaded but pair warmup timed out after 360 seconds. AIPerf never ran, so there was no baseline score.
 
-![Slide 05](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-final-update-20261101/slides/assets/slide-05.png)
 
 ### Reasoning to communicate
 
@@ -450,7 +453,7 @@ Do not report 22271 as a low-throughput baseline or divide 360 seconds by a late
 
 ### Transition
 
-The pre-score failure leads to the next question: what specific setup work could plausibly prevent pair warmup from completing?
+The timeout locates the symptom before scoring, but not its cause. We next inspect the setup path and choose a small, testable source-level hypothesis before claiming a bandwidth, layout or scheduling bottleneck.
 
 ---
 
@@ -464,25 +467,25 @@ The pre-score failure leads to the next question: what specific setup work could
 
 ### Quick brief · 10–20 seconds
 
-We replaced whole-pool descriptor setup with request-scoped ranges. The representative counts are 403.8 million entries per rank versus 188 per request, with different scopes. CPU range equivalence passed 720 cases; actual GPU serving is checked separately.
+Workers reached ready state but pair warmup timed out before AIPerf. Source inspection found request-independent enumeration of a large reserved KV pool. We tried request-scoped ranges first because this setup hypothesis was narrow and cheaply testable.
 
-![Slide 06](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-final-update-20261101/slides/assets/slide-06.png)
 
 ### Reasoning to communicate
 
 - **Problem:** Full-pool descriptor enumeration appeared in the cold heterogeneous-TP path after pair warmup had failed.
 - **Why it matters:** Preparing metadata for pages the request will not transfer could add setup work before the service can handle its first request.
-- **Why this test:** Change descriptor construction to the request's pages, preserve KV range mapping, and compare original and patched address geometry across CPU cases.
-- **What we learned:** The patch reduces the illustrated descriptor count from about 403.8 million per rank for the pool to 188 for the request, and 720 tested CPU range cases pass. These counts do not measure elapsed time.
-- **Why the next step follows:** A real patched deployment is needed to establish feasibility; a matched unpatched deployment and setup timing would still be needed to claim patch-only speedup.
+- **Why this test:** The source exposed a concrete setup action that included data irrelevant to the request. Restricting that work had a clear correctness invariant and a cheap CPU check, so it was the lowest-cost discriminating first intervention. We did not first prove bandwidth, KV layout or scheduling innocent.
+- **What we learned:** The 720 range checks support byte-range equivalence. They justify attempting the patched distributed path, but cannot identify the timeout’s cause or prove a performance bottleneck.
+- **Why the next step follows:** The next run asks whether the patched branch can actually warm up and complete a full benchmark. Since the old branch has no successful scored control, interpret that result as feasibility evidence only.
 
 ### Purpose
 
-Explain why descriptor preparation was prioritized, what the team changed, and what correctness tests actually showed. This is the direct implementation contribution: build transfer descriptions for the request's KV pages rather than enumerate the full pool, while retaining mapping behavior.
+Explain why descriptor construction was the first intervention. After the pre-score warmup failure, source inspection showed that heterogeneous-TP setup enumerated pool metadata unrelated to the current request. Restricting descriptors to request pages had a narrow correctness check in CPU fixtures and did not require assuming that network bandwidth, KV layout or scheduling had already been ruled out.
 
 ### Technical interpretation and reasoning
 
-Show the old full-pool scope beside the patched request scope: about 403.8 million source entries per rank for the representative pool geometry versus 188 coalesced descriptors for one contiguous 4,000-token request. Then separate a CPU range-equivalence gate from a real GPU transport gate marked not validated in the fixture. Do not depict the count ratio as a time or speedup ratio.
+The preceding slide supplies the failed warmup context. Here the left grid illustrates the whole reserved KV pool, with orange pages representing the small requested subset. The right orange range illustrates selecting request pages and coalescing adjacent ranges. The labels compare representative pool-source entries per rank (403.8 million) with coalesced ranges for one 4,000-token request (188). These scopes differ; no axis or speed ratio exists. The heading explains why this bounded source-visible setup hypothesis was chosen first. The bottom note reports 720 CPU checks and says bandwidth and scheduling were not ruled out; CPU checks do not validate GPU transport.
 
 ### Terms and symbols to understand
 
@@ -497,29 +500,30 @@ Show the old full-pool scope beside the patched request scope: about 403.8 milli
 
 ### Interpreting the evidence or diagram
 
-- The symptom preceded scoring, and source inspection found whole-pool descriptor enumeration in the heterogeneous-TP path.
-- The patch creates source and destination descriptors only for the current request and coalesces contiguous ranges; equal-TP paths, weights, precision, head mapping, and notifications were retained.
-- The 403.8 million and 188 values count descriptors at different scopes. They are not bytes, seconds, bandwidth, or a measured speedup.
-- The CPU fixture passes 720 byte-range equivalence cases but sets real GPU transport validation to false.
+- The motivating symptom was a 360-second pair-warmup timeout before AIPerf, with no scored requests.
+- Source review found descriptor setup traversing the whole registered pool even though the immediate request references only a subset of pages.
+- The first intervention was deliberately narrow: build descriptors for request pages and merge adjacent byte ranges while preserving offsets and strides.
+- 720 CPU fixtures checked range equivalence, making this a cheap correctness gate before another distributed GPU attempt. They do not validate real NIC/GPU transfer behavior.
+- Bandwidth, KV layout and request scheduling remain competing explanations not isolated by these counts.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Representative source geometry gives about 403.8 million whole-pool source descriptors per rank; a contiguous 4,000-token request uses 188 coalesced descriptors. CPU equivalence checks pass 720 cases.
-- **Hypothesis:** Removing descriptors for KV pages unrelated to the active request should reduce setup work while preserving the exact bytes and mapping needed for transfer.
-- **Supported conclusion:** The source patch and CPU geometry tests support request-scoped range construction and tested address equivalence. They establish a plausible setup target and implementation correctness for tested cases, not measured end-to-end acceleration.
-- **Unknown / limitation:** No old-versus-new descriptor initialization time was measured. The geometry fixture did not validate actual GPU transport, and it does not prove descriptor work was the dominant cause of the timeout.
+- **Observation:** A heterogeneous-TP worker pair loaded, but the warmup timed out before a scored benchmark. Source showed whole-pool metadata enumeration; 720 CPU equivalence cases passed after the narrow patch.
+- **Hypothesis:** Avoiding request-irrelevant descriptor construction may make this bootstrap path usable; a cheap exact-range check can reject an incorrect patch before spending another distributed allocation.
+- **Supported conclusion:** Descriptor scoping was a sensible first engineering intervention because it was directly visible in source, bounded, and inexpensive to validate. Existing evidence does not establish that it was the dominant performance bottleneck.
+- **Unknown / limitation:** No successful unpatched scored run, initialization timer, bandwidth profile, KV-layout comparison, or scheduling comparison exists for this branch. Which component caused the timeout and the descriptor-only end-to-end gain remain unknown.
 
 ### Spoken script
 
-Source inspection gave us a concrete setup hypothesis. The old heterogeneous-TP path prepared descriptors for the whole KV pool. In representative TP8 geometry that is about 403.8 million source descriptors per rank. The patch instead describes only the current request's KV pages and combines adjacent ranges; a contiguous 4,000-token TP8-to-TP4 request has 188 descriptors in the CPU geometry check. These are counts with different scopes, not elapsed time or a two-million-fold speedup. We compared original and patched byte ranges across 720 CPU cases, and they matched. The fixture explicitly does not validate real GPU transport. So we have evidence that the tested mapping is preserved and a specific implementation change, but not yet evidence that it caused the timeout to disappear or sped up serving.
+Why start with descriptors? In job 22271 both model workers loaded, but a real request through the pair timed out during warmup after 360 seconds; AIPerf never scored traffic. Reading the source showed setup enumerating the registered KV pool even when a request used only a small subset. That gave us a narrow hypothesis: build metadata for the request pages and coalesce adjacent ranges. It had a cheap check—720 CPU cases to verify the byte ranges still matched—before spending another multi-node run. We chose it because the extra setup work was visible and testable, not because we had already ruled out network bandwidth, KV layout or scheduling. Those alternatives remain unmeasured.
 
 ### Avoid this interpretation
 
-Never describe 403.8 million to 188 as an inference speedup. Do not call CPU geometry equivalence GPU transfer validation or claim that bandwidth, KV layout, placement, or other bootstrap causes were ruled out.
+Do not call descriptors the verified dominant bottleneck. The counts have different scopes, CPU geometry checks are not GPU transport tests, and bandwidth/layout/scheduling were not excluded.
 
 ### Transition
 
-The final slide in this sequence asks what the actual patched run establishes, then separates feasibility from the unmeasured causal speedup.
+The CPU checks only establish that the patch describes the same byte ranges. The next slide asks whether the real distributed path becomes usable; it still cannot measure an isolated descriptor speedup.
 
 ---
 
@@ -535,15 +539,15 @@ The final slide in this sequence asks what the actual patched run establishes, t
 
 Patched job 22294 completed warmup in 0.68–0.70 seconds per request and scored 1,422.96 good tokens/s at N32, with 95.87% joint SLA and zero errors. This proves feasibility, not isolated speedup.
 
-![Slide 07](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-final-update-20261101/slides/assets/slide-07.png)
 
 ### Reasoning to communicate
 
 - **Problem:** Determine whether the source change was followed by a usable service path, not just a passing CPU fixture.
 - **Why it matters:** Only a real end-to-end request and benchmark can show the patched recovery topology became usable; CPU address checks alone cannot do that.
-- **Why this test:** Use the actual patched H200 deployment, observe pair warmup, then run a full N32 local confirmation with request-level SLA and error accounting.
-- **What we learned:** Job 22294 warmed both P/D paths in 0.68–0.70 seconds per request after readiness and completed N32 at 1422.96 good tokens/s, 95.87% joint SLA, and zero errors/cancellations. It demonstrates feasibility in that run.
-- **Why the next step follows:** Close the claim at feasibility. A patch-only speedup would require a successful matched no-patch run plus isolated setup and latency evidence; the available records do not provide these.
+- **Why this test:** After a successful byte-range check, the necessary next gate was a real distributed request through both roles, followed by the complete benchmark protocol. This tests feasibility of the patched path, while the missing successful unpatched control limits causal comparison.
+- **What we learned:** The patched branch warmed up and completed a full N32 run with 95.87% joint SLA and zero scored errors. That establishes a usable example path. It does not quantify descriptor-only speedup because the original run timed out before scoring.
+- **Why the next step follows:** With a working path available, performance experiments become possible. The separate diagnostic profile on the next slide identifies candidates, not a proven bottleneck.
 
 ### Purpose
 
@@ -587,7 +591,7 @@ Do not divide the 360-second timeout by 0.68–0.70 seconds, call the result a s
 
 ### Transition
 
-This closes the KV case: we can claim the patched recovery path became usable, but not how much the descriptor change alone accelerated it. The next investigation turns to separately measured backend choices.
+The patch restores a measurable serving path but leaves the performance cause unresolved. We next inspect diagnostic profiles as hypothesis generators, not as a causal time breakdown.
 
 ---
 
@@ -603,15 +607,15 @@ This closes the KV case: we can claim the patched recovery path became usable, b
 
 The separate N48 diagnostic assigns about 23.48% of summed recorded GPU-kernel duration to communication and normalization. This motivates a controlled test; it does not establish that communication consumes the same share of request latency or limits N64.
 
-![Slide 08](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-final-update-20261101/slides/assets/slide-08.png)
 
 ### Reasoning to communicate
 
 - **Problem:** The campaign needed to choose which performance questions to test without claiming a bottleneck from a profile.
 - **Why it matters:** Summed GPU kernel time can overlap and excludes other elapsed-time sources, so its percentages cannot be read as request-latency shares.
-- **Why this test:** A separate N48 diagnostic recorded kernel categories; request-level N64 measurements separately identified TTFT failures.
-- **What we learned:** The profile gives candidate components, while the N64 data says only that 27 of 1,902 requests missed TTFT and none missed ITL.
-- **Why the next step follows:** Use the profile to motivate a controlled service experiment, and treat the N64 tail as a separate unresolved question.
+- **Why this test:** Collect a diagnostic N48 profile and separate N64 request-tail observations to identify candidate areas and symptoms. Kernel-duration sums cannot assign request wall time or select one causal fix, so the next backend comparison is described as a separate controlled probe, not the proven consequence of this profile.
+- **What we learned:** Compute, collectives, attention and first-token queueing are plausible investigation areas, but none has a measured per-request time share here. The evidence does not tell us that HPC-Ops decode was the profile-selected remedy.
+- **Why the next step follows:** We next report an independently motivated, supported decode-implementation probe with its own fresh control and repeat. Its measured effect stands on that control pair, not on the N48 kernel percentages.
 
 ### Purpose
 
@@ -646,7 +650,7 @@ The profile's categories are matrix operations, communication/normalization, and
 
 ### Spoken script
 
-We used a profile to decide what might deserve testing. It recorded about 23.5 percent of summed kernel time in communication and normalization, but kernels can overlap, so that is not 23.5 percent of request time. A separate N64 run had 27 first-token failures and no inter-token failures. Those data identify a symptom, not its cause. The profile is a lead for experiments, not a proven time budget.
+We profiled an N48 diagnostic run and separately inspected an N64 request trace. The profile records GPU kernel durations, not the fraction of each request spent waiting, computing or transferring KV. The N64 misses tell us first-token latency needs attention, but do not show its cause. These observations make compute, communication, attention and serving queues reasonable candidates. They did not establish that a particular kernel was the bottleneck or select HPC-Ops as the remedy. The next slide is a separate controlled probe of a supported decode implementation; its evidence comes from a fresh control and a repeat.
 
 ### Avoid this interpretation
 
@@ -654,7 +658,7 @@ Do not attribute N64 request failures to N48 kernel shares or claim an equal spe
 
 ### Transition
 
-The next experiment changes the decode implementation while holding the full serving setup fixed.
+This diagnostic narrows the questions but does not choose a fix. We now show a separate controlled decode probe and explain its own control, held-fixed settings and limits.
 
 ---
 
@@ -670,19 +674,19 @@ The next experiment changes the decode implementation while holding the full ser
 
 We compared automatic decode with HPC-Ops on the same full H200 N60 setup, holding DeepGEMM prefill and chunk 8,192 fixed. The hypothesis was that decode execution could improve useful throughput; a separate treatment repeat checks consistency.
 
-![Slide 09](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-final-update-20261101/slides/assets/slide-09.png)
 
 ### Reasoning to communicate
 
 - **Problem:** A backend change is only useful if a measured service objective improves under comparable workload conditions.
 - **Why it matters:** Without a control and fixed prefill/load settings, observed score changes could come from other configuration differences.
-- **Why this test:** Run a fresh full N60 automatic-decode control against an HPC-Ops decode treatment, retaining DeepGEMM prefill, chunk 8,192, and the 60/120/30 protocol; repeat the treatment independently.
-- **What we learned:** The design provides a matched service comparison and a separate repeat, with decoder implementation as the intended factor.
-- **Why the next step follows:** Read the metric tradeoff and repeat result before deciding whether this setting is supported.
+- **Why this test:** The diagnostic profile did not identify a unique bottleneck. We therefore use a distinct, practical intervention with an available supported implementation and matched full-run control: change decode implementation, hold the serving topology, prefill, transport, workload and protocol fixed, then repeat the treatment.
+- **What we learned:** The comparison can estimate the effect of this whole decode-setting change on the tested H200 service under the stated conditions. It cannot turn the prior profile into causal evidence or isolate an individual GPU kernel mechanism.
+- **Why the next step follows:** The next slide reports goodput together with TTFT and ITL, then checks the treatment against its independent repeat.
 
 ### Purpose
 
-Show how a controlled comparison turns a backend idea into a service-level hypothesis, while making clear which factors were held fixed and which result is a repeat.
+Present a separate, supported test of a decode implementation after profiling raised several possible areas to investigate. This comparison asks whether the decode implementation changes end-to-end service performance with the rest of the measured setup held fixed. It is not a claim that the N48 profile identified HPC-Ops as the bottleneck or prescribed this intervention.
 
 ### Technical interpretation and reasoning
 
@@ -711,7 +715,7 @@ The setup diagram should be read as two otherwise matching full N60 runs: fresh 
 
 ### Spoken script
 
-We asked whether changing decode execution would help the service, so we held the rest of the N60 setup fixed. Both runs used the same H200 allocation, DeepGEMM prefill, and 8,192-token chunk, under the full benchmark schedule. The control used automatic decode; the treatment used HPC-Ops. A second treatment run checks consistency. This design narrows the question, although engine randomness and missing phase telemetry still limit causal detail.
+The profile did not tell us which component to change, so we should not present this as “the profile found the HPC-Ops fix.” We asked a separate practical question: does a supported HPC-Ops decode setting change full-service performance when topology, prefill, transport, workload and benchmark protocol stay fixed? We compared a fresh automatic-decode control with the HPC-Ops setting, then checked the treatment against its independent repeat. That design supports a service-level comparison. It does not isolate a particular kernel as the cause.
 
 ### Avoid this interpretation
 
@@ -719,7 +723,7 @@ The comparison supports only this H200 N60 setting. Do not treat the repeat as a
 
 ### Transition
 
-The next slide shows how throughput, first-token delay, and streaming latency moved in the matched result.
+Now read the paired result across goodput, first-token latency and token spacing; the repeat checks whether the service-level observation persists.
 
 ---
 
@@ -735,7 +739,7 @@ The next slide shows how throughput, first-token delay, and streaming latency mo
 
 The decode change improves qualifying throughput by about 5.30% on H200, and a separate deployment repeats the result closely. First-token wait gets worse while streaming gaps improve. We retain this measured tradeoff, not a claim that everything became faster.
 
-![Slide 10](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-final-update-20261101/slides/assets/slide-10.png)
 
 ### Reasoning to communicate
 
@@ -800,7 +804,7 @@ Next, choose the request load by comparing N64 repetition with the apparent N68 
 
 Full N64 beat N62 by 1.082867% and repeated within 0.013634%. N68 looked 2.27% better in a short screen, but the full pair showed only 0.083056%, below the useful-gain gate. N64 is the supported load choice.
 
-![Slide 11](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-final-update-20261101/slides/assets/slide-11.png)
 
 ### Reasoning to communicate
 
@@ -865,7 +869,7 @@ At the selected N64 load, inspect which request-level latency condition still fa
 
 Of 1,902 requests, 1,875 met both latency limits; all 27 misses were TTFT-only. No request missed ITL, and there were zero request errors. The scatter identifies the failed condition, not why those first tokens were late.
 
-![Slide 12](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-final-update-20261101/slides/assets/slide-12.png)
 
 ### Reasoning to communicate
 
@@ -930,7 +934,7 @@ Next, compare replicated N64 evidence with isolated higher or lower observations
 
 Three full N64 runs average about 3,044 qualifying output tokens per second. A single cache result is higher but gains only 0.24% over its own control. Repetition supports our choice more strongly; lower valid replays remain unexplained.
 
-![Slide 13](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-final-update-20261101/slides/assets/slide-13.png)
 
 ### Reasoning to communicate
 
@@ -985,67 +989,67 @@ Next, test how far a cross-platform ratio predicts a held-out H200 result.
 
 <a id="slide-14"></a>
 
-## Slide 14 — One held-out check supports a local forecast, not a GPU conversion rule
+## Slide 14 — Direct H200 tests decide which H100 ideas transfer
 
-**Hardware: H100 N52 calibration inputs · H200 N50 held-out check**
-
-**Claim type: Experimental finding / method.**
+**Hardware: 16 H200 on Firmus, two nodes, N64; candidates derived from H100 experiments, all displayed scores measured on H200.**
 
 ### Quick brief · 10–20 seconds
 
-A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.
+We ported four distinct H100-derived settings onto the current H200 base. Every candidate stayed below the fresh H200 control: chunk 8192 lost 4.52%, while phase-mode changes gained at most 0.13%. Keep the H200 recipe.
 
-![Slide 14](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-final-update-20261101/slides/assets/slide-14.png)
 
 ### Reasoning to communicate
 
-- **Problem:** A cross-platform score ratio might help plan nearby measurements, but it could be mistaken for a general hardware multiplier.
-- **Why it matters:** Hardware, software, and workload interact; one ratio can fit a local setting while failing elsewhere.
-- **Why this test:** Use H100/H200 N52 means to freeze an H200 N50 forecast, then compare against a result not used in calibration.
-- **What we learned:** Job 24272 missed the frozen prediction by −1.5371%, within the predeclared ±2% band, while exposing that the earlier sensitivity range omitted model error.
-- **Why the next step follows:** Retain this as one local prospective check and avoid using it to convert other loads or platforms.
+- **Problem:** The H100 and H200 results cannot be compared as if only GPU type changed, so we needed to verify H100-derived ideas directly on target H200 hardware.
+- **Why it matters:** A setting that wins or appears promising on H100 can lose on H200 because the hardware and deployment stack differ. Adopting it from cross-platform score ratios could degrade the actual H200 service.
+- **Why this test:** Run four distinct H100-derived interventions on 16 H200 at N64 against fresh or explicit matched H200 controls. Check full protocol, joint SLA, runtime/source and output gates; keep each port’s changed factors visible.
+- **What we learned:** FA3 and the H100 full recipe lost; HPC-Ops chunks recovered part of that branch’s loss but remained below the H200 incumbent; both inference-mode changes were below 0.14%. No transferred setting cleared the 1% usefulness gate.
+- **Why the next step follows:** These tests close the current cross-hardware transfer question. We retain the H200-specific recipe, report the open official-quality limit, then hand over to the OpenFOAM speaker.
 
 ### Purpose
 
-Assess whether a platform-specific calibration transfers to a nearby held-out operating point, while keeping an operational tolerance distinct from statistical uncertainty.
+Answer the panel’s cross-hardware question using direct H200 measurements, not a conversion factor. A fresh H200 control lets us test selected H100-derived interventions on the target system. The runs show which tested ideas transfer, which lose, and why hardware-specific tuning remains necessary.
 
 ### Technical interpretation and reasoning
 
-The calibration comparison uses the same N52 combo configuration: H100 mean 2,215.460 good tokens/s across two allocations and H200 mean 2,632.181 across four, ratio 1.188096805. Applying that ratio to H100 N50 produced a forecast frozen before seeing H200 job 24272: 2,642.244. The held-out H200 measurement is 2,601.629, signed error −1.5371%. It falls within the predeclared ±2% operational tolerance but outside the earlier input-only sensitivity range, which omitted model error. The forecast is not refit after seeing the answer.
+Three cards show target-hardware evidence, not a mixed H100/H200 score chart. All displayed throughput values are full N64 measurements on 16 H200. Teal is fresh control 27777 at 3,038.02 good output tokens/s. Red is the transferred full H100 recipe 27783 at 2,721.82, a 10.41% loss. Gray is HPC-Ops prefill with chunk 8192, job 27806 at 2,900.61, still 4.52% below that control. The smaller line summarises the FA3 loss and phase-mode changes; those mode gains use their separate 27826 control. There are no plot axes. Backup 34 provides the complete nine-job ledger, including N54, and the control for every delta.
 
 ### Terms and symbols to understand
 
-- **calibration ratio:** H200 mean divided by H100 mean for the same N52 combo. It is specific to those systems and settings, not a GPU-generation constant.
-- **allocation:** A scheduled resource assignment and run. Two or four allocations are repeat counts and do not prove distinct physical GPU devices.
-- **held-out check:** A measurement not used to calculate the forecast, revealed afterward to test the prediction.
-- **frozen forecast:** A prediction fixed before the held-out measurement; keeping it unchanged prevents tuning the answer after seeing the result.
-- **sensitivity range:** A range produced by varying selected inputs. This earlier range omitted model error, so it did not cover all forecast uncertainty.
-- **±2% tolerance:** The team's operational pass band. It is not a confidence interval, standard error, or proof of general prediction accuracy.
+- **H100-derived intervention:** A setting observed or selected during H100 work and then tested as an intervention on H200. This does not mean the complete original H100 deployment was reproduced byte for byte.
+- **fresh H200 control 27777:** Current H200 DeepGEMM prefill with chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64; reference for the first transfer comparisons.
+- **good output tokens/s:** AIPerf Goodput requests per second multiplied by the fixed 200 output-token target.
+- **1% usefulness gate:** A prospective team decision threshold for deciding which small changes warrant confirmation; not an official contest rule.
 
 ### Interpreting the evidence or diagram
 
-- Same N52 combo: H100 mean 2,215.460; H200 mean 2,632.181 good tokens/s; ratio 1.188096805.
-- Frozen H200 N50 forecast: 2,642.244. Held-out job 24272: 2,601.629, signed error −1.5371%.
-- The result is within ±2% operational tolerance but outside the incomplete earlier sensitivity range. These statements are compatible because the range omitted model error.
+- All listed measurements ran on 16 H200 at N64, so the target-hardware comparisons use the H200 system rather than comparing H100 and H200 scores directly.
+- Fresh control 27777 measured 3038.022907 good output tokens/s. FA3 decode 27779 measured 2999.245473 (−1.276404%).
+- H100 full-recipe port 27783 measured 2721.815800 (−10.408319%). It changes a coupled prefill runner/chunk recipe, so its loss is not attributable to one factor.
+- HPC-Ops prefill chunk 8192 job 27806 measured 2900.606831 (−4.523207%); chunk 6144 job 27804 measured 2821.884862 (−7.114431%). Larger chunks improved that losing branch versus chunk 4096, but did not beat the DeepGEMM incumbent.
+- Phase-mode control 27826 measured 3039.167093; decode inference mode 27828 gained 0.006223%, and prefill inference mode 27830 gained 0.130765%. Both are below the team’s 1% usefulness gate.
+- Four distinct additional H100-derived interventions are represented by jobs 27804, 27806, 27828 and 27830. Job 27826 is their explicit phase-mode control, not another candidate. The broader nine-job final verification also includes 27777, 27779, 27781 and 27783.
+- MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** One held-out H200 result is 1.5371% below forecast, within operational tolerance and outside the prior incomplete sensitivity range.
-- **Hypothesis:** A ratio measured at N52 may predict a nearby H200 N50 result when the tested combo is held comparable.
-- **Supported conclusion:** This one prospective check meets the team's tolerance; preserve the missing-model-error limitation and do not refit the forecast.
-- **Unknown / limitation:** Accuracy across other loads/configurations, total predictive uncertainty, physical-device diversity, and a universal platform conversion remain unknown.
+- **Observation:** The direct H200 ports yielded losses for FA3, the H100 full recipe and both HPC-Ops chunk variants relative to their relevant H200 references. Phase-mode candidates were effectively flat against their explicit control.
+- **Hypothesis:** Hardware-specific implementations or settings may not transfer as a complete recipe; test selected components on H200 under a matched target-system base before adopting them.
+- **Supported conclusion:** Retain the H200 DeepGEMM/chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode recipe at N64. None of these tested ports improves goodput by the prospective 1% gate; this is the best-supported measured H200 recipe in this evidence set, not a claimed global optimum.
+- **Unknown / limitation:** Each candidate is a single run; full official model accuracy is UNKNOWN. The H100 full-recipe port changes coupled settings, and chunk runner comparisons retain generated-seed and run-order limitations. These tests do not establish universal transferability.
 
 ### Spoken script
 
-We measured the same N52 configuration on H100 and H200 and calculated a ratio of 1.1881. Before an H200 N50 run was available, we fixed a forecast of 2,642.244. The held-out result was 2,601.629, an error of minus 1.5371 percent, within our predeclared two-percent tolerance. But it fell outside an earlier sensitivity range that omitted model error. This is one local forecast check, not a general GPU conversion rule.
+We asked whether ideas selected on H100 would help the H200 system. Rather than convert scores between GPUs, we tested them directly on 16 H200 at N64 against fresh H200 references. The H100-derived full recipe lost 10.41%; FA3 decode lost 1.28%. HPC-Ops prefill with chunk 8192 recovered part of that branch’s loss but remained 4.52% below the DeepGEMM control. The two phase-specific inference-mode tests changed goodput by only 0.006% and 0.131%, both below our 1% decision threshold. These results support keeping the H200-specific recipe. They are separate single-run comparisons, not a universal claim that H100 ideas never transfer, and the official model-quality score remains unknown.
 
 ### Avoid this interpretation
 
-Do not call the ±2% band a confidence interval, infer that allocations were distinct physical GPUs, or refit the forecast after seeing the result.
+Do not compare an H100 score directly with an H200 score or call the best observed point a global optimum. The four distinct transferred settings are 27804, 27806, 27828 and 27830; 27826 is a control. No candidate cleared the team’s prospective 1% gate.
 
 ### Transition
 
-Before closing, compare two attractive interventions with the service objective: did their apparent benefits survive a full measurement?
+This closes our measured AI transfer and tuning story. We retain the H200 recipe, state the remaining quality and packaged-replay limits, and hand over to OpenFOAM.
 
 ---
 
@@ -1061,7 +1065,7 @@ Before closing, compare two attractive interventions with the service objective:
 
 Sparse graphs reduced capture memory but goodput fell 0.370208% versus control 27376. Full shallow EAGLE scored 2.080318% below target-only control 26949. These separate results reject neither idea universally; they bound the tested settings.
 
-![Slide 15](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-final-update-20261101/slides/assets/slide-15.png)
 
 ### Reasoning to communicate
 
@@ -1117,7 +1121,7 @@ The closing slide separates what the serving evidence supports from two validati
 
 <a id="slide-16"></a>
 
-## Slide 16 — The performance claim is bounded; two validation tasks remain open
+## Slide 16 — The H200 recipe holds; official quality and replay remain open
 
 **Hardware: H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33**
 
@@ -1125,25 +1129,25 @@ The closing slide separates what the serving evidence supports from two validati
 
 ### Quick brief · 10–20 seconds
 
-Repeated measurements support our H200 service operating point. Official model quality and a complete packaged GPU replay after the reader repair remain unverified. Those are the limits of the claim. We now hand over to the independent OpenFOAM presenter.
+Nine final H200 allocations produced no useful new winner; keep DeepGEMM chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. Official 99%-reference quality and a full packaged GPU replay after reader repair remain unverified.
 
-![Slide 16](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-final-update-20261101/slides/assets/slide-16.png)
 
 ### Reasoning to communicate
 
-- **Problem:** A strong serving score can be mistaken for verified answer quality or successful portable deployment.
-- **Why it matters:** Competition quality and end-to-end artifact reliability are independent acceptance dimensions; local metrics cannot substitute for either.
-- **Why this test:** Retain local output-check counts, official-quality status, original scheduler outcomes, and the narrow CPU reader-verification result as separate evidence.
-- **What we learned:** Serving performance at H200 N64 is supported; official accuracy is UNKNOWN; original portable GPU jobs failed in post-processing; the reader-only repair passed on CPU data.
-- **Why the next step follows:** The AI main section ends here. The two validation tasks are open proposals, AI backup slides stay hidden, and the unchanged OpenFOAM slide 33 follows.
+- **Problem:** Finish with a defensible AI result that incorporates the completed H200 transfer wave without overstating an isolated peak or confusing performance with model quality.
+- **Why it matters:** The panel needs to know which recipe the team retained, what the latest target-hardware tests changed, and which acceptance claims are still open.
+- **Why this test:** The final nine allocations tested the remaining bounded H100-to-H200 ideas against H200 controls; inspect all of them before deciding whether any new setting should replace the incumbent.
+- **What we learned:** No tested transfer cleared the team-set 1% gate, so the incumbent remains. Serving performance has repeated evidence; official quality and post-fix full portable GPU execution do not.
+- **Why the next step follows:** End the AI section with the bounded decision and hand off to the independent OpenFOAM presenter.
 
 ### Purpose
 
-Close the main AI argument at the level the evidence supports, state two unresolved validation tasks, and hand off cleanly to the unchanged OpenFOAM section without implying more AI work was run.
+Close the AI story with the current decision after the final nine-run H200 verification. State the retained recipe and distinguish locally reviewed serving performance from the organiser’s model-quality evaluation and the incomplete post-repair portable GPU replay.
 
 ### Technical interpretation and reasoning
 
-The two open cards are independent. First, local output checks were 7/8 on smoke tests and 12/12 on retrieval checks; neither is the organizer's full-set quality evaluation, which requires at least 99% of reference and remains UNKNOWN. Second, portable GPU jobs 27136 and 27145 completed the serving client but ended terminal FAILED in result-reader path handling. CPU-only job 27152 passed the repaired readers against both saved datasets; it did not rerun GPU serving. Thus, raw score recovery cannot convert the original jobs into successful end-to-end deployments. The next visible slide is unchanged OpenFOAM slide 33; AI backup slides 17–32 remain hidden during the main presentation.
+The heading states the decision: retain the repeated H200 recipe because final tested alternatives did not produce a useful gain. Two columns underneath identify open validation: official model quality against at least 99% of the organiser reference, and a complete packaged GPU replay after reader repair. The last dark bar is the verbal handoff to the independent OpenFOAM presenter. There are no axes or score comparison here. AI backups 17–34 are hidden; the next visible PowerPoint slide is HPC 35. The retained recipe is DeepGEMM prefill/chunk 8192, HPC-Ops decode, FlashInfer decode attention, MNNVL collectives and NIXL cross-role KV transfer at N64.
 
 ### Terms and symbols to understand
 
@@ -1154,32 +1158,37 @@ The two open cards are independent. First, local output checks were 7/8 on smoke
 - **CPU-only reader verification:** Job 27152 ran the fixed readers on saved real datasets without GPUs or serving requests; it verifies post-processing only.
 - **whole-allocation replay:** A complete packaged GPU deployment, benchmark-client run, output processing, and review on the assigned allocation.
 - **hidden backup slides:** AI slides 17–32 are retained as supporting material but skipped in the main show; OpenFOAM slide 33 remains unchanged and follows this slide.
+- **MNNVL:** GPU collective-communication backend used within the decode implementation; it is not the cross-role KV transport.
+- **NIXL:** Transport used to move request KV state between the separate prefill and decode roles.
 
 ### Interpreting the evidence or diagram
 
-- The selected H200 N64 configuration has repeated full-run evidence near 3,044 good output tokens/s. This supports a serving-performance claim at the tested setting, not official answer quality.
-- Smoke checks passed 7/8 and retrieval checks 12/12. The official full-set requirement of at least 99% of reference is still UNKNOWN.
-- Portable jobs 27136/27145 remain FAILED due to reader failures after the client; CPU job 27152 verified corrected readers on retained data only. No post-fix full GPU replay is claimed.
-- The next-step labels are unperformed validation tasks. No official acceptance, human mock outcome or new GPU job is claimed by this report.
+- The retained H200 recipe is DeepGEMM prefill with chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64.
+- The nine-run transfer review ended with no useful new candidate; 27804/27806/27828/27830 are four distinct H100-derived ports and the other jobs include controls or coupled alternatives.
+- Historical repeated H200 N64 runs support a stable operating point around 3,044 good output tokens/s; report this separately from the newer transfer-wave control at 3038.022907.
+- Local smoke and retrieval checks are not the official full-set quality test; ≥99% of the organiser reference remains UNKNOWN.
+- Reader fixes passed against saved data on CPU, but no complete GPU portable deployment replay was completed after the repair.
+- HPC content is preserved; the main presentation handoff now goes to physical slide 35.
+- MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** N64 serving performance is supported by repeated evidence; official quality and complete portable deployment after reader repair remain unverified.
+- **Observation:** Nine final H200 allocations completed with no candidate reaching the prospective 1% gate over its applicable control. Existing H200 recipe remains the supported choice.
 - **Hypothesis:** Independent full-set quality evaluation and a complete post-repair portable GPU replay would close separate validation gaps.
-- **Supported conclusion:** Bound the claim to measured H200 serving, keep accuracy UNKNOWN, preserve failed job status, and hand off to the unchanged OpenFOAM slide 33.
-- **Unknown / limitation:** Whether official accuracy reaches 99% and whether the packaged portable deployment completes end to end after reader repair remain unknown. No new jobs are implied or scheduled by this summary.
+- **Supported conclusion:** Retain the H200-specific DeepGEMM/chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. The local serving claim is supported by reviewed repeats, not official quality certification.
+- **Unknown / limitation:** Official full-set accuracy and a complete portable GPU replay after reader repair remain unverified. The team did not perform a timed human mock in these records.
 
 ### Spoken script
 
-The evidence supports the H200 N64 serving result, around 3,044 good output tokens per second across repeated runs. It does not certify model quality: smoke checks were 7 out of 8 and retrieval checks 12 out of 12, while the official 99-percent-of-reference result remains unknown. Portable GPU jobs 27136 and 27145 are still failed because result reading broke after the client. A CPU-only job verified the reader fixes on saved data, not GPU serving. Two validation tasks remain open; next we hand off to the unchanged OpenFOAM slide 33.
+The final nine H200 allocations did not produce a useful new winner, so we keep the H200-specific recipe: DeepGEMM prefill at chunk 8192 and HPC-Ops with FlashInfer and MNNVL for decode at N64. The repeated historical N64 runs support about 3,044 good output tokens per second, while the latest transfer control is a separate 3,038-point observation. These are team-reviewed serving results. They do not certify the official quality requirement: the full-set comparison against the organiser reference remains unknown. Our reader repair passed on saved data with a CPU check, but the complete packaged GPU deployment has not been replayed after that repair. With those limits clear, I hand over to OpenFOAM. MNNVL is the GPU collective path inside the decode implementation; NIXL carries KV between the separate prefill and decode roles.
 
 ### Avoid this interpretation
 
-Do not claim the accuracy threshold passed, relabel portable jobs as successful, or describe CPU reader verification as a post-fix GPU replay. The open checks are proposals, not scheduled or completed jobs.
+Do not say official accuracy passed, that all nine jobs were distinct candidate improvements, or that CPU reader checks amount to a full GPU replay. Do not pool the historical repeat series with the newer transfer control.
 
 ### Transition
 
-End the AI main section. AI backups 17–32 remain hidden; the unchanged OpenFOAM slide 33 is next.
+AI main talk ends here. The 18 AI backup slides are hidden; proceed to unchanged OpenFOAM slide 35.
 
 ---
 
@@ -1193,7 +1202,7 @@ End the AI main section. AI backups 17–32 remain hidden; the unchanged OpenFOA
 
 Both systems allocate sixteen GPUs and use the same Qwen checkpoint and staged workload. Firmus uses H200s; NSCC uses H100s. Different hardware, schedulers, containers, and node conditions mean their scores are separate measurements, not a direct GPU conversion.
 
-![Slide 17](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-17.png)
+![Slide 17](../../submission-review/ai-final-update-20261101/slides/assets/slide-17.png)
 
 **AI backup section: open when a deeper explanation is needed.**
 
@@ -1253,7 +1262,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The failed TP8/EP1 partition had 192 elements, which leaves a 64-element remainder against a 128-wide FP8 block. EP2 changes the effective split to 384 elements, or three full blocks. That fixes this shape mismatch; it does not prove serving speed or quality.
 
-![Slide 18](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-18.png)
+![Slide 18](../../submission-review/ai-final-update-20261101/slides/assets/slide-18.png)
 
 ### Purpose
 
@@ -1311,7 +1320,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The H200 chart rises from 1,297 good tokens/s at N32 to a 3,044 N64 mean. It shows better measured operating points over the campaign, but each milestone changes load or configuration, so the bars do not assign a causal gain to each optimization.
 
-![Slide 19](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-19.png)
+![Slide 19](../../submission-review/ai-final-update-20261101/slides/assets/slide-19.png)
 
 ### Purpose
 
@@ -1367,7 +1376,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The patch builds descriptors for requested KV pages and coalesces contiguous ranges while preserving mapping and stride. CPU tests passed 720 geometry cases; the fixture explicitly did not validate real GPU transport.
 
-![Slide 20](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-20.png)
+![Slide 20](../../submission-review/ai-final-update-20261101/slides/assets/slide-20.png)
 
 ### Purpose
 
@@ -1426,7 +1435,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 On patched job 22294, pair warmup took 0.68–0.70 seconds per request and full N32 goodput was 1,422.96 with 95.87% joint SLA and zero errors. No matched unpatched control measures speedup.
 
-![Slide 21](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-21.png)
+![Slide 21](../../submission-review/ai-final-update-20261101/slides/assets/slide-21.png)
 
 ### Purpose
 
@@ -1485,7 +1494,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 In one matched H100 N54 pair, FA3 cut mean TTFT from 713.199 to 594.276 ms, but goodput fell from 2,420.945 to 2,401.284 tokens/s, about 0.812%. A faster first token did not improve the full request objective.
 
-![Slide 22](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-22.png)
+![Slide 22](../../submission-review/ai-final-update-20261101/slides/assets/slide-22.png)
 
 ### Purpose
 
@@ -1543,7 +1552,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Read-first initially reduced scheduler walltime by 18.74%, but the reversed-order confirmation saved only 9.84%, below the predeclared 10% threshold. Goodput changed slightly in both pairs; unknown cache state prevents a cold-storage causal claim.
 
-![Slide 23](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-23.png)
+![Slide 23](../../submission-review/ai-final-update-20261101/slides/assets/slide-23.png)
 
 ### Purpose
 
@@ -1600,7 +1609,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Several H200 changes were activated and measured, but gains were small, negative, or worse in a tail metric. For example, a prefill attention change lost 6.385% goodput. A working flag is not enough to replace the selected configuration.
 
-![Slide 24](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-24.png)
+![Slide 24](../../submission-review/ai-final-update-20261101/slides/assets/slide-24.png)
 
 ### Purpose
 
@@ -1659,7 +1668,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The 2,549.20 N52 attention package changed several factors; representative Triton probes, CPU fixtures, and source review answer narrower questions. Full Qwen compilation stopped at a RoPE/KV assertion. None alone proves a full-model serving gain.
 
-![Slide 25](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-25.png)
+![Slide 25](../../submission-review/ai-final-update-20261101/slides/assets/slide-25.png)
 
 ### Purpose
 
@@ -1718,7 +1727,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The retained H200 setup uses N64, two TP4 DeepGEMM prefill workers with chunk 8,192, and TP8/EP8 HPC-Ops decode. H100 is separate: N54, HPC-Ops prefill with chunk 4,096, and its own measured settings.
 
-![Slide 26](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-26.png)
+![Slide 26](../../submission-review/ai-final-update-20261101/slides/assets/slide-26.png)
 
 ### Purpose
 
@@ -1777,7 +1786,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Under the same full N64 workload, increasing prefill chunk from 8,192 to 12,288 reduced goodput from 3,045.50 to 3,020.94 tokens/s and worsened p95 TTFT. Each setting has one reviewed H200 run; this does not establish a global optimum.
 
-![Slide 27](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-27.png)
+![Slide 27](../../submission-review/ai-final-update-20261101/slides/assets/slide-27.png)
 
 ### Purpose
 
@@ -1836,7 +1845,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Sparse capture cut logged memory from 1.15 to 0.36 GB per decode rank, but goodput fell 0.370208% and mean ITL worsened. Padding was not measured as a cause. The team retained dense graphs; this pair does not prove a causal effect.
 
-![Slide 28](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-28.png)
+![Slide 28](../../submission-review/ai-final-update-20261101/slides/assets/slide-28.png)
 
 ### Purpose
 
@@ -1894,7 +1903,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Historical full N64 averaged 3,044.40 while a newer short control was about 2,560. Graph policy, server admission cap and measurement procedure changed. The completed tests did not isolate one cause, so we retain the drift without attributing it to one flag.
 
-![Slide 29](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-29.png)
+![Slide 29](../../submission-review/ai-final-update-20261101/slides/assets/slide-29.png)
 
 ### Purpose
 
@@ -1949,7 +1958,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 EAGLE3 placement missed latency; a validator bug was repaired; the short retry and separate full shallow trial both lost goodput. The tested method therefore did not help this workload, although other configurations remain untested.
 
-![Slide 30](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-30.png)
+![Slide 30](../../submission-review/ai-final-update-20261101/slides/assets/slide-30.png)
 
 ### Purpose
 
@@ -2004,7 +2013,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Two real H200 portable jobs completed serving but failed during result reading. A zero-GPU job verified reader fixes on real exports. This does not establish a successful full deployment after repair; the original jobs remain failed.
 
-![Slide 31](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-31.png)
+![Slide 31](../../submission-review/ai-final-update-20261101/slides/assets/slide-31.png)
 
 ### Purpose
 
@@ -2059,7 +2068,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 At H200 N52, combining attention and communication measured about 1.43 percent above a later MNNVL control. This supports the combined setting at this load, not additive component gains or a universal rule.
 
-![Slide 32](../../submission-review/ai-investigation-update-20261030/slides/assets/slide-32.png)
+![Slide 32](../../submission-review/ai-final-update-20261101/slides/assets/slide-32.png)
 
 ### Purpose
 
@@ -2106,7 +2115,123 @@ Return to the question and main evidence after answering; these backups are not 
 
 <a id="slide-33"></a>
 
-## Slide 33 — The task: same 65-million-cell airflow calculation
+## Slide 33 — Backup · one held-out forecast is not a GPU conversion rule
+
+**Hardware: H100 input · H200 held-out check**
+
+**Claim type: Backup · robustness check.**
+
+### Quick brief · 10–20 seconds
+
+A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.
+
+![Slide 33](../../submission-review/ai-final-update-20261101/slides/assets/slide-33.png)
+
+### Purpose
+
+Assess whether a platform-specific calibration transfers to a nearby held-out operating point, while keeping an operational tolerance distinct from statistical uncertainty.
+
+### Technical interpretation and reasoning
+
+The calibration comparison uses the same N52 combo configuration: H100 mean 2,215.460 good tokens/s across two allocations and H200 mean 2,632.181 across four, ratio 1.188096805. Applying that ratio to H100 N50 produced a forecast frozen before seeing H200 job 24272: 2,642.244. The held-out H200 measurement is 2,601.629, signed error −1.5371%. It falls within the predeclared ±2% operational tolerance but outside the earlier input-only sensitivity range, which omitted model error. The forecast is not refit after seeing the answer.
+
+### Terms and symbols to understand
+
+- **calibration ratio:** H200 mean divided by H100 mean for the same N52 combo. It is specific to those systems and settings, not a GPU-generation constant.
+- **allocation:** A scheduled resource assignment and run. Two or four allocations are repeat counts and do not prove distinct physical GPU devices.
+- **held-out check:** A measurement not used to calculate the forecast, revealed afterward to test the prediction.
+- **frozen forecast:** A prediction fixed before the held-out measurement; keeping it unchanged prevents tuning the answer after seeing the result.
+- **sensitivity range:** A range produced by varying selected inputs. This earlier range omitted model error, so it did not cover all forecast uncertainty.
+- **±2% tolerance:** The team's operational pass band. It is not a confidence interval, standard error, or proof of general prediction accuracy.
+
+### Interpreting the evidence or diagram
+
+- Same N52 combo: H100 mean 2,215.460; H200 mean 2,632.181 good tokens/s; ratio 1.188096805.
+- Frozen H200 N50 forecast: 2,642.244. Held-out job 24272: 2,601.629, signed error −1.5371%.
+- The result is within ±2% operational tolerance but outside the incomplete earlier sensitivity range. These statements are compatible because the range omitted model error.
+
+### Tradeoff and strength of evidence
+
+- **Observation:** One held-out H200 result is 1.5371% below forecast, within operational tolerance and outside the prior incomplete sensitivity range.
+- **Hypothesis:** A ratio measured at N52 may predict a nearby H200 N50 result when the tested combo is held comparable.
+- **Supported conclusion:** This one prospective check meets the team's tolerance; preserve the missing-model-error limitation and do not refit the forecast.
+- **Unknown / limitation:** Accuracy across other loads/configurations, total predictive uncertainty, physical-device diversity, and a universal platform conversion remain unknown.
+
+### Spoken script
+
+We measured the same N52 configuration on H100 and H200 and calculated a ratio of 1.1881. Before an H200 N50 run was available, we fixed a forecast of 2,642.244. The held-out result was 2,601.629, an error of minus 1.5371 percent, within our predeclared two-percent tolerance. But it fell outside an earlier sensitivity range that omitted model error. This is one local forecast check, not a general GPU conversion rule.
+
+### Avoid this interpretation
+
+Do not call the ±2% band a confidence interval, infer that allocations were distinct physical GPUs, or refit the forecast after seeing the result.
+
+### Transition
+
+For the latest direct H200 transfer results, return to main slide 14; the complete nine-job ledger is backup slide 34.
+
+---
+
+<a id="slide-34"></a>
+
+## Slide 34 — Backup · nine final H200 runs support retaining the recipe
+
+**Hardware: 16 H200 on Firmus, two nodes; H100-derived settings tested directly on H200. Ledger includes N54 and N64.**
+
+### Quick brief · 10–20 seconds
+
+Nine final H200 allocations tested controls and H100-derived alternatives. No distinct candidate cleared the team’s 1% usefulness gate; the existing H200 recipe remains the measured choice.
+
+![Slide 34](../../submission-review/ai-final-update-20261101/slides/assets/slide-34.png)
+
+### Purpose
+
+Keep the complete final H200 verification auditable for questions. Distinguish the nine scheduler jobs from the four distinct additional H100-derived intervention ports, show the proper control for each branch, and explain why none replaced the incumbent.
+
+### Technical interpretation and reasoning
+
+The compact ledger has with columns job, intervention/control, good output tokens/s and delta against its stated H200 control. Rows: 27777 fresh DeepGEMM/chunk-8192 incumbent control 3038.022907; 27779 FA3 decode 2999.245473 (−1.276404%); 27781 H100 both-HPC-Ops/chunk-4096 recipe N54 2738.940099; 27783 same recipe N64 2721.815800 (−10.408319% vs 27777); 27804 HPC-Ops chunk 6144 2821.884862 (−7.114431%); 27806 HPC-Ops chunk 8192 2900.606831 (−4.523207%); 27826 explicit no_grad phase control 3039.167093; 27828 decode-only inference mode 3039.356215 (+0.006223%); 27830 prefill-only inference mode 3043.141258 (+0.130765%). The control column labels comparison branches so percent denominators cannot be confused. Units: good output tokens/s. Nine GPU allocations include controls and repeated-load/coupled arms; they are not nine unique winning candidates.
+
+### Terms and symbols to understand
+
+- **fresh control:** A newly measured reference on the target H200 setup; each experimental branch has its applicable control.
+- **four distinct ports:** Jobs 27804, 27806, 27828 and 27830. Job 27826 is the explicit phase-mode control and is not counted as a candidate.
+- **N64:** Client concurrency target of 64 in-flight requests; it is not GPU count.
+- **1% gate:** Team-set prospective useful-gain threshold, not an official contest threshold.
+
+### Interpreting the evidence or diagram
+
+- The nine jobs are one bounded target-hardware verification set, not nine independent innovations or nine candidates with the same denominator.
+- Fresh incumbent control 27777 scored 3038.022907 good output tokens/s on 16 H200 at N64.
+- FA3 27779 lost 1.276404%; the H100-derived recipe 27783 lost 10.408319% against that N64 control. Its partner 27781 ran at N54; that point describes the branch at a different load and is not a same-load comparison against the N64 incumbent.
+- Within the HPC-Ops branch, chunk 6144/8192 recovered some performance versus its 4096 arm, but still lost 7.114431%/4.523207% versus incumbent 27777. The prefill runner and generated seeds differ in the incumbent comparison, so do not claim a pure chunk causal effect from that row.
+- The explicit mode control 27826 is compared with decode-only 27828 and prefill-only 27830. Gains are +0.006223% and +0.130765%, both below the prospective 1% gate.
+- All nine runs passed retained local raw/runtime/output gates; smoke checks were 7/8, retrieval 12/12, and official full-set model quality remains UNKNOWN.
+- Decision: keep H200 DeepGEMM prefill/chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64. These comparisons do not establish a global optimum or official rank.
+
+### Tradeoff and strength of evidence
+
+- **Observation:** Nine allocations completed with zero scored errors/cancellations. The candidates either lost to their applicable H200 control or remained below the team’s prospective 1% threshold.
+- **Hypothesis:** Testing H100-derived settings directly on the target H200 system can reject harmful transfers and identify small effects before changing the recipe.
+- **Supported conclusion:** No candidate changes the H200 incumbent. Retain DeepGEMM prefill/chunk 8192 with HPC-Ops/FlashInfer/MNNVL decode at N64.
+- **Unknown / limitation:** These are single-run ports and bounded local validation. They do not establish statistical confidence, official quality, or a global optimum.
+
+### Spoken script
+
+This appendix answers how many final transfer jobs produced the decision. Nine allocations completed on sixteen H200s: eight at N64 and one at N54, but they were controls and related intervention arms, not nine unique candidates. The fresh incumbent control was 3,038.02 good output tokens per second. FA3 lost 1.28 percent; the H100 full recipe lost 10.41 percent. HPC-Ops chunks recovered some of that branch but stayed 4.52 percent below the incumbent at chunk 8192. Two phase-specific inference-mode changes were nearly flat, at 0.006 and 0.131 percent above their explicit control. Neither clears our prospective one-percent gate. We therefore retain the DeepGEMM-prefill and HPC-Ops/FlashInfer/MNNVL-decode H200 recipe. Local gates passed, but full official model quality remains unknown.
+
+### Avoid this interpretation
+
+Do not call all nine jobs distinct candidates, compare percentages with different controls as one ranking, attribute a coupled runner/chunk loss to one factor, or claim official quality passed.
+
+### Transition
+
+Return to slide 16 for the main conclusion, or show slide 35 for the bounded held-out forecast check.
+
+---
+
+<a id="slide-35"></a>
+
+## Slide 35 — The task: same 65-million-cell airflow calculation
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2114,7 +2239,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 We fix the workload at 65.3 million cells, four nodes and 512 MPI ranks. All 150 solver steps run; 149 are timed. The measure is average seconds per step, with lower being better.
 
-![Slide 33](transcript-assets/slide-33.png)
+![Slide 35](transcript-assets/slide-35.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2160,9 +2285,9 @@ Next, show which preparation stages must be retained for a valid end-to-end run.
 
 ---
 
-<a id="slide-34"></a>
+<a id="slide-36"></a>
 
-## Slide 34 — The whole required pipeline comes before the score
+## Slide 36 — The whole required pipeline comes before the score
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2170,7 +2295,7 @@ Next, show which preparation stages must be retained for a valid end-to-end run.
 
 A valid comparison includes every preparation stage and all 150 solver steps. Decomposition assigns cells to ranks; CPU affinity assigns ranks to CPUs. These are separate choices that can each affect runtime.
 
-![Slide 34](transcript-assets/slide-34.png)
+![Slide 36](transcript-assets/slide-36.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2216,9 +2341,9 @@ With the workload and pipeline fixed, the next slide tests whether a locality pr
 
 ---
 
-<a id="slide-35"></a>
+<a id="slide-37"></a>
 
-## Slide 35 — A smaller partition cut did not make the solver faster
+## Slide 37 — A smaller partition cut did not make the solver faster
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2226,7 +2351,7 @@ With the workload and pipeline fixed, the next slide tests whether a locality pr
 
 The NUMA-aware partition reduced its graph-cut proxy by 10.63%, yet mean solver time worsened by 3.4416%, from 13.881 to 14.359 seconds per step. The proxy did not predict runtime.
 
-![Slide 35](transcript-assets/slide-35.png)
+![Slide 37](transcript-assets/slide-37.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2275,9 +2400,9 @@ The next comparison asks whether the better observed decomposition changes with 
 
 ---
 
-<a id="slide-36"></a>
+<a id="slide-38"></a>
 
-## Slide 36 — Observed scaling changed which decomposition led
+## Slide 38 — Observed scaling changed which decomposition led
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2285,7 +2410,7 @@ The next comparison asks whether the better observed decomposition changes with 
 
 The observed leader changes across allocations: Hierarchical is lower at one and two nodes, while Scotch is lower at four. Since run lengths and allocations differ, these values describe observations, not a causal scaling result.
 
-![Slide 36](transcript-assets/slide-36.png)
+![Slide 38](transcript-assets/slide-38.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2331,9 +2456,9 @@ The four-node results can be split further by ranks per node, which is the next 
 
 ---
 
-<a id="slide-37"></a>
+<a id="slide-39"></a>
 
-## Slide 37 — At four nodes, the winner depends on ranks per node
+## Slide 39 — At four nodes, the winner depends on ranks per node
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2341,7 +2466,7 @@ The four-node results can be split further by ranks per node, which is the next 
 
 At four nodes, Hierarchical has lower means at 64 and 96 ranks per node; Scotch is lower at 128. Scotch-128's 3.678 seconds per step is the lowest reviewed mean, still a candidate observation needing confirmation.
 
-![Slide 37](transcript-assets/slide-37.png)
+![Slide 39](transcript-assets/slide-39.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2387,9 +2512,9 @@ The next slide examines the full timing distribution behind the Scotch-128 mean,
 
 ---
 
-<a id="slide-38"></a>
+<a id="slide-40"></a>
 
-## Slide 38 — Keep the slow step in the mean; inspect the tail
+## Slide 40 — Keep the slow step in the mean; inspect the tail
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2397,7 +2522,7 @@ The next slide examines the full timing distribution behind the Scotch-128 mean,
 
 Most steps were near 3.3 to 3.8 seconds, but one reached 35.884 seconds. We retain all 149 samples in the arithmetic mean; the spike is real in this run, while its cause remains unknown.
 
-![Slide 38](transcript-assets/slide-38.png)
+![Slide 40](transcript-assets/slide-40.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2445,9 +2570,9 @@ That uncertainty is why the next slide asks for an independently repeated, fully
 
 ---
 
-<a id="slide-39"></a>
+<a id="slide-41"></a>
 
-## Slide 39 — A reproducible candidate needs more than a fast log
+## Slide 41 — A reproducible candidate needs more than a fast log
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2455,7 +2580,7 @@ That uncertainty is why the next slide asks for an independently repeated, fully
 
 Scotch with 128 processes per node measured about 3.678 seconds per step. In the slide’s 23 October snapshot, its confirmation job was still queued without a result. This remains a candidate observation, not an accepted official score.
 
-![Slide 39](transcript-assets/slide-39.png)
+![Slide 41](transcript-assets/slide-41.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 
@@ -2505,9 +2630,9 @@ The final slide summarizes the evidence discipline and the next review decision 
 
 ---
 
-<a id="slide-40"></a>
+<a id="slide-42"></a>
 
-## Slide 40 — What we learned — and the next measurement
+## Slide 42 — What we learned — and the next measurement
 
 **Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
 
@@ -2515,7 +2640,7 @@ The final slide summarizes the evidence discipline and the next review decision 
 
 We choose by measured runtime, retain slow samples, and require another run to confirm results. The lowest candidate mean is about 3.678 seconds per step; confirmation had no result on 23 October. A fast number needs adequate evidence.
 
-![Slide 40](transcript-assets/slide-40.png)
+![Slide 42](transcript-assets/slide-42.png)
 
 **Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
 

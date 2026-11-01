@@ -1,6 +1,6 @@
 # Mock panel Q&A: evidence and answer boundaries
 
-Prepared 1 November 2026; updated after the nine-run H200 verification on 31 October from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](/home/apacsc42/workspace/submission-review/ai-investigation-update-20261030/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
+Prepared 1 November 2026; updated after the nine-run H200 verification on 31 October from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](/home/apacsc42/workspace/submission-review/ai-final-update-20261101/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
 
 | Main slide | Exact title in the current plan |
 |---:|---|

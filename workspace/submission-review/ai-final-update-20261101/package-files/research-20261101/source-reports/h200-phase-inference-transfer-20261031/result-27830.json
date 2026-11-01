@@ -1,0 +1,538 @@
+{
+  "job": 27830,
+  "reviewed_vietnam_time": "2026-10-31T21:52:15.516036+07:00",
+  "state": "LOCAL_FULL_GATE_PASS_NOT_OFFICIAL_ACCURACY",
+  "hardware": "16 H200 on g1/g4",
+  "concurrency": 64,
+  "summary": {
+    "export": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/27830/confirm/n64/artifacts/profile_export_aiperf.json",
+    "phase": "confirm",
+    "concurrency": 64,
+    "good_request_fraction": 0.9863301787592008,
+    "sla_pass": true,
+    "good_output_tokens_s": 3043.1412580549845,
+    "raw_output_tokens_s": 3085.2845469058743,
+    "ttft_avg_ms": 1118.6278897854888,
+    "itl_avg_ms": 14.985563043989128,
+    "ttft_p95_ms": 1289.0296799499977,
+    "itl_p95_ms": 15.141218177889447,
+    "requests": 1902.0,
+    "errors": 0,
+    "cancelled_requests": 0
+  },
+  "raw_fixed_workload": {
+    "completed": 1902,
+    "errors": 0,
+    "cancelled": 0,
+    "good_request_fraction": 0.9863301787592008,
+    "goodput_req_s": 15.215706290274923,
+    "good_output_tokens_per_second": 3043.1412580549845,
+    "goodput_unit": "requests/sec",
+    "good_output_throughput_unit": "tokens/sec"
+  },
+  "ttft_breaches": 26,
+  "itl_breaches": 0,
+  "runtime": {
+    "state": "PASS_FAST_RUNTIME",
+    "arm": "control",
+    "prefill_cap": null,
+    "roles": {
+      "prefill-0": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 4,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "auto"
+        },
+        "prefill_graph": "breakable",
+        "decode_graph": "disabled",
+        "server_args_records": 1,
+        "resolved_decode_attention_backend": null,
+        "native_provider_preflight_inference_mode": true,
+        "actual_cache_class": "RadixCache",
+        "disable_radix_cache": false,
+        "decode_transfer_polling_interval": 1
+      },
+      "prefill-1": {
+        "tp_ranks": 4,
+        "bf16_kv_records": 4,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 4,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "auto"
+        },
+        "prefill_graph": "breakable",
+        "decode_graph": "disabled",
+        "server_args_records": 1,
+        "resolved_decode_attention_backend": null,
+        "native_provider_preflight_inference_mode": true,
+        "actual_cache_class": "RadixCache",
+        "disable_radix_cache": false,
+        "decode_transfer_polling_interval": 1
+      },
+      "decode-0": {
+        "tp_ranks": 8,
+        "bf16_kv_records": 8,
+        "expected_per_rank": 1,
+        "nixl_rank_records": 8,
+        "resolved_fast_defaults": {
+          "deterministic": false,
+          "sampling": "flashinfer",
+          "custom_allreduce_disabled": false,
+          "mnnvl_fusion": "mnnvl"
+        },
+        "prefill_graph": "disabled",
+        "decode_graph": "full 1..64",
+        "server_args_records": 1,
+        "resolved_decode_attention_backend": "flashinfer",
+        "native_provider_preflight_inference_mode": false,
+        "actual_cache_class": "ChunkCache",
+        "disable_radix_cache": true,
+        "decode_transfer_polling_interval": 1
+      }
+    },
+    "scope": "Resolved native arguments, rank-level BF16 KV/NIXL allocations, and startup graph/MNNVL markers only; not a kernel-performance or model-quality proof."
+  },
+  "raw_log_review": {
+    "prefill-0": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    },
+    "prefill-1": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    },
+    "decode-0": {
+      "selected_transport_error_lines": [],
+      "traceback_count": 0,
+      "traceback_scope": "Legacy post-score profile-stop HTTP500 is separate; inspect timing, never call blanket error-free."
+    }
+  },
+  "telemetry": {
+    "roles": {
+      "decode-0": {
+        "host": "g4",
+        "samples": 24,
+        "gpu_sample_count": 192,
+        "uuid_count": 8,
+        "mean_gpu_active_pct": 100.0,
+        "mean_vram_gib": 131.18
+      },
+      "prefill-0": {
+        "host": "g1",
+        "samples": 24,
+        "gpu_sample_count": 96,
+        "uuid_count": 4,
+        "mean_gpu_active_pct": 96.812,
+        "mean_vram_gib": 130.206
+      },
+      "prefill-1": {
+        "host": "g1",
+        "samples": 24,
+        "gpu_sample_count": 96,
+        "uuid_count": 4,
+        "mean_gpu_active_pct": 97.062,
+        "mean_vram_gib": 130.207
+      }
+    },
+    "hosts": {
+      "g4": {
+        "samples": 24,
+        "estimated_cpu_busy_pct": 12.89,
+        "available_memory_GiB_at_start": 1735.925,
+        "total_memory_GiB": 2014.874
+      },
+      "g1": {
+        "samples": 24,
+        "estimated_cpu_busy_pct": 12.51,
+        "available_memory_GiB_at_start": 1819.773,
+        "total_memory_GiB": 2014.874
+      }
+    },
+    "server_http_and_error_poll_counts": {
+      "http=200,error=None": 72
+    },
+    "rank_local_server_gauges": {
+      "decode-0": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 54.0,
+          "mean": 50.4583
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.12,
+          "mean": 0.12
+        }
+      },
+      "prefill-0": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 4.0,
+          "mean": 2.9167
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 2.0,
+          "mean": 0.3333
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.02,
+          "mean": 0.0183
+        }
+      },
+      "prefill-1": {
+        "sglang:num_running_reqs": {
+          "samples": 24,
+          "max": 3.0,
+          "mean": 2.5833
+        },
+        "sglang:num_queue_reqs": {
+          "samples": 24,
+          "max": 1.0,
+          "mean": 0.0833
+        },
+        "sglang:token_usage": {
+          "samples": 24,
+          "max": 0.02,
+          "mean": 0.0183
+        }
+      }
+    },
+    "all_role_gpu_samples": 384,
+    "all_role_mean_gpu_active_pct": 98.469,
+    "all_role_mean_vram_gib": 130.693,
+    "limits": "Inside first-to-last profiling-request START envelope; excludes warmup/final drain but is not exact phase-clock coverage. Five-second sparse samples, rank-local gauges, uncalibrated host skew. Not FLOPS or causal proof.",
+    "host_memory_unit_correction": "Historical helper mislabeled GiB as TiB. Raw KiB unchanged; current keys corrected."
+  },
+  "hardware_distributions": {
+    "decode-0": {
+      "sample_rows": 24,
+      "metrics": {
+        "utilization.gpu": {
+          "distribution": {
+            "count": 192,
+            "min": 100.0,
+            "mean": 100.0,
+            "p50": 100.0,
+            "p95": 100.0,
+            "p99": 100.0,
+            "max": 100.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "utilization.memory": {
+          "distribution": {
+            "count": 192,
+            "min": 34.0,
+            "mean": 44.598958333333336,
+            "p50": 45.0,
+            "p95": 46.0,
+            "p99": 47.0,
+            "max": 47.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "memory.used": {
+          "distribution": {
+            "count": 192,
+            "min": 133908.0,
+            "mean": 134328.25,
+            "p50": 134388.0,
+            "p95": 134532.0,
+            "p99": 134532.0,
+            "max": 134532.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "power.draw": {
+          "distribution": {
+            "count": 192,
+            "min": 357.71,
+            "mean": 468.88026041666666,
+            "p50": 474.285,
+            "p95": 481.371,
+            "p99": 482.8727,
+            "max": 484.53
+          },
+          "missing_or_unsupported": 0
+        },
+        "temperature.gpu": {
+          "distribution": {
+            "count": 192,
+            "min": 58.0,
+            "mean": 63.364583333333336,
+            "p50": 63.0,
+            "p95": 67.0,
+            "p99": 68.0,
+            "max": 68.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.sm": {
+          "distribution": {
+            "count": 192,
+            "min": 1980.0,
+            "mean": 1980.0,
+            "p50": 1980.0,
+            "p95": 1980.0,
+            "p99": 1980.0,
+            "max": 1980.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.mem": {
+          "distribution": {
+            "count": 192,
+            "min": 3201.0,
+            "mean": 3201.0,
+            "p50": 3201.0,
+            "p95": 3201.0,
+            "p99": 3201.0,
+            "max": 3201.0
+          },
+          "missing_or_unsupported": 0
+        }
+      }
+    },
+    "prefill-0": {
+      "sample_rows": 24,
+      "metrics": {
+        "utilization.gpu": {
+          "distribution": {
+            "count": 96,
+            "min": 90.0,
+            "mean": 96.8125,
+            "p50": 99.0,
+            "p95": 99.0,
+            "p99": 99.0,
+            "max": 99.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "utilization.memory": {
+          "distribution": {
+            "count": 96,
+            "min": 47.0,
+            "mean": 50.71875,
+            "p50": 51.0,
+            "p95": 53.0,
+            "p99": 53.0,
+            "max": 53.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "memory.used": {
+          "distribution": {
+            "count": 96,
+            "min": 132994.0,
+            "mean": 133330.75,
+            "p50": 133427.0,
+            "p95": 133476.0,
+            "p99": 133476.0,
+            "max": 133476.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "power.draw": {
+          "distribution": {
+            "count": 96,
+            "min": 251.42,
+            "mean": 667.4858333333333,
+            "p50": 684.84,
+            "p95": 690.51,
+            "p99": 691.917,
+            "max": 693.38
+          },
+          "missing_or_unsupported": 0
+        },
+        "temperature.gpu": {
+          "distribution": {
+            "count": 96,
+            "min": 63.0,
+            "mean": 71.70833333333333,
+            "p50": 72.0,
+            "p95": 75.0,
+            "p99": 75.0,
+            "max": 75.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.sm": {
+          "distribution": {
+            "count": 96,
+            "min": 1815.0,
+            "mean": 1923.4375,
+            "p50": 1935.0,
+            "p95": 1965.0,
+            "p99": 1965.75,
+            "max": 1980.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.mem": {
+          "distribution": {
+            "count": 96,
+            "min": 3201.0,
+            "mean": 3201.0,
+            "p50": 3201.0,
+            "p95": 3201.0,
+            "p99": 3201.0,
+            "max": 3201.0
+          },
+          "missing_or_unsupported": 0
+        }
+      }
+    },
+    "prefill-1": {
+      "sample_rows": 24,
+      "metrics": {
+        "utilization.gpu": {
+          "distribution": {
+            "count": 96,
+            "min": 92.0,
+            "mean": 97.0625,
+            "p50": 99.0,
+            "p95": 99.0,
+            "p99": 99.0,
+            "max": 99.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "utilization.memory": {
+          "distribution": {
+            "count": 96,
+            "min": 48.0,
+            "mean": 51.0625,
+            "p50": 52.0,
+            "p95": 53.0,
+            "p99": 53.0,
+            "max": 53.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "memory.used": {
+          "distribution": {
+            "count": 96,
+            "min": 132996.0,
+            "mean": 133332.0,
+            "p50": 133428.0,
+            "p95": 133476.0,
+            "p99": 133476.0,
+            "max": 133476.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "power.draw": {
+          "distribution": {
+            "count": 96,
+            "min": 248.85,
+            "mean": 670.41125,
+            "p50": 687.62,
+            "p95": 692.7525,
+            "p99": 696.0255000000001,
+            "max": 697.08
+          },
+          "missing_or_unsupported": 0
+        },
+        "temperature.gpu": {
+          "distribution": {
+            "count": 96,
+            "min": 63.0,
+            "mean": 72.65625,
+            "p50": 72.0,
+            "p95": 76.0,
+            "p99": 76.0,
+            "max": 76.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.sm": {
+          "distribution": {
+            "count": 96,
+            "min": 1770.0,
+            "mean": 1908.4375,
+            "p50": 1920.0,
+            "p95": 1965.0,
+            "p99": 1980.0,
+            "max": 1980.0
+          },
+          "missing_or_unsupported": 0
+        },
+        "clocks.mem": {
+          "distribution": {
+            "count": 96,
+            "min": 3201.0,
+            "mean": 3201.0,
+            "p50": 3201.0,
+            "p95": 3201.0,
+            "p99": 3201.0,
+            "max": 3201.0
+          },
+          "missing_or_unsupported": 0
+        }
+      }
+    }
+  },
+  "latency_distributions_ms": {
+    "time_to_first_token": {
+      "count": 1902,
+      "min": 509.96106399999996,
+      "mean": 1118.6278897854888,
+      "p50": 1105.765914,
+      "p95": 1289.0296799499974,
+      "p99": 3495.861801,
+      "max": 4788.1687839999995
+    },
+    "inter_token_latency": {
+      "count": 1902,
+      "min": 10.78569797487437,
+      "mean": 14.98556304398913,
+      "p50": 15.023039321608039,
+      "p95": 15.141218177889447,
+      "p99": 15.698512849346734,
+      "max": 16.99313452763819
+    },
+    "request_latency": {
+      "count": 1902,
+      "min": 2820.947028,
+      "mean": 4100.7232540757095,
+      "p50": 4092.321967,
+      "p95": 4278.470404349997,
+      "p99": 6428.36854714,
+      "max": 7788.968451
+    }
+  },
+  "setup_failed_response_counts": {},
+  "serving_argument_changes_vs_control": null,
+  "actual_GPU_hours": 3.1066666666666665,
+  "maximum_reserved_GPU_hours": 4.533333333333333,
+  "PBS_SU": 0,
+  "scheduler": {
+    "JobID": "27830",
+    "State": "COMPLETED",
+    "ExitCode": "0:0",
+    "Elapsed": "00:11:39",
+    "ElapsedRaw": "699",
+    "NodeList": "g[1,4]",
+    "AllocTRES": "billing=256,cpu=256,gres/gpu=16,mem=4126000M,node=2"
+  },
+  "official_accuracy": "UNKNOWN",
+  "promotion": false,
+  "limits": "One run per recipe. Setup retries precede scoring. Sparse five-second samples in request-start envelope; clocks uncalibrated. No heavy kernel, per-thread, Xid/throttle-reason profile or authoritative output token IDs. GPU activity, VRAM and KV token occupancy are different metrics."
+}

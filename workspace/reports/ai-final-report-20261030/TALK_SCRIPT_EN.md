@@ -44,7 +44,7 @@ Good output throughput rose from 2,838.85 to 2,989.17 tokens per second, about 5
 
 ## Slide 11 — Choose N64 from full tests
 
-We compared full N62 and N64 loads. Good output throughput increased about 1.08 percent at N64, then a separate full N64 repeat was essentially unchanged. The N68 short run looked better, but its full result improved only about 0.08 percent and crossed our team-set one-percent usefulness threshold. We retained N64 as a repeatable operating point. Concurrency here means client requests in flight; it is not GPU count or decode batch size.
+We compared full N62 and N64 loads. Good output throughput increased about 1.08 percent at N64, then a separate full N64 repeat was essentially unchanged. The N68 short run looked better, but its full result improved only about 0.08 percent and did not reach our team-set one-percent usefulness threshold. We retained N64 as a repeatable operating point. Concurrency here means client requests in flight; it is not GPU count or decode batch size.
 
 ## Slide 12 — Which requests miss the rule
 
@@ -64,7 +64,7 @@ Some changes improved a resource measure without improving the service objective
 
 ## Slide 16 — State the limit and hand over
 
-Our current conclusion is a repeatably measured H200 operating recipe: DeepGEMM prefill with chunk size 8,192 and HPC-Ops decode using FlashInfer attention and MNNVL transport at N64. We have not established global optimality. The official full model-quality check against the organiser reference remains unknown, and we have not completed a fresh full GPU replay after repairing the portable result readers. I will now hand the talk to our OpenFOAM presenter, who owns the CPU results.
+Our current conclusion is a repeatably measured H200 operating recipe: DeepGEMM prefill with chunk size 8,192 and HPC-Ops decode using FlashInfer attention and MNNVL collectives and NIXL cross-role KV transfer at N64. We have not established global optimality. The official full model-quality check against the organiser reference remains unknown, and we have not completed a fresh full GPU replay after repairing the portable result readers. I will now hand the talk to our OpenFOAM presenter, who owns the CPU results.
 
 ## Backup for Q&A
 

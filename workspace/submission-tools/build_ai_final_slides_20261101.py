@@ -156,12 +156,13 @@ s.text('Eligibility to benchmark',1.,5.96,4.4,.40,18,GRAY);s.arrow(5.05,6.13,7.0
 
 # 03 — Engineering decision · compare feasible layouts
 s=slide('Topologytradeoff', 'QwenFP8compatibilityandKVmemorymakeeligibilityaninitialgate. MoreTPwidthsharesoneworkeracrossmoreGPUsbutreducesreplicasunderfixedbudget. Compareusableobservedlayouts07N32=1297.02;09N40=1666.01;selectedsplitN48=1912.30. Thesearehistoricaloperatingpointswithdifferentloadsandtransferhistory,notonefactorcausalranking.17usable=14original+3EP2replacements;failedoriginalsremainfailed.', 'topologyrecoveryledger;22197/22219/22415')
-s.text('More replicas',1.,1.53,3.7,.5,25,bold=True);s.arrow(4.0,1.80,8.55,1.80,GRAY);s.text('Wider model workers',8.8,1.53,3.6,.8,24,bold=True)
-rows=[('07','4 × TP2 prefill','2 × TP4/EP4 decode','N32 · 1,297 good tokens/s'),('09','2 × TP4 prefill','2 × TP4/EP4 decode','N40 · 1,666 good tokens/s'),('Retained split','2 × TP4 prefill','1 × TP8/EP8 decode','N48 · 1,912 good tokens/s')]
-for i,(label,p,d,value) in enumerate(rows):
- yy=2.60+i*.90;s.text(label,1.,yy,2.,.48,20,ORANGE if i==2 else GRAY,bold=True);s.text(p,3.05,yy,3.0,.48,20);s.text(d,6.25,yy,3.0,.48,20);s.text(value,9.50,yy,2.8,.8,15)
-s.text('Retain a compatible, working split; validate its load with full repeats.',1.,5.53,11.3,.67,22,INK,bold=True)
-s.text('17 usable configurations; different loads do not establish a globally best layout.',1.,6.37,11.3,.47,17,GRAY);s.end()
+s.text('Selection gates',1.,1.48,4.1,.55,24,bold=True)
+s.text('Feasible observations · different loads',5.85,1.48,6.3,.70,22,bold=True)
+for i,(label,detail) in enumerate([('01 · Resource fit','Two nodes × eight H200'),('02 · FP8 compatibility','Supported TP / EP geometry'),('03 · Real P/D path','Request KV transfer completes'),('04 · Operating point','Full-run SLA and later repeats')]):
+ y=2.38+i*.93;s.rect(1.,y,4.25,.70,None,ORANGE if i==3 else GRAY,1.1);s.text(label,1.15,y+.09,3.95,.28,15,ORANGE if i==3 else INK,bold=True);s.text(detail,1.15,y+.41,3.95,.25,13,GRAY)
+for i,(name,layout,result) in enumerate([('07','P: 4 × TP2  |  D: 2 × TP4 / EP4','N32 · 1,297.02 good tokens/s'),('09','P: 2 × TP4  |  D: 2 × TP4 / EP4','N40 · 1,666.01 good tokens/s'),('Retained split','P: 2 × TP4  |  D: 1 × TP8 / EP8','N48 · 1,912.30 good tokens/s')]):
+ y=2.34+i*1.17;s.text(name,5.85,y,6.1,.37,18,ORANGE if i==2 else INK,bold=True);s.text(layout,5.85,y+.40,6.3,.36,17);s.text(result,5.85,y+.82,6.1,.33,15,GRAY)
+s.text('17 usable configurations inform a practical choice, not a matched global topology ranking.',1.,6.48,11.3,.42,16,GRAY);s.end()
 
 
 # 04 — Engineering decision · retained architecture
