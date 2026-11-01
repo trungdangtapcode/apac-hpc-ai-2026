@@ -1,3 +1,5 @@
+Latest AI follow-through: [1 November queues and complete nine-run source/archive integrity audit](entries/20261101-h200-transfer-integrity-check.md).
+
 Latest AI completion: [31 October final phase results and four distinct transfer reviews](entries/20261031-phase-inference-results-final.md).
 
 Latest AI continuation: [31 October qualify two phase inference-mode H200 ports and their explicit control](entries/20261031-phase-inference-transfer.md).

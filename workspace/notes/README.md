@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Latest AI queue and nine-run source/archive integrity check | [1 November audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-integrity-check-20261101/README.md) |
 | Current bounded H100-to-H200 verification and job count | [Verification scope](ai-h100-to-h200-verification-20261031.md) |
 | Latest actual AI queues, final job coverage and H100/H200 separation | [31 October queue/result reconciliation](ai-final-queue-reconciliation-20261031.md) |
 | Current presentation: engineering investigation, visual reasoning and protected HPC handoff | [Current deck, guides and verified-source Q&A](ai-investigation-presentation-20261031.md) |

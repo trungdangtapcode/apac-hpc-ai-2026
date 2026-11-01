@@ -222,3 +222,8 @@ and a single small score delta; no robust tail gain or cause is established.
 The earlier statement that only two qualified ports existed was a provisional
 selection, superseded by actual source-qualified phase trials and their results.
 No assumption of four H100 winners or full-recipe reproductions is introduced.
+
+## 1 November read-only follow-through and integrity check
+
+**Fresh check — 2026-11-01T09:09:43.729316+07:00, Vietnam time (UTC+7):** own H200 queue empty; all nine transfer allocations are COMPLETED 0:0, no new unreviewed result found. Full integrity audit passes **1261 files / 2,229,023,012 source bytes / 19 unique external objects**, including decompressed object hashes and inline tracked archive bytes. Reference Git HEAD equals origin/main 9697a539. [Audit, scope and local-object limitation](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-integrity-check-20261101/README.md). Corrected stale candidate-register wording to reflect actual native mode checks already passed; no performance result, frozen payload or published package changed. Four source ports remain fully reviewed with no useful gain; no new GPU job or broader research restart. H100 access/accounting not queried; no auth/spending, HPC or automation changes.
+
