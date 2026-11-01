@@ -1,6 +1,6 @@
 # Separate Codex environments under one Linux account
 
-Written on 1 November 2026, Vietnam time (UTC+7). Local observations below concern Codex CLI 0.166.0 on this login host. Commands and database schemas can change between releases.
+Incident verified on 1 November 2026; this guide and its follow-up path check were prepared on 2 November 2026, Vietnam time (UTC+7). Local observations below concern Codex CLI 0.166.0 on this login host. Commands and database schemas can change between releases.
 
 ## Recovery status
 
