@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Understand why each AI idea was worth trying and how the tests changed the decision | [Thinking process and hypothesis development](../reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md) |
 | Prepare answers to teacher Thanh’s questions, with actual evidence and limits | [Quick cards and detailed Q&A](ai-teacher-qa-preparation-20261101.md) |
 | Current AI slides, clear bilingual script and final nine-run evidence | [1 November published edition](ai-final-presentation-release-20261101.md) |
 | Teacher requirement closure and remaining human rehearsal | [Material-level closure](../submission-review/ai-final-update-20261101/REQUIREMENT_CLOSURE.md) |

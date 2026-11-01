@@ -1,3 +1,5 @@
+Latest AI reasoning clarification: [1 November how hypotheses arose, what could falsify them and why the next trial followed](entries/20261101-thinking-process-explanation.md).
+
 Latest AI panel preparation: [1 November explicit teacher questions, short answers and evidence limits](entries/20261101-teacher-qa-preparation.md).
 
 Latest AI presentation delivery: [1 November teacher-aligned reasoning, clear scripts and final nine-job evidence](entries/20261101-final-ai-presentation-release.md).

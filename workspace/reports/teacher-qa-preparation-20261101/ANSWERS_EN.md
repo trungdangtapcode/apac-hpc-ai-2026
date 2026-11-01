@@ -2,6 +2,8 @@
 
 Prepared 1 November 2026 from retained measurements and the current 42-slide presentation. These are proposed answers, not an official question list, a transcript of delivered answers or a completed mock. This companion supplements the released slide-by-slide guides; it does not change the published deck or ZIP.
 
+Start with [how the hypotheses and decisions developed](THINKING_PROCESS_EN.md). The emphasis is the evidence available before testing, the expected mechanism, a way the idea could fail, and the decision after measurement. This explanation is written retrospectively from retained records; missing original motives are not invented.
+
 Use the quoted answer first, then stop. Expand only when asked. Each answer should identify the observation, the comparison, the supported decision and its limit. All performance numbers below are **good output tokens/s**, unless another unit is printed. H200 means 16 GPUs across two Firmus nodes. N is client concurrency, not GPU count or instantaneous server batch size.
 
 ## Find the teacher's question
@@ -30,7 +32,7 @@ The broad panel prompts — why this problem, why this choice, what proves the g
 
 **Say first:**
 
-> We selected a practical operating layout under the fixed two-node, sixteen-H200 budget. It passed FP8 parallel-shape compatibility, completed real prefill-to-decode requests and later supported full-run latency-qualified repeats. Keeping tensor-parallel groups within a node also avoided a cross-node tensor group. The seventeen topology observations helped constrain the choice, but their different loads do not prove this layout is globally best.
+> We considered this split because prefill and decode perform different work and may benefit from different worker shapes. Two TP4 prefills and one TP8/EP8 decode worker fit the two-node allocation while keeping each TP group inside a node. The counter-risk was added KV transfer and an unbalanced pipeline. We therefore used compatibility and real-request gates, then full-run repeats to retain the operating point; we did not know its final score beforehand.
 
 **If pressed:** The first node has two TP4/EP1 prefill workers; the second has one TP8/EP8 decode worker. Prefill processes the long prompt; decode repeatedly generates tokens. Splitting them permits different implementations but introduces cross-role KV transfer through NIXL. More replicas versus wider workers is a resource tradeoff, not an automatic improvement.
 
@@ -42,7 +44,7 @@ The broad panel prompts — why this problem, why this choice, what proves the g
 
 **Say first:**
 
-> We distinguish a deployment blocker from a steady-state performance bottleneck. On one historical branch, workers were ready but pair warmup timed out before any benchmark score; that made setup a concrete investigation target. Later N64 request records show that the remaining deadline failures are first-token failures. They identify the failed latency condition, but we have not isolated a single dominant server-side cause of those tails.
+> We first asked where progress stopped. Ready workers followed by failed pair warmup pointed to setup, rather than a scored steady-state bottleneck. Source inspection then gave us a narrow avoidable-work hypothesis to test. On later working deployments we checked which request deadline failed before proposing another fix. That is how observations narrowed the next question; they did not establish one universal bottleneck for the whole journey.
 
 **If pressed:** Job 22271 timed out at 360 seconds during P/D warmup. Separate full N64 job 26766 had 1,875/1,902 qualifying requests: 27 TTFT misses, zero request-mean ITL misses and zero scored request errors/cancellations. These are different jobs and phases. The later service did not inherit a proven bottleneck diagnosis from the earlier failed branch.
 
@@ -68,7 +70,7 @@ The subsequent N60 backend comparison is a **separate controlled probe** of a su
 
 **Say first:**
 
-> The symptom was a pre-score warmup timeout, not a measured bandwidth limit. Source inspection exposed request setup enumerating the reserved KV pool, including regions unrelated to the immediate request. We chose request-scoped descriptor construction because it was a narrow, source-visible hypothesis and we could cheaply check byte-range equivalence before another distributed run. We did not measure away bandwidth, layout or scheduling as competing causes.
+> The failure occurred before scoring, and the source built metadata for the reserved KV pool although a request needed only a subset. That gave us a specific hypothesis: remove request-irrelevant setup work without changing the transferred ranges. We chose it because equivalence was cheap to check in 720 CPU cases before a GPU trial. We expected less metadata work; bandwidth, layout and scheduling remained possible competing causes.
 
 **If pressed — answer the teacher's five causal prompts:**
 
@@ -88,7 +90,7 @@ The approximately **403.8 million source entries per rank for the reserved pool*
 
 **Say first:**
 
-> We cannot give a descriptor-only end-to-end percentage. The unpatched attempt timed out before scoring, so it is not a successful throughput baseline. The patched attempt completed real P/D warmup in about 0.68–0.70 seconds per request after workers were ready, then a full N32 benchmark reached 1,422.96 good output tokens per second with 95.87% joint latency success and zero scored errors. That demonstrates a usable patched path, with causal attribution still limited.
+> Our hypothesis was that constructing only the request ranges would remove unnecessary setup work and could make the failing path usable. We checked range equivalence, then tested real serving. The patched path completed warmup and a full N32 run at 1,422.96 good output tokens per second. That supports the engineering change, but no successful unpatched scored control exists, so a descriptor-only throughput improvement is still unknown.
 
 **If pressed:** The observed failure and successful patched run motivate retaining the implementation for that branch. They do not isolate all startup/bootstrap/transport changes or prove descriptors were the sole cause. CPU range equivalence establishes a mapping property, not production GPU correctness on its own. A stronger attribution would require a viable matched unpatched control or a separately instrumented matched initialisation comparison.
 
@@ -100,7 +102,7 @@ The approximately **403.8 million source entries per rank for the reserved pool*
 
 **Say first:**
 
-> Only for comparisons supported by their controls, and even then at the tested service-configuration scope. At full N60, the automatic-decode control reached 2,838.85 and the HPC-Ops treatment repeat reached 2,989.17 good output tokens per second, about 5.30% higher. The intended change was decode implementation. That is stronger than the historical progression chart, but it does not identify one kernel's causal contribution or justify adding all optimisation gains together.
+> We did not assume an implementation had one fixed effect. Earlier results and the changed prefill runner and chunk gave us a new interaction to test. We compared decode choices with the same load and serving setup, then repeated the promising candidate. The full N60 comparison gained about 5.30%, with worse TTFT and better ITL. That supports the tested interaction; it does not let us add independent kernel speedups.
 
 **If pressed:** Topology, DeepGEMM prefill/chunk 8192, attention/collective choices, precision and the full workload were held at the intended same settings. Mean TTFT worsened from 822.29 to 947.63 ms while mean ITL improved from 16.58 to 14.93 ms. Treatment 24913 was about 0.033% below original treatment 24738. Generated engine seeds and deployment variability limit exact causal attribution.
 
@@ -114,7 +116,7 @@ The later full N62→N64 pair gave +1.083%; it tests client load on a selected s
 
 **Say first:**
 
-> More in-flight requests can keep the pipeline busy, but they can also increase waiting or contention. In the full N64/N68 comparison, goodput rose only 0.083%, while mean TTFT rose from about 1,113.6 to 1,347.1 milliseconds. We did inspect role-specific queues, running requests, GPU activity, memory and power. Those sparse samples do not separate each request's queue wait from computation, so we report the tradeoff without assigning an unproved cause.
+> After improving the service configuration, we rechecked the load instead of assuming the old concurrency remained best. More in-flight requests could improve pipeline work, but could also increase waiting. We used bounded full tests and repeats: N64 gained about 1.08% over N62, while N68 added only 0.083% and raised mean TTFT substantially. We therefore kept N64; sparse monitoring does not isolate the queue-versus-compute cause.
 
 **If pressed:** Jobs 25487/25488 are the matched full N64/N68 pair. TTFT misses increased 26→30; ITL misses stayed zero. The small gain was below the team's prospective >1% useful-gain gate, so N68 was not promoted. This is a team decision rule, not an organiser requirement.
 
@@ -142,7 +144,7 @@ The observability review also records diagnostic profiler-stop HTTP 500 response
 
 **Say first:**
 
-> H100 was a second experimental platform for screening compatible settings and hypotheses; its scores do not rank H200 configurations. We therefore tested selected alternatives directly against fresh H200 controls. The transferred full H100 recipe at N64 reached 2,721.82 versus the H200 control's 3,038.02, a 10.41% loss. The additional chunk and phase-mode ports also failed our useful-gain gate, so the direct evidence supports retaining the H200-specific recipe.
+> H100 supplied hypotheses, not a prediction of H200 performance. We tested the full recipe on H200; it lost, but runner and chunk changed together. That prompted a narrower test: keep HPC-Ops and match the larger chunk. It recovered part of the losing branch but stayed below the H200 incumbent. The tests refined the explanation and supported retaining the H200-specific recipe rather than converting scores between GPUs.
 
 **If pressed:** All nine final allocations ran on 16 H200. Eight are N64; job 27781 is N54. The controls are 27777 for the native/recipe/FA3/chunk branch and 27826 for phase modes. The four additional distinct ports are 27804, 27806, 27828 and 27830; they are not four proven H100 wins or nine unique candidates. The full-recipe transfer changes a coupled prefill runner/chunk choice, so its loss is not one isolated backend effect.
 
@@ -156,7 +158,7 @@ Main AI scores are H200; H100-only results are separately labelled in backups. R
 
 **Say first:**
 
-> Defend the retained N64 operating recipe, not the single largest number. Three historical full H200 runs average 3,044.40 good output tokens per second; a separate native run reached 3,045.50. A cache trial was higher at 3,048.45 but only 0.241% above its own control, below the useful-gain gate. We retain the repeated operating level while preserving lower runs and the limits of hardware diversity and statistical evidence.
+> We wanted an improvement attributable to a repeatable setting rather than one lucky run. That is why a candidate needed its own fresh control, a useful margin and a repeat. Historical N64 runs averaged about 3,044.40 good output tokens per second. The higher cache point gained only 0.241% against its control and worsened p95 TTFT, so it did not displace the repeated operating choice.
 
 **If pressed:** Historical jobs are 25366/25373/25487; native 26766 is a separate series. Highest complete reviewed local full pass 27378 is not a promoted recipe. Portable raw 27145 reached 3,055.33 but the original job failed in postprocessing; CPU 27152 verified repaired readers on saved datasets. A new complete GPU deployment replay after repair has not occurred.
 
@@ -170,7 +172,7 @@ Independent deployment/repeat means a new launch/allocation, not necessarily dif
 
 **Say first:**
 
-> We learned to separate a promising proxy from the full service objective. Sparse decode graphs reduced logged capture memory from 1.15 to 0.36 gigabytes per rank, but measured goodput was 0.37% lower than its comparison. A shallow EAGLE3 full trial lost about 2.08%. We closed those tested settings rather than promoting a smaller memory counter or a functioning feature as a performance improvement.
+> We used failures to reject assumptions. Smaller graph capture memory looked promising as a resource change, but the full workload did not gain goodput. A functional shallow EAGLE path also lost throughput. Those observations told us that lower resource use and feature support were insufficient selection criteria. We closed the tested settings and kept the evidence, instead of accumulating optimisations that had not improved the actual objective.
 
 **If pressed:** The sparse comparison is 27510 versus earlier control 27376, with one candidate observation and engine-seed/time limitations. It does not prove total VRAM or capacity improved. The shallow EAGLE comparison is 27238 versus 26949, not a rejection of every speculative method. Full-model compile 27383 failed before scoring on a native RoPE/fused-KV interface; that is a compatibility failure with no throughput result. The final H100-derived tests also preserved losses rather than extrapolating a hardware conversion.
 

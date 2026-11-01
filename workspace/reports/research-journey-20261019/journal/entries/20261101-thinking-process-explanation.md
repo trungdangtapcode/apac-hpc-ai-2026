@@ -1,0 +1,9 @@
+# Explain the reasoning that generated the trials — 1 November 2026
+
+**Question and prior evidence.** The owner corrected the Q&A emphasis: explain why a candidate was conceived and expected to help, rather than restating outcomes and missing evidence. Existing cards were too weighted toward defending conclusions and limitations.
+
+**Change and evidence.** Prepared eight source-linked decision stories and rewrote nine core spoken answers. Each describes prior observations, a possible mechanism, a falsifiable hypothesis and counterhypothesis, the control/test, the result and its effect on the next choice. The stories include feasible topology, request-scoped metadata, a losing decode backend revisited in prefill, chunk/backend interaction, bounded concurrency, repeatability, direct H100-to-H200 narrowing and negative findings. The 14 quick cards are regenerated from the detailed answers.
+
+**Assessment.** Retained plans explicitly support several follow-up rationales, including chunk/decode confirmation, bounded next-load trials and final H200 chunk/mode tests. The phase-specific DeepGEMM explanation is retrospective: a separate prefill hypothesis file was not found in the inspected early followup directory. Missing original dates or thoughts are not invented. Plausible mechanisms do not become proven latency decompositions; matched service gains, phase-specific evidence and quality limits remain distinct.
+
+**Decision and preservation.** Use [the thinking-process guide](../../../teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md) before learning individual Q&A answers. No new trial, profiler, scheduler, authentication, budget, HPC payload or published slide/ZIP mutation. Capture and push this small safe teaching/answer-revision checkpoint with actual dates; leave original research records intact.
