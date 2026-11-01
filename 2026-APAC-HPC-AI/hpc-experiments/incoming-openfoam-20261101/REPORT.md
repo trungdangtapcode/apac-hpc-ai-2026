@@ -49,3 +49,14 @@ No Gadi SSH login/key was supplied to this worker. The owner was asked for exist
 The useful next test is a same-Gadi matched comparison at 416 ranks: original fixed-work Scotch baseline versus the supplied socket/core binding plus collated I/O, each with a fresh full preparation and 150 steps. Preserve the approved function objects and all output. Reverse order or repeat allocations before attributing a small difference to the flags. Admission still requires actual scheduler capacity, project balance/rate, an explicit bounded cost reservation and a recorded job ID; Gadi access alone does not authorize arbitrary project spending. Repeating on NSCC would test portability on AMD, not reproduce the Gadi absolute number.
 
 The submission folders, slides, AI queues and all frozen prior payloads were left unchanged. Raw supplied evidence remains preserved separately from this review.
+
+
+## Owner follow-up: is it legitimate, and why did our research not achieve it?
+
+Reviewed at 2026-11-01T21:18:03.106773+00:00. The evidence supports the narrow statement that the supplied logs consistently report a completed 2.079045460-second fixed-iteration run on Gadi. It does not authenticate remote execution or establish full rule compliance without the missing source provenance. The observed timer-code difference alone is not proof of cheating and has no measured attribution to the time difference.
+
+The appropriate comparison is Gadi versus Gadi: supplied 2.079045460 versus retained organizer 2.087688606 s/step, an observed separate-run difference of 0.4140%. NSCC versus NSCC is our baseline reproduction 3.364622070 versus organizer 3.210832548, where ours is approximately 4.79% slower. Those four observations do not isolate hardware, compiler, configuration or allocation effects; no quantified hardware-only explanation is established.
+
+Accountability: this worker has not demonstrated a stable, matched NSCC improvement below its 3.364622070 reproduction. Diagnostic and Iris exploration produced information and rejected misleading gains, but they must not be presented as successful scored optimization. Access failures explain the current inability to rerun; they do not turn that missing improvement into a completed outcome. The same-platform comparison should have been made explicit earlier rather than allowing the owner to read 2.079 versus 3.3646 as a configuration-only contest. The next decisive work remains a real matched measurement when authorized cluster access is restored, not a claim that documentation or configuration inspection equals execution.
+
+Backup detail: the original ZIP is retained in the local external object store and is not uploaded as ZIP bytes by Git. All 70 extracted members and their hashes were captured; Git backup of those extracted contents was verified and pushed.
