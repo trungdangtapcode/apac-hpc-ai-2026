@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Does the current AI presentation meet teacher Thanh’s exact requirements? | [Critical requirement assessment](ai-teacher-requirement-audit-20261101.md) |
 | Whole-submission readiness and concrete final checks | [1 November preflight](ai-final-preflight-20261101.md) |
 | Latest AI queue and nine-run source/archive integrity check | [1 November audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-integrity-check-20261101/README.md) |
 | Current bounded H100-to-H200 verification and job count | [Verification scope](ai-h100-to-h200-verification-20261031.md) |

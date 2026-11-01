@@ -1,3 +1,5 @@
+Latest AI presentation assessment: [1 November critical audit against teacher Thanh’s exact requirements](entries/20261101-teacher-requirement-audit.md).
+
 Latest AI release audit: [1 November whole-submission preflight and final handoff gaps](entries/20261101-final-submission-preflight.md).
 
 Latest AI follow-through: [1 November queues and complete nine-run source/archive integrity audit](entries/20261101-h200-transfer-integrity-check.md).
