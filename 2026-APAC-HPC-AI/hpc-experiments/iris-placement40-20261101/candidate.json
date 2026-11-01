@@ -1,0 +1,30 @@
+{
+  "name": "native40_default_vs_exact_socket_ABBA",
+  "question": "Does exact Gadi socket/core mapping change native Scotch56 timing relative to default placement on Iris?",
+  "arms": [
+    "A1-default",
+    "B1-socket",
+    "B2-socket",
+    "A2-default"
+  ],
+  "common_file_handler": "uncollated",
+  "source_method": "scotch",
+  "steps_each": 40,
+  "intervals_each": 39,
+  "ranks": 56,
+  "nodes": 1,
+  "maximum_seconds": 9000,
+  "maximum_CPU_hours": 140,
+  "scored_result": false,
+  "sole_treatment_difference": [
+    "--map-by",
+    "socket",
+    "--bind-to",
+    "core"
+  ],
+  "common_diagnostics": [
+    "--report-bindings",
+    "--display-map"
+  ],
+  "limits": "Actual launcher reports, not solver helper-affinity or memory locality. One ABBA allocation cannot remove nonlinear drift."
+}

@@ -1,0 +1,11 @@
+# Deferred native placement comparison
+
+**Prepared, not deployed, not submitted and not reserved.** The positive but unconfirmed collated-I/O signal from job 2294634 makes reversed I/O confirmation the current priority. This candidate does not authorize a further allocation or budget increase.
+
+Question: does exact teammate `--map-by socket --bind-to core` placement change timing against plain default MPI placement on the same Iris Scotch56 initialized source? Probe 2294358 tested ppr:28:package fill/span, not this exact socket syntax, so it cannot answer that performance question.
+
+Proposed order is **A1 default, B1 socket, B2 socket, A2 default**. All arms keep uncollated I/O, fixed numerical work, original function objects and physics, same 40 steps / 39 intervals. Both treatments collect common launcher `--report-bindings --display-map` output; this is launcher evidence rather than actual solver helper affinity or page residency. Native source/copy/inode/field/runtime checks are retained from the reviewed I/O pair.
+
+The proposed job requests one exclusive Iris node, 56 CPUs, zero GPUs and a 2.5-hour maximum (140 allocated CPU-hours). Internal deadline 8,850 seconds and outer 8,970 seconds sit inside Slurm 9,000 seconds. Four protected arm windows of 2,100 seconds plus 120 seconds final reserve leave 330 seconds for initial gates. This is a fail-closed bound: slow setup can prevent later arms; preserve partial work and do not call it a completed comparison. Before activation, re-evaluate these bounds from actual observations and obtain fresh root/admission checks and a bounded ledger reservation under the existing lock. No current ceiling funds this deferred request automatically.
+
+A bounded independent read-only review found treatment selection, mean-ratio arithmetic and native 40-step gates consistent, and noted tight worst-case setup slack. Review evidence is recorded in PEER_REVIEW.json. Full runtime/site validation, acceptance and performance are unproven. There is no admission script or passing ROOT_REVIEW.json in this prepared directory, and no scheduler ID. ABBA balances linear drift, not arbitrary time or allocation effects. The intended data is non-scored Iris evidence and cannot establish Gadi or NSCC gains.
