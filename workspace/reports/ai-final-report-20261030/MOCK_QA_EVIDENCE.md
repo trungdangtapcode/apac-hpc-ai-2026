@@ -1,6 +1,6 @@
 # Mock panel Q&A: evidence and answer boundaries
 
-Prepared 30 October 2026 from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](/home/apacsc42/workspace/submission-review/ai-investigation-update-20261030/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–32 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to the unchanged HPC slides 33–40.
+Prepared 1 November 2026; updated after the nine-run H200 verification on 31 October from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](/home/apacsc42/workspace/submission-review/ai-investigation-update-20261030/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
 
 | Main slide | Exact title in the current plan |
 |---:|---|
@@ -17,7 +17,7 @@ Prepared 30 October 2026 from retained AI run reviews and the current reasoning 
 | 11 | N64 survives a full repeat; N68 loses its short-test advantage |
 | 12 | The remaining latency failures are first-token tails |
 | 13 | Repeated evidence supports N64 more strongly than an isolated peak |
-| 14 | One held-out check supports a local forecast, not a GPU conversion rule |
+| 14 | Direct H200 tests decide which H100 ideas transfer |
 | 15 | Better proxy metrics did not always improve qualifying throughput |
 | 16 | The performance claim is bounded; two validation tasks remain open |
 
@@ -97,15 +97,19 @@ In about 30 seconds: state the observed problem, name the comparison or interven
 
 **Still missing:** aligned per-request queue, prefill, KV transfer and first-decode spans, plus continuous sufficiently sampled diagnostics for the same request interval. Do not infer a bottleneck from the shape of the score distribution alone.
 
-### 8. Why show H100 and H200 together if they are not directly comparable?
+### 8. What did the final H100-to-H200 checks change?
 
-**30-second answer:** “They are separate experimental systems, not two points in one pooled ranking. We used a same-configuration N52 calibration ratio to make one frozen H200 forecast from H100 data: predicted 2,642.244 good tokens/s, then observed 2,601.629, an error of −1.537%. It fell within the predeclared ±2% check for that one point, but outside an earlier incomplete sensitivity range. That is limited local calibration, not a universal hardware conversion or a guarantee for other models, loads or configurations.”
+**30-second answer:** “H100 helped us screen settings, then we ported four distinct H100-derived interventions onto the same 16 H200 base and compared them with fresh H200 controls. The transferred full H100 recipe at N64 scored 2,721.816 good tokens/s versus fresh control 3,038.023, a 10.408% loss. HPC-Ops prefill at chunk 6,144 and 8,192 remained 7.114% and 4.523% below that control. Decode-only and prefill-only inference-mode ports changed goodput only +0.006% and +0.131%. None cleared our prospective 1% usefulness gate, so we retained the H200 recipe.”
 
-**Cross-examination:** “Can you scale an H100 result to any H200 workload?” No. Platform, phase implementation, context, concurrency and resource behavior can interact. Keep H100 scores and H200 scores separate; use the forecast as a bounded held-out check only.
+**Cross-examination:** “Are these four full H100 recipe replays?” No. They are four distinct source-intervention ports into the stronger current H200 base; 27826 is an explicit control and is not counted as a candidate. The selected H100 full recipe is a separate coupled runner/chunk comparison. These measurements do not establish universal library rankings or a GPU conversion ratio.
 
-**Retained evidence:** main slide 14; [evidence cards](/home/apacsc42/workspace/reports/ai-final-report-20261030/EVIDENCE_CARDS.md); [serving results index](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md), including the frozen forecast and job 24272; [24272 run record](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24272/).
+**Retained evidence:** main slide 14 and backup 34; [final H100 transfer review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md), [chunk interaction review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md), [phase-mode review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md).
 
-**Still missing:** repeated held-out cross-platform forecasts across configurations and loads. One in-tolerance result does not validate a general conversion law.
+**Still missing:** repeated independent runs of these losing/small-effect ports are not justified by their margins; no cross-platform conversion law or official quality certification follows.
+
+### 8a. What does the one-point H100-to-H200 forecast prove?
+
+Only a bounded held-out check. A frozen N52 calibration predicted 2,642.244 good tokens/s on H200; measured job 24272 reached 2,601.629 (−1.537%), inside the team's ±2% practical tolerance but outside an earlier incomplete sensitivity range. It is backup slide 33, not the latest transfer result and not a universal hardware multiplier. Source: [frozen calibration and held-out run](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md) and [job 24272](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24272/).
 
 ### 9. Did a lower resource proxy or speculative decoding improve the service?
 
@@ -123,7 +127,7 @@ If asked about the HPC section, keep the answer to ownership and handoff: “Tho
 
 ## Proposed final mock rehearsal
 
-This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–12 minute target; the official total time has not been supplied. Then ask the nine questions above without opening a terminal. Use hidden backups 17–32 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
+This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–11 minute target inside the official combined 15–20 minute AI/HPC talk; the separate Q&A is 10 minutes. Then ask the nine questions above without opening a terminal. Use hidden backups 17–34 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
 
 At the end, hand the microphone and slide control to the independent HPC presenter. Keep an explicit unknown/contingency sentence ready: “Official full-set quality is still unverified; we are presenting the result measured by our team on the assigned cluster and its limits.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
 

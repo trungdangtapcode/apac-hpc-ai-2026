@@ -240,9 +240,9 @@
     "title": "Replica count and parallel width compete for the same 16 GPUs",
     "hardware": "H200 · historical topology observations",
     "en": {
-      "brief": "More prefill replicas improve request concurrency, while wider parallel groups give each model worker more GPUs. The historical usable points were 1,297 at N32, 1,666 at N40, and 1,912 good tokens/s at N48, but load changed too.",
-      "purpose": "Explain the engineering tradeoff that led to the retained split. The same sixteen GPUs can be spent on more replicas or wider parallelism, and prefill/decode have different needs. Historical topology scores show feasibility and progression, not a matched causal ranking.",
-      "visual": "Use branches for feasible ways to allocate the fixed sixteen GPUs: several narrower prefill replicas and multiple decode groups, then fewer wider prefill workers and a wider decode group. Label the historical usable observations N32/1,297.02, N40/1,666.01, and N48/1,912.30 good tokens/s. Mark N explicitly as client requests in flight. Connect the branches as candidates, not a chronological line or causal ranking, because concurrency and other trial conditions differed.",
+      "brief": "The topology trials exposed a tradeoff between more prompt workers and wider workers. We retained a split that fits two eight-GPU nodes, has a working transfer path and survives later full N64 repeats. The different-load scores do not prove it is globally best.",
+      "purpose": "Explain the actual decision rule behind the retained topology. The choice was made from feasible model-compatible layouts that use the fixed two-node budget, can complete disaggregated requests and support a latency-qualified operating point that was later repeated. Historical scores at N32, N40 and N48 motivated the choice but cannot rank topology independently because load and trial conditions differ.",
+      "visual": "Show candidate allocations as branches, then a visible decision gate: (1) fit 16 H200 across two nodes, (2) pass FP8 parallel-shape compatibility, (3) complete the prefill-to-decode KV path, and (4) sustain a repeated full-run SLA-qualified load. Label the displayed 1,297.02/N32, 1,666.01/N40 and 1,912.30/N48 good tokens/s as historical observations under different loads. This is a feasibility and operating-point argument, not a matched topology leaderboard.",
       "terms": [
         {
           "symbol": "replica",
@@ -270,34 +270,35 @@
         }
       ],
       "reading": [
-        "Four TP2 prefill replicas plus two TP4/EP4 decode groups use the GPUs differently from two TP4 prefill workers plus one TP8/EP8 decode worker.",
-        "The historical observations shown are 1,297.02 at N32, 1,666.01 at N40, and 1,912.30 at N48 good tokens/s.",
-        "N changes across these points, so higher score cannot be attributed to topology alone.",
-        "The count of seventeen usable configurations summarizes reviewed evidence, not a controlled sweep with a common load."
+        "The resource constraint is exactly two nodes of eight H200 GPUs; each candidate must fit those resources.",
+        "The model’s FP8 block geometry rules out some nominal parallel shapes before performance comparison.",
+        "A split is useful only if real requests complete the prefill-to-decode KV transfer and the service meets the joint latency gate.",
+        "The retained operating point later has full N64 repeats around 3,044 good output tokens/s; these repeats support the operating point, not its causal advantage over every topology.",
+        "The older N32/N40/N48 values are shown to explain the search, not to claim increasing topology-only performance."
       ],
       "tradeoff": {
-        "observation": "The fixed GPU budget forced a choice between replication and parallel width. Reviewed usable examples include N32 at 1297.02, N40 at 1666.01, and N48 at 1912.30 good tokens/s; fourteen original layouts plus three EP2 replacements were counted.",
-        "hypothesis": "A layout with enough prefill replicas and a wider decode worker could balance prompt processing and generation at the intended load.",
-        "conclusion": "Topology recovery established feasible candidates and informed a later selected split. The displayed score progression is not a causal ranking because concurrency and historical conditions differed.",
-        "unknown": "The selected architecture's advantage over every alternative under one matched load is not established by these points; the count does not include a common statistical comparison."
+        "observation": "Seventeen usable measured topology configurations were recovered, including three EP2 replacements. Displayed examples use N32, N40 and N48, so they are not a common-load ranking.",
+        "hypothesis": "A feasible phase-specialized split can provide a working transfer path and a repeatable latency-qualified service point within two nodes.",
+        "conclusion": "Retain the documented two-TP4-prefill plus TP8/EP8-decode layout because it fits the allocation, is model-compatible, serves across the split and supports later repeated N64 measurements. This is a practical evidence-based selection, not a proven global optimum.",
+        "unknown": "No matched, repeated comparison of every feasible topology at a shared load establishes the causal performance winner."
       },
       "reasoning": {
         "problem": "Allocate sixteen H200 GPUs across prefill and decode, balancing the number of worker replicas against the GPUs assigned to each worker.",
         "why_it_matters": "Too few replicas can limit prompt-side admission, while overly narrow workers may not process their share efficiently; decode also has different parallelism needs.",
-        "why_this_test": "Explore feasible topology branches and record their concurrency and goodput, while retaining failures and replacement configurations as distinct evidence.",
-        "what_we_learned": "Seventeen reviewed usable configurations were recovered, including EP2 replacements; selected examples rose from 1,297 at N32 to 1,912 at N48, but these are different loads.",
-        "next_logic": "The next slide presents the retained architecture as an engineering decision under this tradeoff, not as the causal winner of a matched topology sweep."
+        "why_this_test": "Apply the constraints in order: allocation and FP8 compatibility first, successful real P/D transfer second, then full latency-qualified performance and repeatability. Use historical different-load points only to understand the search.",
+        "what_we_learned": "The retained split is feasible and its N64 operating point is repeatable. Because the topology scores shown were measured at different concurrency settings, we cannot say the split beat all alternatives under the same load.",
+        "next_logic": "After stating why this layout was retained, examine a separate heterogeneous-TP recovery branch. That branch teaches us about transfer readiness; it is not a topology comparison against this selected layout."
       },
-      "script": "Our first engineering question was how to spend the same sixteen GPUs. We could create more, narrower prefill replicas, or assign more GPUs to fewer workers and to decode. Historical usable examples include 1,297 good tokens per second at concurrency 32, 1,666 at 40, and 1,912 at 48. But concurrency changed between those points, so the higher values do not prove that topology alone caused the increase. The recovery ledger contains seventeen usable measured configurations, including three EP2 replacements; it also preserves failed originals. These trials showed which arrangements could work and informed our retained split. They are not a controlled ranking of every layout at the same load.",
-      "caution": "Do not describe N as GPU count or use the three different-load scores as a causal ranking. EP2 replacements are new configurations, not retroactive passes for failed originals.",
-      "transition": "Given this tradeoff, the next slide states the architecture we retained and the extra transfer path that separation introduces.",
+      "script": "We had two nodes with eight H200s each, and some apparent parallel layouts were not valid for this FP8 model. We therefore applied four practical gates: fit the allocation, pass the model’s parallel-shape constraints, complete a real request across prefill and decode, and sustain the latency rule in full runs. The retained two-TP4 prefill plus TP8/EP8 decode layout passes those feasibility gates, and its later N64 service point repeats around 3,044 good tokens per second. The N32, N40 and N48 topology scores on this slide used different loads. They explain what we explored; they do not prove this layout is the global performance winner. We chose a feasible, repeatable operating point with the evidence available.",
+      "caution": "Do not say the different N32/N40/N48 points prove the topology caused their score differences or that the retained layout is globally optimal. Feasibility and a repeated operating point are the supported selection rationale.",
+      "transition": "A separate historical heterogeneous-TP branch then exposed a transfer-readiness failure. We use it to explain the KV investigation, not as a matched topology control.",
       "hardware": "H200 · historical topology observations",
       "claim_type": "Engineering decision"
     },
     "vi": {
-      "brief": "Tăng số replica prefill giúp phục vụ đồng thời nhiều yêu cầu, còn nhóm song song rộng hơn cấp thêm GPU cho mỗi worker mô hình. Các mốc khả thi là 1.297 ở N32, 1.666 ở N40 và 1.912 good tokens/s ở N48, nhưng tải cũng khác nhau.",
-      "purpose": "Giải thích đánh đổi kỹ thuật dẫn đến cách chia được giữ lại. Cùng mười sáu GPU có thể dùng cho nhiều replica hơn hoặc độ song song rộng hơn; prefill và decode có nhu cầu khác nhau. Điểm topology lịch sử cho thấy tính khả thi và tiến trình, không phải xếp hạng nhân quả cùng tải.",
-      "visual": "Dùng các nhánh để biểu diễn những cách khả thi phân bổ mười sáu GPU cố định: nhiều replica prefill hẹp và nhiều nhóm decode, hoặc ít worker prefill rộng hơn cùng nhóm decode rộng. Gắn các mốc khả thi lịch sử N32/1.297,02, N40/1.666,01 và N48/1.912,30 good tokens/s. Ghi rõ N là số yêu cầu client đang xử lý đồng thời. Nối nhánh như các ứng viên, không phải trục thời gian hay thứ hạng nhân quả, vì concurrency và điều kiện thử khác nhau.",
+      "brief": "Các phép thử cho thấy đánh đổi giữa nhiều worker xử lý prompt và worker có độ song song rộng. Nhóm giữ cấu hình vừa hai node tám GPU, có đường truyền KV hoạt động và lặp lại được ở N64. Điểm đo khác tải không chứng minh đây là cấu hình tốt nhất toàn cục.",
+      "purpose": "Giải thích tiêu chí thực tế để giữ topology hiện tại. Nhóm chọn trong số các layout tương thích model, vừa ngân sách hai node, chạy được request qua đường truyền tách prefill/decode và duy trì điểm vận hành đạt SLA qua các lần chạy đầy đủ. Điểm N32, N40, N48 giúp hình thành quyết định nhưng không xếp hạng riêng topology vì tải và điều kiện thử khác nhau.",
+      "visual": "Vẽ các cách chia GPU thành nhánh, rồi cho thấy bốn cửa kiểm tra: (1) vừa 16 H200 trên hai node, (2) tương thích hình dạng song song của FP8, (3) truyền KV thật từ prefill sang decode thành công, và (4) đạt SLA trong lần chạy đầy đủ và có lặp lại. Gắn điểm 1.297,02/N32, 1.666,01/N40, 1.912,30/N48 good tokens/s là quan sát lịch sử ở tải khác nhau. Đây là lập luận về tính khả thi và điểm vận hành, không phải bảng xếp hạng topology cùng tải.",
       "terms": [
         {
           "symbol": "replica",
@@ -325,27 +326,28 @@
         }
       ],
       "reading": [
-        "Bốn replica prefill TP2 cùng hai nhóm decode TP4/EP4 sử dụng GPU khác với hai worker prefill TP4 cộng một worker decode TP8/EP8.",
-        "Các quan sát lịch sử hiển thị là 1.297,02 ở N32, 1.666,01 ở N40 và 1.912,30 good tokens/s ở N48.",
-        "N thay đổi giữa các điểm, nên không thể quy điểm cao hơn chỉ cho topology.",
-        "Con số mười bảy cấu hình dùng được tóm tắt bằng chứng đã rà soát, không phải quét có kiểm soát cùng tải."
+        "Ràng buộc tài nguyên là hai node, mỗi node tám H200; cấu hình phải vừa phân bổ này.",
+        "Một số dạng chia song song không tương thích hình học block FP8 của model, nên bị loại trước khi so hiệu năng.",
+        "Một topology chỉ hữu ích nếu request thật truyền KV từ prefill sang decode và dịch vụ đạt đồng thời các ngưỡng latency.",
+        "Điểm vận hành được giữ lại có các lần chạy N64 đầy đủ lặp lại quanh 3.044 good tokens/s; chúng hỗ trợ tính ổn định của điểm đó, không chứng minh thắng nhân quả trước mọi topology.",
+        "Các mốc N32/N40/N48 giải thích quá trình tìm kiếm, không chứng minh riêng topology làm điểm tăng."
       ],
       "tradeoff": {
-        "observation": "Ngân sách GPU cố định buộc nhóm chọn giữa số replica và độ rộng song song. Các ví dụ dùng được đã rà soát gồm N32 đạt 1297,02; N40 đạt 1666,01; N48 đạt 1912,30 good tokens/s; tổng cộng đếm mười bốn layout gốc và ba cấu hình thay thế EP2.",
-        "hypothesis": "Layout có đủ replica prefill cùng worker decode rộng hơn có thể cân bằng xử lý prompt và sinh token ở tải dự định.",
-        "conclusion": "Khôi phục topology tạo ra ứng viên khả thi và cung cấp căn cứ cho cách chia được chọn sau đó. Điểm tăng trong ví dụ không phải thứ hạng nhân quả vì concurrency và điều kiện lịch sử khác nhau.",
-        "unknown": "Các điểm này chưa xác lập lợi thế của kiến trúc được chọn so với mọi phương án khi chạy cùng tải; số lượng cấu hình không phải so sánh thống kê có điều kiện chung."
+        "observation": "Nhóm rà soát được 17 cấu hình topology đo được và dùng được, gồm ba phương án EP2 thay thế. Các ví dụ trình bày chạy ở N32, N40 và N48 nên không phải xếp hạng cùng tải.",
+        "hypothesis": "Một topology chuyên biệt theo từng pha có thể vừa hai node, truyền KV được và tạo điểm dịch vụ đạt latency có thể lặp lại.",
+        "conclusion": "Giữ layout hai prefill TP4 và một decode TP8/EP8 vì vừa cấp phát, tương thích model, phục vụ được qua hai pha và có các lần đo N64 lặp lại. Đây là lựa chọn thực tế dựa trên bằng chứng, chưa phải tối ưu toàn cục đã chứng minh.",
+        "unknown": "Chưa có phép so sánh lặp lại, cùng tải giữa mọi topology khả thi để xác định topology thắng về nhân quả."
       },
       "reasoning": {
         "problem": "Phân bổ mười sáu H200 giữa prefill và decode, cân bằng số replica worker với số GPU giao cho mỗi worker.",
         "why_it_matters": "Quá ít replica có thể giới hạn tiếp nhận prompt; worker quá hẹp có thể xử lý phần việc kém hiệu quả; decode cũng có nhu cầu song song khác.",
-        "why_this_test": "Khảo sát các nhánh topology khả thi và ghi lại concurrency cùng goodput, đồng thời giữ thất bại và cấu hình thay thế như các bằng chứng riêng.",
-        "what_we_learned": "Đã khôi phục mười bảy cấu hình dùng được sau rà soát, gồm các thay thế EP2; ví dụ điểm tăng từ 1.297 ở N32 lên 1.912 ở N48 nhưng tải khác nhau.",
-        "next_logic": "Slide kế tiếp trình bày kiến trúc được giữ như một quyết định kỹ thuật dưới các đánh đổi này, không phải người thắng nhân quả của phép quét topology ghép cặp."
+        "why_this_test": "Áp dụng ràng buộc theo thứ tự: vừa cấp phát và tương thích FP8 trước; truyền request thật giữa P/D tiếp theo; cuối cùng đo SLA trong bài đầy đủ và kiểm tra lặp lại. Điểm lịch sử khác tải chỉ giúp hiểu quá trình tìm kiếm.",
+        "what_we_learned": "Layout được giữ lại là khả thi và điểm vận hành N64 có thể lặp lại. Vì các điểm topology nêu ở đây đo tại concurrency khác nhau, không thể nói layout này thắng mọi phương án ở cùng tải.",
+        "next_logic": "Sau khi nêu lý do giữ layout, xem một nhánh khôi phục heterogeneous-TP riêng. Nhánh đó cho thấy vấn đề truyền readiness, không phải đối chứng topology với layout đã chọn."
       },
-      "script": "Câu hỏi kỹ thuật đầu tiên là phân bổ mười sáu GPU thế nào. Ta có thể tạo nhiều replica prefill hẹp hơn, hoặc cấp thêm GPU cho ít worker hơn và cho decode. Ví dụ khả thi trong lịch sử đạt 1.297 good tokens mỗi giây ở concurrency 32, 1.666 ở 40 và 1.912 ở 48. Nhưng concurrency thay đổi giữa các điểm, nên số cao hơn không chứng minh riêng topology gây ra mức tăng. Sổ khôi phục có mười bảy cấu hình khả thi đã đo, gồm ba cấu hình thay thế EP2; các layout gốc thất bại cũng được giữ lại. Những thử nghiệm này cho biết cách bố trí nào có thể hoạt động và giúp chọn split sau đó. Chúng không phải bảng xếp hạng có kiểm soát ở cùng tải.",
-      "caution": "Không hiểu N là số GPU và không dùng ba điểm ở tải khác nhau làm thứ hạng nhân quả. Cấu hình thay thế EP2 là thử nghiệm mới, không sửa hồi tố cho cấu hình gốc thất bại.",
-      "transition": "Từ đánh đổi này, slide tiếp theo nêu kiến trúc được giữ và đường truyền bổ sung do việc tách vai trò tạo ra.",
+      "script": "Chúng tôi có hai node, mỗi node tám H200, nhưng không phải mọi kiểu chia song song đều tương thích model FP8. Vì vậy, chúng tôi dùng bốn cửa kiểm tra thực tế: vừa cấp phát, đúng ràng buộc chia model, truyền được request qua prefill và decode, rồi duy trì ngưỡng latency trong bài chạy đầy đủ. Layout hai prefill TP4 cùng decode TP8/EP8 vượt qua các điều kiện khả thi đó; điểm N64 sau này cũng lặp lại quanh 3.044 good tokens/s. Các điểm N32, N40, N48 trên slide được đo ở tải khác nhau. Chúng giải thích quá trình tìm kiếm, không chứng minh topology này tốt nhất toàn cục. Đây là điểm vận hành khả thi và lặp lại được với bằng chứng hiện có.",
+      "caution": "Không nói các điểm N32/N40/N48 khác tải chứng minh topology gây ra khác biệt điểm số, hoặc layout hiện tại là tốt nhất toàn cục. Bằng chứng hỗ trợ tính khả thi và điểm vận hành lặp lại.",
+      "transition": "Sau đó, một nhánh heterogeneous-TP lịch sử riêng gặp lỗi sẵn sàng truyền KV. Ta dùng nhánh này để giải thích nghiên cứu KV, không làm đối chứng topology cùng tải.",
       "hardware": "H200 · historical topology observations",
       "claim_type": "Quyết định kỹ thuật"
     }
@@ -534,7 +536,7 @@
       },
       "script": "The KV transfer investigation came from a separate historical branch, not the architecture we just selected. In job 22271, prefill P8 used TP8 and EP2, while decode D8 used TP4 and EP4. The model workers loaded, but the pair warmup request never completed. Its retained log ends with an HTTP timeout after 360 seconds. AIPerf did not run, so there is no baseline score. This tells us that the cold path was not ready; it does not tell us that steady-state network bandwidth was saturated or that a KV copy was measured to be slow. Since the failure came before scoring, we next looked for a setup hypothesis that could be tested directly.",
       "caution": "Do not report 22271 as a low-throughput baseline or divide 360 seconds by a later warmup duration to calculate speedup; these are not matched timed measurements.",
-      "transition": "The pre-score failure leads to the next question: what specific setup work could plausibly prevent pair warmup from completing?",
+      "transition": "The timeout locates the symptom before scoring, but not its cause. We next inspect the setup path and choose a small, testable source-level hypothesis before claiming a bandwidth, layout or scheduling bottleneck.",
       "hardware": "H200 · historical heterogeneous-TP branch",
       "claim_type": "Technical contribution"
     },
@@ -589,7 +591,7 @@
       },
       "script": "Điều tra truyền KV xuất phát từ một nhánh lịch sử riêng, không phải kiến trúc vừa chọn. Trong job 22271, prefill P8 dùng TP8, EP2, còn decode D8 dùng TP4, EP4. Worker mô hình đã nạp nhưng yêu cầu pair-warmup không hoàn tất. Log lưu lại kết thúc bằng HTTP timeout sau 360 giây. AIPerf chưa chạy, nên không có điểm baseline. Điều này cho thấy đường lạnh chưa sẵn sàng; nó không cho biết băng thông mạng steady-state bị nghẽn hay một lần truyền KV đã được đo là chậm. Vì lỗi xuất hiện trước khi chấm điểm, tiếp theo chúng tôi tìm một giả thuyết setup cụ thể có thể kiểm tra trực tiếp.",
       "caution": "Không báo cáo 22271 như baseline throughput thấp hoặc chia 360 giây cho thời gian warmup về sau để tính tăng tốc; đây không phải các phép đo thời gian ghép cặp.",
-      "transition": "Lỗi trước khi chấm điểm dẫn đến câu hỏi tiếp theo: công việc setup cụ thể nào có thể khiến warmup cặp không hoàn tất?",
+      "transition": "Timeout xác định lỗi xảy ra trước khi chấm điểm nhưng chưa cho biết nguyên nhân. Tiếp theo ta xem đường setup và chọn một giả thuyết nhỏ, kiểm tra được từ source trước khi kết luận nghẽn bandwidth, layout hay scheduling.",
       "hardware": "H200 · historical heterogeneous-TP branch",
       "claim_type": "Phần nhóm sửa và xác minh"
     }
@@ -599,9 +601,9 @@
     "title": "Request-scoped descriptors remove work unrelated to the request",
     "hardware": "H200 transfer path · CPU geometry checks",
     "en": {
-      "brief": "We replaced whole-pool descriptor setup with request-scoped ranges. The representative counts are 403.8 million entries per rank versus 188 per request, with different scopes. CPU range equivalence passed 720 cases; actual GPU serving is checked separately.",
-      "purpose": "Explain why descriptor preparation was prioritized, what the team changed, and what correctness tests actually showed. This is the direct implementation contribution: build transfer descriptions for the request's KV pages rather than enumerate the full pool, while retaining mapping behavior.",
-      "visual": "Show the old full-pool scope beside the patched request scope: about 403.8 million source entries per rank for the representative pool geometry versus 188 coalesced descriptors for one contiguous 4,000-token request. Then separate a CPU range-equivalence gate from a real GPU transport gate marked not validated in the fixture. Do not depict the count ratio as a time or speedup ratio.",
+      "brief": "Workers reached ready state but pair warmup timed out before AIPerf. Source inspection found request-independent enumeration of a large reserved KV pool. We tried request-scoped ranges first because this setup hypothesis was narrow and cheaply testable.",
+      "purpose": "Explain why descriptor construction was the first intervention. After the pre-score warmup failure, source inspection showed that heterogeneous-TP setup enumerated pool metadata unrelated to the current request. Restricting descriptors to request pages had a narrow correctness check in CPU fixtures and did not require assuming that network bandwidth, KV layout or scheduling had already been ruled out.",
+      "visual": "Show the failed warmup context from job 22271, then contrast whole-pool descriptor enumeration with request-page selection and adjacent-range coalescing. Label 403.8 million as representative reserved-pool source entries per rank and 188 as ranges for one 4,000-token request. Show the cheap first check (720 CPU byte-range equivalence cases) and explicitly note that it does not test GPU transport. Add a decision note: selected because source-visible, request-irrelevant setup work had a bounded, checkable hypothesis; competing bandwidth/layout/scheduling explanations were not measured away.",
       "terms": [
         {
           "symbol": "NIXL",
@@ -637,34 +639,35 @@
         }
       ],
       "reading": [
-        "The symptom preceded scoring, and source inspection found whole-pool descriptor enumeration in the heterogeneous-TP path.",
-        "The patch creates source and destination descriptors only for the current request and coalesces contiguous ranges; equal-TP paths, weights, precision, head mapping, and notifications were retained.",
-        "The 403.8 million and 188 values count descriptors at different scopes. They are not bytes, seconds, bandwidth, or a measured speedup.",
-        "The CPU fixture passes 720 byte-range equivalence cases but sets real GPU transport validation to false."
+        "The motivating symptom was a 360-second pair-warmup timeout before AIPerf, with no scored requests.",
+        "Source review found descriptor setup traversing the whole registered pool even though the immediate request references only a subset of pages.",
+        "The first intervention was deliberately narrow: build descriptors for request pages and merge adjacent byte ranges while preserving offsets and strides.",
+        "720 CPU fixtures checked range equivalence, making this a cheap correctness gate before another distributed GPU attempt. They do not validate real NIC/GPU transfer behavior.",
+        "Bandwidth, KV layout and request scheduling remain competing explanations not isolated by these counts."
       ],
       "tradeoff": {
-        "observation": "Representative source geometry gives about 403.8 million whole-pool source descriptors per rank; a contiguous 4,000-token request uses 188 coalesced descriptors. CPU equivalence checks pass 720 cases.",
-        "hypothesis": "Removing descriptors for KV pages unrelated to the active request should reduce setup work while preserving the exact bytes and mapping needed for transfer.",
-        "conclusion": "The source patch and CPU geometry tests support request-scoped range construction and tested address equivalence. They establish a plausible setup target and implementation correctness for tested cases, not measured end-to-end acceleration.",
-        "unknown": "No old-versus-new descriptor initialization time was measured. The geometry fixture did not validate actual GPU transport, and it does not prove descriptor work was the dominant cause of the timeout."
+        "observation": "A heterogeneous-TP worker pair loaded, but the warmup timed out before a scored benchmark. Source showed whole-pool metadata enumeration; 720 CPU equivalence cases passed after the narrow patch.",
+        "hypothesis": "Avoiding request-irrelevant descriptor construction may make this bootstrap path usable; a cheap exact-range check can reject an incorrect patch before spending another distributed allocation.",
+        "conclusion": "Descriptor scoping was a sensible first engineering intervention because it was directly visible in source, bounded, and inexpensive to validate. Existing evidence does not establish that it was the dominant performance bottleneck.",
+        "unknown": "No successful unpatched scored run, initialization timer, bandwidth profile, KV-layout comparison, or scheduling comparison exists for this branch. Which component caused the timeout and the descriptor-only end-to-end gain remain unknown."
       },
       "reasoning": {
         "problem": "Full-pool descriptor enumeration appeared in the cold heterogeneous-TP path after pair warmup had failed.",
         "why_it_matters": "Preparing metadata for pages the request will not transfer could add setup work before the service can handle its first request.",
-        "why_this_test": "Change descriptor construction to the request's pages, preserve KV range mapping, and compare original and patched address geometry across CPU cases.",
-        "what_we_learned": "The patch reduces the illustrated descriptor count from about 403.8 million per rank for the pool to 188 for the request, and 720 tested CPU range cases pass. These counts do not measure elapsed time.",
-        "next_logic": "A real patched deployment is needed to establish feasibility; a matched unpatched deployment and setup timing would still be needed to claim patch-only speedup."
+        "why_this_test": "The source exposed a concrete setup action that included data irrelevant to the request. Restricting that work had a clear correctness invariant and a cheap CPU check, so it was the lowest-cost discriminating first intervention. We did not first prove bandwidth, KV layout or scheduling innocent.",
+        "what_we_learned": "The 720 range checks support byte-range equivalence. They justify attempting the patched distributed path, but cannot identify the timeout’s cause or prove a performance bottleneck.",
+        "next_logic": "The next run asks whether the patched branch can actually warm up and complete a full benchmark. Since the old branch has no successful scored control, interpret that result as feasibility evidence only."
       },
-      "script": "Source inspection gave us a concrete setup hypothesis. The old heterogeneous-TP path prepared descriptors for the whole KV pool. In representative TP8 geometry that is about 403.8 million source descriptors per rank. The patch instead describes only the current request's KV pages and combines adjacent ranges; a contiguous 4,000-token TP8-to-TP4 request has 188 descriptors in the CPU geometry check. These are counts with different scopes, not elapsed time or a two-million-fold speedup. We compared original and patched byte ranges across 720 CPU cases, and they matched. The fixture explicitly does not validate real GPU transport. So we have evidence that the tested mapping is preserved and a specific implementation change, but not yet evidence that it caused the timeout to disappear or sped up serving.",
-      "caution": "Never describe 403.8 million to 188 as an inference speedup. Do not call CPU geometry equivalence GPU transfer validation or claim that bandwidth, KV layout, placement, or other bootstrap causes were ruled out.",
-      "transition": "The final slide in this sequence asks what the actual patched run establishes, then separates feasibility from the unmeasured causal speedup.",
+      "script": "Why start with descriptors? In job 22271 both model workers loaded, but a real request through the pair timed out during warmup after 360 seconds; AIPerf never scored traffic. Reading the source showed setup enumerating the registered KV pool even when a request used only a small subset. That gave us a narrow hypothesis: build metadata for the request pages and coalesce adjacent ranges. It had a cheap check—720 CPU cases to verify the byte ranges still matched—before spending another multi-node run. We chose it because the extra setup work was visible and testable, not because we had already ruled out network bandwidth, KV layout or scheduling. Those alternatives remain unmeasured.",
+      "caution": "Do not call descriptors the verified dominant bottleneck. The counts have different scopes, CPU geometry checks are not GPU transport tests, and bandwidth/layout/scheduling were not excluded.",
+      "transition": "The CPU checks only establish that the patch describes the same byte ranges. The next slide asks whether the real distributed path becomes usable; it still cannot measure an isolated descriptor speedup.",
       "hardware": "H200 transfer path · CPU geometry checks",
       "claim_type": "Technical contribution"
     },
     "vi": {
-      "brief": "Nhóm sửa từ chuẩn bị mô tả cả kho KV sang chỉ mô tả vùng của request. Ví dụ là 403,8 triệu mục mỗi rank so với 188 dải mỗi request, khác phạm vi. Kiểm tra CPU đạt 720 trường hợp; chạy dịch vụ GPU thật được kiểm tra riêng.",
-      "purpose": "Giải thích vì sao ưu tiên chuẩn bị descriptor, nhóm đã đổi gì và kiểm tra đúng đắn thực sự cho thấy điều gì. Đây là đóng góp triển khai trực tiếp: tạo mô tả truyền cho các trang KV của yêu cầu thay vì liệt kê cả pool, đồng thời giữ cách ánh xạ.",
-      "visual": "Đặt phạm vi cũ toàn pool cạnh phạm vi mới theo yêu cầu: khoảng 403,8 triệu entry nguồn mỗi rank trong hình học pool đại diện so với 188 descriptor đã gộp cho một yêu cầu liên tục 4.000 token. Sau đó tách cổng tương đương dải trên CPU khỏi cổng truyền GPU thật, được fixture đánh dấu chưa xác minh. Không vẽ tỷ lệ số đếm như tỷ lệ thời gian hay tăng tốc.",
+      "brief": "Hai worker đã sẵn sàng nhưng warmup qua cặp P/D timeout trước AIPerf. Source cho thấy setup duyệt cả pool KV không phụ thuộc request. Nhóm thử giới hạn descriptor theo request trước vì đây là giả thuyết nhỏ, kiểm tra được với chi phí thấp.",
+      "purpose": "Giải thích vì sao nhóm thử tối ưu tạo descriptor trước tiên. Sau lỗi warmup trước khi chấm điểm, đọc source cho thấy setup heterogeneous-TP duyệt metadata của cả pool, kể cả phần không thuộc request hiện tại. Chỉ xử lý trang KV cần dùng có thể kiểm tra tính đúng đắn bằng fixture CPU mà không giả định bandwidth, KV layout hay scheduling đã bị loại trừ.",
+      "visual": "Cho thấy bối cảnh warmup lỗi ở job 22271, rồi so sánh duyệt descriptor toàn pool với chọn trang của request và gộp các khoảng liền kề. Ghi 403,8 triệu là entry nguồn đại diện cho pool đã đăng ký trên mỗi rank; 188 là khoảng cho một request 4.000 token. Thêm kiểm tra đầu tiên chi phí thấp (720 ca tương đương khoảng byte), đồng thời ghi rõ chưa kiểm tra truyền dữ liệu GPU. Nêu lý do chọn: công việc setup không cần cho request được thấy trong source, tạo giả thuyết giới hạn và kiểm tra được; chưa đo để loại các giải thích bandwidth/layout/scheduling.",
       "terms": [
         {
           "symbol": "NIXL",
@@ -700,27 +703,28 @@
         }
       ],
       "reading": [
-        "Triệu chứng xảy ra trước khi chấm điểm; xem source cho thấy đường TP khác nhau liệt kê descriptor toàn pool.",
-        "Bản vá chỉ tạo descriptor nguồn và đích cho yêu cầu hiện tại rồi gộp dải liên tục; đường TP bằng nhau, trọng số, độ chính xác, ánh xạ head và thông báo được giữ nguyên.",
-        "403,8 triệu và 188 là số descriptor ở phạm vi khác nhau. Chúng không phải byte, giây, băng thông hay mức tăng tốc đo được.",
-        "Fixture CPU vượt 720 trường hợp tương đương byte-range, nhưng đặt trạng thái xác minh truyền GPU thật là false."
+        "Triệu chứng dẫn tới phép thử là warmup cặp P/D timeout 360 giây trước AIPerf; chưa có request benchmark được chấm.",
+        "Đọc source thấy setup descriptor đi qua cả pool đã đăng ký, dù request hiện tại chỉ cần một phần trang KV.",
+        "Can thiệp đầu tiên được giữ hẹp: dựng descriptor cho trang của request rồi gộp khoảng byte liền kề, vẫn giữ offset và stride.",
+        "720 fixture CPU kiểm tra tương đương khoảng byte, tạo cửa kiểm tra rẻ trước khi thử GPU phân tán. Chúng không xác minh đường truyền GPU/NIC thật.",
+        "Bandwidth, KV layout và lập lịch request vẫn là các giả thuyết cạnh tranh chưa được cô lập."
       ],
       "tradeoff": {
-        "observation": "Hình học source đại diện cho khoảng 403,8 triệu descriptor nguồn nếu liệt kê cả pool mỗi rank; một yêu cầu liên tục 4.000 token cần 188 descriptor đã gộp. Kiểm tra tương đương CPU đạt 720 trường hợp.",
-        "hypothesis": "Bỏ descriptor cho trang KV không liên quan yêu cầu đang chạy có thể giảm việc setup mà vẫn giữ đúng byte và ánh xạ cần truyền.",
-        "conclusion": "Bản vá source và kiểm tra hình học CPU hỗ trợ cách tạo dải theo yêu cầu cùng tính tương đương địa chỉ trong các trường hợp đã thử. Chúng xác định một mục tiêu setup hợp lý và tính đúng của triển khai ở phạm vi thử, không chứng minh tăng tốc đầu cuối.",
-        "unknown": "Không đo thời gian khởi tạo descriptor cũ và mới. Fixture hình học không xác minh truyền GPU thật và không chứng minh tạo descriptor là nguyên nhân chi phối timeout."
+        "observation": "Một cặp worker heterogeneous-TP tải model được nhưng warmup timeout trước benchmark. Đọc source cho thấy duyệt metadata toàn pool; 720 ca tương đương CPU đạt sau bản sửa hẹp.",
+        "hypothesis": "Bỏ qua descriptor không liên quan request có thể giúp đường bootstrap hoạt động; kiểm tra CPU chính xác, rẻ có thể phát hiện patch sai trước khi tốn một allocation phân tán khác.",
+        "conclusion": "Chọn giới hạn descriptor là can thiệp kỹ thuật đầu tiên hợp lý vì thấy trực tiếp trong source, phạm vi nhỏ và rẻ để kiểm tra. Bằng chứng hiện có chưa cho thấy đây là bottleneck hiệu năng chính.",
+        "unknown": "Nhánh này không có run unpatched thành công để chấm điểm, timer khởi tạo, profile bandwidth, so sánh KV layout hay scheduling. Chưa biết thành phần nào gây timeout hoặc gain end-to-end riêng của descriptor."
       },
       "reasoning": {
         "problem": "Liệt kê descriptor toàn pool xuất hiện trong đường TP khác nhau khi khởi động lạnh, sau khi pair-warmup thất bại.",
         "why_it_matters": "Chuẩn bị metadata cho những trang mà yêu cầu không truyền có thể thêm công việc trước khi dịch vụ xử lý được yêu cầu đầu tiên.",
-        "why_this_test": "Đổi cách tạo descriptor sang các trang của yêu cầu, giữ ánh xạ dải KV và so hình học địa chỉ code gốc với bản vá qua các trường hợp CPU.",
-        "what_we_learned": "Bản vá giảm số đếm minh họa từ khoảng 403,8 triệu mỗi rank cho cả pool còn 188 cho yêu cầu; 720 trường hợp dải CPU được thử đều đạt. Số đếm không đo thời gian trôi qua.",
-        "next_logic": "Cần triển khai bản vá thật để xác lập tính khả thi; muốn tuyên bố tăng tốc riêng do bản vá thì vẫn cần lần chạy không vá ghép cặp và đo thời gian setup."
+        "why_this_test": "Source cho thấy một bước setup xử lý dữ liệu không liên quan request. Giới hạn công việc này có điều kiện đúng đắn rõ ràng và kiểm tra CPU chi phí thấp, nên là can thiệp đầu tiên có thể phân biệt giả thuyết với chi phí nhỏ. Nhóm chưa chứng minh bandwidth, KV layout hay scheduling vô can.",
+        "what_we_learned": "720 phép kiểm tra hỗ trợ kết luận khoảng byte giữ nguyên. Chúng biện minh cho việc thử đường phân tán sau patch, nhưng không chỉ ra nguyên nhân timeout hoặc chứng minh bottleneck hiệu năng.",
+        "next_logic": "Lần chạy tiếp theo hỏi liệu nhánh đã sửa có warmup được và hoàn tất benchmark không. Vì nhánh cũ không có control chấm điểm thành công, hãy hiểu kết quả như bằng chứng khả thi."
       },
-      "script": "Kiểm tra source cho chúng tôi một giả thuyết setup cụ thể. Đường TP khác nhau cũ chuẩn bị descriptor cho toàn bộ pool KV. Với hình học TP8 đại diện, con số khoảng 403,8 triệu descriptor nguồn mỗi rank. Bản vá chỉ mô tả trang KV của yêu cầu hiện tại và gộp các dải liền kề; yêu cầu liên tục 4.000 token TP8 sang TP4 có 188 descriptor trong phép tính hình học CPU. Đây là số đếm với phạm vi khác nhau, không phải thời gian hay mức tăng tốc hai triệu lần. Chúng tôi so byte-range gốc và bản vá qua 720 trường hợp CPU, kết quả tương đương. Fixture ghi rõ chưa xác minh truyền GPU thật. Vì vậy, ta có bằng chứng ánh xạ được thử vẫn đúng và biết chính xác thay đổi triển khai, nhưng chưa biết nó có làm hết timeout hay tăng tốc phục vụ hay không.",
-      "caution": "Không gọi chênh lệch 403,8 triệu xuống 188 là tăng tốc suy luận. Không gọi tương đương hình học CPU là xác minh truyền GPU, cũng không nói đã loại trừ băng thông, bố trí KV, vị trí tài nguyên hay nguyên nhân bootstrap khác.",
-      "transition": "Slide cuối trong chuỗi hỏi lần chạy có bản vá thực sự chứng minh điều gì, rồi tách tính khả thi khỏi mức tăng tốc nhân quả chưa đo.",
+      "script": "Vì sao thử descriptor trước? Ở job 22271, hai worker tải model xong nhưng request thật qua cặp P/D timeout sau 360 giây trong warmup; AIPerf chưa chấm traffic. Đọc source cho thấy setup duyệt pool KV đã đăng ký dù request chỉ dùng một phần nhỏ. Từ đó có giả thuyết hẹp: chỉ dựng metadata cho trang request rồi gộp các khoảng liền kề. Cách này có kiểm tra rẻ trước khi tốn thêm lần chạy nhiều node: 720 ca CPU xác minh các khoảng byte không đổi. Nhóm chọn vì công việc setup dư thấy được và kiểm tra được, không phải vì đã loại trừ bandwidth mạng, layout KV hay scheduling. Các khả năng đó chưa được đo.",
+      "caution": "Không gọi descriptor là bottleneck chính đã xác minh. Hai số đếm khác phạm vi, test hình học CPU không phải test truyền GPU, và bandwidth/layout/scheduling chưa được loại trừ.",
+      "transition": "Kiểm tra CPU chỉ xác nhận mô tả khoảng byte tương đương. Slide sau xem đường phân tán thật có hoạt động không; kết quả đó vẫn chưa đo riêng speedup do descriptor.",
       "hardware": "H200 transfer path · CPU geometry checks",
       "claim_type": "Phần nhóm sửa và xác minh"
     }
@@ -778,13 +782,13 @@
       "reasoning": {
         "problem": "Determine whether the source change was followed by a usable service path, not just a passing CPU fixture.",
         "why_it_matters": "Only a real end-to-end request and benchmark can show the patched recovery topology became usable; CPU address checks alone cannot do that.",
-        "why_this_test": "Use the actual patched H200 deployment, observe pair warmup, then run a full N32 local confirmation with request-level SLA and error accounting.",
-        "what_we_learned": "Job 22294 warmed both P/D paths in 0.68–0.70 seconds per request after readiness and completed N32 at 1422.96 good tokens/s, 95.87% joint SLA, and zero errors/cancellations. It demonstrates feasibility in that run.",
-        "next_logic": "Close the claim at feasibility. A patch-only speedup would require a successful matched no-patch run plus isolated setup and latency evidence; the available records do not provide these."
+        "why_this_test": "After a successful byte-range check, the necessary next gate was a real distributed request through both roles, followed by the complete benchmark protocol. This tests feasibility of the patched path, while the missing successful unpatched control limits causal comparison.",
+        "what_we_learned": "The patched branch warmed up and completed a full N32 run with 95.87% joint SLA and zero scored errors. That establishes a usable example path. It does not quantify descriptor-only speedup because the original run timed out before scoring.",
+        "next_logic": "With a working path available, performance experiments become possible. The separate diagnostic profile on the next slide identifies candidates, not a proven bottleneck."
       },
       "script": "We then tested the patched path in the real H200 recovery topology. Job 22294 completed both prefill and decode warmup routes in 0.68 to 0.70 seconds per request after the servers were ready. Its full N32 local benchmark measured 1,422.96 good output tokens per second, with 95.87 percent of requests passing both latency limits and no errors or cancellations. That is meaningful end-to-end feasibility evidence: this patched topology served the workload in that run. But it is not a measured speedup over job 22271. The earlier job timed out and never ran AIPerf, so it is not a successful matched control. We also lack separate old-versus-new setup timing and a breakdown of the warmup delay. The patch's independent performance effect remains unknown.",
       "caution": "Do not divide the 360-second timeout by 0.68–0.70 seconds, call the result a speedup, or attribute the full 1,422.96 score to the patch. The jobs are not a matched performance comparison.",
-      "transition": "This closes the KV case: we can claim the patched recovery path became usable, but not how much the descriptor change alone accelerated it. The next investigation turns to separately measured backend choices.",
+      "transition": "The patch restores a measurable serving path but leaves the performance cause unresolved. We next inspect diagnostic profiles as hypothesis generators, not as a causal time breakdown.",
       "hardware": "H200 · same recovery topology · 22271 / 22294",
       "claim_type": "Technical contribution"
     },
@@ -837,13 +841,13 @@
       "reasoning": {
         "problem": "Xác định thay đổi source có dẫn tới đường dịch vụ dùng được hay không, thay vì chỉ có fixture CPU vượt qua.",
         "why_it_matters": "Chỉ yêu cầu đầu cuối và benchmark thật mới cho biết topology khôi phục có bản vá đã dùng được; kiểm tra địa chỉ CPU không thể chứng minh điều này.",
-        "why_this_test": "Dùng triển khai H200 thật có bản vá, quan sát warmup cặp, rồi chạy xác nhận N32 cục bộ đầy đủ với tính SLA từng yêu cầu và lỗi.",
-        "what_we_learned": "Job 22294 warmup cả hai đường P/D trong 0,68–0,70 giây mỗi yêu cầu sau khi server sẵn sàng và hoàn tất N32 với 1422,96 good tokens/s, SLA kết hợp 95,87%, không lỗi/hủy. Đây là bằng chứng khả thi trong lần chạy đó.",
-        "next_logic": "Giới hạn kết luận ở tính khả thi. Muốn nói mức tăng tốc riêng do bản vá cần một lần chạy không vá thành công được ghép cặp và dữ liệu setup/độ trễ riêng; hồ sơ hiện có không cung cấp chúng."
+        "why_this_test": "Sau khi kiểm tra khoảng byte, cửa tiếp theo cần thiết là gửi request phân tán thật qua cả hai vai trò rồi chạy đủ protocol benchmark. Đây là phép thử tính khả thi; thiếu control unpatched chạy chấm điểm thành công nên so sánh nhân quả bị giới hạn.",
+        "what_we_learned": "Nhánh đã sửa warmup được và hoàn tất run N32 với 95,87% request đạt SLA chung, không có lỗi bị chấm. Điều đó chứng minh có một đường phục vụ hoạt động. Chưa định lượng speedup riêng do descriptor vì lần chạy gốc timeout trước khi chấm điểm.",
+        "next_logic": "Khi đã có đường chạy được để đo, mới có thể làm thí nghiệm hiệu năng. Profile chẩn đoán ở slide sau đưa ra ứng viên cần khảo sát, không chứng minh bottleneck."
       },
       "script": "Sau đó chúng tôi thử đường có bản vá trong topology khôi phục H200 thật. Job 22294 hoàn tất cả hai tuyến warmup prefill và decode trong 0,68 đến 0,70 giây mỗi yêu cầu sau khi server sẵn sàng. Benchmark N32 đầy đủ cục bộ đo được 1.422,96 good output tokens mỗi giây; 95,87% yêu cầu đạt cả hai giới hạn độ trễ và không có lỗi hay hủy. Đây là bằng chứng khả thi đầu cuối có ý nghĩa: topology có bản vá đã phục vụ workload trong lần chạy đó. Nhưng nó không phải mức tăng tốc đo so với job 22271. Job trước timeout và chưa chạy AIPerf, nên không phải đối chứng thành công ghép cặp. Chúng tôi cũng thiếu thời gian setup cũ-mới tách riêng và phân rã độ trễ warmup. Tác động hiệu năng độc lập của bản vá vẫn chưa biết.",
       "caution": "Không chia timeout 360 giây cho 0,68–0,70 giây để báo tăng tốc hoặc quy toàn bộ điểm 1.422,96 cho bản vá. Hai job không phải phép so sánh hiệu năng ghép cặp.",
-      "transition": "Đây là kết luận của ca KV: có thể nói đường khôi phục có bản vá đã dùng được, nhưng chưa thể nói riêng thay đổi descriptor tăng tốc bao nhiêu. Nghiên cứu kế tiếp chuyển sang lựa chọn backend được đo riêng.",
+      "transition": "Bản sửa khôi phục được đường serving có thể đo, nhưng nguyên nhân hiệu năng vẫn chưa rõ. Tiếp theo xem profile như gợi ý giả thuyết, không phải phân rã thời gian nhân quả.",
       "hardware": "H200 · same recovery topology · 22271 / 22294",
       "claim_type": "Phần nhóm sửa và xác minh"
     }
@@ -897,13 +901,13 @@
       "reasoning": {
         "problem": "The campaign needed to choose which performance questions to test without claiming a bottleneck from a profile.",
         "why_it_matters": "Summed GPU kernel time can overlap and excludes other elapsed-time sources, so its percentages cannot be read as request-latency shares.",
-        "why_this_test": "A separate N48 diagnostic recorded kernel categories; request-level N64 measurements separately identified TTFT failures.",
-        "what_we_learned": "The profile gives candidate components, while the N64 data says only that 27 of 1,902 requests missed TTFT and none missed ITL.",
-        "next_logic": "Use the profile to motivate a controlled service experiment, and treat the N64 tail as a separate unresolved question."
+        "why_this_test": "Collect a diagnostic N48 profile and separate N64 request-tail observations to identify candidate areas and symptoms. Kernel-duration sums cannot assign request wall time or select one causal fix, so the next backend comparison is described as a separate controlled probe, not the proven consequence of this profile.",
+        "what_we_learned": "Compute, collectives, attention and first-token queueing are plausible investigation areas, but none has a measured per-request time share here. The evidence does not tell us that HPC-Ops decode was the profile-selected remedy.",
+        "next_logic": "We next report an independently motivated, supported decode-implementation probe with its own fresh control and repeat. Its measured effect stands on that control pair, not on the N48 kernel percentages."
       },
-      "script": "We used a profile to decide what might deserve testing. It recorded about 23.5 percent of summed kernel time in communication and normalization, but kernels can overlap, so that is not 23.5 percent of request time. A separate N64 run had 27 first-token failures and no inter-token failures. Those data identify a symptom, not its cause. The profile is a lead for experiments, not a proven time budget.",
+      "script": "We profiled an N48 diagnostic run and separately inspected an N64 request trace. The profile records GPU kernel durations, not the fraction of each request spent waiting, computing or transferring KV. The N64 misses tell us first-token latency needs attention, but do not show its cause. These observations make compute, communication, attention and serving queues reasonable candidates. They did not establish that a particular kernel was the bottleneck or select HPC-Ops as the remedy. The next slide is a separate controlled probe of a supported decode implementation; its evidence comes from a fresh control and a repeat.",
       "caution": "Do not attribute N64 request failures to N48 kernel shares or claim an equal speedup from optimizing a percentage of summed kernel time.",
-      "transition": "The next experiment changes the decode implementation while holding the full serving setup fixed.",
+      "transition": "This diagnostic narrows the questions but does not choose a fix. We now show a separate controlled decode probe and explain its own control, held-fixed settings and limits.",
       "claim_type": "Experimental finding / method"
     },
     "vi": {
@@ -952,13 +956,13 @@
       "reasoning": {
         "problem": "Chiến dịch cần chọn câu hỏi hiệu năng để thử mà không kết luận bottleneck chỉ từ profile.",
         "why_it_matters": "Tổng thời lượng kernel GPU có thể chồng lấp và bỏ qua nguồn thời gian khác, nên phần trăm không phải tỷ trọng latency request.",
-        "why_this_test": "Chẩn đoán N48 ghi nhóm kernel; số đo N64 riêng xác định lỗi TTFT ở cấp request.",
-        "what_we_learned": "Profile đưa ra thành phần để điều tra; dữ liệu N64 chỉ cho biết 27/1.902 request trượt TTFT và không request nào trượt ITL.",
-        "next_logic": "Dùng profile để đề xuất phép thử dịch vụ có kiểm soát, còn đuôi N64 là câu hỏi chưa giải quyết riêng."
+        "why_this_test": "Thu profile chẩn đoán N48 và quan sát request N64 riêng để tìm các khu vực ứng viên và triệu chứng. Tổng thời lượng kernel không phân bổ thời gian thực của request hay chỉ ra một cách sửa nhân quả, nên phép so backend tiếp theo được trình bày là thử nghiệm có đối chứng riêng, không phải hệ quả đã chứng minh từ profile.",
+        "what_we_learned": "Compute, collective, attention và hàng đợi trước token đầu tiên đều là hướng đáng khảo sát, nhưng ở đây chưa đo tỷ phần thời gian của request. Bằng chứng không cho thấy HPC-Ops decode là giải pháp được profile chọn ra.",
+        "next_logic": "Tiếp theo là phép kiểm riêng về decode implementation được hỗ trợ, có control mới và lần lặp. Tác động được đánh giá từ cặp control đó, không từ phần trăm kernel N48."
       },
-      "script": "Chúng tôi dùng profile để chọn hướng đáng thử. Profile ghi khoảng 23,5 phần trăm tổng kernel-time ở giao tiếp và chuẩn hóa, nhưng kernel có thể chồng lấp nên không có nghĩa 23,5 phần trăm thời gian request. Một lần N64 riêng có 27 lỗi token đầu và không lỗi khoảng token sau. Dữ liệu cho biết triệu chứng, chưa cho nguyên nhân. Profile là đầu mối, không phải ngân sách thời gian đã chứng minh.",
+      "script": "Chúng tôi thu profile chẩn đoán ở N48 và xem riêng trace request N64. Profile ghi thời lượng kernel GPU, không cho biết mỗi request chờ, tính toán hay truyền KV bao lâu. Các request trễ ở N64 cho thấy cần quan tâm TTFT, nhưng chưa chỉ ra nguyên nhân. Compute, giao tiếp, attention và hàng đợi là những hướng hợp lý để khảo sát; dữ liệu chưa chứng minh kernel nào là bottleneck hoặc chọn HPC-Ops làm cách sửa. Slide sau trình bày phép thử riêng có đối chứng về decode implementation; bằng chứng của nó đến từ control mới và một lần lặp.",
       "caution": "Không quy lỗi request N64 cho tỷ lệ kernel N48 hoặc tuyên bố tối ưu một phần kernel sẽ tăng tốc request đúng bằng tỷ lệ đó.",
-      "transition": "Phép thử tiếp theo đổi cách thực thi decode nhưng giữ nguyên cấu hình serving đầy đủ.",
+      "transition": "Profile thu hẹp câu hỏi nhưng chưa chọn giải pháp. Bây giờ là phép thử decode riêng có đối chứng, cùng cách chọn control, các yếu tố giữ cố định và giới hạn.",
       "claim_type": "Phương pháp hoặc phát hiện thực nghiệm"
     }
   },
@@ -968,7 +972,7 @@
     "en": {
       "hardware": "H200 · full N60 · jobs 24912/24913",
       "brief": "We compared automatic decode with HPC-Ops on the same full H200 N60 setup, holding DeepGEMM prefill and chunk 8,192 fixed. The hypothesis was that decode execution could improve useful throughput; a separate treatment repeat checks consistency.",
-      "purpose": "Show how a controlled comparison turns a backend idea into a service-level hypothesis, while making clear which factors were held fixed and which result is a repeat.",
+      "purpose": "Present a separate, supported test of a decode implementation after profiling raised several possible areas to investigate. This comparison asks whether the decode implementation changes end-to-end service performance with the rest of the measured setup held fixed. It is not a claim that the N48 profile identified HPC-Ops as the bottleneck or prescribed this intervention.",
       "visual": "The setup diagram should be read as two otherwise matching full N60 runs: fresh automatic decode control 24912 and HPC-Ops decode treatment/repeat 24913. Both use sixteen H200 GPUs, DeepGEMM prefill, and chunk size 8,192 under the 60-second warmup, 120-second scoring, and 30-second grace protocol. The intended difference is the decode runner. Job 24913 also serves as an independent treatment repeat relative to original treatment 24738. Equal settings reduce confounding; they do not make all runtime randomness identical.",
       "terms": [
         {
@@ -1006,19 +1010,19 @@
       "reasoning": {
         "problem": "A backend change is only useful if a measured service objective improves under comparable workload conditions.",
         "why_it_matters": "Without a control and fixed prefill/load settings, observed score changes could come from other configuration differences.",
-        "why_this_test": "Run a fresh full N60 automatic-decode control against an HPC-Ops decode treatment, retaining DeepGEMM prefill, chunk 8,192, and the 60/120/30 protocol; repeat the treatment independently.",
-        "what_we_learned": "The design provides a matched service comparison and a separate repeat, with decoder implementation as the intended factor.",
-        "next_logic": "Read the metric tradeoff and repeat result before deciding whether this setting is supported."
+        "why_this_test": "The diagnostic profile did not identify a unique bottleneck. We therefore use a distinct, practical intervention with an available supported implementation and matched full-run control: change decode implementation, hold the serving topology, prefill, transport, workload and protocol fixed, then repeat the treatment.",
+        "what_we_learned": "The comparison can estimate the effect of this whole decode-setting change on the tested H200 service under the stated conditions. It cannot turn the prior profile into causal evidence or isolate an individual GPU kernel mechanism.",
+        "next_logic": "The next slide reports goodput together with TTFT and ITL, then checks the treatment against its independent repeat."
       },
-      "script": "We asked whether changing decode execution would help the service, so we held the rest of the N60 setup fixed. Both runs used the same H200 allocation, DeepGEMM prefill, and 8,192-token chunk, under the full benchmark schedule. The control used automatic decode; the treatment used HPC-Ops. A second treatment run checks consistency. This design narrows the question, although engine randomness and missing phase telemetry still limit causal detail.",
+      "script": "The profile did not tell us which component to change, so we should not present this as “the profile found the HPC-Ops fix.” We asked a separate practical question: does a supported HPC-Ops decode setting change full-service performance when topology, prefill, transport, workload and benchmark protocol stay fixed? We compared a fresh automatic-decode control with the HPC-Ops setting, then checked the treatment against its independent repeat. That design supports a service-level comparison. It does not isolate a particular kernel as the cause.",
       "caution": "The comparison supports only this H200 N60 setting. Do not treat the repeat as another hardware comparison or infer a kernel-level mechanism from score alone.",
-      "transition": "The next slide shows how throughput, first-token delay, and streaming latency moved in the matched result.",
+      "transition": "Now read the paired result across goodput, first-token latency and token spacing; the repeat checks whether the service-level observation persists.",
       "claim_type": "Experimental finding / method"
     },
     "vi": {
       "hardware": "H200 · N60 đầy đủ · jobs 24912/24913",
       "brief": "Chúng tôi so decode tự động với HPC-Ops trên cùng cấu hình H200 N60 đầy đủ, giữ prefill DeepGEMM và chunk 8.192 cố định. Giả thuyết là decode có thể tăng thông lượng hữu ích; lần lặp treatment riêng kiểm tra độ nhất quán.",
-      "purpose": "Cho thấy cách phép so sánh có đối chứng biến ý tưởng backend thành giả thuyết ở cấp dịch vụ, đồng thời nêu rõ yếu tố giữ nguyên và kết quả nào là lần lặp.",
+      "purpose": "Trình bày một phép thử riêng, có hỗ trợ về decode implementation sau khi profiling nêu ra nhiều hướng cần khảo sát. Phép so sánh hỏi liệu implementation decode có đổi hiệu năng toàn dịch vụ khi giữ nguyên các thành phần khác hay không. Đây không phải kết luận profile N48 đã phát hiện HPC-Ops là bottleneck hoặc chỉ định can thiệp này.",
       "visual": "Sơ đồ cấu hình biểu thị hai lần N60 đầy đủ khớp nhau: control decode tự động mới 24912 và treatment/lần lặp HPC-Ops 24913. Cả hai dùng 16 GPU H200, prefill DeepGEMM, chunk 8.192, cùng protocol warmup 60 giây, tính điểm 120 giây và grace 30 giây. Khác biệt dự định là decode runner. Job 24913 cũng là lần lặp độc lập của treatment so với treatment đầu 24738. Cài đặt khớp giảm yếu tố gây nhiễu, nhưng không làm seed runtime giống hệt.",
       "terms": [
         {
@@ -1056,13 +1060,13 @@
       "reasoning": {
         "problem": "Đổi backend chỉ hữu ích nếu mục tiêu dịch vụ đo được tốt hơn dưới workload tương đương.",
         "why_it_matters": "Thiếu control và cài đặt prefill/tải cố định thì thay đổi điểm có thể do nhiều cấu hình khác.",
-        "why_this_test": "So control decode tự động N60 đầy đủ với treatment decode HPC-Ops, giữ DeepGEMM, chunk 8.192 và protocol 60/120/30; lặp treatment độc lập.",
-        "what_we_learned": "Thiết kế tạo phép so sánh dịch vụ có đối chứng và lần lặp riêng, với decode runner là yếu tố dự định đổi.",
-        "next_logic": "Đọc đánh đổi chỉ số và kết quả lặp trước khi quyết định có bằng chứng hỗ trợ cấu hình không."
+        "why_this_test": "Profile chẩn đoán không xác định duy nhất một bottleneck. Vì vậy, nhóm chọn một can thiệp thực tế, có implementation được hỗ trợ và control chạy đầy đủ: đổi decode implementation, giữ cố định topology, prefill, transport, workload và protocol rồi chạy lặp lại treatment.",
+        "what_we_learned": "Phép so sánh ước lượng tác động của thay đổi toàn bộ setting decode lên dịch vụ H200 đã thử trong điều kiện nêu rõ. Nó không biến profile trước đó thành bằng chứng nhân quả hoặc cô lập cơ chế của một kernel GPU.",
+        "next_logic": "Slide sau trình bày goodput cùng TTFT và ITL, rồi đối chiếu treatment với lần lặp độc lập."
       },
-      "script": "Chúng tôi hỏi liệu đổi cách thực thi decode có giúp dịch vụ không, nên giữ nguyên phần còn lại của cấu hình N60. Hai lần chạy dùng cùng allocation H200, prefill DeepGEMM và chunk 8.192 theo lịch benchmark đầy đủ. Control dùng decode tự động; treatment dùng HPC-Ops. Một lần treatment thứ hai kiểm tra độ nhất quán. Thiết kế này thu hẹp câu hỏi, dù seed engine và thiếu telemetry theo pha vẫn giới hạn giải thích nhân quả.",
+      "script": "Profile không cho biết nên đổi thành phần nào, vì vậy ta không nên nói “profile tìm ra cách sửa HPC-Ops”. Nhóm đặt câu hỏi thực tế riêng: decode setting HPC-Ops được hỗ trợ có đổi hiệu năng toàn dịch vụ không nếu giữ nguyên topology, prefill, transport, workload và protocol? Chúng tôi so sánh control decode tự động mới với HPC-Ops, rồi kiểm tra treatment bằng một lần lặp độc lập. Thiết kế này hỗ trợ so sánh ở cấp dịch vụ, không cô lập một kernel cụ thể là nguyên nhân.",
       "caution": "So sánh chỉ hỗ trợ cấu hình H200 N60 này. Không coi lần lặp là so sánh phần cứng hay suy cơ chế kernel từ điểm số đơn thuần.",
-      "transition": "Slide sau cho thấy thông lượng, độ trễ token đầu và độ trễ stream thay đổi ra sao.",
+      "transition": "Bây giờ đọc kết quả theo goodput, độ trễ token đầu và khoảng cách giữa token; lần lặp kiểm tra quan sát dịch vụ có tồn tại tiếp không.",
       "claim_type": "Phương pháp hoặc phát hiện thực nghiệm"
     }
   },
@@ -1484,115 +1488,104 @@
   },
   {
     "slide": 14,
-    "title": "One held-out check supports a local forecast, not a GPU conversion rule",
+    "title": "Direct H200 tests decide which H100 ideas transfer",
     "en": {
-      "hardware": "H100 N52 calibration inputs · H200 N50 held-out check",
-      "brief": "A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.",
-      "purpose": "Assess whether a platform-specific calibration transfers to a nearby held-out operating point, while keeping an operational tolerance distinct from statistical uncertainty.",
-      "visual": "The calibration comparison uses the same N52 combo configuration: H100 mean 2,215.460 good tokens/s across two allocations and H200 mean 2,632.181 across four, ratio 1.188096805. Applying that ratio to H100 N50 produced a forecast frozen before seeing H200 job 24272: 2,642.244. The held-out H200 measurement is 2,601.629, signed error −1.5371%. It falls within the predeclared ±2% operational tolerance but outside the earlier input-only sensitivity range, which omitted model error. The forecast is not refit after seeing the answer.",
+      "brief": "We ported four distinct H100-derived settings onto the current H200 base. Every candidate stayed below the fresh H200 control: chunk 8192 lost 4.52%, while phase-mode changes gained at most 0.13%. Keep the H200 recipe.",
+      "purpose": "Answer the panel’s cross-hardware question using direct H200 measurements, not a conversion factor. A fresh H200 control lets us test selected H100-derived interventions on the target system. The runs show which tested ideas transfer, which lose, and why hardware-specific tuning remains necessary.",
+      "visual": "Use a table with rows: fresh H200 control 27777, FA3 decode 27779, H100 full serving recipe at N64 27783, HPC-Ops prefill chunk 8192 27806, explicit phase-mode control 27826, decode-only mode 27828, and prefill-only mode 27830. Plot/report good output tokens/s and percent versus the appropriate fresh control; mark negative controls and unchanged winner clearly. All are 16-H200 N64 full runs. Do not pool H100 scores into this chart. State separately that MNNVL handles GPU collectives within the decode path, while NIXL carries request KV between prefill and decode; they are distinct communication layers.",
       "terms": [
         {
-          "symbol": "calibration ratio",
-          "meaning": "H200 mean divided by H100 mean for the same N52 combo. It is specific to those systems and settings, not a GPU-generation constant."
+          "symbol": "H100-derived intervention",
+          "meaning": "A setting observed or selected during H100 work and then tested as an intervention on H200. This does not mean the complete original H100 deployment was reproduced byte for byte."
         },
         {
-          "symbol": "allocation",
-          "meaning": "A scheduled resource assignment and run. Two or four allocations are repeat counts and do not prove distinct physical GPU devices."
+          "symbol": "fresh H200 control 27777",
+          "meaning": "Current H200 DeepGEMM prefill with chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64; reference for the first transfer comparisons."
         },
         {
-          "symbol": "held-out check",
-          "meaning": "A measurement not used to calculate the forecast, revealed afterward to test the prediction."
+          "symbol": "good output tokens/s",
+          "meaning": "AIPerf Goodput requests per second multiplied by the fixed 200 output-token target."
         },
         {
-          "symbol": "frozen forecast",
-          "meaning": "A prediction fixed before the held-out measurement; keeping it unchanged prevents tuning the answer after seeing the result."
-        },
-        {
-          "symbol": "sensitivity range",
-          "meaning": "A range produced by varying selected inputs. This earlier range omitted model error, so it did not cover all forecast uncertainty."
-        },
-        {
-          "symbol": "±2% tolerance",
-          "meaning": "The team's operational pass band. It is not a confidence interval, standard error, or proof of general prediction accuracy."
+          "symbol": "1% usefulness gate",
+          "meaning": "A prospective team decision threshold for deciding which small changes warrant confirmation; not an official contest rule."
         }
       ],
       "reading": [
-        "Same N52 combo: H100 mean 2,215.460; H200 mean 2,632.181 good tokens/s; ratio 1.188096805.",
-        "Frozen H200 N50 forecast: 2,642.244. Held-out job 24272: 2,601.629, signed error −1.5371%.",
-        "The result is within ±2% operational tolerance but outside the incomplete earlier sensitivity range. These statements are compatible because the range omitted model error."
+        "All listed measurements ran on 16 H200 at N64, so the target-hardware comparisons use the H200 system rather than comparing H100 and H200 scores directly.",
+        "Fresh control 27777 measured 3038.022907 good output tokens/s. FA3 decode 27779 measured 2999.245473 (−1.276404%).",
+        "H100 full-recipe port 27783 measured 2721.815800 (−10.408319%). It changes a coupled prefill runner/chunk recipe, so its loss is not attributable to one factor.",
+        "HPC-Ops prefill chunk 8192 job 27806 measured 2900.606831 (−4.523207%); chunk 6144 job 27804 measured 2821.884862 (−7.114431%). Larger chunks improved that losing branch versus chunk 4096, but did not beat the DeepGEMM incumbent.",
+        "Phase-mode control 27826 measured 3039.167093; decode inference mode 27828 gained 0.006223%, and prefill inference mode 27830 gained 0.130765%. Both are below the team’s 1% usefulness gate.",
+        "Four distinct additional H100-derived interventions are represented by jobs 27804, 27806, 27828 and 27830. Job 27826 is their explicit phase-mode control, not another candidate. The broader nine-job final verification also includes 27777, 27779, 27781 and 27783.",
+        "MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles."
       ],
       "tradeoff": {
-        "observation": "One held-out H200 result is 1.5371% below forecast, within operational tolerance and outside the prior incomplete sensitivity range.",
-        "hypothesis": "A ratio measured at N52 may predict a nearby H200 N50 result when the tested combo is held comparable.",
-        "conclusion": "This one prospective check meets the team's tolerance; preserve the missing-model-error limitation and do not refit the forecast.",
-        "unknown": "Accuracy across other loads/configurations, total predictive uncertainty, physical-device diversity, and a universal platform conversion remain unknown."
+        "observation": "The direct H200 ports yielded losses for FA3, the H100 full recipe and both HPC-Ops chunk variants relative to their relevant H200 references. Phase-mode candidates were effectively flat against their explicit control.",
+        "hypothesis": "Hardware-specific implementations or settings may not transfer as a complete recipe; test selected components on H200 under a matched target-system base before adopting them.",
+        "conclusion": "Retain the H200 DeepGEMM/chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode recipe at N64. None of these tested ports improves goodput by the prospective 1% gate; this is the best-supported measured H200 recipe in this evidence set, not a claimed global optimum.",
+        "unknown": "Each candidate is a single run; full official model accuracy is UNKNOWN. The H100 full-recipe port changes coupled settings, and chunk runner comparisons retain generated-seed and run-order limitations. These tests do not establish universal transferability."
       },
       "reasoning": {
-        "problem": "A cross-platform score ratio might help plan nearby measurements, but it could be mistaken for a general hardware multiplier.",
-        "why_it_matters": "Hardware, software, and workload interact; one ratio can fit a local setting while failing elsewhere.",
-        "why_this_test": "Use H100/H200 N52 means to freeze an H200 N50 forecast, then compare against a result not used in calibration.",
-        "what_we_learned": "Job 24272 missed the frozen prediction by −1.5371%, within the predeclared ±2% band, while exposing that the earlier sensitivity range omitted model error.",
-        "next_logic": "Retain this as one local prospective check and avoid using it to convert other loads or platforms."
+        "problem": "The H100 and H200 results cannot be compared as if only GPU type changed, so we needed to verify H100-derived ideas directly on target H200 hardware.",
+        "why_it_matters": "A setting that wins or appears promising on H100 can lose on H200 because the hardware and deployment stack differ. Adopting it from cross-platform score ratios could degrade the actual H200 service.",
+        "why_this_test": "Run four distinct H100-derived interventions on 16 H200 at N64 against fresh or explicit matched H200 controls. Check full protocol, joint SLA, runtime/source and output gates; keep each port’s changed factors visible.",
+        "what_we_learned": "FA3 and the H100 full recipe lost; HPC-Ops chunks recovered part of that branch’s loss but remained below the H200 incumbent; both inference-mode changes were below 0.14%. No transferred setting cleared the 1% usefulness gate.",
+        "next_logic": "These tests close the current cross-hardware transfer question. We retain the H200-specific recipe, report the open official-quality limit, then hand over to the OpenFOAM speaker."
       },
-      "script": "We measured the same N52 configuration on H100 and H200 and calculated a ratio of 1.1881. Before an H200 N50 run was available, we fixed a forecast of 2,642.244. The held-out result was 2,601.629, an error of minus 1.5371 percent, within our predeclared two-percent tolerance. But it fell outside an earlier sensitivity range that omitted model error. This is one local forecast check, not a general GPU conversion rule.",
-      "caution": "Do not call the ±2% band a confidence interval, infer that allocations were distinct physical GPUs, or refit the forecast after seeing the result.",
-      "transition": "Before closing, compare two attractive interventions with the service objective: did their apparent benefits survive a full measurement?",
-      "claim_type": "Experimental finding / method"
+      "script": "We asked whether ideas selected on H100 would help the H200 system. Rather than convert scores between GPUs, we tested them directly on 16 H200 at N64 against fresh H200 references. The H100-derived full recipe lost 10.41%; FA3 decode lost 1.28%. HPC-Ops prefill with chunk 8192 recovered part of that branch’s loss but remained 4.52% below the DeepGEMM control. The two phase-specific inference-mode tests changed goodput by only 0.006% and 0.131%, both below our 1% decision threshold. These results support keeping the H200-specific recipe. They are separate single-run comparisons, not a universal claim that H100 ideas never transfer, and the official model-quality score remains unknown.",
+      "caution": "Do not compare an H100 score directly with an H200 score or call the best observed point a global optimum. The four distinct transferred settings are 27804, 27806, 27828 and 27830; 27826 is a control. No candidate cleared the team’s prospective 1% gate.",
+      "transition": "This closes our measured AI transfer and tuning story. We retain the H200 recipe, state the remaining quality and packaged-replay limits, and hand over to OpenFOAM."
     },
     "vi": {
-      "hardware": "Đầu vào calibration H100 N52 · kiểm tra held-out H200 N50",
-      "brief": "Dự báo được ghi trước khi có số đo H200 lệch khoảng 1,54%, trong dung sai 2% nhóm đặt. Tuy nhiên, phép kiểm còn bộc lộ phần bất định bị bỏ sót. Một dự báo gần đúng chỉ có giá trị kiểm tra giới hạn, chưa phải quy tắc đổi mọi điểm H100 sang H200.",
-      "purpose": "Đánh giá calibration theo nền tảng có chuyển sang điểm vận hành held-out gần đó không, đồng thời phân biệt dung sai vận hành với bất định thống kê.",
-      "visual": "Phép calibration dùng cùng combo N52: trung bình H100 là 2.215,460 token tốt/giây qua hai allocation; H200 là 2.632,181 qua bốn; tỷ số 1,188096805. Áp dụng tỷ số đó cho H100 N50 tạo dự báo H200 được khóa trước khi xem job 24272: 2.642,244. Kết quả H200 held-out là 2.601,629, sai số có dấu −1,5371%. Nó nằm trong dung sai vận hành ±2% đặt trước nhưng ngoài sensitivity range trước đó chỉ thay đầu vào và bỏ model error. Dự báo không được fit lại sau khi thấy đáp án.",
+      "brief": "Nhóm thử bốn hướng rút ra từ H100 trực tiếp trên nền H200 hiện tại. Không ứng viên nào vượt control H200 mới: chunk 8192 thấp hơn 4,52%; thay đổi phase-mode chỉ tăng tối đa 0,13%. Vì vậy giữ recipe H200.",
+      "purpose": "Trả lời câu hỏi so sánh hai nền tảng bằng phép đo H200 trực tiếp, không dùng hệ số quy đổi. Control H200 mới cho phép thử các can thiệp chọn từ H100 trên đúng hệ thống mục tiêu. Kết quả cho thấy hướng nào chuyển được, hướng nào thua và vì sao cần tối ưu theo phần cứng.",
+      "visual": "Dùng bảng gồm control H200 mới 27777, FA3 decode 27779, recipe serving H100 port sang N64 27783, HPC-Ops prefill chunk 8192 job 27806, control phase-mode 27826, decode-only 27828 và prefill-only 27830. Ghi good output tokens/s và phần trăm so với control H200 tương ứng; làm nổi control và kết luận giữ recipe cũ. Tất cả chạy 16 H200 N64. Không trộn điểm H100 vào biểu đồ này. Ghi riêng MNNVL xử lý collective giữa GPU trong đường decode, còn NIXL chuyển KV request giữa prefill và decode; đây là hai lớp giao tiếp khác nhau.",
       "terms": [
         {
-          "symbol": "tỷ số calibration",
-          "meaning": "Trung bình H200 chia trung bình H100 cho cùng combo N52. Tỷ số chỉ thuộc hệ thống/cài đặt đó, không phải hằng số thế hệ GPU."
+          "symbol": "can thiệp rút ra từ H100",
+          "meaning": "Một setting được quan sát hoặc chọn trong nghiên cứu H100 rồi đưa sang thử như một can thiệp trên H200. Điều này không có nghĩa toàn deployment H100 được dựng lại y nguyên."
         },
         {
-          "symbol": "allocation",
-          "meaning": "Một lần scheduler cấp tài nguyên và chạy. Hai hay bốn allocation là số lần lặp, không chứng minh GPU vật lý riêng biệt."
+          "symbol": "control H200 mới 27777",
+          "meaning": "Prefill DeepGEMM chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL hiện tại ở N64; mốc tham chiếu cho các phép thử chuyển giao đầu tiên."
         },
         {
-          "symbol": "kiểm tra held-out",
-          "meaning": "Phép đo không dùng để tính dự báo, chỉ được mở sau đó nhằm kiểm tra dự đoán."
+          "symbol": "good output tokens/s",
+          "meaning": "Goodput request mỗi giây của AIPerf nhân mục tiêu cố định 200 token đầu ra."
         },
         {
-          "symbol": "dự báo khóa trước",
-          "meaning": "Dự đoán cố định trước phép đo held-out; giữ nguyên giúp tránh chỉnh đáp án sau khi biết kết quả."
-        },
-        {
-          "symbol": "sensitivity range",
-          "meaning": "Khoảng tạo bằng cách thay một số đầu vào. Khoảng cũ bỏ model error nên không bao hết bất định dự báo."
-        },
-        {
-          "symbol": "dung sai ±2%",
-          "meaning": "Khoảng đạt yêu cầu vận hành do nhóm đặt. Đây không phải khoảng tin cậy, sai số chuẩn hay bằng chứng dự báo đúng nói chung."
+          "symbol": "ngưỡng hữu ích 1%",
+          "meaning": "Ngưỡng quyết định nội bộ đặt trước để chọn thay đổi nhỏ có đáng xác nhận tiếp không; không phải luật cuộc thi."
         }
       ],
       "reading": [
-        "Combo N52: trung bình H100 2.215,460; H200 2.632,181 token tốt/giây; tỷ số 1,188096805.",
-        "Dự báo H200 N50 đã khóa: 2.642,244. Job held-out 24272: 2.601,629, sai số có dấu −1,5371%.",
-        "Kết quả nằm trong dung sai vận hành ±2% nhưng ngoài sensitivity range cũ chưa đầy đủ. Hai điều này cùng đúng vì phạm vi cũ bỏ model error."
+        "Tất cả phép đo nêu ở đây chạy 16 H200 N64, nên đây là so sánh trên hệ thống H200 mục tiêu chứ không trộn điểm H100 và H200.",
+        "Control mới 27777 đạt 3038,022907 good output tokens/s. FA3 decode 27779 đạt 2999,245473 (−1,276404%).",
+        "Recipe H100 port đầy đủ 27783 đạt 2721,815800 (−10,408319%). Recipe đổi đồng thời prefill runner và chunk nên không quy mức giảm cho một yếu tố riêng.",
+        "HPC-Ops prefill chunk 8192 job 27806 đạt 2900,606831 (−4,523207%); chunk 6144 job 27804 đạt 2821,884862 (−7,114431%). Chunk lớn cải thiện nhánh đang thua so với chunk 4096 nhưng vẫn thấp hơn DeepGEMM incumbent.",
+        "Control phase-mode 27826 đạt 3039,167093; decode inference mode 27828 tăng 0,006223%, prefill inference mode 27830 tăng 0,130765%. Cả hai đều thấp hơn ngưỡng hữu ích 1% của nhóm.",
+        "Bốn can thiệp H100 khác nhau là 27804, 27806, 27828 và 27830. Job 27826 là control phase-mode, không tính là ứng viên. Đợt xác minh chín job còn gồm 27777, 27779, 27781 và 27783.",
+        "MNNVL là đường collective communication giữa GPU phía decode; NIXL chuyển trạng thái KV của request giữa hai vai trò prefill và decode tách biệt."
       ],
       "tradeoff": {
-        "observation": "Một kết quả H200 held-out thấp hơn dự báo 1,5371%, nằm trong dung sai vận hành và ngoài sensitivity range cũ chưa đầy đủ.",
-        "hypothesis": "Tỷ số đo ở N52 có thể dự đoán kết quả H200 N50 gần đó nếu combo được giữ tương đương.",
-        "conclusion": "Một kiểm tra dự báo trước này đạt dung sai nhóm đặt; giữ rõ giới hạn thiếu model error và không fit lại dự báo.",
-        "unknown": "Độ chính xác ở tải/cấu hình khác, bất định dự báo đầy đủ, độ đa dạng GPU vật lý và quy đổi nền tảng phổ quát vẫn chưa biết."
+        "observation": "Các phép thử trực tiếp trên H200 cho thấy FA3, recipe H100 đầy đủ và hai biến thể chunk HPC-Ops đều giảm so với mốc H200 liên quan. Hai candidate phase-mode gần như ngang control riêng.",
+        "hypothesis": "Kernel hay setting thắng trên H100 có thể không chuyển thành recipe thắng trên H200; cần thử từng hướng đã chọn trên nền H200 và đối chứng ở hệ thống đích trước khi dùng.",
+        "conclusion": "Giữ recipe H200: prefill DeepGEMM/chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Không can thiệp nào vượt ngưỡng hữu ích 1% đã đặt. Đây là recipe H200 được bằng chứng hiện có hỗ trợ tốt nhất, chưa phải tối ưu toàn cục đã chứng minh.",
+        "unknown": "Mỗi ứng viên chỉ có một lần chạy; chất lượng model toàn tập chính thức vẫn UNKNOWN. Recipe H100 đổi nhiều yếu tố cùng lúc; so sánh runner/chunk còn chịu ảnh hưởng seed và thứ tự chạy. Kết quả không chứng minh mọi hướng H100 đều chuyển giao tốt hoặc xấu."
       },
       "reasoning": {
-        "problem": "Tỷ số xuyên nền tảng có thể giúp dự kiến phép đo gần đó nhưng dễ bị hiểu nhầm thành hệ số phần cứng chung.",
-        "why_it_matters": "Phần cứng, phần mềm và workload tương tác; một tỷ số có thể đúng cục bộ nhưng sai ở nơi khác.",
-        "why_this_test": "Dùng trung bình H100/H200 N52 để khóa dự báo H200 N50, rồi so với kết quả không dùng trong calibration.",
-        "what_we_learned": "Job 24272 lệch dự báo −1,5371%, trong dải ±2% định trước, đồng thời cho thấy sensitivity range cũ bỏ model error.",
-        "next_logic": "Giữ đây là một kiểm tra dự báo cục bộ, không dùng để đổi điểm ở tải hay nền tảng khác."
+        "problem": "Không thể xem số H100 và H200 như thể chỉ khác mẫu GPU, vì vậy cần kiểm tra trực tiếp các ý tưởng từ H100 trên phần cứng H200 mục tiêu.",
+        "why_it_matters": "Một setting có triển vọng trên H100 có thể thua trên H200 do phần cứng và stack khác. Chọn theo tỷ số điểm giữa hai hệ thống có thể làm dịch vụ H200 chậm hơn.",
+        "why_this_test": "Chạy bốn can thiệp H100 khác nhau trên 16 H200 N64, so với control H200 mới hoặc control riêng phù hợp. Kiểm tra protocol đầy đủ, SLA chung, runtime/source và output; giữ rõ yếu tố nào đổi ở từng port.",
+        "what_we_learned": "FA3 và recipe H100 đầy đủ bị giảm; chunk HPC-Ops khôi phục một phần nhánh đó nhưng vẫn dưới incumbent H200; hai thay đổi inference-mode dưới 0,14%. Không phương án nào vượt ngưỡng hữu ích 1%.",
+        "next_logic": "Các phép thử đóng câu hỏi chuyển giao phần cứng trong phạm vi hiện tại. Nhóm giữ recipe H200, nêu giới hạn quality chính thức còn mở rồi bàn giao sang OpenFOAM."
       },
-      "script": "Chúng tôi đo cùng cấu hình N52 trên H100 và H200, tính tỷ số 1,1881. Trước khi có run H200 N50, nhóm khóa dự báo 2.642,244. Kết quả held-out là 2.601,629, sai số âm 1,5371 phần trăm, trong dung sai hai phần trăm đặt trước. Tuy nhiên nó ngoài sensitivity range cũ vì phạm vi đó bỏ model error. Đây là một lần kiểm tra dự báo cục bộ, không phải quy tắc đổi GPU tổng quát.",
-      "caution": "Không gọi dải ±2% là khoảng tin cậy, không suy các allocation là GPU vật lý riêng, và không fit lại dự báo sau khi thấy kết quả.",
-      "transition": "Trước khi kết luận, xem hai phương án có vẻ hấp dẫn: lợi ích được thấy có làm dịch vụ tốt hơn khi đo đầy đủ không?",
-      "claim_type": "Phương pháp hoặc phát hiện thực nghiệm"
-    }
+      "script": "Chúng tôi hỏi liệu ý tưởng chọn trên H100 có giúp được hệ H200 không. Thay vì quy đổi điểm giữa GPU, nhóm thử trực tiếp trên 16 H200 N64 và so với control H200 mới. Recipe H100 đầy đủ giảm 10,41%; FA3 decode giảm 1,28%. HPC-Ops chunk 8192 khôi phục một phần nhánh đó nhưng vẫn thấp hơn control DeepGEMM 4,52%. Hai thử nghiệm inference-mode chỉ đổi goodput 0,006% và 0,131%, đều thấp hơn ngưỡng quyết định 1% của nhóm. Vì vậy giữ recipe riêng cho H200. Đây là các so sánh từng lần chạy, không phải quy luật rằng ý tưởng H100 chẳng bao giờ chuyển được; chất lượng model chính thức vẫn chưa biết.",
+      "caution": "Không so trực tiếp điểm H100 với H200 hoặc gọi điểm cao nhất quan sát được là tối ưu toàn cục. Bốn can thiệp khác nhau là 27804, 27806, 27828, 27830; 27826 là control. Không ứng viên nào qua ngưỡng 1% nhóm đặt trước.",
+      "transition": "Đây là kết quả cuối của phần tuning AI trong bằng chứng hiện có. Nhóm giữ recipe H200, nêu rõ giới hạn quality và replay đóng gói, rồi chuyển lời cho phần OpenFOAM."
+    },
+    "hardware": "16 H200 · H100-derived interventions · 31 October"
   },
   {
     "slide": 15,
@@ -1708,12 +1701,12 @@
   },
   {
     "slide": 16,
-    "title": "The performance claim is bounded; two validation tasks remain open",
+    "title": "The H200 recipe holds; official quality and replay remain open",
     "en": {
       "hardware": "H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33",
-      "brief": "Repeated measurements support our H200 service operating point. Official model quality and a complete packaged GPU replay after the reader repair remain unverified. Those are the limits of the claim. We now hand over to the independent OpenFOAM presenter.",
-      "purpose": "Close the main AI argument at the level the evidence supports, state two unresolved validation tasks, and hand off cleanly to the unchanged OpenFOAM section without implying more AI work was run.",
-      "visual": "The two open cards are independent. First, local output checks were 7/8 on smoke tests and 12/12 on retrieval checks; neither is the organizer's full-set quality evaluation, which requires at least 99% of reference and remains UNKNOWN. Second, portable GPU jobs 27136 and 27145 completed the serving client but ended terminal FAILED in result-reader path handling. CPU-only job 27152 passed the repaired readers against both saved datasets; it did not rerun GPU serving. Thus, raw score recovery cannot convert the original jobs into successful end-to-end deployments. The next visible slide is unchanged OpenFOAM slide 33; AI backup slides 17–32 remain hidden during the main presentation.",
+      "brief": "Nine final H200 allocations produced no useful new winner; keep DeepGEMM chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. Official 99%-reference quality and a full packaged GPU replay after reader repair remain unverified.",
+      "purpose": "Close the AI story with the current decision after the final nine-run H200 verification. State the retained recipe and distinguish locally reviewed serving performance from the organiser’s model-quality evaluation and the incomplete post-repair portable GPU replay.",
+      "visual": "Show three columns: retained H200 recipe and repeated N64 evidence; final transfer check with no candidate reaching the prospective 1% usefulness gate; and two open acceptance tasks, official quality versus the reference and full packaged GPU replay after reader repair. Label local smoke 7/8 and retrieval 12/12 as small checks only. The next visible physical slide is unchanged OpenFOAM slide 35 because AI backups 17–34 are hidden.",
       "terms": [
         {
           "symbol": "official accuracy",
@@ -1742,37 +1735,48 @@
         {
           "symbol": "hidden backup slides",
           "meaning": "AI slides 17–32 are retained as supporting material but skipped in the main show; OpenFOAM slide 33 remains unchanged and follows this slide."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "GPU collective-communication backend used within the decode implementation; it is not the cross-role KV transport."
+        },
+        {
+          "symbol": "NIXL",
+          "meaning": "Transport used to move request KV state between the separate prefill and decode roles."
         }
       ],
       "reading": [
-        "The selected H200 N64 configuration has repeated full-run evidence near 3,044 good output tokens/s. This supports a serving-performance claim at the tested setting, not official answer quality.",
-        "Smoke checks passed 7/8 and retrieval checks 12/12. The official full-set requirement of at least 99% of reference is still UNKNOWN.",
-        "Portable jobs 27136/27145 remain FAILED due to reader failures after the client; CPU job 27152 verified corrected readers on retained data only. No post-fix full GPU replay is claimed.",
-        "The next-step labels are unperformed validation tasks. No official acceptance, human mock outcome or new GPU job is claimed by this report."
+        "The retained H200 recipe is DeepGEMM prefill with chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64.",
+        "The nine-run transfer review ended with no useful new candidate; 27804/27806/27828/27830 are four distinct H100-derived ports and the other jobs include controls or coupled alternatives.",
+        "Historical repeated H200 N64 runs support a stable operating point around 3,044 good output tokens/s; report this separately from the newer transfer-wave control at 3038.022907.",
+        "Local smoke and retrieval checks are not the official full-set quality test; ≥99% of the organiser reference remains UNKNOWN.",
+        "Reader fixes passed against saved data on CPU, but no complete GPU portable deployment replay was completed after the repair.",
+        "HPC content is preserved; the main presentation handoff now goes to physical slide 35.",
+        "MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles."
       ],
       "tradeoff": {
-        "observation": "N64 serving performance is supported by repeated evidence; official quality and complete portable deployment after reader repair remain unverified.",
+        "observation": "Nine final H200 allocations completed with no candidate reaching the prospective 1% gate over its applicable control. Existing H200 recipe remains the supported choice.",
         "hypothesis": "Independent full-set quality evaluation and a complete post-repair portable GPU replay would close separate validation gaps.",
-        "conclusion": "Bound the claim to measured H200 serving, keep accuracy UNKNOWN, preserve failed job status, and hand off to the unchanged OpenFOAM slide 33.",
-        "unknown": "Whether official accuracy reaches 99% and whether the packaged portable deployment completes end to end after reader repair remain unknown. No new jobs are implied or scheduled by this summary."
+        "conclusion": "Retain the H200-specific DeepGEMM/chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. The local serving claim is supported by reviewed repeats, not official quality certification.",
+        "unknown": "Official full-set accuracy and a complete portable GPU replay after reader repair remain unverified. The team did not perform a timed human mock in these records."
       },
       "reasoning": {
-        "problem": "A strong serving score can be mistaken for verified answer quality or successful portable deployment.",
-        "why_it_matters": "Competition quality and end-to-end artifact reliability are independent acceptance dimensions; local metrics cannot substitute for either.",
-        "why_this_test": "Retain local output-check counts, official-quality status, original scheduler outcomes, and the narrow CPU reader-verification result as separate evidence.",
-        "what_we_learned": "Serving performance at H200 N64 is supported; official accuracy is UNKNOWN; original portable GPU jobs failed in post-processing; the reader-only repair passed on CPU data.",
-        "next_logic": "The AI main section ends here. The two validation tasks are open proposals, AI backup slides stay hidden, and the unchanged OpenFOAM slide 33 follows."
+        "problem": "Finish with a defensible AI result that incorporates the completed H200 transfer wave without overstating an isolated peak or confusing performance with model quality.",
+        "why_it_matters": "The panel needs to know which recipe the team retained, what the latest target-hardware tests changed, and which acceptance claims are still open.",
+        "why_this_test": "The final nine allocations tested the remaining bounded H100-to-H200 ideas against H200 controls; inspect all of them before deciding whether any new setting should replace the incumbent.",
+        "what_we_learned": "No tested transfer cleared the team-set 1% gate, so the incumbent remains. Serving performance has repeated evidence; official quality and post-fix full portable GPU execution do not.",
+        "next_logic": "End the AI section with the bounded decision and hand off to the independent OpenFOAM presenter."
       },
-      "script": "The evidence supports the H200 N64 serving result, around 3,044 good output tokens per second across repeated runs. It does not certify model quality: smoke checks were 7 out of 8 and retrieval checks 12 out of 12, while the official 99-percent-of-reference result remains unknown. Portable GPU jobs 27136 and 27145 are still failed because result reading broke after the client. A CPU-only job verified the reader fixes on saved data, not GPU serving. Two validation tasks remain open; next we hand off to the unchanged OpenFOAM slide 33.",
-      "caution": "Do not claim the accuracy threshold passed, relabel portable jobs as successful, or describe CPU reader verification as a post-fix GPU replay. The open checks are proposals, not scheduled or completed jobs.",
-      "transition": "End the AI main section. AI backups 17–32 remain hidden; the unchanged OpenFOAM slide 33 is next.",
+      "script": "The final nine H200 allocations did not produce a useful new winner, so we keep the H200-specific recipe: DeepGEMM prefill at chunk 8192 and HPC-Ops with FlashInfer and MNNVL for decode at N64. The repeated historical N64 runs support about 3,044 good output tokens per second, while the latest transfer control is a separate 3,038-point observation. These are team-reviewed serving results. They do not certify the official quality requirement: the full-set comparison against the organiser reference remains unknown. Our reader repair passed on saved data with a CPU check, but the complete packaged GPU deployment has not been replayed after that repair. With those limits clear, I hand over to OpenFOAM. MNNVL is the GPU collective path inside the decode implementation; NIXL carries KV between the separate prefill and decode roles.",
+      "caution": "Do not say official accuracy passed, that all nine jobs were distinct candidate improvements, or that CPU reader checks amount to a full GPU replay. Do not pool the historical repeat series with the newer transfer control.",
+      "transition": "AI main talk ends here. The 18 AI backup slides are hidden; proceed to unchanged OpenFOAM slide 35.",
       "claim_type": "Framing / claim boundary"
     },
     "vi": {
       "hardware": "Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi",
-      "brief": "Các lần chạy lại hỗ trợ điểm vận hành dịch vụ trên H200. Hai việc chưa xác minh là chất lượng model chính thức và chạy trọn bản đóng gói trên GPU sau sửa chương trình đọc kết quả. Đây là giới hạn của kết luận; tiếp theo bàn giao cho người trình bày OpenFOAM.",
-      "purpose": "Kết thúc lập luận AI ở đúng mức bằng chứng hỗ trợ, nêu hai việc xác minh còn mở và chuyển mạch sạch sang phần OpenFOAM không đổi, không hàm ý đã chạy thêm AI.",
-      "visual": "Hai thẻ đang mở là hai việc độc lập. Thứ nhất, kiểm tra đầu ra nội bộ đạt 7/8 smoke và 12/12 retrieval; không phép nào là đánh giá chất lượng toàn tập của ban tổ chức, yêu cầu ít nhất 99% tham chiếu và hiện UNKNOWN. Thứ hai, job GPU portable 27136 và 27145 chạy xong client serving nhưng kết thúc trạng thái FAILED do lỗi đường dẫn reader kết quả. Job CPU-only 27152 chạy qua reader đã sửa trên hai bộ dữ liệu đã lưu; nó không chạy lại serving GPU. Vì vậy khôi phục được điểm raw không biến job ban đầu thành triển khai end-to-end thành công. Slide hiển thị tiếp theo là OpenFOAM 33 không đổi; AI backup 17–32 được ẩn trong phần trình bày chính.",
+      "brief": "Chín allocation H200 cuối không tạo ứng viên mới vượt ngưỡng hữu ích; giữ prefill DeepGEMM chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Quality 99% chính thức và replay GPU đóng gói sau sửa reader vẫn chưa xác minh.",
+      "purpose": "Khép phần AI bằng quyết định cập nhật sau đợt xác minh chín job H200 cuối. Nêu recipe được giữ và phân biệt hiệu năng serving được rà soát nội bộ với kiểm tra quality chính thức của BTC cùng replay GPU đóng gói sau khi sửa chương trình đọc.",
+      "visual": "Chia ba cột: recipe H200 được giữ và bằng chứng N64 lặp lại; đợt kiểm tra chuyển giao cuối không có ứng viên nào qua ngưỡng hữu ích 1%; hai việc mở là quality chính thức so với tham chiếu và replay GPU toàn gói sau sửa reader. Ghi smoke 7/8 và retrieval 12/12 là kiểm tra nhỏ. Slide vật lý tiếp theo là OpenFOAM 35 vì backup AI 17–34 được ẩn.",
       "terms": [
         {
           "symbol": "độ chính xác chính thức",
@@ -1801,31 +1805,44 @@
         {
           "symbol": "slide backup ẩn",
           "meaning": "AI slide 17–32 vẫn được giữ làm tài liệu hỗ trợ nhưng bỏ qua trong trình chiếu chính; OpenFOAM 33 vẫn nguyên trạng và theo sau slide này."
+        },
+        {
+          "symbol": "MNNVL",
+          "meaning": "Backend giao tiếp collective giữa GPU dùng trong implementation decode; không phải đường truyền KV giữa hai vai trò."
+        },
+        {
+          "symbol": "NIXL",
+          "meaning": "Đường truyền trạng thái KV của request giữa hai vai trò prefill và decode tách biệt."
         }
       ],
       "reading": [
-        "Cấu hình H200 N64 được hỗ trợ bằng các lần chạy đầy đủ lặp quanh 3.044 token đầu ra tốt/giây. Điều này hỗ trợ tuyên bố hiệu năng serving tại setting đã thử, không phải chất lượng câu trả lời chính thức.",
-        "Kiểm tra smoke đạt 7/8 và retrieval 12/12. Yêu cầu chất lượng toàn tập chính thức ít nhất 99% tham chiếu vẫn UNKNOWN.",
-        "Job portable GPU 27136/27145 vẫn FAILED do lỗi reader sau client; job CPU 27152 chỉ xác minh reader sửa trên dữ liệu lưu. Không tuyên bố đã phát lại GPU đầy đủ sau sửa."
+        "Recipe H200 được giữ là prefill DeepGEMM chunk 8192 cùng decode HPC-Ops/FlashInfer/MNNVL ở N64.",
+        "Đợt chuyển giao chín job cuối không có ứng viên mới đủ ngưỡng hữu ích; 27804/27806/27828/27830 là bốn port khác nhau rút từ H100, các job còn lại gồm control hoặc phương án đổi nhiều yếu tố.",
+        "Các lần chạy N64 H200 lịch sử lặp lại hỗ trợ điểm vận hành quanh 3.044 good tokens/s; cần tách chúng khỏi control của đợt chuyển giao mới là 3038,022907.",
+        "Smoke và retrieval nội bộ không thay cho kiểm tra quality toàn tập chính thức; yêu cầu ≥99% so với model tham chiếu vẫn UNKNOWN.",
+        "Bản sửa reader đã qua kiểm tra CPU trên dữ liệu lưu, nhưng chưa chạy replay GPU đầy đủ cho deployment portable sau sửa.",
+        "Nội dung HPC được giữ nguyên; slide bàn giao vật lý trong deck là số 35.",
+        "MNNVL là đường collective communication giữa GPU phía decode; NIXL chuyển trạng thái KV của request giữa hai vai trò prefill và decode tách biệt."
       ],
       "tradeoff": {
-        "observation": "Hiệu năng serving N64 có bằng chứng lặp; chất lượng chính thức và triển khai portable hoàn chỉnh sau sửa reader chưa xác minh.",
+        "observation": "Chín allocation H200 cuối hoàn tất nhưng không ứng viên nào đạt ngưỡng 1% đặt trước so với control phù hợp. Recipe H200 hiện tại vẫn được hỗ trợ tốt nhất.",
         "hypothesis": "Đánh giá chất lượng toàn tập độc lập và chạy portable GPU đầy đủ sau sửa sẽ đóng hai khoảng trống xác minh riêng.",
-        "conclusion": "Giới hạn tuyên bố ở serving H200 đo được, giữ accuracy là UNKNOWN, bảo toàn trạng thái job lỗi và chuyển sang OpenFOAM 33 không đổi.",
-        "unknown": "Chưa biết accuracy chính thức có đạt 99% và triển khai portable đóng gói có chạy end-to-end sau sửa reader hay không. Tóm tắt này không hàm ý job mới đã lên lịch."
+        "conclusion": "Giữ prefill DeepGEMM/chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Claim hiệu năng nội bộ có các lần chạy lặp lại, chưa phải chứng nhận quality chính thức.",
+        "unknown": "Chưa biết accuracy toàn tập chính thức và chưa replay GPU portable đầy đủ sau sửa reader. Tài liệu hiện có cũng chưa ghi nhận buổi mock trực tiếp có bấm giờ."
       },
       "reasoning": {
-        "problem": "Điểm serving tốt dễ bị hiểu nhầm thành chất lượng câu trả lời đã xác minh hoặc triển khai portable thành công.",
-        "why_it_matters": "Chất lượng thi đấu và độ tin cậy artifact end-to-end là hai chiều chấp nhận riêng; chỉ số nội bộ không thay được chúng.",
-        "why_this_test": "Giữ riêng số kiểm tra đầu ra, trạng thái chất lượng chính thức, trạng thái scheduler gốc và kết quả xác minh reader CPU giới hạn.",
-        "what_we_learned": "Hiệu năng H200 N64 được hỗ trợ; accuracy chính thức UNKNOWN; job GPU portable gốc lỗi ở hậu xử lý; bản sửa reader qua trên dữ liệu CPU lưu lại.",
-        "next_logic": "Phần chính AI kết thúc ở đây. Hai việc xác minh vẫn là đề xuất mở, backup AI được ẩn và slide OpenFOAM 33 không đổi sẽ theo sau."
+        "problem": "Kết luận phần AI phải tính đến toàn bộ đợt H200 cuối mà không nâng một điểm đơn lẻ thành tối ưu, hoặc nhầm hiệu năng với chất lượng model.",
+        "why_it_matters": "BGK cần biết recipe nhóm giữ lại, các phép thử H200 mới nhất làm thay đổi lựa chọn ra sao và claim nghiệm thu nào vẫn còn mở.",
+        "why_this_test": "Chín allocation cuối kiểm tra các ý tưởng H100 còn lại trên H200 với control phù hợp. Cần xem hết kết quả trước khi quyết định có thay incumbent hay không.",
+        "what_we_learned": "Không port nào vượt ngưỡng 1% nội bộ, nên giữ incumbent. Hiệu năng serving có bằng chứng lặp lại; quality chính thức và replay GPU toàn gói sau sửa chưa có.",
+        "next_logic": "Kết thúc phần AI bằng quyết định có giới hạn và bàn giao cho người phụ trách OpenFOAM."
       },
-      "script": "Bằng chứng hỗ trợ hiệu năng serving H200 N64 khoảng 3.044 token đầu ra tốt mỗi giây qua nhiều lần chạy. Nhưng điều đó không chứng nhận chất lượng: smoke đạt 7 trên 8, retrieval 12 trên 12, còn yêu cầu chính thức 99 phần trăm tham chiếu vẫn chưa biết. Job GPU portable 27136 và 27145 vẫn thất bại vì reader kết quả lỗi sau client. Job CPU chỉ xác minh reader đã sửa trên dữ liệu lưu, không chạy serving GPU. Hai việc xác minh còn mở; sau đây chuyển sang slide OpenFOAM 33 không đổi.",
-      "caution": "Không nói đã đạt ngưỡng accuracy, đổi job portable thành trạng thái thành công, hay gọi xác minh reader CPU là phát lại GPU sau sửa. Các việc mở là đề xuất, chưa phải job đã lên lịch hoặc hoàn tất.",
-      "transition": "Kết thúc phần chính AI. Backup 17–32 được ẩn; tiếp theo là slide OpenFOAM 33 không đổi.",
+      "script": "Chín allocation H200 cuối không tạo ứng viên mới đủ hữu ích, nên chúng tôi giữ recipe H200: prefill DeepGEMM chunk 8192 và decode HPC-Ops cùng FlashInfer, MNNVL ở N64. Các lần N64 lịch sử lặp lại hỗ trợ khoảng 3.044 good output tokens mỗi giây; control mới nhất 3038 là quan sát của đợt khác nên phải ghi riêng. Đây là kết quả serving do nhóm chạy và rà soát, không chứng nhận yêu cầu quality chính thức. So sánh toàn tập với tham chiếu BTC vẫn chưa biết. Bản sửa reader qua kiểm tra CPU với dữ liệu cũ, nhưng chúng tôi chưa replay toàn bộ deployment GPU portable sau sửa. Với giới hạn đó, tôi xin bàn giao sang OpenFOAM. MNNVL là đường collective giữa GPU bên trong implementation decode; NIXL mới chuyển KV giữa hai vai trò prefill và decode tách biệt.",
+      "caution": "Không nói accuracy chính thức đã đạt, cả chín job đều là ứng viên tối ưu riêng, hoặc kiểm tra reader trên CPU thay cho replay GPU đầy đủ. Không trộn chuỗi lặp lịch sử với control mới.",
+      "transition": "Phần AI chính kết thúc ở đây. Có 18 slide AI dự phòng được ẩn; tiếp tục tại slide OpenFOAM vật lý số 35.",
       "claim_type": "Mục tiêu hoặc giới hạn kết luận"
-    }
+    },
+    "hardware": "H200 performance · official model quality unverified · handoff to OpenFOAM slide 35"
   },
   {
     "slide": 17,
@@ -3487,6 +3504,207 @@
   },
   {
     "slide": 33,
+    "title": "Backup · one held-out forecast is not a GPU conversion rule",
+    "en": {
+      "hardware": "H100 input · H200 held-out check",
+      "brief": "A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.",
+      "purpose": "Assess whether a platform-specific calibration transfers to a nearby held-out operating point, while keeping an operational tolerance distinct from statistical uncertainty.",
+      "visual": "The calibration comparison uses the same N52 combo configuration: H100 mean 2,215.460 good tokens/s across two allocations and H200 mean 2,632.181 across four, ratio 1.188096805. Applying that ratio to H100 N50 produced a forecast frozen before seeing H200 job 24272: 2,642.244. The held-out H200 measurement is 2,601.629, signed error −1.5371%. It falls within the predeclared ±2% operational tolerance but outside the earlier input-only sensitivity range, which omitted model error. The forecast is not refit after seeing the answer.",
+      "terms": [
+        {
+          "symbol": "calibration ratio",
+          "meaning": "H200 mean divided by H100 mean for the same N52 combo. It is specific to those systems and settings, not a GPU-generation constant."
+        },
+        {
+          "symbol": "allocation",
+          "meaning": "A scheduled resource assignment and run. Two or four allocations are repeat counts and do not prove distinct physical GPU devices."
+        },
+        {
+          "symbol": "held-out check",
+          "meaning": "A measurement not used to calculate the forecast, revealed afterward to test the prediction."
+        },
+        {
+          "symbol": "frozen forecast",
+          "meaning": "A prediction fixed before the held-out measurement; keeping it unchanged prevents tuning the answer after seeing the result."
+        },
+        {
+          "symbol": "sensitivity range",
+          "meaning": "A range produced by varying selected inputs. This earlier range omitted model error, so it did not cover all forecast uncertainty."
+        },
+        {
+          "symbol": "±2% tolerance",
+          "meaning": "The team's operational pass band. It is not a confidence interval, standard error, or proof of general prediction accuracy."
+        }
+      ],
+      "reading": [
+        "Same N52 combo: H100 mean 2,215.460; H200 mean 2,632.181 good tokens/s; ratio 1.188096805.",
+        "Frozen H200 N50 forecast: 2,642.244. Held-out job 24272: 2,601.629, signed error −1.5371%.",
+        "The result is within ±2% operational tolerance but outside the incomplete earlier sensitivity range. These statements are compatible because the range omitted model error."
+      ],
+      "tradeoff": {
+        "observation": "One held-out H200 result is 1.5371% below forecast, within operational tolerance and outside the prior incomplete sensitivity range.",
+        "hypothesis": "A ratio measured at N52 may predict a nearby H200 N50 result when the tested combo is held comparable.",
+        "conclusion": "This one prospective check meets the team's tolerance; preserve the missing-model-error limitation and do not refit the forecast.",
+        "unknown": "Accuracy across other loads/configurations, total predictive uncertainty, physical-device diversity, and a universal platform conversion remain unknown."
+      },
+      "reasoning": {
+        "problem": "A cross-platform score ratio might help plan nearby measurements, but it could be mistaken for a general hardware multiplier.",
+        "why_it_matters": "Hardware, software, and workload interact; one ratio can fit a local setting while failing elsewhere.",
+        "why_this_test": "Use H100/H200 N52 means to freeze an H200 N50 forecast, then compare against a result not used in calibration.",
+        "what_we_learned": "Job 24272 missed the frozen prediction by −1.5371%, within the predeclared ±2% band, while exposing that the earlier sensitivity range omitted model error.",
+        "next_logic": "Retain this as one local prospective check and avoid using it to convert other loads or platforms."
+      },
+      "script": "We measured the same N52 configuration on H100 and H200 and calculated a ratio of 1.1881. Before an H200 N50 run was available, we fixed a forecast of 2,642.244. The held-out result was 2,601.629, an error of minus 1.5371 percent, within our predeclared two-percent tolerance. But it fell outside an earlier sensitivity range that omitted model error. This is one local forecast check, not a general GPU conversion rule.",
+      "caution": "Do not call the ±2% band a confidence interval, infer that allocations were distinct physical GPUs, or refit the forecast after seeing the result.",
+      "transition": "For the latest direct H200 transfer results, return to main slide 14; the complete nine-job ledger is backup slide 34.",
+      "claim_type": "Backup · robustness check"
+    },
+    "vi": {
+      "hardware": "H100 input · H200 held-out check",
+      "brief": "Dự báo được ghi trước khi có số đo H200 lệch khoảng 1,54%, trong dung sai 2% nhóm đặt. Tuy nhiên, phép kiểm còn bộc lộ phần bất định bị bỏ sót. Một dự báo gần đúng chỉ có giá trị kiểm tra giới hạn, chưa phải quy tắc đổi mọi điểm H100 sang H200.",
+      "purpose": "Đánh giá calibration theo nền tảng có chuyển sang điểm vận hành held-out gần đó không, đồng thời phân biệt dung sai vận hành với bất định thống kê.",
+      "visual": "Phép calibration dùng cùng combo N52: trung bình H100 là 2.215,460 token tốt/giây qua hai allocation; H200 là 2.632,181 qua bốn; tỷ số 1,188096805. Áp dụng tỷ số đó cho H100 N50 tạo dự báo H200 được khóa trước khi xem job 24272: 2.642,244. Kết quả H200 held-out là 2.601,629, sai số có dấu −1,5371%. Nó nằm trong dung sai vận hành ±2% đặt trước nhưng ngoài sensitivity range trước đó chỉ thay đầu vào và bỏ model error. Dự báo không được fit lại sau khi thấy đáp án.",
+      "terms": [
+        {
+          "symbol": "tỷ số calibration",
+          "meaning": "Trung bình H200 chia trung bình H100 cho cùng combo N52. Tỷ số chỉ thuộc hệ thống/cài đặt đó, không phải hằng số thế hệ GPU."
+        },
+        {
+          "symbol": "allocation",
+          "meaning": "Một lần scheduler cấp tài nguyên và chạy. Hai hay bốn allocation là số lần lặp, không chứng minh GPU vật lý riêng biệt."
+        },
+        {
+          "symbol": "kiểm tra held-out",
+          "meaning": "Phép đo không dùng để tính dự báo, chỉ được mở sau đó nhằm kiểm tra dự đoán."
+        },
+        {
+          "symbol": "dự báo khóa trước",
+          "meaning": "Dự đoán cố định trước phép đo held-out; giữ nguyên giúp tránh chỉnh đáp án sau khi biết kết quả."
+        },
+        {
+          "symbol": "sensitivity range",
+          "meaning": "Khoảng tạo bằng cách thay một số đầu vào. Khoảng cũ bỏ model error nên không bao hết bất định dự báo."
+        },
+        {
+          "symbol": "dung sai ±2%",
+          "meaning": "Khoảng đạt yêu cầu vận hành do nhóm đặt. Đây không phải khoảng tin cậy, sai số chuẩn hay bằng chứng dự báo đúng nói chung."
+        }
+      ],
+      "reading": [
+        "Combo N52: trung bình H100 2.215,460; H200 2.632,181 token tốt/giây; tỷ số 1,188096805.",
+        "Dự báo H200 N50 đã khóa: 2.642,244. Job held-out 24272: 2.601,629, sai số có dấu −1,5371%.",
+        "Kết quả nằm trong dung sai vận hành ±2% nhưng ngoài sensitivity range cũ chưa đầy đủ. Hai điều này cùng đúng vì phạm vi cũ bỏ model error."
+      ],
+      "tradeoff": {
+        "observation": "Một kết quả H200 held-out thấp hơn dự báo 1,5371%, nằm trong dung sai vận hành và ngoài sensitivity range cũ chưa đầy đủ.",
+        "hypothesis": "Tỷ số đo ở N52 có thể dự đoán kết quả H200 N50 gần đó nếu combo được giữ tương đương.",
+        "conclusion": "Một kiểm tra dự báo trước này đạt dung sai nhóm đặt; giữ rõ giới hạn thiếu model error và không fit lại dự báo.",
+        "unknown": "Độ chính xác ở tải/cấu hình khác, bất định dự báo đầy đủ, độ đa dạng GPU vật lý và quy đổi nền tảng phổ quát vẫn chưa biết."
+      },
+      "reasoning": {
+        "problem": "Tỷ số xuyên nền tảng có thể giúp dự kiến phép đo gần đó nhưng dễ bị hiểu nhầm thành hệ số phần cứng chung.",
+        "why_it_matters": "Phần cứng, phần mềm và workload tương tác; một tỷ số có thể đúng cục bộ nhưng sai ở nơi khác.",
+        "why_this_test": "Dùng trung bình H100/H200 N52 để khóa dự báo H200 N50, rồi so với kết quả không dùng trong calibration.",
+        "what_we_learned": "Job 24272 lệch dự báo −1,5371%, trong dải ±2% định trước, đồng thời cho thấy sensitivity range cũ bỏ model error.",
+        "next_logic": "Giữ đây là một kiểm tra dự báo cục bộ, không dùng để đổi điểm ở tải hay nền tảng khác."
+      },
+      "script": "Chúng tôi đo cùng cấu hình N52 trên H100 và H200, tính tỷ số 1,1881. Trước khi có run H200 N50, nhóm khóa dự báo 2.642,244. Kết quả held-out là 2.601,629, sai số âm 1,5371 phần trăm, trong dung sai hai phần trăm đặt trước. Tuy nhiên nó ngoài sensitivity range cũ vì phạm vi đó bỏ model error. Đây là một lần kiểm tra dự báo cục bộ, không phải quy tắc đổi GPU tổng quát.",
+      "caution": "Không gọi dải ±2% là khoảng tin cậy, không suy các allocation là GPU vật lý riêng, và không fit lại dự báo sau khi thấy kết quả.",
+      "transition": "Xem kết quả chuyển giao H200 trực tiếp mới nhất ở slide chính 14; bảng đủ chín job nằm tại slide dự phòng 34.",
+      "claim_type": "Backup · robustness check"
+    }
+  },
+  {
+    "slide": 34,
+    "title": "Backup · nine final H200 jobs support retaining the current recipe",
+    "hardware": "16 H200 · Firmus · N64 · 31 October",
+    "en": {
+      "brief": "Nine final H200 allocations tested controls and H100-derived alternatives. No distinct candidate cleared the team’s 1% usefulness gate; the existing H200 recipe remains the measured choice.",
+      "purpose": "Keep the complete final H200 verification auditable for questions. Distinguish the nine scheduler jobs from the four distinct additional H100-derived intervention ports, show the proper control for each branch, and explain why none replaced the incumbent.",
+      "visual": "Use a compact ledger with columns job, intervention/control, good output tokens/s and delta against its stated H200 control. Rows: 27777 fresh DeepGEMM/chunk-8192 incumbent control 3038.022907; 27779 FA3 decode 2999.245473 (−1.276404%); 27781 H100 both-HPC-Ops/chunk-4096 recipe N54 2738.940099; 27783 same recipe N64 2721.815800 (−10.408319% vs 27777); 27804 HPC-Ops chunk 6144 2821.884862 (−7.114431%); 27806 HPC-Ops chunk 8192 2900.606831 (−4.523207%); 27826 explicit no_grad phase control 3039.167093; 27828 decode-only inference mode 3039.356215 (+0.006223%); 27830 prefill-only inference mode 3043.141258 (+0.130765%). Mark comparison branches so percent denominators cannot be confused. Units: good output tokens/s. Nine GPU allocations include controls and repeated-load/coupled arms; they are not nine unique winning candidates.",
+      "terms": [
+        {
+          "symbol": "fresh control",
+          "meaning": "A newly measured reference on the target H200 setup; each experimental branch has its applicable control."
+        },
+        {
+          "symbol": "four distinct ports",
+          "meaning": "Jobs 27804, 27806, 27828 and 27830. Job 27826 is the explicit phase-mode control and is not counted as a candidate."
+        },
+        {
+          "symbol": "N64",
+          "meaning": "Client concurrency target of 64 in-flight requests; it is not GPU count."
+        },
+        {
+          "symbol": "1% gate",
+          "meaning": "Team-set prospective useful-gain threshold, not an official contest threshold."
+        }
+      ],
+      "reading": [
+        "The nine jobs are one bounded target-hardware verification set, not nine independent innovations or nine candidates with the same denominator.",
+        "Fresh incumbent control 27777 scored 3038.022907 good output tokens/s on 16 H200 at N64.",
+        "FA3 27779 lost 1.276404%; the H100-derived complete recipe 27783 lost 10.408319% against that control, although its N54 partner 27781 is at a different load and should not be used to isolate concurrency.",
+        "Within the HPC-Ops branch, chunk 6144/8192 recovered some performance versus its 4096 arm, but still lost 7.114431%/4.523207% versus incumbent 27777. The prefill runner and generated seeds differ in the incumbent comparison, so do not claim a pure chunk causal effect from that row.",
+        "The explicit mode control 27826 is compared with decode-only 27828 and prefill-only 27830. Gains are +0.006223% and +0.130765%, both below the prospective 1% gate.",
+        "All nine runs passed retained local raw/runtime/output gates; smoke checks were 7/8, retrieval 12/12, and official full-set model quality remains UNKNOWN.",
+        "Decision: keep H200 DeepGEMM prefill/chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64. These comparisons do not establish a global optimum or official rank."
+      ],
+      "tradeoff": {
+        "observation": "Nine allocations completed with zero scored errors/cancellations. The candidates either lost to their applicable H200 control or remained below the team’s prospective 1% threshold.",
+        "hypothesis": "Testing H100-derived settings directly on the target H200 system can reject harmful transfers and identify small effects before changing the recipe.",
+        "conclusion": "No candidate changes the H200 incumbent. Retain DeepGEMM prefill/chunk 8192 with HPC-Ops/FlashInfer/MNNVL decode at N64.",
+        "unknown": "These are single-run ports and bounded local validation. They do not establish statistical confidence, official quality, or a global optimum."
+      },
+      "script": "This appendix answers how many final transfer jobs produced the decision. Nine allocations completed on sixteen H200s: eight at N64 and one at N54, but they were controls and related intervention arms, not nine unique candidates. The fresh incumbent control was 3,038.02 good output tokens per second. FA3 lost 1.28 percent; the H100 full recipe lost 10.41 percent. HPC-Ops chunks recovered some of that branch but stayed 4.52 percent below the incumbent at chunk 8192. Two phase-specific inference-mode changes were nearly flat, at 0.006 and 0.131 percent above their explicit control. Neither clears our prospective one-percent gate. We therefore retain the DeepGEMM-prefill and HPC-Ops/FlashInfer/MNNVL-decode H200 recipe. Local gates passed, but full official model quality remains unknown.",
+      "caution": "Do not call all nine jobs distinct candidates, compare percentages with different controls as one ranking, attribute a coupled runner/chunk loss to one factor, or claim official quality passed.",
+      "transition": "Return to slide 16 for the main conclusion, or show slide 35 for the bounded held-out forecast check."
+    },
+    "vi": {
+      "brief": "Chín allocation H200 cuối kiểm tra control và các phương án rút từ H100. Không ứng viên riêng nào vượt ngưỡng hữu ích 1% của nhóm; recipe H200 hiện tại vẫn là lựa chọn theo số đo.",
+      "purpose": "Giữ bằng chứng xác minh H200 cuối để trả lời câu hỏi. Phân biệt chín job scheduler với bốn can thiệp H100 khác nhau được port thêm, nêu đúng control của từng nhánh và giải thích vì sao không thay incumbent.",
+      "visual": "Dùng bảng nhật ký gọn với cột job, can thiệp/control, good output tokens/s và delta so với control H200 ghi rõ. Các dòng: 27777 control incumbent DeepGEMM/chunk-8192 mới 3038,022907; 27779 decode FA3 2999,245473 (−1,276404%); 27781 recipe H100 cả hai pha HPC-Ops/chunk-4096 ở N54 2738,940099; 27783 cùng recipe ở N64 2721,815800 (−10,408319% so với 27777); 27804 HPC-Ops chunk 6144 đạt 2821,884862 (−7,114431%); 27806 HPC-Ops chunk 8192 đạt 2900,606831 (−4,523207%); 27826 control phase no_grad rõ ràng 3039,167093; 27828 inference mode decode-only 3039,356215 (+0,006223%); 27830 inference mode prefill-only 3043,141258 (+0,130765%). Tách nhánh đối chiếu để không nhầm mẫu số phần trăm. Đơn vị: good output tokens/s. Chín allocation gồm control, nhánh tải khác và cấu hình đổi nhiều yếu tố; không phải chín ứng viên độc lập đều thắng.",
+      "terms": [
+        {
+          "symbol": "fresh control",
+          "meaning": "Mốc tham chiếu đo mới trên H200 mục tiêu; mỗi nhánh thí nghiệm có control phù hợp riêng."
+        },
+        {
+          "symbol": "four distinct ports",
+          "meaning": "Các job 27804, 27806, 27828 và 27830. Job 27826 là control phase-mode rõ ràng, không tính ứng viên."
+        },
+        {
+          "symbol": "N64",
+          "meaning": "Mục tiêu concurrency client 64 request đang bay; không phải số GPU."
+        },
+        {
+          "symbol": "1% gate",
+          "meaning": "Ngưỡng tăng hữu ích 1% do nhóm đặt trước, không phải ngưỡng chính thức của cuộc thi."
+        }
+      ],
+      "reading": [
+        "Chín job là một đợt xác minh có giới hạn trên phần cứng đích, không phải chín sáng kiến độc lập hay chín ứng viên có chung mẫu số.",
+        "Control incumbent mới 27777 đạt 3038,022907 good output tokens/s trên 16 H200 N64.",
+        "FA3 27779 giảm 1,276404%; recipe đầy đủ rút từ H100 ở 27783 giảm 10,408319% so với control đó, nhưng job cặp N54 là 27781 ở tải khác, không dùng để cô lập tác động concurrency.",
+        "Trong nhánh HPC-Ops, chunk 6144/8192 khôi phục một phần so với nhánh chunk 4096 nhưng vẫn thấp hơn incumbent 27777 lần lượt 7,114431%/4,523207%. So sánh với incumbent còn khác prefill runner và seed sinh tự động, nên không kết luận thuần chunk gây ra delta này.",
+        "Control mode rõ ràng 27826 được so với decode-only 27828 và prefill-only 27830. Gain lần lượt +0,006223% và +0,130765%, đều thấp hơn ngưỡng 1% đặt trước.",
+        "Cả chín run qua các cửa kiểm tra raw/runtime/output nội bộ đã lưu; smoke là 7/8, retrieval 12/12; quality toàn tập chính thức vẫn UNKNOWN.",
+        "Quyết định: giữ prefill H200 DeepGEMM/chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL N64. Các phép đo chưa chứng minh tối ưu toàn cục hay thứ hạng BTC."
+      ],
+      "tradeoff": {
+        "observation": "Chín allocation hoàn tất, không có lỗi/hủy request bị chấm. Ứng viên hoặc thấp hơn control H200 phù hợp hoặc dưới ngưỡng 1% đặt trước.",
+        "hypothesis": "Thử setting rút từ H100 trực tiếp trên H200 mục tiêu giúp loại chuyển giao có hại và đo mức tác động nhỏ trước khi đổi recipe.",
+        "conclusion": "Không ứng viên nào thay được incumbent H200. Giữ prefill DeepGEMM/chunk 8192 cùng decode HPC-Ops/FlashInfer/MNNVL ở N64.",
+        "unknown": "Đây là các port một lần chạy và xác minh nội bộ có giới hạn. Chưa xác lập độ tin cậy thống kê, quality chính thức hoặc tối ưu toàn cục."
+      },
+      "script": "Phần phụ lục này trả lời có bao nhiêu job chuyển giao cuối tạo ra quyết định. Chín allocation hoàn tất trên 16 H200: tám lần ở N64 và một lần ở N54, nhưng gồm control và các nhánh can thiệp liên quan, không phải chín ứng viên khác nhau. Control incumbent mới đạt 3.038,02 good output tokens mỗi giây. FA3 giảm 1,28%; recipe H100 đầy đủ giảm 10,41%. Chunk HPC-Ops khôi phục một phần nhánh đó nhưng chunk 8192 vẫn thấp hơn incumbent 4,52%. Hai thay đổi inference-mode theo từng pha gần như ngang control riêng, tăng 0,006 và 0,131%. Cả hai không qua ngưỡng hữu ích 1% đặt trước. Vì vậy giữ recipe H200 dùng prefill DeepGEMM và decode HPC-Ops/FlashInfer/MNNVL. Các cửa nội bộ đạt, nhưng quality model toàn tập chính thức vẫn chưa biết.",
+      "caution": "Không gọi cả chín job là ứng viên riêng, không xếp hạng phần trăm có control khác nhau trong cùng một cột, không quy mức giảm cấu hình đổi runner/chunk cho một yếu tố và không nói quality chính thức đã đạt.",
+      "transition": "Quay lại slide 16 để xem kết luận chính, hoặc mở slide 35 để xem phép kiểm dự báo held-out có giới hạn."
+    },
+    "reasoning_stage": "Backup · final H100-to-H200 transfer ledger",
+    "claim_type": "Backup · completed target-hardware verification"
+  },
+  {
+    "slide": 35,
     "title": "The task: same 65-million-cell airflow calculation",
     "en": {
       "purpose": "Define the fixed CPU workload and the performance quantity being optimized. The comparison holds the prescribed calculation constant and asks how efficiently the cluster executes it.",
@@ -3566,7 +3784,7 @@
     }
   },
   {
-    "slide": 34,
+    "slide": 36,
     "title": "The whole required pipeline comes before the score",
     "en": {
       "purpose": "Explain why the score is meaningful only after preserving the full required pipeline, and distinguish mesh decomposition from CPU affinity.",
@@ -3646,7 +3864,7 @@
     }
   },
   {
-    "slide": 35,
+    "slide": 37,
     "title": "A smaller partition cut did not make the solver faster",
     "en": {
       "purpose": "Show a failed NUMA-aware locality hypothesis and explain why a partition-graph proxy cannot stand in for a runtime measurement.",
@@ -3750,7 +3968,7 @@
     }
   },
   {
-    "slide": 36,
+    "slide": 38,
     "title": "Observed scaling changed which decomposition led",
     "en": {
       "purpose": "Compare the observed Scotch and hierarchical means across one-, two-, and four-node allocations, while explicitly limiting the inference because work endpoints and allocations differ.",
@@ -3830,7 +4048,7 @@
     }
   },
   {
-    "slide": 37,
+    "slide": 39,
     "title": "At four nodes, the winner depends on ranks per node",
     "en": {
       "purpose": "Show that the four-node decomposition ranking changes with process density, and identify the lowest reviewed mean without overstating it as a universal optimum.",
@@ -3910,7 +4128,7 @@
     }
   },
   {
-    "slide": 38,
+    "slide": 40,
     "title": "Keep the slow step in the mean; inspect the tail",
     "en": {
       "purpose": "Explain why every timed iteration, including an extreme slow step, remains in the official-style arithmetic mean, and separate observation from causal diagnosis.",
@@ -4006,7 +4224,7 @@
     }
   },
   {
-    "slide": 39,
+    "slide": 41,
     "title": "A reproducible candidate needs more than a fast log",
     "en": {
       "purpose": "Distinguish a reviewed candidate timing from an accepted official result and list the proofs required from an independent confirmation.",
@@ -4118,7 +4336,7 @@
     }
   },
   {
-    "slide": 40,
+    "slide": 42,
     "title": "What we learned — and the next measurement",
     "en": {
       "purpose": "Close the HPC section with four measurement principles and the next decision point: inspect complete confirmation evidence before selecting another configuration.",
