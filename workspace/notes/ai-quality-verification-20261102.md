@@ -1,0 +1,9 @@
+# Actual accuracy measurement stage — 3 November 2026 Vietnam time
+
+Updated **2026-11-03T00:30:37.968878+07:00, Vietnam time (UTC+7)**. The owner now explicitly authorised research and measurement, superseding the earlier stop only for a bounded AI quality-verification stage. [Plan and current status](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/STATUS.md).
+
+Slurm accepted **28367 (unchanged FP8 reference)** and **28368 (submitted candidate configuration)**. Both are PENDING / Resources. These are actual local model-accuracy pilots, not new AIPerf speed runs. Each 128 questions uses the same pinned prompts/scorer and greedy 2048-token generation allowance. No quality score exists yet. The two-job maximum is 9.066667 GPU-hours, zero PBS SU; admission preserves own cap 5 and the shared lock.
+
+The full 12032-question MMLU-Pro source is retained and CPU-tokenized with exact checkpoint/template hashes. All questions fit after the original evaluator's deterministic shot reduction; none is dropped or truncated. Real Transformers 5.14.1 returned BatchEncoding by default, so explicit return_dict=False and shape guards were qualified before GPU admission. Seven fixture tests pass. The corpus was rebuilt from existing data and PyArrow without new downloads; tokenizer-only Python came from the supplied client image, with no GPU/model inference during preparation.
+
+Reference is a newly measured stock FP8 model, not the unpublished organiser reference. The full workload will be sharded only after pilot duration/outputs/error review. A local >=99% accuracy-ratio result is evidence for the chosen benchmark and protocol, not a BTC-issued certificate. Preserve raw responses, every error and fixed denominators, actual model/backend/source identity, cost and limitations. No H100/PBS, HPC, VPN, background Codex or organiser upload is authorised by this stage. The published ZIP is unchanged while measurements run.

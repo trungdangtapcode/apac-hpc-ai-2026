@@ -560,3 +560,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [3 November: native Scotch10:1 package cut rejects; no initialization or solver result, stronger single falsification considered](entries/20261103-hpc-scotch-package-graph-rejected.md).
 
 - [3 November: native Scotch 100:1 follow-up accepted as 2294670](entries/20261103-hpc-scotch-weight100-submitted.md).
+
+- [3 November Vietnam / 2 November UTC: actually submit paired FP8 reference/candidate accuracy pilots 28367/ 28368](entries/ 20261102-ai-accuracy-pilot-submitted.md).
