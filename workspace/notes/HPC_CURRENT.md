@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **02 November 2026, 10:48:56 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex or schedules. Prior detailed snapshots are [historical](history/HPC_CURRENT-before-xzy-native-20261102T034856Z.md).
+Updated **2 November 2026, 10:51:22 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex or schedules. Prior detailed snapshots are [historical](history/HPC_CURRENT-before-xzy-native-20261102T034856Z.md).
 
 ## Reviewed outcomes
 
@@ -8,14 +8,16 @@ Updated **02 November 2026, 10:48:56 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be9
 
 **New xzy initialization job 2294642 completed 0:0 in 272 seconds**, iris001 / 56 CPUs. Independent replay passes 50 collected-file hashes, 41 canonical pins, 8 mesh members, source-preserving clone, all 3 mandatory native stages and 336 field seals. Its new 1040-file accepted manifest is e52d67b1a9a2bcad002fdbd17da982362a8d2e92e678cb81cb442b0601745987. [Initialization result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy-init-20261102/completed-2294642/RESULTS.md). This is not a solver measurement.
 
-## Next native trial
+## Actual current native trial
 
-The prepared **xzy versus Scotch BAAB** changes a previously solver-unmeasured hierarchy order, using default MPI/uncollated on both methods, same 56 ranks/build/original 65M problem/fixed work. It has a lower total interface/fanout proxy but worse busiest-rank surface than xyz/zyx; no proxy-based speedup is claimed. Real reviewed xzy manifest is installed; do not substitute old zyx. The four arms are xzy/Scotch/Scotch/xzy, 40 steps / 39 intervals each, 140 CPU-hour maximum. Root is completing financial/freeze/admission review; at this handoff it has no scheduler receipt or reservation. [Payload](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/README.md).
+**2294643 RUNNING** on iris001, 56 CPUs, observed **2 November 10:51:22 Vietnam**, elapsed 51 seconds. Actual receipt **10:50:30 Vietnam**. Source preflight is running: Scotch accepted gate passed, no native arm result at this snapshot. Frozen 58-file root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xzy40-20261102T034956Z`; evidence root/kit/runs/2294643.
+
+**xzy / Scotch / Scotch / xzy**, 40 steps / 39 intervals each, common default MPI/uncollated, same build/original 65M problem/fixed work, accepted method-specific partitions/fields. New xzy 1040-file manifest is installed from independently reviewed 2294642, never old zyx. Lower total interface/fanout proxy competes with worse busiest-rank surface; no speedup is claimed. [Actual status and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/STATUS.md).
 
 ## Accounting and access
 
-Local Iris ledger: **750 consumed + 0 reserved**, internal stage 873; last 28-hour maximum retired once at actual 4.231111 CPU-hours, conservatively 5. To admit the next 140-hour maximum, only an internal stage adjustment of 17 to 890 is needed. This is agent stage planning, not an owner numeric Iris limit, billed SU or an NSCC/AI allocation transfer. Review fresh own queue and reservations under the existing lock; preserve any existing job and obtain a definite one-shot receipt. All 22 retained accepted owned Iris jobs are now terminal; pending new admission is a separate state. [Previous count audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-job-count-audit-20261102/README.md) is dated before this new job.
+Local Iris ledger: **750 consumed + 140 reserved = 890 CPU-hours**, agent-selected internal stage 890. Reviewed init 2294642 cost 4.231111 allocated CPU-hours, conservatively 5, original 28 maximum retired once. Root documented a bounded 17-hour internal-stage extension from 873 to 890 for only this new 140-hour request. This is not an owner numeric Iris cap, billed SU or an NSCC/AI grant transfer. Fresh queue and financial checks passed under the lock before one definite sbatch. One owned allocation runs; preserve it and its maximum. There are now 23 unique accepted owned Iris job IDs: 21 completed, one prior failed/censored, one running. The earlier 21-job audit remains dated evidence, not a current count.
 
 NSCC read-only transport **10:43:55 Vietnam** returned NAMESPACE_UNAVAILABLE; no SSH authentication attempt or fresh CPU credit/queue proof. No Gadi identity/project is supplied. Do not derive a Gadi forecast from Iris seconds. The best reviewed scored-platform reproduction remains NSCC 3.364622070 s/step, organizer recipe; no own stable scored-platform gain exists. Organizer/teammate recipes retain attribution. AI, submission materials, frozen past payloads and raw failures stay unchanged.
 
-Review per-arm timing tails/drift, Cd repeats/differences, native warnings, maps, resource logs and missing hardware evidence; no trimming. Completed preparation requires actual solver comparison next, not more proxy-only work. Preserve reasoning and explicit safe captures, small commits and pushes. [Own research history](../reports/hpc-own-research-status-20261102/README.md).
+Review per-arm timing tails/drift, Cd repeats/differences, native warnings, maps, resource logs and missing hardware evidence; no trimming. The prepared case is now in an actual native solver allocation; no extra admission while it occupies the own slot. Preserve reasoning and explicit safe captures, small commits and pushes. [Own research history](../reports/hpc-own-research-status-20261102/README.md).

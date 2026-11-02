@@ -540,3 +540,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November: own hierarchical zyx method ABBA passes correctness but shows no favorable speedup; conditional transfer closed](entries/20261102-hpc-zyx-method-no-gain.md).
 
 - [2 November: xzy initialized in272seconds; full native/source review passes, accepted manifest ready for BAAB](entries/20261102-hpc-xzy-initialization-reviewed.md).
+
+- [2 November: submit native xzy versus Scotch BAAB job 2294643 after reviewed initialization; one bounded 140-hour maximum](entries/20261102-hpc-xzy-native-submitted.md).

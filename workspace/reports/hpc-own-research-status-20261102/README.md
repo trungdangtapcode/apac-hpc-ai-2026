@@ -64,3 +64,8 @@ Sources: [2294234 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-o
 ## Own method trial completed: promotion rejected
 
 Job 2294640 completed 0:0 with all four native/source/runtime checks. Scotch 22.358237138/31.443932712 versus zyx 27.821793339/31.476255063s/step. Zyx pooled +10.21498%, adjacent +24.43644%/+0.10279%, control repeat drift +40.63690%. There is no favorable signal to promote, and no Gadi forecast. The conditional teammate-runtime payload is closed unsubmitted. [Full replay and inspection](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx 40-20261102/completed-2294640/RESULTS.md). The old 21.2296 result remains valid as an observation, not a stable optimization claim.
+
+
+## Actual next native measurement
+
+After rejecting zyx promotion, xzy initialization2294642 completed0:0 in272seconds with all source/native gates. New actual solver job **2294643** was accepted **2 November10:50:30Vietnam**, and observed RUNNING at10:51:22 on iris001/56CPUs, in source preflight. It compares xzy/Scotch/Scotch/xzy with default MPI/uncollated and fixed40-step work, using the true new1040-file accepted source. Structural tradeoffs motivate testing, not a gain claim. Full140-hour maximum is reserved under a transparently bounded internal stage890 (750 consumed); no site SU balance or Gadi estimate is asserted. [Actual receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/STATUS.md).
