@@ -7,3 +7,8 @@ Frozen 58-file root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xz
 Maximum **2h30m / 140 allocated CPU-hours**, zero GPU. One active owned allocation; prior initialization completed and was reconciled. Local planning **750 consumed + 140 reserved = 890 CPU-hours**. The internal stage was extended **17**, from 873 to 890, to cover only this bounded native measurement; it is not owner-stated numeric Iris credit, billed SU or an NSCC/AI transfer. Authority and maxima are recorded before the one-shot scheduler call.
 
 Review terminal native outputs, both adjacent comparisons, repeat drift, sample recommendations, tails, Cd by method, source/copy/field/runtime gates, launcher reports, resource logs and missing telemetry. Preserve every losing or failed arm. Full four-arm replay and actual-cost reconciliation are required before claiming an improvement. No Gadi or scored result exists yet. No background Codex, schedule, submission-material or AI change.
+
+
+## Native solver started — 2 November 10:54:27 Vietnam
+
+2294643 is RUNNING, elapsed 236 seconds. Both accepted source gates pass. B1 xzy copy check passed, and the actual native solver started at 10:52:24 Vietnam; it reached **step 3/40** by this snapshot. No fatal marker was found in its stdout; stderr/full native review and all timing comparisons remain pending. This is actual solver work, not only allocation setup. No final mean or win is claimed.

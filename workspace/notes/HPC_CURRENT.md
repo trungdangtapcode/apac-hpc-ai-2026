@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **2 November 2026, 10:51:22 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex or schedules. Prior detailed snapshots are [historical](history/HPC_CURRENT-before-xzy-native-20261102T034856Z.md).
+Updated **2 November 2026, 10:54:27 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex or schedules. Prior detailed snapshots are [historical](history/HPC_CURRENT-before-xzy-native-20261102T034856Z.md).
 
 ## Reviewed outcomes
 
@@ -10,7 +10,7 @@ Updated **2 November 2026, 10:51:22 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95
 
 ## Actual current native trial
 
-**2294643 RUNNING** on iris001, 56 CPUs, observed **2 November 10:51:22 Vietnam**, elapsed 51 seconds. Actual receipt **10:50:30 Vietnam**. Source preflight is running: Scotch accepted gate passed, no native arm result at this snapshot. Frozen 58-file root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xzy40-20261102T034956Z`; evidence root/kit/runs/2294643.
+**2294643 RUNNING** on iris001, 56 CPUs, observed **2 November 10:54:27 Vietnam**, elapsed 236 seconds. Actual receipt **10:50:30 Vietnam**. Both accepted source gates and the B1 copy check pass; native xzy solver started at **10:52:24 Vietnam** and reached **step 3/40**. No fatal marker in stdout; full stderr/native/output review and all final means remain pending. Frozen 58-file root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xzy40-20261102T034956Z`; evidence root/kit/runs/2294643.
 
 **xzy / Scotch / Scotch / xzy**, 40 steps / 39 intervals each, common default MPI/uncollated, same build/original 65M problem/fixed work, accepted method-specific partitions/fields. New xzy 1040-file manifest is installed from independently reviewed 2294642, never old zyx. Lower total interface/fanout proxy competes with worse busiest-rank surface; no speedup is claimed. [Actual status and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/STATUS.md).
 

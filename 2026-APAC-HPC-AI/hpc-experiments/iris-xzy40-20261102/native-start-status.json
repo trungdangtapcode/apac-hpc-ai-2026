@@ -1,0 +1,44 @@
+{
+  "observed_utc": "2026-11-02T03:54:27.181401+00:00",
+  "accounting": {
+    "rc": 0,
+    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294643|RUNNING|0:0|236|56|iris001\n2294643.batch|RUNNING|0:0|236|56|iris001\n",
+    "stderr": ""
+  },
+  "source_gates": {
+    "xzy-source-before.json": true,
+    "scotch-source-before.json": true
+  },
+  "arms": {
+    "B1-our-xzy": {
+      "step": 3,
+      "End": false,
+      "fatal_marker_in_solver_stdout": false
+    }
+  },
+  "last_phase_records": [
+    {
+      "elapsed_seconds": 27.348755281418562,
+      "phase": "B1-our-xzy-copy-check",
+      "returncode": 0,
+      "state": "exit",
+      "utc": "2026-11-02T03:52:20.036090+00:00"
+    },
+    {
+      "cap_seconds": 1800,
+      "command": [
+        "mpirun",
+        "-np",
+        "56",
+        "--report-bindings",
+        "--display-map",
+        "--",
+        "simpleFoam",
+        "-parallel"
+      ],
+      "phase": "B1-our-xzy",
+      "state": "solver-start",
+      "utc": "2026-11-02T03:52:24.316762+00:00"
+    }
+  ]
+}
