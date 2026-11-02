@@ -82,6 +82,8 @@ Actual complete-corpus preparation gave:
 | 1 | 3 |
 | Unfit, dropped or prompt-truncated | **0** |
 
+Actual API usage was also checked for all **4,512 response records** from completed jobs 28373, 28375 and 28382. Every reported prompt length matched the CPU-prepared length; no usage was missing. This checks lengths, not exact server-side token IDs, which were not collected. The reproducible check and source-response hashes are in `monitoring/check_prompt_lengths.py` and `reviews/API_PROMPT_LENGTH_CHECK_REPRODUCIBLE.json`.
+
 The native login Python lacked the tokenizer packages. We reused Python/Transformers from the organiser-supplied client image for CPU-only tokenisation. A real interface check exposed `BatchEncoding` instead of the expected token list; explicit `return_dict=False` plus shape checks fixed that before GPU admission. This was a preparation bug, not a quality loss. The resulting compiled corpus is frozen by SHA-256, including each question's prompt/token identities and shot count.
 
 ## 6. How a question is sent and answered
