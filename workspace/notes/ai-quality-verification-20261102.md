@@ -15,3 +15,9 @@ Both accuracy runs are reviewed: reference 28371 **104/128**, candidate 28368 **
 ## First full-set pair actually admitted
 
 **Full-set accuracy jobs admitted — 2026-11-03T01:20:59.095638+07:00, Vietnam time (UTC+7):** Slurm accepted **28373 reference / 28375 candidate**, paired shard 0 of 8, **1504 questions each at concurrency 64**. Reference has produced all 1504 responses (1200 correct, 79.787234%, zero service errors); terminal cleanup is being checked, candidate has not produced a score. This first shard is 1/8 of the fixed 12032-question evaluation, not a full-set result. Remaining 14 planned allocations are held behind the first-pair runtime/coverage gate, not a winning-score gate. Total full stage at most 72.533334 H200 GPU-hours, zero PBS SU, own queue cap 5. Pilots remain 102/104=98.076923% below99%; no official BTC certification. Published ZIP and HPC unchanged.
+
+## First full-study pair reviewed
+
+**Full-study first pair reviewed — 2026-11-03T01:34:00.954685+07:00, Vietnam time (UTC+7):** 28373 reference 1200/1504 (79.787234%), 28375 candidate 1205/1504 (80.119681%), ratio 100.416667% on this shard only. Both COMPLETED 0:0, zero scored service errors, exact raw-body replay/coverage pass. Allocation 620/739 seconds; actual 6.04 GPU-hours, pilots 4.213333, total 10.253333; PBS SU 0. Runtime qualifies remaining 14 fixed full-set shards at N64; no full 12032 or BTC pass yet. Original pilot 98.076923% failure remains separately retained. Published ZIP/HPC unchanged.
+
+[Measurement and inspection](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/reviews/FIRST_FULL_PAIR.md).
