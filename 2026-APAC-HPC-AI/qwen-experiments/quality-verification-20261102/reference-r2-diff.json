@@ -1,0 +1,49 @@
+{
+  "runtime_change": "EP1(default) to EP8; all corpus/client/precision/backend parameters unchanged",
+  "line_changes": [
+    {
+      "before": "# No NIXL transport patch, PD mode, EP, kernel backend or graph tuning.",
+      "after": "# EP8 is required for the official block-FP8 layout; no patch, PD or backend tuning."
+    },
+    {
+      "before": "#SBATCH --job-name=qref-pilot",
+      "after": "#SBATCH --job-name=qref-ep8"
+    },
+    {
+      "before": "#SBATCH --output=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/reference-pilot/logs/%j.out",
+      "after": "#SBATCH --output=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/reference-pilot-r2/logs/%j.out"
+    },
+    {
+      "before": "#SBATCH --error=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/reference-pilot/logs/%j.err",
+      "after": "#SBATCH --error=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/reference-pilot-r2/logs/%j.err"
+    },
+    {
+      "before": "RUNS_ROOT=$TASK_ROOT/jobs/reference-pilot/runs",
+      "after": "RUNS_ROOT=$TASK_ROOT/jobs/reference-pilot-r2/runs"
+    },
+    {
+      "before": "[[ -d \"$TASK_ROOT/jobs/reference-pilot/logs\" ]] || {",
+      "after": "[[ -d \"$TASK_ROOT/jobs/reference-pilot-r2/logs\" ]] || {"
+    },
+    {
+      "before": "  echo \"FATAL: create $TASK_ROOT/jobs/reference-pilot/logs before submission\" >&2",
+      "after": "  echo \"FATAL: create $TASK_ROOT/jobs/reference-pilot-r2/logs before submission\" >&2"
+    },
+    {
+      "before": "LOCAL_HOME=$TASK_ROOT/jobs/reference-pilot/runtime-home/$SLURM_JOB_ID",
+      "after": "LOCAL_HOME=$TASK_ROOT/jobs/reference-pilot-r2/runtime-home/$SLURM_JOB_ID"
+    },
+    {
+      "before": "(cd \"$TASK_ROOT\" && sha256sum --check frozen-pilot/SHA256SUMS) >\"$ART/frozen-inputs-check.log\"",
+      "after": "(cd \"$TASK_ROOT\" && sha256sum --check frozen-reference-r2/SHA256SUMS) >\"$ART/frozen-inputs-check.log\""
+    },
+    {
+      "before": "    'runtime_options': {'served_model':'qwen','dtype':'bfloat16','tp_size':8,'context_length':8192,'mem_fraction_static':0.90,'ep_size':'default (not specified)','transport_patch':'none','disaggregation':'disabled','custom_kernel_or_graph_flags':'none'},",
+      "after": "    'runtime_options': {'served_model':'qwen','dtype':'bfloat16','tp_size':8,'context_length':8192,'mem_fraction_static':0.90,'ep_size':8,'transport_patch':'none','disaggregation':'disabled','custom_kernel_or_graph_flags':'none'},"
+    },
+    {
+      "before": "        --trust-remote-code --tp-size 8 --context-length 8192 --dtype bfloat16 \\",
+      "after": "        --trust-remote-code --tp-size 8 --ep-size 8 --context-length 8192 --dtype bfloat16 \\"
+    }
+  ]
+}
