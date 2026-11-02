@@ -1,5 +1,7 @@
 # Paired local accuracy verification
 
+**Reviewed pilot outcome — 2026-11-03T00:59:14.841409+07:00, Vietnam time (UTC+7):** reference 28371=104/128 (81.25%); candidate 28368=102/128 (79.6875%), ratio 98.076923% <99%: **local pilot point gate FAIL**, no request errors. Original 28367 failed FP8 layout before inference. [Full raw-response/runtime/cost analysis](reviews/PILOT_RESULTS.md). Pilot actual 4.213333 GPU-hours, zero PBS SU; all pilot reservations retired. Full 12032-question N64 stage being prepared, not yet submitted in this snapshot; no full-set or BTC certification claim. Published submission/HPC unchanged. Earlier queued/pilot-preparation states below are historical.
+
 Updated **2026-11-03T00:30:37.968878+07:00, Vietnam time (UTC+7)**. The owner explicitly authorised research and actual quality measurement. Slurm accepted **28367 reference** and **28368 candidate**; both are **PENDING / Resources** in this actual observation. Admission receipts, frozen manifest and maximum reservation are under `admission/` and `frozen-pilot/`.
 
 The reference uses two stock native FP8 TP8 replicas, one per node; this is an internal accuracy reference, not a colocated ranked Basic submission. The candidate preserves the accepted 28197 model-worker configuration and P/D transport path. Both use identical compiled questions, tokenizer/template, adaptive shots, greedy settings, 2048 output allowance and parser. Pilot concurrency 16 and 128 selected questions are distinct from the performance N64 point.
