@@ -1,5 +1,7 @@
 # Final AI/submission readiness — 2 November 2026
 
+**Superseded where applicable by the [2 November accepted release](ai-final-presentation-release-20261102.md):** 28197 now passes the complete portable entry; the tested readiness fix, slide and scripts are published locally. Official quality is still unverified. The dated record below is historical.
+
 Checked 2026-11-02T07:25:22.222268+07:00, Vietnam time (UTC+7). [Current full assessment](../reports/submission-readiness-20261102/README.md), [AI rule check](../reports/submission-readiness-20261102/AI_RULE_CHECK.md), [delivery check](../reports/submission-readiness-20261102/DELIVERY_CHECK.md).
 
 The AI material passes the present static rule, syntax, neutral-path setup and package-integrity checks. Official upstream main remains b4df52907f5bbb9152ef6ae902c925fc79d54417, matching packaged rules. The exact required FP8 target, BF16 KV, 16-GPU PD, N64 gateway and full closed-loop official client flags are represented. Text-submitted same-computation serving patches are explicitly allowed by Q1; do not infer an unpatched Basic requirement merely because NIXL metadata was patched.

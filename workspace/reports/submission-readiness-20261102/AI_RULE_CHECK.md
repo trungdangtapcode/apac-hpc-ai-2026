@@ -1,5 +1,7 @@
 # AI submission rule check
 
+**Current closure:** [28197 accepted release](README.md) supersedes the dated open-replay/readiness/release-hash statements below. Original static checks remain historical evidence; current byte identities are in the new publication validation.
+
 Checked 2 November 2026 against the freshly fetched official rules. This is a static package audit, not a deployment or organiser verification. Rule snapshot hashes and fetch time are in [official-rules/source.json](official-rules/source.json).
 
 ## Verdict

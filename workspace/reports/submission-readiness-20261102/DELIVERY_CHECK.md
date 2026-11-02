@@ -1,5 +1,7 @@
 # Submission delivery check — 2 November 2026
 
+**Current closure:** [28197 accepted release](README.md) supersedes the dated open-replay/readiness/release-hash statements below. Original static checks remain historical evidence; current byte identities are in the new publication validation.
+
 ## Result
 
 **Package integrity: PASS. Portal submission readiness: not fully confirmable.** The current team folder, published ZIP, and 1 November reviewed release ZIP contain the same presentation and AI package bytes. The ZIP passes CRC and path/member checks. This audit checks package integrity and routing; it does not certify the scientific correctness of the HPC track or prove that organizers have received the package.

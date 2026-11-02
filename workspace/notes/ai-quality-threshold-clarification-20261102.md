@@ -31,7 +31,7 @@ If experimental Bonus work is claimed, Q2 places a separate self-proof obligatio
 
 ## Separate final-entry acceptance
 
-The owner separately authorised one final full run of the exact repaired packaged AI entry. That run checks deployment, real P/D semantic paths, the locked AIPerf client, repaired result reading, performance gate and cleanup. It remains a performance/deployment acceptance run, not the official full-set model-quality evaluation. A passing job will not fill in the missing quality ratio.
+The owner separately authorised one final full run of the exact repaired packaged AI entry. That run checks deployment, real P/D semantic paths, the locked AIPerf client, repaired result reading, performance gate and cleanup. It remains a performance/deployment acceptance run, not the official full-set model-quality evaluation. Job 28197 has now passed the complete deployment/performance path at 3051.518173 good output tokens/s and 1881/1907 joint SLA success. That result does not fill in the missing official quality ratio. Only two startup semantic checks were performed in this acceptance; historical smoke/retrieval scores are separate.
 
 [Official Qwen Q1: output quality and re-run](https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/1.%20Qwen3%20AI%20Task%20Rules.md#q1-basic-vanilla), [retained exact rule snapshot](../reports/submission-readiness-20261102/official-rules/1.%20Qwen3%20AI%20Task%20Rules.md), [current readiness evidence](../reports/submission-readiness-20261102/README.md).
 

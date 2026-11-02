@@ -16,10 +16,10 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 | Study the AI reasoning and practise presentation answers: start here | [Study entry point](../reports/teacher-qa-preparation-20261101/README.md) |
 | Understand why each AI idea was worth trying and how the tests changed the decision | [Thinking process and hypothesis development](../reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md) |
 | Prepare answers to teacher Thanh’s questions, with actual evidence and limits | [Quick cards and detailed Q&A](ai-teacher-qa-preparation-20261101.md) |
-| Current AI slides, clear bilingual script and final nine-run evidence | [1 November published edition](ai-final-presentation-release-20261101.md) |
-| Teacher requirement closure and remaining human rehearsal | [Material-level closure](../submission-review/ai-final-update-20261101/REQUIREMENT_CLOSURE.md) |
+| Current AI slides, bilingual scripts, final nine-run evidence and accepted portable deployment | [2 November release](ai-final-presentation-release-20261102.md) |
+| Teacher requirement closure and remaining human rehearsal | [Material-level closure](../submission-review/ai-acceptance-update-20261102/REQUIREMENT_CLOSURE.md) |
 | Earlier gaps found before the final revision | [Historical requirement assessment](ai-teacher-requirement-audit-20261101.md) |
-| Final exact packaged AI entry: accepted job and review route | [2 November acceptance 28194](ai-final-portable-acceptance-20261102.md) |
+| Final exact packaged AI entry: accepted job and review route | [2 November accepted run 28197](ai-final-portable-acceptance-20261102.md) |
 | What ≥99%-reference quality means, exact known numbers and why Basic can be submitted | [Quality clarification](ai-quality-threshold-clarification-20261102.md) |
 | Current final readiness, AI rule checks and remaining pre-upload items | [2 November audit](ai-final-preflight-20261102.md) |
 | Historical readiness before the final presentation release | [1 November preflight](ai-final-preflight-20261101.md) |

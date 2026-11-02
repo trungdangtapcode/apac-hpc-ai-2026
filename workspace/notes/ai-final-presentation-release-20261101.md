@@ -1,5 +1,7 @@
 # Current AI presentation and submission edition — 1 November 2026
 
+**Superseded where applicable by the [2 November accepted release](ai-final-presentation-release-20261102.md):** 28197 now passes the complete portable entry; the tested readiness fix, slide and scripts are published locally. Official quality is still unverified. The dated record below is historical.
+
 Published and verified 2026-11-01T12:44:00.671790+07:00, Vietnam time (UTC+7). [Release route and reproduction](../submission-review/ai-final-update-20261101/README.md); [teacher requirement closure](../submission-review/ai-final-update-20261101/REQUIREMENT_CLOSURE.md); [final validation](../submission-review/ai-final-update-20261101/FINAL_VALIDATION.json).
 
 The three gaps found in the earlier audit are now addressed in the actual deck and bilingual scripts: visible topology selection criteria, descriptor-first bounded hypothesis and the independent controlled decode probe after diagnostic profiling. The main talk has 16 AI slides, 18 hidden AI backups (17–34) and eight preserved HPC slides (35–42). Main 14 uses direct H200 transfer measurements; 33 retains the old forecast and its limits; 34 gives all nine final allocations, correctly eight at N64 and one at N54.

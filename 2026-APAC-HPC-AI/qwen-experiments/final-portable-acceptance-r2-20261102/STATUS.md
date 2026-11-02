@@ -1,5 +1,7 @@
 # Readiness repair acceptance: 28197
 
+**Published local release — 2026-11-02T08:57:13.375119+07:00:** Tested deployment readiness fix plus README/checksum metadata is now in the reviewed competition ZIP; updated slide, EN/VI scripts and evidence match job 28197. [Release](/home/apacsc42/workspace/submission-review/ai-acceptance-update-20261102/README.md). ZIP SHA-256 `303178c0da0dc8ad93ad71f75004143d191b94074e4acfbb7a9e8109ec9430ca`; PPTX `6af3c79387baedb16b350450242214a669afc9fc34b10b5b4f1fecac5770be96`. No organiser upload/official quality score; HPC unchanged. Final acceptance closed and no new research job. The earlier pending/qualification accounts below are historical.
+
 **Reviewed terminal result — 2026-11-02T08:45:32.978352+07:00:** COMPLETED/0:0,611seconds, full local acceptance PASS. **3051.518173303673 good output tokens/s; 1881/1907 good, zero scored errors/cancellations.** Both semantic routes, official client, readers/gate and cleanup pass. [Complete result](RESULTS.md). Retired maximum reservation; actual2.715556GPU-hours. No official quality pass or matched optimisation gain. Historical pending state below is retained.
 
 Observed 2026-11-02T08:00:53.498588+07:00, Vietnam time (UTC+7). Definite Slurm acceptance: **28197**. Fresh own-user queue:
