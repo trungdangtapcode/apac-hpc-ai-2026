@@ -18,7 +18,7 @@ def check(uncertain):
             (admission.C/'budget.json').write_text(json.dumps(budget));calls=[]
             def fake_remote(body,timeout):
                 calls.append(body)
-                if len(calls)==1:return {'host':'fixture','queue':''}
+                if len(calls)==1:return {'host':'fixture','queue':'','returncode':0}
                 assert len(calls)==2 and body.count("['sbatch'")==1
                 assert (admission.E/'submission-intent.json').exists()
                 live=json.loads((admission.C/'budget.json').read_text())

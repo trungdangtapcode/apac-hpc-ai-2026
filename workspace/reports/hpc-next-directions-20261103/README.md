@@ -48,3 +48,7 @@ Do not revive the closed weight-only, xzy, graph-placement or collated-I/O claim
 ## Interpretation and stop decisions
 
 If time variation dominates both repeated controls and candidates, report the comparison as inconclusive and use its time series to choose one causal test. If xyz is consistently slower, close it. If it appears faster, retain it as a lead only; independent official-horizon validation is still needed. If monitoring files are unavailable or expensive, record that limitation rather than claiming a healthy machine. This experiment is valuable only if its collected evidence changes the next decision.
+
+## Actual admission
+
+Job **2294671** was accepted 03 November 2026 02:05:12 Vietnam, with its 56 CPU-hour maximum reserved under lock and all 62 runtime files frozen and verified. [Receipt, payload and operational status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/STATUS.md). The diagnostic is now submitted; no runtime result is claimed.
