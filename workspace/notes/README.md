@@ -27,6 +27,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 | Read or print the complete presenter transcripts as PDFs | [Vietnamese PDF](../reports/ai-final-report-20261030/TRANSCRIPT_VI.pdf), [English PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf) |
 | Understand and rehearse every current slide: purpose, notation, axes, units, colors and tradeoffs | [Vietnamese transcript](../reports/ai-final-report-20261030/TRANSCRIPT_VI.md), [English transcript](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md) |
 | Learn the AI journey and explain it in a presentation | [Beginner narrative](../reports/ai-research-learning-journey-20261023/README.md), [speaker notes](../reports/ai-research-learning-journey-20261023/SPEAKER_NOTES.md), [glossary](../reports/ai-research-learning-journey-20261023/GLOSSARY.md) |
+| Distinguish our own HPC experiments, borrowed recipes and the next actual owned-candidate job | [Own HPC research status](../reports/hpc-own-research-status-20261102/README.md) |
 | HPC task explanation, rules, baselines and experiment plan | [HPC research](../reports/hpc-openfoam-20261021/README.md) |
 | Learn the HPC track, its complete research story, figures and presenter script | [HPC learning and presentation guide](../reports/hpc-research-journey-20261023/README.md) |
 | Combined presentation: 32 AI slides + 8 HPC slides, portable CPU scripts and native logs | [23 October combined delivery](../submission-review/hpc-update-20261023/README.md) |

@@ -15,3 +15,5 @@ At the same live observation, direct recipe 2294637 had A1=25.581958377, B1=22.3
 Next: review/reconcile full 2294637 when terminal, preserve queued 2294640, then review both directions and control repeats, all Cd/timing trends/resources/source/runtime bounds for our method comparison. Iris one-node screening does not establish four-node NSCC/Gadi performance. Do not rank raw means from different allocations as if simultaneous. Submission materials and other-track work remain unchanged.
 
 [Own-candidate receipt/status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md); [prior censored pair](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-matched-solver56-20261026/completed-2294047/RESULTS.md).
+
+[Direct answer about ownership and actual outcomes](../../hpc-own-research-status-20261102/README.md) distinguishes baseline reproduction, unsuccessful own branches, borrowed settings and the accepted but unmeasured owned-candidate comparison.
