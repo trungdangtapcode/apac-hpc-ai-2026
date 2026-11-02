@@ -1,0 +1,26 @@
+{
+  "utc": "2026-11-02T18:34:20.561887+00:00",
+  "argv": [
+    "sbatch",
+    "--parsable",
+    "--job-name=qfc01",
+    "--partition=hpcai",
+    "--nodes=2",
+    "--time=00:17:00",
+    "--gres=gpu:8",
+    "--exclusive",
+    "--propagate=NONE",
+    "--output=../logs/full-shards-slurm/%j.out",
+    "--error=../logs/full-shards-slurm/%j.err",
+    "--wrap",
+    "if [ -f /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/STOP.json ]; then echo FINITE_WORKFLOW_STOP; exit 86; fi; bash /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-cand-01of08/AI_Task/job_scripts/submit.sbatch; driver_rc=$?; python3 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/finite_event.py --job \"$SLURM_JOB_ID\" --role candidate --shard 1 --driver-rc \"$driver_rc\"; callback_rc=$?; if [ \"$driver_rc\" -ne 0 ]; then exit \"$driver_rc\"; fi; exit \"$callback_rc\""
+  ],
+  "cwd": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-cand-01of08/AI_Task/job_scripts",
+  "returncode": 0,
+  "stdout": "28384\n",
+  "stderr": "",
+  "job": 28384,
+  "state": "SUBMITTED_NOT_MEASURED",
+  "role": "candidate",
+  "shard_index": 1
+}

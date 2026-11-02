@@ -568,3 +568,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [3 November Vietnam / 2 November UTC: submit paired full-set first shards 28373/28375, preserving the losing pilot and fixed complete-test protocol](entries/20261102-ai-full-quality-first-pair-submitted.md).
 
 - [3 November Vietnam: first paired full-study shard gives1205 versus1200 correct, qualifies full fixed continuation, not an official pass](entries/20261102-ai-full-quality-first-pair-reviewed.md).
+
+- [3 November Vietnam: submit five further full-quality shards within cap5 and enable only the finite fixed16 batch continuation](entries/20261102-ai-full-quality-finite-continuation-submitted.md).
