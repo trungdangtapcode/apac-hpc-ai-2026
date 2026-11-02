@@ -2565,3 +2565,8 @@ Read-only check at 09:54:58 Vietnam time (UTC+7): own H200 Slurm queue is empty.
 - **27506:** completed 0:0/95 s, zero GPUs/four CPUs. Cold JIT 26.605 s, two synthetic radix-tree CPU fixtures pass, native cleanup observed. [New terminal review](h200-cpp-radix-cpu-probe-r2-20261029/RESULTS-27506.md). It is not a Qwen/P-D/quality or serving score. Original raw files already had identical archived delivery copies; the canonical run path is now sealed and captured.
 
 No new score changes the selected H200 N64 configuration or historical H100 N54 point. Draft S109 and blocked compile paths remain unsubmitted. Research, background Codex and schedules stay stopped. Slides/ZIP and the independent HPC worker's queues/payloads/budget are unchanged.
+
+
+## Job 28194 — final exact packaged-entry acceptance, 2 November 2026
+
+Owner explicitly authorised one complete run after the reader repair. Exact reviewed ZIP job_scripts copied into a separate delivery tree, all 26 file bytes/modes verified and setup check passed. Slurm accepted 28194 at 2026-11-02T00:35:26.415189+00:00; observation 2026-11-02T07:37:07.867301+07:00: 28194|PENDING|0:00|17:00|2|(Resources). Resources: 16 H200 / two nodes / N64 / maximum 17 minutes, reserved maximum 4.533334 GPU-hours, zero PBS SU. No fresh result or quality acceptance yet. Frozen primary/ZIP unchanged. [Plan, definite receipt and status](final-portable-acceptance-20261102/STATUS.md). Official quality is organiser-run and remains unknown; this is a performance/deployment acceptance run.

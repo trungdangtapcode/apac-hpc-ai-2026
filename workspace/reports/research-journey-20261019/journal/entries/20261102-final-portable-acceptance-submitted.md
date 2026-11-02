@@ -1,0 +1,13 @@
+# Final exact AI entry accepted as 28194 — 2 November 2026
+
+**Question and authority.** The owner explicitly approved one complete post-reader-fix packaged run. The previous audit showed neutral setup, syntax and integrity passed, while portable jobs 27136/27145 failed only after actual P/D/client stages and CPU 27152 checked repaired readers against retained datasets.
+
+**Change and control.** No serving, client, reader, model or precision change. Copy the exact current reviewed ZIP job_scripts into a separate writable delivery tree; compare all 26 files/modes with ZIP and working submission and verify internal hashes. Same 16 H200 / two-node N64 full 60/120/30 workload. This is deployment acceptance, not an optimisation comparison. Preserve historical source/repeat/raw result classes.
+
+**Submission evidence.** Prepared sources captured/pushed in 5b50c397. Under the shared Slurm lock, own active/pending cap 5 and site 17-minute limit passed; setup and scheduler dry-run passed. Definite sbatch receipt is 28194 at 2026-11-02T00:35:26.415189+00:00. Fresh observation 2026-11-02T07:37:07.867301+07:00: 28194|PENDING|0:00|17:00|2|(Resources). One actual job; provisional dry-run ID is not another submission. Maximum 4.533334 GPU-hours reserved, zero PBS SU. No H100/HPC spending or old job cancellation/requeue.
+
+**Acceptance and next decision.** Await actual allocated execution, then require terminal COMPLETED/0:0, both semantic routes, exact official raw protocol, summary/performance gate and cleanup. Inspect available runtime/transport/tail evidence without inventing missing hardware telemetry. Any failure remains a failure, with outputs preserved. Do not claim a result while pending or create a background Codex wake-up. [Exact run and receipts](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-20261102/STATUS.md).
+
+**Quality clarification.** There is no official team score, organiser reference or calculable ≥99% ratio in retained evidence. It is not the 98.580442% request-latency fraction or smoke/retrieval rate. Q1 says organisers run the full-set quality evaluation; Basic delivery does not require possession of an organiser score before upload. The new acceptance job remains a performance/deployment test, not that quality evaluation.
+
+**Preservation.** Freeze submission bytes, keep new outputs under the separate delivery copy and exclude runtime/auth caches from capture. Capture definite receipt/reservation/status and the clear quality correction as a small checkpoint, then push. No official upload or automation is authorised by this run.

@@ -19,6 +19,8 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 | Current AI slides, clear bilingual script and final nine-run evidence | [1 November published edition](ai-final-presentation-release-20261101.md) |
 | Teacher requirement closure and remaining human rehearsal | [Material-level closure](../submission-review/ai-final-update-20261101/REQUIREMENT_CLOSURE.md) |
 | Earlier gaps found before the final revision | [Historical requirement assessment](ai-teacher-requirement-audit-20261101.md) |
+| Final exact packaged AI entry: accepted job and review route | [2 November acceptance 28194](ai-final-portable-acceptance-20261102.md) |
+| What ≥99%-reference quality means, exact known numbers and why Basic can be submitted | [Quality clarification](ai-quality-threshold-clarification-20261102.md) |
 | Current final readiness, AI rule checks and remaining pre-upload items | [2 November audit](ai-final-preflight-20261102.md) |
 | Historical readiness before the final presentation release | [1 November preflight](ai-final-preflight-20261101.md) |
 | Latest AI queue and nine-run source/archive integrity check | [1 November audit](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-integrity-check-20261101/README.md) |

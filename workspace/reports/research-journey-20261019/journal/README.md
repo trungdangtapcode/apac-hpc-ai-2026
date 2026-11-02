@@ -1,3 +1,5 @@
+Latest AI acceptance: [2 November exact packaged-entry job 28194 submitted, plus quality/submission clarification](entries/20261102-final-portable-acceptance-submitted.md).
+
 Latest AI final-readiness audit: [2 November official rules, exact delivery and remaining verification boundaries](entries/20261102-final-ai-rule-and-delivery-audit.md).
 
 Latest AI reasoning clarification: [1 November how hypotheses arose, what could falsify them and why the next trial followed](entries/20261101-thinking-process-explanation.md).
