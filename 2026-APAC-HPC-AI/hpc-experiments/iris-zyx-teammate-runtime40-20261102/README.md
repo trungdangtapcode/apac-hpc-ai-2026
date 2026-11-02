@@ -1,6 +1,6 @@
 # Conditional method comparison under teammate runtime
 
-**PREPARED ONLY: not deployed, submitted or reserved.** Do not run job.sbatch directly. Existing job2294640 keeps its allocation and full reservation. This payload is not an automatic successor and no Codex schedule exists.
+**PREPARED ONLY: not deployed, submitted or reserved.** Do not run job.sbatch directly. Existing job 2294640 keeps its allocation and full reservation. This payload is not an automatic successor and no Codex schedule exists.
 
 Question: if our hierarchical zyx choice beats default Scotch under common default MPI/uncollated, does that result survive under the same supplied teammate socket/core and collated runtime on both methods? This is closer to comparing against the teammate recipe than ranking unrelated historical Iris means. A sub-22 Iris observation does not predict beating 2.079 seconds on Gadi.
 
@@ -10,7 +10,7 @@ Every arm uses `--map-by socket --bind-to core` and `-fileHandler collated`. Ord
 
 ## Eligibility before any deployment or admission
 
-Parent2294640 must be terminal, completely collected and independently reviewed. Require all source/native/runtime gates, both adjacent comparisons and pooled mean favoring zyx, and explicit inspection of repeat drift and native sample recommendations. If the parent reverses direction or is materially unstable, this transfer experiment is not justified; close or revise the hypothesis rather than submit blindly. A short screen is never a full scored run.
+Parent 2294640 must be terminal, completely collected and independently reviewed. Require all source/native/runtime gates, both adjacent comparisons and pooled mean favoring zyx, and explicit inspection of repeat drift and native sample recommendations. If the parent reverses direction or is materially unstable, this transfer experiment is not justified; close or revise the hypothesis rather than submit blindly. A short screen is never a full scored run.
 
 If eligible, recheck live queues and owner authority, reconcile the parent once, and bind the exact new payload hashes with an independent root review. Review stage accounting under the existing Iris lock before any durable reservation or one-shot submission. The maximum is **9000 seconds / 140 allocated CPU-hours**, not currently reserved or added to any spending envelope. One active owned allocation remains mandatory. No Gadi identity or project budget is available; no Gadi deployment or result is claimed.
 
