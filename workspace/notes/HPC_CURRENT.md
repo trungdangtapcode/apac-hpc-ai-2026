@@ -16,11 +16,11 @@ Latest bounded retry **3 November 00:06:30–00:06:34 Vietnam** returned gateway
 
 The first two status calls timed out because a completed job absent from live squeue caused check_output to raise before JSON emission. A corrected query reached Iris and read sacct plus terminal files. These timeouts do not establish authentication failure. No cancellation or resubmission occurred.
 
-Next preparation is a distinct direct xyz-versus-default-Scotch four-arm 20-step screen, within the existing stage. Historical xyz sub-22 values were order-confounded; 19 intervals cannot support a final speedup claim. It is not submitted yet.
+Next preparation is a distinct direct xyz-versus-default-Scotch four-arm 20-step screen, within the existing stage. Historical xyz sub-22 values were order-confounded; 19 intervals cannot support a final speedup claim. It is not submitted yet. The owner requested a deeper improvement review; [new direction](/home/apacsc42/workspace/reports/hpc-next-directions-20261103/README.md) adds equal bounded in-solver monitoring and prioritizes evidence-driven rank-density/locality tests.
 
 ## Budget and next decision
 
-Ledger **949 consumed + 0 reserved**, existing agent-selected stage **1,009**. Last prep cost 4.355556 actual allocated CPU-hours, conservatively 5; original 28 maximum retired once. All 26 retained owned jobs are terminal. A maximum 55-minute, 56-CPU screen would reserve 51.333334 CPU-hours and fit the unchanged stage; actual queue must be checked before admission. No billed SU or NSCC/AI transfer is claimed.
+Ledger **949 consumed + 0 reserved**, existing agent-selected stage **1,009**. Last prep cost 4.355556 actual allocated CPU-hours, conservatively 5; original 28 maximum retired once. All 26 retained owned jobs are terminal. A maximum 60-minute, 56-CPU screen would reserve 56 CPU-hours and fit the unchanged stage; actual queue must be checked before admission. No billed SU or NSCC/AI transfer is claimed.
 
 After terminal collection, inspect native graph gates/source/work, actual initialization/READY state, warnings/resources and missing telemetry; reconcile actual cost once. If promising and fully initialized, separately freeze a matched default-versus-tree solver trial within a reviewed bounded stage. If rejected, close unchanged hypothesis and choose the next distinct useful trial. No blind duplicates or unsupported success claims.
 
