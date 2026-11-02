@@ -1,0 +1,123 @@
+{
+  "purpose": "Full local MMLU-Pro test corpus rendered with the pinned official five-shot CoT prompt construction; no inference performed",
+  "dataset": {
+    "repo": "TIGER-Lab/MMLU-Pro",
+    "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+    "config": "default",
+    "license": "MIT",
+    "test_split": "test",
+    "validation_split": "validation",
+    "source_files": {
+      "test-00000-of-00001.parquet": {
+        "bytes": 4144185,
+        "sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+        "rows": 12032
+      },
+      "validation-00000-of-00001.parquet": {
+        "bytes": 42857,
+        "sha256": "139423c23722e480c807ac4a191409a710cfce4eba744c1d641cf88e730e2078",
+        "rows": 70
+      }
+    }
+  },
+  "prompt_source": {
+    "repo": "TIGER-AI-Lab/MMLU-Pro",
+    "commit": "f418b116db00b065c2aea046518d8fcf74d39872",
+    "license": "Apache-2.0",
+    "official_renderer": "evaluate_from_local.py::generate_cot_prompt + format_cot_example",
+    "renderer_sha256": "d0a4ae51b80efa8f99713a21253ad5542913ef2ac9915e95d40c8a62174e9401",
+    "local_renderer_sha256": "f46a68f888a5d0dc69d65541f1854343feb39a89a0421dccd823777ee0a08a83",
+    "initial_prompt_sha256": "d7337806b4d84eef7a86bcb20bf3d64b65e72736c1603e16d08cadebac436f0a",
+    "shots": 5,
+    "shot_rule": "first five same-category validation rows in original source order; no truncation or shot reduction"
+  },
+  "counts": {
+    "test_prompts": 12032,
+    "unique_test_question_ids": 12032,
+    "validation_rows": 70,
+    "unique_validation_ids": 70,
+    "categories": [
+      "biology",
+      "business",
+      "chemistry",
+      "computer science",
+      "economics",
+      "engineering",
+      "health",
+      "history",
+      "law",
+      "math",
+      "other",
+      "philosophy",
+      "physics",
+      "psychology"
+    ],
+    "test_rows_by_category": {
+      "biology": 717,
+      "business": 789,
+      "chemistry": 1132,
+      "computer science": 410,
+      "economics": 844,
+      "engineering": 969,
+      "health": 818,
+      "history": 381,
+      "law": 1101,
+      "math": 1351,
+      "other": 924,
+      "philosophy": 499,
+      "physics": 1299,
+      "psychology": 798
+    },
+    "validation_shots_by_category": {
+      "biology": 5,
+      "business": 5,
+      "chemistry": 5,
+      "computer science": 5,
+      "economics": 5,
+      "engineering": 5,
+      "health": 5,
+      "history": 5,
+      "law": 5,
+      "math": 5,
+      "other": 5,
+      "philosophy": 5,
+      "physics": 5,
+      "psychology": 5
+    }
+  },
+  "runtime": {
+    "python": "3.9.25",
+    "pyarrow": "19.0.1",
+    "cpu_only": true
+  },
+  "outputs": {
+    "test-prompts-12032.jsonl": {
+      "bytes": 70346776,
+      "sha256": "15f8c40dff772594a91678cf2021d4955bfbd9f137090a0139d33178364ff4ca"
+    },
+    "validation-70.jsonl": {
+      "bytes": 68717,
+      "sha256": "570baa76c164cab4733bd1493e9cc8b7c2527c36a1d0996a78a117eaf99d0062"
+    },
+    "initial_prompt.txt": {
+      "bytes": 182,
+      "sha256": "d7337806b4d84eef7a86bcb20bf3d64b65e72736c1603e16d08cadebac436f0a"
+    }
+  },
+  "integrity_checks": [
+    "source byte counts and SHA-256 match frozen manifest",
+    "test has 12,032 rows and unique question IDs",
+    "validation has 70 unique rows and exactly five shots per each of 14 categories",
+    "test and validation IDs are disjoint",
+    "all 12,032 prompts use exactly the first five same-category validation rows in source order",
+    "each prompt exactly matches the pinned official renderer logic",
+    "no truncation or dynamic shot reduction"
+  ],
+  "not_claimed": [
+    "model quality score",
+    "official contest pass/fail",
+    "tokenizer length fit",
+    "generation feasibility",
+    "inference result"
+  ]
+}
