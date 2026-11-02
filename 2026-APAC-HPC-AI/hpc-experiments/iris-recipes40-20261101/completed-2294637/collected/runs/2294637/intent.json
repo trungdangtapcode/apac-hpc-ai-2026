@@ -1,0 +1,70 @@
+{
+  "arm_order": [
+    "A1-organizer",
+    "B1-teammate",
+    "B2-teammate",
+    "A2-organizer"
+  ],
+  "commands_by_arm": {
+    "A1-organizer": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "A2-organizer": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "B1-teammate": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--map-by",
+      "socket",
+      "--bind-to",
+      "core",
+      "--",
+      "simpleFoam",
+      "-parallel",
+      "-fileHandler",
+      "collated"
+    ],
+    "B2-teammate": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--map-by",
+      "socket",
+      "--bind-to",
+      "core",
+      "--",
+      "simpleFoam",
+      "-parallel",
+      "-fileHandler",
+      "collated"
+    ]
+  },
+  "internal_deadline_seconds": 8850,
+  "intervals_each": 39,
+  "nodes": 1,
+  "ranks": 56,
+  "request_maximum_cpu_hours": 140,
+  "scope": "Matched initialized Scotch56 state; organizer-style default/uncollated versus teammate-style socket/core/collated. Shared launch diagnostics. Solver-stage comparison only; no Gadi/NSCC result.",
+  "scored_result": false,
+  "steps_each": 40
+}

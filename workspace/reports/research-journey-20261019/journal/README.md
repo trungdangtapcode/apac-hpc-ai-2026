@@ -526,3 +526,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [1 November UTC / 2 November Vietnam: I/O gain fails reversal, direct comparison running, identical launcher maps close duplicate proposal](entries/20261101-hpc-io-reversal-no-gain-and-direct-comparison-running.md).
 
 - [2 November: attribute our own research honestly and submit matched hierarchical zyx versus Scotch job2294640](entries/20261102-hpc-own-candidate-matched-method-test-submitted.md).
+
+- [2 November: same-Iris teammate/organizer runtime comparison passes; favorable teammate signal remains drift-limited, own method job running](entries/20261102-hpc-same-iris-recipes-reviewed.md).

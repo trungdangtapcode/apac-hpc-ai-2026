@@ -1,0 +1,147 @@
+{
+  "observed_utc": "2026-11-02T00:33:45.494059+00:00",
+  "job_id": "2294637",
+  "arms": [
+    {
+      "arm": "A1-organizer",
+      "first10_mean_s_step": 27.871431069,
+      "last10_mean_s_step": 24.3966422927,
+      "minimum_s_step": 23.930134193,
+      "maximum_s_step": 31.36460397,
+      "warnings_or_fatals": [
+        "--> FOAM Warning : "
+      ],
+      "gnu_time": {
+        "User time (seconds)": "57563.31",
+        "System time (seconds)": "1624.00",
+        "Percent of CPU this job got": "5554%",
+        "Maximum resident set size (kbytes)": "2961540",
+        "Major (requiring I/O) page faults": "102627",
+        "Minor (reclaiming a frame) page faults": "364298560",
+        "Swaps": "0",
+        "Exit status": "0"
+      },
+      "snapshots": {
+        "before": {
+          "collection_elapsed_ms": 1.262821,
+          "sampled_cpu_MHz_median": 4000.0,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        },
+        "after": {
+          "collection_elapsed_ms": 1.464465,
+          "sampled_cpu_MHz_median": 4000.0,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        }
+      }
+    },
+    {
+      "arm": "B1-teammate",
+      "first10_mean_s_step": 23.8176520701,
+      "last10_mean_s_step": 21.8405531856,
+      "minimum_s_step": 21.441929634,
+      "maximum_s_step": 27.827225776,
+      "warnings_or_fatals": [],
+      "gnu_time": {
+        "User time (seconds)": "51195.81",
+        "System time (seconds)": "1580.16",
+        "Percent of CPU this job got": "5540%",
+        "Maximum resident set size (kbytes)": "4471312",
+        "Major (requiring I/O) page faults": "386163",
+        "Minor (reclaiming a frame) page faults": "327945946",
+        "Swaps": "0",
+        "Exit status": "0"
+      },
+      "snapshots": {
+        "before": {
+          "collection_elapsed_ms": 1.264238,
+          "sampled_cpu_MHz_median": 4000.0,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        },
+        "after": {
+          "collection_elapsed_ms": 1.292352,
+          "sampled_cpu_MHz_median": 1376.3674999999998,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        }
+      }
+    },
+    {
+      "arm": "B2-teammate",
+      "first10_mean_s_step": 29.0853810006,
+      "last10_mean_s_step": 26.0387449804,
+      "minimum_s_step": 25.440737979,
+      "maximum_s_step": 31.953717855,
+      "warnings_or_fatals": [],
+      "gnu_time": {
+        "User time (seconds)": "60871.71",
+        "System time (seconds)": "1849.77",
+        "Percent of CPU this job got": "5557%",
+        "Maximum resident set size (kbytes)": "4470644",
+        "Major (requiring I/O) page faults": "21887",
+        "Minor (reclaiming a frame) page faults": "350117704",
+        "Swaps": "0",
+        "Exit status": "0"
+      },
+      "snapshots": {
+        "before": {
+          "collection_elapsed_ms": 1.252325,
+          "sampled_cpu_MHz_median": 4000.0,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        },
+        "after": {
+          "collection_elapsed_ms": 1.31332,
+          "sampled_cpu_MHz_median": 2073.9295,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        }
+      }
+    },
+    {
+      "arm": "A2-organizer",
+      "first10_mean_s_step": 32.3581940357,
+      "last10_mean_s_step": 28.5154639127,
+      "minimum_s_step": 27.906772613,
+      "maximum_s_step": 42.531168112,
+      "warnings_or_fatals": [
+        "--> FOAM Warning : "
+      ],
+      "gnu_time": {
+        "User time (seconds)": "66638.89",
+        "System time (seconds)": "2531.61",
+        "Percent of CPU this job got": "5557%",
+        "Maximum resident set size (kbytes)": "2994296",
+        "Major (requiring I/O) page faults": "6612",
+        "Minor (reclaiming a frame) page faults": "388538606",
+        "Swaps": "0",
+        "Exit status": "0"
+      },
+      "snapshots": {
+        "before": {
+          "collection_elapsed_ms": 1.263164,
+          "sampled_cpu_MHz_median": 4000.0,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        },
+        "after": {
+          "collection_elapsed_ms": 1.326104,
+          "sampled_cpu_MHz_median": 2378.6425,
+          "scope": "outside solver timing intervals; not sustained frequency"
+        }
+      }
+    }
+  ],
+  "collected_and_inspected": [
+    "All four native solver logs, stderr, timing trajectories, Cd trajectories, iteration counts, commands, runtime/library seals, source/copy/field seals, GNU time and before/after node CPU snapshots.",
+    "All four launcher rank/package/logical-core reports."
+  ],
+  "not_collected": [
+    "Sustained hardware frequency, cycles, memory/network bandwidth, NUMA page residency, actual solver helper-thread affinity."
+  ],
+  "limitations": [
+    "One 40-step ABBA allocation, not a scored 150-step four-node run.",
+    "Organizer arms have only 39 intervals versus native sample recommendations 45 and 56.",
+    "Temporal drift remains; directionally consistent adjacent comparisons do not establish an isolated I/O or binding cause.",
+    "Teammate treatment and organizer control share the same initialized Scotch case; this is a solver-stage runtime comparison, not a replay of the teammate full preparation pipeline.",
+    "GNU time command maximum RSS is not summed node memory; CPU time may include MPI busy waiting."
+  ],
+  "all_Cd_trajectories_identical": true,
+  "all_four_reported_rank_package_core_maps_identical": true,
+  "assessment": "Teammate runtime recipe has a directionally consistent favorable signal (-12.45% and -10.18%, pooled -11.22%) against organizer runtime on this Iris screen, but large repeats (+17.92% organizer, +20.97% teammate) and insufficient organizer sample recommendations limit confidence. This is not our own configuration win or a Gadi/NSCC score."
+}

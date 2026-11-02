@@ -38,3 +38,8 @@ Maximum request is 140 allocated CPU-hours / 2.5 hours, conditionally scheduled 
 [Actual own-candidate job and scripts](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md), [complete research journal](../research-journey-20261019/journal/README.md). Historical measurements retain their original limitations; new measurements must be compared with their own simultaneous controls rather than ranked by raw seconds across allocations.
 
 The [Gadi transfer outlook](../../notes/gadi-transfer-outlook-20261102.md) distinguishes a plausible faster platform baseline from an unproven improvement over Gadi's own references. No Gadi result is claimed.
+
+
+## Same-Iris comparison reviewed
+
+Job 2294637 completed 0:0. Organizer A1/A2 means 25.581958377 / 30.164981109 s/step; teammate B1/B2 22.396949743 / 27.093606214. Teammate's pooled mean is 11.2228% lower, with both adjacent comparisons favorable, but repeats drift 17.9–21.0% and organizer sampling recommendations exceed the 39 intervals. This is a qualified short-runtime signal for the supplied recipe, not our own winning configuration. All Cd trajectories match; all four reported rank/core maps match. Our separate hierarchical job 2294640 is now actually running and has no result yet. See the [full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/completed-2294637/RESULTS.md). Iris is a platform; cross-platform seconds do not establish a three-way recipe ranking.

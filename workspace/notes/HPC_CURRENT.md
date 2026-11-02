@@ -1,17 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **2 November 2026, 07:16 Vietnam** (00:16 UTC). HPC fork 01a17c4b-65e6-75e0-be95-c5bea1b25502; AI separate. No background Codex or schedules.
+Updated **2 November 2026, 07:35 Vietnam** (00:35 UTC). HPC fork 01a17c4b-65e6-75e0-be95-c5bea1b25502; AI separate. No background Codex or schedules.
 
 ## Actual accepted work
 
-| Job | Observed state | What it measures |
-|---|---|---|
-| **2294637** | RUNNING on iris001, elapsed 1:04:47 | Organizer vs teammate runtime, four 40-step arms |
-| **2294640** | PENDING / Dependency, AllocCPUS 0 | Our hierarchical zyx vs default Scotch, four 40-step arms |
+Fresh scheduler observation **2 November 07:32:47 Vietnam / 00:32:47 UTC**: **2294637 COMPLETED 0:0**, iris001, 4,669s / 56 CPUs; **2294640 RUNNING**, same node, elapsed 3:00. Dependency cleared automatically without overlapping owned allocations. The latter has no completed candidate result yet.
 
-New 2294640 receipt **00:15:46.990918 UTC / 07:15:46 Vietnam**, dependency **afterany:2294637(unfulfilled)** verified at 07:16:45. No second allocation. Slurm will schedule the queued job after predecessor termination. Preserve both jobs and full maxima; no arbitrary additional own wave.
-
-2294637 now has **3/4 completed arms**: organizer A1 **25.581958377**, teammate B1 **22.396949743**, teammate B2 **27.093606214 s/step**. Last organizer A2 at **15/40**. This is runtime-reviewed partial data, not terminal independent replay or a recipe winner. The same candidate's repeated means differ materially; A2 and full raw review remain required. [Direct-comparison kit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/STATUS.md).
+Independent raw replay passes all four 40-step arms and 209 transfer-file hashes. Organizer A1/A2: **25.581958377 / 30.164981109 s/step**. Teammate B1/B2: **22.396949743 / 27.093606214 s/step**. Teammate adjacent comparisons are -12.4502% and -10.1819%; pooled -11.2228%, but organizer repeats drift +17.9151% and teammate +20.9701%, with insufficient native recommended sample counts for organizer arms. Favorable short signal, not a stable scored win or our invented configuration. All four Cd trajectories and reported 56-rank package/core maps match. Actual helper affinity/pages/bandwidth/cycles not collected. Same initialized Scotch solver-stage comparison, not the full teammate preparation pipeline. [Reviewed result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/completed-2294637/RESULTS.md).
 
 ## Our own candidate and honest attribution
 
@@ -33,9 +28,9 @@ Keep failures and provenance; do not relabel reference configs, borrowed flags o
 
 ## Cost and next action
 
-Ledger **593 consumed + 280 reserved = 873 CPU-hours**, internal stage 873; current and successor each reserve 140. The owner continues active research and now asks specifically about own configurations. This single bounded native 40-step ABBA adds 103 to the previous agent-selected 770 envelope, not an owner numerical/site grant. No NSCC/AI debit or site SU balance claim. New admission allows only exact 2294637 predecessor plus one afterany successor under the existing lock; one active own CPU allocation stays the policy. No further own jobs until these are reviewed; preserve queue position. [Authority](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/budget-authorisation.json).
+Ledger **666 consumed + 140 reserved = 806 CPU-hours**, internal stage 873. Completed 2294637 used 72.628889 actual allocated CPU-hours, conservatively 73; its original 140 maximum was retired once under lock. Running 2294640 retains its 140 maximum. The owner continues active research and now asks specifically about own configurations. This single bounded native 40-step ABBA adds 103 to the previous agent-selected 770 envelope, not an owner numerical/site grant. No NSCC/AI debit or site SU balance claim. New admission allows only exact 2294637 predecessor plus one afterany successor under the existing lock; one active own CPU allocation stays the policy. No further own jobs until these are reviewed; preserve queue position. [Authority](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/budget-authorisation.json).
 
-Let 2294637 finish A2, collect once/replay all four raw outputs/Cd/source/runtime/maps/trends/warnings/telemetry and reconcile the 140-hour maximum once. Then preserve active/pending 2294640, which applies its own input gates regardless of predecessor outcome. On its completion, run its two-source collector/reviewer, compare both adjacent directions and repeat controls, Cd/sanity by method and all limitations, then reconcile its 140-hour maximum once. A successful Iris 40-step screen is not an NSCC/Gadi four-node 150-step score. Do not pool raw cross-allocation seconds as a direct three-way ranking.
+2294637 is now collected, independently replayed, inspected and reconciled; earlier partial statuses are historical. Preserve running 2294640. On its completion, run its two-source collector/reviewer, compare both adjacent directions and repeat controls, Cd/sanity by method and all limitations, then reconcile its 140-hour maximum once. A successful Iris 40-step screen is not an NSCC/Gadi four-node 150-step score. Do not pool raw cross-allocation seconds as a direct three-way ranking. No new admission while the owned method trial runs; review it before selecting a distinct next test.
 
 NSCC last read-only transport unavailable, no new authentication or credit/queue proof; no Gadi identity supplied. National native trials remain conditional on authorized access and fresh financial/shared queue checks. Submission folders/slide bytes and AI work unchanged. Safe snapshots/commits/pushes are explicit; external binary objects still need independent off-host copy.
 
@@ -44,3 +39,8 @@ NSCC last read-only transport unavailable, no new authentication or credit/queue
 ## Gadi transfer question — 2 November
 
 The owner asked whether moving to Gadi could improve results. Lower absolute seconds than the NSCC 3.3646 baseline is plausible because official Gadi Scotch references are already around 2.088–2.126 s/step, but this is a baseline target/inference, not a measured forecast of our candidate. The published Gadi hierarchy reference is about 2.380 s/step, so our zyx candidate has no established transfer advantage or demonstrated ability to beat teammate 2.079. Normalize rank/factors and compare against Gadi's own matched controls; a platform switch alone does not establish an optimization or higher score. No Gadi identity/project budget was supplied and no job was submitted. [Source-linked outlook](gadi-transfer-outlook-20261102.md). Existing Iris jobs remain untouched.
+
+
+## Does Iris beat teammate and organizer?
+
+Iris is the test platform, not a third configuration. Our own hierarchical candidate has no measured result yet. The completed same-Iris comparison currently favors the supplied teammate runtime over organizer by about 11.2% in this short allocation, with the drift/sampling limitations above. This does not show that our candidate beats either recipe, or that Iris beats Gadi/NSCC hardware.

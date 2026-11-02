@@ -1,3 +1,9 @@
+# Reviewed terminal comparison
+
+Job 2294637 completed 0:0; all four native arms pass. The teammate runtime has a favorable but drift-limited short-run signal (pooled mean 11.2228% lower than organizer). This is not our own configuration win. Our separate candidate job 2294640 is RUNNING.
+
+[Full result and limitations](completed-2294637/RESULTS.md). Earlier progress below is historical.
+
 # Direct comparison is running
 
 Actual **2294637 RUNNING on iris001**, observed 2026-11-01T23:31:42 UTC (2 November 06:31:42 Vietnam), elapsed 1,184 seconds. Predecessor 2294635 completed 0:0 in 2,069 seconds; dependency cleared and Slurm started this job automatically without an overlapping allocation.
