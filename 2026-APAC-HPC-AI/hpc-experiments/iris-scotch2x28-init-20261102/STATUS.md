@@ -1,3 +1,7 @@
+# Reviewed terminal graph rejection
+
+2294657 completed 0:0 in 278 seconds. Native cut and graph replay pass; logical cross-package faces increased 37.73%, fanout +3, and the predeclared filter rejected the candidate. **No initialization, READY or solver measurement.** [Full result](completed-2294657/RESULTS.md). Earlier running snapshots below are historical.
+
 # Native Scotch package-tree preparation actually running
 
 Actual job **2294657**, tu-iris-sc228, accepted **02 November 2026, 21:33:12 Vietnam**. At **2 November 21:35:51 Vietnam**, Slurm confirms RUNNING on iris001, 56 CPUs, elapsed 160 seconds. The full serial mesh checksum passed in 20.49 seconds; native decomposition is in progress. No graph promotion, READY marker, initialization result or solver measurement is claimed yet.

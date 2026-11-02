@@ -556,3 +556,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November evening: submit bounded native Scotch package-tree graph filter and conditional initialization 2294657](entries/20261102-hpc-scotch-package-tree-submitted.md).
 
 - [2 November: Basic model-preservation framing, honest evaluation provenance and consistent completed-replay READMEs](entries/20261102-ai-basic-framing-and-readme-consistency.md).
+
+- [3 November: native Scotch10:1 package cut rejects; no initialization or solver result, stronger single falsification considered](entries/20261103-hpc-scotch-package-graph-rejected.md).
