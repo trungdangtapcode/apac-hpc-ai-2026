@@ -1,37 +1,42 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **2 November 2026, 06:38 Vietnam** from actual scheduler observations at 06:31:42 and live launcher prefix at 06:34:43. HPC fork 01a17c4b-65e6-75e0-be95-c5bea1b25502; AI is separate. No background Codex or schedules.
+Updated **2 November 2026, 07:16 Vietnam** (00:16 UTC). HPC fork 01a17c4b-65e6-75e0-be95-c5bea1b25502; AI separate. No background Codex or schedules.
 
-## Active comparison
+## Actual accepted work
 
-**2294637 RUNNING on iris001**, one exclusive node, 56 ranks, zero GPUs, max 2.5 hours. Owner-requested same-Iris comparison: **organizer / teammate / teammate / organizer**, each 40 steps / 39 timings on identical accepted initialized Scotch source and v2512 DP runtime. A is default MPI/uncollated; B is socket/core flags/collated. Shared initialization controls inputs rather than repeating teammate prep placement.
+| Job | Observed state | What it measures |
+|---|---|---|
+| **2294637** | RUNNING on iris001, elapsed 1:04:47 | Organizer vs teammate runtime, four 40-step arms |
+| **2294640** | PENDING / Dependency, AllocCPUS 0 | Our hierarchical zyx vs default Scotch, four 40-step arms |
 
-A1 organizer completed 40 steps at runtime-reviewed **25.581958377 s/step**. At06:34:43 B1 teammate is at step 5/40; B2/A2 are pending inside the same allocation. No final winner or independently terminal four-arm result. [Live status/source kit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/STATUS.md). Remote root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-recipes40-20261101T230311Z`, evidence root/kit/runs/2294637. Preserve frozen 57 files and full 140-hour reservation.
+New 2294640 receipt **00:15:46.990918 UTC / 07:15:46 Vietnam**, dependency **afterany:2294637(unfulfilled)** verified at 07:16:45. No second allocation. Slurm will schedule the queued job after predecessor termination. Preserve both jobs and full maxima; no arbitrary additional own wave.
 
-Actual A1/B1 launcher reports show **identical rank/package/logical-core maps for all 56 ranks**; I/O headers differ as intended. This does not establish actual solver helper-thread affinity, page locality or Gadi behavior. The separate mapping-only ABBA proposal is now **closed unsubmitted/unreserved** due to no observed distinct placement; do not waste an allocation repeating it unchanged. [Map evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/launcher-map-review.json). Review later arms too before generalizing.
+2294637 now has **3/4 completed arms**: organizer A1 **25.581958377**, teammate B1 **22.396949743**, teammate B2 **27.093606214 s/step**. Last organizer A2 at **15/40**. This is runtime-reviewed partial data, not terminal independent replay or a recipe winner. The same candidate's repeated means differ materially; A2 and full raw review remain required. [Direct-comparison kit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/STATUS.md).
 
-## New completed reversal: no confirmed I/O gain
+## Our own candidate and honest attribution
 
-**2294635 COMPLETED 0:0**, iris001, 2,069 seconds. All 116 hashes and independent native 40-step replays pass. Collated-first **23.435621344 s/step**, default-second **21.431810307 s/step**: collated **9.3497% slower**, reversing parent 2294634's 6.0726% favorable result. Later arm wins in both orders. Pooling two allocations gives collated 0.159963% higher mean, not a causal result. **Close isolated-I/O speedup claim.** All four 40-row Cd trajectories are exactly equal; source/copy/field/runtime integrity passes. [Complete review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-reverse-20261101/completed-2294635/RESULTS.md).
+**No own stable scored-platform improvement has been demonstrated.** Best reviewed NSCC **3.364622070s/step**,25940700,4nodes/512ranks/150steps/default Scotch, is an organizer-recipe reproduction. Organizer NSCC 3.210832548 remains external. Teammate Gadi 2.079045460 and collated/socket recipe belong to the supplied package, not our invented optimization.
 
-Inspection covers timing trends/tails, native sample recommendations, resources, stderr and endpoint CPUinfo snapshots. Collated reports higher command maximum RSS in both allocations, not summed node memory. Endpoint MHz values are outside measured solver intervals and cannot establish sustained frequency or explain drift. Hardware cycles/bandwidth, actual solver helper-affinity and NUMA page residency were not collected. No native fatal marker or scheduler stderr observed.
+Our distinct pending comparison 2294640 uses **default Scotch / standard hierarchical (7 4 2), order zyx / same / Scotch**, same 56 ranks, original 65M mesh/physics/build/fixed work, 40 steps / 39 timings per arm, common default MPI/uncollated and launcher diagnostics. Initialization and accepted processor meshes/fields differ by decomposition as intended; do not describe them as identical. Our contribution is tested parameter selection and validation, not inventing hierarchical. The older Hxyz/Scotch full 150-step pair timed out during Scotch step 143; later full 150-step zyx/xyz runs compare orders only and their apparent gain failed reversal. A complete method ABBA remains a distinct missing measurement. [Actual own-candidate receipt, sources and status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md).
 
-## Accounting and access
+New root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-own-zyx40-20261102T001225Z`, evidence root/kit/runs/2294640. Frozen 58 files. Control source is ready-N56-scotch; candidate is **initialized/order-zyx**, accepted by the reviewed 1040-file graph/full-work source record. Never substitute the old original Hxyz path from inherited source-observations.json; only its S entry is consumed. Candidate uses case_checks.source_check(...,'zyx') and its own accepted-zyx-source-manifest. Both canonical 41-pin preflights passed live; heavy source/copy/field hashes are inside compute. README and SOURCE_PROVENANCE explain the separate sources.
 
-2294635 actual 32.184444 CPU-hours conservatively counted 33, original 70-hour maximum retired once. Ledger **593 consumed + 140 reserved = 733 CPU-hours**, internal stage 770, headroom 37. Only current 2294637 remains unretired; do not retire its 140-hour maximum while running. No site SU rate/balance known; Iris is separate from NSCC/AI.
+## Other branch outcomes
 
-The afterany:2294635 dependency actually cleared and launched 2294637 automatically after predecessor completion. One active own CPU allocation remains the policy. A narrow dependent successor was allowed by the authoritative active-allocation policy, correcting older helpers' blanket queued-entry rejection; no arbitrary queue wave or new concurrent allocation is authorized. No further distinct ready trial is justified while current four-arm result is incomplete; do not queue the closed mapping duplicate.
+- Own NSCC NUMA-tree Scotch native pair 25907753: candidate 3.4416% slower despite lower face proxy; scheduler history/billing unknown, old maximum retained. Not a four-node improvement.
+- Own hierarchy-order apparent gain flipped under full reversal; no stable order claim.
+- Own graph placement 2294366/2294390: reverse does not confirm favorable aggregate; closed.
+- Supplied collated I/O 2294634/2294635: -6.0726% then +9.3497%; pooled +0.159963% is descriptive, not causal. All Cd rows equal; no reproduced gain.
+- Standalone exact socket-map proposal closed unsubmitted because first A1/B1 launcher rank/package/core maps are identical. This is not proof of all worker behavior or Gadi equivalence.
 
-NSCC read-only transport at 06:31:35 Vietnam still showed namespace unavailable; no authentication retriggered. NSCC queue/credit/old commitments unknown, no Gadi identity supplied. No new national-supercomputer deployment or debit. Best reviewed NSCC remains baseline reproduction **3.364622070 s/step**, job 25940700; organizer NSCC 3.210832548 separate. Teammate Gadi 2.079045460 remains supplied evidence, not our rerun or a cross-platform gain. Other-track payloads and submission materials remain unchanged.
+Keep failures and provenance; do not relabel reference configs, borrowed flags or diagnostic qualifications as our validated optimization.
 
-## Next action
+## Cost and next action
 
-Let 2294637 finish all four independent native arms; collect once and replay with its collector/reviewer, inspect map reports for all arms, work/Cd/source/runtime invariants, raw trends/tails, adjacent effects, control repeat and available telemetry, then reconcile maximum 140-hour reservation once. A one-arm lead or pooled favorable mean alone cannot establish a winner. Select new distinct hypotheses from complete evidence and accessible authorized clusters, preserving budgets/caps and queue positions. [Current journal](../reports/research-journey-20261019/journal/entries/20261101-hpc-io-reversal-no-gain-and-direct-comparison-running.md); [historical handoff](history/HPC_CURRENT-before-reverse-io-review-20261101.md).
+Ledger **593 consumed + 280 reserved = 873 CPU-hours**, internal stage 873; current and successor each reserve 140. The owner continues active research and now asks specifically about own configurations. This single bounded native 40-step ABBA adds 103 to the previous agent-selected 770 envelope, not an owner numerical/site grant. No NSCC/AI debit or site SU balance claim. New admission allows only exact 2294637 predecessor plus one afterany successor under the existing lock; one active own CPU allocation stays the policy. No further own jobs until these are reviewed; preserve queue position. [Authority](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/budget-authorisation.json).
 
-## Latest actual progress — 2 November 06:41:34 Vietnam
+Let 2294637 finish A2, collect once/replay all four raw outputs/Cd/source/runtime/maps/trends/warnings/telemetry and reconcile the 140-hour maximum once. Then preserve active/pending 2294640, which applies its own input gates regardless of predecessor outcome. On its completion, run its two-source collector/reviewer, compare both adjacent directions and repeat controls, Cd/sanity by method and all limitations, then reconcile its 140-hour maximum once. A successful Iris 40-step screen is not an NSCC/Gadi four-node 150-step score. Do not pool raw cross-allocation seconds as a direct three-way ranking.
 
-2294637 remains RUNNING on iris001, elapsed 29:36. A1-organizer is complete 40/40 with runtime mean 25.581958377 s/step; B1-teammate is at **23/40**, with no observed native fatal marker. B2/A2 remain pending in the same allocation. No final relative winner; preserve all four-arm measurements and the 140-hour maximum reservation.
+NSCC last read-only transport unavailable, no new authentication or credit/queue proof; no Gadi identity supplied. National native trials remain conditional on authorized access and fresh financial/shared queue checks. Submission folders/slide bytes and AI work unchanged. Safe snapshots/commits/pushes are explicit; external binary objects still need independent off-host copy.
 
-## Two completed arms — 2 November 06:54:35 Vietnam
-
-Actual 2294637 remains RUNNING on iris001, elapsed 42:37. A1 organizer **25.581958377 s/step**, B1 teammate **22.396949743 s/step**, both complete 40 steps / 39 timings. Structured result arithmetic checks pass and their 40-row Cd trajectories match exactly; terminal raw-log replay remains pending. The first adjacent teammate mean is 12.4502% lower, but A2 is still needed to test time drift. **B2 teammate is at 11/40**, A2 organizer not started. No observed native fatal marker or scheduler stderr; no final winner. No new duplicate trial or extra budget reserved while this controlled comparison remains incomplete.
+[Own research answer](../reports/hpc-own-research-status-20261102/README.md); [new journal](../reports/research-journey-20261019/journal/entries/20261102-hpc-own-candidate-matched-method-test-submitted.md); [historical handoff](history/HPC_CURRENT-before-own-candidate-20261102.md).
