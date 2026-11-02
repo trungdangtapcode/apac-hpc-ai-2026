@@ -538,3 +538,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November: full portable AI acceptance passes, tested readiness repair and source-matched release](entries/20261102-ai-portable-acceptance-pass-and-release.md).
 
 - [2 November: own hierarchical zyx method ABBA passes correctness but shows no favorable speedup; conditional transfer closed](entries/20261102-hpc-zyx-method-no-gain.md).
+
+- [2 November: xzy initialized in272seconds; full native/source review passes, accepted manifest ready for BAAB](entries/20261102-hpc-xzy-initialization-reviewed.md).

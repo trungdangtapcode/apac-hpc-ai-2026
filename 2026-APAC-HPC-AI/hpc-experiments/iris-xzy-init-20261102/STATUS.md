@@ -1,3 +1,7 @@
+# Reviewed initialization completed
+
+Job 2294642 completed 0:0 in 272 seconds, 56 CPUs. All native initialization/source/mesh/field gates pass; 1040-file accepted xzy source is ready for the separately admitted solver test. Actual 4.231111 CPU-hours, conservatively 5; original 28 maximum retired. [Full review](completed-2294642/RESULTS.md). Earlier submission states below are historical.
+
 # Actual xzy initialization accepted
 
 Job **2294642**, tu-iris-xzyinit, definite sbatch receipt `2294642`. Receipt timestamp **2026-11-02T03:40:06.196442Z**; convert to Vietnam UTC+7 for presentation. Root **/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xzy-init-20261102T033918Z**, frozen 50-file kit. This is preparation only, not a solver result. Maximum 30 minutes / 28 allocated CPU-hours, independent fresh clone and required native initialization stages. Current local planning **745 consumed + 28 reserved = 773 CPU-hours**, stage 873 unchanged. No extra stage, Gadi claim or AI/submission changes.
