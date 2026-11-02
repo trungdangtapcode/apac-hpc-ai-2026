@@ -17,3 +17,8 @@ The rules explicitly avoid directly comparing the absolute Gadi and ASPIRE-2A pe
 Keep the accepted Iris measurements and review their complete controls. A Gadi test should establish the site's own baseline and candidate with the same build, resources, workload and full required preparation, then repeat/reverse before attributing a gain. Favor the source-supported Scotch baseline first; do not assume our hierarchy is the best Gadi choice. A controlled four-node 150-step validation is ultimately needed for that platform's scored workload.
 
 No Gadi login/project access or fresh Gadi budget has been supplied to this worker. This answer is an evidence-based outlook; **no Gadi job, cost reservation or result was created**. Existing Iris jobs remain authorized and unchanged. The supplied teammate package's source/timer provenance limits also remain in force.
+
+
+## Follow-up after the owner highlighted sub-22 Iris observations
+
+A possible Gadi win remains a hypothesis, not a measured likelihood. The sub-22 Iris values are real but their method advantage did not survive the earlier reversal. Current job 2294640 tests the missing complete method comparison. A conditional prepared BAAB compares the methods under a common supplied teammate runtime if the parent is correct and stable; it has not been deployed, submitted or reserved. Neither result can predict Gadi seconds without same-site validation. [Preparation and gates](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-zyx-teammate-runtime40-20261102/README.md).
