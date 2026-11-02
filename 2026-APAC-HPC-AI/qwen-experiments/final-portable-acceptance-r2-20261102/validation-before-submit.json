@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checked_utc": "2026-11-02T00:57:08.302784+00:00",
+  "cases": [
+    {
+      "name": "503-empty-malformed-wrong-model-then-ready",
+      "passed": true,
+      "returncode": 0,
+      "requests": 5,
+      "stdout": "GATEWAY_MODEL_READY after 8s\n",
+      "stderr": ""
+    },
+    {
+      "name": "persistent-503-times-out",
+      "passed": true,
+      "returncode": 1,
+      "requests": 1,
+      "stdout": "",
+      "stderr": "FATAL: gateway model registration exceeded job-start readiness deadline\n"
+    },
+    {
+      "name": "wrong-model-times-out",
+      "passed": true,
+      "returncode": 1,
+      "requests": 1,
+      "stdout": "",
+      "stderr": "FATAL: gateway model registration exceeded job-start readiness deadline\n"
+    },
+    {
+      "name": "expired-job-start-deadline-fails-without-network",
+      "passed": true,
+      "returncode": 1,
+      "requests": 0,
+      "stdout": "",
+      "stderr": "FATAL: gateway model registration exceeded job-start readiness deadline\n"
+    },
+    {
+      "name": "dead-worker-fails-without-network",
+      "passed": true,
+      "returncode": 1,
+      "requests": 0,
+      "stdout": "",
+      "stderr": "FATAL: worker/router step 999999999 exited before model registration\n"
+    }
+  ],
+  "only_changed_payload_files": [
+    "SHA256SUMS",
+    "deploy-and-benchmark.sh"
+  ],
+  "official_command_and_semantic_output_gates_byte_identical": true,
+  "original_job_start_plus_600s_deadline_retained": true,
+  "scope": "Local HTTP/readiness fixtures and setup only; not real router activation, GPU serving, throughput or official quality."
+}

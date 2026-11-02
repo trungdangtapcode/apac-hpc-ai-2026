@@ -1,5 +1,7 @@
 # Readiness repair acceptance: 28197
 
+**Reviewed terminal result — 2026-11-02T08:45:32.978352+07:00:** COMPLETED/0:0,611seconds, full local acceptance PASS. **3051.518173303673 good output tokens/s; 1881/1907 good, zero scored errors/cancellations.** Both semantic routes, official client, readers/gate and cleanup pass. [Complete result](RESULTS.md). Retired maximum reservation; actual2.715556GPU-hours. No official quality pass or matched optimisation gain. Historical pending state below is retained.
+
 Observed 2026-11-02T08:00:53.498588+07:00, Vietnam time (UTC+7). Definite Slurm acceptance: **28197**. Fresh own-user queue:
 
 ```text
