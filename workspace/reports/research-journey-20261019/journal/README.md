@@ -552,3 +552,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November: independently locate the public quality requirement and distinguish absent evaluator/reference from prepared local screen](entries/20261102-ai-public-quality-recipe-search.md).
 
 - [2 November: longer reverse xzy confirmation loses; close unchanged branch and preserve raw failures/warnings](entries/20261102-hpc-xzy-reverse-no-gain.md).
+
+- [2 November evening: submit bounded native Scotch package-tree graph filter and conditional initialization 2294657](entries/20261102-hpc-scotch-package-tree-submitted.md).
