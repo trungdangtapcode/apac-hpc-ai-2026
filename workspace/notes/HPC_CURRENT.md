@@ -4,7 +4,7 @@ Updated **2 November 2026, 21:35:51 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95
 
 ## VPN request
 
-Latest explicit retry: **2 November 22:06:18–22:06:23 Vietnam**, exactly one attempt returned gateway Authentication failed. **22:06:41** path check: NAMESPACE_UNAVAILABLE. No SSH authentication, DUO phone delivery/approval or exact cause established. Private cache/logs preserved; no automatic retry loop. [Safe record](nscc-vpn-retry-20261102.md#further-explicitly-requested-retry--2206-vietnam). This turn checked VPN only; the HPC scheduler snapshot below remains explicitly dated and was not refreshed.
+Latest explicit retry: **2 November 22:28:26–22:28:30 Vietnam**, exactly one attempt returned gateway Authentication failed. **22:28:38** path check: NAMESPACE_UNAVAILABLE. No SSH authentication, DUO phone delivery/approval or exact cause established. No agent cache reset/deletion or automatic retry loop. [Safe record](nscc-vpn-retry-20261102.md#further-explicitly-requested-retry--2228-vietnam). This was VPN-only; no scheduler, budget or other-track state was changed. HPC snapshots below remain dated, not live.
 
 ## Reviewed xzy result and next actual job
 

@@ -25,3 +25,10 @@ The current request, rather than the reused wrapper's old 28 October label, auth
 At the owner's new explicit request, precheck at **22:05:59 Vietnam** found no usable namespace and a dead client pane. Exactly one retry began at **22:06:18**, and the gateway returned **Authentication failed at 22:06:23**. The **22:06:41** transport probe remained NAMESPACE_UNAVAILABLE. No SSH login was attempted. The exact rejection cause and DUO phone delivery/approval remain unknown; no additional attempt was made. Existing private cache and logs were preserved, and no authentication/session material is retained in the archive.
 
 This was a VPN-only action: no scheduler, job, budget or other-track payload changed. The last Iris scheduler snapshot is historical and was not refreshed. [Sanitized result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-2206.json).
+
+
+## Further explicitly requested retry — 22:28 Vietnam
+
+Precheck **22:28:20 Vietnam** found no VPN namespace and a dead client pane. At the owner's explicit request, one retry began at **22:28:26** and returned gateway **Authentication failed at 22:28:30**. Postcheck **22:28:38** remained NAMESPACE_UNAVAILABLE. No SSH authentication, phone-side DUO delivery/approval or exact rejection cause was established. No additional retry, agent cache reset/deletion, job, budget, configuration or other-track change was made. This is a VPN-only snapshot; no scheduler state was refreshed.
+
+[Sanitized result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-2228.json); original safe wrapper output is hash-bound there. Private authentication/session data is excluded.
