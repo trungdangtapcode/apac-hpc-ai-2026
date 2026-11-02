@@ -40,3 +40,7 @@ Let 2294637 finish A2, collect once/replay all four raw outputs/Cd/source/runtim
 NSCC last read-only transport unavailable, no new authentication or credit/queue proof; no Gadi identity supplied. National native trials remain conditional on authorized access and fresh financial/shared queue checks. Submission folders/slide bytes and AI work unchanged. Safe snapshots/commits/pushes are explicit; external binary objects still need independent off-host copy.
 
 [Own research answer](../reports/hpc-own-research-status-20261102/README.md); [new journal](../reports/research-journey-20261019/journal/entries/20261102-hpc-own-candidate-matched-method-test-submitted.md); [historical handoff](history/HPC_CURRENT-before-own-candidate-20261102.md).
+
+## Gadi transfer question — 2 November
+
+The owner asked whether moving to Gadi could improve results. Lower absolute seconds than the NSCC 3.3646 baseline is plausible because official Gadi Scotch references are already around 2.088–2.126 s/step, but this is a baseline target/inference, not a measured forecast of our candidate. The published Gadi hierarchy reference is about 2.380 s/step, so our zyx candidate has no established transfer advantage or demonstrated ability to beat teammate 2.079. Normalize rank/factors and compare against Gadi's own matched controls; a platform switch alone does not establish an optimization or higher score. No Gadi identity/project budget was supplied and no job was submitted. [Source-linked outlook](gadi-transfer-outlook-20261102.md). Existing Iris jobs remain untouched.

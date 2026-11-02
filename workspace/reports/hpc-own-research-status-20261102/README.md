@@ -36,3 +36,5 @@ The two methods use their own accepted initialized partitions and fields; they c
 Maximum request is 140 allocated CPU-hours / 2.5 hours, conditionally scheduled after the existing comparison. This is a bounded Iris planning allowance, not a claim about billed SU or a new NSCC grant. Full four-arm timing consistency, Cd/sanity, repeated controls, tails, warnings and resource evidence must be reviewed before reporting an improvement. Iris one-node evidence does not establish NSCC/Gadi four-node performance.
 
 [Actual own-candidate job and scripts](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md), [complete research journal](../research-journey-20261019/journal/README.md). Historical measurements retain their original limitations; new measurements must be compared with their own simultaneous controls rather than ranked by raw seconds across allocations.
+
+The [Gadi transfer outlook](../../notes/gadi-transfer-outlook-20261102.md) distinguishes a plausible faster platform baseline from an unproven improvement over Gadi's own references. No Gadi result is claimed.
