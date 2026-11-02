@@ -1,0 +1,13 @@
+# Initialize a distinct hierarchical xzy candidate
+
+This is a **mandatory preparation job**, not a solver benchmark or a claimed speedup. The owner continues authorized HPC research. Current zyx versus Scotch job 2294640 completed without a favorable method signal; its conditional runtime transfer is closed. That failure does not close every distinct native configuration.
+
+The native four-order cut job 2294097 already measured xzy at `(7 4 2)`, 56 partitions and the original 65,334,765-cell case. Xzy has 1,256,287 unique interface faces and maximum 12 neighbors versus zyx 1,269,961/13 and xyz 1,326,716/14, but its worst-rank surface 98,522 is worse than zyx 91,721 and xyz 93,343. This is a weak competing structural hypothesis, not a performance prediction. Xzy has not received a native solver comparison in this worker's retained history. Standard hierarchical order selection is not a new algorithm.
+
+Reuse only our reviewed raw cut tree, preserved unchanged. Clone into a fresh unique root, verify the serial eight-member mesh hashes and all 41 canonical inputs with only permitted 56-rank/factor/order edits, then run the mandatory renumberMesh, potentialFoam and applyBoundaryLayer stages on 56 ranks. Verify native v2512/double-precision logs/commands/End/return codes, MPI hostname probe, independent clone/source seals and initialized fields. Record a new accepted initialized manifest for any later solver. Preserve raw source, failure evidence and all method-specific fields; do not borrow xyz/zyx READY state.
+
+Bound: **one Iris node, 56 CPUs, zero GPU, 30 minutes, 28 allocated CPU-hours maximum**. The current internal planning ledger has 745 consumed and zero reserved under stage 873, so this fits without raising the stage. This is not billed Iris SU. Fresh own queue must be empty and reservations reconciled under the existing lock; durable intent precedes a single sbatch. Failed/uncertain submission retains its maximum and cannot be retried blindly. A definite receipt is required before calling this submitted.
+
+After complete reviewed initialization, separately consider a default-Scotch versus xzy **BAAB** native comparison with unchanged default MPI/uncollated, fixed physics/numerical work, timing/Cd/source/runtime checks and repeat/drift inspection. It is not authorized by this preparation receipt or reserved here. Do not promote geometry proxies alone or transfer Iris seconds to Gadi. Preserve AI/submission materials. No background Codex or schedule.
+
+The pinned cut and xzy source roots must resolve to their exact non-symlink paths. READY is separate metadata: its bytes are hashed in the completion record; the accepted solver manifest covers numerical inputs, initialized fields and processor meshes.
