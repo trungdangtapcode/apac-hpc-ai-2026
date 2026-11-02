@@ -546,3 +546,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November: one explicitly requested VPN retry fails at the gateway; no DUO/SSH success or spending claimed](entries/20261102-hpc-vpn-retry-failed.md).
 
 - [2 November: xzy mean0.71% lower in reviewed BAAB, but sampling/tail limits require longer reverse confirmation](entries/20261102-hpc-xzy-small-signal-reviewed.md).
+
+- [2 November: submit longer reverse confirmation 2294644 after a small sampling-limited xzy signal](entries/20261102-hpc-xzy52-reverse-submitted.md).

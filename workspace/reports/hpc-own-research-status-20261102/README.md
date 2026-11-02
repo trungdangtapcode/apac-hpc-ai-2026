@@ -71,3 +71,10 @@ Job 2294640 completed 0:0 with all four native/source/runtime checks. Scotch 22.
 After rejecting zyx promotion, xzy initialization 2294642 completed 0:0 in 272 seconds with all source/native gates. New actual solver job **2294643** was accepted **2 November 2026, 10:50:30 Vietnam**, and observed RUNNING at 10:51:22 Vietnam on iris001 / 56 CPUs, in source preflight. It compares xzy/Scotch/Scotch/xzy with default MPI/uncollated and fixed 40-step work, using the true new 1040-file accepted source. Structural tradeoffs motivate testing, not a gain claim. Full 140-hour maximum is reserved under a transparently bounded internal stage 890 (750 consumed); no site SU balance or Gadi estimate is asserted. [Actual receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/STATUS.md).
 
 At **2 November 10:54:27 Vietnam**, both source gates passed and the actual xzy solver was at step 3/40 in running 2294643. No completed arm mean or improvement is established yet.
+
+
+## Reviewed small xzy signal and actual longer confirmation
+
+Native job 2294643 completed successfully: xzy pooled mean 0.70973% lower than matched Scotch, adjacent -1.18666% / -0.23870%, with lower repeat drift than the earlier zyx test. Candidate p95/max tails were wider, and native sample recommendations 50/44 exceeded 39 timings. This is a qualified signal, not a stable improvement. All timing and Cd/native/resource evidence is retained in its [full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy40-20261102/completed-2294643/RESULTS.md).
+
+Actual reverse confirmation **2294644 accepted 2 November 15:03:00 Vietnam**, observed RUNNING at 15:03:35 on iris001 / 56 CPUs. Same sources and work per step, Scotch/xzy/xzy/Scotch, 52 steps / 51 timings per arm, 3-hour / 168 CPU-hour maximum. The prior sampling target motivates 51 intervals but does not establish a sub-1% effect's significance. [Receipt and bounded admission](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy52-reverse-20261102/STATUS.md). No Gadi or scored-platform gain is inferred.

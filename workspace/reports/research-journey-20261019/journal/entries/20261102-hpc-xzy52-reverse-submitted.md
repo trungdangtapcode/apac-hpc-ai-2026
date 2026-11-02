@@ -1,0 +1,15 @@
+# Actual reverse confirmation accepted and running
+
+**Job 2294644**, tu-iris-xzy52, accepted **2 November 2026, 15:03:00 Vietnam / 08:03:00 UTC**. At **15:03:35 Vietnam**, Slurm shows RUNNING on iris001, 56 CPUs, elapsed 35 seconds. It is checking sources: the Scotch accepted-source gate passed, no solver arm result exists yet. Do not call this a completed benchmark.
+
+Frozen 58-file root `/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-xzy52-reverse-20261102T080210Z`, evidence root/kit/runs/2294644. Order **Scotch / xzy / xzy / Scotch**, each **52 solver steps / 51 measured intervals**. Same accepted xzy and Scotch sources, original physics, fixed iteration counts, default MPI and uncollated I/O; method-specific partitions/initialized fields remain separate. It reverses temporal placement relative to parent 2294643 and extends the common horizon. Its own controls must be compared within this allocation; do not mix absolute times across allocations.
+
+The parent measured xzy 0.70973% lower pooled, with both adjacent comparisons favorable, but candidate native sample recommendations 50/44 exceeded its 39 intervals and its tails were wider. Fifty-one intervals exceeds the largest prior recommendation by one; that is not evidence of significance for a sub-1% effect or guaranteed adequacy for the new run. Keep every native timing and warning. If direction reverses, material drift dominates or sample adequacy remains unresolved, do not label a stable win or repeat until a favorable sign appears.
+
+Maximum **3 hours / 168 allocated CPU-hours / zero GPUs**. Per-arm solver cap 2,150 seconds, protected window 2,500 seconds, final reserve 300 seconds, internal deadline 10,650 seconds, outer timeout 10,770 seconds. Explicit initial hash/text command caps total 240 seconds under the 350-second preflight window; the parent used 69.4 seconds. Source checks are complete, not skipped; fail before an arm if it cannot receive its full cap.
+
+Accounting **841 consumed + 168 reserved = 1,009 CPU-hours**, all local conservative planning. Previous job 2294643 used 90.953333 allocated CPU-hours, conservatively 91; its 140-hour maximum was retired once. The agent-selected stage increased from 890 to 1,009 only for this request, a bounded 119-hour extension. This is not an owner numeric Iris quota, billed SU, NSCC/AI transfer or permission for background Codex. Fresh queue/financial checks and durable one-shot intent precede scheduler acceptance; uncertain outcomes retain the full maximum.
+
+Review all four native/source/runtime/work gates, timing tails and sampling warnings, Cd repeats/differences, logs, maps, resources and missing hardware telemetry before interpretation. Reconcile actual cost once terminal. No Gadi, NSCC or official-score improvement is claimed. NSCC read-only transport at 14:48:46 Vietnam returned NAMESPACE_UNAVAILABLE; no new authentication was attempted. AI and submission materials remain unchanged.
+
+[Actual payload, source lineage and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xzy52-reverse-20261102/STATUS.md).
