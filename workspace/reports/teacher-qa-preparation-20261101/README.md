@@ -4,7 +4,7 @@ This is the study entry point for explaining how the team developed and evaluate
 
 ## Read in this order
 
-1. [Thinking process: eight decision stories](THINKING_PROCESS_EN.md). Learn the observation, possible mechanism, expected outcome, counterhypothesis, controlled test and resulting decision. This explains why an idea was worth trying before looking at its final number.
+1. [Thinking process: nine decision stories](THINKING_PROCESS_EN.md). Learn the observation, possible mechanism, expected outcome, counterhypothesis, controlled test and resulting decision. This explains why an idea was worth trying before looking at its final number.
 2. [Quick spoken Q&A cards](QUICK_ANSWERS_EN.md). Practise explaining the reasoning aloud in a short answer.
 3. [Detailed answers and evidence](ANSWERS_EN.md). Use the follow-up explanation, exact slide and retained source when someone asks how the conclusion was established.
 4. [Vietnamese slide learning guide](../ai-final-report-20261030/TRANSCRIPT_VI.md) or [English guide](../ai-final-report-20261030/TRANSCRIPT_EN.md). Review the actual diagram, hardware, notation, colors, axes and units for each slide.
@@ -40,6 +40,6 @@ For each case, explain:
 
 Then answer why N48 profiling does not quantify N64 latency, why GPU activity is not proof of a compute bottleneck, why 403.8 million versus 188 is not a speed ratio, and why the 90% request-latency gate is separate from the ≥99%-reference model-quality requirement. The detailed Q&A gives the evidence-backed answers.
 
-All scores need their platform, load, control and unit. The final nine H200 allocations include eight N64 runs and one N54 run, with two controls for different branches. A terminal job, local output screen and official quality acceptance are different evidence classes.
+All scores need their platform, load, control and unit. The nine H200 transfer allocations include eight N64 jobs and one N54 job, with controls for separate branches. The subsequent 28197 package acceptance is a tenth, distinct full entry run at N64; it repeats the deployment entry rather than adding a new candidate configuration. A terminal job, a complete local acceptance, a performance request-latency fraction and official model quality are different evidence classes.
 
-These are rehearsal companions to the [released presentation](../../submission-review/ai-final-update-20261101/README.md). The independent HPC owner answers OpenFOAM rank-count and variability questions. This study index changes no deck, submission ZIP, raw result or research allocation.
+These are rehearsal companions to the [current presentation](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pptx) and [main-talk PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Main_Talk.pdf). The final packaged-entry acceptance passed as job 28197 after a readiness-only fix to the prebenchmark failure in 28194. This closes the full post-reader-fix replay gap; it is not a matched optimisation gain. Official model quality ≥99% of the organiser reference remains UNKNOWN and is evaluated by organisers. The 98.6366% request-latency fraction is not an accuracy score. This companion changes no raw result or research allocation. The independent HPC owner answers OpenFOAM rank-count and variability questions. For quality policy and the exact Basic upload interpretation, see [the recorded clarification](../../notes/ai-quality-threshold-clarification-20261102.md).

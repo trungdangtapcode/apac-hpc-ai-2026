@@ -64,7 +64,7 @@ Một số thay đổi cải thiện chỉ số phụ nhưng không cải thiệ
 
 ## Slide 16 — Nêu giới hạn rồi bàn giao
 
-Kết luận hiện tại là một công thức H200 đã được đo lặp lại: prefill DeepGEMM, chunk 8.192; decode HPC-Ops, attention FlashInfer, truyền dữ liệu MNNVL tại N64. Nhóm chưa chứng minh đây là tối ưu toàn cục. Đánh giá chất lượng chính thức so với bộ tham chiếu của ban tổ chức vẫn chưa biết; nhóm cũng chưa chạy lại toàn bộ GPU sau khi sửa bộ đọc kết quả portable. Bây giờ tôi bàn giao phần OpenFOAM cho thành viên phụ trách kết quả CPU.
+Cấu hình vận hành nhóm giữ lại vẫn là prefill DeepGEMM với chunk 8.192 và decode HPC-Ops dùng attention FlashInfer cùng truyền dữ liệu MNNVL ở N64. Sau đó, entry đúng như gói nộp đã chạy hoàn chỉnh ở job 28197: 3.051,518 token đầu ra hữu ích mỗi giây và 1.881/1.907 yêu cầu đạt đồng thời hai giới hạn độ trễ. Đây là kết quả nghiệm thu triển khai, không có đối chứng ghép cặp nên không chứng minh một cải thiện tốc độ mới. Job 28194 trước đó lỗi vì điều kiện sẵn sàng kiểm tra quá sớm: health trả 200 trước khi mô hình Qwen xuất hiện trong danh sách model đã đăng ký. Nhóm chỉ sửa cổng readiness để chờ model xuất hiện và worker còn sống trong deadline ban đầu. Chất lượng chính thức đạt ít nhất 99% điểm tham chiếu vẫn chưa có số đo; BTC sẽ chạy đánh giá đó. Quy định Basic không bắt nhóm phải có điểm tham chiếu chưa công bố trước khi tải bài lên, nhưng không bảo đảm bài sẽ qua đánh giá chất lượng sau đó. Bây giờ tôi bàn giao phần OpenFOAM cho người phụ trách kết quả CPU.
 
 ## Bản dự phòng khi hỏi
 

@@ -1,0 +1,312 @@
+{
+  "main_ai_slides": 16,
+  "backup_ai_slides": 18,
+  "hpc_slides_preserved": 8,
+  "questions": [
+    "How should we distribute prefill and decode across 16 H200 GPUs?",
+    "What limits the performance of the selected deployment?",
+    "Which interventions improve goodput without violating the SLA?",
+    "Are the improvements reproducible and robust?"
+  ],
+  "framework": [
+    "Problem & constraints",
+    "Baseline & observation",
+    "Bottleneck analysis",
+    "Prioritisation & hypothesis",
+    "Intervention & measurement",
+    "Evidence & causal analysis",
+    "Conclusion & next iteration"
+  ],
+  "research_stopped": true,
+  "ai_pacing": "AI 10–12 minute rehearsal target within combined AI+HPC 15–20 minutes; separate 10-minute Q&A",
+  "show_policy": "AI 17–34 hidden in slideshow; next visible slide after 16 is unchanged HPC 35, continuing through 42",
+  "slides": [
+    {
+      "number": 1,
+      "title": "Fast tokens count only when requests meet both latency limits",
+      "reasoning_stage": "Problem · success criterion",
+      "hardware": "16 H200 · 2 nodes · Qwen3-235B FP8",
+      "main": true,
+      "category": "Framing / claim boundary"
+    },
+    {
+      "number": 2,
+      "title": "Three investigations support three different kinds of claim",
+      "reasoning_stage": "Contribution map · ownership and scope",
+      "hardware": "H200 primary · H100 kept separate",
+      "main": true,
+      "category": "Framing / claim boundary"
+    },
+    {
+      "number": 3,
+      "title": "Replica count and parallel width compete for the same 16 GPUs",
+      "reasoning_stage": "Engineering decision · compare feasible layouts",
+      "hardware": "H200 · historical topology observations",
+      "main": true,
+      "category": "Engineering decision"
+    },
+    {
+      "number": 4,
+      "title": "Two TP4 prefills feed one TP8 decode within the two-node budget",
+      "reasoning_stage": "Engineering decision · retained architecture",
+      "hardware": "16 H200 · Firmus",
+      "main": true,
+      "category": "Engineering decision"
+    },
+    {
+      "number": 5,
+      "title": "Ready workers still failed before the first usable benchmark",
+      "reasoning_stage": "Technical contribution · observed transfer failure",
+      "hardware": "H200 · historical heterogeneous-TP branch",
+      "main": true,
+      "category": "Technical contribution"
+    },
+    {
+      "number": 6,
+      "title": "Request-scoped descriptors remove work unrelated to the request",
+      "reasoning_stage": "Technical contribution · intervention and checks",
+      "hardware": "H200 transfer path · CPU geometry checks",
+      "main": true,
+      "category": "Technical contribution"
+    },
+    {
+      "number": 7,
+      "title": "The patched path became usable; descriptor-only speedup is unknown",
+      "reasoning_stage": "Technical contribution · end-to-end evidence boundary",
+      "hardware": "H200 · same recovery topology · 22271 / 22294",
+      "main": true,
+      "category": "Technical contribution"
+    },
+    {
+      "number": 8,
+      "title": "Profiles identify candidates for investigation, not a proven time budget",
+      "reasoning_stage": "Experimental evidence · prioritise what to test",
+      "hardware": "H200 · N48 profile and separate N64 observations",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 9,
+      "title": "Test the decode implementation while holding the serving setup fixed",
+      "reasoning_stage": "Experimental method · hypothesis and control",
+      "hardware": "H200 · full N60 · 24912 versus 24913",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 10,
+      "title": "Higher goodput came with slower first tokens and faster streaming",
+      "reasoning_stage": "Experimental finding · matched result and repeat",
+      "hardware": "H200 · N60 · HPC-Ops decode",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 11,
+      "title": "N64 survives a full repeat; N68 loses its short-test advantage",
+      "reasoning_stage": "Engineering decision · choose the operating load",
+      "hardware": "H200 · concurrency is client requests",
+      "main": true,
+      "category": "Engineering decision"
+    },
+    {
+      "number": 12,
+      "title": "The remaining latency failures are first-token tails",
+      "reasoning_stage": "Experimental finding · request-level evidence",
+      "hardware": "H200 · N64 · job 26766",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 13,
+      "title": "A complete portable run reproduces the retained operating level",
+      "reasoning_stage": "Robustness · historical and accepted deployment series",
+      "hardware": "H200 · historical and native series kept separate",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 14,
+      "title": "Direct H200 tests decide which H100 ideas transfer",
+      "reasoning_stage": "Robustness · direct cross-hardware verification",
+      "hardware": "16 H200 · H100-derived interventions · 31 October",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 15,
+      "title": "Better proxy metrics did not always improve qualifying throughput",
+      "reasoning_stage": "Experimental findings · reject tested alternatives",
+      "hardware": "H200 trials · separate controls",
+      "main": true,
+      "category": "Experimental finding / method"
+    },
+    {
+      "number": 16,
+      "title": "Deployment acceptance passes; official model quality remains unverified",
+      "reasoning_stage": "Conclusion · claim boundaries and OpenFOAM handoff",
+      "hardware": "H200 performance · official quality unverified",
+      "main": true,
+      "category": "Framing / claim boundary"
+    },
+    {
+      "number": 17,
+      "old_slide": 4,
+      "title": "Backup · two platforms, separate experimental systems",
+      "reasoning_stage": "Backup · Environment",
+      "hardware": "H200 + H100",
+      "prior_slide": 21,
+      "main": false
+    },
+    {
+      "number": 18,
+      "old_slide": 8,
+      "title": "Backup · FP8 geometry constrains a topology",
+      "reasoning_stage": "Backup · Compatibility mechanism",
+      "hardware": "H200 · tested FP8 path",
+      "prior_slide": 22,
+      "main": false
+    },
+    {
+      "number": 19,
+      "old_slide": 10,
+      "title": "Backup · historical milestones behind the decisions",
+      "reasoning_stage": "Backup · Chronology as supporting evidence",
+      "hardware": "H200 · different loads and runtimes",
+      "prior_slide": 23,
+      "main": false
+    },
+    {
+      "number": 20,
+      "old_slide": null,
+      "title": "Backup · request-scoped descriptor construction",
+      "reasoning_stage": "Backup · Intervention & correctness",
+      "hardware": "H200 branch · CPU geometry",
+      "prior_slide": 24,
+      "main": false
+    },
+    {
+      "number": 21,
+      "old_slide": null,
+      "title": "Backup · what the KV recovery run actually proves",
+      "reasoning_stage": "Backup · End-to-end evidence & limits",
+      "hardware": "H200 · jobs 22271 / 22294",
+      "prior_slide": 25,
+      "main": false
+    },
+    {
+      "number": 22,
+      "old_slide": null,
+      "title": "Backup · H100: first-token gain, goodput loss",
+      "reasoning_stage": "Backup · Platform-specific tradeoff",
+      "hardware": "H100 · NSCC · full N54",
+      "prior_slide": 26,
+      "main": false
+    },
+    {
+      "number": 23,
+      "old_slide": 18,
+      "title": "Backup · does a startup saving survive reversed order?",
+      "reasoning_stage": "Backup · Cost hypothesis & confirmation",
+      "hardware": "H100 · NSCC",
+      "prior_slide": 27,
+      "main": false
+    },
+    {
+      "number": 24,
+      "old_slide": 21,
+      "title": "Backup · source-supported changes that did not win",
+      "reasoning_stage": "Backup · Negative measured interventions",
+      "hardware": "H200 · full-model comparisons",
+      "prior_slide": 28,
+      "main": false
+    },
+    {
+      "number": 25,
+      "old_slide": 26,
+      "title": "Backup · scope limits of kernel and source evidence",
+      "reasoning_stage": "Backup · Diagnostics versus full serving",
+      "hardware": "H200 + H100 + CPU · separate rows",
+      "prior_slide": 29,
+      "main": false
+    },
+    {
+      "number": 26,
+      "old_slide": 27,
+      "title": "Backup · the retained settings on each platform",
+      "reasoning_stage": "Backup · Exact deployment settings",
+      "hardware": "H200 N64 + H100 N54",
+      "prior_slide": 30,
+      "main": false
+    },
+    {
+      "number": 27,
+      "old_slide": null,
+      "title": "Backup · workload control and prefill chunk trial",
+      "reasoning_stage": "Backup · Fixed protocol & negative result",
+      "hardware": "H200 chunk trial · shared workload rules",
+      "prior_slide": 31,
+      "main": false
+    },
+    {
+      "number": 28,
+      "old_slide": 28,
+      "title": "Backup · less graph memory did not raise goodput",
+      "reasoning_stage": "Backup · Resource metric versus objective",
+      "hardware": "H200 · sparse graph trial",
+      "prior_slide": 32,
+      "main": false
+    },
+    {
+      "number": 29,
+      "old_slide": 25,
+      "title": "Why did a later replay score lower?",
+      "reasoning_stage": "RQ4 · Robustness & confounder checks",
+      "hardware": "H200 · distinct runtime series",
+      "prior_slide": 15,
+      "main": false
+    },
+    {
+      "number": 30,
+      "old_slide": 23,
+      "title": "Did speculative decoding solve this workload?",
+      "reasoning_stage": "RQ3 · Failed hypothesis → revised test",
+      "hardware": "H200 · EAGLE3",
+      "prior_slide": 13,
+      "main": false
+    },
+    {
+      "number": 31,
+      "old_slide": 31,
+      "title": "Backup · real failures led to a complete portable acceptance",
+      "reasoning_stage": "RQ4 · Real replay & failure analysis",
+      "hardware": "16 H200 · 28197 accepted · prior failures retained",
+      "prior_slide": 18,
+      "main": false
+    },
+    {
+      "number": 32,
+      "old_slide": 11,
+      "title": "Do attention and communication choices interact?",
+      "reasoning_stage": "RQ3 · Hypothesis → intervention",
+      "hardware": "H200 · N52",
+      "prior_slide": 8,
+      "main": false
+    },
+    {
+      "number": 33,
+      "title": "Backup · one held-out forecast is not a GPU conversion rule",
+      "reasoning_stage": "Backup · forecast and uncertainty limits",
+      "hardware": "H100 calibration inputs · H200 held-out check",
+      "main": false
+    },
+    {
+      "number": 34,
+      "title": "Backup · nine final H200 runs support retaining the recipe",
+      "reasoning_stage": "Backup · final controls, ports and decisions",
+      "hardware": "16 H200 · all nine allocations · 31 October",
+      "main": false
+    }
+  ],
+  "updated_utc": "2026-11-01T05:28:32.757713+00:00"
+}

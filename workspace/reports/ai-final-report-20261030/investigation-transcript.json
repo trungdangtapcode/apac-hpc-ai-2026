@@ -1384,105 +1384,113 @@
   },
   {
     "slide": 13,
-    "title": "Repeated evidence supports N64 more strongly than an isolated peak",
+    "title": "A complete portable run reproduces the retained operating level",
     "en": {
-      "hardware": "H200 · historical and native full-run series reported separately",
-      "brief": "Three full N64 runs average about 3,044 qualifying output tokens per second. A single cache result is higher but gains only 0.24% over its own control. Repetition supports our choice more strongly; lower valid replays remain unexplained.",
-      "purpose": "Separate robustness from peak selection: repeated measurements support N64, but distinct runtime series and unexplained drift prevent a single pooled trend or causal story.",
-      "visual": "The two panels contrast the strength of repeated evidence with a single higher measurement; they are not a matched treatment/control pair. The historical series is a three-run N64 mean. Native full run 26766 is a separate later series at nearly the same score. Cache pair 27376/27378 compares a fresh control with one treatment: 3,041.119598 versus 3,048.446289, +0.240921%, below the useful-gain criterion and with worse p95 TTFT. A valid legacy full replay 26313 scored 2,830.923547. The lower replay is retained; completed graph/admission controls did not identify one cause for drift. Keep the series labeled rather than joining them into a misleading line.",
+      "hardware": "H200 · historical series, native run and portable acceptance reported separately",
+      "brief": "Three evidence series now meet: historical N64 mean 3,044.40, separate native run 3,045.50, and complete portable run 28197 at 3,051.52 good tokens/s. This confirms the packaged path once; lower valid replays still have no identified cause.",
+      "purpose": "Assess repeatability across distinct deployment paths without pooling them as one homogeneous series. The newly completed portable run used the repaired result readers and a genuine full H200 allocation. It supports the retained operating level and closes the previous post-reader-fix GPU acceptance gap, while leaving unexplained drift and single-run uncertainty visible.",
+      "visual": "Use three separately labelled evidence cards: (A) historical three-run N64 full-run mean 3044.400475 good tokens/s; (B) separate native job 26766 at 3045.501509; (C) new complete portable job 28197 at 3051.518173. Show its 1881/1907 joint SLA passes (98.6366%), zero errors/cancellations, mean/p95 TTFT 1100.315/1285.996 ms and request-mean ITL 15.010/15.186 ms. Footer: older valid low replay 26313 at 2830.923547 remains unexplained; earlier cache 27378 at 3048.446289 was the highest complete individual before 28197, not current peak. No axes: these are distinct measured series, not a continuous trend or error-bar plot.",
       "terms": [
         {
-          "symbol": "replicated mean",
-          "meaning": "Average of three historical full N64 runs; repeat count is evidence of consistency at that setting, not a confidence interval by itself."
+          "symbol": "historical three-run mean",
+          "meaning": "The arithmetic mean of the retained historical N64 full runs; it does not include the separate native or portable observations."
         },
         {
-          "symbol": "native runtime series",
-          "meaning": "A later full observation using a distinct serving execution path; report separately rather than pool with historical runs."
+          "symbol": "native run 26766",
+          "meaning": "A separately packaged/native full H200 N64 run at 3045.501509 good output tokens/s."
         },
         {
-          "symbol": "isolated peak",
-          "meaning": "One high observation. It can be real but does not show that the setting reliably improves performance."
+          "symbol": "portable run 28197",
+          "meaning": "A full portable 16-H200 N64 acceptance entry completing gateway readiness, both P/D semantic paths, official client, result summary/gates and cleanup in 611 seconds."
         },
         {
-          "symbol": "useful-gain threshold",
-          "meaning": "A preselected minimum gain for adopting a change; the 0.240921% cache result was below it."
+          "symbol": "joint SLA pass",
+          "meaning": "One request meets TTFT ≤3000 ms and its mean ITL ≤20 ms together; all requests, including errors, remain in the denominator."
         },
         {
-          "symbol": "valid lower replay",
-          "meaning": "A run that completed the full protocol and remains a valid measurement even though its score is lower."
+          "symbol": "no axes",
+          "meaning": "Three cards show distinct deployments and statistics; their positions do not encode a continuous timeline or confidence interval."
         }
       ],
       "reading": [
-        "Historical N64 three-run mean: 3,044.400475 good output tokens/s. Later native full run 26766: 3,045.501509; keep it as a separate series.",
-        "Fresh control 27376 scored 3,041.119598. Cache treatment 27378 scored 3,048.446289, +0.240921%; its p95 TTFT worsened, so it was not adopted as a useful improvement.",
-        "Legacy full replay 26313 scored 2,830.923547 and remains valid. No completed control isolated a single cause of the difference from the later native series."
+        "The historical three-run mean (3044.400475) summarizes its own series; do not mix it with later runtime paths.",
+        "Native job 26766 at 3045.501509 is a separate complete run, not an additional replicate in that historical mean.",
+        "Portable job 28197 is a full 16-H200 N64 package run at 3051.518173 good output tokens/s after the reader and gateway-readiness fixes.",
+        "Its 1881/1907 requests jointly pass both SLA thresholds (98.63660199265862%); 26 miss TTFT, none miss ITL, and errors/cancellations are zero.",
+        "Mean/p95 TTFT is 1100.3153/1285.9962 ms. Mean/p95 request-mean ITL is 15.009828/15.185750 ms.",
+        "The earlier complete cache candidate 27378 scored 3048.446289, only +0.240921% over its own fresh control; 28197 is now higher, but these are different deployment series.",
+        "Valid lower replay 26313 scored 2830.923547; its cause remains unresolved. This spread warns against claiming all drift is explained."
       ],
       "tradeoff": {
-        "observation": "Replicated historical and separate native N64 results are near 3,044–3,046; an isolated cache peak is slightly higher; a valid legacy replay is lower.",
-        "hypothesis": "N64 is a reproducible operating point, while cache or runtime differences may account for some score variation.",
-        "conclusion": "Support N64 from repeated evidence; do not replace it with the isolated cache score or attribute the drift to one cause.",
-        "unknown": "The relationship among runtime path, graph policy, request cap, harness, and the lower valid replay remains unresolved."
+        "observation": "28197 scored 3051.518173 good tokens/s with 1881/1907 jointly passing, zero errors/cancellations, mean/p95 TTFT 1100.3153/1285.9962 ms and ITL 15.009828/15.185750 ms. It completed the full portable entry after the exact-ZIP readiness attempt failed before benchmark.",
+        "hypothesis": "Independent native and portable paths should reproduce the retained operating level if the fixes address packaging/readiness rather than changing model semantics or server/client behavior.",
+        "conclusion": "The complete portable acceptance run supports the deployment path and is consistent with the prior roughly 3044–3046 operating series. It is one acceptance run, not a fresh matched performance treatment or proof of a global optimum.",
+        "unknown": "A lower valid legacy replay remains unexplained; run-to-run variation and broader statistical repeatability are not resolved. Official model quality remains a separate unknown."
       },
       "reasoning": {
-        "problem": "Selecting the maximum observation risks choosing noise or a setting that does not reproduce.",
-        "why_it_matters": "A deployment choice should survive repeated full runs, and distinct protocols/runtime paths should not be pooled as if they were identical experiments.",
-        "why_this_test": "Compare the historical three-run N64 series, separate native full run, matched cache control/treatment, and a valid lower legacy replay.",
-        "what_we_learned": "N64 reproduces near 3,044–3,046 in two separately labeled series; cache gain is only 0.240921%, below adoption threshold; lower replay remains unexplained.",
-        "next_logic": "Choose based on replicated evidence and state the remaining accuracy and deployment validations explicitly."
+        "problem": "The earlier portable GPU jobs failed in result reading, so CPU-only reader checks did not establish that a complete packaged deployment worked after repair.",
+        "why_it_matters": "A good benchmark score is useful for submission only if the actual portable package can pass readiness, serve both roles, run the client, read results and clean up in a real allocation.",
+        "why_this_test": "After one exact-ZIP attempt failed before scoring because the gateway health check returned HTTP 200 while model registration still returned 503, change only the deployment readiness wait and checksum. Keep workers, official client, readers and semantic paths unchanged, then run a complete 16-H200 N64 entry.",
+        "what_we_learned": "Job 28197 completed the full portable entry in 611 seconds, passed both P/D semantic paths and summary gates, and scored 3051.518173 good tokens/s with 98.6366% joint SLA and zero errors/cancellations. This closes the post-reader-fix GPU acceptance gap.",
+        "next_logic": "The package has one complete post-fix GPU acceptance run. Keep its scope separate from historical performance repeats, then close with the remaining official model-quality requirement."
       },
-      "script": "Three historical full N64 runs average about 3,044 good tokens per second. A later full run using a different runtime path reached 3,045.5, so it is reassuring but belongs to a separate series. A cache treatment peaked slightly higher at 3,048.4, only 0.24 percent above its control and with worse p95 first-token delay. We keep the replicated N64 setting, preserve the valid lower replay, and do not claim to know why it was lower.",
-      "caution": "Do not pool historical and native runtime series, select a configuration from one peak, or erase a valid lower full replay because its cause is unresolved.",
-      "transition": "Next, test how far a cross-platform ratio predicts a held-out H200 result.",
+      "script": "We now have three distinct pieces of repeatability evidence. The historical N64 series averages 3,044.40 good tokens per second. A separate native run reached 3,045.50. The new portable job 28197 completed the entire packaged path on sixteen H200s at N64 and scored 3,051.52. It passed both prefill/decode semantic routes, the official client, result summary and cleanup in 611 seconds. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent; there were 26 first-token misses and no ITL misses or errors. This confirms the repaired package can complete once and reproduces the operating level. It does not explain the older valid 2,830.92 result or prove a global optimum.",
+      "caution": "Do not merge the historical mean, native run and portable run into one statistical series. A single portable acceptance proves package execution once, not official model quality or the cause of prior drift.",
+      "transition": "The successful portable entry closes the deployment-replay gap. The final slide separates that acceptance from the organiser’s still-unverified full-set quality test.",
       "claim_type": "Experimental finding / method"
     },
     "vi": {
-      "hardware": "H200 · báo riêng chuỗi full lịch sử và native",
-      "brief": "Nhóm chạy lại N64 trong ba lần đo đầy đủ, trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Một lần đổi cache cao hơn nhưng chỉ tăng 0,24% so với đối chứng riêng. Nhóm ưu tiên bằng chứng tái lập, đồng thời giữ kết quả thấp hơn chưa giải thích được.",
-      "purpose": "Tách độ vững khỏi việc chọn đỉnh: phép lặp hỗ trợ N64, nhưng chuỗi runtime khác nhau và drift chưa giải thích ngăn gộp thành xu hướng hay chuyện nhân quả duy nhất.",
-      "visual": "Đọc độ mạnh bằng chứng thay vì chỉ chọn điểm cao nhất. Chuỗi lịch sử là trung bình ba lần N64 đầy đủ. Lần native 26766 là chuỗi đầy đủ về sau riêng, có điểm gần tương đương. Cặp cache 27376/27378 so control mới với một treatment: 3.041,119598 so với 3.048,446289, tăng 0,240921%, dưới tiêu chí gain hữu ích và p95 TTFT xấu hơn. Replay đầy đủ hợp lệ 26313 đạt 2.830,923547. Kết quả thấp được giữ lại; các đối chứng graph/admission hoàn tất không chỉ ra một nguyên nhân. Giữ nhãn chuỗi riêng thay vì nối chúng thành một đường gây hiểu sai.",
+      "hardware": "H200 · báo riêng chuỗi lịch sử, run native và portable acceptance",
+      "brief": "Ba nhóm bằng chứng nay cùng nằm gần nhau: trung bình N64 lịch sử 3.044,40; run native riêng 3.045,50; portable đầy đủ 28197 đạt 3.051,52 good tokens/s. Gói đã qua một lần chạy thật; nguyên nhân replay thấp cũ vẫn chưa rõ.",
+      "purpose": "Đánh giá khả năng tái lập qua các đường triển khai riêng mà không gộp chúng thành một chuỗi đồng nhất. Run portable mới đã dùng reader sửa và allocation H200 đầy đủ. Kết quả hỗ trợ điểm vận hành được giữ và đóng khoảng trống GPU acceptance sau sửa reader, đồng thời vẫn nêu rõ drift chưa giải thích và giới hạn một lần chạy.",
+      "visual": "Dùng ba thẻ bằng chứng có nhãn riêng: (A) trung bình ba full run N64 lịch sử 3044,400475 good tokens/s; (B) job native riêng 26766 đạt 3045,501509; (C) portable đầy đủ mới 28197 đạt 3051,518173. Ghi 1881/1907 request đạt SLA chung (98,6366%), không lỗi/hủy, TTFT mean/p95 1100,315/1285,996 ms và ITL mean/p95 15,010/15,186 ms. Chân trang: replay thấp hợp lệ cũ 26313 đạt 2830,923547 chưa rõ nguyên nhân; cache 27378 đạt 3048,446289 từng là individual full cao nhất trước 28197, không còn là đỉnh hiện tại. Không trục: đây là deployment và thống kê riêng, không phải đường xu hướng hay biểu đồ khoảng tin cậy.",
       "terms": [
         {
-          "symbol": "trung bình có lặp",
-          "meaning": "Trung bình ba lần N64 đầy đủ lịch sử; số lần lặp hỗ trợ tính nhất quán ở setting đó nhưng tự nó không phải khoảng tin cậy."
+          "symbol": "trung bình ba run lịch sử",
+          "meaning": "Trung bình số học của các full run N64 lịch sử; không bao gồm các quan sát native hay portable riêng."
         },
         {
-          "symbol": "chuỗi runtime native",
-          "meaning": "Quan sát đầy đủ về sau qua đường serving riêng; báo riêng thay vì gộp với run lịch sử."
+          "symbol": "run native 26766",
+          "meaning": "Một full run H200 N64/native khác, đạt 3045,501509 good output tokens/s."
         },
         {
-          "symbol": "đỉnh riêng lẻ",
-          "meaning": "Một lần đo cao. Có thể là thật nhưng không chứng minh cấu hình cải thiện ổn định."
+          "symbol": "portable 28197",
+          "meaning": "Entry portable đầy đủ trên 16 H200 N64, hoàn tất readiness gateway, hai đường semantic P/D, official client, summary/gate và cleanup trong 611 giây."
         },
         {
-          "symbol": "ngưỡng gain hữu ích",
-          "meaning": "Mức gain tối thiểu đặt trước để chọn thay đổi; kết quả cache +0,240921% thấp hơn ngưỡng."
+          "symbol": "đạt SLA chung",
+          "meaning": "Một request đồng thời đạt TTFT ≤3000 ms và ITL trung bình của request ≤20 ms; mẫu số gồm mọi request kể cả lỗi."
         },
         {
-          "symbol": "replay thấp hợp lệ",
-          "meaning": "Run hoàn thành protocol đầy đủ, vẫn là số đo hợp lệ dù điểm thấp hơn."
+          "symbol": "không có trục",
+          "meaning": "Ba thẻ biểu diễn deployment và thống kê riêng; vị trí không phải đường thời gian liên tục hay khoảng tin cậy."
         }
       ],
       "reading": [
-        "Trung bình ba lần N64 lịch sử: 3.044,400475 token đầu ra tốt/giây. Lần native 26766 về sau: 3.045,501509; giữ là chuỗi riêng.",
-        "Control mới 27376 đạt 3.041,119598. Treatment cache 27378 đạt 3.048,446289, tăng 0,240921%; p95 TTFT xấu hơn nên không chọn làm cải thiện hữu ích.",
-        "Replay đầy đủ legacy 26313 đạt 2.830,923547 và vẫn hợp lệ. Không đối chứng hoàn tất nào cô lập một nguyên nhân duy nhất cho chênh lệch với chuỗi native mới."
+        "Trung bình ba run N64 lịch sử (3044,400475) thuộc chuỗi riêng; không trộn với runtime sau.",
+        "Job native 26766 đạt 3045,501509 là một run đầy đủ riêng, không cộng vào trung bình lịch sử.",
+        "Job portable 28197 chạy toàn gói trên 16 H200 N64, đạt 3051,518173 good output tokens/s sau khi sửa reader và readiness gateway.",
+        "Trong 1907 request, 1881 cùng đạt hai ngưỡng SLA (98,63660199265862%); 26 trượt TTFT, không request nào trượt ITL, không lỗi hay hủy.",
+        "TTFT mean/p95 là 1100,3153/1285,9962 ms. Request-mean ITL mean/p95 là 15,009828/15,185750 ms.",
+        "Ứng viên cache đầy đủ cũ 27378 đạt 3048,446289, chỉ +0,240921% so với control riêng; 28197 cao hơn nhưng thuộc deployment series khác.",
+        "Replay thấp hợp lệ 26313 đạt 2830,923547; nguyên nhân vẫn chưa rõ. Độ chênh này nhắc ta không được tuyên bố đã giải thích hết drift."
       ],
       "tradeoff": {
-        "observation": "Kết quả N64 lịch sử lặp và native riêng nằm gần 3.044–3.046; đỉnh cache riêng cao hơn chút; replay legacy hợp lệ thấp hơn.",
-        "hypothesis": "N64 là điểm vận hành có thể tái lập, còn khác biệt cache hoặc runtime có thể góp phần tạo biến động điểm.",
-        "conclusion": "Dùng bằng chứng lặp để hỗ trợ N64; không thay bằng điểm cache đơn lẻ hay quy drift cho một nguyên nhân.",
-        "unknown": "Quan hệ giữa runtime, graph policy, request cap, harness và replay thấp hợp lệ vẫn chưa rõ."
+        "observation": "28197 đạt 3051,518173 good tokens/s với 1881/1907 cùng đạt SLA, không lỗi/hủy, TTFT mean/p95 1100,3153/1285,9962 ms và ITL 15,009828/15,185750 ms. Job hoàn tất entry portable sau khi lần thử ZIP nguyên trạng lỗi trước benchmark.",
+        "hypothesis": "Đường native và portable độc lập sẽ tái lập điểm vận hành nếu sửa readiness/đóng gói không đổi ngữ nghĩa model hay hành vi server/client.",
+        "conclusion": "Run portable đầy đủ hỗ trợ deployment hoạt động và cùng mức với chuỗi vận hành trước khoảng 3044–3046. Đây là một lần acceptance, không phải treatment hiệu năng matched mới hay chứng minh tối ưu toàn cục.",
+        "unknown": "Replay hợp lệ thấp hơn vẫn chưa giải thích; biến động giữa run và độ lặp thống kê rộng chưa được giải quyết. Quality model chính thức vẫn là câu hỏi riêng."
       },
       "reasoning": {
-        "problem": "Chọn quan sát cao nhất có thể dẫn đến cấu hình do nhiễu hoặc không tái lập.",
-        "why_it_matters": "Lựa chọn triển khai cần qua nhiều lần chạy đầy đủ; protocol/runtime khác không nên gộp như cùng một thí nghiệm.",
-        "why_this_test": "Đối chiếu chuỗi N64 lịch sử ba lần, lần native đầy đủ riêng, control/treatment cache khớp và replay legacy thấp hợp lệ.",
-        "what_we_learned": "N64 lặp quanh 3.044–3.046 trong hai chuỗi gắn nhãn riêng; gain cache 0,240921% dưới ngưỡng chọn; replay thấp chưa rõ nguyên nhân.",
-        "next_logic": "Chọn theo bằng chứng lặp và nêu rõ xác minh accuracy cùng triển khai còn thiếu."
+        "problem": "Các job GPU portable trước thất bại khi đọc kết quả nên kiểm tra reader trên CPU chưa chứng minh package đầy đủ chạy được sau sửa.",
+        "why_it_matters": "Điểm benchmark chỉ dùng cho nộp bài khi package thật qua readiness, phục vụ cả hai vai trò, chạy client, đọc kết quả và cleanup trong allocation GPU thật.",
+        "why_this_test": "Sau lần dùng ZIP nguyên trạng lỗi trước khi chấm vì health gateway trả HTTP 200 trong khi model registration vẫn trả 503, chỉ đổi thời gian đợi readiness và checksum. Giữ nguyên worker, official client, reader, hai đường semantic rồi chạy entry đầy đủ 16 H200 N64.",
+        "what_we_learned": "Job 28197 hoàn tất entry portable trong 611 giây, qua hai đường semantic P/D và summary gate, đạt 3051,518173 good tokens/s với 98,6366% SLA chung và không lỗi/hủy. Điều này đóng khoảng trống GPU acceptance sau sửa reader.",
+        "next_logic": "Package có một lần acceptance GPU đầy đủ sau sửa. Giữ phạm vi đó riêng với các lần đo hiệu năng lịch sử rồi kết thúc bằng yêu cầu quality toàn tập chính thức còn mở."
       },
-      "script": "Ba lần N64 đầy đủ lịch sử đạt trung bình khoảng 3.044 token tốt mỗi giây. Một lần đầy đủ về sau trên runtime khác đạt 3.045,5, đáng khích lệ nhưng thuộc chuỗi riêng. Treatment cache đạt đỉnh 3.048,4, chỉ hơn control 0,24 phần trăm và p95 token đầu xấu hơn. Nhóm giữ N64 đã lặp lại, bảo toàn replay thấp hợp lệ, và không khẳng định biết vì sao nó thấp.",
-      "caution": "Không gộp chuỗi runtime lịch sử và native, không chọn cấu hình từ một đỉnh, và không xóa replay đầy đủ hợp lệ thấp hơn khi nguyên nhân chưa rõ.",
-      "transition": "Tiếp theo, kiểm tra tỷ số xuyên nền tảng dự báo được kết quả H200 giữ lại chưa dùng tính dự báo đến đâu.",
+      "script": "Giờ ta có ba mảnh bằng chứng riêng về khả năng lặp lại. Chuỗi N64 lịch sử có trung bình 3.044,40 good token mỗi giây. Một run native riêng đạt 3.045,50. Job portable mới 28197 hoàn tất đường chạy toàn gói trên 16 H200 N64 và đạt 3.051,52. Job này qua cả hai đường semantic prefill/decode, official client, tổng hợp kết quả và cleanup trong 611 giây. Trong 1.907 request, 1.881 đạt đồng thời hai ngưỡng latency, tương đương 98,64%; có 26 request trượt token đầu, không trượt ITL và không có lỗi. Điều này xác nhận package đã chạy trọn một lần và tái lập mức vận hành. Nó chưa giải thích kết quả hợp lệ thấp 2.830,92 trước đây và không chứng minh tối ưu toàn cục.",
+      "caution": "Không gộp trung bình lịch sử, run native và run portable thành một chuỗi thống kê. Một lần portable acceptance chứng minh package chạy được một lần, không chứng nhận quality chính thức hay nguyên nhân drift cũ.",
+      "transition": "Run portable thành công đóng khoảng trống replay deployment. Slide cuối phân biệt acceptance này với bài kiểm tra quality toàn tập của ban tổ chức vẫn chưa xác minh.",
       "claim_type": "Phương pháp hoặc phát hiện thực nghiệm"
     }
   },
@@ -1703,12 +1711,12 @@
   },
   {
     "slide": 16,
-    "title": "The H200 recipe holds; official quality and replay remain open",
+    "title": "Deployment acceptance passes; official model quality remains unverified",
     "en": {
       "hardware": "H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33",
-      "brief": "Nine final H200 allocations produced no useful new winner; keep DeepGEMM chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. Official 99%-reference quality and a full packaged GPU replay after reader repair remain unverified.",
-      "purpose": "Close the AI story with the current decision after the final nine-run H200 verification. State the retained recipe and distinguish locally reviewed serving performance from the organiser’s model-quality evaluation and the incomplete post-repair portable GPU replay.",
-      "visual": "The heading states the decision: retain the repeated H200 recipe because final tested alternatives did not produce a useful gain. Two columns underneath identify open validation: official model quality against at least 99% of the organiser reference, and a complete packaged GPU replay after reader repair. The last dark bar is the verbal handoff to the independent OpenFOAM presenter. There are no axes or score comparison here. AI backups 17–34 are hidden; the next visible PowerPoint slide is HPC 35. The retained recipe is DeepGEMM prefill/chunk 8192, HPC-Ops decode, FlashInfer decode attention, MNNVL collectives and NIXL cross-role KV transfer at N64.",
+      "brief": "Portable job 28197 passed the complete 611-second H200 deployment entry, scoring 3,051.52 good tokens/s with 98.64% joint SLA. The organiser’s full-set ≥99%-reference quality result remains unknown.",
+      "purpose": "Conclude with the distinction between local deployment acceptance and official model-quality acceptance. The full portable GPU path now passes once after the readiness fix; this validates execution and scoring integrity under the team’s gates, but not the model’s full-set accuracy against the organiser reference.",
+      "visual": "Two panels: VERIFIED—job 28197 full 16-H200/N64 portable entry, 611 seconds, both P/D semantic paths, official client, reader/summary gate and cleanup passed; 3051.518173 good output tokens/s, 1881/1907 joint SLA (98.6366%), 26 TTFT misses, zero ITL misses/errors/cancellations. OPEN—organiser full-set accuracy ≥99% of reference is UNKNOWN. Label these as deployment acceptance versus model-quality validation. MNNVL is the decode GPU collective path; NIXL carries request KV between prefill and decode roles. The next visible physical slide is unchanged OpenFOAM 35.",
       "terms": [
         {
           "symbol": "official accuracy",
@@ -1748,37 +1756,36 @@
         }
       ],
       "reading": [
-        "The retained H200 recipe is DeepGEMM prefill with chunk 8192 and HPC-Ops/FlashInfer/MNNVL decode at N64.",
-        "The nine-run transfer review ended with no useful new candidate; 27804/27806/27828/27830 are four distinct H100-derived ports and the other jobs include controls or coupled alternatives.",
-        "Historical repeated H200 N64 runs support a stable operating point around 3,044 good output tokens/s; report this separately from the newer transfer-wave control at 3038.022907.",
-        "Local smoke and retrieval checks are not the official full-set quality test; ≥99% of the organiser reference remains UNKNOWN.",
-        "Reader fixes passed against saved data on CPU, but no complete GPU portable deployment replay was completed after the repair.",
-        "HPC content is preserved; the main presentation handoff now goes to physical slide 35.",
-        "MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles."
+        "28197 used 16 H200 at N64 and completed the whole portable entry in 611 seconds, including startup readiness, semantic checks for both roles, the official client, reader/summary gates and cleanup.",
+        "The exported score is 3051.518173 good output tokens/s; 1881/1907 requests met both latency thresholds jointly (98.63660199265862%).",
+        "Latency: mean/p95 TTFT 1100.3153/1285.9962 ms; mean/p95 request-mean ITL 15.009828/15.185750 ms; 26 TTFT misses, zero ITL misses and zero scored errors/cancellations.",
+        "This closes the complete portable post-reader-fix GPU acceptance gap with one successful entry. It is not a new matched optimization experiment or a global-optimum proof.",
+        "Official full-set model accuracy against the organiser reference remains UNKNOWN; portable execution does not establish that score.",
+        "HPC slides and claims are unchanged; handoff is physical slide 35."
       ],
       "tradeoff": {
-        "observation": "Nine final H200 allocations completed with no candidate reaching the prospective 1% gate over its applicable control. Existing H200 recipe remains the supported choice.",
-        "hypothesis": "Independent full-set quality evaluation and a complete post-repair portable GPU replay would close separate validation gaps.",
-        "conclusion": "Retain the H200-specific DeepGEMM/chunk-8192 prefill and HPC-Ops/FlashInfer/MNNVL decode at N64. The local serving claim is supported by reviewed repeats, not official quality certification.",
-        "unknown": "Official full-set accuracy and a complete portable GPU replay after reader repair remain unverified. The team did not perform a timed human mock in these records."
+        "observation": "A full portable 16-H200/N64 entry passed in 611 seconds at 3051.518173 good output tokens/s and 98.6366% joint SLA with zero scored errors/cancellations.",
+        "hypothesis": "Fixing the gateway model-readiness race while preserving the official client, server workers and result readers should let the package pass the full acceptance path.",
+        "conclusion": "The portable package now has one complete post-fix GPU acceptance pass. Retain the N64 H200 recipe; the measured performance is supported, while official quality is not yet established.",
+        "unknown": "Organiser full-set accuracy ≥99% of reference remains UNKNOWN. One portable acceptance does not establish statistical repeatability of this package path."
       },
       "reasoning": {
-        "problem": "Finish with a defensible AI result that incorporates the completed H200 transfer wave without overstating an isolated peak or confusing performance with model quality.",
-        "why_it_matters": "The panel needs to know which recipe the team retained, what the latest target-hardware tests changed, and which acceptance claims are still open.",
-        "why_this_test": "The final nine allocations tested the remaining bounded H100-to-H200 ideas against H200 controls; inspect all of them before deciding whether any new setting should replace the incumbent.",
-        "what_we_learned": "No tested transfer cleared the team-set 1% gate, so the incumbent remains. Serving performance has repeated evidence; official quality and post-fix full portable GPU execution do not.",
-        "next_logic": "End the AI section with the bounded decision and hand off to the independent OpenFOAM presenter."
+        "problem": "The prior package jobs failed after inference in result readers, and one exact-ZIP retry stopped before scoring when gateway health preceded asynchronous model registration.",
+        "why_it_matters": "A team needs to distinguish “the service is fast” from “the actual packaged deliverable completes its official-client acceptance path,” and both from official quality certification.",
+        "why_this_test": "For 28197, change only the deployment readiness wait/checksum following the 28194 gateway health race. Preserve worker, client, reader, and both semantic paths, then run one complete allocation with cleanup and the existing scoring gates.",
+        "what_we_learned": "All deployment stages passed in 611 seconds; the run scored 3051.518173 good tokens/s, with 1881/1907 joint passes and zero request errors/cancellations. This closes the package replay acceptance gap once.",
+        "next_logic": "Finish by stating that package execution and measured service acceptance pass, while full-set official model-quality evaluation remains unknown; then hand over to OpenFOAM."
       },
-      "script": "The final nine H200 allocations did not produce a useful new winner, so we keep the H200-specific recipe: DeepGEMM prefill at chunk 8192 and HPC-Ops with FlashInfer and MNNVL for decode at N64. The repeated historical N64 runs support about 3,044 good output tokens per second, while the latest transfer control is a separate 3,038-point observation. These are team-reviewed serving results. They do not certify the official quality requirement: the full-set comparison against the organiser reference remains unknown. Our reader repair passed on saved data with a CPU check, but the complete packaged GPU deployment has not been replayed after that repair. With those limits clear, I hand over to OpenFOAM. MNNVL is the GPU collective path inside the decode implementation; NIXL carries KV between the separate prefill and decode roles.",
-      "caution": "Do not say official accuracy passed, that all nine jobs were distinct candidate improvements, or that CPU reader checks amount to a full GPU replay. Do not pool the historical repeat series with the newer transfer control.",
-      "transition": "AI main talk ends here. The 18 AI backup slides are hidden; proceed to unchanged OpenFOAM slide 35.",
+      "script": "Our final portable acceptance run passed. Job 28197 used sixteen H200s at N64 and completed gateway readiness, both prefill/decode semantic paths, the official client, result reading, summary gates and cleanup in 611 seconds. It scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency thresholds, or 98.64 percent; there were 26 TTFT misses, no ITL misses and no errors or cancellations. This closes the full GPU deployment check after the reader and readiness fixes. It does not answer model quality: the organiser’s full-set comparison against its reference, requiring at least 99 percent, remains unknown. I now hand over to OpenFOAM.",
+      "caution": "Do not describe portable deployment acceptance as the official model-quality score. The ≥99%-reference result is UNKNOWN, and one successful portable entry is not a repeatability study.",
+      "transition": "AI main talk ends with deployment acceptance passed and official quality still unknown. The unchanged OpenFOAM section begins at physical slide 35.",
       "claim_type": "Framing / claim boundary"
     },
     "vi": {
       "hardware": "Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi",
-      "brief": "Chín allocation H200 cuối không tạo ứng viên mới vượt ngưỡng hữu ích; giữ prefill DeepGEMM chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Quality 99% chính thức và replay GPU đóng gói sau sửa reader vẫn chưa xác minh.",
-      "purpose": "Khép phần AI bằng quyết định cập nhật sau đợt xác minh chín job H200 cuối. Nêu recipe được giữ và phân biệt hiệu năng serving được rà soát nội bộ với kiểm tra quality chính thức của BTC cùng replay GPU đóng gói sau khi sửa chương trình đọc.",
-      "visual": "Dòng đầu nêu quyết định giữ recipe H200 đã có chạy lặp lại vì các nhánh cuối chưa tạo cải thiện hữu ích. Hai cột dưới ghi việc chưa xác nhận: quality model chính thức đạt ít nhất 99% tham chiếu BTC, và chạy lại trọn bộ triển khai GPU đóng gói sau sửa reader. Thanh đậm cuối là câu bàn giao cho người phụ trách OpenFOAM. Không có trục hay phép so điểm ở đây. Dự phòng AI 17–34 được ẩn; PowerPoint chuyển tiếp sang HPC 35. Recipe giữ lại dùng prefill DeepGEMM/chunk 8192, decode HPC-Ops, attention decode FlashInfer, collective MNNVL và NIXL chuyển KV giữa hai pha, tại N64.",
+      "brief": "Job portable 28197 qua entry deployment H200 đầy đủ trong 611 giây, đạt 3.051,52 good tokens/s và 98,64% SLA chung. Kết quả quality toàn tập ≥99% tham chiếu của BTC vẫn chưa biết.",
+      "purpose": "Kết luận bằng cách phân biệt acceptance của deployment nội bộ với nghiệm thu quality model chính thức. Đường GPU portable đầy đủ nay qua một lần sau sửa readiness; điều này xác minh execution và tính hợp lệ phép chấm nội bộ, không xác nhận accuracy toàn tập theo tham chiếu BTC.",
+      "visual": "Hai khung: ĐÃ XÁC MINH—job 28197 chạy entry portable 16 H200/N64 đầy đủ, 611 giây, qua hai đường semantic P/D, official client, reader/summary gate và cleanup; 3051,518173 good output tokens/s, 1881/1907 SLA chung (98,6366%), 26 lỗi TTFT, không lỗi ITL/error/cancel. CÒN MỞ—accuracy toàn tập so tham chiếu BTC ≥99% vẫn UNKNOWN. Ghi rõ acceptance deployment và xác minh quality model là hai việc khác nhau. MNNVL là đường collective GPU trong decode; NIXL chuyển KV request giữa prefill và decode. Slide vật lý tiếp theo là OpenFOAM 35 không đổi.",
       "terms": [
         {
           "symbol": "độ chính xác chính thức",
@@ -1818,33 +1825,32 @@
         }
       ],
       "reading": [
-        "Recipe H200 được giữ là prefill DeepGEMM chunk 8192 cùng decode HPC-Ops/FlashInfer/MNNVL ở N64.",
-        "Đợt chuyển giao chín job cuối không có ứng viên mới đủ ngưỡng hữu ích; 27804/27806/27828/27830 là bốn port khác nhau rút từ H100, các job còn lại gồm control hoặc phương án đổi nhiều yếu tố.",
-        "Các lần chạy N64 H200 lịch sử lặp lại hỗ trợ điểm vận hành quanh 3.044 good tokens/s; cần tách chúng khỏi control của đợt chuyển giao mới là 3038,022907.",
-        "Smoke và retrieval nội bộ không thay cho kiểm tra quality toàn tập chính thức; yêu cầu ≥99% so với model tham chiếu vẫn UNKNOWN.",
-        "Bản sửa reader đã qua kiểm tra CPU trên dữ liệu lưu, nhưng chưa chạy replay GPU đầy đủ cho deployment portable sau sửa.",
-        "Nội dung HPC được giữ nguyên; slide bàn giao vật lý trong deck là số 35.",
-        "MNNVL là đường collective communication giữa GPU phía decode; NIXL chuyển trạng thái KV của request giữa hai vai trò prefill và decode tách biệt."
+        "Job 28197 dùng 16 H200 N64 và hoàn tất entry portable trong 611 giây, gồm readiness khởi động, semantic check cả hai vai trò, official client, reader/summary gate và cleanup.",
+        "Điểm xuất là 3051,518173 good output tokens/s; 1881/1907 request đồng thời đạt hai ngưỡng latency (98,63660199265862%).",
+        "Latency: TTFT mean/p95 1100,3153/1285,9962 ms; ITL trung bình mỗi request mean/p95 15,009828/15,185750 ms; 26 trượt TTFT, không trượt ITL, không error/cancel bị chấm.",
+        "Điều này đóng khoảng trống acceptance GPU portable sau sửa reader bằng một entry thành công. Đây không phải thí nghiệm tối ưu matched mới hay bằng chứng tối ưu toàn cục.",
+        "Accuracy toàn tập so tham chiếu BTC vẫn UNKNOWN; package chạy được không xác lập điểm này.",
+        "Slide và claim HPC được giữ nguyên; bàn giao tại slide vật lý 35."
       ],
       "tradeoff": {
-        "observation": "Chín allocation H200 cuối hoàn tất nhưng không ứng viên nào đạt ngưỡng 1% đặt trước so với control phù hợp. Recipe H200 hiện tại vẫn được hỗ trợ tốt nhất.",
-        "hypothesis": "Đánh giá chất lượng toàn tập độc lập và chạy portable GPU đầy đủ sau sửa sẽ đóng hai khoảng trống xác minh riêng.",
-        "conclusion": "Giữ prefill DeepGEMM/chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Claim hiệu năng nội bộ có các lần chạy lặp lại, chưa phải chứng nhận quality chính thức.",
-        "unknown": "Chưa biết accuracy toàn tập chính thức và chưa replay GPU portable đầy đủ sau sửa reader. Tài liệu hiện có cũng chưa ghi nhận buổi mock trực tiếp có bấm giờ."
+        "observation": "Entry portable H200 16-GPU/N64 đầy đủ qua trong 611 giây, đạt 3051,518173 good output tokens/s và 98,6366% SLA chung, không lỗi/hủy request bị chấm.",
+        "hypothesis": "Sửa race model-readiness ở gateway nhưng giữ client chính thức, worker server và reader sẽ giúp package qua toàn bộ đường acceptance.",
+        "conclusion": "Package portable hiện có một lần acceptance GPU đầy đủ sau sửa. Giữ recipe H200 N64; hiệu năng đã đo có hỗ trợ, còn quality chính thức chưa được xác lập.",
+        "unknown": "Accuracy toàn tập của BTC ≥99% tham chiếu vẫn UNKNOWN. Một acceptance portable không xác lập độ lặp thống kê của riêng đường package này."
       },
       "reasoning": {
-        "problem": "Kết luận phần AI phải tính đến toàn bộ đợt H200 cuối mà không nâng một điểm đơn lẻ thành tối ưu, hoặc nhầm hiệu năng với chất lượng model.",
-        "why_it_matters": "BGK cần biết recipe nhóm giữ lại, các phép thử H200 mới nhất làm thay đổi lựa chọn ra sao và claim nghiệm thu nào vẫn còn mở.",
-        "why_this_test": "Chín allocation cuối kiểm tra các ý tưởng H100 còn lại trên H200 với control phù hợp. Cần xem hết kết quả trước khi quyết định có thay incumbent hay không.",
-        "what_we_learned": "Không port nào vượt ngưỡng 1% nội bộ, nên giữ incumbent. Hiệu năng serving có bằng chứng lặp lại; quality chính thức và replay GPU toàn gói sau sửa chưa có.",
-        "next_logic": "Kết thúc phần AI bằng quyết định có giới hạn và bàn giao cho người phụ trách OpenFOAM."
+        "problem": "Các job package trước lỗi reader sau inference; lần thử ZIP nguyên trạng khác dừng trước chấm vì health gateway có trước khi đăng ký model bất đồng bộ xong.",
+        "why_it_matters": "Nhóm cần phân biệt “service chạy nhanh” với “bài nộp đóng gói thực sự qua quy trình acceptance bằng client chính thức”, và phân biệt cả hai với chứng nhận quality.",
+        "why_this_test": "Ở job 28197 chỉ đổi thời gian đợi readiness/checksum sau race gateway job 28194. Giữ nguyên worker, client, reader và hai semantic path; sau đó chạy một allocation đầy đủ kèm cleanup và scoring gate hiện hành.",
+        "what_we_learned": "Toàn bộ bước deployment qua trong 611 giây; run đạt 3051,518173 good tokens/s, 1881/1907 request đạt SLA chung, không lỗi/hủy. Điều này đóng khoảng trống acceptance replay package một lần.",
+        "next_logic": "Kết thúc bằng kết luận package execution và service acceptance đã qua, nhưng quality toàn tập chính thức vẫn chưa biết; sau đó bàn giao OpenFOAM."
       },
-      "script": "Chín allocation H200 cuối không tạo ứng viên mới đủ hữu ích, nên chúng tôi giữ recipe H200: prefill DeepGEMM chunk 8192 và decode HPC-Ops cùng FlashInfer, MNNVL ở N64. Các lần N64 lịch sử lặp lại hỗ trợ khoảng 3.044 good output tokens mỗi giây; control mới nhất 3038 là quan sát của đợt khác nên phải ghi riêng. Đây là kết quả serving do nhóm chạy và rà soát, không chứng nhận yêu cầu quality chính thức. So sánh toàn tập với tham chiếu BTC vẫn chưa biết. Bản sửa reader qua kiểm tra CPU với dữ liệu cũ, nhưng chúng tôi chưa replay toàn bộ deployment GPU portable sau sửa. Với giới hạn đó, tôi xin bàn giao sang OpenFOAM. MNNVL là đường collective giữa GPU bên trong implementation decode; NIXL mới chuyển KV giữa hai vai trò prefill và decode tách biệt.",
-      "caution": "Không nói accuracy chính thức đã đạt, cả chín job đều là ứng viên tối ưu riêng, hoặc kiểm tra reader trên CPU thay cho replay GPU đầy đủ. Không trộn chuỗi lặp lịch sử với control mới.",
-      "transition": "Phần AI chính kết thúc ở đây. Có 18 slide AI dự phòng được ẩn; tiếp tục tại slide OpenFOAM vật lý số 35.",
+      "script": "Lần portable acceptance cuối đã qua. Job 28197 dùng 16 H200 N64 và hoàn tất readiness gateway, semantic path cho cả prefill/decode, official client, đọc kết quả, summary gate và cleanup trong 611 giây. Điểm đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 cùng đạt hai ngưỡng latency, tức 98,64%; có 26 lỗi TTFT, không lỗi ITL, không lỗi/hủy request. Việc này đóng kiểm tra GPU deployment toàn gói sau sửa reader và readiness. Nó không trả lời quality model: phép so toàn tập với tham chiếu BTC yêu cầu tối thiểu 99% vẫn chưa biết. Tiếp theo tôi bàn giao sang OpenFOAM.",
+      "caution": "Không gọi acceptance deployment portable là điểm quality model chính thức. Kết quả ≥99% tham chiếu vẫn UNKNOWN và một entry thành công chưa phải nghiên cứu độ lặp lại.",
+      "transition": "Phần AI chính kết thúc với deployment acceptance đã qua và quality chính thức chưa biết. Phần OpenFOAM không đổi bắt đầu tại slide vật lý số 35.",
       "claim_type": "Mục tiêu hoặc giới hạn kết luận"
     },
-    "hardware": "H200 performance · official model quality unverified · handoff to OpenFOAM slide 35"
+    "hardware": "16 H200 · portable deployment accepted · official full-set quality UNKNOWN · OpenFOAM handoff slide 35"
   },
   {
     "slide": 17,
@@ -2812,9 +2818,9 @@
     "title": "Backup · the retained settings on each platform",
     "en": {
       "hardware": "H200 N64 · H100 N54",
-      "brief": "The retained H200 setup uses N64, two TP4 DeepGEMM prefill workers with chunk 8,192, and TP8/EP8 HPC-Ops decode. H100 is separate: N54, HPC-Ops prefill with chunk 4,096, and its own measured settings.",
-      "purpose": "Provide exact deployment context so earlier results can be interpreted without mixing platform settings or treating configuration labels as performance evidence.",
-      "visual": "Read columns within each platform, not across H200 and H100 as if they were a matched benchmark. Both use target-model FP8 weights, BF16 activations and KV state, TP8/EP8 decode, FlashInfer decode attention, MNNVL collectives, and round-robin routing to two prefill workers. The H200 choice is N64 with DeepGEMM prefill, chunk 8,192, and dense decode graph buckets 1–64. H100 is N54 with HPC-Ops prefill and chunk 4,096. The table defines the operating points; it does not claim equal capacity or rank hardware performance.",
+      "brief": "The retained H200 recipe and H100 recipe remain separate. H200 now also has a complete portable acceptance run at 3,051.52 good tokens/s; this validates deployment, not H100-to-H200 conversion.",
+      "purpose": "Document the currently retained measured recipes on each platform and add the completed H200 portable deployment acceptance. Keep H100 measurements separate; a successful H200 package run does not convert H100 scores or certify official quality.",
+      "visual": "Keep the existing H200/H100 configuration table and add a separate H200 acceptance note: job 28197, 16 H200, N64, full portable path, 611 seconds, 3051.518173 good tokens/s, 1881/1907 joint passes. Label H100 N54 configuration as its own measured operating point; do not imply it matches or predicts the H200 result. Note official model quality is UNKNOWN.",
       "terms": [
         {
           "symbol": "H200 N64 / H100 N54",
@@ -2853,7 +2859,9 @@
         "This is supporting evidence for Q&A, hidden during the main slide show. It does not add a new experiment to the main argument.",
         "H200: client concurrency 64; two TP4/EP1 prefill workers; DeepGEMM; chunk 8,192; one HPC-Ops TP8/EP8 decode worker.",
         "H100: client concurrency 54; two TP4/EP1 HPC-Ops prefill workers; chunk 4,096; TP8/EP8 HPC-Ops decode. Keep H100 point separate from H200 scores.",
-        "Both use the listed weight/activation/KV precision and shared decode attention, collective, routing, and request-quality rules. Official full-set accuracy is not certified by this configuration table."
+        "Both use the listed weight/activation/KV precision and shared decode attention, collective, routing, and request-quality rules. Official full-set accuracy is not certified by this configuration table.",
+        "New H200 portable acceptance job 28197 completed the full entry in 611 seconds at N64 and measured 3051.518173 good output tokens/s.",
+        "This confirms the H200 package path once; it is not a matched H100/H200 GPU speed comparison and does not certify full-set quality."
       ],
       "tradeoff": {
         "observation": "The retained configurations share some decode and precision settings but differ in hardware, concurrency, prefill backend, and chunk size.",
@@ -2861,15 +2869,15 @@
         "conclusion": "Use the H200 N64 settings for the selected primary and report H100 N54 independently.",
         "unknown": "This table does not establish that the settings are optimal or that performance transfers between platforms."
       },
-      "script": "This table records two separate operating points. H200 uses 64 simultaneous requests, two groups of four GPUs to process prompts, and one eight-GPU decode worker with experts distributed across it. H100 uses 54 requests and a different prompt-processing backend and chunk. Both use FP8 weights and BF16 activations and KV cache. Shared components do not make the two performance series interchangeable.",
+      "script": "The retained configurations are still platform-specific: H200 uses N64 with DeepGEMM prefill at chunk 8192; H100 uses N54 with HPC-Ops prefill at chunk 4096. The newly completed portable acceptance job 28197 ran the H200 configuration through the full package path in 611 seconds and scored 3,051.52 good output tokens per second. That shows the H200 package can complete after repair. It does not mean the H100 recipe was faster or slower on identical terms, and it does not certify model quality.",
       "caution": "Do not report H100 and H200 as a matched platform comparison or infer performance from precision and worker counts alone.",
-      "transition": "Return to the question and main evidence after answering; these backups are not a second chronological talk."
+      "transition": "The platform configurations and the complete H200 acceptance are separate evidence; return to main conclusion for the remaining quality limit."
     },
     "vi": {
       "hardware": "Cấu hình H200 N64 và H100 N54 — hai cách triển khai riêng.",
-      "brief": "Cấu hình H200 dùng N64, hai worker prefill TP4 với DeepGEMM và chunk 8.192, cùng decode TP8/EP8 HPC-Ops. H100 là cấu hình riêng: N54, prefill HPC-Ops với chunk 4.096 và số đo riêng. Đây là mô tả cài đặt đã đo, không xác nhận chất lượng toàn tập.",
-      "purpose": "Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà không trộn cấu hình nền tảng hoặc coi nhãn cài đặt là bằng chứng hiệu năng.",
-      "visual": "Đọc các cột trong từng nền tảng, không coi H200 và H100 là benchmark ghép điều kiện. Cả hai dùng trọng số FP8, activation và KV BF16, decode TP8/EP8, FlashInfer cho attention decode, MNNVL cho collective và định tuyến vòng tròn tới hai worker prefill. Cấu hình H200 chọn N64, prefill DeepGEMM, chunk 8.192 và bucket graph decode dày từ 1 đến 64. H100 dùng N54, prefill HPC-Ops và chunk 4.096. Bảng định nghĩa điểm vận hành; nó không khẳng định năng lực tương đương hay xếp hạng phần cứng.",
+      "brief": "Recipe H200 và recipe H100 vẫn tách riêng. H200 nay có một lần portable acceptance đầy đủ đạt 3.051,52 good tokens/s; điều này xác minh deployment, không quy đổi H100 sang H200.",
+      "purpose": "Ghi lại recipe đo được đang giữ trên mỗi nền tảng và bổ sung acceptance deployment portable H200 hoàn tất. Giữ phép đo H100 riêng; package H200 chạy qua không chuyển đổi điểm H100 hay chứng nhận quality chính thức.",
+      "visual": "Giữ bảng cấu hình H200/H100 hiện tại và thêm ghi chú acceptance H200 riêng: job 28197, 16 H200, N64, đường portable đầy đủ, 611 giây, 3051,518173 good tokens/s, 1881/1907 SLA chung. Gắn cấu hình H100 N54 là operating point đã đo riêng; không hàm ý nó khớp hoặc dự báo kết quả H200. Ghi quality model chính thức UNKNOWN.",
       "terms": [
         {
           "symbol": "H200 N64 / H100 N54",
@@ -2908,7 +2916,9 @@
         "Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.",
         "H200: concurrency client 64; hai worker prefill TP4/EP1; DeepGEMM; chunk 8.192; một worker decode HPC-Ops TP8/EP8.",
         "H100: concurrency 54; hai worker prefill TP4/EP1 HPC-Ops; chunk 4.096; decode HPC-Ops TP8/EP8. Điểm H100 cần tách khỏi điểm H200.",
-        "Cả hai dùng độ chính xác trọng số/activation/KV như đã nêu cùng attention decode, collective, định tuyến và quy tắc chất lượng request chung. Bảng không chứng nhận accuracy toàn tập chính thức."
+        "Cả hai dùng độ chính xác trọng số/activation/KV như đã nêu cùng attention decode, collective, định tuyến và quy tắc chất lượng request chung. Bảng không chứng nhận accuracy toàn tập chính thức.",
+        "Job acceptance portable H200 mới 28197 hoàn tất entry trong 611 giây ở N64, đạt 3051,518173 good output tokens/s.",
+        "Điều này xác nhận đường package H200 chạy được một lần; đây không phải so sánh tốc độ GPU H100/H200 cùng điều kiện và không chứng nhận quality toàn tập."
       ],
       "tradeoff": {
         "observation": "Các cấu hình được giữ có chung một số thiết lập decode và độ chính xác, nhưng khác phần cứng, concurrency, backend prefill và chunk.",
@@ -2916,9 +2926,9 @@
         "conclusion": "Dùng cài đặt H200 N64 cho cấu hình chính đã chọn và báo cáo H100 N54 độc lập.",
         "unknown": "Bảng không xác lập các cài đặt là tối ưu hay hiệu năng chuyển đổi được giữa hai nền tảng."
       },
-      "script": "Bảng ghi hai điểm vận hành riêng. H200 dùng 64 request đồng thời, hai nhóm bốn GPU xử lý prompt và một worker tám GPU decode có phân phối expert. H100 dùng 54 request, backend và chunk xử lý prompt khác. Cả hai dùng trọng số FP8 cùng activation và KV cache BF16. Thành phần chung không làm hai chuỗi hiệu năng có thể thay thế nhau.",
+      "script": "Cấu hình được giữ vẫn riêng theo nền tảng: H200 dùng N64, prefill DeepGEMM chunk 8192; H100 dùng N54, prefill HPC-Ops chunk 4096. Job acceptance portable mới 28197 chạy cấu hình H200 qua toàn bộ package trong 611 giây, đạt 3.051,52 good output tokens mỗi giây. Điều đó cho thấy package H200 chạy trọn sau sửa. Nó không nói recipe H100 nhanh hơn hay chậm hơn trong điều kiện tương đương, và không chứng nhận quality model.",
       "caution": "Không trình bày H100 và H200 như phép so sánh khớp điều kiện hoặc suy hiệu năng chỉ từ precision và số worker.",
-      "transition": "Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai."
+      "transition": "Cấu hình từng nền tảng và acceptance H200 đầy đủ là hai loại bằng chứng riêng; quay lại kết luận chính để xem giới hạn quality còn mở."
     },
     "reasoning_stage": "Backup · Exact deployment settings"
   },
@@ -3326,91 +3336,99 @@
   },
   {
     "slide": 31,
-    "title": "Does the packaged deployment complete end to end?",
+    "title": "Backup · real failures led to a complete portable acceptance",
     "reasoning_stage": "RQ4 · Real replay & failure analysis",
-    "hardware": "H200 replay + CPU reader verification",
+    "hardware": "H200 portable deployment · initial GPU failures preserved · full run 28197",
     "en": {
-      "purpose": "Distinguish successful GPU inference from successful end-to-end packaging. Two real portable allocations completed serving but failed while readers located and interpreted result files; a later CPU-only replay verified the reader repair, not a repaired full allocation.",
-      "visual": "Trace the pipeline in order: real portable jobs 27136 and 27145 ran the official GPU client and both semantic P/D routes, then failed in result processing. First repair handled exports nested in an immediate child directory; second canonicalized the input root where /scratch/home and /home paths referred to the same files. Actual zero-GPU compute job 27152 passed both repaired readers on both real datasets. Keep original scheduler states FAILED.",
+      "purpose": "Present the complete debugging sequence so the audience can distinguish preserved failures, CPU-only reader repair, a separate gateway readiness race and the eventual complete GPU acceptance. Do not retroactively relabel any failed scheduler job as successful.",
+      "visual": "Use a four-step timeline: 27136 portable GPU inference/client completed then nested-result reader failed; 27145 portable GPU inference/client completed then alias-path reader failed; 27152 zero-GPU CPU job passed both readers on real saved exports; 28194 exact-ZIP retry failed prebenchmark with curl exit 22 because gateway health returned HTTP 200 while asynchronous model registration still returned HTTP 503; 28197 changed only deploy readiness wait/checksum, kept workers, official client, readers and semantic checks unchanged, and completed the whole entry in 611 seconds on 16 H200 N64. Mark each original failure FAILED; 28197 is the successful new allocation.",
       "terms": [
         {
-          "symbol": "End-to-end deployment",
-          "meaning": "Complete path from launching servers and routes through official load client, exporting data, and producing a reviewed result."
+          "symbol": "27136 / 27145",
+          "meaning": "Original portable GPU jobs that remain FAILED after separate result-reader defects."
         },
         {
-          "symbol": "Semantic P/D routes",
-          "meaning": "Prefill and decode service paths; both completed in the real GPU jobs."
+          "symbol": "27152",
+          "meaning": "Zero-GPU CPU job validating reader fixes against actual saved exports; not a GPU replay."
         },
         {
-          "symbol": "Result reader",
-          "meaning": "Post-processing code that locates exported files, parses them, and calculates summaries."
+          "symbol": "28194",
+          "meaning": "Exact-ZIP retry that failed before benchmark because HTTP health was ready before asynchronous model registration."
         },
         {
-          "symbol": "Canonical path",
-          "meaning": "Resolved filesystem identity; /home and /scratch/home can be aliases to the same underlying location."
+          "symbol": "28197",
+          "meaning": "Complete 16-H200/N64 portable acceptance entry after changing deployment readiness wait/checksum."
         },
         {
-          "symbol": "Compute-only verification",
-          "meaning": "CPU job checking corrected readers against real exports, without launching the GPU service again."
+          "symbol": "HTTP 200 / HTTP 503",
+          "meaning": "Gateway health endpoint answered while model-registration endpoint was still unavailable; the two checks represent different readiness states."
         }
       ],
       "reading": [
-        "This is supporting evidence for Q&A, hidden during the main slide show. It does not add a new experiment to the main argument.",
-        "Real H200 portable jobs 27136 and 27145 completed both serving routes and the official client, but the scheduler jobs failed during post-processing. In 27136, AIPerf 0.12 placed exports in an immediate child directory; the first fix handled that layout. In 27145, lexical /home and canonical /scratch/home paths caused an alias mismatch; canonicalizing the root fixed the second issue.",
-        "Zero-GPU job 27152 then ran the corrected readers on both real datasets and passed. Raw 27145 score 3,055.330517 is recoverable evidence from the failed original job, not a successful whole-allocation rerun after repair. No post-repair full GPU deployment is claimed."
+        "27136 and 27145 remain failed jobs; their saved outputs allowed diagnosis of two distinct reader bugs.",
+        "CPU job 27152 verified both reader repairs against real saved data, but did not test a GPU deployment.",
+        "Exact-ZIP retry 28194 was a separate failure before AIPerf scoring: health responded HTTP 200 before asynchronous model registration was ready, which still returned 503; curl exited 22.",
+        "Job 28197 adjusted only readiness waiting and checksum. Worker images, official client, result readers and both semantic routes remained unchanged.",
+        "28197 completed gateway readiness, both P/D semantic routes, client workload, summary acceptance gates and cleanup in 611 seconds using 16 H200 at N64.",
+        "The full entry scored 3051.518173 good output tokens/s, with 1881/1907 jointly qualifying requests, 26 TTFT misses, zero ITL misses and zero errors/cancellations.",
+        "This closes full post-reader-fix GPU deployment acceptance once; it does not certify model quality or erase earlier failed statuses."
       ],
       "tradeoff": {
-        "observation": "Two real GPU jobs completed inference and client work but failed in result reading; CPU-only job 27152 verified both reader fixes on real outputs.",
-        "hypothesis": "The deployment's remaining failure was caused by file-layout and path-alias assumptions in post-processing, rather than serving execution.",
-        "conclusion": "The precise reader defects were repaired and verified against actual datasets; the full post-repair deployment remains unverified.",
-        "unknown": "Whether a complete new allocation would pass launch, inference, export, reading, and all gates after the fixes is unknown."
+        "observation": "The two reader failures were corrected on CPU; one exact-ZIP attempt then failed prebenchmark due to a gateway readiness race; a new full GPU entry passed after a narrowly scoped readiness adjustment.",
+        "hypothesis": "Waiting for actual model registration readiness, rather than accepting the health endpoint alone, addresses the remaining startup race.",
+        "conclusion": "28197 demonstrates that the repaired portable deployment can pass its full local acceptance path. Keep 27136, 27145 and 28194 recorded as failures.",
+        "unknown": "One complete pass does not establish statistical deployment reliability or official model quality; broader failure mechanisms outside the observed paths remain unknown."
       },
-      "script": "The real portable GPU jobs completed the prefill and decode routes and ran the official client, but both failed when post-processing read the exports. One reader expected files at the wrong directory level; another confused two path aliases for the same files. We fixed both and verified the readers on actual outputs in a zero-GPU CPU job. That verifies the reader repair, not a complete post-repair GPU allocation. The original scheduler jobs remain failed.",
-      "caution": "Do not report 3,055.330517 as a successful complete deployment. The original job failed; CPU-only reader verification did not rerun GPU inference or the full allocation.",
-      "transition": "Return to the question and main evidence after answering; these backups are not a second chronological talk.",
-      "brief": "Two real H200 portable jobs completed serving but failed during result reading. A zero-GPU job verified reader fixes on real exports. This does not establish a successful full deployment after repair; the original jobs remain failed.",
+      "script": "This sequence has two separate fixes. Portable jobs 27136 and 27145 ran inference and the client, then failed because two result readers made different path assumptions. CPU job 27152 proved both reader fixes on the real saved exports, but it could not prove GPU deployment. An exact-ZIP retry, 28194, then failed before scoring: the gateway health endpoint returned HTTP 200 while asynchronous model registration still returned HTTP 503. We changed only the readiness wait and checksum. Job 28197 kept the workers, official client, readers and semantic paths unchanged, then completed all stages and cleanup in 611 seconds on sixteen H200s. It scored 3,051.52 good tokens per second with 98.64 percent joint SLA and no errors. The earlier jobs remain failed; the new one closes the full post-fix GPU acceptance check once.",
+      "caution": "Do not relabel 27136, 27145 or 28194 as successful. CPU verification is not a GPU replay; HTTP health alone did not mean model registration was ready. Job 28197 is one full acceptance pass, not official accuracy certification.",
+      "transition": "This appendix shows how the portable deployment failure was isolated and finally accepted. Return to main slide 16 for the concise result and quality boundary.",
+      "brief": "Jobs 27136 and 27145 failed in separate result-reader defects; 27152 verified both fixes on CPU. Exact-ZIP job 28194 then hit a gateway health/registration race before scoring. Job 28197 changed readiness wait/checksum and passed the full 611-second H200 entry.",
       "hardware": "H200 replay + CPU reader verification"
     },
     "vi": {
-      "purpose": "Phân biệt suy luận GPU thành công với đóng gói đầu-cuối thành công. Hai allocation portable thật hoàn thành serving nhưng lỗi khi reader tìm và đọc kết quả; kiểm tra CPU-only sau đó xác nhận sửa reader, không phải xác nhận một allocation GPU đầy đủ đã sửa.",
-      "visual": "Theo dõi pipeline theo thứ tự: job portable thật 27136 và 27145 chạy GPU client chính thức và cả hai route P/D ngữ nghĩa, rồi lỗi ở bước xử lý kết quả. Bản sửa đầu xử lý export nằm trong thư mục con trực tiếp; bản sửa sau chuẩn hóa input root khi /scratch/home và /home cùng trỏ tới file. Job compute zero-GPU 27152 chạy qua cả hai reader sửa trên cả hai dataset thật. Giữ trạng thái scheduler gốc là FAILED.",
+      "purpose": "Trình bày đủ chuỗi debug để người nghe phân biệt job lỗi được giữ nguyên, sửa reader kiểm tra bằng CPU, race readiness gateway riêng và lần acceptance GPU đầy đủ cuối. Không đổi trạng thái scheduler thất bại trong quá khứ.",
+      "visual": "Vẽ timeline năm bước: 27136 chạy inference/client GPU portable xong rồi lỗi reader do output lồng thư mục; 27145 chạy inference/client xong rồi lỗi alias path; 27152 job CPU zero-GPU qua cả hai reader trên export thật; 28194 thử ZIP nguyên trạng nhưng fail trước benchmark với curl exit 22 vì health gateway HTTP 200 trong khi đăng ký model bất đồng bộ vẫn HTTP 503; 28197 chỉ đổi readiness wait/checksum, giữ worker, official client, reader và semantic check rồi hoàn tất entry trong 611 giây trên 16 H200 N64. Ghi rõ từng job lỗi vẫn FAILED; 28197 là allocation mới thành công.",
       "terms": [
         {
-          "symbol": "Deployment đầu-cuối",
-          "meaning": "Toàn tuyến từ khởi chạy server/route, official load client, export dữ liệu tới tạo kết quả đã review."
+          "symbol": "27136 / 27145",
+          "meaning": "Hai job GPU portable đầu vẫn FAILED do mỗi job có một lỗi reader kết quả khác nhau."
         },
         {
-          "symbol": "Route P/D ngữ nghĩa",
-          "meaning": "Đường dịch vụ prefill và decode; cả hai đã hoàn tất trong job GPU thật."
+          "symbol": "27152",
+          "meaning": "Job CPU zero-GPU kiểm tra reader đã sửa bằng export thật; không phải replay GPU."
         },
         {
-          "symbol": "Result reader",
-          "meaning": "Code hậu xử lý tìm file export, phân tích file và tính summary."
+          "symbol": "28194",
+          "meaning": "Lần thử ZIP nguyên trạng lỗi trước benchmark vì health gateway sẵn sàng trước khi đăng ký model bất đồng bộ."
         },
         {
-          "symbol": "Canonical path",
-          "meaning": "Danh tính filesystem đã resolve; /home và /scratch/home có thể là alias cùng vị trí dữ liệu."
+          "symbol": "28197",
+          "meaning": "Entry acceptance portable đầy đủ 16 H200/N64 sau khi đổi readiness wait/checksum."
         },
         {
-          "symbol": "Xác minh compute-only",
-          "meaning": "Job CPU kiểm tra reader đã sửa trên export thật mà không khởi chạy lại dịch vụ GPU."
+          "symbol": "HTTP 200 / HTTP 503",
+          "meaning": "Endpoint health đã trả lời trong khi endpoint đăng ký model còn chưa sẵn sàng; hai check biểu thị hai trạng thái readiness khác nhau."
         }
       ],
       "reading": [
-        "Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.",
-        "Job portable H200 thật 27136 và 27145 hoàn tất cả hai route dịch vụ và official client, nhưng job scheduler thất bại khi hậu xử lý. Ở 27136, AIPerf 0.12 đặt export trong thư mục con trực tiếp; bản sửa đầu xử lý layout đó. Ở 27145, đường /home dạng từ vựng và /scratch/home canonical gây mismatch alias; chuẩn hóa root khắc phục lỗi thứ hai.",
-        "Job zero-GPU 27152 sau đó chạy reader đã sửa trên cả hai dataset thật và đạt. Điểm raw 3.055,330517 của 27145 là bằng chứng khôi phục từ job gốc thất bại, không phải lần chạy lại toàn allocation thành công sau sửa. Không tuyên bố deployment GPU đầy đủ sau sửa."
+        "27136 và 27145 vẫn là job thất bại; output đã lưu giúp tìm ra hai lỗi reader khác nhau.",
+        "Job CPU zero-GPU 27152 xác minh hai bản sửa reader bằng dữ liệu thật đã lưu, nhưng không chạy deployment GPU.",
+        "Lần thử ZIP nguyên trạng 28194 là lỗi riêng trước AIPerf: endpoint health trả HTTP 200 trước khi đăng ký model bất đồng bộ sẵn sàng; model vẫn trả HTTP 503 và curl exit 22.",
+        "Job 28197 chỉ chỉnh thời gian chờ readiness và checksum. Worker image, official client, reader và cả hai semantic route được giữ nguyên.",
+        "28197 hoàn tất gateway readiness, cả hai semantic path P/D, workload client, summary acceptance gate và cleanup trong 611 giây trên 16 H200 N64.",
+        "Entry đầy đủ đạt 3051,518173 good output tokens/s, 1881/1907 request đạt SLA chung, 26 trượt TTFT, không trượt ITL, không error/cancel.",
+        "Điều này đóng acceptance GPU deployment đầy đủ sau sửa reader một lần; không chứng nhận quality model và không xóa trạng thái job lỗi trước."
       ],
       "tradeoff": {
-        "observation": "Hai job GPU thật hoàn tất inference và client nhưng lỗi đọc kết quả; job CPU-only 27152 xác minh hai sửa reader trên output thật.",
-        "hypothesis": "Lỗi còn lại của deployment đến từ giả định sai về layout file và alias đường dẫn ở hậu xử lý, không phải serving execution.",
-        "conclusion": "Hai lỗi reader cụ thể đã sửa và xác minh trên dataset thật; deployment đầy đủ sau sửa vẫn chưa được xác nhận.",
-        "unknown": "Chưa biết allocation mới có đi qua toàn bộ launch, inference, export, reader và các gate sau khi sửa hay không."
+        "observation": "Hai lỗi reader được sửa và kiểm tra trên CPU; một lần ZIP nguyên trạng sau đó lỗi trước benchmark vì race gateway; entry GPU đầy đủ mới qua sau điều chỉnh readiness hẹp.",
+        "hypothesis": "Chờ đúng trạng thái đăng ký model thay vì chỉ nhận endpoint health sẽ xử lý race khởi động còn lại.",
+        "conclusion": "28197 chứng minh deployment portable đã sửa có thể qua toàn bộ acceptance nội bộ. Giữ 27136, 27145 và 28194 là các job thất bại.",
+        "unknown": "Một lần qua không xác lập độ tin cậy thống kê của deployment hoặc quality model chính thức; nguyên nhân khác ngoài các đường quan sát vẫn chưa rõ."
       },
-      "script": "Hai job portable GPU thật hoàn tất route prefill, decode và official client, nhưng đều lỗi khi hậu xử lý đọc export. Một reader tìm sai tầng thư mục; reader kia nhầm hai alias đường dẫn của cùng file. Chúng tôi sửa cả hai và kiểm tra reader trên output thật bằng job CPU zero-GPU. Việc đó xác nhận sửa reader, không xác nhận allocation GPU đầy đủ sau sửa. Hai job scheduler gốc vẫn giữ trạng thái thất bại.",
-      "caution": "Không báo 3.055,330517 là deployment đầy đủ thành công. Job gốc thất bại; kiểm tra reader CPU không chạy lại GPU inference hay allocation đầy đủ.",
-      "transition": "Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.",
-      "brief": "Hai job portable H200 thật hoàn tất serving nhưng lỗi khi đọc kết quả. Job zero-GPU xác minh reader đã sửa trên export thật. Điều này chưa chứng minh deployment đầy đủ sau sửa; hai job ban đầu vẫn thất bại.",
+      "script": "Chuỗi này có hai lỗi khác nhau và hai bước sửa. Job portable 27136 và 27145 chạy xong inference cùng client nhưng thất bại vì hai reader giả định sai đường dẫn theo hai cách. Job CPU 27152 xác minh cả hai sửa bằng export thật nhưng không chứng minh được deployment GPU. Sau đó thử ZIP nguyên trạng ở job 28194 và lỗi trước khi chấm: health gateway trả HTTP 200 nhưng đăng ký model bất đồng bộ vẫn trả HTTP 503. Chúng tôi chỉ đổi thời gian chờ readiness và checksum. Job 28197 giữ nguyên worker, official client, reader và semantic path, rồi hoàn tất mọi bước và cleanup trong 611 giây trên 16 H200. Điểm đạt 3.051,52 good token mỗi giây, SLA chung 98,64%, không lỗi. Các job cũ vẫn thất bại; job mới đóng kiểm tra GPU toàn gói sau sửa một lần.",
+      "caution": "Không đổi 27136, 27145 hay 28194 thành thành công. Kiểm tra CPU không phải replay GPU; health HTTP một mình không có nghĩa model đã sẵn sàng. Job 28197 là một lần acceptance đầy đủ, không phải chứng nhận accuracy.",
+      "transition": "Phụ lục giải thích cách cô lập lỗi deployment portable rồi qua acceptance. Quay lại slide chính 16 để xem kết quả ngắn và ranh giới quality.",
+      "brief": "Job 27136 và 27145 lỗi ở hai reader khác nhau; 27152 kiểm tra cả hai bản sửa trên CPU. ZIP nguyên trạng ở 28194 gặp race gateway trước benchmark. Job 28197 chỉ đổi readiness wait/checksum và qua entry H200 đầy đủ trong 611 giây.",
       "hardware": "H200 chạy benchmark; CPU chỉ kiểm reader trên dữ liệu đã lưu."
     }
   },

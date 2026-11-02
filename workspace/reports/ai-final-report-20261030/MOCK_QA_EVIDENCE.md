@@ -1,6 +1,6 @@
 # Mock panel Q&A: evidence and answer boundaries
 
-Prepared 1 November 2026; updated after the nine-run H200 verification on 31 October from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](/home/apacsc42/workspace/submission-review/ai-final-update-20261101/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
+Updated 2 November 2026 after full portable acceptance job 28197 from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](../../submission-review/ai-acceptance-update-20261102/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
 
 | Main slide | Exact title in the current plan |
 |---:|---|
@@ -19,7 +19,7 @@ Prepared 1 November 2026; updated after the nine-run H200 verification on 31 Oct
 | 13 | Repeated evidence supports N64 more strongly than an isolated peak |
 | 14 | Direct H200 tests decide which H100 ideas transfer |
 | 15 | Better proxy metrics did not always improve qualifying throughput |
-| 16 | The performance claim is bounded; two validation tasks remain open |
+| 16 | Deployment acceptance passes; official model quality remains unverified |
 
 ## Answer pattern
 
@@ -69,7 +69,7 @@ In about 30 seconds: state the observed problem, name the comparison or interven
 
 ### 5. Which score is “best,” and what do you claim as the selected result?
 
-**30-second answer:** “Our selected point is replicated target-only N64: historical full runs 25366, 25373 and 25487 average 3,044.400 good output tokens/s, and separate native run 26766 at 3,045.502 reproduces that level. The highest complete full benchmark we ran and checked on the assigned H200 cluster is 27378 at 3,048.446, but its cache pair is only +0.241% over fresh control 27376 and misses the 1% useful-gain gate, so it does not replace the replicated point. Recovered portable raw 27145 is 3,055.331, but the original job failed in postprocessing; compute-only 27152 verified readers, not a whole-allocation rerun.”
+**30-second answer:** “Our recommended operating choice remains replicated target-only N64: historical full runs 25366, 25373 and 25487 average 3,044.400 good output tokens/s, and separate native run 26766 at 3,045.502 is a distinct observation. The later exact-packaged-entry acceptance 28197 scored 3,051.518, but it had no matched control and changes no serving recipe, so it is not an optimisation gain. Before that, the highest complete full benchmark was 27378 at 3,048.446; its cache pair was only +0.241% versus fresh control 27376. Recovered raw 27145 is 3,055.331, but its original job failed postprocessing; compute-only 27152 verified readers, not a full rerun.”
 
 **Cross-examination:** “Why not claim the largest number?” Because evidence class and matched controls matter. A recovered raw measurement from a failed job is not a successful deployed run; a one-off treatment below the prospective useful-gain gate is not a confirmed optimization. The selected three-run historical mean, later native observation, cache comparison, and portable replay are distinct series.
 
@@ -111,7 +111,27 @@ In about 30 seconds: state the observed problem, name the comparison or interven
 
 Only a bounded held-out check. A frozen N52 calibration predicted 2,642.244 good tokens/s on H200; measured job 24272 reached 2,601.629 (−1.537%), inside the team's ±2% practical tolerance but outside an earlier incomplete sensitivity range. It is backup slide 33, not the latest transfer result and not a universal hardware multiplier. Source: [frozen calibration and held-out run](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/SERVING_TUNING_RESULTS.md) and [job 24272](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/runs/24272/).
 
-### 9. Did a lower resource proxy or speculative decoding improve the service?
+### 9. What did the final full portable acceptance prove?
+
+**30-second answer:** “Job 28197 ran the exact packaged entry after we corrected the readiness race found in 28194. The old gate saw `/health` return 200 before asynchronous model registration finished; `/v1/models` then returned 503. We changed only the readiness gate so it checks for the registered Qwen model and live workers within the original deadline. The full entry then completed in 611 seconds on 16 H200 and passed the corrected readers, both P/D semantic paths, performance gate and cleanup. It scored 3,051.518 good output tokens/s; 1,881 of 1,907 requests passed both latency limits (98.6366%), with 26 TTFT misses and zero ITL misses or errors. This accepts the packaged deployment path; with no matched control it does not prove a performance improvement.”
+
+**Cross-examination:** “Did you change the model or optimize serving?” No. The fix only waits for the API's actual model-registration response and checks the worker PIDs under the original job-start-plus-600-second readiness deadline. It changes no model, serving parameters, semantic criteria or official client flags. A performance score from this run is an acceptance observation, not a matched treatment effect.
+
+**Retained evidence:** slide 16 and backup 31; [28197 acceptance review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [actual scheduler receipt and state](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), [preserved 28194 failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/delivery/VNUHCM%20-%20TripleU/AI_Task/logs/reruns/28194/summary.json) and [portable performance gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/delivery/VNUHCM%20-%20TripleU/AI_Task/logs/reruns/28197/performance-gate.json).
+
+**Still missing:** the official model-quality ratio against the organiser reference. The acceptance run is a performance/deployment check, not that full accuracy evaluation.
+
+### 10. What does the “quality score” say, and can we submit without it?
+
+**Answer:** “We have no measured official quality number. The 98.6366% value from 28197 is the fraction of performance requests that met both latency limits; it is not model accuracy. The official ≥99%-of-reference evaluation is organiser-run. The published Basic submission procedure asks for the stack instructions, single-job deployment and benchmark script, and slides; it does not list our possession of the unpublished reference score as a pre-upload requirement. We can submit the Basic package while stating that organiser quality validation is pending. This does not guarantee it will pass that later quality evaluation.”
+
+**Retained evidence:** [exact requirement and careful interpretation](/home/apacsc42/workspace/notes/ai-quality-threshold-clarification-20261102.md), [official Qwen rules snapshot](../submission-review/submission-readiness-20261102/official-rules/1.%20Qwen3%20AI%20Task%20Rules.md).
+
+### 11. Did the latest acceptance replace the historical best or improve the model?
+
+No. Job 28197's 3,051.518173 is the latest complete exact-package acceptance observation and is numerically above the earlier 3,048.446289 individual 27378 result. It has no matched concurrent control and changes no serving recipe, so do not call the difference an optimisation gain. Keep the historical three-run mean 3,044.400475, separate native job 26766 at 3,045.501509, highest complete individual 27378, and previously recovered raw value from failed job 27145 at 3,055.330517 as separate evidence classes. The acceptance run confirms the deployment and scoring path after reader repair; it does not rewrite those historical records or provide official accuracy.
+
+### 12. Did a lower resource proxy or speculative decoding improve the service?
 
 **30-second answer:** “No tested branch displaced replicated N64. Sparse decode graphs reduced logged capture memory from 1.15 to 0.36 GB per decode rank, but job 27510 scored 3,029.861 good tokens/s, 0.370% below the earlier control 27376. The shallow EAGLE3 full arm 27238 scored 2,971.628, 2.080% below matched 26949. These examples show why a favorable resource or short diagnostic is not enough: the complete service objective and quality gates still decide.”
 
@@ -123,11 +143,11 @@ Only a bounded held-out check. A frozen N52 calibration predicted 2,642.244 good
 
 ## Team handoff and HPC questions
 
-If asked about the HPC section, keep the answer to ownership and handoff: “Those final eight slides cover the independent OpenFOAM CPU track. I can hand over to its owner for the solver, scheduler and measured CPU results; I will not attribute those results to the AI experiments.” The AI speaker should not improvise HPC measurements, alter its payload, or merge the two tracks' budgets and evidence. Allow the HPC speaker their separately agreed time; no HPC timing is inferred here.
+If asked about the HPC section, keep the answer to ownership and handoff: “Slides 35–42 cover the independent OpenFOAM CPU track. I can hand over to its owner for the solver, scheduler and measured CPU results; I will not attribute those results to the AI experiments.” The AI speaker should not improvise HPC measurements, alter its payload, or merge the two tracks' budgets and evidence. Allow the HPC speaker their separately agreed time; no HPC timing is inferred here.
 
 ## Proposed final mock rehearsal
 
-This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–11 minute target inside the official combined 15–20 minute AI/HPC talk; the separate Q&A is 10 minutes. Then ask the nine questions above without opening a terminal. Use hidden backups 17–34 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
+This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–11 minute target inside the official combined 15–20 minute AI/HPC talk; the separate Q&A is 10 minutes. Then ask the questions and follow-ups above without opening a terminal. Use hidden backups 17–34 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
 
 At the end, hand the microphone and slide control to the independent HPC presenter. Keep an explicit unknown/contingency sentence ready: “Official full-set quality is still unverified; we are presenting the result measured by our team on the assigned cluster and its limits.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
 

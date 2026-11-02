@@ -1,18 +1,22 @@
 # TripleU AI task — final research report
 
-The current presentation is an [engineering investigation](FEEDBACK_RESPONSE.md): 16 main AI slides and 18 hidden backups, with complete technical stories and explicit evidence limits. [The 24-page main-talk PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Main_Talk.pdf) goes directly from AI to the eight unchanged HPC pages. Both bilingual guides and the concise spoken scripts cover the current deck. The nine final 31 October H200 trials are included in main slide 14 and backup 34; the historical forecast is backup 33. This reporting update launches no experiment.
+The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The [24-page main-talk PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Main_Talk.pdf) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
 
-Updated 1 November 2026, Vietnam time (UTC+7). This report covers the Qwen AI task. The independent HPC task is outside its scope. Research and new job submissions are stopped.
+Updated 2 November 2026, Vietnam time (UTC+7). This report covers Qwen AI. The final portable deployment acceptance, job 28197, is complete. Official full-set model quality remains UNKNOWN. Research and additional job submissions are stopped; no organiser upload is claimed.
 
 ## Result and submission choice
 
-**Recommended submission:** replicated target-only N64 serving on 16 H200, with two TP4/EP1 prefill workers and one TP8/EP8 decode worker. Three historical full runs average **3,044.400475 good output tokens/s**. A later native-runtime full observation reproduces that level at **3,045.501509**; it is a separate series.
+**Recommended operating choice:** N64 on 16 H200, with two TP4/EP1 prefill workers and one TP8/EP8 decode worker; DeepGEMM prefill/chunk 8192 and HPC-Ops decode with FlashInfer attention/MNNVL transport. This is a repeatedly measured deployment decision, not proof of global optimality.
 
-**Highest complete local full pass:** job **27378**, **3,048.446289 good output tokens/s**. Its prefill ChunkCache treatment is only **0.240921%** above fresh native control 27376, below the prospective 1% useful-gain threshold. P95 TTFT also worsens. It is an isolated higher point, not a confirmed improvement, so it does not replace the replicated configuration.
+**Historical repeated target-only series:** three full H200 runs average **3,044.400475 good output tokens/s**. Native full job 26766 measured **3,045.501509** in a separate series. Highest complete individual before portable acceptance, job 27378, measured **3,048.446289**, but its cache treatment was only +0.240921% versus its fresh control, below the team's prospective 1% usefulness threshold. It was not a confirmed optimization.
 
-**Highest recovered portable raw observation:** job **27145**, **3,055.330517 good output tokens/s**. Both semantic P/D routes and the official GPU client completed, but the original job failed in result-reader path handling. Corrected readers passed actual compute-only job 27152 on both retained datasets. Original failed states remain; a whole-allocation end-to-end replay after the repair is not claimed.
+**Final exact packaged-entry acceptance:** the initial attempt, 28194, failed before AIPerf because `/health` returned 200 while asynchronous registration was incomplete; `/v1/models` then returned 503. The fix changed only readiness: wait for a valid registered Qwen model and live workers under the original deadline. Five local readiness/liveness fixtures passed before submitting the exact corrected entry as job 28197. That full run completed successfully in **611 seconds on 16 H200 at N64**, passed both P/D semantic routes, corrected result readers, the performance gate and cleanup. It measured **3,051.518173 good output tokens/s**. Of **1,907 requests, 1,881 passed both latency limits (98.636602%)**; 26 missed TTFT, none missed ITL, and there were zero errors or cancellations. Mean/p95 TTFT was **1,100.315/1,285.996 ms**; mean/p95 request-mean ITL was **15.009828/15.185750 ms**.
 
-Official full-set model accuracy, requiring at least 99% of the organiser's reference score, remains **UNKNOWN**. Local latency/output checks are not official competition acceptance or a global-optimum claim.
+This is a complete portable deployment-acceptance observation, not a new serving recipe or a matched speedup. Its value is numerically above the prior highest complete individual 27378, but it has no contemporaneous matched control and establishes no optimisation gain. Keep it separate from the historical three-run mean 3,044.400475, native job 26766 at 3,045.501509, prior highest complete configuration 27378 at 3,048.446289, and recovered raw observation 27145 at 3,055.330517 whose original job FAILED during postprocessing.
+
+**Official model quality remains UNKNOWN.** No team measurement of the full-set ratio against the organiser reference is retained. The 98.636602% value above is a latency-qualified request fraction, not accuracy. The published Basic procedure says organisers run the full quality check; their unpublished reference score is not stated as a pre-upload prerequisite. Submitting Basic while that organiser evaluation is pending does not guarantee the later quality check will pass. See the [quality and submission clarification](/home/apacsc42/workspace/notes/ai-quality-threshold-clarification-20261102.md).
+
+[Full 28197 review and failure-to-fix evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [actual job status/receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), [rendered submission review](/home/apacsc42/workspace/submission-review/ai-acceptance-update-20261102/README.md).
 
 ## Workload and score
 
@@ -57,7 +61,7 @@ Job 27510 completed 0:0 with 1,870/1,896 good requests (98.628692%). Twelve spar
 
 - Full-model compile 27383 failed before AIPerf when native RoPE rejected a fused KV argument. It has no performance score; fewer capture buckets alone cannot repair the interface.
 - CPU C++ trial 27387 ran out of its short process window after 76 seconds of container creation. Its replacement 27506 completed in 95 seconds, with a 26.605-second cold JIT, two CPU fixtures and native cleanup. That establishes neither Qwen integration nor serving speed.
-- Portable reader repairs preserve the original failed GPU allocations and their recovered raw observations. Compute postprocessing verification is a separate proof.
+- Portable reader repairs preserve the original failed GPU allocations and their recovered raw observations. Compute-only postprocessing was a separate proof; the later complete corrected-entry GPU acceptance is job 28197, while failed 28194 remains a separate retained failure.
 - Five-second hardware/server samples use a request-start envelope with uncalibrated clocks and incomplete final-drain coverage. GPU activity, sampled VRAM and KV token occupancy measure different things. Missing kernel, hot-thread, Xid/throttle and authoritative generated-token data are not zero or healthy.
 - Earlier lower valid replays remain retained. Their difference from later approximately 3k runs is not automatically a causal launcher gain.
 
@@ -69,22 +73,22 @@ A historical same-configuration N52 calibration produced an observed system rati
 
 ## Delivery and reproducibility
 
-The package retains the portable N64 entry and the corrected result readers. The official model/client command, serving implementation and latency limits are unchanged in this report update. Recent configurations, raw profiling exports, requests, runtime logs and independent reviews accompany the report.
+The accepted 28197 delivery copy retains the exact portable N64 entry and corrected result readers. Its readiness-only repair waits for real model registration and live workers. The model, serving implementation, both semantic routes, official client command and latency limits are unchanged. Frozen code and raw profiling exports, requests, runtime logs, reviews and cleanup evidence accompany the run.
 
 Submission artifacts and slides are in English; the owner-requested Vietnamese learning transcript is a separate exception. The existing theme, gradients and distinct background photographs are retained. The eight HPC slides and their 68 transitive OOXML parts remain protected. Current live HPC files and the existing ZIP's HPC contents are preserved independently because another worker has unpublished folder changes; this AI update does not silently package them.
 
 No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Updated presentation](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pptx)
-- [Review PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pdf)
-- [Speaker notes](../../submission-review/ai-final-update-20261101/PRESENTER_NOTES.md)
+- [Updated presentation](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pptx)
+- [Review PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf)
+- [Speaker notes](../../submission-review/ai-acceptance-update-20261102/PRESENTER_NOTES.md)
 - [Current detailed metrics and configuration](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md)
-- [Publication verification](../../submission-review/ai-final-update-20261101/publication-validation.json)
+- [Publication verification](../../submission-review/ai-acceptance-update-20261102/publication-validation.json)
 
 
 ## Presentation readiness
 
-The current compact AI route targets about 10:50, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The public rules provide 15–20 minutes for the combined AI/HPC talk plus a separate 10-minute Q&A; earlier AI-only planning is historical. Agree the split with the HPC speaker and test it in a real timed mock. Three evidence cards cover request-scoped KV transfer, the repeated backend interaction and full-protocol N64 selection. Each separates observation, hypothesis, supported conclusion and missing evidence.
+The current compact AI route targets about 10:50, with a proposed 12-minute rehearsal stop and direct handoff to the independent OpenFOAM presenter. The public rules provide 15–20 minutes for the combined AI/HPC talk plus a separate 10-minute Q&A; earlier AI-only planning is historical. Agree the split with the HPC speaker and test it in a real timed mock. Evidence cards cover request-scoped KV transfer, the repeated backend interaction, N64 selection, direct H100-derived tests on H200 and the accepted packaged-entry replay. Each separates observation, hypothesis, supported conclusion and missing evidence.
 
 The revised slides make previously compressed reasoning explicit: transport recovery and output rejection, reverse-order startup confirmation, role-aware EAGLE debugging, source-guided tokenization/collective tests, controlled regime recovery, and defects exposed by real portable replay. The full shared journal contains independent HPC and administrative records as well as scientific arcs. It is not presented as a count of successes.
 

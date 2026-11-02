@@ -10,9 +10,9 @@
 - Mỗi slide có nhãn **Phần cứng** ngay dưới tiêu đề. H200 là Firmus, H100 là NSCC ASPIRE 2A+; slide có cả hai hoặc có phép kiểm tra CPU sẽ ghi riêng. Nhãn “chung” chỉ quy tắc hoặc bố trí dùng trên cả hai hệ thống, không biến chúng thành một phép so hiệu năng cùng điều kiện.
 - Màu sắc có ý nghĩa **theo từng slide**. Cam không luôn là “thắng” hay “thua”. Ảnh nền, gradient và đường trang trí cuối slide không biểu diễn dữ liệu.
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
-- Nghiên cứu đã dừng theo yêu cầu. Các việc “tiếp theo” trong slide là đề xuất hoặc câu chuyện tại thời điểm đó, không phải job mới đã chạy.
+- Tối ưu mở rộng vẫn dừng. Job kiểm chứng cuối 28197 đã chạy xong theo yêu cầu; các việc “tiếp theo” là đề xuất trừ khi ghi rõ đã thực hiện.
 
-Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-final-update-20261101/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `1ba55e8007f0ef7796076a35e82a1afc372a706c13500b80fbf9b27d723a2195`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
+Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `6af3c79387baedb16b350450242214a669afc9fc34b10b5b4f1fecac5770be96`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
 ## Những cách gọi cần hiểu trước khi thuyết trình
 
@@ -87,10 +87,10 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 10 — Higher goodput came with slower first tokens and faster streaming](#slide-10)
 - [Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage](#slide-11)
 - [Slide 12 — The remaining latency failures are first-token tails](#slide-12)
-- [Slide 13 — Repeated evidence supports N64 more strongly than an isolated peak](#slide-13)
+- [Slide 13 — A complete portable run reproduces the retained operating level](#slide-13)
 - [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — The H200 recipe holds; official quality and replay remain open](#slide-16)
+- [Slide 16 — Deployment acceptance passes; official model quality remains unverified](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
 - [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
@@ -105,7 +105,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 28 — Backup · less graph memory did not raise goodput](#slide-28)
 - [Slide 29 — Why did a later replay score lower?](#slide-29)
 - [Slide 30 — Did speculative decoding solve this workload?](#slide-30)
-- [Slide 31 — Does the packaged deployment complete end to end?](#slide-31)
+- [Slide 31 — Backup · real failures led to a complete portable acceptance](#slide-31)
 - [Slide 32 — Do attention and communication choices interact?](#slide-32)
 - [Slide 33 — Backup · one held-out forecast is not a GPU conversion rule](#slide-33)
 - [Slide 34 — Backup · nine final H200 runs support retaining the recipe](#slide-34)
@@ -132,7 +132,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 Chúng tôi phục vụ Qwen3-235B FP8 trên 16 GPU H200. Một yêu cầu chỉ được tính khi đạt cả hai giới hạn độ trễ; ít nhất 90% phải đạt. Chỉ thông lượng đầu ra đạt chuẩn mới được báo cáo.
 
-![Slide 01](../../submission-review/ai-final-update-20261101/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-01.png)
 
 ### Mạch suy luận để nói
 
@@ -200,7 +200,7 @@ Khi mục tiêu đã rõ, ta có thể phân biệt chính xác phần nào là 
 
 Chúng tôi tách lựa chọn kiến trúc, bản vá KV theo yêu cầu của nhóm và phép đo backend. Mỗi kết luận có loại bằng chứng riêng: hồ sơ layout, source cùng xác minh truyền, hoặc thử nghiệm có đối chứng; H100 được giữ riêng với H200.
 
-![Slide 02](../../submission-review/ai-final-update-20261101/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-02.png)
 
 ### Mạch suy luận để nói
 
@@ -266,7 +266,7 @@ Ta bắt đầu từ quyết định kiến trúc: số replica và độ rộng
 
 Các phép thử cho thấy đánh đổi giữa nhiều worker xử lý prompt và worker có độ song song rộng. Nhóm giữ cấu hình vừa hai node tám GPU, có đường truyền KV hoạt động và lặp lại được ở N64. Điểm đo khác tải không chứng minh đây là cấu hình tốt nhất toàn cục.
 
-![Slide 03](../../submission-review/ai-final-update-20261101/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-03.png)
 
 ### Mạch suy luận để nói
 
@@ -334,7 +334,7 @@ Sau đó, một nhánh heterogeneous-TP lịch sử riêng gặp lỗi sẵn sà
 
 Cách chia được giữ lại dùng hai worker prefill TP4/EP1, mỗi worker bốn GPU, trên một nút; nút kia chạy decode TP8/EP8 trên tám GPU. Cấu hình vừa 16 H200 nhưng cần truyền KV giữa hai vai trò. Cấu hình này được chọn để cân bằng hai pha trong ngân sách GPU.
 
-![Slide 04](../../submission-review/ai-final-update-20261101/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-04.png)
 
 ### Mạch suy luận để nói
 
@@ -402,7 +402,7 @@ Không nhầm topology được chọn với nhánh khôi phục lịch sử P8 
 
 Trong job 22271, worker P8 TP8/EP2 sang D8 TP4/EP4 đã nạp mô hình nhưng warmup cặp timeout sau 360 giây. AIPerf chưa chạy, vì vậy không có điểm baseline. Đây là dấu hiệu lỗi khởi động, chưa phải kết quả hiệu năng.
 
-![Slide 05](../../submission-review/ai-final-update-20261101/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-05.png)
 
 ### Mạch suy luận để nói
 
@@ -469,7 +469,7 @@ Timeout xác định lỗi xảy ra trước khi chấm điểm nhưng chưa cho
 
 Hai worker đã sẵn sàng nhưng warmup qua cặp P/D timeout trước AIPerf. Source cho thấy setup duyệt cả pool KV không phụ thuộc request. Nhóm thử giới hạn descriptor theo request trước vì đây là giả thuyết nhỏ, kiểm tra được với chi phí thấp.
 
-![Slide 06](../../submission-review/ai-final-update-20261101/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-06.png)
 
 ### Mạch suy luận để nói
 
@@ -539,7 +539,7 @@ Kiểm tra CPU chỉ xác nhận mô tả khoảng byte tương đương. Slide 
 
 Job 22294 có bản vá hoàn tất warmup trong 0,68–0,70 giây mỗi yêu cầu và đạt 1.422,96 good tokens/s ở N32, SLA kết hợp 95,87%, không lỗi. Kết quả chứng minh tính khả thi, không phải mức tăng tốc riêng. Đây là bằng chứng khả thi của một lần chạy cụ thể. Cần đối chứng thành công để ước lượng tác động riêng của bản vá.
 
-![Slide 07](../../submission-review/ai-final-update-20261101/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-07.png)
 
 ### Mạch suy luận để nói
 
@@ -607,7 +607,7 @@ Bản sửa khôi phục được đường serving có thể đo, nhưng nguyê
 
 Profile N48 riêng ghi giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel GPU đã thu. Quan sát này giúp chọn phép thử có đối chứng, chưa chứng minh giao tiếp chiếm cùng tỷ lệ thời gian chờ của request hoặc là bottleneck của N64.
 
-![Slide 08](../../submission-review/ai-final-update-20261101/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-08.png)
 
 ### Mạch suy luận để nói
 
@@ -674,7 +674,7 @@ Profile thu hẹp câu hỏi nhưng chưa chọn giải pháp. Bây giờ là ph
 
 Chúng tôi so decode tự động với HPC-Ops trên cùng cấu hình H200 N60 đầy đủ, giữ prefill DeepGEMM và chunk 8.192 cố định. Giả thuyết là decode có thể tăng thông lượng hữu ích; lần lặp treatment riêng kiểm tra độ nhất quán.
 
-![Slide 09](../../submission-review/ai-final-update-20261101/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-09.png)
 
 ### Mạch suy luận để nói
 
@@ -739,7 +739,7 @@ Bây giờ đọc kết quả theo goodput, độ trễ token đầu và khoản
 
 Đổi cách thực thi decode giúp thông lượng đạt chuẩn trên H200 tăng khoảng 5,30%, và lần triển khai khác cho kết quả gần như vậy. Token đầu chậm hơn nhưng khoảng token khi đang sinh ngắn hơn. Nhóm chọn đánh đổi đã đo này, không khẳng định mọi thứ đều nhanh hơn.
 
-![Slide 10](../../submission-review/ai-final-update-20261101/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-10.png)
 
 ### Mạch suy luận để nói
 
@@ -804,7 +804,7 @@ Tiếp theo, chọn tải request bằng cách đối chiếu N64 lặp lại v�
 
 N64 đầy đủ hơn N62 1,082867% và lặp lại trong 0,013634%. N68 có vẻ hơn 2,27% ở phép thử ngắn, nhưng cặp đầy đủ chỉ còn 0,083056%, dưới ngưỡng hữu ích. N64 là lựa chọn tải có căn cứ. N64 vì thế phù hợp hơn cho vận hành đầy đủ.
 
-![Slide 11](../../submission-review/ai-final-update-20261101/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-11.png)
 
 ### Mạch suy luận để nói
 
@@ -869,7 +869,7 @@ N là số request client đồng thời, không phải số GPU. Không coi th�
 
 Trong 1.902 request, có 1.875 đạt cả hai giới hạn; cả 27 request trượt đều chỉ lỗi TTFT. Không request nào trượt ITL và không có lỗi request. Scatter cho biết điều kiện bị vi phạm, không giải thích vì sao token đầu trễ.
 
-![Slide 12](../../submission-review/ai-final-update-20261101/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-12.png)
 
 ### Mạch suy luận để nói
 
@@ -924,66 +924,70 @@ Tiếp theo, so bằng chứng N64 lặp lại với các quan sát cao/thấp r
 
 <a id="slide-13"></a>
 
-## Slide 13 — Repeated evidence supports N64 more strongly than an isolated peak
+## Slide 13 — A complete portable run reproduces the retained operating level
 
-**Phần cứng: H200 · báo riêng chuỗi full lịch sử và native**
+**Phần cứng: H200 · báo riêng chuỗi lịch sử, run native và portable acceptance**
 
 **Loại nội dung: Phương pháp hoặc phát hiện thực nghiệm.**
 
 ### Nói nhanh · 10–20 giây
 
-Nhóm chạy lại N64 trong ba lần đo đầy đủ, trung bình khoảng 3.044 token đầu ra đạt chuẩn mỗi giây. Một lần đổi cache cao hơn nhưng chỉ tăng 0,24% so với đối chứng riêng. Nhóm ưu tiên bằng chứng tái lập, đồng thời giữ kết quả thấp hơn chưa giải thích được.
+Ba nhóm bằng chứng nay cùng nằm gần nhau: trung bình N64 lịch sử 3.044,40; run native riêng 3.045,50; portable đầy đủ 28197 đạt 3.051,52 good tokens/s. Gói đã qua một lần chạy thật; nguyên nhân replay thấp cũ vẫn chưa rõ.
 
-![Slide 13](../../submission-review/ai-final-update-20261101/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-13.png)
 
 ### Mạch suy luận để nói
 
-- **Vấn đề:** Chọn quan sát cao nhất có thể dẫn đến cấu hình do nhiễu hoặc không tái lập.
-- **Vì sao quan trọng:** Lựa chọn triển khai cần qua nhiều lần chạy đầy đủ; protocol/runtime khác không nên gộp như cùng một thí nghiệm.
-- **Vì sao chọn phép thử này:** Đối chiếu chuỗi N64 lịch sử ba lần, lần native đầy đủ riêng, control/treatment cache khớp và replay legacy thấp hợp lệ.
-- **Điều rút ra:** N64 lặp quanh 3.044–3.046 trong hai chuỗi gắn nhãn riêng; gain cache 0,240921% dưới ngưỡng chọn; replay thấp chưa rõ nguyên nhân.
-- **Vì sao chuyển sang bước tiếp:** Chọn theo bằng chứng lặp và nêu rõ xác minh accuracy cùng triển khai còn thiếu.
+- **Vấn đề:** Các job GPU portable trước thất bại khi đọc kết quả nên kiểm tra reader trên CPU chưa chứng minh package đầy đủ chạy được sau sửa.
+- **Vì sao quan trọng:** Điểm benchmark chỉ dùng cho nộp bài khi package thật qua readiness, phục vụ cả hai vai trò, chạy client, đọc kết quả và cleanup trong allocation GPU thật.
+- **Vì sao chọn phép thử này:** Sau lần dùng ZIP nguyên trạng lỗi trước khi chấm vì health gateway trả HTTP 200 trong khi model registration vẫn trả 503, chỉ đổi thời gian đợi readiness và checksum. Giữ nguyên worker, official client, reader, hai đường semantic rồi chạy entry đầy đủ 16 H200 N64.
+- **Điều rút ra:** Job 28197 hoàn tất entry portable trong 611 giây, qua hai đường semantic P/D và summary gate, đạt 3051,518173 good tokens/s với 98,6366% SLA chung và không lỗi/hủy. Điều này đóng khoảng trống GPU acceptance sau sửa reader.
+- **Vì sao chuyển sang bước tiếp:** Package có một lần acceptance GPU đầy đủ sau sửa. Giữ phạm vi đó riêng với các lần đo hiệu năng lịch sử rồi kết thúc bằng yêu cầu quality toàn tập chính thức còn mở.
 
 ### Slide muốn nói gì
 
-Tách độ vững khỏi việc chọn đỉnh: phép lặp hỗ trợ N64, nhưng chuỗi runtime khác nhau và drift chưa giải thích ngăn gộp thành xu hướng hay chuyện nhân quả duy nhất.
+Đánh giá khả năng tái lập qua các đường triển khai riêng mà không gộp chúng thành một chuỗi đồng nhất. Run portable mới đã dùng reader sửa và allocation H200 đầy đủ. Kết quả hỗ trợ điểm vận hành được giữ và đóng khoảng trống GPU acceptance sau sửa reader, đồng thời vẫn nêu rõ drift chưa giải thích và giới hạn một lần chạy.
 
 ### Giải thích kết quả và lập luận
 
-Đọc độ mạnh bằng chứng thay vì chỉ chọn điểm cao nhất. Chuỗi lịch sử là trung bình ba lần N64 đầy đủ. Lần native 26766 là chuỗi đầy đủ về sau riêng, có điểm gần tương đương. Cặp cache 27376/27378 so control mới với một treatment: 3.041,119598 so với 3.048,446289, tăng 0,240921%, dưới tiêu chí gain hữu ích và p95 TTFT xấu hơn. Replay đầy đủ hợp lệ 26313 đạt 2.830,923547. Kết quả thấp được giữ lại; các đối chứng graph/admission hoàn tất không chỉ ra một nguyên nhân. Giữ nhãn chuỗi riêng thay vì nối chúng thành một đường gây hiểu sai.
+Dùng ba thẻ bằng chứng có nhãn riêng: (A) trung bình ba full run N64 lịch sử 3044,400475 good tokens/s; (B) job native riêng 26766 đạt 3045,501509; (C) portable đầy đủ mới 28197 đạt 3051,518173. Ghi 1881/1907 request đạt SLA chung (98,6366%), không lỗi/hủy, TTFT mean/p95 1100,315/1285,996 ms và ITL mean/p95 15,010/15,186 ms. Chân trang: replay thấp hợp lệ cũ 26313 đạt 2830,923547 chưa rõ nguyên nhân; cache 27378 đạt 3048,446289 từng là individual full cao nhất trước 28197, không còn là đỉnh hiện tại. Không trục: đây là deployment và thống kê riêng, không phải đường xu hướng hay biểu đồ khoảng tin cậy.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **trung bình có lặp:** Trung bình ba lần N64 đầy đủ lịch sử; số lần lặp hỗ trợ tính nhất quán ở setting đó nhưng tự nó không phải khoảng tin cậy.
-- **chuỗi runtime native:** Quan sát đầy đủ về sau qua đường serving riêng; báo riêng thay vì gộp với run lịch sử.
-- **đỉnh riêng lẻ:** Một lần đo cao. Có thể là thật nhưng không chứng minh cấu hình cải thiện ổn định.
-- **ngưỡng gain hữu ích:** Mức gain tối thiểu đặt trước để chọn thay đổi; kết quả cache +0,240921% thấp hơn ngưỡng.
-- **replay thấp hợp lệ:** Run hoàn thành protocol đầy đủ, vẫn là số đo hợp lệ dù điểm thấp hơn.
+- **trung bình ba run lịch sử:** Trung bình số học của các full run N64 lịch sử; không bao gồm các quan sát native hay portable riêng.
+- **run native 26766:** Một full run H200 N64/native khác, đạt 3045,501509 good output tokens/s.
+- **portable 28197:** Entry portable đầy đủ trên 16 H200 N64, hoàn tất readiness gateway, hai đường semantic P/D, official client, summary/gate và cleanup trong 611 giây.
+- **đạt SLA chung:** Một request đồng thời đạt TTFT ≤3000 ms và ITL trung bình của request ≤20 ms; mẫu số gồm mọi request kể cả lỗi.
+- **không có trục:** Ba thẻ biểu diễn deployment và thống kê riêng; vị trí không phải đường thời gian liên tục hay khoảng tin cậy.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Trung bình ba lần N64 lịch sử: 3.044,400475 token đầu ra tốt/giây. Lần native 26766 về sau: 3.045,501509; giữ là chuỗi riêng.
-- Control mới 27376 đạt 3.041,119598. Treatment cache 27378 đạt 3.048,446289, tăng 0,240921%; p95 TTFT xấu hơn nên không chọn làm cải thiện hữu ích.
-- Replay đầy đủ legacy 26313 đạt 2.830,923547 và vẫn hợp lệ. Không đối chứng hoàn tất nào cô lập một nguyên nhân duy nhất cho chênh lệch với chuỗi native mới.
+- Trung bình ba run N64 lịch sử (3044,400475) thuộc chuỗi riêng; không trộn với runtime sau.
+- Job native 26766 đạt 3045,501509 là một run đầy đủ riêng, không cộng vào trung bình lịch sử.
+- Job portable 28197 chạy toàn gói trên 16 H200 N64, đạt 3051,518173 good output tokens/s sau khi sửa reader và readiness gateway.
+- Trong 1907 request, 1881 cùng đạt hai ngưỡng SLA (98,63660199265862%); 26 trượt TTFT, không request nào trượt ITL, không lỗi hay hủy.
+- TTFT mean/p95 là 1100,3153/1285,9962 ms. Request-mean ITL mean/p95 là 15,009828/15,185750 ms.
+- Ứng viên cache đầy đủ cũ 27378 đạt 3048,446289, chỉ +0,240921% so với control riêng; 28197 cao hơn nhưng thuộc deployment series khác.
+- Replay thấp hợp lệ 26313 đạt 2830,923547; nguyên nhân vẫn chưa rõ. Độ chênh này nhắc ta không được tuyên bố đã giải thích hết drift.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Kết quả N64 lịch sử lặp và native riêng nằm gần 3.044–3.046; đỉnh cache riêng cao hơn chút; replay legacy hợp lệ thấp hơn.
-- **Giả thuyết:** N64 là điểm vận hành có thể tái lập, còn khác biệt cache hoặc runtime có thể góp phần tạo biến động điểm.
-- **Kết luận được hỗ trợ:** Dùng bằng chứng lặp để hỗ trợ N64; không thay bằng điểm cache đơn lẻ hay quy drift cho một nguyên nhân.
-- **Chưa biết / giới hạn:** Quan hệ giữa runtime, graph policy, request cap, harness và replay thấp hợp lệ vẫn chưa rõ.
+- **Quan sát:** 28197 đạt 3051,518173 good tokens/s với 1881/1907 cùng đạt SLA, không lỗi/hủy, TTFT mean/p95 1100,3153/1285,9962 ms và ITL 15,009828/15,185750 ms. Job hoàn tất entry portable sau khi lần thử ZIP nguyên trạng lỗi trước benchmark.
+- **Giả thuyết:** Đường native và portable độc lập sẽ tái lập điểm vận hành nếu sửa readiness/đóng gói không đổi ngữ nghĩa model hay hành vi server/client.
+- **Kết luận được hỗ trợ:** Run portable đầy đủ hỗ trợ deployment hoạt động và cùng mức với chuỗi vận hành trước khoảng 3044–3046. Đây là một lần acceptance, không phải treatment hiệu năng matched mới hay chứng minh tối ưu toàn cục.
+- **Chưa biết / giới hạn:** Replay hợp lệ thấp hơn vẫn chưa giải thích; biến động giữa run và độ lặp thống kê rộng chưa được giải quyết. Quality model chính thức vẫn là câu hỏi riêng.
 
 ### Lời nói mẫu
 
-Ba lần N64 đầy đủ lịch sử đạt trung bình khoảng 3.044 token tốt mỗi giây. Một lần đầy đủ về sau trên runtime khác đạt 3.045,5, đáng khích lệ nhưng thuộc chuỗi riêng. Treatment cache đạt đỉnh 3.048,4, chỉ hơn control 0,24 phần trăm và p95 token đầu xấu hơn. Nhóm giữ N64 đã lặp lại, bảo toàn replay thấp hợp lệ, và không khẳng định biết vì sao nó thấp.
+Giờ ta có ba mảnh bằng chứng riêng về khả năng lặp lại. Chuỗi N64 lịch sử có trung bình 3.044,40 good token mỗi giây. Một run native riêng đạt 3.045,50. Job portable mới 28197 hoàn tất đường chạy toàn gói trên 16 H200 N64 và đạt 3.051,52. Job này qua cả hai đường semantic prefill/decode, official client, tổng hợp kết quả và cleanup trong 611 giây. Trong 1.907 request, 1.881 đạt đồng thời hai ngưỡng latency, tương đương 98,64%; có 26 request trượt token đầu, không trượt ITL và không có lỗi. Điều này xác nhận package đã chạy trọn một lần và tái lập mức vận hành. Nó chưa giải thích kết quả hợp lệ thấp 2.830,92 trước đây và không chứng minh tối ưu toàn cục.
 
 ### Điều không nên nói
 
-Không gộp chuỗi runtime lịch sử và native, không chọn cấu hình từ một đỉnh, và không xóa replay đầy đủ hợp lệ thấp hơn khi nguyên nhân chưa rõ.
+Không gộp trung bình lịch sử, run native và run portable thành một chuỗi thống kê. Một lần portable acceptance chứng minh package chạy được một lần, không chứng nhận quality chính thức hay nguyên nhân drift cũ.
 
 ### Câu chuyển slide
 
-Tiếp theo, kiểm tra tỷ số xuyên nền tảng dự báo được kết quả H200 giữ lại chưa dùng tính dự báo đến đâu.
+Run portable thành công đóng khoảng trống replay deployment. Slide cuối phân biệt acceptance này với bài kiểm tra quality toàn tập của ban tổ chức vẫn chưa xác minh.
 
 ---
 
@@ -997,7 +1001,7 @@ Tiếp theo, kiểm tra tỷ số xuyên nền tảng dự báo được kết q
 
 Nhóm thử bốn hướng rút ra từ H100 trực tiếp trên nền H200 hiện tại. Không ứng viên nào vượt control H200 mới: chunk 8192 thấp hơn 4,52%; thay đổi phase-mode chỉ tăng tối đa 0,13%. Vì vậy giữ recipe H200.
 
-![Slide 14](../../submission-review/ai-final-update-20261101/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-14.png)
 
 ### Mạch suy luận để nói
 
@@ -1065,7 +1069,7 @@ Không so trực tiếp điểm H100 với H200 hoặc gọi điểm cao nhất 
 
 Graph thưa giảm bộ nhớ capture nhưng goodput thấp hơn control 27376 là 0,370208%. EAGLE nông đầy đủ đạt thấp hơn control target-only 26949 là 2,080318%. Đây là hai kết quả riêng, giới hạn đúng cấu hình đã thử chứ không bác bỏ mọi biến thể.
 
-![Slide 15](../../submission-review/ai-final-update-20261101/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-15.png)
 
 ### Mạch suy luận để nói
 
@@ -1121,7 +1125,7 @@ Slide kết luận tách điều bằng chứng serving hỗ trợ khỏi hai c�
 
 <a id="slide-16"></a>
 
-## Slide 16 — The H200 recipe holds; official quality and replay remain open
+## Slide 16 — Deployment acceptance passes; official model quality remains unverified
 
 **Phần cứng: Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi**
 
@@ -1129,25 +1133,25 @@ Slide kết luận tách điều bằng chứng serving hỗ trợ khỏi hai c�
 
 ### Nói nhanh · 10–20 giây
 
-Chín allocation H200 cuối không tạo ứng viên mới vượt ngưỡng hữu ích; giữ prefill DeepGEMM chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Quality 99% chính thức và replay GPU đóng gói sau sửa reader vẫn chưa xác minh.
+Job portable 28197 qua entry deployment H200 đầy đủ trong 611 giây, đạt 3.051,52 good tokens/s và 98,64% SLA chung. Kết quả quality toàn tập ≥99% tham chiếu của BTC vẫn chưa biết.
 
-![Slide 16](../../submission-review/ai-final-update-20261101/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-16.png)
 
 ### Mạch suy luận để nói
 
-- **Vấn đề:** Kết luận phần AI phải tính đến toàn bộ đợt H200 cuối mà không nâng một điểm đơn lẻ thành tối ưu, hoặc nhầm hiệu năng với chất lượng model.
-- **Vì sao quan trọng:** BGK cần biết recipe nhóm giữ lại, các phép thử H200 mới nhất làm thay đổi lựa chọn ra sao và claim nghiệm thu nào vẫn còn mở.
-- **Vì sao chọn phép thử này:** Chín allocation cuối kiểm tra các ý tưởng H100 còn lại trên H200 với control phù hợp. Cần xem hết kết quả trước khi quyết định có thay incumbent hay không.
-- **Điều rút ra:** Không port nào vượt ngưỡng 1% nội bộ, nên giữ incumbent. Hiệu năng serving có bằng chứng lặp lại; quality chính thức và replay GPU toàn gói sau sửa chưa có.
-- **Vì sao chuyển sang bước tiếp:** Kết thúc phần AI bằng quyết định có giới hạn và bàn giao cho người phụ trách OpenFOAM.
+- **Vấn đề:** Các job package trước lỗi reader sau inference; lần thử ZIP nguyên trạng khác dừng trước chấm vì health gateway có trước khi đăng ký model bất đồng bộ xong.
+- **Vì sao quan trọng:** Nhóm cần phân biệt “service chạy nhanh” với “bài nộp đóng gói thực sự qua quy trình acceptance bằng client chính thức”, và phân biệt cả hai với chứng nhận quality.
+- **Vì sao chọn phép thử này:** Ở job 28197 chỉ đổi thời gian đợi readiness/checksum sau race gateway job 28194. Giữ nguyên worker, client, reader và hai semantic path; sau đó chạy một allocation đầy đủ kèm cleanup và scoring gate hiện hành.
+- **Điều rút ra:** Toàn bộ bước deployment qua trong 611 giây; run đạt 3051,518173 good tokens/s, 1881/1907 request đạt SLA chung, không lỗi/hủy. Điều này đóng khoảng trống acceptance replay package một lần.
+- **Vì sao chuyển sang bước tiếp:** Kết thúc bằng kết luận package execution và service acceptance đã qua, nhưng quality toàn tập chính thức vẫn chưa biết; sau đó bàn giao OpenFOAM.
 
 ### Slide muốn nói gì
 
-Khép phần AI bằng quyết định cập nhật sau đợt xác minh chín job H200 cuối. Nêu recipe được giữ và phân biệt hiệu năng serving được rà soát nội bộ với kiểm tra quality chính thức của BTC cùng replay GPU đóng gói sau khi sửa chương trình đọc.
+Kết luận bằng cách phân biệt acceptance của deployment nội bộ với nghiệm thu quality model chính thức. Đường GPU portable đầy đủ nay qua một lần sau sửa readiness; điều này xác minh execution và tính hợp lệ phép chấm nội bộ, không xác nhận accuracy toàn tập theo tham chiếu BTC.
 
 ### Giải thích kết quả và lập luận
 
-Dòng đầu nêu quyết định giữ recipe H200 đã có chạy lặp lại vì các nhánh cuối chưa tạo cải thiện hữu ích. Hai cột dưới ghi việc chưa xác nhận: quality model chính thức đạt ít nhất 99% tham chiếu BTC, và chạy lại trọn bộ triển khai GPU đóng gói sau sửa reader. Thanh đậm cuối là câu bàn giao cho người phụ trách OpenFOAM. Không có trục hay phép so điểm ở đây. Dự phòng AI 17–34 được ẩn; PowerPoint chuyển tiếp sang HPC 35. Recipe giữ lại dùng prefill DeepGEMM/chunk 8192, decode HPC-Ops, attention decode FlashInfer, collective MNNVL và NIXL chuyển KV giữa hai pha, tại N64.
+Hai khung: ĐÃ XÁC MINH—job 28197 chạy entry portable 16 H200/N64 đầy đủ, 611 giây, qua hai đường semantic P/D, official client, reader/summary gate và cleanup; 3051,518173 good output tokens/s, 1881/1907 SLA chung (98,6366%), 26 lỗi TTFT, không lỗi ITL/error/cancel. CÒN MỞ—accuracy toàn tập so tham chiếu BTC ≥99% vẫn UNKNOWN. Ghi rõ acceptance deployment và xác minh quality model là hai việc khác nhau. MNNVL là đường collective GPU trong decode; NIXL chuyển KV request giữa prefill và decode. Slide vật lý tiếp theo là OpenFOAM 35 không đổi.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
@@ -1163,32 +1167,31 @@ Dòng đầu nêu quyết định giữ recipe H200 đã có chạy lặp lại 
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Recipe H200 được giữ là prefill DeepGEMM chunk 8192 cùng decode HPC-Ops/FlashInfer/MNNVL ở N64.
-- Đợt chuyển giao chín job cuối không có ứng viên mới đủ ngưỡng hữu ích; 27804/27806/27828/27830 là bốn port khác nhau rút từ H100, các job còn lại gồm control hoặc phương án đổi nhiều yếu tố.
-- Các lần chạy N64 H200 lịch sử lặp lại hỗ trợ điểm vận hành quanh 3.044 good tokens/s; cần tách chúng khỏi control của đợt chuyển giao mới là 3038,022907.
-- Smoke và retrieval nội bộ không thay cho kiểm tra quality toàn tập chính thức; yêu cầu ≥99% so với model tham chiếu vẫn UNKNOWN.
-- Bản sửa reader đã qua kiểm tra CPU trên dữ liệu lưu, nhưng chưa chạy replay GPU đầy đủ cho deployment portable sau sửa.
-- Nội dung HPC được giữ nguyên; slide bàn giao vật lý trong deck là số 35.
-- MNNVL là đường collective communication giữa GPU phía decode; NIXL chuyển trạng thái KV của request giữa hai vai trò prefill và decode tách biệt.
+- Job 28197 dùng 16 H200 N64 và hoàn tất entry portable trong 611 giây, gồm readiness khởi động, semantic check cả hai vai trò, official client, reader/summary gate và cleanup.
+- Điểm xuất là 3051,518173 good output tokens/s; 1881/1907 request đồng thời đạt hai ngưỡng latency (98,63660199265862%).
+- Latency: TTFT mean/p95 1100,3153/1285,9962 ms; ITL trung bình mỗi request mean/p95 15,009828/15,185750 ms; 26 trượt TTFT, không trượt ITL, không error/cancel bị chấm.
+- Điều này đóng khoảng trống acceptance GPU portable sau sửa reader bằng một entry thành công. Đây không phải thí nghiệm tối ưu matched mới hay bằng chứng tối ưu toàn cục.
+- Accuracy toàn tập so tham chiếu BTC vẫn UNKNOWN; package chạy được không xác lập điểm này.
+- Slide và claim HPC được giữ nguyên; bàn giao tại slide vật lý 35.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Chín allocation H200 cuối hoàn tất nhưng không ứng viên nào đạt ngưỡng 1% đặt trước so với control phù hợp. Recipe H200 hiện tại vẫn được hỗ trợ tốt nhất.
-- **Giả thuyết:** Đánh giá chất lượng toàn tập độc lập và chạy portable GPU đầy đủ sau sửa sẽ đóng hai khoảng trống xác minh riêng.
-- **Kết luận được hỗ trợ:** Giữ prefill DeepGEMM/chunk 8192 và decode HPC-Ops/FlashInfer/MNNVL ở N64. Claim hiệu năng nội bộ có các lần chạy lặp lại, chưa phải chứng nhận quality chính thức.
-- **Chưa biết / giới hạn:** Chưa biết accuracy toàn tập chính thức và chưa replay GPU portable đầy đủ sau sửa reader. Tài liệu hiện có cũng chưa ghi nhận buổi mock trực tiếp có bấm giờ.
+- **Quan sát:** Entry portable H200 16-GPU/N64 đầy đủ qua trong 611 giây, đạt 3051,518173 good output tokens/s và 98,6366% SLA chung, không lỗi/hủy request bị chấm.
+- **Giả thuyết:** Sửa race model-readiness ở gateway nhưng giữ client chính thức, worker server và reader sẽ giúp package qua toàn bộ đường acceptance.
+- **Kết luận được hỗ trợ:** Package portable hiện có một lần acceptance GPU đầy đủ sau sửa. Giữ recipe H200 N64; hiệu năng đã đo có hỗ trợ, còn quality chính thức chưa được xác lập.
+- **Chưa biết / giới hạn:** Accuracy toàn tập của BTC ≥99% tham chiếu vẫn UNKNOWN. Một acceptance portable không xác lập độ lặp thống kê của riêng đường package này.
 
 ### Lời nói mẫu
 
-Chín allocation H200 cuối không tạo ứng viên mới đủ hữu ích, nên chúng tôi giữ recipe H200: prefill DeepGEMM chunk 8192 và decode HPC-Ops cùng FlashInfer, MNNVL ở N64. Các lần N64 lịch sử lặp lại hỗ trợ khoảng 3.044 good output tokens mỗi giây; control mới nhất 3038 là quan sát của đợt khác nên phải ghi riêng. Đây là kết quả serving do nhóm chạy và rà soát, không chứng nhận yêu cầu quality chính thức. So sánh toàn tập với tham chiếu BTC vẫn chưa biết. Bản sửa reader qua kiểm tra CPU với dữ liệu cũ, nhưng chúng tôi chưa replay toàn bộ deployment GPU portable sau sửa. Với giới hạn đó, tôi xin bàn giao sang OpenFOAM. MNNVL là đường collective giữa GPU bên trong implementation decode; NIXL mới chuyển KV giữa hai vai trò prefill và decode tách biệt.
+Lần portable acceptance cuối đã qua. Job 28197 dùng 16 H200 N64 và hoàn tất readiness gateway, semantic path cho cả prefill/decode, official client, đọc kết quả, summary gate và cleanup trong 611 giây. Điểm đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 cùng đạt hai ngưỡng latency, tức 98,64%; có 26 lỗi TTFT, không lỗi ITL, không lỗi/hủy request. Việc này đóng kiểm tra GPU deployment toàn gói sau sửa reader và readiness. Nó không trả lời quality model: phép so toàn tập với tham chiếu BTC yêu cầu tối thiểu 99% vẫn chưa biết. Tiếp theo tôi bàn giao sang OpenFOAM.
 
 ### Điều không nên nói
 
-Không nói accuracy chính thức đã đạt, cả chín job đều là ứng viên tối ưu riêng, hoặc kiểm tra reader trên CPU thay cho replay GPU đầy đủ. Không trộn chuỗi lặp lịch sử với control mới.
+Không gọi acceptance deployment portable là điểm quality model chính thức. Kết quả ≥99% tham chiếu vẫn UNKNOWN và một entry thành công chưa phải nghiên cứu độ lặp lại.
 
 ### Câu chuyển slide
 
-Phần AI chính kết thúc ở đây. Có 18 slide AI dự phòng được ẩn; tiếp tục tại slide OpenFOAM vật lý số 35.
+Phần AI chính kết thúc với deployment acceptance đã qua và quality chính thức chưa biết. Phần OpenFOAM không đổi bắt đầu tại slide vật lý số 35.
 
 ---
 
@@ -1202,7 +1205,7 @@ Phần AI chính kết thúc ở đây. Có 18 slide AI dự phòng được ẩ
 
 Cả hai hệ thống cấp mười sáu GPU và dùng cùng checkpoint Qwen cùng workload đã staging. Firmus dùng H200; NSCC dùng H100. Phần cứng, scheduler, container và điều kiện node khác nhau, nên đây là các phép đo riêng, không phải hệ số quy đổi GPU.
 
-![Slide 17](../../submission-review/ai-final-update-20261101/slides/assets/slide-17.png)
+![Slide 17](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-17.png)
 
 **Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**
 
@@ -1262,7 +1265,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Phân vùng TP8/EP1 thất bại có 192 phần tử, dư 64 so với block FP8 rộng 128. EP2 đổi phép chia hiệu dụng thành 384 phần tử, vừa ba block đầy. Điều này sửa sai hình dạng tensor, chưa chứng minh serving nhanh hay đúng.
 
-![Slide 18](../../submission-review/ai-final-update-20261101/slides/assets/slide-18.png)
+![Slide 18](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-18.png)
 
 ### Slide muốn nói gì
 
@@ -1320,7 +1323,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Biểu đồ H200 tăng từ 1.297 token tốt/giây ở N32 lên trung bình N64 là 3.044. Nó cho thấy các điểm vận hành đo được tốt hơn, nhưng mỗi mốc đổi tải hoặc cấu hình nên không quy được mức tăng cho từng tối ưu.
 
-![Slide 19](../../submission-review/ai-final-update-20261101/slides/assets/slide-19.png)
+![Slide 19](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-19.png)
 
 ### Slide muốn nói gì
 
@@ -1376,7 +1379,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Bản vá tạo descriptor cho các trang KV cần thiết rồi gộp dải liên tục, đồng thời giữ nguyên ánh xạ và stride. Kiểm tra CPU đạt 720 trường hợp hình học; fixture ghi rõ chưa xác minh truyền GPU thật.
 
-![Slide 20](../../submission-review/ai-final-update-20261101/slides/assets/slide-20.png)
+![Slide 20](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-20.png)
 
 ### Slide muốn nói gì
 
@@ -1435,7 +1438,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Job 22294 có bản vá warmup cặp mất 0,68–0,70 giây mỗi yêu cầu; benchmark N32 đạt 1.422,96 good tokens/s, SLA kết hợp 95,87% và không có lỗi. Chưa có đối chứng cùng topology để đo mức tăng tốc trong lần này.
 
-![Slide 21](../../submission-review/ai-final-update-20261101/slides/assets/slide-21.png)
+![Slide 21](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-21.png)
 
 ### Slide muốn nói gì
 
@@ -1494,7 +1497,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Trong một cặp H100 N54 khớp điều kiện, FA3 giảm TTFT trung bình từ 713,199 xuống 594,276 ms, nhưng goodput giảm từ 2.420,945 xuống 2.401,284 token/s, khoảng 0,812%. Token đầu đến nhanh hơn không cải thiện mục tiêu toàn request.
 
-![Slide 22](../../submission-review/ai-final-update-20261101/slides/assets/slide-22.png)
+![Slide 22](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-22.png)
 
 ### Slide muốn nói gì
 
@@ -1552,7 +1555,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Read-first ban đầu giảm walltime scheduler 18,74%, nhưng phép xác nhận đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã đặt. Goodput đổi nhẹ ở cả hai cặp; cache chưa rõ nên không thể kết luận nguyên nhân do lưu trữ lạnh.
 
-![Slide 23](../../submission-review/ai-final-update-20261101/slides/assets/slide-23.png)
+![Slide 23](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-23.png)
 
 ### Slide muốn nói gì
 
@@ -1609,7 +1612,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Một số thay đổi H200 đã được kích hoạt và đo, nhưng mức tăng nhỏ, âm hoặc làm xấu chỉ số đuôi. Chẳng hạn, thay attention prefill làm goodput giảm 6,385%. Cờ hoạt động được chưa đủ để đổi cấu hình đang chọn.
 
-![Slide 24](../../submission-review/ai-final-update-20261101/slides/assets/slide-24.png)
+![Slide 24](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-24.png)
 
 ### Slide muốn nói gì
 
@@ -1668,7 +1671,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Gói attention N52 đạt 2.549,20 nhưng đổi nhiều yếu tố; Triton probe, fixture CPU và đọc mã nguồn trả lời câu hỏi hẹp hơn. Compile Qwen đầy đủ dừng ở assertion RoPE/KV. Không bằng chứng nào trong số đó tự chứng minh serving toàn model tăng tốc.
 
-![Slide 25](../../submission-review/ai-final-update-20261101/slides/assets/slide-25.png)
+![Slide 25](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-25.png)
 
 ### Slide muốn nói gì
 
@@ -1725,17 +1728,17 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 ### Nói nhanh · 10–20 giây
 
-Cấu hình H200 dùng N64, hai worker prefill TP4 với DeepGEMM và chunk 8.192, cùng decode TP8/EP8 HPC-Ops. H100 là cấu hình riêng: N54, prefill HPC-Ops với chunk 4.096 và số đo riêng. Đây là mô tả cài đặt đã đo, không xác nhận chất lượng toàn tập.
+Recipe H200 và recipe H100 vẫn tách riêng. H200 nay có một lần portable acceptance đầy đủ đạt 3.051,52 good tokens/s; điều này xác minh deployment, không quy đổi H100 sang H200.
 
-![Slide 26](../../submission-review/ai-final-update-20261101/slides/assets/slide-26.png)
+![Slide 26](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-26.png)
 
 ### Slide muốn nói gì
 
-Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà không trộn cấu hình nền tảng hoặc coi nhãn cài đặt là bằng chứng hiệu năng.
+Ghi lại recipe đo được đang giữ trên mỗi nền tảng và bổ sung acceptance deployment portable H200 hoàn tất. Giữ phép đo H100 riêng; package H200 chạy qua không chuyển đổi điểm H100 hay chứng nhận quality chính thức.
 
 ### Giải thích kết quả và lập luận
 
-Đọc các cột trong từng nền tảng, không coi H200 và H100 là benchmark ghép điều kiện. Cả hai dùng trọng số FP8, activation và KV BF16, decode TP8/EP8, FlashInfer cho attention decode, MNNVL cho collective và định tuyến vòng tròn tới hai worker prefill. Cấu hình H200 chọn N64, prefill DeepGEMM, chunk 8.192 và bucket graph decode dày từ 1 đến 64. H100 dùng N54, prefill HPC-Ops và chunk 4.096. Bảng định nghĩa điểm vận hành; nó không khẳng định năng lực tương đương hay xếp hạng phần cứng.
+Giữ bảng cấu hình H200/H100 hiện tại và thêm ghi chú acceptance H200 riêng: job 28197, 16 H200, N64, đường portable đầy đủ, 611 giây, 3051,518173 good tokens/s, 1881/1907 SLA chung. Gắn cấu hình H100 N54 là operating point đã đo riêng; không hàm ý nó khớp hoặc dự báo kết quả H200. Ghi quality model chính thức UNKNOWN.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
@@ -1754,6 +1757,8 @@ Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà kh
 - H200: concurrency client 64; hai worker prefill TP4/EP1; DeepGEMM; chunk 8.192; một worker decode HPC-Ops TP8/EP8.
 - H100: concurrency 54; hai worker prefill TP4/EP1 HPC-Ops; chunk 4.096; decode HPC-Ops TP8/EP8. Điểm H100 cần tách khỏi điểm H200.
 - Cả hai dùng độ chính xác trọng số/activation/KV như đã nêu cùng attention decode, collective, định tuyến và quy tắc chất lượng request chung. Bảng không chứng nhận accuracy toàn tập chính thức.
+- Job acceptance portable H200 mới 28197 hoàn tất entry trong 611 giây ở N64, đạt 3051,518173 good output tokens/s.
+- Điều này xác nhận đường package H200 chạy được một lần; đây không phải so sánh tốc độ GPU H100/H200 cùng điều kiện và không chứng nhận quality toàn tập.
 
 ### Đánh đổi và mức độ bằng chứng
 
@@ -1764,7 +1769,7 @@ Ghi rõ cài đặt triển khai để diễn giải kết quả trước mà kh
 
 ### Lời nói mẫu
 
-Bảng ghi hai điểm vận hành riêng. H200 dùng 64 request đồng thời, hai nhóm bốn GPU xử lý prompt và một worker tám GPU decode có phân phối expert. H100 dùng 54 request, backend và chunk xử lý prompt khác. Cả hai dùng trọng số FP8 cùng activation và KV cache BF16. Thành phần chung không làm hai chuỗi hiệu năng có thể thay thế nhau.
+Cấu hình được giữ vẫn riêng theo nền tảng: H200 dùng N64, prefill DeepGEMM chunk 8192; H100 dùng N54, prefill HPC-Ops chunk 4096. Job acceptance portable mới 28197 chạy cấu hình H200 qua toàn bộ package trong 611 giây, đạt 3.051,52 good output tokens mỗi giây. Điều đó cho thấy package H200 chạy trọn sau sửa. Nó không nói recipe H100 nhanh hơn hay chậm hơn trong điều kiện tương đương, và không chứng nhận quality model.
 
 ### Điều không nên nói
 
@@ -1772,7 +1777,7 @@ Không trình bày H100 và H200 như phép so sánh khớp điều kiện hoặ
 
 ### Câu chuyển slide
 
-Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+Cấu hình từng nền tảng và acceptance H200 đầy đủ là hai loại bằng chứng riêng; quay lại kết luận chính để xem giới hạn quality còn mở.
 
 ---
 
@@ -1786,7 +1791,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Cùng workload N64 đầy đủ, tăng chunk prefill từ 8.192 lên 12.288 làm goodput giảm từ 3.045,50 xuống 3.020,94 token/s và p95 TTFT xấu hơn. Mỗi cấu hình có một lần H200 được nhóm xem xét; chưa xác lập tối ưu chung.
 
-![Slide 27](../../submission-review/ai-final-update-20261101/slides/assets/slide-27.png)
+![Slide 27](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-27.png)
 
 ### Slide muốn nói gì
 
@@ -1845,7 +1850,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Capture thưa giảm bộ nhớ log từ 1,15 xuống 0,36 GB mỗi rank decode, nhưng goodput giảm 0,370208% và ITL trung bình xấu hơn. Chưa đo padding để quy nguyên nhân. Nhóm giữ graph dày; cặp này không chứng minh quan hệ nhân quả.
 
-![Slide 28](../../submission-review/ai-final-update-20261101/slides/assets/slide-28.png)
+![Slide 28](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-28.png)
 
 ### Slide muốn nói gì
 
@@ -1903,7 +1908,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 N64 đầy đủ lịch sử trung bình 3.044,40, còn control ngắn mới khoảng 2.560. Graph policy, giới hạn admission server và quy trình đo đều thay đổi. Phép thử hoàn tất không cô lập nguyên nhân, nên giữ drift mà không quy cho một flag.
 
-![Slide 29](../../submission-review/ai-final-update-20261101/slides/assets/slide-29.png)
+![Slide 29](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-29.png)
 
 ### Slide muốn nói gì
 
@@ -1958,7 +1963,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Vị trí draft EAGLE3 làm trượt latency; validator được sửa; cả retry ngắn và thử nghiệm shallow đầy đủ riêng đều mất goodput. Cách đã thử không giúp workload này, dù còn cấu hình khác chưa được đo. Bằng chứng hiện tại chỉ áp dụng cho các cấu hình đã thử trên H200.
 
-![Slide 30](../../submission-review/ai-final-update-20261101/slides/assets/slide-30.png)
+![Slide 30](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-30.png)
 
 ### Slide muốn nói gì
 
@@ -2005,56 +2010,60 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 <a id="slide-31"></a>
 
-## Slide 31 — Does the packaged deployment complete end to end?
+## Slide 31 — Backup · real failures led to a complete portable acceptance
 
 **Phần cứng: H200 chạy benchmark; CPU chỉ kiểm reader trên dữ liệu đã lưu.**
 
 ### Nói nhanh · 10–20 giây
 
-Hai job portable H200 thật hoàn tất serving nhưng lỗi khi đọc kết quả. Job zero-GPU xác minh reader đã sửa trên export thật. Điều này chưa chứng minh deployment đầy đủ sau sửa; hai job ban đầu vẫn thất bại.
+Job 27136 và 27145 lỗi ở hai reader khác nhau; 27152 kiểm tra cả hai bản sửa trên CPU. ZIP nguyên trạng ở 28194 gặp race gateway trước benchmark. Job 28197 chỉ đổi readiness wait/checksum và qua entry H200 đầy đủ trong 611 giây.
 
-![Slide 31](../../submission-review/ai-final-update-20261101/slides/assets/slide-31.png)
+![Slide 31](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-31.png)
 
 ### Slide muốn nói gì
 
-Phân biệt suy luận GPU thành công với đóng gói đầu-cuối thành công. Hai allocation portable thật hoàn thành serving nhưng lỗi khi reader tìm và đọc kết quả; kiểm tra CPU-only sau đó xác nhận sửa reader, không phải xác nhận một allocation GPU đầy đủ đã sửa.
+Trình bày đủ chuỗi debug để người nghe phân biệt job lỗi được giữ nguyên, sửa reader kiểm tra bằng CPU, race readiness gateway riêng và lần acceptance GPU đầy đủ cuối. Không đổi trạng thái scheduler thất bại trong quá khứ.
 
 ### Giải thích kết quả và lập luận
 
-Theo dõi pipeline theo thứ tự: job portable thật 27136 và 27145 chạy GPU client chính thức và cả hai route P/D ngữ nghĩa, rồi lỗi ở bước xử lý kết quả. Bản sửa đầu xử lý export nằm trong thư mục con trực tiếp; bản sửa sau chuẩn hóa input root khi /scratch/home và /home cùng trỏ tới file. Job compute zero-GPU 27152 chạy qua cả hai reader sửa trên cả hai dataset thật. Giữ trạng thái scheduler gốc là FAILED.
+Vẽ timeline năm bước: 27136 chạy inference/client GPU portable xong rồi lỗi reader do output lồng thư mục; 27145 chạy inference/client xong rồi lỗi alias path; 27152 job CPU zero-GPU qua cả hai reader trên export thật; 28194 thử ZIP nguyên trạng nhưng fail trước benchmark với curl exit 22 vì health gateway HTTP 200 trong khi đăng ký model bất đồng bộ vẫn HTTP 503; 28197 chỉ đổi readiness wait/checksum, giữ worker, official client, reader và semantic check rồi hoàn tất entry trong 611 giây trên 16 H200 N64. Ghi rõ từng job lỗi vẫn FAILED; 28197 là allocation mới thành công.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **Deployment đầu-cuối:** Toàn tuyến từ khởi chạy server/route, official load client, export dữ liệu tới tạo kết quả đã review.
-- **Route P/D ngữ nghĩa:** Đường dịch vụ prefill và decode; cả hai đã hoàn tất trong job GPU thật.
-- **Result reader:** Code hậu xử lý tìm file export, phân tích file và tính summary.
-- **Canonical path:** Danh tính filesystem đã resolve; /home và /scratch/home có thể là alias cùng vị trí dữ liệu.
-- **Xác minh compute-only:** Job CPU kiểm tra reader đã sửa trên export thật mà không khởi chạy lại dịch vụ GPU.
+- **27136 / 27145:** Hai job GPU portable đầu vẫn FAILED do mỗi job có một lỗi reader kết quả khác nhau.
+- **27152:** Job CPU zero-GPU kiểm tra reader đã sửa bằng export thật; không phải replay GPU.
+- **28194:** Lần thử ZIP nguyên trạng lỗi trước benchmark vì health gateway sẵn sàng trước khi đăng ký model bất đồng bộ.
+- **28197:** Entry acceptance portable đầy đủ 16 H200/N64 sau khi đổi readiness wait/checksum.
+- **HTTP 200 / HTTP 503:** Endpoint health đã trả lời trong khi endpoint đăng ký model còn chưa sẵn sàng; hai check biểu thị hai trạng thái readiness khác nhau.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Đây là bằng chứng dự phòng khi trả lời câu hỏi, được ẩn trong mạch trình chiếu chính. Slide không bổ sung một thí nghiệm mới vào mạch lập luận.
-- Job portable H200 thật 27136 và 27145 hoàn tất cả hai route dịch vụ và official client, nhưng job scheduler thất bại khi hậu xử lý. Ở 27136, AIPerf 0.12 đặt export trong thư mục con trực tiếp; bản sửa đầu xử lý layout đó. Ở 27145, đường /home dạng từ vựng và /scratch/home canonical gây mismatch alias; chuẩn hóa root khắc phục lỗi thứ hai.
-- Job zero-GPU 27152 sau đó chạy reader đã sửa trên cả hai dataset thật và đạt. Điểm raw 3.055,330517 của 27145 là bằng chứng khôi phục từ job gốc thất bại, không phải lần chạy lại toàn allocation thành công sau sửa. Không tuyên bố deployment GPU đầy đủ sau sửa.
+- 27136 và 27145 vẫn là job thất bại; output đã lưu giúp tìm ra hai lỗi reader khác nhau.
+- Job CPU zero-GPU 27152 xác minh hai bản sửa reader bằng dữ liệu thật đã lưu, nhưng không chạy deployment GPU.
+- Lần thử ZIP nguyên trạng 28194 là lỗi riêng trước AIPerf: endpoint health trả HTTP 200 trước khi đăng ký model bất đồng bộ sẵn sàng; model vẫn trả HTTP 503 và curl exit 22.
+- Job 28197 chỉ chỉnh thời gian chờ readiness và checksum. Worker image, official client, reader và cả hai semantic route được giữ nguyên.
+- 28197 hoàn tất gateway readiness, cả hai semantic path P/D, workload client, summary acceptance gate và cleanup trong 611 giây trên 16 H200 N64.
+- Entry đầy đủ đạt 3051,518173 good output tokens/s, 1881/1907 request đạt SLA chung, 26 trượt TTFT, không trượt ITL, không error/cancel.
+- Điều này đóng acceptance GPU deployment đầy đủ sau sửa reader một lần; không chứng nhận quality model và không xóa trạng thái job lỗi trước.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Hai job GPU thật hoàn tất inference và client nhưng lỗi đọc kết quả; job CPU-only 27152 xác minh hai sửa reader trên output thật.
-- **Giả thuyết:** Lỗi còn lại của deployment đến từ giả định sai về layout file và alias đường dẫn ở hậu xử lý, không phải serving execution.
-- **Kết luận được hỗ trợ:** Hai lỗi reader cụ thể đã sửa và xác minh trên dataset thật; deployment đầy đủ sau sửa vẫn chưa được xác nhận.
-- **Chưa biết / giới hạn:** Chưa biết allocation mới có đi qua toàn bộ launch, inference, export, reader và các gate sau khi sửa hay không.
+- **Quan sát:** Hai lỗi reader được sửa và kiểm tra trên CPU; một lần ZIP nguyên trạng sau đó lỗi trước benchmark vì race gateway; entry GPU đầy đủ mới qua sau điều chỉnh readiness hẹp.
+- **Giả thuyết:** Chờ đúng trạng thái đăng ký model thay vì chỉ nhận endpoint health sẽ xử lý race khởi động còn lại.
+- **Kết luận được hỗ trợ:** 28197 chứng minh deployment portable đã sửa có thể qua toàn bộ acceptance nội bộ. Giữ 27136, 27145 và 28194 là các job thất bại.
+- **Chưa biết / giới hạn:** Một lần qua không xác lập độ tin cậy thống kê của deployment hoặc quality model chính thức; nguyên nhân khác ngoài các đường quan sát vẫn chưa rõ.
 
 ### Lời nói mẫu
 
-Hai job portable GPU thật hoàn tất route prefill, decode và official client, nhưng đều lỗi khi hậu xử lý đọc export. Một reader tìm sai tầng thư mục; reader kia nhầm hai alias đường dẫn của cùng file. Chúng tôi sửa cả hai và kiểm tra reader trên output thật bằng job CPU zero-GPU. Việc đó xác nhận sửa reader, không xác nhận allocation GPU đầy đủ sau sửa. Hai job scheduler gốc vẫn giữ trạng thái thất bại.
+Chuỗi này có hai lỗi khác nhau và hai bước sửa. Job portable 27136 và 27145 chạy xong inference cùng client nhưng thất bại vì hai reader giả định sai đường dẫn theo hai cách. Job CPU 27152 xác minh cả hai sửa bằng export thật nhưng không chứng minh được deployment GPU. Sau đó thử ZIP nguyên trạng ở job 28194 và lỗi trước khi chấm: health gateway trả HTTP 200 nhưng đăng ký model bất đồng bộ vẫn trả HTTP 503. Chúng tôi chỉ đổi thời gian chờ readiness và checksum. Job 28197 giữ nguyên worker, official client, reader và semantic path, rồi hoàn tất mọi bước và cleanup trong 611 giây trên 16 H200. Điểm đạt 3.051,52 good token mỗi giây, SLA chung 98,64%, không lỗi. Các job cũ vẫn thất bại; job mới đóng kiểm tra GPU toàn gói sau sửa một lần.
 
 ### Điều không nên nói
 
-Không báo 3.055,330517 là deployment đầy đủ thành công. Job gốc thất bại; kiểm tra reader CPU không chạy lại GPU inference hay allocation đầy đủ.
+Không đổi 27136, 27145 hay 28194 thành thành công. Kiểm tra CPU không phải replay GPU; health HTTP một mình không có nghĩa model đã sẵn sàng. Job 28197 là một lần acceptance đầy đủ, không phải chứng nhận accuracy.
 
 ### Câu chuyển slide
 
-Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trình bày hết phần dự phòng như một bài kể lịch sử thứ hai.
+Phụ lục giải thích cách cô lập lỗi deployment portable rồi qua acceptance. Quay lại slide chính 16 để xem kết quả ngắn và ranh giới quality.
 
 ---
 
@@ -2068,7 +2077,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Ở H200 N52, tổ hợp attention và giao tiếp đo cao hơn control MNNVL sau đó khoảng 1,43 phần trăm. Kết quả ủng hộ tổ hợp tại tải này, không chứng minh gain từng phần cộng lại hay quy tắc phổ quát.
 
-![Slide 32](../../submission-review/ai-final-update-20261101/slides/assets/slide-32.png)
+![Slide 32](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-32.png)
 
 ### Slide muốn nói gì
 
@@ -2125,7 +2134,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Dự báo được ghi trước khi có số đo H200 lệch khoảng 1,54%, trong dung sai 2% nhóm đặt. Tuy nhiên, phép kiểm còn bộc lộ phần bất định bị bỏ sót. Một dự báo gần đúng chỉ có giá trị kiểm tra giới hạn, chưa phải quy tắc đổi mọi điểm H100 sang H200.
 
-![Slide 33](../../submission-review/ai-final-update-20261101/slides/assets/slide-33.png)
+![Slide 33](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-33.png)
 
 ### Slide muốn nói gì
 
@@ -2181,7 +2190,7 @@ Xem kết quả chuyển giao H200 trực tiếp mới nhất ở slide chính 1
 
 Chín allocation H200 cuối kiểm tra control và các phương án rút từ H100. Không ứng viên riêng nào vượt ngưỡng hữu ích 1% của nhóm; recipe H200 hiện tại vẫn là lựa chọn theo số đo.
 
-![Slide 34](../../submission-review/ai-final-update-20261101/slides/assets/slide-34.png)
+![Slide 34](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-34.png)
 
 ### Slide muốn nói gì
 

@@ -1,0 +1,95 @@
+{
+  "schema": "acceptance-review-v1",
+  "reviewed_utc": "2026-11-02",
+  "job_id": "28197",
+  "verdict": "pass_local_deployment_acceptance",
+  "status": {
+    "slurm": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 611,
+    "start_utc": "2026-11-02T01:06:04Z",
+    "end_utc": "2026-11-02T01:16:15Z",
+    "nodes": 2,
+    "gpus": 16,
+    "gpu_model": "H200",
+    "gpu_hours": 2.715556,
+    "queue_present": false
+  },
+  "configuration": {
+    "id": "P8-TP4_D8-TP8-EP8",
+    "concurrency": 64,
+    "prefill_workers": 2,
+    "prefill_tp": 4,
+    "decode_workers": 1,
+    "decode_tp": 8,
+    "decode_ep": 8,
+    "transfer": "NIXL",
+    "prefill_moe": "DeepGEMM",
+    "decode_moe": "HPC-Ops",
+    "decode_attention": "FlashInfer",
+    "decode_allreduce": "MNNVL",
+    "workload": {
+      "input_tokens_nominal": 4000,
+      "output_tokens": 200,
+      "seed": 2026,
+      "prefix_reuse": false,
+      "warmup_seconds": 60,
+      "scored_seconds": 120,
+      "grace_seconds": 30
+    }
+  },
+  "score": {
+    "scored_requests": 1907,
+    "good_requests": 1881,
+    "good_fraction": 0.9863660199265862,
+    "sla_misses": 26,
+    "ttft_only_misses": 26,
+    "itl_misses": 0,
+    "errors": 0,
+    "cancellations": 0,
+    "goodput_requests_per_second": 15.257590866518365,
+    "good_output_tokens_per_second": 3051.518173303673,
+    "raw_output_tokens_per_second": 3093.68947309901,
+    "ttft_mean_ms": 1100.3153138463554,
+    "ttft_p95_ms": 1285.9962342999993,
+    "itl_mean_ms": 15.009828199279305,
+    "itl_p95_ms": 15.185750323618091
+  },
+  "independent_checks": {
+    "raw_jsonl_rows": 2856,
+    "raw_phase_rows": {
+      "warmup": 949,
+      "profiling": 1907
+    },
+    "raw_gate_recomputed": true,
+    "semantic_receipts_valid": true,
+    "semantic_pair_count": 2,
+    "gateway_model_qwen_present": true,
+    "submitted_payload_manifest_files": 26,
+    "submitted_payload_hash_mismatches": 0,
+    "benchmark_copy_matches_payload": true,
+    "top_level_slurm_success": true
+  },
+  "runtime_observations": {
+    "early_pair_router_no_prefill_messages_per_pair": 4,
+    "successful_semantic_requests_per_pair": 1,
+    "scored_decode_batch_samples": 191,
+    "avg_running_requests": 49.9791,
+    "running_requests_min": 2,
+    "running_requests_max": 56,
+    "avg_decode_token_usage_fraction": 0.1175,
+    "sampled_queue_requests": 0,
+    "retracted_requests": 0,
+    "hardware_telemetry": "not collected; exported telemetry endpoints were empty"
+  },
+  "quality": {
+    "official_accuracy_verified": false,
+    "reference_quality_threshold_percent": 99,
+    "result": "unknown"
+  },
+  "interpretation": {
+    "optimization_gain_claimed": false,
+    "official_result_claimed": false,
+    "recommendation": "accept as local full-replay deployment evidence; do not claim official model quality or causal performance improvement"
+  }
+}

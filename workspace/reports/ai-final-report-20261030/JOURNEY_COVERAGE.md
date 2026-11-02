@@ -15,7 +15,7 @@ The current presentation is 42 slides: AI main talk 1–16, hidden AI backup 17�
 
 Nine H200 allocations were reviewed and are current in backup slide 34, the main cross-platform conclusion on slide 14, the talk scripts, evidence cards and panel Q&A. The four distinct H100-derived source ports on H200 were 27804/27806 (HPC-Ops prefill chunk settings) and 27828/27830 (phase-specific inference mode). Fresh explicit control 27826 is not counted as a candidate. Jobs 27777/27779/27781/27783 provide fresh control, FA3 decode and transferred full-recipe evidence. No result surpassed the incumbent by the team's prospective 1% gate, so the recipe remains unchanged.
 
-The single held-out H100-to-H200 prediction remains in backup slide 33 and is clearly labelled one-point calibration, not conversion law. The main route presents direct H200 validation because it answers which choices actually transfer.
+The single held-out H100-to-H200 prediction remains in backup slide 33 and is clearly labelled one-point calibration, not conversion law. The main route presents direct H200 validation because it answers which choices actually transfer. Slide 16 now adds the full packaged-entry acceptance after the result-reader and gateway-readiness failures; backup 31 preserves that failure-to-repair chain.
 
 ## Prior question-led edition to current deck
 
@@ -55,3 +55,8 @@ The single held-out H100-to-H200 prediction remains in backup slide 33 and is cl
 | 32 | 15, 28 |
 
 The source index retains 220 dated entries, provenance and prior mappings. See [feedback response](FEEDBACK_RESPONSE.md), [Q&A evidence](MOCK_QA_EVIDENCE.md) and [claim cards](EVIDENCE_CARDS.md). Historical jobs and failures remain in the reports and research archive; inclusion in a slide is not the audit's unit of completeness.
+
+
+## Packaged-entry acceptance and final unresolved result
+
+After the 31 October cross-platform verification, the team retried the exact AI submission entry. Job 28194 failed before benchmarking because `/health` returned 200 before asynchronous model registration, followed by `/v1/models` 503. The source-bound readiness change waited for the Qwen model to appear and verified workers remained alive. It passed five local HTTP/liveness fixtures and the exact setup. Job 28197 then passed the full portable entry in 611 seconds. This closes the “no post-reader-fix full GPU replay” gap. It is not a new configuration, a matched speed comparison or a model-quality run. See [acceptance review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [job status and receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), and [quality clarification](/home/apacsc42/workspace/notes/ai-quality-threshold-clarification-20261102.md).

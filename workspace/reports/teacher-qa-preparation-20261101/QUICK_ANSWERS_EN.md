@@ -1,6 +1,6 @@
 # Quick AI Q&A rehearsal cards — reasoning first
 
-Start with [the thinking process](THINKING_PROCESS_EN.md): prior observation → mechanism/hypothesis → counterhypothesis → controlled test → lesson/decision. These are proposed spoken answers, not recorded original thoughts or a performed mock. Numbers are good output tokens/s unless stated otherwise. The [detailed guide](ANSWERS_EN.md) provides evidence, follow-ups and limits. Released slides and ZIP remain unchanged.
+Start with [the thinking process](THINKING_PROCESS_EN.md): prior observation → mechanism/hypothesis → counterhypothesis → controlled test → lesson/decision. These are proposed spoken answers, not recorded original thoughts or a performed mock. Numbers are good output tokens/s unless stated otherwise. The [detailed guide](ANSWERS_EN.md) provides evidence, follow-ups and limits. The current release is the 42-slide AI/HPC deck; the 28197 package acceptance closes the full GPU replay gap without establishing a matched optimization gain.
 
 ## Q1. Why choose two TP4 prefills and one TP8/EP8 decode worker?
 
@@ -32,7 +32,7 @@ After improving the service configuration, we rechecked the load instead of assu
 
 ## Q8. How far has model quality been verified? Could FP8 change the answers?
 
-Official model quality remains unverified by our team. The criterion is at least 99% of the organiser's reference score on the official accuracy evaluation; it is not 99% request success or exact answer-string equality. We used the supplied FP8 target and retained small smoke and retrieval checks as regression screens. Those checks do not replace the full official evaluation, so we do not claim quality certification or official ranking acceptance.
+Official model quality remains unverified by our team. The criterion is at least 99% of the organiser's reference score on the official accuracy evaluation; it is not 99% request success or exact answer-string equality. The 28197 portable acceptance passed both P/D semantic routes, corrected-reader, performance and cleanup gates. It did not produce a quality score or run a new smoke-8 test. Organisers run the full quality check; no local gate substitutes for it.
 
 ## Q9. Why run H100 experiments? How can they tell you what is better on H200?
 
@@ -40,7 +40,7 @@ H100 supplied hypotheses, not a prediction of H200 performance. We tested the fu
 
 ## Q10. Which result should we defend, and how reproducible is it?
 
-We wanted an improvement attributable to a repeatable setting rather than one lucky run. That is why a candidate needed its own fresh control, a useful margin and a repeat. Historical N64 runs averaged about 3,044.40 good output tokens per second. The higher cache point gained only 0.241% against its control and worsened p95 TTFT, so it did not displace the repeated operating choice.
+We wanted an improvement attributable to a repeatable setting rather than one lucky run. That is why a candidate needed its own fresh control, a useful margin and a repeat. Historical N64 runs averaged about 3,044.40 good output tokens per second. Job 28197 later passed a full replay of the exact packaged entry in 611 seconds on 16 H200/N64, scoring 3,051.518173 good tokens/s with 1,881/1,907 joint-latency-pass requests (98.63660199%). It had no matched control, so it confirms the portable deployment path, not an optimisation gain. The higher cache point 27378 gained only 0.241% against its control and worsened p95 TTFT, so it did not displace the repeated operating choice. Official quality remains UNKNOWN.
 
 ## Q11. What did not work, and what did you learn?
 
