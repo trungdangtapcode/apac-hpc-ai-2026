@@ -27,7 +27,29 @@ Raw artifacts remain immutable. New reviews and dated snapshots are separate fil
 
 Small safe source files, documentation, receipts, summaries and manifests are committed to the authorised private Git repository. The normal capture policy places files larger than 1 MiB in the sibling content-addressed object store; Git records their source path, original byte length, SHA-256 and compressed object path. **A Git push by itself does not upload those external object bytes.**
 
-For this important quality study, a separate scoped portable evidence bundle is being prepared for an explicitly selected private GitHub draft release. It contains the captured large objects needed by this study and the original local MMLU-Pro dataset, plus manifests identifying their matching Git source. It excludes unrelated research objects and runtime images. The publication/verification receipt will identify the asset and hash only after upload and a successful download/hash check. Until that receipt exists, do not claim those bytes are off-host.
+The first scoped evidence bundle is now preserved in the **private draft release `quality-evidence-20261103-v1`** of `trungdangtapcode/apac-hpc-ai-research`. It was uploaded, downloaded again through GitHub CLI, verified by SHA-256, restored in an isolated directory and used to recompute the retained answer scores. [Publication and restore receipt](backup-verification/v1/PUBLICATION_RECEIPT.json) and [the exact executed verification script](backup-verification/v1/verify_restore.py) are committed with this report.
+
+| Verified v1 coverage | Value |
+|---|---|
+| Captured source commit | `551f044990cd59947ec7cf0639557616a1665905` |
+| Scoped manifest paths restored | 668 |
+| Unique external objects downloaded and verified | 13 |
+| Bundle size | 21,494,014 bytes |
+| Bundle SHA-256 | `ab15a872ee425758e4b1b8c090a2d8499aa1cabedf44ada6fd9d4909dded6537` |
+| Original full-study science files verified after restore | 310 |
+| Additional guarded code/dependencies verified | 27 |
+| Required bytecode files restored | 16 |
+| Raw-answer scores reproduced without GPUs | 28373:1200, 28375:1205, 28382:1206 correct |
+
+This v1 snapshot includes all captured quality source and original local dataset metadata/objects at its commit, including the frozen full prompts and the three completed full-study runs above. Candidate 28384 finished later and is **not covered by v1**; its newly captured material needs a later version. The retained local transport is under the sibling store's `portable-quality/20261103-v1/` directory. Original content-addressed objects remain unchanged.
+
+To retrieve the actual data, authenticate to the existing private repository and use:
+
+```bash
+gh release download quality-evidence-20261103-v1   --repo trungdangtapcode/apac-hpc-ai-research   --pattern quality-object-backup-20261102T190240Z.tar.zst   --dir NEW_DOWNLOAD_DIRECTORY
+```
+
+A draft asset needs appropriate repository access. This is a private research backup, not an upload to the competition or public release. No credentials are part of the asset.
 
 The precise scope is essential: a quality-study bundle is not a backup of the entire multi-week external store, all serving images or model weights. Future job responses generated after the bundle's timestamp need a later explicit capture/bundle update. The finite measurement callback does not commit or upload data automatically.
 
@@ -35,8 +57,8 @@ The precise scope is essential: a quality-study bundle is not a backup of the en
 
 1. Clone the existing private Git archive at the commit recorded by the evidence bundle.
 2. Obtain the matching private evidence asset and verify its published checksum.
-3. Restore its allowlisted object files into a sibling object store and verify decompressed SHA-256 and byte lengths against the included manifest. Keep existing unrelated objects and indexes; do not overwrite a complete store with a scoped subset.
-4. Use the archive's documented restore tooling for the selected source paths. If restoring only this study, preserve the same relative paths for its retained dataset inputs.
+3. Extract its allowlisted object files into a new scoped store directory and verify decompressed SHA-256 and byte lengths against the included manifest. Pass that directory as `--store` to the existing archive restore tool. Do not replace an unrelated full object store or its index with this subset.
+4. Use the archive's documented restore tooling at the captured commit, selecting each exact path in the bundle manifest with repeated `--path` arguments. If restoring only this study, preserve the same relative paths for its retained dataset inputs.
 5. Run `python3 workflow/restore_required_bytecode.py` from the restored study to restore its sixteen checksum-required public files. `--check-only` verifies a tree without writes.
 6. Read the latest handoff and frozen/source manifests. Evidence recovery does not authorise new GPU jobs, authentication or modifying old payloads. A replay on another cluster requires a new derived bundle with remapped paths and its own qualification.
 
