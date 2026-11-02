@@ -561,12 +561,12 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 
 - [3 November: native Scotch 100:1 follow-up accepted as 2294670](entries/20261103-hpc-scotch-weight100-submitted.md).
 
-- [3 November Vietnam / 2 November UTC: actually submit paired FP8 reference/candidate accuracy pilots 28367/ 28368](entries/ 20261102-ai-accuracy-pilot-submitted.md).
+- [3 November Vietnam / 2 November UTC: actually submit paired FP8 reference/candidate accuracy pilots 28367/ 28368](entries/20261102-ai-accuracy-pilot-submitted.md).
 
-- [3 November Vietnam / 2 November UTC: first paired accuracy pilot is below 99% point gate; retain failures and prepare full-set measurement](entries/ 20261102-ai-quality-pilot-point-fails.md).
+- [3 November Vietnam / 2 November UTC: first paired accuracy pilot is below 99% point gate; retain failures and prepare full-set measurement](entries/20261102-ai-quality-pilot-point-fails.md).
 
 - [3 November Vietnam / 2 November UTC: submit paired full-set first shards 28373/28375, preserving the losing pilot and fixed complete-test protocol](entries/20261102-ai-full-quality-first-pair-submitted.md).
 
-- [3 November Vietnam: first paired full-study shard gives1205 versus1200 correct, qualifies full fixed continuation, not an official pass](entries/20261102-ai-full-quality-first-pair-reviewed.md).
+- [3 November Vietnam: first paired full-study shard gives 1205 versus 1200 correct, qualifies full fixed continuation, not an official pass](entries/20261102-ai-full-quality-first-pair-reviewed.md).
 
-- [3 November Vietnam: submit five further full-quality shards within cap5 and enable only the finite fixed16 batch continuation](entries/20261102-ai-full-quality-finite-continuation-submitted.md).
+- [3 November Vietnam: submit five further full-quality shards within cap 5 and enable only the finite fixed 16 batch continuation](entries/20261102-ai-full-quality-finite-continuation-submitted.md).
