@@ -1,3 +1,7 @@
+# Reviewed terminal xzy result
+
+2294643 completed 0:0, all four native arms pass. Pooled xzy mean is 0.70973% lower with both adjacent comparisons favorable, but xzy sample recommendations 50/44 exceed 39 and tails are wider. No stable gain or Gadi forecast. A longer reversed confirmation is being prepared; no new job is claimed here. [Full review](completed-2294643/RESULTS.md). Earlier live snapshots are historical.
+
 # Actual native xzy comparison submitted and running
 
 Job **2294643**, tu-iris-xzy40, accepted **2 November 2026, 10:50:30 Vietnam / 03:50:30 UTC**. At **10:51:22 Vietnam**, actual Slurm shows RUNNING on iris001, 56 CPUs, elapsed 51 seconds. Source preflight is in progress: Scotch accepted source gate passed; no solver arm has started in this snapshot. Do not describe allocation setup as a completed timing result.

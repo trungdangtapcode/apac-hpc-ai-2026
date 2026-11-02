@@ -544,3 +544,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [2 November: submit native xzy versus Scotch BAAB job 2294643 after reviewed initialization; one bounded 140-hour maximum](entries/20261102-hpc-xzy-native-submitted.md).
 
 - [2 November: one explicitly requested VPN retry fails at the gateway; no DUO/SSH success or spending claimed](entries/20261102-hpc-vpn-retry-failed.md).
+
+- [2 November: xzy mean0.71% lower in reviewed BAAB, but sampling/tail limits require longer reverse confirmation](entries/20261102-hpc-xzy-small-signal-reviewed.md).

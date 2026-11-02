@@ -1,0 +1,108 @@
+{
+  "job_id": "2294643",
+  "observed_utc": "2026-11-02T07:53:42.473047+00:00",
+  "inspected": [
+    "All 222 transfer hashes, native work/timing/Cd rows, exact fixed iterations, source/copy/field/runtime seals",
+    "All timing trajectories, tails, first/last ten, repeat/adjacent effects and native sample warnings",
+    "Full native stdout/stderr, actual launcher reports, GNU time resources from REVIEW.json and before/after CPUinfo"
+  ],
+  "arms": [
+    {
+      "arm": "B1-our-xzy",
+      "first10_mean_s_step": 35.8500309413,
+      "last10_mean_s_step": 31.0880039296,
+      "population_stddev_s_step": 2.3603062365689285,
+      "CV_percent": 7.201046910399867,
+      "bounding_omega_lines": 9,
+      "FOAM_warning_lines": [
+        "    Minimum number of measured time steps for 2% error at 95% confidence level = 50",
+        "--> FOAM Warning : "
+      ],
+      "fatal_markers_in_stdout_stderr_resource": false,
+      "node_snapshots": {
+        "before": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        },
+        "after": {
+          "median_sampled_cpu_MHz": 2705.8424999999997,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        }
+      }
+    },
+    {
+      "arm": "A1-scotch",
+      "first10_mean_s_step": 35.3946721951,
+      "last10_mean_s_step": 31.8963589509,
+      "population_stddev_s_step": 1.5831358822259372,
+      "CV_percent": 4.772666225860991,
+      "bounding_omega_lines": 10,
+      "FOAM_warning_lines": [
+        "    Minimum number of measured time steps for 2% error at 95% confidence level = 22"
+      ],
+      "fatal_markers_in_stdout_stderr_resource": false,
+      "node_snapshots": {
+        "before": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        },
+        "after": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        }
+      }
+    },
+    {
+      "arm": "A2-scotch",
+      "first10_mean_s_step": 35.9729269461,
+      "last10_mean_s_step": 32.4146398679,
+      "population_stddev_s_step": 1.711949760617946,
+      "CV_percent": 5.097201227001975,
+      "bounding_omega_lines": 10,
+      "FOAM_warning_lines": [
+        "    Minimum number of measured time steps for 2% error at 95% confidence level = 25"
+      ],
+      "fatal_markers_in_stdout_stderr_resource": false,
+      "node_snapshots": {
+        "before": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        },
+        "after": {
+          "median_sampled_cpu_MHz": 2667.6235,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        }
+      }
+    },
+    {
+      "arm": "B2-our-xzy",
+      "first10_mean_s_step": 36.4578114319,
+      "last10_mean_s_step": 32.1038641748,
+      "population_stddev_s_step": 2.2552571147484075,
+      "CV_percent": 6.730924651785419,
+      "bounding_omega_lines": 9,
+      "FOAM_warning_lines": [
+        "    Minimum number of measured time steps for 2% error at 95% confidence level = 44",
+        "--> FOAM Warning : "
+      ],
+      "fatal_markers_in_stdout_stderr_resource": false,
+      "node_snapshots": {
+        "before": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        },
+        "after": {
+          "median_sampled_cpu_MHz": 4000.0,
+          "scope": "Outside solver timing intervals, not sustained hardware frequency."
+        }
+      }
+    }
+  ],
+  "all_four_reported_rank_package_core_maps_identical": true,
+  "not_collected": [
+    "Sustained hardware frequency/cycles and memory/network bandwidth",
+    "NUMA page residency and actual solver helper-thread affinity"
+  ],
+  "assessment": "Qualified small favorable screen only: pooled -0.70973%, adjacent -1.18666%/-0.23870%, repeats +1.25165%/+2.22300%. Xzy sample recommendations50/44 exceed39; xzy tails are wider, and every treatment has an early/late timing trend. Neither a stable speedup nor a known causal bottleneck is established.",
+  "next_decision": "One preregistered52-step reverse ABBA gives51timings, exceeding prior native N=50 for a2% target, but does not guarantee significance for a0.7% effect or future sampling adequacy. Preserve all timings and warnings; use robust full-arm time bounds."
+}
