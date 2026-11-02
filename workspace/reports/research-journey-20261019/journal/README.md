@@ -578,3 +578,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [3 November: document the complete quality methodology, review reference28382 and admit fixed candidate28392](entries/20261103-ai-quality-method-and-second-reference.md).
 
 - [3 November: actual instrumented xyz/Scotch diagnostic 2294671](entries/20261103-hpc-instrumented-xyz-submitted.md).
+
+- [3 November: retain both first two paired quality shards, submit fixed 28394 and verify a real off-host restore](entries/20261103-ai-quality-second-pair-and-offhost-backup.md).

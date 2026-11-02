@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-02T19:08:09.963395+00:00",
+  "argv": [
+    "sbatch",
+    "--parsable",
+    "--job-name=qrf04",
+    "--partition=hpcai",
+    "--nodes=2",
+    "--time=00:17:00",
+    "--gres=gpu:8",
+    "--exclusive",
+    "--propagate=NONE",
+    "--output=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-04of08/logs/%j.out",
+    "--error=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-04of08/logs/%j.err",
+    "--wrap",
+    "if [ -f /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/STOP.json ]; then echo FINITE_WORKFLOW_STOP; exit 86; fi; bash /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-04of08/submit.sbatch; driver_rc=$?; python3 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/finite_event.py --job \"$SLURM_JOB_ID\" --role reference --shard 4 --driver-rc \"$driver_rc\"; callback_rc=$?; if [ \"$driver_rc\" -ne 0 ]; then exit \"$driver_rc\"; fi; exit \"$callback_rc\""
+  ],
+  "wrapper": "if [ -f /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/STOP.json ]; then echo FINITE_WORKFLOW_STOP; exit 86; fi; bash /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-04of08/submit.sbatch; driver_rc=$?; python3 /home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/finite_event.py --job \"$SLURM_JOB_ID\" --role reference --shard 4 --driver-rc \"$driver_rc\"; callback_rc=$?; if [ \"$driver_rc\" -ne 0 ]; then exit \"$driver_rc\"; fi; exit \"$callback_rc\"",
+  "original_frozen_payload": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-04of08/submit.sbatch",
+  "purpose": "Finite fixed 16-shard continuation; no watcher, retry or AI process.",
+  "workflow_code_guard_sha256": "9112e488401a09052ac912ede6d9e85b82e34931beea65c1f4011a64b017f3b8"
+}

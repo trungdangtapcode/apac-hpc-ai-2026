@@ -15,3 +15,5 @@ The reviewed first full-study shard gave **1,205/1,504 correct for our service a
 | Find the eventual complete comparison | `quality-verification-20261102/workflow/FULL_COMPARISON.json` — only exists after all 16 valid events |
 
 All dates in original artifacts remain unchanged. Snapshot timestamps matter; a historical pending state is not live queue information. This report adds no new performance sweep or HPC change.
+
+[Later dated progress: both first two matched shards](PROGRESS_20261103.md) covers 3008 questions per role; the fixed first-shard example above remains unchanged.
