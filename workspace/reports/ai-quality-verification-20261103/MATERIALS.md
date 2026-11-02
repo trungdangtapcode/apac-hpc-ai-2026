@@ -27,53 +27,39 @@ Raw artifacts remain immutable. New reviews and dated snapshots are separate fil
 
 Small safe source files, documentation, receipts, summaries and manifests are committed to the authorised private Git repository. The normal capture policy places files larger than 1 MiB in the sibling content-addressed object store; Git records their source path, original byte length, SHA-256 and compressed object path. **A Git push by itself does not upload those external object bytes.**
 
-### Latest verified backup: v2
+### Latest verified backup: v3
 
-The private draft release **`quality-evidence-20261103-v2`** contains all quality evidence captured at Git commit `056719537144ba07b8311d68c45bbdc9c665e784`. Its download was restored into an isolated directory and independently verified; see [the v2 publication receipt](backup-verification/v2/PUBLICATION_RECEIPT.json) and [the exact verification script](backup-verification/v2/verify_restore.py).
+The private draft release **`quality-evidence-20261103-v3`** contains the quality evidence captured at Git commit `42322e23fde0e0801cefbc9fcaf04549a3a04ffe`. It was uploaded, downloaded from GitHub again, restored in an isolated directory and independently checked. Read [the publication receipt](backup-verification/v3/PUBLICATION_RECEIPT.json) and [the exact executed verification script](backup-verification/v3/verify_restore.py).
 
-| Verified v2 coverage | Value |
+| Verified v3 coverage | Value |
 |---|---|
-| Source paths restored |742|
-| Unique external objects |15|
-| Bundle bytes |23286988|
-| Bundle SHA-256 |`0859bedf9973c16da95d8015f61c72587ac8cf748001e91ae7659f5d825c2f77`|
-| Original frozen files / additional guarded files / restored bytecode |310 /27 /16|
-| Scores replayed from restored raw answers |28373:1200;28375:1205;28382:1206;28384:1204|
-| Paired measured coverage |3008 /12032 questions per role|
+| Selected source paths restored |789|
+| Unique external objects downloaded/verified |17|
+| Bundle size |25148115 bytes|
+| Bundle SHA-256 |`4e7ab609433a963d9bd953165d89eb976fd8efd1b2c487c84e57a642ba7c2329`|
+| Original frozen files verified |310|
+| Additional guarded files/dependencies verified |27|
+| Required bytecode files restored |16|
+| Scores replayed from restored raw responses |28373:1200;28375:1205;28382:1206;28384:1204;28386:1166|
 
-The original dataset, complete prepared prompts, all frozen job bundles and the four completed full-study runs are covered. Later job outputs are outside this dated snapshot. Local retained transport: `apac-hpc-ai-research-artifacts/portable-quality/20261103-v2/quality-object-backup-20261102T191253Z.tar.zst`.
+The source, original dataset, complete prepared prompts, all fixed bundles, pilot failures and the **five completed full-study runs** are covered. The third reference is included as an unmatched result; only the first two shards are paired, covering 3008/12032 questions per role. Later job outputs are outside this dated snapshot. Local retained transport: `apac-hpc-ai-research-artifacts/portable-quality/20261103-v3/quality-object-backup-20261102T191845Z.tar.zst`.
 
-Download the latest covered snapshot with:
+Retrieve the actual data using the existing private repository account:
 
 ```bash
-gh release download quality-evidence-20261103-v2 --repo trungdangtapcode/apac-hpc-ai-research --pattern quality-object-backup-20261102T191253Z.tar.zst --dir NEW_DOWNLOAD_DIRECTORY
+gh release download quality-evidence-20261103-v3 --repo trungdangtapcode/apac-hpc-ai-research --pattern quality-object-backup-20261102T191845Z.tar.zst --dir NEW_DOWNLOAD_DIRECTORY
 ```
 
-### Earlier verified backup: v1
+Draft assets require appropriate repository access. This is a private research backup, not an organiser submission. No credentials are included.
 
-The first scoped evidence bundle is now preserved in the **private draft release `quality-evidence-20261103-v1`** of `trungdangtapcode/apac-hpc-ai-research`. It was uploaded, downloaded again through GitHub CLI, verified by SHA-256, restored in an isolated directory and used to recompute the retained answer scores. [Publication and restore receipt](backup-verification/v1/PUBLICATION_RECEIPT.json) and [the exact executed verification script](backup-verification/v1/verify_restore.py) are committed with this report.
+### Earlier verified versions are retained
 
-| Verified v1 coverage | Value |
-|---|---|
-| Captured source commit | `551f044990cd59947ec7cf0639557616a1665905` |
-| Scoped manifest paths restored | 668 |
-| Unique external objects downloaded and verified | 13 |
-| Bundle size | 21,494,014 bytes |
-| Bundle SHA-256 | `ab15a872ee425758e4b1b8c090a2d8499aa1cabedf44ada6fd9d4909dded6537` |
-| Original full-study science files verified after restore | 310 |
-| Additional guarded code/dependencies verified | 27 |
-| Required bytecode files restored | 16 |
-| Raw-answer scores reproduced without GPUs | 28373:1200, 28375:1205, 28382:1206 correct |
+| Version | Restored paths / objects | Completed full-study runs covered | Receipt |
+|---|---|---|---|
+|v1|668 /13|28373,28375,28382|[v1 receipt](backup-verification/v1/PUBLICATION_RECEIPT.json)|
+|v2|742 /15|28373,28375,28382,28384|[v2 receipt](backup-verification/v2/PUBLICATION_RECEIPT.json)|
 
-This v1 snapshot includes all captured quality source and original local dataset metadata/objects at its commit, including the frozen full prompts and the three completed full-study runs above. Candidate 28384 finished later and is **not covered by v1**; it is covered by v2 above. The retained local transport is under the sibling store's `portable-quality/20261103-v1/` directory. Original content-addressed objects remain unchanged.
-
-To retrieve the actual data, authenticate to the existing private repository and use:
-
-```bash
-gh release download quality-evidence-20261103-v1   --repo trungdangtapcode/apac-hpc-ai-research   --pattern quality-object-backup-20261102T190240Z.tar.zst   --dir NEW_DOWNLOAD_DIRECTORY
-```
-
-A draft asset needs appropriate repository access. This is a private research backup, not an upload to the competition or public release. No credentials are part of the asset.
+Each version has its own source commit, immutable asset hash and actual download/restore proof. Later versions add evidence; earlier versions are historical snapshots rather than silently replaced files.
 
 The precise scope is essential: a quality-study bundle is not a backup of the entire multi-week external store, all serving images or model weights. Future job responses generated after the bundle's timestamp need a later explicit capture/bundle update. The finite measurement callback does not commit or upload data automatically.
 

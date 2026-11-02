@@ -584,3 +584,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [3 November: download and restore private quality backup v2, verify source hashes and replay all four completed full-study scores](entries/20261103-ai-quality-offhost-restore-v2.md).
 
 - [3 November: review reference 28386, preserve unmatched results and admit fixed candidate 28396](entries/20261103-ai-quality-third-reference-reviewed.md).
+
+- [3 November: complete the quality methodology/material guide and verify all five completed full-study runs recover from private v3 evidence](entries/20261103-ai-quality-materials-v3-handoff.md).

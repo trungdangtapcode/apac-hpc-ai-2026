@@ -6,7 +6,7 @@ Written 3 November 2026, Vietnam time (UTC+7). This explains work actually perfo
 
 Our performance run already established that the submitted service works at the required load. It did not establish answer accuracy. This study asks a separate question: **does our serving configuration retain at least 99% of the accuracy of a stock deployment of the same official FP8 model?**
 
-The first complete paired shard contains 1,504 questions. The reference answered 1,200 correctly; our candidate answered 1,205 correctly. The local retention ratio is **100.416667%**, above 99% on this shard. The earlier 128-question pilot gave **98.076923%**, below 99%. Both results remain in the record. Neither is the complete 12,032-question result or a BTC certificate.
+The first two complete paired shards cover **3,008 questions per role**. The reference answered **2,406** correctly; our candidate answered **2,409**, giving **100.124688%** local retention. This includes a favorable first shard and two fewer correct answers on the second shard. The earlier 128-question pilot gave **98.076923%**, below 99%, and remains preserved separately. These are partial results, not the complete 12,032-question result or a BTC certificate. The first-shard numbers below remain a fixed worked example.
 
 For changing progress, use [the dated monitoring snapshots](../../../2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/monitoring/snapshots), [the current handoff](../../notes/AI_CURRENT.md) and the actual scheduler. The numbers in this document are deliberately fixed examples from reviewed runs.
 

@@ -2,7 +2,7 @@
 
 This is the study guide and evidence route for the owner-authorised local quality measurement. Read [METHODOLOGY.md](METHODOLOGY.md) for the complete explanation, including why each step was necessary, what failed, how scoring works and which conclusions remain limited.
 
-The reviewed first full-study shard gave **1,205/1,504 correct for our service and 1,200/1,504 for the stock FP8 reference**. Retention was **100.416667%** on that shard. The earlier small pilot was below the local 99% gate. The complete 12,032-question evaluation is a separate ongoing measurement; no organiser quality certificate is claimed.
+The reviewed first two matched shards cover **3,008 questions per role**: our service answered **2,409** correctly and the stock FP8 reference **2,406**, giving **100.124688%** retention. The earlier small pilot was below 99% and is retained. A third reference shard is complete but has no matched candidate yet. This remains partial evidence, not the complete 12,032-question result or an organiser certificate. [The latest verified material backup](MATERIALS.md) includes all five completed full-study runs and has been downloaded/restored successfully.
 
 | Need | Read |
 |---|---|
