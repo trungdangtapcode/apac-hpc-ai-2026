@@ -28,3 +28,7 @@ Use a dedicated Python environment with `slides/requirements.txt`. The working r
 The snapshot is `HPC_BEFORE.json`. The publisher retains the previous local release under `workspace/submission-archive/` and rolls back an interrupted mutation. `PUBLISHER_CANDIDATE.json` distinguishes local publication from organiser submission. No new optimisation job, H100 login/spending, HPC payload change or background Codex was authorised here.
 
 Still requires the owners: official quality/rebuild scoring, HPC scientific approval for its final snapshot, a real timed combined mock and device check, and the actual portal destination/deadline/upload receipt. Pending official quality is not a fabricated Basic pre-upload prohibition. Git pushes preserve safe Git bytes and external-object recovery metadata; they do not upload large sibling-store artifact bytes off-host.
+
+## Final backup recovery
+
+The final notes Git add encountered an out-of-space error. After verifying its complete SHA-256 against the live published ZIP and recorded publication hash, only the redundant generated candidate ZIP was removed, freeing 151,822,442 bytes. The current ZIP, source artifacts, raw successful/failed runs, previous release backups and external objects remain retained. `CANDIDATE_CLEANUP.json` records that bounded cleanup. The original candidate path in the publication receipt is historical; the published ZIP is the delivery. The already captured note files were hash-checked again before retrying the same explicit commit.
