@@ -1,5 +1,7 @@
 # Final exact packaged-entry acceptance — job 28194
 
+**Terminal correction:** job 28194 FAILED/22:0 before benchmark because router health did not guarantee model registration. [Failure evidence](FAILURE_28194.md). The PENDING snapshot below is historical. [Qualified readiness repair](../final-portable-acceptance-r2-20261102/PLAN.md) is a derived new attempt, not a mutation of this job.
+
 Observed 2026-11-02T07:37:07.867301+07:00, Vietnam time (UTC+7). Slurm definitely accepted **28194**, named TripleU-Qwen-Basic. Current scheduler output:
 
 ```text
