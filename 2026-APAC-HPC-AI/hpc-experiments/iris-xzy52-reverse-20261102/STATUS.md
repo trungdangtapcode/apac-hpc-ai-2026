@@ -11,3 +11,8 @@ Maximum **3 hours / 168 allocated CPU-hours / zero GPUs**. Per-arm solver cap 2,
 Accounting **841 consumed + 168 reserved = 1,009 CPU-hours**, all local conservative planning. Previous job 2294643 used 90.953333 allocated CPU-hours, conservatively 91; its 140-hour maximum was retired once. The agent-selected stage increased from 890 to 1,009 only for this request, a bounded 119-hour extension. This is not an owner numeric Iris quota, billed SU, NSCC/AI transfer or permission for background Codex. Fresh queue/financial checks and durable one-shot intent precede scheduler acceptance; uncertain outcomes retain the full maximum.
 
 Review all four native/source/runtime/work gates, timing tails and sampling warnings, Cd repeats/differences, logs, maps, resources and missing hardware telemetry before interpretation. Reconcile actual cost once terminal. No Gadi, NSCC or official-score improvement is claimed. NSCC read-only transport at 14:48:46 Vietnam returned NAMESPACE_UNAVAILABLE; no new authentication was attempted. AI and submission materials remain unchanged.
+
+
+## Native work confirmed — 2 November 15:07:02 Vietnam
+
+Slurm confirms RUNNING on iris001, elapsed 242 seconds. Both accepted source gates passed. Actual first Scotch solver is at **step 3/52**; no End or final arm mean yet. No fatal marker was found in stdout; full stderr/native inspection remains pending. The allocation has entered native work, not only setup.
