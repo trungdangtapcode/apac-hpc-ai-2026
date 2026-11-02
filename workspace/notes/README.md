@@ -20,6 +20,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 | Teacher requirement closure and remaining human rehearsal | [Material-level closure](../submission-review/ai-basic-submission-polish-20261102/REQUIREMENT_CLOSURE.md) |
 | Earlier gaps found before the final revision | [Historical requirement assessment](ai-teacher-requirement-audit-20261101.md) |
 | Final exact packaged AI entry: accepted job and review route | [2 November accepted run 28197](ai-final-portable-acceptance-20261102.md) |
+| Learn exactly how the quality experiment was designed, scored and preserved | [Detailed quality methodology](../reports/ai-quality-verification-20261103/README.md) |
 | Actual owner-authorised local accuracy measurement and pilot jobs | [Quality verification stage](ai-quality-verification-20261102.md) |
 | What ≥99%-reference quality means, exact known numbers and why Basic can be submitted | [Quality clarification](ai-quality-threshold-clarification-20261102.md) |
 | Current final readiness, AI rule checks and remaining pre-upload items | [2 November audit](ai-final-preflight-20261102.md) |
