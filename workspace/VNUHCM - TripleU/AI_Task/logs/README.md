@@ -1,12 +1,36 @@
-# AI submission: current evidence and presentation guide
+# TripleU AI submission: native FP8 serving on 16 H200 GPUs
 
-Updated 1 November 2026. The selected entry remains the replicated H200 N64 recipe; no final alternative established a useful improvement. The serving scripts and earlier raw evidence are preserved.
+The Basic deliverable preserves the published Qwen FP8 model, BF16 KV and all
+layers/experts. It supplies reconstruction instructions, the text transport patch,
+one deployment-plus-official-benchmark job and the presentation. No model weights,
+authentication material or disposable runtime cache are bundled.
 
-- [Final AI report](FINAL_REPORT.md) separates the historical repeated H200 mean, the native reproduction, isolated higher points and the final fresh-control tests.
-- [Concise English speaking script](TALK_SCRIPT_EN.md), [pacing plan](PRESENTATION_PLAN.md), [teacher response](TEACHER_FEEDBACK_RESPONSE.md) and [Q&A](MOCK_QA_EVIDENCE.md) support the 16-slide main AI route. AI backups 17–34 are hidden; the preserved HPC section is slides 35–42. The public combined talk is 15–20 minutes plus a separate 10-minute Q&A; the AI 10–12-minute target must leave the agreed HPC time.
-- [Final nine-job verification](research-20261101/README.md) contains exact selected exports, losslessly compressed request records, comparison reports and the per-job ledger. Eight jobs use N64; 27781 is N54. Two controls have distinct comparison roles.
-- [Detailed retained metrics](measured/latest-results.md) and the historical evidence folders preserve earlier successful, failed and losing branches. [Research coverage](RESEARCH_JOURNEY.md) explains what appears in the main talk or appendix.
+## Complete portable verification
 
-H100 and H200 scores remain separate. The direct transfer tests ran on 16 H200; none established a useful gain above the team's prospective 1% gate. Small smoke/retrieval checks do not certify official model quality: the organiser's ≥99%-reference evaluation remains UNKNOWN. Corrected readers passed saved datasets on CPU; a complete fresh portable GPU replay after repair is not claimed. Human rehearsal and live slideshow/device checks are prepared, not recorded as performed.
+**Job 28197 completed 0:0 in 10 min 11 s** on two H200 nodes at N64. It measured
+**3051.518173 good output tokens/s**, with **1881/1907 requests passing both
+latency limits (98.636602%)**, zero errors/cancellations, both P/D semantic paths,
+the original official client, corrected readers, performance gate and cleanup.
+This reproduces the retained operating level; it is not a matched new speedup.
+The earlier failed jobs remain in the historical evidence folders.
 
-Some full research sources remain outside this compact package. Those are labelled explicitly rather than linked as if available here. The complete research archive retains their provenance; model weights, authentication state and disposable caches are excluded. The separate HPC payload is preserved independently.
+- [Reconstruct and run](../job_scripts/README.md).
+- [Final AI report](FINAL_REPORT.md), [result review](acceptance-20261102/RESULTS.md)
+  and [latest measured results](measured/latest-results.md).
+- [English speaking script](TALK_SCRIPT_EN.md), [presentation plan](PRESENTATION_PLAN.md),
+  [evidence cards](EVIDENCE_CARDS.md) and [technical Q&A](PANEL_QA.md).
+- [Nine final H200 verification allocations](research-20261101/README.md) retain
+  eight N64 observations and one N54 observation, with separate branch controls.
+
+## Evaluation provenance
+
+The 98.636602% value is joint request-latency success, not answer accuracy.
+Model-quality evaluation follows organiser Q1 against its unchanged official FP8
+reference. The submitted methods preserve the target model and precision; no
+team full-set quality score or completed organiser review is claimed here.
+The Q&A distinguishes source checks, local output screens and that evaluation.
+H100 and H200 scores remain separate. The existing HPC payload is preserved.
+
+The main deck contains 16 AI slides followed by eight HPC slides; 18 additional
+AI slides are hidden backups. The combined talk is 15–20 minutes with a separate
+10-minute Q&A. The AI rehearsal target leaves the agreed HPC speaking time.

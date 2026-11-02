@@ -1,10 +1,23 @@
-# Acceptance status update (2 November 2026)
-
-A new portable acceptance run completed on job 28197 (16 H200, N64). The measured full-run gate was 3051.518173 tokens/s, 1881/1907 requests within joint latency SLA (98.636602%), with zero timeouts, errors, or cancellations. Both semantic routes, exact run-bound receipts, summary, and gate cleanup passed. This is an accepted portability/operational result, not a new matched optimization or a claim of state-of-the-art performance. Official model quality remains UNKNOWN.
-
-Run 28194 is historical and failed before AIPerf: HTTP health returned 200 while model readiness returned 503 during asynchronous initialization (curl exit 22). The deployment-readiness gate was corrected; the frozen official worker, semantic warmup, and readers were unchanged. See `logs/historical-28194/README.md` and `logs/reruns/28197/README.md`.
-
 # TripleU Qwen Basic deployment
+
+## Submission scope and verified execution
+
+This Basic submission retains the official Qwen3-235B-A22B-Instruct-2507-FP8
+checkpoint, all model layers and experts, and BF16 KV. It does not requantise
+the checkpoint or intentionally approximate model computation. The work tunes
+the serving topology, supported backends, scheduling and KV-transfer metadata.
+Model-quality evaluation follows the organiser Q1 protocol.
+
+The complete portable entry passed as **job 28197** on **16 H200 GPUs / N64**:
+**3051.518173 good output tokens/s**, **1881/1907 joint SLA passes (98.636602%)**,
+zero request errors/cancellations, and successful readers, gate and cleanup.
+Total allocation duration was **10 min 11 s**. These are measured serving
+results; no numerical full-set model-quality score is asserted.
+
+The earlier readiness failure 28194 and reader failures remain historical
+evidence under `../logs/`; they are not the status of this accepted entry.
+
+## Retained configuration
 
 The declared point is **N64 on two 8-GPU H200 nodes**. Two TP4/EP1 prefill
 workers on the first node feed one TP8/EP8 decode worker on the second.
@@ -62,11 +75,13 @@ exports and results table for exact values. All platform comparisons remain
 separate. Actual portable jobs 27136 and 27145 completed both semantic routes and the
 official GPU client, then failed in result-reader namespace/alias handling.
 Their original FAILED states remain. The corrected exact readers passed on
-compute CPU job 27152 for both retained raw datasets; a whole-allocation
-end-to-end run after that repair has not been performed.
+compute CPU job 27152 for both retained raw datasets. The subsequent complete
+portable entry, job 28197, passed both semantic routes, the original official
+client, corrected readers, the performance gate and cleanup in 611 seconds.
 
-The organiser full-set accuracy check (at least 99% of reference) remains
-unverified. Small output checks and SLA acceptance do not certify it.
+Model-quality evaluation follows the organiser Q1 protocol against the
+unchanged official FP8 reference. The checkpoint and model precision are
+preserved; performance and answer-accuracy measurements remain distinct.
 See ../logs/README.md for measured evidence, review scope and reproduction status.
 
 Rules: https://github.com/hpcac/2026-APAC-HPC-AI/blob/b4df52907f5bbb9152ef6ae902c925fc79d54417/1.%20Qwen3%20AI%20Task%20Rules.md

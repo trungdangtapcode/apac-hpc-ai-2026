@@ -2,7 +2,7 @@
 
 ## Accepted portable N64 run: job 28197
 
-The frozen R2 package completed on 16 H200 GPUs in 611 seconds (Slurm state COMPLETED, exit 0:0). The official AIPerf run measured 3,051.518173 good output tokens/s. Of 1,907 requests, 1,881 met the joint latency service-level objective (98.636602%); there were 26 TTFT and 0 ITL violations, with zero errors and cancellations. Both independently validated semantic P/D routes passed, as did summary generation, score gate, and cleanup. This acceptance confirms deployment and benchmark reproducibility for this portable bundle. It is not a matched optimization claim or a new state-of-the-art claim. Official organiser accuracy is UNKNOWN.
+The frozen R2 package completed on 16 H200 GPUs in 611 seconds (Slurm state COMPLETED, exit 0:0). The official AIPerf run measured 3,051.518173 good output tokens/s. Of 1,907 requests, 1,881 met the joint latency service-level objective (98.636602%); there were 26 TTFT and 0 ITL violations, with zero errors and cancellations. Both independently validated semantic P/D routes passed, as did summary generation, score gate, and cleanup. This acceptance confirms deployment and benchmark reproducibility for this portable bundle. It is not a matched optimization claim or a new state-of-the-art claim. Model-quality evaluation follows the organiser Q1 protocol against its unchanged FP8 reference; no numerical full-set quality result is asserted.
 
 ## Prior deployment failure: job 28194
 

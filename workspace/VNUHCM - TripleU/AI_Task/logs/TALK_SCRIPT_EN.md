@@ -62,9 +62,9 @@ H100 helped us screen compatibility and candidate settings, but an H100 score ca
 
 Some changes improved a resource measure without improving the service objective. Sparse decode graphs reduced logged capture memory but goodput was slightly lower than its comparison. A shallow speculative-decoding run also lost goodput. We closed those tested settings. A smaller memory counter or a functioning feature is not enough unless the complete workload improves while meeting the latency and quality requirements.
 
-## Slide 16 — Deployment acceptance passes; official quality remains unverified
+## Slide 16 — Preserve the model; optimise the serving path
 
-The retained recipe uses DeepGEMM prefill with chunk 8,192 and HPC-Ops decode with FlashInfer attention, MNNVL collectives and NIXL transfer at N64. Job 28197 now completes the portable entry in ten minutes eleven seconds: both semantic paths, the official client, corrected readers, performance gate and cleanup pass. It records 1,881 qualifying requests out of 1,907, with zero request errors. This closes the deployment gap; it is not a new matched speedup. Official full-set quality against the organiser reference remains unverified. I will now hand over to our OpenFOAM presenter.
+We preserved the official FP8 checkpoint and the intended model computation: no layers or experts were skipped, and the KV cache used BF16. We then completed the full portable serving entry on sixteen H200s. Job 28197 finished in ten minutes eleven seconds and scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent. That verifies the serving path under this workload with the model configuration preserved. Model quality is evaluated separately under the organiser’s Q1 protocol; this serving result is not that quality score. I now hand over to the OpenFOAM presenter.
 
 ## Backup for Q&A
 

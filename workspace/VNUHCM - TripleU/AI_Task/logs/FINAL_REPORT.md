@@ -2,11 +2,11 @@
 
 The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The 24-page main-talk PDF (source: `TripleU_APAC2026_Main_Talk.pdf`, retained outside this compact package) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
 
-Updated 2 November 2026, Vietnam time (UTC+7). This report covers Qwen AI. The final portable deployment acceptance, job 28197, is complete. Official full-set model quality remains UNKNOWN. Research and additional job submissions are stopped; no organiser upload is claimed.
+Updated 2 November 2026, Vietnam time (UTC+7). **Submission posture: prepare the Basic deliverable around the official Qwen FP8 checkpoint and optimise the serving path only.** The checkpoint and model weights are preserved; experiments changed the serving configuration. Exact-package deployment and performance acceptance completed in job 28197. The official full-set evaluation is a separate organiser-run checkpoint. This report does not claim an upload receipt or organiser evaluation outcome.
 
 ## Result and submission choice
 
-**Recommended operating choice:** N64 on 16 H200, with two TP4/EP1 prefill workers and one TP8/EP8 decode worker; DeepGEMM prefill/chunk 8192 and HPC-Ops decode with FlashInfer attention/MNNVL transport. This is a repeatedly measured deployment decision, not proof of global optimality.
+**Basic submission serving configuration:** N64 on 16 H200, with two TP4/EP1 prefill workers and one TP8/EP8 decode worker; DeepGEMM prefill/chunk 8192 and HPC-Ops decode with FlashInfer attention/MNNVL transport. The official Qwen FP8 model remains intact with BF16 KV; the work changes serving implementation and runtime configuration, without skipping model layers or requantizing the checkpoint. This is the measured operating choice within the tested two-node budget.
 
 **Historical repeated target-only series:** three full H200 runs average **3,044.400475 good output tokens/s**. Native full job 26766 measured **3,045.501509** in a separate series. Highest complete individual before portable acceptance, job 27378, measured **3,048.446289**, but its cache treatment was only +0.240921% versus its fresh control, below the team's prospective 1% usefulness threshold. It was not a confirmed optimization.
 
@@ -14,9 +14,11 @@ Updated 2 November 2026, Vietnam time (UTC+7). This report covers Qwen AI. The f
 
 This is a complete portable deployment-acceptance observation, not a new serving recipe or a matched speedup. Its value is numerically above the prior highest complete individual 27378, but it has no contemporaneous matched control and establishes no optimisation gain. Keep it separate from the historical three-run mean 3,044.400475, native job 26766 at 3,045.501509, prior highest complete configuration 27378 at 3,048.446289, and recovered raw observation 27145 at 3,055.330517 whose original job FAILED during postprocessing.
 
-**Official model quality remains UNKNOWN.** No team measurement of the full-set ratio against the organiser reference is retained. The 98.636602% value above is a latency-qualified request fraction, not accuracy. The published Basic procedure says organisers run the full quality check; their unpublished reference score is not stated as a pre-upload prerequisite. Submitting Basic while that organiser evaluation is pending does not guarantee the later quality check will pass. See the quality and submission clarification (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package).
+### Official evaluation workflow
 
-Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), [actual job status/receipt](<acceptance-20261102/STATUS.md>), rendered submission review (source: `README.md`, retained outside this compact package).
+The 28197 value of 98.636602% is the fraction of benchmark requests that met both latency limits. It is a serving metric, not an answer-accuracy score. The Basic workflow preserves the official Qwen FP8 checkpoint and assigns the full-set comparison against the organiser reference to the organisers. This report does not substitute a team score for that checkpoint and does not claim that it has already been run. The public Basic requirements do not state that teams must possess the organisers’ unpublished reference value before upload. The exact qualification and evidence boundary are recorded in the quality and submission clarification (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package).
+
+Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), actual job status/receipt (source: `STATUS.md`, retained outside this compact package), current presentation package (source: `ai-basic-submission-polish-20261102`, retained outside this compact package).
 
 ## Workload and score
 
@@ -77,7 +79,7 @@ The accepted 28197 delivery copy retains the exact portable N64 entry and correc
 
 Submission artifacts and slides are in English; the owner-requested Vietnamese learning transcript is a separate exception. The existing theme, gradients and distinct background photographs are retained. The eight HPC slides and their 68 transitive OOXML parts remain protected. Current live HPC files and the existing ZIP's HPC contents are preserved independently because another worker has unpublished folder changes; this AI update does not silently package them.
 
-No organiser upload or new research job is performed. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
+No organiser upload receipt or quality-evaluation result is recorded here. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
 - Updated presentation (source: `TripleU_APAC2026_Presentation.pptx`, retained outside this compact package)
 - Review PDF (source: `TripleU_APAC2026_Presentation.pdf`, retained outside this compact package)
@@ -98,9 +100,9 @@ The revised slides make previously compressed reasoning explicit: transport reco
 - [Panel Q&A, with observation/hypothesis/unknown distinctions](<PANEL_QA.md>)
 
 
-## Final queue and terminal-result reconciliation — 31 October 2026
+## Historical queue snapshot and terminal-result reconciliation — 31 October 2026
 
-Read-only query at **09:54:58 Vietnam time (UTC+7)**: the H200 Slurm queue has no job for this account. All 13 AI allocations in the fresh accounting window starting 29 October UTC are terminal; the latest is 27510. H100/PBS state remains **UNKNOWN** because this machine's existing VPN path is unavailable. No fresh login, DUO request or new job is initiated. Snapshot and hardware-separated audit (source: `README.md`, retained outside this compact package).
+This is the dated 31 October snapshot retained for audit; it is not a live queue statement. Read-only query at **09:54:58 Vietnam time (UTC+7)**: the H200 Slurm queue has no job for this account. All 13 AI allocations in the fresh accounting window starting 29 October UTC are terminal; the latest is 27510. H100/PBS state remains **UNKNOWN** because this machine's existing VPN path is unavailable. No fresh login, DUO request or new job is initiated. Snapshot and hardware-separated audit (source: `README.md`, retained outside this compact package).
 
 The two final jobs were already included in this report, so there is no omitted winning result:
 

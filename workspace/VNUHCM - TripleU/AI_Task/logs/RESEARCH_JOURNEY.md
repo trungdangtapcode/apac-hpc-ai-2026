@@ -9,7 +9,7 @@ The current presentation is 42 slides: AI main talk 1–16, hidden AI backup 17�
 | How do we divide the fixed two-node, 16-H200 budget? | 1–4 | 17–19, 26 |
 | What failed in one transfer path, and what did its repair establish? | 5–7 | 20–21 |
 | Which service-level changes improve goodput under the latency rule? | 8–12 | 22–28, 30, 32 |
-| Which conclusions survive repeats, cross-platform checks and known quality limits? | 13–16 | 29, 31, 33–34 |
+| Which conclusions survive repeats and cross-platform checks, and how is the official checkpoint handled? | 13–16 | 29, 31, 33–34 |
 
 ## Final 31 October measurements now represented
 
@@ -57,6 +57,6 @@ The single held-out H100-to-H200 prediction remains in backup slide 33 and is cl
 The source index retains 220 dated entries, provenance and prior mappings. See [feedback response](<TEACHER_FEEDBACK_RESPONSE.md>), [Q&A evidence](<MOCK_QA_EVIDENCE.md>) and [claim cards](<EVIDENCE_CARDS.md>). Historical jobs and failures remain in the reports and research archive; inclusion in a slide is not the audit's unit of completeness.
 
 
-## Packaged-entry acceptance and final unresolved result
+## Packaged-entry acceptance and official evaluation workflow
 
-After the 31 October cross-platform verification, the team retried the exact AI submission entry. Job 28194 failed before benchmarking because `/health` returned 200 before asynchronous model registration, followed by `/v1/models` 503. The source-bound readiness change waited for the Qwen model to appear and verified workers remained alive. It passed five local HTTP/liveness fixtures and the exact setup. Job 28197 then passed the full portable entry in 611 seconds. This closes the “no post-reader-fix full GPU replay” gap. It is not a new configuration, a matched speed comparison or a model-quality run. See acceptance review (source: `REVIEW.md`, retained outside this compact package), [job status and receipt](<acceptance-20261102/STATUS.md>), and quality clarification (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package).
+After the 31 October cross-platform verification, the team retried the exact AI submission entry. Job 28194 failed before benchmarking because `/health` returned 200 before asynchronous model registration, followed by `/v1/models` 503. The source-bound readiness change waited for the Qwen model to appear and verified workers remained alive. It passed five local HTTP/liveness fixtures and the exact setup. Job 28197 then passed the full portable entry in 611 seconds. This closes the “no post-reader-fix full GPU replay” gap. It is not a new configuration, a matched speed comparison or a model-quality run. See acceptance review (source: `REVIEW.md`, retained outside this compact package), job status and receipt (source: `STATUS.md`, retained outside this compact package), and quality clarification (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package).
