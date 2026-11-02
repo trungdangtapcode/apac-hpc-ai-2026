@@ -1,0 +1,33 @@
+{
+  "name": "hierarchical_xzy_vs_default_scotch_iris_BAAB",
+  "state": "REVIEWED_PAYLOAD_SEE_STATUS_AND_RECEIPT_FOR_DEPLOYMENT",
+  "arms": [
+    "B1-our-xzy",
+    "A1-scotch",
+    "A2-scotch",
+    "B2-our-xzy"
+  ],
+  "nodes": 1,
+  "ranks": 56,
+  "steps_each": 40,
+  "intervals_each": 39,
+  "maximum_seconds": 9000,
+  "maximum_allocated_CPU_hours": 140,
+  "scored_result": false,
+  "A": "Default OpenFOAM Scotch",
+  "B": "Standard hierarchical decomposition, factors (7 4 2), order xzy; tested parameter choice, not a new algorithm",
+  "common_runtime": "Default MPI mapping; uncollated I/O; identical native solver settings",
+  "source_control": "Same original 65M physical mesh, canonical 41 input pins, build and fixed solver work; method-specific accepted initialized partitions and fields",
+  "hypothesis": "XZY has fewer total interface faces and fewer maximum neighbor patches than the screened xyz/zyx cuts, but more interface faces on its busiest rank. Native timing determines whether the tradeoff helps.",
+  "source_cut_job": "2294097",
+  "accepted_xzy_manifest": {
+    "job_id": "2294642",
+    "sha256": "e52d67b1a9a2bcad002fdbd17da982362a8d2e92e678cb81cb442b0601745987",
+    "files": 1040
+  },
+  "limitations": [
+    "Single short Iris allocation; inspect repeat drift and adjacent consistency",
+    "Structural proxies are not solver performance",
+    "Not a Gadi, NSCC, official score or cross-platform claim"
+  ]
+}
