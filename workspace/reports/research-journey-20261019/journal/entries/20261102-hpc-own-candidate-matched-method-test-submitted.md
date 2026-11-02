@@ -16,4 +16,4 @@ Next: review/reconcile full 2294637 when terminal, preserve queued 2294640, then
 
 [Own-candidate receipt/status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md); [prior censored pair](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-matched-solver56-20261026/completed-2294047/RESULTS.md).
 
-[Direct answer about ownership and actual outcomes](../../hpc-own-research-status-20261102/README.md) distinguishes baseline reproduction, unsuccessful own branches, borrowed settings and the accepted but unmeasured owned-candidate comparison.
+[Direct answer about ownership and actual outcomes](../../../hpc-own-research-status-20261102/README.md) distinguishes baseline reproduction, unsuccessful own branches, borrowed settings and the accepted but unmeasured owned-candidate comparison.
