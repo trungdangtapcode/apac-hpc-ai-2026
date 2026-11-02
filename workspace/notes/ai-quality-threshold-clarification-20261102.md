@@ -1,5 +1,7 @@
 # Quality threshold, actual known numbers and submission — 2 November 2026
 
+**Submission-status correction — 2026-11-02T14:50:38.446275+07:00, Vietnam time (UTC+7):** The owner reasonably interpreted “submitted” and “waiting for organiser quality evaluation” as an actual submitted quality test. That is not what occurred. Jobs 28194/28197 were cluster deployment/performance acceptance attempts; 28197 passed. Neither invokes a full-set model-accuracy harness. No competition ZIP or quality-evaluation request has been sent to the organisers by this worker, and no organiser receipt or active quality review is evidenced. UNKNOWN means not evaluated in the retained record, not an organiser evaluation already initiated and awaiting its result. Earlier wording about waiting described the intended official procedure too loosely and must not be read as an actual submission status. The local performance/deployment work is complete; official quality certification is not.
+
 The owner asked for the exact quality number after the readiness report listed the organiser's ≥99%-reference evaluation as UNKNOWN. This distinction must be made clearly before giving more readiness advice.
 
 ## What is known and what is not
