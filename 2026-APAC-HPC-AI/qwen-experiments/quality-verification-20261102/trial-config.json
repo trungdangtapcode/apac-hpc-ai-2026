@@ -1,0 +1,25 @@
+{
+  "stage": "paired local pilot",
+  "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-FP8",
+  "hardware": "16 H200/two nodes per job",
+  "reference": "two stock native TP8 colocated replicas; no NIXL patch or kernel/backend tuning",
+  "candidate_source": 28197,
+  "candidate_topology": "two TP4 prefills and TP8/EP8 decode; original accepted workers/precision/kernel flags",
+  "quality_client_concurrency": 16,
+  "selected_pilot_questions": 128,
+  "full_test_questions_prepared": 12032,
+  "generation": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 2048,
+    "stop": [
+      "Question:"
+    ]
+  },
+  "accuracy_reference": "new local unchanged-FP8 run, not organiser reference",
+  "ranked_AIPerf": false,
+  "candidate_performance_point_concurrency": 64,
+  "owner_authority": "Latest explicit request to research and measure quality; H200 pilot stage, not unrelated performance restart",
+  "maximum_stage_GPU_hours": 9.066666666666666,
+  "PBS_SU": 0
+}

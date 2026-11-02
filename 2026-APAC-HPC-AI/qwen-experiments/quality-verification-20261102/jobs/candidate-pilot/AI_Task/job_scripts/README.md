@@ -1,0 +1,3 @@
+# Local accuracy candidate pilot
+
+This is a derived quality-measurement job, not the ranked AIPerf entry. It keeps the accepted 28197 candidate model, workers, precision, topology, semantic warmups and supported kernel flags unchanged, then runs the frozen local 128-question MMLU-Pro feasibility pilot with greedy generation and 2048 output allowance. The primary submission is not modified. Compare with a separately deployed unchanged official FP8 reference on the identical compiled prompts. No official BTC quality certification is claimed. Review completion/coverage/errors and raw answers before interpreting accuracy.
