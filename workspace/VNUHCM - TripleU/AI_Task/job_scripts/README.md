@@ -1,3 +1,9 @@
+# Acceptance status update (2 November 2026)
+
+A new portable acceptance run completed on job 28197 (16 H200, N64). The measured full-run gate was 3051.518173 tokens/s, 1881/1907 requests within joint latency SLA (98.636602%), with zero timeouts, errors, or cancellations. Both semantic routes, exact run-bound receipts, summary, and gate cleanup passed. This is an accepted portability/operational result, not a new matched optimization or a claim of state-of-the-art performance. Official model quality remains UNKNOWN.
+
+Run 28194 is historical and failed before AIPerf: HTTP health returned 200 while model readiness returned 503 during asynchronous initialization (curl exit 22). The deployment-readiness gate was corrected; the frozen official worker, semantic warmup, and readers were unchanged. See `logs/historical-28194/README.md` and `logs/reruns/28197/README.md`.
+
 # TripleU Qwen Basic deployment
 
 The declared point is **N64 on two 8-GPU H200 nodes**. Two TP4/EP1 prefill

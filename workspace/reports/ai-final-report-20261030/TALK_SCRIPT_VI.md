@@ -50,9 +50,9 @@ Nhóm so sánh lượt đầy đủ N62 và N64. Throughput hữu ích tại N64
 
 Biểu đồ từng yêu cầu đến từ một lượt N64 đầy đủ riêng. Trong 1.902 yêu cầu, có 1.875 yêu cầu đạt đồng thời cả hai giới hạn. Hai mươi bảy yêu cầu còn lại đều trễ token đầu; không yêu cầu nào vi phạm ITL trung bình và không có lỗi được tính điểm. Biểu đồ cho biết điều kiện nào bị trượt trong lượt đó, nhưng không cho biết nguyên nhân bên trong server.
 
-## Slide 13 — Lần lặp đáng tin hơn một đỉnh đơn
+## Slide 13 — Gói nộp chạy hoàn chỉnh và tái hiện mức hiệu năng đã chọn
 
-Ba lượt N64 đầy đủ trước đó trung bình đạt 3.044,40 token hữu ích mỗi giây. Một lượt native riêng đạt 3.045,50, gần cùng mức. Thử cache đạt 3.048,45 nhưng chỉ hơn đối chứng mới 0,24 phần trăm, thấp hơn ngưỡng một phần trăm. Một lượt hợp lệ cũ thấp hơn đáng kể và nhóm chưa xác định được nguyên nhân. Vì vậy kết luận là một mức vận hành có tính lặp lại, đồng thời giữ lại dấu hiệu drift, chứ không chọn con số đơn lẻ lớn nhất làm người thắng ổn định.
+Ba lượt N64 đầy đủ trước đó trung bình đạt 3.044,40 token đầu ra đạt chuẩn mỗi giây; một lượt native riêng đạt 3.045,50. Gói nộp vừa chạy trọn ở job 28197 đạt 3.051,52 trên cùng công thức mười sáu H200. Đây là ba nhóm bằng chứng riêng, không phải phép so sánh ghép cặp để chứng minh một tối ưu mới. Lượt mới xác nhận bản nộp chạy hết từ khởi động, suy luận, chấm điểm đến dọn job. Nhóm vẫn giữ lượt hợp lệ cũ ở mức 2.830,92 mà chưa xác định được nguyên nhân thấp hơn.
 
 ## Slide 14 — Đem ý tưởng từ H100 sang kiểm tra trên H200
 
@@ -62,9 +62,9 @@ H100 giúp nhóm sàng lọc tương thích và lựa chọn ứng viên, nhưng
 
 Một số thay đổi cải thiện chỉ số phụ nhưng không cải thiện dịch vụ. Sparse graph giảm lượng bộ nhớ capture được ghi nhận, nhưng goodput lại thấp hơn một chút so với đối chứng. Một lượt speculative decoding nông cũng giảm goodput. Nhóm đóng các cấu hình đã thử đó. Bộ nhớ giảm hay tính năng chạy được chưa đủ; cả workload phải cải thiện và vẫn giữ giới hạn độ trễ cùng chất lượng.
 
-## Slide 16 — Nêu giới hạn rồi bàn giao
+## Slide 16 — Triển khai đã qua; chất lượng chính thức vẫn chờ kiểm chứng
 
-Cấu hình vận hành nhóm giữ lại vẫn là prefill DeepGEMM với chunk 8.192 và decode HPC-Ops dùng attention FlashInfer cùng truyền dữ liệu MNNVL ở N64. Sau đó, entry đúng như gói nộp đã chạy hoàn chỉnh ở job 28197: 3.051,518 token đầu ra hữu ích mỗi giây và 1.881/1.907 yêu cầu đạt đồng thời hai giới hạn độ trễ. Đây là kết quả nghiệm thu triển khai, không có đối chứng ghép cặp nên không chứng minh một cải thiện tốc độ mới. Job 28194 trước đó lỗi vì điều kiện sẵn sàng kiểm tra quá sớm: health trả 200 trước khi mô hình Qwen xuất hiện trong danh sách model đã đăng ký. Nhóm chỉ sửa cổng readiness để chờ model xuất hiện và worker còn sống trong deadline ban đầu. Chất lượng chính thức đạt ít nhất 99% điểm tham chiếu vẫn chưa có số đo; BTC sẽ chạy đánh giá đó. Quy định Basic không bắt nhóm phải có điểm tham chiếu chưa công bố trước khi tải bài lên, nhưng không bảo đảm bài sẽ qua đánh giá chất lượng sau đó. Bây giờ tôi bàn giao phần OpenFOAM cho người phụ trách kết quả CPU.
+Cấu hình giữ lại dùng prefill DeepGEMM, chunk 8.192, decode HPC-Ops, attention FlashInfer, collective MNNVL và chuyển KV qua NIXL tại N64. Job 28197 chạy trọn gói trong mười phút mười một giây: cả hai đường semantic, client chính thức, reader, cổng hiệu năng và dọn job đều qua. Có 1.881/1.907 yêu cầu đạt đồng thời hai giới hạn, không lỗi request. Điều này đóng khoảng trống kiểm chứng triển khai, không chứng minh một cải tiến tốc độ mới. Chất lượng toàn bộ tập đánh giá so với tham chiếu của BTC vẫn chờ kiểm chứng. Tôi bàn giao phần OpenFOAM cho người phụ trách CPU.
 
 ## Bản dự phòng khi hỏi
 

@@ -50,9 +50,9 @@ We compared full N62 and N64 loads. Good output throughput increased about 1.08 
 
 The request-level plot comes from a separate full N64 run. Of 1,902 requests, 1,875 met both limits. The 27 misses all exceeded the first-token threshold; none exceeded the mean inter-token threshold, and there were no scored request errors. This identifies the failing metric for that run. It does not diagnose the server-side cause of those slow first tokens.
 
-## Slide 13 — Repeats beat a single peak
+## Slide 13 — A complete portable run reproduces the retained operating level
 
-Three earlier full N64 runs averaged 3,044.40 good output tokens per second. A separate native run measured 3,045.50, consistent with that operating level. A cache trial reached 3,048.45, but improved only 0.24 percent over its own fresh control, below the one-percent gate. An older valid replay was materially lower and its cause is unresolved. We therefore describe a repeated operating level and preserve the drift, rather than claiming the highest isolated number is the stable winner.
+Three historical full N64 runs averaged 3,044.40 good output tokens per second. A separate native run measured 3,045.50. The newly accepted portable run, job 28197, measured 3,051.52 on the same sixteen-H200 recipe. Those are three separate evidence classes, not a matched optimisation comparison. The new run confirms that our actual deliverable completes deployment, inference, scoring and cleanup. We also retain an older valid replay at 2,830.92 whose lower performance remains unexplained.
 
 ## Slide 14 — Test H100 ideas on H200
 
@@ -62,9 +62,9 @@ H100 helped us screen compatibility and candidate settings, but an H100 score ca
 
 Some changes improved a resource measure without improving the service objective. Sparse decode graphs reduced logged capture memory but goodput was slightly lower than its comparison. A shallow speculative-decoding run also lost goodput. We closed those tested settings. A smaller memory counter or a functioning feature is not enough unless the complete workload improves while meeting the latency and quality requirements.
 
-## Slide 16 — State the limit and hand over
+## Slide 16 — Deployment acceptance passes; official quality remains unverified
 
-Our current conclusion is a repeatably measured H200 operating recipe: DeepGEMM prefill with chunk size 8,192 and HPC-Ops decode using FlashInfer attention and MNNVL collectives and NIXL cross-role KV transfer at N64. We have not established global optimality. The official full model-quality check against the organiser reference remains unknown, and we have not completed a fresh full GPU replay after repairing the portable result readers. I will now hand the talk to our OpenFOAM presenter, who owns the CPU results.
+The retained recipe uses DeepGEMM prefill with chunk 8,192 and HPC-Ops decode with FlashInfer attention, MNNVL collectives and NIXL transfer at N64. Job 28197 now completes the portable entry in ten minutes eleven seconds: both semantic paths, the official client, corrected readers, performance gate and cleanup pass. It records 1,881 qualifying requests out of 1,907, with zero request errors. This closes the deployment gap; it is not a new matched speedup. Official full-set quality against the organiser reference remains unverified. I will now hand over to our OpenFOAM presenter.
 
 ## Backup for Q&A
 

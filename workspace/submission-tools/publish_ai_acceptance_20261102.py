@@ -134,8 +134,15 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX)
         now = datetime.datetime.now(datetime.timezone.utc)
         before = folder_inventory()
-        assert sha(before[DECK_REL]) == snapshot['presentation']['sha256'], \
-            'Live presentation changed since the fresh preservation snapshot'
+        live_deck_sha = sha(before[DECK_REL])
+        if live_deck_sha != snapshot['presentation']['sha256']:
+            # Permit a reviewed same-deck documentation correction only when
+            # the last completed publication still identifies the live ZIP.
+            prior = json.loads((O / 'publication-validation.json').read_text())
+            assert prior.get('passed') is True
+            assert live_deck_sha == prior['pptx_sha256'] == sha(staged_deck)
+            assert sha(Z.read_bytes()) == prior['zip_sha256'], \
+                'Live ZIP changed since the last reviewed local publication'
 
         live_hpc = {p: sha(b) for p, b in before.items() if p.startswith('HPC_Task/')}
         assert live_hpc == snapshot['hpc_task_files'], \

@@ -101,6 +101,9 @@ ok('no_large_inputs_or_model_weights',not any(Path(x).name=='inputs.json' or Pat
 ok('no_runtime_home_or_private_cache',not any('.runtime-home' in x or '/blobs/' in x or 'credentials' in x.lower() for x in pmap))
 latest=Path(pmap['AI_Task/logs/measured/latest-results.md']).read_text()
 ok('latest_historical_wording', '27378' in latest and '27145' in latest and 'matched improvement' in latest and 'UNKNOWN' in latest)
+talk=Path(pmap['AI_Task/logs/TALK_SCRIPT_EN.md']).read_text()
+ok('spoken_script_closes_replay_gap', '28197' in talk and '3,051.52' in talk and
+   'we have not completed a fresh full GPU replay' not in talk)
 
 # Syntax validation for staged runnable entrypoints.
 for target,source in pmap.items():
