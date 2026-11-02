@@ -18,3 +18,10 @@ This attempt creates no CPU/GPU allocation, NSCC reservation or scheduler receip
 The owner again asked to try VPN. Precheck at **21:05:37 Vietnam** found namespace unavailable and a dead client pane. Exactly one attempt began at **21:06:42** and returned gateway **Authentication failed at 21:06:46**, followed by namespace unavailable at **21:08:07**. No SSH authentication was attempted. No phone-side DUO delivery/approval or exact gateway rejection cause was observed. Recovery cache and private logs remain intact; no repeated retry loop, configuration change or new spending.
 
 The current request, rather than the reused wrapper's old 28 October label, authorizes this new attempt. The raw safe wrapper output is hash-bound in [the 21:06 result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-2106.json). No credential, OTP, private client log or session object is retained in the research archive.
+
+
+## Further explicitly requested retry — 22:06 Vietnam
+
+At the owner's new explicit request, precheck at **22:05:59 Vietnam** found no usable namespace and a dead client pane. Exactly one retry began at **22:06:18**, and the gateway returned **Authentication failed at 22:06:23**. The **22:06:41** transport probe remained NAMESPACE_UNAVAILABLE. No SSH login was attempted. The exact rejection cause and DUO phone delivery/approval remain unknown; no additional attempt was made. Existing private cache and logs were preserved, and no authentication/session material is retained in the archive.
+
+This was a VPN-only action: no scheduler, job, budget or other-track payload changed. The last Iris scheduler snapshot is historical and was not refreshed. [Sanitized result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-2206.json).
