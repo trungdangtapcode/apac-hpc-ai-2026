@@ -11,3 +11,8 @@ The two source pin sets match across 41 canonical inputs. Offline tests reject w
 Current local ledger: 593 consumed + 280 reserved (current 140 + new 140) = 873 CPU-hours, agent-selected internal stage 873. This transparently adds 103 to the prior 770 envelope for only this bounded own-candidate comparison, not site SU or NSCC/AI spending. Keep both maxima until terminal review. No background Codex or schedule.
 
 Collect/review terminal outputs before claiming a gain. The previous Hxyz/Scotch 150-step pair was censored and full zyx/xyz runs only compared hierarchy orders; neither proves this method comparison. Rank-order/graph and I/O losing branches remain closed. A standalone comparable result must first be consistent against its own controls; do not compare raw seconds across allocations. No scored NSCC improvement has yet been demonstrated.
+
+
+## Actual running observation — 2 November 07:38:24 Vietnam
+
+Job 2294640 is RUNNING on iris001, 56 CPUs, elapsed 8:37. At 07:37:15 the first A1 Scotch control had reached native step 13/40 with no fatal marker; no arm End or final candidate result yet. Earlier pending observations are historical. Predecessor 2294637 completed 0:0 and was reviewed/reconciled; this job retains its original 140 CPU-hour maximum.
