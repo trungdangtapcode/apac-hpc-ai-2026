@@ -49,3 +49,8 @@ Iris is the test platform, not a third configuration. Our own hierarchical candi
 ## Audited number of Iris jobs
 
 At **2 November 07:38:24 Vietnam**, 21 distinct accepted job IDs from this worker's retained Iris receipts all match fresh sacct: **19 COMPLETED 0:0, one FAILED 124:0, one RUNNING**. Purpose: 13 full-size solver benchmark jobs (11 completed, one censored failure, one running), six decomposition/initialization, two toy/MPI diagnostic. Multiple arms may share an allocation; jobs are not distinct configurations or proven gains. Other workers and test-only IDs excluded. [Receipt-bound count and retrospective assessment](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-job-count-audit-20261102/README.md). Earlier “no result yet” statements refer to the new own-method comparison, not an absence of historical runs.
+
+
+## Sub-22 Iris results exist
+
+Historical completed full-size runs include 2294234/zyx **21.229593669 s/step** and 2294262/xyz **21.823903674** (both 150/149), plus 2294635/Scotch uncollated **21.431810307** and 2293754/hierarchical **21.965353836** (40/39). No stable speedup is different from no sub-22 result: zyx reversed to 26.6108, and cross-allocation seconds are not a matched win. [Values and provenance](../reports/hpc-own-research-status-20261102/README.md#did-any-iris-run-finish-below-22-seconds-per-step).

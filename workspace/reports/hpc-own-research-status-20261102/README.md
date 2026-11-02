@@ -43,3 +43,19 @@ The [Gadi transfer outlook](../../notes/gadi-transfer-outlook-20261102.md) disti
 ## Same-Iris comparison reviewed
 
 Job 2294637 completed 0:0. Organizer A1/A2 means 25.581958377 / 30.164981109 s/step; teammate B1/B2 22.396949743 / 27.093606214. Teammate's pooled mean is 11.2228% lower, with both adjacent comparisons favorable, but repeats drift 17.9–21.0% and organizer sampling recommendations exceed the 39 intervals. This is a qualified short-runtime signal for the supplied recipe, not our own winning configuration. All Cd trajectories match; all four reported rank/core maps match. Our separate hierarchical job 2294640 is now actually running and has no result yet. See the [full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-recipes40-20261101/completed-2294637/RESULTS.md). Iris is a platform; cross-platform seconds do not establish a three-way recipe ranking.
+
+
+## Did any Iris run finish below 22 seconds per step?
+
+**Yes.** Completed full-size native runs include the following measured means. These are historical per-arm observations, not a new simultaneous ranking.
+
+| Job | Configuration / arm | Mean s/step | Completed work |
+|---|---|---:|---|
+| 2294234 | Hierarchical `(7 4 2)`, `zyx`, first arm | 21.229593669 | 150 steps / 149 intervals |
+| 2294262 | Hierarchical `(7 4 2)`, `xyz`, first arm | 21.823903674 | 150 steps / 149 intervals |
+| 2294635 | Scotch, socket/core MPI, uncollated, second arm | 21.431810307 | 40 steps / 39 intervals |
+| 2293754 | Initial hierarchical `(7 4 2)` practice on the full-size case | 21.965353836 | 40 steps / 39 intervals |
+
+The 21.2296 result is real, completed and retained. What is unproven is a stable configuration advantage: the same zyx choice reached 26.6108 in the reversed full-length job, while xyz also changed from 26.9538 to 21.8239. Both first arms won, confounding node/order effects with configuration. Saying no stable improvement must never be shortened to saying that no sub-22 native run exists. The latest teammate/organizer job's 22.397–30.165 means do not erase these older results or provide matched controls for them.
+
+Sources: [2294234 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/completed-2294234/REVIEW.json), [2294262 reversal](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-reverse-20261028/completed-2294262/REVIEW.json), [2294635 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-reverse-20261101/completed-2294635/REVIEW.json), [2293754 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/solver-review.json).
