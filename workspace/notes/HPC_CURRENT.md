@@ -28,3 +28,10 @@ Review per-arm timing tails/drift, Cd repeats/differences, native warnings, maps
 
 
 Read-only NSCC transport at **2 November 14:48:46 Vietnam** still returned NAMESPACE_UNAVAILABLE. No fresh VPN login or DUO attempt was made by this status checkpoint; the earlier 10:59 gateway failure remains historical authentication evidence.
+
+
+## New VPN attempt and dated Iris terminal observation — 2 November evening
+
+Owner explicitly requested another VPN login. At **21:06:46 Vietnam**, one bounded attempt returned gateway Authentication failed; **21:08:07** transport probe remains NAMESPACE_UNAVAILABLE. No SSH authentication or phone-side DUO outcome was observed. Private recovery state preserved. [Safe record](nscc-vpn-retry-20261102.md#new-explicitly-requested-attempt--2106-vietnam). No automatic MFA loop or AI changes.
+
+At **21:05:43 Vietnam**, actual Iris accounting showed **2294644 COMPLETED 0:0 in 6,261 seconds / 56 CPUs** and all four 52-step arms End. Runtime summaries alone are not independent terminal replay. Collection currently encounters interactive-bridge framing/timeout failures; do not call that authentication failure or assume an empty current queue. Raw result collection/review remains pending. Keep the original maximum until separately recorded accounting reconciliation; no fresh Iris submission/queue or NSCC credit is claimed here.

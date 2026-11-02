@@ -11,3 +11,10 @@ The reused wrapper's authorization string cites an old 28 October request; that 
 This attempt creates no CPU/GPU allocation, NSCC reservation or scheduler receipt. The most recent Iris job 2294643 snapshot remains separately dated; this VPN failure does not stop that accepted Iris allocation. No AI payload, queue or handoff was modified. No background Codex or automatic reauthentication loop was started.
 
 [Sanitized result and evidence provenance](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT.json). Reuse a healthy future connection rather than restart it; another failed attempt is not evidence to spam DUO.
+
+
+## New explicitly requested attempt — 21:06 Vietnam
+
+The owner again asked to try VPN. Precheck at **21:05:37 Vietnam** found namespace unavailable and a dead client pane. Exactly one attempt began at **21:06:42** and returned gateway **Authentication failed at 21:06:46**, followed by namespace unavailable at **21:08:07**. No SSH authentication was attempted. No phone-side DUO delivery/approval or exact gateway rejection cause was observed. Recovery cache and private logs remain intact; no repeated retry loop, configuration change or new spending.
+
+The current request, rather than the reused wrapper's old 28 October label, authorizes this new attempt. The raw safe wrapper output is hash-bound in [the 21:06 result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-2106.json). No credential, OTP, private client log or session object is retained in the research archive.
