@@ -34,3 +34,7 @@ Same current submission ZIP entry, all 26 files byte/mode matched and setup pass
 Check its actual terminal state, real P/D semantic receipts, official benchmark raw data, corrected summary/performance gate and cleanup before calling the post-reader-fix replay successful. This narrow authority does not reopen broad optimisation, H100/HPC spending or Codex autopilot.
 
 The preceding quality question is answered in [quality threshold and submission clarification](ai-quality-threshold-clarification-20261102.md): there is no measured official quality number or organiser reference in retained results. The ratio must be ≥0.99, but the organiser runs that evaluation. Pending official quality is not proof of failure or a published pre-upload prohibition for Basic. The acceptance job does not replace that evaluation.
+
+## Read-only release recheck — 2026-11-02T10:30:44.227787+07:00 (Vietnam time, UTC+7)
+
+Fresh sacct confirms 28197 COMPLETED 0:0 in 00:10:11 on g[1,4]. The own-user Slurm queue is empty. Current ZIP and PPTX hashes still match the reviewed published release. Archive was clean at c313feca before recording this check. No new result, submission, authentication or HPC action; broad research remains stopped. Official quality and organiser upload remain unperformed.
