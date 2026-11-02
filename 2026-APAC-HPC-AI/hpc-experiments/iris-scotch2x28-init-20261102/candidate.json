@@ -1,0 +1,46 @@
+{
+  "name": "iris_native_scotch_socket_tree_2x28_weight_1x0.1_cut_and_conditional_init",
+  "state": "REVIEWED_PAYLOAD_SEE_STATUS_AND_RECEIPT",
+  "hypothesis": "A native Scotch architecture with two groups of 28 ranks may reduce logical cross-package processor interfaces on the observed Iris 2x28 rank map.",
+  "method": "scotch",
+  "domains": [
+    2,
+    28
+  ],
+  "domainWeights": [
+    1.0,
+    0.1
+  ],
+  "normalized_integer_weights": [
+    10,
+    1
+  ],
+  "processorWeights": null,
+  "nodes": 1,
+  "ranks": 56,
+  "maximum_seconds": 1800,
+  "maximum_allocated_CPU_hours": 28,
+  "gpus": 0,
+  "control": "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-scotch56-20261025T063431Z/artifacts/ready-N56-scotch",
+  "canonical_mesh_members": 8,
+  "canonical_text_input_pins": 41,
+  "graph_filter": {
+    "cross_package_face_reduction_percent_minimum": 5,
+    "maximum_cell_excess_over_mean_percent_maximum": 3,
+    "total_interface_increase_percent_maximum": 10,
+    "maximum_rank_interface_increase_percent_maximum": 10,
+    "maximum_rank_neighbor_patch_increase_maximum": 2
+  },
+  "conditional_initialization": [
+    "renumberMesh -constant -overwrite -parallel",
+    "potentialFoam -initialiseUBCs -parallel",
+    "applyBoundaryLayer -ybl 0.0450244 -parallel"
+  ],
+  "solver_measurement": false,
+  "limitations": [
+    "Synthetic architecture weights are not measured machine costs.",
+    "Graph filter is not a performance prediction.",
+    "No independent solver comparison or speed claim is included.",
+    "NSCC's 8x16 NUMA graph result is platform-specific and only supporting precedent."
+  ]
+}

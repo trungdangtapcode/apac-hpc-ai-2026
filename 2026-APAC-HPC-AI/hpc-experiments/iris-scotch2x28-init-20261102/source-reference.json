@@ -1,0 +1,30 @@
+{
+  "canonical_case": "/global/exafs/groups/rdmaworkshop/2026hpcai-openfoam/occDrivAer/case",
+  "canonical_mesh": "/global/exafs/groups/rdmaworkshop/2026hpcai-openfoam/occDrivAer/polyMesh",
+  "control_initialized_tree": "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-scotch56-20261025T063431Z/artifacts/ready-N56-scotch",
+  "control_attribution": "Previously accepted Iris native default Scotch N=56 tree; comparison data are recomputed from its processor boundary files on the allocated compute node.",
+  "mesh_identity": {
+    "expected_manifest": "expected-mesh.json",
+    "archive_sha256": "ef30fa8405dbaab77185ace2521b1bedc5650f245e40d7451259a5ac773a5376",
+    "members": 8,
+    "scope": "Full file size and SHA256 checks against the retained official archive extraction."
+  },
+  "input_pins": {
+    "manifest": "source-pins.json",
+    "count": 41,
+    "provenance": "Inherited canonical input file hashes from reviewed Iris full-case source and xzy initialization bundle. Runtime source is checked against the retained local payload and all pins before cut."
+  },
+  "scotch_source": {
+    "path": "hpc-experiments/source-review-20261021/src/parallel/decompose/scotchDecomp/scotchDecomp.C",
+    "revision": "87ed40d256d22ea38fcc648dfc82a22162427b18",
+    "sha256": "0f78fb20a662d44b4e59fde6aa47292f20cab5e7364c4ddea4adcc3a67065018",
+    "relevant_behavior": "A nonempty processorWeights list takes precedence. Otherwise, domains plus domainWeights select SCOTCH_archTleaf. The implementation converts each domain weight to integer weight divided by the minimum weight; (1, 0.1) therefore becomes (10, 1)."
+  },
+  "hardware_and_rank_map": {
+    "hardware_record": "hpc-experiments/iris-xzy40-20261102/completed-2294643/collected/runs/2294643-hardware.txt",
+    "mpi_map_record": "hpc-experiments/iris-xzy40-20261102/completed-2294643/collected/runs/2294643/arms/A1-scotch/simpleFoam.log",
+    "observed": "Two packages x 28 physical cores; 56 Open MPI ranks bind 28 to package 0 and 28 to package 1.",
+    "interpretation_limit": "The observed package mapping justifies logical rank//28 grouping. Processor-boundary faces are not measured bytes, latency, bandwidth, page placement, or solver speed."
+  },
+  "competition_rule": "/home/apacsc42/workspace/reports/hpc-openfoam-20261021/RULES.md: native Scotch coefficients are categorized as Basic when source/build and other numerical inputs remain unchanged."
+}
