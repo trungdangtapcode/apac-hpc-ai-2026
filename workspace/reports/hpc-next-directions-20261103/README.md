@@ -32,7 +32,7 @@ The 19 measured intervals are inadequate for a final optimization claim under th
 
 Resource maximum: 56 CPUs × 1 hour = **56 allocated CPU-hours**. With 949 consumed, the maximum committed allowance is 1,005, below the existing internal stage 1,009. This is not billed SU or a claim about a site balance. Before admission, verify the actual queue, full frozen payload, source lineage and budget lock. The payload is prepared until a definite receipt is recorded.
 
-## Which improvement follows which finding?
+## Initial priority ordering (historical after the second review)
 
 | Priority | Hypothesis and exact change | Evidence needed before spending |
 |---|---|---|
@@ -52,3 +52,7 @@ If time variation dominates both repeated controls and candidates, report the co
 ## Actual admission
 
 Job **2294671** was accepted 03 November 2026 02:05:12 Vietnam, with its 56 CPU-hour maximum reserved under lock and all 62 runtime files frozen and verified. [Receipt, payload and operational status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/STATUS.md). The diagnostic is now submitted; no runtime result is claimed.
+
+## Deeper mechanism review
+
+The first in-solver capture changes the next-test priority. See [preparation locality, MPI waiting and allocator qualification](MECHANISMS.md). The earlier rank-density-first ordering is retained as history, not the latest dispatch decision.

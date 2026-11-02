@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **3 November 2026, 02:06:44 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops. [Earlier detailed handoff](history/HPC_CURRENT-before-scotch-package-20261102.md) is historical.
+Updated **3 November 2026, 02:33:14 Vietnam**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops. [Earlier detailed handoff](history/HPC_CURRENT-before-scotch-package-20261102.md) is historical.
 
 ## VPN request
 
@@ -18,9 +18,13 @@ The first two status calls timed out because a completed job absent from live sq
 
 **New actual job 2294671 accepted 03 November 2026 02:05:12 Vietnam.** One Iris node / 56 CPUs / maximum 60 minutes. Native Scotch/xyz/xyz/Scotch, 20 steps per arm, with equal five-second whole-node memory/paging/NUMA/CPU sampling after compute-side preflight. RUNNING on iris001 at 02:05:38 Vietnam; source checks passed and the first clone was being verified at 02:06:44. The sampler compute preflight passed five reads at 1.74–2.11 ms each. Diagnostic only; 19 intervals do not confirm a gain. [Receipt and status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/STATUS.md). [Evidence-driven next hypotheses](/home/apacsc42/workspace/reports/hpc-next-directions-20261103/README.md).
 
+## New partial evidence and mechanism priority
+
+At **3 November 02:24:50 Vietnam**, 2294671 was RUNNING with one internally reviewed Scotch arm (33.672468410 s/step). The 02:25:40 partial capture includes 142 S1 samples and 70 incomplete X1 samples. Minimum MemAvailable is 39.58/41.44 GiB; X1 has only 11 log intervals, so there is no matched gain claim. Full comparison and independent terminal review remain pending. [Deeper mechanism review](/home/apacsc42/workspace/reports/hpc-next-directions-20261103/MECHANISMS.md) prioritizes preparation/NUMA placement and MPI-wait qualification. Rank density stays a candidate; an arbitrary 1 MiB malloc trim setting is not admitted.
+
 ## Budget and next decision
 
-Ledger **949 consumed + 56 reserved = 1,005 committed**, existing agent-selected stage **1,009**. Last prep cost 4.355556 actual allocated CPU-hours, conservatively 5; original 28 maximum retired once. All 26 previous owned jobs are terminal; the new diagnostic is accepted. Preserve its queue position and refresh actual scheduler state before further admission. No billed SU or NSCC/AI transfer is claimed.
+Ledger **949 consumed + 56 reserved = 1,005 committed**, existing agent-selected stage **1,009**. Last prep cost 4.355556 actual allocated CPU-hours, conservatively 5; original 28 maximum retired once. All 26 previous owned jobs are terminal; the new diagnostic is accepted. Preserve its queue position and refresh actual scheduler state before further admission. At **02:33:14 Vietnam**, scheduler still reports 2294671 RUNNING on iris001, elapsed 28:01; the owned allocation cap is occupied. No new admission or reservation is made during this mechanism review. No billed SU or NSCC/AI transfer is claimed.
 
 After terminal collection, inspect native graph gates/source/work, actual initialization/READY state, warnings/resources and missing telemetry; reconcile actual cost once. If promising and fully initialized, separately freeze a matched default-versus-tree solver trial within a reviewed bounded stage. If rejected, close unchanged hypothesis and choose the next distinct useful trial. No blind duplicates or unsupported success claims.
 
