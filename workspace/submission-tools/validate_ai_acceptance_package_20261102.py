@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Validate the staged 28197 AI acceptance package without publishing it."""
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 import ast, gzip, hashlib, json, math, re, subprocess, tempfile, zipfile
 import xml.etree.ElementTree as ET
 
 W=Path(__file__).resolve().parents[1]
-O=W/'submission-review/ai-acceptance-update-20261102'; B=O/'package-files'
+O=review_path(W); B=O/'package-files'
 R=Path('/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102')
 TEAM=W/'VNUHCM - TripleU'
 sha=lambda b:hashlib.sha256(b).hexdigest()
@@ -39,7 +41,7 @@ for name,digest in source_sum.items():
     target='AI_Task/job_scripts/'+name
     staged=Path(pmap[target]).read_bytes()
     if name=='README.md':
-        ok('README_acceptance_status',b'job 28197' in staged.lower() and b'UNKNOWN' in staged)
+        ok('README_acceptance_status',b'job 28197' in staged.lower() and (b'UNKNOWN' in staged or b'Q1' in staged))
     else:
         ok('frozen_code_byte_identity:'+name,sha(staged)==digest)
 # Check generated code checksum file matches the staged files (README updated only).
@@ -100,7 +102,11 @@ ok('R1_R2_runtime_change_scoped',set(changed)=={'deploy-and-benchmark.sh'})
 ok('no_large_inputs_or_model_weights',not any(Path(x).name=='inputs.json' or Path(x).suffix in {'.safetensors','.bin','.pt','.pth'} for x in pmap))
 ok('no_runtime_home_or_private_cache',not any('.runtime-home' in x or '/blobs/' in x or 'credentials' in x.lower() for x in pmap))
 latest=Path(pmap['AI_Task/logs/measured/latest-results.md']).read_text()
-ok('latest_historical_wording', '27378' in latest and '27145' in latest and 'matched improvement' in latest and 'UNKNOWN' in latest)
+ok('latest_historical_wording', '27378' in latest and '27145' in latest and 'matched improvement' in latest and ('UNKNOWN' in latest or 'Q1' in latest))
+readme=Path(pmap['AI_Task/job_scripts/README.md']).read_text()
+ok('README_no_stale_replay_gap', 'after that repair has not been performed' not in readme and 'end-to-end run after that repair has not been performed' not in readme)
+log_index=Path(pmap['AI_Task/logs/README.md']).read_text()
+ok('log_index_current_acceptance', '28197' in log_index and 'a complete fresh portable GPU replay after repair is not claimed' not in log_index)
 talk=Path(pmap['AI_Task/logs/TALK_SCRIPT_EN.md']).read_text()
 ok('spoken_script_closes_replay_gap', '28197' in talk and '3,051.52' in talk and
    'we have not completed a fresh full GPU replay' not in talk)

@@ -2,6 +2,8 @@
 import json
 import math
 import hashlib
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -22,7 +24,7 @@ import fitz
 
 WORK = Path('/home/apacsc42/workspace')
 ROOT = Path('/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments')
-OUT = WORK/'submission-review/ai-acceptance-update-20261102/slides'
+OUT = review_path(WORK)/'slides'
 ASSETS = OUT/'assets'
 ASSETS.mkdir(exist_ok=True)
 EXTERNAL = WORK/'submission-tools/design-assets'
@@ -292,11 +294,12 @@ panel(s,7.,1.65,5.2,4.6,'SHALLOW EAGLE3','Functional speculative path\nDraft the
 s.end()
 
 
-# 16 — Conclusion · deployment accepted, quality still organiser-run
-s=slide('Accepted entry and remaining quality', '28197wholeentryCOMPLETED0:0in611secondson16H200N64:two semantic routes,official fullclient,correctedsummary/performancegate,cleanup. 1881/1907jointrequests98.63660199%,zeroerrorscancels;goodtok3051.518173. Runtimeacceptanceclosespostreaderreplaygapbutofficialfullsetqualityratio>=.99isUNKNOWNandorganiser-run. Basiccanbesubmittedforrebuild/reviewwithoutclaimingqualityalreadycertified. KeepQwenFP8BF16KVsameN64recipe;nooptimisationorCPUhardwareclaims. HPC35handoff.', '28197gate/summary/semantic/cleanup;officialQ1')
-s.text('The complete repaired entry now passes on 16 H200',1.,1.55,11.3,.95,27,bold=True)
-panel(s,1.,3.00,5.2,2.9,'VERIFIED · DEPLOYMENT','28197 · 10 min 11 s\nBoth P/D routes; official client\nReaders, performance gate, cleanup',INK)
-panel(s,7.,3.00,5.2,2.9,'OPEN · OFFICIAL QUALITY','At least 99% of organiser reference\nFull-set accuracy: not yet evaluated\nSmall local checks are insufficient',ORANGE)
+# 16 — Conclusion · preserve the model and verify the service
+s=slide('Preserve the model; optimise the serving path', 'Official published FP8 checkpoint retained without requantisation, pruning or intentional layer/expert skipping. BF16 KV retained. Serving-only tuning and request-scoped transfer metadata aim to preserve target computation. Complete entry 28197 passes on 16 H200 N64 in 611 seconds:3051.518173 good output tokens/s,1881/1907 joint SLA passes,zero errors/cancellations. Official model-quality evaluation follows Q1; no measured full-set quality score is claimed. Handoff to unchanged HPC section.', 'environment/model provenance; 28197 complete acceptance; official Q1')
+s.text('Native FP8 model, measured serving performance',1.,1.55,11.3,.95,27,bold=True)
+panel(s,1.,2.85,5.2,2.65,'PRESERVED · MODEL','Official FP8 checkpoint\nAll layers and experts retained\nBF16 KV · serving-only tuning',INK)
+panel(s,7.,2.85,5.2,2.65,'VERIFIED · SERVICE','28197 · 3,051.52 good output tokens/s\n1,881 / 1,907 joint SLA passes\nFull entry completed in 10 min 11 s',ORANGE)
+s.text('Model-quality evaluation follows the organiser Q1 protocol.',1.,5.72,11.3,.34,16,GRAY)
 s.rect(1.,6.18,11.2,.64,INK);s.text('Next: OpenFOAM · hand over to the HPC presenter',1.20,6.30,10.8,.39,20,WHITE,bold=True);s.end()
 
 

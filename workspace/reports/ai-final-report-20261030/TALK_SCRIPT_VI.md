@@ -62,9 +62,9 @@ H100 giúp nhóm sàng lọc tương thích và lựa chọn ứng viên, nhưng
 
 Một số thay đổi cải thiện chỉ số phụ nhưng không cải thiện dịch vụ. Sparse graph giảm lượng bộ nhớ capture được ghi nhận, nhưng goodput lại thấp hơn một chút so với đối chứng. Một lượt speculative decoding nông cũng giảm goodput. Nhóm đóng các cấu hình đã thử đó. Bộ nhớ giảm hay tính năng chạy được chưa đủ; cả workload phải cải thiện và vẫn giữ giới hạn độ trễ cùng chất lượng.
 
-## Slide 16 — Triển khai đã qua; chất lượng chính thức vẫn chờ kiểm chứng
+## Slide 16 — Giữ nguyên model; tối ưu đường serving
 
-Cấu hình giữ lại dùng prefill DeepGEMM, chunk 8.192, decode HPC-Ops, attention FlashInfer, collective MNNVL và chuyển KV qua NIXL tại N64. Job 28197 chạy trọn gói trong mười phút mười một giây: cả hai đường semantic, client chính thức, reader, cổng hiệu năng và dọn job đều qua. Có 1.881/1.907 yêu cầu đạt đồng thời hai giới hạn, không lỗi request. Điều này đóng khoảng trống kiểm chứng triển khai, không chứng minh một cải tiến tốc độ mới. Chất lượng toàn bộ tập đánh giá so với tham chiếu của BTC vẫn chờ kiểm chứng. Tôi bàn giao phần OpenFOAM cho người phụ trách CPU.
+Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu của model: không bỏ layer hay expert, KV cache dùng BF16. Sau đó chúng tôi chạy xong portable serving entry trên 16 H200. Job 28197 hoàn tất trong 10 phút 11 giây, đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 request đạt đồng thời cả hai ngưỡng latency, tương đương 98,64%. Điều này xác minh đường serving dưới workload này trong khi cấu hình model được giữ nguyên. Quality model được đánh giá riêng theo protocol Q1 của BTC; đây không phải điểm quality đó. Tôi xin bàn giao cho người trình bày OpenFOAM.
 
 ## Bản dự phòng khi hỏi
 

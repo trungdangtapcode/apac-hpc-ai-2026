@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Bind the teaching guides to logical slide order and refresh preserved HPC previews."""
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 import hashlib
 import json
@@ -9,7 +11,7 @@ from PIL import Image, ImageDraw
 from pptx import Presentation
 
 WORKSPACE = Path(__file__).resolve().parents[1]
-STAGE = WORKSPACE / 'submission-review/ai-acceptance-update-20261102'
+STAGE = review_path(WORKSPACE)
 REPORT = WORKSPACE / 'reports/ai-final-report-20261030'
 DECK = STAGE / 'TripleU_APAC2026_Presentation.pptx'
 slides = [

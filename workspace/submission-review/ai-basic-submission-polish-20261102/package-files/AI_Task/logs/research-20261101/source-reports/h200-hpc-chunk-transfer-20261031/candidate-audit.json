@@ -1,0 +1,62 @@
+{
+  "purpose": "Correct distinction between jobs, repeated load points and distinct H100 recipes",
+  "first_wave": {
+    "jobs": [
+      27777,
+      27779,
+      27781,
+      27783
+    ],
+    "interpretation": "Four measurements including H200 control and two load points; not four distinct H100 configurations"
+  },
+  "h100_frontier": {
+    "jobs": [
+      222048,
+      221590,
+      225227
+    ],
+    "interpretation": "Same both-HPC-Ops/chunk4096 recipe observed repeatedly, not three candidate recipes",
+    "peak_good_tokens_s": 2433.019859,
+    "source": "research-followup-20261020-h100-restored/RESULTS.md"
+  },
+  "selected_distinct_ports": [
+    {
+      "chunk": 6144,
+      "h100_job": 221828,
+      "h100_good_tokens_s_rounded": 2411.995,
+      "source": "research-followup-20261019-1418/RESULTS.md",
+      "new_question": "HPC-Ops/current native N64 chunk interaction; differs from prior DeepGEMM or older decode/load trials"
+    },
+    {
+      "chunk": 8192,
+      "h100_job": 222282,
+      "h100_good_tokens_s": 2382.811874,
+      "source": "h100-prefill-hpc-chunk-interaction-20261020/PAIR_REVIEW.md",
+      "new_question": "Same-chunk8192 prefill runner comparison with27777; within-runner comparison with27783"
+    }
+  ],
+  "not_selected": [
+    {
+      "name": "FA3 decode",
+      "reason": "Already measured on H20027779; loses1.276404%"
+    },
+    {
+      "name": "prefill FlashInfer",
+      "reason": "Already measured H20027077; loses6.385%"
+    },
+    {
+      "name": "CPU envelope balancing",
+      "reason": "H100+0.289035%, mixed tails, placement is machine-specific and current H200 port unqualified"
+    },
+    {
+      "name": "NCCL Simple forced prefill",
+      "reason": "H100+0.2315%; control already uses Simple for large ops, not an established useful switch"
+    },
+    {
+      "name": "phase inference mode",
+      "reason": "H100+0.2596% decode/-0.0114% prefill, no established useful gain; no qualification here"
+    }
+  ],
+  "remaining_distinct_new_h100_candidates_unfilled": 2,
+  "quality": "Official full-set accuracy UNKNOWN"
+}

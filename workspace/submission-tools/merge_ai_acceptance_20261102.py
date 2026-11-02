@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Replace only the AI slide sequence; preserve every HPC dependency byte."""
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path,PurePosixPath
 import hashlib,json,posixpath,zipfile
 from datetime import datetime,timezone
@@ -7,7 +9,7 @@ from lxml import etree as E
 from pptx import Presentation
 import fitz
 from PIL import Image,ImageDraw
-W=Path('/home/apacsc42/workspace');O=W/'submission-review/ai-acceptance-update-20261102'
+W=Path('/home/apacsc42/workspace');O=review_path(W)
 BASE=O/'inputs/combined-before-ai-update.pptx'
 FRESH=O/'slides/TripleU_APAC2026_Presentation.pptx'
 NSP='http://schemas.openxmlformats.org/presentationml/2006/main';NSR='http://schemas.openxmlformats.org/officeDocument/2006/relationships';PKG='http://schemas.openxmlformats.org/package/2006/relationships';CT='http://schemas.openxmlformats.org/package/2006/content-types'
@@ -37,7 +39,7 @@ def clone(part):
  if part in mapping:return mapping[part]
  if part.startswith('ppt/media/') and sha(src[part]) in media_by_hash:
   mapping[part]=media_by_hash[sha(src[part])];reused_media.append(part);return mapping[part]
- p=PurePosixPath(part);target=str(p.parent/('aia02_'+p.name));assert target not in dst
+ p=PurePosixPath(part);target=str(p.parent/(part_prefix()+p.name));assert target not in dst
  mapping[part]=target;dst[target]=src[part]
  if part in {entry[2] for entry in newseq[16:]}:
   hidden=xml(dst[target]);hidden.set('show','0');dst[target]=enc(hidden)

@@ -1711,146 +1711,114 @@
   },
   {
     "slide": 16,
-    "title": "Deployment acceptance passes; official model quality remains unverified",
+    "title": "Preserve the model; optimise the serving path",
     "en": {
       "hardware": "H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33",
-      "brief": "Portable job 28197 passed the complete 611-second H200 deployment entry, scoring 3,051.52 good tokens/s with 98.64% joint SLA. The organiser’s full-set ≥99%-reference quality result remains unknown.",
-      "purpose": "Conclude with the distinction between local deployment acceptance and official model-quality acceptance. The full portable GPU path now passes once after the readiness fix; this validates execution and scoring integrity under the team’s gates, but not the model’s full-set accuracy against the organiser reference.",
-      "visual": "Two panels: VERIFIED—job 28197 full 16-H200/N64 portable entry, 611 seconds, both P/D semantic paths, official client, reader/summary gate and cleanup passed; 3051.518173 good output tokens/s, 1881/1907 joint SLA (98.6366%), 26 TTFT misses, zero ITL misses/errors/cancellations. OPEN—organiser full-set accuracy ≥99% of reference is UNKNOWN. Label these as deployment acceptance versus model-quality validation. MNNVL is the decode GPU collective path; NIXL carries request KV between prefill and decode roles. The next visible physical slide is unchanged OpenFOAM 35.",
+      "brief": "We preserved the official FP8 checkpoint and target computation while tuning serving. Portable job 28197 completed the full 16-H200 entry in 10 minutes 11 seconds, with 3,051.52 good tokens/s and 1,881 of 1,907 requests meeting both latency limits.",
+      "purpose": "Summarize the engineering boundary: preserve the submitted model and its target computation, then optimize the deployment around it. Report the completed serving acceptance with its measured SLA result. The full-set model-quality result is separate and follows the organiser Q1 evaluation protocol.",
+      "visual": "Use two equal panels. Left, “PRESERVED · MODEL”: Official FP8 checkpoint; no requantisation or skipped layers/experts; BF16 KV; unchanged target computation intended. Right, “VERIFIED · SERVICE”: 28197 · 3,051.52 good output tokens/s; 1,881 / 1,907 joint SLA passes; full entry completed in 10 min 11 s. Bottom neutral small text: “Model-quality evaluation follows the organiser Q1 protocol.” Add the HPC handoff bar. Do not make an unknown-quality warning a main panel or imply an accuracy result.",
       "terms": [
         {
-          "symbol": "official accuracy",
-          "meaning": "Organizer full-set model-quality result; required threshold is at least 99% of the reference, and it has not been measured/verified here."
+          "symbol": "native FP8 checkpoint",
+          "meaning": "The official eight-bit floating-point model checkpoint is used as supplied; no new quantisation is applied."
         },
         {
-          "symbol": "smoke / retrieval checks",
-          "meaning": "Small local output sanity checks, 7/8 and 12/12 respectively. They detect some regressions but do not certify full-set accuracy."
+          "symbol": "BF16 KV",
+          "meaning": "Key/value cache values use bfloat16 during inference; this is separate from the FP8 model weights."
         },
         {
-          "symbol": "terminal FAILED",
-          "meaning": "The scheduler recorded the original portable GPU jobs as failed at completion. Later reading their outputs does not change that terminal state."
+          "symbol": "target computation preserved",
+          "meaning": "No layers or experts were skipped and the intended model computation was kept while serving settings were tuned. This does not alone measure output accuracy."
         },
         {
-          "symbol": "result reader",
-          "meaning": "Post-processing code that locates benchmark exports and summarizes metrics after serving has run."
+          "symbol": "joint SLA passes",
+          "meaning": "Requests satisfying both TTFT ≤3000 ms and mean ITL ≤20 ms; the denominator includes every request."
         },
         {
-          "symbol": "CPU-only reader verification",
-          "meaning": "Job 27152 ran the fixed readers on saved real datasets without GPUs or serving requests; it verifies post-processing only."
-        },
-        {
-          "symbol": "whole-allocation replay",
-          "meaning": "A complete packaged GPU deployment, benchmark-client run, output processing, and review on the assigned allocation."
-        },
-        {
-          "symbol": "hidden backup slides",
-          "meaning": "AI slides 17–32 are retained as supporting material but skipped in the main show; OpenFOAM slide 33 remains unchanged and follows this slide."
-        },
-        {
-          "symbol": "MNNVL",
-          "meaning": "GPU collective-communication backend used within the decode implementation; it is not the cross-role KV transport."
-        },
-        {
-          "symbol": "NIXL",
-          "meaning": "Transport used to move request KV state between the separate prefill and decode roles."
+          "symbol": "Q1 evaluation",
+          "meaning": "The organiser’s official full-set model-quality procedure, separate from the serving throughput acceptance run."
         }
       ],
       "reading": [
-        "28197 used 16 H200 at N64 and completed the whole portable entry in 611 seconds, including startup readiness, semantic checks for both roles, the official client, reader/summary gates and cleanup.",
-        "The exported score is 3051.518173 good output tokens/s; 1881/1907 requests met both latency thresholds jointly (98.63660199265862%).",
-        "Latency: mean/p95 TTFT 1100.3153/1285.9962 ms; mean/p95 request-mean ITL 15.009828/15.185750 ms; 26 TTFT misses, zero ITL misses and zero scored errors/cancellations.",
-        "This closes the complete portable post-reader-fix GPU acceptance gap with one successful entry. It is not a new matched optimization experiment or a global-optimum proof.",
-        "Official full-set model accuracy against the organiser reference remains UNKNOWN; portable execution does not establish that score.",
-        "HPC slides and claims are unchanged; handoff is physical slide 35."
+        "The serving changes preserve the official FP8 checkpoint: the team did not requantise it or skip layers/experts. KV cache remains BF16.",
+        "The intended target computation remains unchanged while parallel layout, communication path and runtime serving settings are tuned. Preservation is a design fact; by itself it is not a numerical quality result.",
+        "Job 28197 completed the full portable entry on 16 H200 at N64 in 611 seconds, including both semantic routes, official client, result reading, summary gates and cleanup.",
+        "It scored 3051.518173 good output tokens/s. 1881/1907 requests met TTFT and request-mean ITL limits jointly (98.63660199265862%); 26 missed TTFT, zero missed ITL and zero errors/cancellations.",
+        "Good output tokens/s is the official AIPerf Goodput request/s multiplied by 200 target output tokens.",
+        "This is a service result. The organiser’s full-set quality check is a separate Q1 evaluation; no numeric full-set quality score is reported here."
       ],
       "tradeoff": {
-        "observation": "A full portable 16-H200/N64 entry passed in 611 seconds at 3051.518173 good output tokens/s and 98.6366% joint SLA with zero scored errors/cancellations.",
-        "hypothesis": "Fixing the gateway model-readiness race while preserving the official client, server workers and result readers should let the package pass the full acceptance path.",
-        "conclusion": "The portable package now has one complete post-fix GPU acceptance pass. Retain the N64 H200 recipe; the measured performance is supported, while official quality is not yet established.",
-        "unknown": "Organiser full-set accuracy ≥99% of reference remains UNKNOWN. One portable acceptance does not establish statistical repeatability of this package path."
+        "observation": "The official FP8 checkpoint and intended target computation were preserved; BF16 KV was used. Portable job 28197 completed the full entry in 611 seconds at 3051.518173 good output tokens/s with 1881/1907 joint passes and zero scored errors/cancellations.",
+        "hypothesis": "Keeping model computation fixed lets the team improve the serving path while preserving the model’s intended behavior; quality still needs the organiser’s full-set procedure.",
+        "conclusion": "The full portable serving entry passed the team’s workload and latency gates. The measured result supports deployment acceptance; it is reported separately from model quality.",
+        "unknown": "No numeric full-set accuracy result against the organiser reference is present in this record. Preserving weights and computation is not itself proof of the ≥99% quality threshold."
       },
       "reasoning": {
-        "problem": "The prior package jobs failed after inference in result readers, and one exact-ZIP retry stopped before scoring when gateway health preceded asynchronous model registration.",
-        "why_it_matters": "A team needs to distinguish “the service is fast” from “the actual packaged deliverable completes its official-client acceptance path,” and both from official quality certification.",
-        "why_this_test": "For 28197, change only the deployment readiness wait/checksum following the 28194 gateway health race. Preserve worker, client, reader, and both semantic paths, then run one complete allocation with cleanup and the existing scoring gates.",
-        "what_we_learned": "All deployment stages passed in 611 seconds; the run scored 3051.518173 good tokens/s, with 1881/1907 joint passes and zero request errors/cancellations. This closes the package replay acceptance gap once.",
-        "next_logic": "Finish by stating that package execution and measured service acceptance pass, while full-set official model-quality evaluation remains unknown; then hand over to OpenFOAM."
+        "problem": "The service must meet the latency-qualified throughput objective while using the contest model and its intended computation.",
+        "why_it_matters": "Serving optimizations are relevant only if they retain the required model behavior and produce a deployable service on the supplied hardware.",
+        "why_this_test": "Preserve the official FP8 checkpoint, all layers and experts, and BF16 KV while running the complete portable H200 entry with the official client and existing latency gates.",
+        "what_we_learned": "Job 28197 completed every deployment and scoring stage in 611 seconds, with 3051.518173 good tokens/s and 1881/1907 joint SLA passes. This establishes a full serving acceptance run with the model configuration preserved.",
+        "next_logic": "Present the serving result and preserved model configuration, then state that model-quality evaluation follows the organiser Q1 protocol and hand over to OpenFOAM."
       },
-      "script": "Our final portable acceptance run passed. Job 28197 used sixteen H200s at N64 and completed gateway readiness, both prefill/decode semantic paths, the official client, result reading, summary gates and cleanup in 611 seconds. It scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency thresholds, or 98.64 percent; there were 26 TTFT misses, no ITL misses and no errors or cancellations. This closes the full GPU deployment check after the reader and readiness fixes. It does not answer model quality: the organiser’s full-set comparison against its reference, requiring at least 99 percent, remains unknown. I now hand over to OpenFOAM.",
-      "caution": "Do not describe portable deployment acceptance as the official model-quality score. The ≥99%-reference result is UNKNOWN, and one successful portable entry is not a repeatability study.",
-      "transition": "AI main talk ends with deployment acceptance passed and official quality still unknown. The unchanged OpenFOAM section begins at physical slide 35.",
+      "script": "We preserved the official FP8 checkpoint and the intended model computation: no layers or experts were skipped, and the KV cache used BF16. We then completed the full portable serving entry on sixteen H200s. Job 28197 finished in ten minutes eleven seconds and scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent. That verifies the serving path under this workload with the model configuration preserved. Model quality is evaluated separately under the organiser’s Q1 protocol; this serving result is not that quality score. I now hand over to the OpenFOAM presenter.",
+      "caution": "Do not present preservation of weights/target computation or the serving SLA as proof of the organiser’s ≥99% full-set accuracy result. No numeric official quality score is reported in this deck.",
+      "transition": "Serving acceptance is established for this full run. Model-quality evaluation follows the organiser Q1 protocol; next we hand over to OpenFOAM.",
       "claim_type": "Framing / claim boundary"
     },
     "vi": {
       "hardware": "Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi",
-      "brief": "Job portable 28197 qua entry deployment H200 đầy đủ trong 611 giây, đạt 3.051,52 good tokens/s và 98,64% SLA chung. Kết quả quality toàn tập ≥99% tham chiếu của BTC vẫn chưa biết.",
-      "purpose": "Kết luận bằng cách phân biệt acceptance của deployment nội bộ với nghiệm thu quality model chính thức. Đường GPU portable đầy đủ nay qua một lần sau sửa readiness; điều này xác minh execution và tính hợp lệ phép chấm nội bộ, không xác nhận accuracy toàn tập theo tham chiếu BTC.",
-      "visual": "Hai khung: ĐÃ XÁC MINH—job 28197 chạy entry portable 16 H200/N64 đầy đủ, 611 giây, qua hai đường semantic P/D, official client, reader/summary gate và cleanup; 3051,518173 good output tokens/s, 1881/1907 SLA chung (98,6366%), 26 lỗi TTFT, không lỗi ITL/error/cancel. CÒN MỞ—accuracy toàn tập so tham chiếu BTC ≥99% vẫn UNKNOWN. Ghi rõ acceptance deployment và xác minh quality model là hai việc khác nhau. MNNVL là đường collective GPU trong decode; NIXL chuyển KV request giữa prefill và decode. Slide vật lý tiếp theo là OpenFOAM 35 không đổi.",
+      "brief": "Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu khi tối ưu serving. Job portable 28197 hoàn tất entry 16 H200 trong 10 phút 11 giây, đạt 3.051,52 good tokens/s; 1.881/1.907 request cùng đạt hai ngưỡng latency.",
+      "purpose": "Tóm tắt ranh giới kỹ thuật: giữ nguyên model nộp thi và phép tính mục tiêu, rồi tối ưu hệ thống phục vụ xung quanh nó. Báo cáo acceptance serving đã hoàn tất cùng kết quả SLA đo được. Đánh giá quality toàn tập là bước riêng theo protocol Q1 của BTC.",
+      "visual": "Dùng hai khung bằng nhau. Bên trái, “GIỮ NGUYÊN · MODEL”: checkpoint FP8 chính thức; không quantize lại hoặc bỏ layer/expert; KV BF16; dự kiến giữ phép tính mục tiêu. Bên phải, “ĐÃ XÁC MINH · DỊCH VỤ”: 28197 · 3.051,52 good output tokens/s; 1.881 / 1.907 request đạt SLA chung; entry hoàn tất trong 10 phút 11 giây. Dòng nhỏ trung tính bên dưới: “Đánh giá chất lượng model thực hiện theo protocol Q1 của BTC.” Thêm thanh bàn giao sang HPC. Không biến cảnh báo quality chưa biết thành panel chính hoặc hàm ý đã có điểm accuracy.",
       "terms": [
         {
-          "symbol": "độ chính xác chính thức",
-          "meaning": "Kết quả chất lượng toàn bộ tập của ban tổ chức; cần đạt ít nhất 99% tham chiếu và chưa được đo/xác minh ở đây."
+          "symbol": "checkpoint FP8 nguyên bản",
+          "meaning": "Checkpoint model dấu phẩy động tám bit chính thức được dùng như đã cấp; không lượng tử hóa lại."
         },
         {
-          "symbol": "smoke / retrieval checks",
-          "meaning": "Kiểm tra đầu ra nội bộ nhỏ, lần lượt 7/8 và 12/12. Chúng phát hiện một số hồi quy nhưng không chứng nhận accuracy toàn tập."
+          "symbol": "KV BF16",
+          "meaning": "Giá trị cache key/value dùng định dạng bfloat16 khi suy luận; đây là phần riêng với trọng số model FP8."
         },
         {
-          "symbol": "terminal FAILED",
-          "meaning": "Scheduler ghi job GPU portable ban đầu thất bại khi kết thúc. Đọc được output về sau không đổi trạng thái cuối đó."
+          "symbol": "giữ phép tính mục tiêu",
+          "meaning": "Không bỏ layer hay expert và dự định giữ phép tính của model trong lúc tinh chỉnh serving. Điều này tự nó không đo accuracy đầu ra."
         },
         {
-          "symbol": "reader kết quả",
-          "meaning": "Mã hậu xử lý tìm export benchmark và tổng hợp chỉ số sau khi serving chạy."
+          "symbol": "SLA chung",
+          "meaning": "Request đồng thời đạt TTFT ≤3000 ms và ITL trung bình ≤20 ms; mẫu số gồm tất cả request."
         },
         {
-          "symbol": "xác minh reader CPU-only",
-          "meaning": "Job 27152 chạy reader đã sửa trên bộ dữ liệu thật đã lưu, không GPU hay request serving; chỉ xác minh hậu xử lý."
-        },
-        {
-          "symbol": "phát lại toàn allocation",
-          "meaning": "Triển khai GPU đóng gói đầy đủ, chạy benchmark client, xử lý output và xem xét trên allocation được cấp."
-        },
-        {
-          "symbol": "slide backup ẩn",
-          "meaning": "AI slide 17–32 vẫn được giữ làm tài liệu hỗ trợ nhưng bỏ qua trong trình chiếu chính; OpenFOAM 33 vẫn nguyên trạng và theo sau slide này."
-        },
-        {
-          "symbol": "MNNVL",
-          "meaning": "Backend giao tiếp collective giữa GPU dùng trong implementation decode; không phải đường truyền KV giữa hai vai trò."
-        },
-        {
-          "symbol": "NIXL",
-          "meaning": "Đường truyền trạng thái KV của request giữa hai vai trò prefill và decode tách biệt."
+          "symbol": "đánh giá Q1",
+          "meaning": "Quy trình đánh giá quality toàn tập chính thức của BTC, riêng với lượt đo throughput serving."
         }
       ],
       "reading": [
-        "Job 28197 dùng 16 H200 N64 và hoàn tất entry portable trong 611 giây, gồm readiness khởi động, semantic check cả hai vai trò, official client, reader/summary gate và cleanup.",
-        "Điểm xuất là 3051,518173 good output tokens/s; 1881/1907 request đồng thời đạt hai ngưỡng latency (98,63660199265862%).",
-        "Latency: TTFT mean/p95 1100,3153/1285,9962 ms; ITL trung bình mỗi request mean/p95 15,009828/15,185750 ms; 26 trượt TTFT, không trượt ITL, không error/cancel bị chấm.",
-        "Điều này đóng khoảng trống acceptance GPU portable sau sửa reader bằng một entry thành công. Đây không phải thí nghiệm tối ưu matched mới hay bằng chứng tối ưu toàn cục.",
-        "Accuracy toàn tập so tham chiếu BTC vẫn UNKNOWN; package chạy được không xác lập điểm này.",
-        "Slide và claim HPC được giữ nguyên; bàn giao tại slide vật lý 35."
+        "Nhóm giữ checkpoint FP8 chính thức như được cấp: không quantize lại và không bỏ layer/expert. KV cache vẫn dùng BF16.",
+        "Phép tính mục tiêu dự định giữ nguyên trong khi nhóm tối ưu parallel layout, đường giao tiếp và thiết lập runtime serving. Bảo toàn là sự thật về cách làm, tự nó chưa phải số đo quality.",
+        "Job 28197 hoàn tất portable entry đầy đủ trên 16 H200 N64 trong 611 giây, gồm hai semantic route, official client, đọc kết quả, summary gate và cleanup.",
+        "Điểm đạt 3051,518173 good output tokens/s. Có 1881/1907 request cùng đạt TTFT và ITL giới hạn (98,63660199265862%); 26 trượt TTFT, không trượt ITL và không error/cancel.",
+        "Good output tokens/s bằng Goodput request/s của AIPerf nhân mục tiêu 200 token đầu ra.",
+        "Đây là kết quả dịch vụ. Đánh giá quality toàn tập chính thức của BTC là bước Q1 riêng; slide này không báo cáo điểm quality số học."
       ],
       "tradeoff": {
-        "observation": "Entry portable H200 16-GPU/N64 đầy đủ qua trong 611 giây, đạt 3051,518173 good output tokens/s và 98,6366% SLA chung, không lỗi/hủy request bị chấm.",
-        "hypothesis": "Sửa race model-readiness ở gateway nhưng giữ client chính thức, worker server và reader sẽ giúp package qua toàn bộ đường acceptance.",
-        "conclusion": "Package portable hiện có một lần acceptance GPU đầy đủ sau sửa. Giữ recipe H200 N64; hiệu năng đã đo có hỗ trợ, còn quality chính thức chưa được xác lập.",
-        "unknown": "Accuracy toàn tập của BTC ≥99% tham chiếu vẫn UNKNOWN. Một acceptance portable không xác lập độ lặp thống kê của riêng đường package này."
+        "observation": "Checkpoint FP8 chính thức và phép tính mục tiêu được giữ; KV dùng BF16. Job portable 28197 hoàn tất entry trong 611 giây, đạt 3051,518173 good output tokens/s, 1881/1907 request đạt SLA chung, không lỗi bị chấm.",
+        "hypothesis": "Giữ cố định phép tính model cho phép cải thiện đường serving mà vẫn giữ hành vi dự định; quality vẫn cần được đánh giá theo quy trình toàn tập của BTC.",
+        "conclusion": "Entry serving portable đầy đủ qua workload và các ngưỡng latency của nhóm. Kết quả đo hỗ trợ acceptance deployment; được báo cáo riêng với quality model.",
+        "unknown": "Hồ sơ này không có điểm accuracy toàn tập số học so tham chiếu BTC. Giữ trọng số/phép tính tự nó không chứng minh đạt ngưỡng quality ≥99%."
       },
       "reasoning": {
-        "problem": "Các job package trước lỗi reader sau inference; lần thử ZIP nguyên trạng khác dừng trước chấm vì health gateway có trước khi đăng ký model bất đồng bộ xong.",
-        "why_it_matters": "Nhóm cần phân biệt “service chạy nhanh” với “bài nộp đóng gói thực sự qua quy trình acceptance bằng client chính thức”, và phân biệt cả hai với chứng nhận quality.",
-        "why_this_test": "Ở job 28197 chỉ đổi thời gian đợi readiness/checksum sau race gateway job 28194. Giữ nguyên worker, client, reader và hai semantic path; sau đó chạy một allocation đầy đủ kèm cleanup và scoring gate hiện hành.",
-        "what_we_learned": "Toàn bộ bước deployment qua trong 611 giây; run đạt 3051,518173 good tokens/s, 1881/1907 request đạt SLA chung, không lỗi/hủy. Điều này đóng khoảng trống acceptance replay package một lần.",
-        "next_logic": "Kết thúc bằng kết luận package execution và service acceptance đã qua, nhưng quality toàn tập chính thức vẫn chưa biết; sau đó bàn giao OpenFOAM."
+        "problem": "Dịch vụ phải đạt mục tiêu throughput có điều kiện latency trong khi dùng đúng model cuộc thi và phép tính dự kiến của model.",
+        "why_it_matters": "Tối ưu serving chỉ có ý nghĩa nếu vẫn giữ hành vi model cần thiết và tạo dịch vụ chạy được trên phần cứng được cấp.",
+        "why_this_test": "Giữ checkpoint FP8 chính thức, tất cả layer và expert cùng KV BF16 rồi chạy portable entry H200 đầy đủ bằng official client và các ngưỡng latency hiện tại.",
+        "what_we_learned": "Job 28197 hoàn tất mọi bước deploy và chấm trong 611 giây, đạt 3051,518173 good tokens/s và 1881/1907 request đạt SLA chung. Đây là acceptance serving đầy đủ với cấu hình model được giữ.",
+        "next_logic": "Trình bày kết quả serving và model được bảo toàn, sau đó nói rõ quality được đánh giá theo protocol Q1 của BTC rồi bàn giao sang HPC."
       },
-      "script": "Lần portable acceptance cuối đã qua. Job 28197 dùng 16 H200 N64 và hoàn tất readiness gateway, semantic path cho cả prefill/decode, official client, đọc kết quả, summary gate và cleanup trong 611 giây. Điểm đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 cùng đạt hai ngưỡng latency, tức 98,64%; có 26 lỗi TTFT, không lỗi ITL, không lỗi/hủy request. Việc này đóng kiểm tra GPU deployment toàn gói sau sửa reader và readiness. Nó không trả lời quality model: phép so toàn tập với tham chiếu BTC yêu cầu tối thiểu 99% vẫn chưa biết. Tiếp theo tôi bàn giao sang OpenFOAM.",
-      "caution": "Không gọi acceptance deployment portable là điểm quality model chính thức. Kết quả ≥99% tham chiếu vẫn UNKNOWN và một entry thành công chưa phải nghiên cứu độ lặp lại.",
-      "transition": "Phần AI chính kết thúc với deployment acceptance đã qua và quality chính thức chưa biết. Phần OpenFOAM không đổi bắt đầu tại slide vật lý số 35.",
+      "script": "Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu của model: không bỏ layer hay expert, KV cache dùng BF16. Sau đó chúng tôi chạy xong portable serving entry trên 16 H200. Job 28197 hoàn tất trong 10 phút 11 giây, đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 request đạt đồng thời cả hai ngưỡng latency, tương đương 98,64%. Điều này xác minh đường serving dưới workload này trong khi cấu hình model được giữ nguyên. Quality model được đánh giá riêng theo protocol Q1 của BTC; đây không phải điểm quality đó. Tôi xin bàn giao cho người trình bày OpenFOAM.",
+      "caution": "Không dùng việc giữ trọng số/phép tính hay đạt SLA serving làm bằng chứng rằng accuracy toàn tập ≥99% theo tham chiếu BTC. Deck không có điểm quality chính thức bằng số.",
+      "transition": "Acceptance serving của lượt đầy đủ đã được xác lập. Quality model sẽ theo protocol Q1 của BTC; tiếp theo bàn giao sang OpenFOAM.",
       "claim_type": "Mục tiêu hoặc giới hạn kết luận"
     },
-    "hardware": "16 H200 · portable deployment accepted · official full-set quality UNKNOWN · OpenFOAM handoff slide 35"
+    "hardware": "16 H200 · native FP8 model · BF16 KV"
   },
   {
     "slide": 17,

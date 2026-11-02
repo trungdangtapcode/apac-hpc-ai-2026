@@ -128,17 +128,17 @@ The observability review also records diagnostic profiler-stop HTTP 500 response
 
 **Do not say:** “We measured an N8→N16 collapse” merely because the teacher used that as an example. Use the actual N64/N68 evidence. A causal queueing explanation requires aligned per-request enqueue, prefill, KV-transfer and first-decode spans.
 
-## Q8. How far has model quality been verified? Could FP8 change the answers?
+## Q8. How is the model-quality checkpoint handled? Could FP8 change the answers?
 
 **Say first:**
 
-> Official model quality remains unverified by our team. The criterion is at least 99% of the organiser's reference score on the official accuracy evaluation; it is not 99% request success or exact answer-string equality. Our team has no measured official accuracy number; the organisers run that check. We used the supplied FP8 target and retained small smoke and retrieval checks as regression screens. Those checks do not replace the full official evaluation, so we do not claim quality certification or official ranking acceptance. The public Basic submission procedure assigns the full-set check to the organisers and does not state that our team must possess their unpublished reference number before upload; submitting while validation is pending does not guarantee a later quality pass.
+> The Basic submission preserves the official Qwen FP8 checkpoint and uses serving-path optimisations around it. The organisers run the full-set comparison against their reference as the Q1 model-quality checkpoint. Our team reports the serving measurements and keeps that official evaluation separate. The at-least-99%-of-reference requirement is a score comparison; it is neither a 99% request-success rate nor exact answer-string equality.
 
-**If pressed:** Recent optimisation trials report smoke 7/8 with no new regression and retrieval 12/12. The final package acceptance 28197 checked both P/D semantic routes, corrected output readers, the performance gate and cleanup; it did not run a new 8-item smoke screen. None of these checks is the official full-set score. Keeping weights fixed reduces one source of change but does not prove output equivalence across kernels, numeric paths or decoding. Exact generated token IDs were not retained in the performance runs; client-retokenized lengths do not by themselves establish physical truncation.
+**If pressed:** Recent optimisation trials report smoke 7/8 with no new regression and retrieval 12/12. The final package acceptance 28197 checked both P/D semantic routes, corrected output readers, the performance gate and cleanup. These deployment and regression checks are separate from the organiser-run full-set Q1 score. Keeping the official weights fixed preserves the model checkpoint while the tests target serving; it does not claim that two runtime paths generate identical token IDs. Exact generated token IDs were not retained in the performance runs; client-retokenized lengths do not by themselves establish physical truncation.
 
 **Evidence:** slide 16; [current report and validation limits](../ai-final-report-20261030/REPORT.md), [current packaged metrics](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md), [Basic quality and upload clarification](../../notes/ai-quality-threshold-clarification-20261102.md).
 
-**Do not say:** “FP8 retained all parameters, therefore quality is identical,” or “98.6% SLA success passes the 99% model-quality gate.” They are different metrics and evaluations.
+**Keep the measures distinct:** the 98.6% request-latency fraction is not the full-set accuracy ratio against the organiser reference.
 
 ## Q9. Why run H100 experiments? How can they tell you what is better on H200?
 
@@ -235,4 +235,4 @@ The HPC owner should bring the comparison that justified the rank count, physica
 5. Rehearse Q9–Q14 and the handoff with the actual HPC presenter. Fit the combined 15–20-minute talk, leaving the separate 10-minute Q&A.
 6. Record real timing, listener confusion and unanswered questions after the mock. This document does not claim those checks happened.
 
-For the current deck and short talk scripts, start with the [current presentation](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pptx). The [main-talk PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Main_Talk.pdf) follows AI slides 1–16 with HPC slides 35–42; the older [general mock Q&A](../ai-final-report-20261030/MOCK_QA_EVIDENCE.md) remains supporting material; this companion explicitly maps the teacher's questions and current answer boundaries.
+For the current deck and short talk scripts, start with the [current presentation](../../submission-review/ai-basic-submission-polish-20261102/TripleU_APAC2026_Presentation.pptx). The [main-talk PDF](../../submission-review/ai-basic-submission-polish-20261102/TripleU_APAC2026_Main_Talk.pdf) follows AI slides 1–16 with HPC slides 35–42; the older [general mock Q&A](../ai-final-report-20261030/MOCK_QA_EVIDENCE.md) remains supporting material; this companion explicitly maps the teacher's questions and current answer boundaries.

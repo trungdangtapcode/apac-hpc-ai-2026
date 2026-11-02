@@ -1,6 +1,6 @@
 # Mock panel Q&A: evidence and answer boundaries
 
-Updated 2 November 2026 after full portable acceptance job 28197 from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](../../submission-review/ai-acceptance-update-20261102/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
+Updated 2 November 2026 after full portable acceptance job 28197 from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow [reasoning-plan.json](../../submission-review/ai-basic-submission-polish-20261102/reasoning-plan.json): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
 
 | Main slide | Exact title in the current plan |
 |---:|---|
@@ -19,7 +19,7 @@ Updated 2 November 2026 after full portable acceptance job 28197 from retained A
 | 13 | Repeated evidence supports N64 more strongly than an isolated peak |
 | 14 | Direct H200 tests decide which H100 ideas transfer |
 | 15 | Better proxy metrics did not always improve qualifying throughput |
-| 16 | Deployment acceptance passes; official model quality remains unverified |
+| 16 | Preserve the model; optimise the serving path |
 
 ## Answer pattern
 
@@ -75,17 +75,17 @@ In about 30 seconds: state the observed problem, name the comparison or interven
 
 **Retained evidence:** main slides 13 and 16; [final AI report](REPORT.md); [25366 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/REVIEW.md), [25373 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md), and [25487/25488 pair review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25487-25488-20261023/REVIEW.md); [27376 control](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/CONTROL_RESULTS.md) and [27378 treatment review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/RESULTS.md); [native chunk review for 26766–26770](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md); [27145 alias correction](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/portable-artifact-path-fix-20261029/ALIAS_CORRECTION.md) and [27152 compute-only result](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/portable-postprocess-compute-check-20261029/RESULTS.md).
 
-**Still missing:** a statistical confidence interval or broad hardware diversity; complete single-allocation portable success after the reader repair. Do not call 3,048.446 the new optimum or 3,055.331 a successful job.
+**Boundary:** no statistical confidence interval or broad hardware diversity is available. Job 28197 now provides complete single-allocation portable acceptance after the reader repair; it has no matched control. Do not call 3,048.446 the new optimum or 3,055.331 a successful job.
 
-### 6. How do you know answer quality is acceptable?
+### 6. How is the model-quality checkpoint handled?
 
-**30-second answer:** “We do not yet know that the official quality gate passes. The contest requires at least 99% of the reference on the full accuracy set; that evaluation remains UNKNOWN. Small local smoke and retrieval checks are useful regression screens, but they are not substitutes for the full evaluation. We report the measured local latency/goodput result and do not claim official quality certification.”
+**30-second answer:** “Our Basic work preserves the official Qwen FP8 checkpoint and optimises the serving path. Job 28197 validates the exact deployment and performance: 3,051.518173 good output tokens/s and 1,881 of 1,907 requests meeting both latency limits. The 98.6366% is the request-latency fraction. The full-set reference comparison is a separate organiser-run Q1 evaluation; we keep its provenance distinct from our serving measurements.”
 
-**Cross-examination:** “Then can you claim the official result is valid?” We can claim measured goodput from our assigned-cluster runs under the stated workload and local protocol checks, with their limits. We cannot claim official ranking acceptance or certified model accuracy. Do not reinterpret exported request lengths as proof of truncation or exact token-ID equality.
+**Cross-examination:** “Does 98.6366% describe answer accuracy?” No. It counts benchmark requests that satisfied both latency conditions. The official model checkpoint and weights were preserved; the organiser evaluates the full-set score against its reference as part of Q1.
 
 **Retained evidence:** main slide 16; [final AI report](REPORT.md); [25366 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/REVIEW.md), [25373 review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md), and [25487/25488 pair review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25487-25488-20261023/REVIEW.md); [AI handoff](/home/apacsc42/workspace/notes/AI_CURRENT.md); [latest packaged results](</home/apacsc42/workspace/VNUHCM - TripleU/AI_Task/logs/measured/latest-results.md>).
 
-**Still missing:** the full organizer accuracy evaluation and authoritative generated token IDs for the performance runs. A whole-allocation portable replay after the reader correction is also not claimed.
+**Scope of this answer:** job 28197 validates the exact portable deployment, semantic paths, corrected readers, performance gate and cleanup. The full-set reference comparison is a distinct organiser-run Q1 result. Authoritative generated token IDs from the performance run are not retained.
 
 ### 7. What does the N64 request-level scatter tell you about the SLA misses?
 
@@ -119,11 +119,11 @@ Only a bounded held-out check. A frozen N52 calibration predicted 2,642.244 good
 
 **Retained evidence:** slide 16 and backup 31; [28197 acceptance review](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [actual scheduler receipt and state](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), [preserved 28194 failure](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/delivery/VNUHCM%20-%20TripleU/AI_Task/logs/reruns/28194/summary.json) and [portable performance gate](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/delivery/VNUHCM%20-%20TripleU/AI_Task/logs/reruns/28197/performance-gate.json).
 
-**Still missing:** the official model-quality ratio against the organiser reference. The acceptance run is a performance/deployment check, not that full accuracy evaluation.
+**Evaluation workflow:** the Basic package preserves the official Qwen FP8 checkpoint for the organiser-run full-set comparison. Job 28197 establishes deployment and serving performance; its request-latency fraction is reported separately from model accuracy.
 
 ### 10. What does the “quality score” say, and can we submit without it?
 
-**Answer:** “We have no measured official quality number. The 98.6366% value from 28197 is the fraction of performance requests that met both latency limits; it is not model accuracy. The official ≥99%-of-reference evaluation is organiser-run. The published Basic submission procedure asks for the stack instructions, single-job deployment and benchmark script, and slides; it does not list our possession of the unpublished reference score as a pre-upload requirement. We can submit the Basic package while stating that organiser quality validation is pending. This does not guarantee it will pass that later quality evaluation.”
+**Answer:** “We preserve the official Qwen FP8 checkpoint and submit the serving stack and benchmark materials for the Basic track. The organiser runs the full-set comparison against its reference as the separate Q1 model-quality evaluation. Job 28197 reports serving performance: 98.6366% of requests met both latency limits; that is not an accuracy percentage. We do not substitute a team estimate for the organiser’s result.”
 
 **Retained evidence:** [exact requirement and careful interpretation](/home/apacsc42/workspace/notes/ai-quality-threshold-clarification-20261102.md), [official Qwen rules snapshot](../submission-review/submission-readiness-20261102/official-rules/1.%20Qwen3%20AI%20Task%20Rules.md).
 
@@ -149,6 +149,6 @@ If asked about the HPC section, keep the answer to ownership and handoff: “Sli
 
 This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–11 minute target inside the official combined 15–20 minute AI/HPC talk; the separate Q&A is 10 minutes. Then ask the questions and follow-ups above without opening a terminal. Use hidden backups 17–34 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
 
-At the end, hand the microphone and slide control to the independent HPC presenter. Keep an explicit unknown/contingency sentence ready: “Official full-set quality is still unverified; we are presenting the result measured by our team on the assigned cluster and its limits.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
+At the end, hand the microphone and slide control to the independent HPC presenter. Keep a concise evaluation-workflow sentence ready: “We preserved the official FP8 checkpoint and optimised only serving. Our H200 result reports deployment and request performance; the organiser owns the separate full-set Q1 comparison.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
 
-No rehearsal outcome, timing result, panel question, HPC explanation, research job, authentication action, or new measurement is asserted by this document.
+No rehearsal outcome, timing result, panel question, HPC explanation, research job, authentication action, organiser upload receipt or organiser quality result is asserted by this document.

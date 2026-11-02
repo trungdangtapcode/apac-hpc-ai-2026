@@ -3,12 +3,14 @@
 import hashlib
 import json
 import re
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 from urllib.parse import unquote
 
 WORKSPACE = Path(__file__).resolve().parents[1]
 REPORT = WORKSPACE / 'reports/ai-final-report-20261030'
-REVIEW = WORKSPACE / 'submission-review/ai-acceptance-update-20261102'
+REVIEW = review_path(WORKSPACE)
 DECK = REVIEW / 'TripleU_APAC2026_Presentation.pptx'
 
 GLOSSARY = [

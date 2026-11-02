@@ -1,7 +1,9 @@
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path,PurePosixPath
 import datetime,fcntl,hashlib,json,posixpath,shutil,stat,zipfile
 from lxml import etree as E
-W=Path('/home/apacsc42/workspace');T=W/'VNUHCM - TripleU';O=W/'submission-review/ai-acceptance-update-20261102';old=W/'submission-review/ai-final-update-20261101'
+W=Path('/home/apacsc42/workspace');T=W/'VNUHCM - TripleU';O=review_path(W);old=review_path(W, os.environ.get('TRIPLEU_PREVIOUS_STAGE', 'submission-review/ai-final-update-20261101'))
 O.mkdir(exist_ok=True);(O/'inputs').mkdir(exist_ok=True);(O/'slides').mkdir(exist_ok=True)
 assert not (O/'inputs/combined-before-ai-update.pptx').exists(), 'Preserve an existing audited baseline'
 sha=lambda b:hashlib.sha256(b).hexdigest()

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Check deck, guides and optionally the published delivery against reviewed sources."""
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 import argparse
 import hashlib
@@ -12,7 +14,7 @@ import fitz
 from pptx import Presentation
 
 W = Path(__file__).resolve().parents[1]
-O = W / 'submission-review/ai-acceptance-update-20261102'
+O = review_path(W)
 R = W / 'reports/ai-final-report-20261030'
 T = W / 'VNUHCM - TripleU'
 

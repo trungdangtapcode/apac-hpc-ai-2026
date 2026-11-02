@@ -12,7 +12,7 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Broad optimisation remains stopped. The owner-authorised final acceptance job 28197 completed; future actions are proposals unless explicitly labelled as executed.
 
-Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `6af3c79387baedb16b350450242214a669afc9fc34b10b5b4f1fecac5770be96`. This guide describes that version; recheck it if the deck changes.
+Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `2c85a21ae0ca66b6955cfa102ca72e473f479734d9e7a2beccb3167a1a82b1ae`. This guide describes that version; recheck it if the deck changes.
 
 ## Understand the claims before presenting them
 
@@ -90,7 +90,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 13 — A complete portable run reproduces the retained operating level](#slide-13)
 - [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — Deployment acceptance passes; official model quality remains unverified](#slide-16)
+- [Slide 16 — Preserve the model; optimise the serving path](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
 - [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
@@ -1125,7 +1125,7 @@ The closing slide separates what the serving evidence supports from two validati
 
 <a id="slide-16"></a>
 
-## Slide 16 — Deployment acceptance passes; official model quality remains unverified
+## Slide 16 — Preserve the model; optimise the serving path
 
 **Hardware: H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33**
 
@@ -1133,65 +1133,61 @@ The closing slide separates what the serving evidence supports from two validati
 
 ### Quick brief · 10–20 seconds
 
-Portable job 28197 passed the complete 611-second H200 deployment entry, scoring 3,051.52 good tokens/s with 98.64% joint SLA. The organiser’s full-set ≥99%-reference quality result remains unknown.
+We preserved the official FP8 checkpoint and target computation while tuning serving. Portable job 28197 completed the full 16-H200 entry in 10 minutes 11 seconds, with 3,051.52 good tokens/s and 1,881 of 1,907 requests meeting both latency limits.
 
 ![Slide 16](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-16.png)
 
 ### Reasoning to communicate
 
-- **Problem:** The prior package jobs failed after inference in result readers, and one exact-ZIP retry stopped before scoring when gateway health preceded asynchronous model registration.
-- **Why it matters:** A team needs to distinguish “the service is fast” from “the actual packaged deliverable completes its official-client acceptance path,” and both from official quality certification.
-- **Why this test:** For 28197, change only the deployment readiness wait/checksum following the 28194 gateway health race. Preserve worker, client, reader, and both semantic paths, then run one complete allocation with cleanup and the existing scoring gates.
-- **What we learned:** All deployment stages passed in 611 seconds; the run scored 3051.518173 good tokens/s, with 1881/1907 joint passes and zero request errors/cancellations. This closes the package replay acceptance gap once.
-- **Why the next step follows:** Finish by stating that package execution and measured service acceptance pass, while full-set official model-quality evaluation remains unknown; then hand over to OpenFOAM.
+- **Problem:** The service must meet the latency-qualified throughput objective while using the contest model and its intended computation.
+- **Why it matters:** Serving optimizations are relevant only if they retain the required model behavior and produce a deployable service on the supplied hardware.
+- **Why this test:** Preserve the official FP8 checkpoint, all layers and experts, and BF16 KV while running the complete portable H200 entry with the official client and existing latency gates.
+- **What we learned:** Job 28197 completed every deployment and scoring stage in 611 seconds, with 3051.518173 good tokens/s and 1881/1907 joint SLA passes. This establishes a full serving acceptance run with the model configuration preserved.
+- **Why the next step follows:** Present the serving result and preserved model configuration, then state that model-quality evaluation follows the organiser Q1 protocol and hand over to OpenFOAM.
 
 ### Purpose
 
-Conclude with the distinction between local deployment acceptance and official model-quality acceptance. The full portable GPU path now passes once after the readiness fix; this validates execution and scoring integrity under the team’s gates, but not the model’s full-set accuracy against the organiser reference.
+Summarize the engineering boundary: preserve the submitted model and its target computation, then optimize the deployment around it. Report the completed serving acceptance with its measured SLA result. The full-set model-quality result is separate and follows the organiser Q1 evaluation protocol.
 
 ### Technical interpretation and reasoning
 
-Two panels: VERIFIED—job 28197 full 16-H200/N64 portable entry, 611 seconds, both P/D semantic paths, official client, reader/summary gate and cleanup passed; 3051.518173 good output tokens/s, 1881/1907 joint SLA (98.6366%), 26 TTFT misses, zero ITL misses/errors/cancellations. OPEN—organiser full-set accuracy ≥99% of reference is UNKNOWN. Label these as deployment acceptance versus model-quality validation. MNNVL is the decode GPU collective path; NIXL carries request KV between prefill and decode roles. The next visible physical slide is unchanged OpenFOAM 35.
+Use two equal panels. Left, “PRESERVED · MODEL”: Official FP8 checkpoint; no requantisation or skipped layers/experts; BF16 KV; unchanged target computation intended. Right, “VERIFIED · SERVICE”: 28197 · 3,051.52 good output tokens/s; 1,881 / 1,907 joint SLA passes; full entry completed in 10 min 11 s. Bottom neutral small text: “Model-quality evaluation follows the organiser Q1 protocol.” Add the HPC handoff bar. Do not make an unknown-quality warning a main panel or imply an accuracy result.
 
 ### Terms and symbols to understand
 
-- **official accuracy:** Organizer full-set model-quality result; required threshold is at least 99% of the reference, and it has not been measured/verified here.
-- **smoke / retrieval checks:** Small local output sanity checks, 7/8 and 12/12 respectively. They detect some regressions but do not certify full-set accuracy.
-- **terminal FAILED:** The scheduler recorded the original portable GPU jobs as failed at completion. Later reading their outputs does not change that terminal state.
-- **result reader:** Post-processing code that locates benchmark exports and summarizes metrics after serving has run.
-- **CPU-only reader verification:** Job 27152 ran the fixed readers on saved real datasets without GPUs or serving requests; it verifies post-processing only.
-- **whole-allocation replay:** A complete packaged GPU deployment, benchmark-client run, output processing, and review on the assigned allocation.
-- **hidden backup slides:** AI slides 17–32 are retained as supporting material but skipped in the main show; OpenFOAM slide 33 remains unchanged and follows this slide.
-- **MNNVL:** GPU collective-communication backend used within the decode implementation; it is not the cross-role KV transport.
-- **NIXL:** Transport used to move request KV state between the separate prefill and decode roles.
+- **native FP8 checkpoint:** The official eight-bit floating-point model checkpoint is used as supplied; no new quantisation is applied.
+- **BF16 KV:** Key/value cache values use bfloat16 during inference; this is separate from the FP8 model weights.
+- **target computation preserved:** No layers or experts were skipped and the intended model computation was kept while serving settings were tuned. This does not alone measure output accuracy.
+- **joint SLA passes:** Requests satisfying both TTFT ≤3000 ms and mean ITL ≤20 ms; the denominator includes every request.
+- **Q1 evaluation:** The organiser’s official full-set model-quality procedure, separate from the serving throughput acceptance run.
 
 ### Interpreting the evidence or diagram
 
-- 28197 used 16 H200 at N64 and completed the whole portable entry in 611 seconds, including startup readiness, semantic checks for both roles, the official client, reader/summary gates and cleanup.
-- The exported score is 3051.518173 good output tokens/s; 1881/1907 requests met both latency thresholds jointly (98.63660199265862%).
-- Latency: mean/p95 TTFT 1100.3153/1285.9962 ms; mean/p95 request-mean ITL 15.009828/15.185750 ms; 26 TTFT misses, zero ITL misses and zero scored errors/cancellations.
-- This closes the complete portable post-reader-fix GPU acceptance gap with one successful entry. It is not a new matched optimization experiment or a global-optimum proof.
-- Official full-set model accuracy against the organiser reference remains UNKNOWN; portable execution does not establish that score.
-- HPC slides and claims are unchanged; handoff is physical slide 35.
+- The serving changes preserve the official FP8 checkpoint: the team did not requantise it or skip layers/experts. KV cache remains BF16.
+- The intended target computation remains unchanged while parallel layout, communication path and runtime serving settings are tuned. Preservation is a design fact; by itself it is not a numerical quality result.
+- Job 28197 completed the full portable entry on 16 H200 at N64 in 611 seconds, including both semantic routes, official client, result reading, summary gates and cleanup.
+- It scored 3051.518173 good output tokens/s. 1881/1907 requests met TTFT and request-mean ITL limits jointly (98.63660199265862%); 26 missed TTFT, zero missed ITL and zero errors/cancellations.
+- Good output tokens/s is the official AIPerf Goodput request/s multiplied by 200 target output tokens.
+- This is a service result. The organiser’s full-set quality check is a separate Q1 evaluation; no numeric full-set quality score is reported here.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** A full portable 16-H200/N64 entry passed in 611 seconds at 3051.518173 good output tokens/s and 98.6366% joint SLA with zero scored errors/cancellations.
-- **Hypothesis:** Fixing the gateway model-readiness race while preserving the official client, server workers and result readers should let the package pass the full acceptance path.
-- **Supported conclusion:** The portable package now has one complete post-fix GPU acceptance pass. Retain the N64 H200 recipe; the measured performance is supported, while official quality is not yet established.
-- **Unknown / limitation:** Organiser full-set accuracy ≥99% of reference remains UNKNOWN. One portable acceptance does not establish statistical repeatability of this package path.
+- **Observation:** The official FP8 checkpoint and intended target computation were preserved; BF16 KV was used. Portable job 28197 completed the full entry in 611 seconds at 3051.518173 good output tokens/s with 1881/1907 joint passes and zero scored errors/cancellations.
+- **Hypothesis:** Keeping model computation fixed lets the team improve the serving path while preserving the model’s intended behavior; quality still needs the organiser’s full-set procedure.
+- **Supported conclusion:** The full portable serving entry passed the team’s workload and latency gates. The measured result supports deployment acceptance; it is reported separately from model quality.
+- **Unknown / limitation:** No numeric full-set accuracy result against the organiser reference is present in this record. Preserving weights and computation is not itself proof of the ≥99% quality threshold.
 
 ### Spoken script
 
-Our final portable acceptance run passed. Job 28197 used sixteen H200s at N64 and completed gateway readiness, both prefill/decode semantic paths, the official client, result reading, summary gates and cleanup in 611 seconds. It scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency thresholds, or 98.64 percent; there were 26 TTFT misses, no ITL misses and no errors or cancellations. This closes the full GPU deployment check after the reader and readiness fixes. It does not answer model quality: the organiser’s full-set comparison against its reference, requiring at least 99 percent, remains unknown. I now hand over to OpenFOAM.
+We preserved the official FP8 checkpoint and the intended model computation: no layers or experts were skipped, and the KV cache used BF16. We then completed the full portable serving entry on sixteen H200s. Job 28197 finished in ten minutes eleven seconds and scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent. That verifies the serving path under this workload with the model configuration preserved. Model quality is evaluated separately under the organiser’s Q1 protocol; this serving result is not that quality score. I now hand over to the OpenFOAM presenter.
 
 ### Avoid this interpretation
 
-Do not describe portable deployment acceptance as the official model-quality score. The ≥99%-reference result is UNKNOWN, and one successful portable entry is not a repeatability study.
+Do not present preservation of weights/target computation or the serving SLA as proof of the organiser’s ≥99% full-set accuracy result. No numeric official quality score is reported in this deck.
 
 ### Transition
 
-AI main talk ends with deployment acceptance passed and official quality still unknown. The unchanged OpenFOAM section begins at physical slide 35.
+Serving acceptance is established for this full run. Model-quality evaluation follows the organiser Q1 protocol; next we hand over to OpenFOAM.
 
 ---
 

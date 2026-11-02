@@ -9,6 +9,8 @@ import html
 import json
 import re
 from io import BytesIO
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 from urllib.parse import unquote
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Publish a reviewed AI-only deck while retaining divergent HPC surfaces."""
+from ai_release_context import review_path, part_prefix
+import os
 from pathlib import Path
 import copy
 import datetime
@@ -17,7 +19,7 @@ W = Path('/home/apacsc42/workspace')
 T = W / 'VNUHCM - TripleU'
 Z = W / 'VNUHCM - TripleU.zip'
 SIDECAR = W / 'VNUHCM - TripleU.zip.sha256'
-O = W / 'submission-review/ai-acceptance-update-20261102'
+O = review_path(W)
 DECK_REL = 'Presentation/TripleU_APAC2026_Presentation.pptx'
 MANIFEST_REL = 'AI_Task/logs/FILE_MANIFEST.json'
 SUMS_REL = 'AI_Task/logs/SHA256SUMS'
