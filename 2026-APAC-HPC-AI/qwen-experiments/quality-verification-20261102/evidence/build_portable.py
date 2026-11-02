@@ -104,7 +104,7 @@ def verify_object(store: Path, row: dict, indexed: dict, checksums: dict[str, st
     object_path = store / relative
     if object_path.is_symlink():
         raise ValueError(f"Object is a symlink: {relative}")
-    before = object_path.stat(follow_symlinks=False)
+    before = object_path.lstat()
     if not stat.S_ISREG(before.st_mode):
         raise ValueError(f"Object is not a regular file: {relative}")
 
@@ -133,7 +133,7 @@ def verify_object(store: Path, row: dict, indexed: dict, checksums: dict[str, st
     if (content_hash, content_size) != (row["sha256"], row["bytes"]):
         raise ValueError(f"Uncompressed hash/size mismatch: {relative}")
 
-    after = object_path.stat(follow_symlinks=False)
+    after = object_path.lstat()
     if (before.st_ino, before.st_size, before.st_mtime_ns) != (
         after.st_ino,
         after.st_size,
@@ -166,7 +166,7 @@ def add_object(tar: tarfile.TarFile, store: Path, row: dict) -> None:
     relative = safe_relative(row["object"], "object path")
     path = store / relative
     info = tarfile.TarInfo(relative)
-    current = path.stat(follow_symlinks=False)
+    current = path.lstat()
     if not stat.S_ISREG(current.st_mode) or path.is_symlink():
         raise ValueError(f"Object changed or became unsafe: {relative}")
     info.size = current.st_size
