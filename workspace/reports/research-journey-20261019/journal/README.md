@@ -570,3 +570,5 @@ Actual HPC admission, 27 October UTC / 28 October Vietnam: [Iris full150 matched
 - [3 November Vietnam: first paired full-study shard gives 1205 versus 1200 correct, qualifies full fixed continuation, not an official pass](entries/20261102-ai-full-quality-first-pair-reviewed.md).
 
 - [3 November Vietnam: submit five further full-quality shards within cap 5 and enable only the finite fixed 16 batch continuation](entries/20261102-ai-full-quality-finite-continuation-submitted.md).
+
+- [3 November: 100:1 reduces target faces but fails fanout; weight-only branch closed](entries/20261103-hpc-weight100-fanout-rejection.md).
