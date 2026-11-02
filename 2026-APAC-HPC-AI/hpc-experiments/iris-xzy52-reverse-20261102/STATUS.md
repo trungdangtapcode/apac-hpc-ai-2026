@@ -1,3 +1,7 @@
+# Reviewed terminal: xzy gain not reproduced
+
+2294644 completed 0:0. All four 52-step native arms pass, but xzy pooled mean is **10.25252% slower**, both adjacent pairs lose, and candidate sample recommendations 69/97 exceed 51 intervals. The old 0.71% signal is not confirmed. Close the unchanged branch; no Gadi forecast. [Full result](completed-2294644/RESULTS.md). Earlier live snapshots below are historical.
+
 # Actual reverse confirmation accepted and running
 
 **Job 2294644**, tu-iris-xzy52, accepted **2 November 2026, 15:03:00 Vietnam / 08:03:00 UTC**. At **15:03:35 Vietnam**, Slurm shows RUNNING on iris001, 56 CPUs, elapsed 35 seconds. It is checking sources: the Scotch accepted-source gate passed, no solver arm result exists yet. Do not call this a completed benchmark.

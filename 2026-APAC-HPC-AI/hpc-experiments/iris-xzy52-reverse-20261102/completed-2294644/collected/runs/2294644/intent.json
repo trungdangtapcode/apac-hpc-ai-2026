@@ -1,0 +1,59 @@
+{
+  "arm_order": [
+    "A1-scotch",
+    "B1-our-xzy",
+    "B2-our-xzy",
+    "A2-scotch"
+  ],
+  "commands_by_arm": {
+    "A1-scotch": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "A2-scotch": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "B1-our-xzy": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "B2-our-xzy": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ]
+  },
+  "hypothesis": "XZY has fewer total interface faces and fewer maximum neighbor patches than the screened xyz/zyx cuts, but a larger worst-rank interface count; measure the solver rather than infer a speedup from the proxy.",
+  "internal_deadline_seconds": 10650,
+  "intervals_each": 51,
+  "nodes": 1,
+  "ranks": 56,
+  "request_maximum_cpu_hours": 168,
+  "scope": "Default Scotch versus standard hierarchical(7 4 2),order xzy on Iris; reverse-order ABBA; common default MPI and uncollated I/O; method-specific accepted initialization.",
+  "scored_result": false,
+  "steps_each": 52
+}
