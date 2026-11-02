@@ -1,0 +1,13 @@
+# Owner-requested VPN login retry — 2 November 2026
+
+The owner asked to try VPN login again. A read-only check at **10:58:34 Vietnam (UTC+7)** found no usable VPN namespace. A bounded helper preserved the private recovery cache and old logs, restarted only the dead client pane and supplied the already authorized credential through a verified echo-disabled prompt. Exactly **one attempt** ran; no repeated MFA loop was created.
+
+The gateway returned **Authentication failed** at **10:59:50 Vietnam**. The client pane then exited with status 1. A fresh transport probe at **11:00:37 Vietnam** again returned **NAMESPACE_UNAVAILABLE**. No usable VPN or authenticated NSCC access was established, and no SSH authentication was attempted. This is a **VPN gateway authentication failure**, not a tested CPU SSH rejection.
+
+The client evidence does not establish whether a DUO notification reached the captain's phone, whether it was approved, or the exact gateway rejection cause. Do not label the password wrong, the account expired or the session lifetime exhausted without evidence. No lifetime setting, password, private cache, TLS validation or SSH configuration was changed. No private authentication/session material or raw private log belongs in the retained records. The existing private cache and previous logs remain intact.
+
+The reused wrapper's authorization string cites an old 28 October request; that is an inherited template label, not the authority date of this attempt. The **current owner message on 2 November** authorizes it. Its ambiguous private_material_retained=false field refers to the sanitized result, not deletion of recovery state. The derived result clarifies both points and hash-binds the original safe wrapper output.
+
+This attempt creates no CPU/GPU allocation, NSCC reservation or scheduler receipt. The most recent Iris job 2294643 snapshot remains separately dated; this VPN failure does not stop that accepted Iris allocation. No AI payload, queue or handoff was modified. No background Codex or automatic reauthentication loop was started.
+
+[Sanitized result and evidence provenance](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT.json). Reuse a healthy future connection rather than restart it; another failed attempt is not evidence to spam DUO.
