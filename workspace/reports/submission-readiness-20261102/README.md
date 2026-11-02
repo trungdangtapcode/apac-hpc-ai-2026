@@ -1,5 +1,7 @@
 # Current submission readiness — 2 November 2026
 
+**Current documentary edition:** [Basic framing and consistent README/slide/script release](../../notes/ai-basic-submission-framing-20261102.md). New ZIP/PPTX identities supersede the dated values below. Actual accepted run 28197, scientific limits, HPC handoff and remaining human/upload checks are unchanged.
+
 Updated **2026-11-02T08:57:13.375119+07:00, Vietnam time (UTC+7)**. **The AI portable entry now has one complete reviewed GPU acceptance pass, job 28197; its tested readiness fix is in the current submission ZIP.** The prior [audit before GPU acceptance](README-before-acceptance.md) is retained as history. Its recommended replay and known readiness-defect gaps are now closed, not outstanding actions.
 
 ## Verified current result and materials

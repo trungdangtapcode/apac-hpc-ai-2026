@@ -1,5 +1,7 @@
 # Current AI presentation and accepted deployment — 2 November 2026
 
+**Current edition:** [Basic framing and consistency update](ai-basic-submission-framing-20261102.md). This new ZIP/PPTX supersedes the earlier release hashes below; job28197 measurement remains unchanged. The dated earlier account is historical.
+
 Updated **2026-11-02T08:57:13.375119+07:00, Vietnam time (UTC+7)**. **Job 28197 completed successfully, and its tested readiness correction is now in the published local submission ZIP.** The earlier pending/R1-defect accounts below are historical; original failed evidence remains unchanged.
 
 On 16 H200 GPUs / two nodes / N64, the complete job took **611 seconds (10 min 11 s)** and scored **3051.518173303673 good output tokens/s**. Exported goodput is 15.257590866518365 requests/s; multiplier 200 is the official unit conversion. **1881/1907 requests passed both latency limits (98.63660199265862%)**. There were 26 TTFT misses, zero mean-ITL misses and zero errors/cancellations. TTFT mean/p95: 1100.315/1285.996 ms; request-mean ITL mean/p95: 15.010/15.186 ms. Both semantic P/D routes, the official client, corrected summary readers, performance gate and cleanup pass. Independent replay of raw scored request rows agrees. Only the two startup semantic checks ran here; do not invent a new smoke-8/retrieval-12 quality suite.
