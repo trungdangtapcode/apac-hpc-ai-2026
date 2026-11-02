@@ -1,0 +1,81 @@
+{
+  "review": "bounded full-shard Slurm continuation",
+  "verdict": "SOURCE_REVIEW_PASS_ROOT_INTEGRATION_GATES_PENDING",
+  "scope": {
+    "read_only_review": true,
+    "scheduler_or_gpu_commands_run": false,
+    "source_files_edited": false,
+    "jobs_admitted": false
+  },
+  "checks": {
+    "reference_and_candidate_evaluation_paths_match_drivers": true,
+    "raw_body_parser_and_expected_label_recomputed": true,
+    "full_coverage_and_protocol_gates": true,
+    "aggregate_fixed_denominator_and_ratio": true,
+    "wrapper_resource_headers_and_shell_syntax": true,
+    "driver_cleanup_before_callback": true,
+    "shared_lock_five_job_cap_and_16_job_limit": true,
+    "no_retry_or_cancel_path": true,
+    "admission_cli_timeout_bounded_and_ambiguous_result_not_retried": true,
+    "admission_dispatch_timeout_kills_process_group": true,
+    "unexpected_callback_exception_persists_stop_incident_state": true,
+    "finite_event_fixtures_passed": 11,
+    "full_aggregator_fixtures_passed": 5,
+    "generated_driver_shell_syntax_passed": true,
+    "static_wrapper_sh_syntax_passed": true,
+    "candidate_package_pyc_dependencies_frozen": false
+  },
+  "current_observation": {
+    "reference_job": 28373,
+    "reference_event_status": "VALID",
+    "reference_questions": 1504,
+    "reference_correct": 1200,
+    "reference_invalid_outputs": 13,
+    "reference_truncated_outputs": 187,
+    "reference_service_errors": 0,
+    "candidate_job": 28375,
+    "candidate_state_at_review": "RUNNING",
+    "paired_result_available": false
+  },
+  "pending_preconditions": [
+    {
+      "item": "workflow/CODE_GUARD.json",
+      "state": "ROOT_MAY_CREATE_AFTER_THIS_SOURCE_REVIEW",
+      "effect": "admit_full.py --wave fill --chain must not run until guard is created and pre-admission checks pass"
+    },
+    {
+      "item": "reviews/first-full-pair-qualification.json",
+      "state": "PENDING_CANDIDATE_28375_COMPLETION_AND_REVIEW",
+      "effect": "fill is correctly blocked until a passing human-reviewed qualification exists"
+    },
+    {
+      "item": "candidate SHA256SUMS pyc runtime dependencies",
+      "state": "EXPLICIT_CAPTURE_AND_HASH_VERIFICATION_REQUIRED",
+      "paths": [
+        "AI_Task/job_scripts/__pycache__/artifact_paths.cpython-39.pyc",
+        "AI_Task/job_scripts/__pycache__/warmup_semantic.cpython-312.pyc"
+      ]
+    }
+  ],
+  "failure_containment_findings": [
+    {
+      "severity": "RESOLVED_AND_FIXTURED",
+      "finding": "Admission dispatch uses a new process group, kills it on timeout, records ambiguous submission, and never retries. Scheduler CLI calls are bounded at 60 seconds and preserve timeout ambiguity.",
+      "evidence": "test_admission_timeout_kills_process_group_and_preserves_ambiguity passed"
+    },
+    {
+      "severity": "RESOLVED_AND_FIXTURED",
+      "finding": "Unexpected outer callback exceptions attempt to persist STOP, incident, and state under the workflow lock; persistence failure is explicitly reported and no admission retry is attempted.",
+      "evidence": "malformed-ledger and unexpected-validation-exception main() fixtures passed"
+    }
+  ],
+  "fixture_commands": [
+    "python3 -m unittest -v workflow/test_finite_event.py",
+    "python3 -m unittest -v test_aggregate_full.py (run from client/)"
+  ],
+  "limits": [
+    "No scheduler state or GPU workload was queried during this review.",
+    "This source review approves root creation of CODE_GUARD.json and pre-admission fixture checks; it does not itself authorize chain admission before the guard, first-pair review, and frozen bytecode verification pass.",
+    "The candidate/reference pair has not both completed; actual N64 timing, full-shard completion, and paired quality remain unreviewed."
+  ]
+}

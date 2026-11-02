@@ -8,6 +8,7 @@ import getpass
 import hashlib
 import json
 import re
+import shlex
 import subprocess
 
 S = Path(__file__).resolve().parent
@@ -23,16 +24,32 @@ def save(path, obj):
 
 
 def cmd(argv, cwd=S):
-    p = subprocess.run(argv, cwd=cwd, text=True, capture_output=True)
-    return {'utc': now(), 'argv': argv, 'cwd': str(cwd), 'returncode': p.returncode,
-            'stdout': p.stdout, 'stderr': p.stderr}
+    try:
+        p = subprocess.run(argv, cwd=cwd, text=True, capture_output=True, timeout=60)
+        return {'utc': now(), 'argv': argv, 'cwd': str(cwd), 'returncode': p.returncode,
+                'stdout': p.stdout, 'stderr': p.stderr}
+    except subprocess.TimeoutExpired as exc:
+        # A timed-out sbatch may already have been accepted. Preserve ambiguity,
+        # never blindly retry, and require scheduler/receipt reconciliation.
+        def output(value):
+            return value.decode(errors='replace') if isinstance(value, bytes) else (value or '')
+        return {'utc': now(), 'argv': argv, 'cwd': str(cwd), 'returncode': None,
+                'stdout': output(exc.stdout), 'stderr': output(exc.stderr),
+                'error': 'CLI timeout after 60 seconds; actual submission may be ambiguous, no automatic retry.'}
 
 
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--wave', choices=('first', 'fill'), required=True)
+p.add_argument('--chain', action='store_true', help='Finite completion callbacks for the remaining fixed shards only; no watcher, retries or Codex.')
 a = p.parse_args()
 with (Q / '.slurm-admission.lock').open('a') as lock:
     fcntl.flock(lock, fcntl.LOCK_EX)
+    assert not (S / 'workflow/STOP.json').exists(), 'Finite quality workflow stopped; no further admission.'
+    if a.chain:
+        assert a.wave == 'fill', 'First pair must be manually reviewed before finite continuation.'
+        guard = json.loads((S / 'workflow/CODE_GUARD.json').read_text())
+        for row in guard['files']:
+            assert hashlib.sha256((S / row['path']).read_bytes()).hexdigest() == row['sha256'], row['path']
     assert json.loads((S / 'frozen-full8/validation.json').read_text())['passed']
     frozen = json.loads((S / 'frozen-full8/FROZEN_PAYLOAD.json').read_text())
     for row in frozen['files']:
@@ -79,16 +96,35 @@ with (Q / '.slurm-admission.lock').open('a') as lock:
         D = A / key
         D.mkdir(exist_ok=False)
         save(D / 'before.json', {'utc': now(), 'queue': queue, 'partition': site})
-        dry = cmd(['sbatch', '--test-only', '--parsable', 'submit.sbatch'], cwd)
+        argv = ['sbatch', '--parsable', 'submit.sbatch']
+        wrapper = None
+        if a.chain:
+            # Slurm headers apply to the wrapper allocation; the original frozen
+            # science script is then run without any source changes.
+            resources = [line[len('#SBATCH '):].strip() for line in (cwd / 'submit.sbatch').read_text().splitlines() if line.startswith('#SBATCH ')]
+            assert all(flag.startswith('--') and ' ' not in flag for flag in resources)
+            stop = shlex.quote(str(S / 'workflow/STOP.json'))
+            driver = shlex.quote(str(cwd / 'submit.sbatch'))
+            callback = shlex.quote(str(S / 'workflow/finite_event.py'))
+            wrapper = (f'if [ -f {stop} ]; then echo FINITE_WORKFLOW_STOP; exit 86; fi; '
+                       f'bash {driver}; driver_rc=$?; '
+                       f'python3 {callback} --job "$SLURM_JOB_ID" --role {role} --shard {k} --driver-rc "$driver_rc"; '
+                       'callback_rc=$?; if [ "$driver_rc" -ne 0 ]; then exit "$driver_rc"; fi; exit "$callback_rc"')
+            argv = ['sbatch', '--parsable', *resources, '--wrap', wrapper]
+            save(D / 'finite-wrapper.json', {'utc': now(), 'argv': argv, 'wrapper': wrapper,
+                 'original_frozen_payload': str(cwd / 'submit.sbatch'),
+                 'purpose': 'Finite fixed 16-shard continuation; no watcher, retry or AI process.',
+                 'workflow_code_guard_sha256': hashlib.sha256((S / 'workflow/CODE_GUARD.json').read_bytes()).hexdigest()})
+        dry = cmd([argv[0], '--test-only', *argv[1:]], cwd)
         save(D / 'test-only.json', dry)
         assert dry['returncode'] == 0, dry['stderr']
         record = {'utc': now(), 'role': role, 'shard_index': k, 'shard_count': 8,
                   'questions': 1504, 'concurrency': 64, 'gpus': 16, 'nodes': 2,
                   'maximum_minutes': 17, 'maximum_GPU_hours': 16 * 17 / 60, 'PBS_SU': 0,
                   'state': 'RESERVED_BEFORE_SUBMISSION', 'cwd': str(cwd),
-                  'payload': str(cwd / 'submit.sbatch')}
+                  'payload': str(cwd / 'submit.sbatch'), 'finite_completion_callback': a.chain}
         save(D / 'reservation.json', record)
-        receipt = cmd(['sbatch', '--parsable', 'submit.sbatch'], cwd)
+        receipt = cmd(argv, cwd)
         save(D / 'submission-receipt.json', receipt)
         assert receipt['returncode'] == 0, 'Saved failure: reconcile before another admission.'
         assert re.fullmatch(r'\d+(?:;[\w.-]+)?', receipt['stdout'].strip()), 'Ambiguous receipt; reconcile before any further admission.'
