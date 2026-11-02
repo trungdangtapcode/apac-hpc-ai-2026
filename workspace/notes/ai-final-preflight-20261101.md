@@ -1,5 +1,7 @@
 # Final release readiness audit
 
+**Superseded readiness snapshot:** [current 2 November assessment](ai-final-preflight-20261102.md). The historical material-alignment gaps below were fixed in the later release; open runtime/organiser/human/handoff checks are reconciled in the current report.
+
 Checked 2026-11-01T11:15:41.894615+07:00, Vietnam time (UTC+7). AI research is complete; the final
 release handoff is not yet declared complete. [Full preflight report](../reports/submission-readiness-20261101/README.md) and [machine results](../reports/submission-readiness-20261101/preflight.json).
 

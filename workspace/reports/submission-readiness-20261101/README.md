@@ -1,5 +1,7 @@
 # Final submission readiness — research complete, release handoff still pending
 
+**Superseded readiness snapshot:** use the [fresh 2 November audit](../submission-readiness-20261102/README.md). The old presentation-alignment and missing late-result coverage items below were resolved by the subsequent 42-slide release. Original dated findings are retained.
+
 Checked **2026-11-01T11:15:41.894615+07:00**, Vietnam time (UTC+7). This is a fresh audit of the exact
 current team ZIP and slide deck, not an organiser upload or a new benchmark.
 The AI research and the four distinct H100-derived intervention reviews are
