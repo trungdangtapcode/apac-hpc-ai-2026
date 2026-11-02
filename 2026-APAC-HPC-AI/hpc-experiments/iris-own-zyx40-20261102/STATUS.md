@@ -1,3 +1,7 @@
+# Terminal reviewed: no favorable hierarchy signal
+
+Job 2294640 completed 0:0, all four arms replayed. Zyx pooled mean is 10.21498% slower; first/reverse adjacent comparisons +24.43644%/+0.10279%, with large temporal drift. Conditional teammate-runtime followup closed unsubmitted. [Full result](completed-2294640/RESULTS.md). Earlier states below are historical.
+
 # Our decomposition candidate actually submitted
 
 **2294640**, tu-iris-own40, accepted **2026-11-02T00:15:46.990918Z** (**2 November 07:15:46 Vietnam**). Actual Slurm at 07:16:45 Vietnam confirms **PENDING / Dependency**, afterany:2294637(unfulfilled), AllocCPUS 0 and AllocTRES null. Predecessor 2294637 remains RUNNING on iris001; one active allocation is preserved.

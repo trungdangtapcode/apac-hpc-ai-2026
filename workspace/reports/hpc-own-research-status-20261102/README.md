@@ -35,7 +35,7 @@ The two methods use their own accepted initialized partitions and fields; they c
 
 Maximum request is 140 allocated CPU-hours / 2.5 hours, conditionally scheduled after the existing comparison. This is a bounded Iris planning allowance, not a claim about billed SU or a new NSCC grant. Full four-arm timing consistency, Cd/sanity, repeated controls, tails, warnings and resource evidence must be reviewed before reporting an improvement. Iris one-node evidence does not establish NSCC/Gadi four-node performance.
 
-[Actual own-candidate job and scripts](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx40-20261102/STATUS.md), [complete research journal](../research-journey-20261019/journal/README.md). Historical measurements retain their original limitations; new measurements must be compared with their own simultaneous controls rather than ranked by raw seconds across allocations.
+[Actual own-candidate job and scripts](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx 40-20261102/STATUS.md), [complete research journal](../research-journey-20261019/journal/README.md). Historical measurements retain their original limitations; new measurements must be compared with their own simultaneous controls rather than ranked by raw seconds across allocations.
 
 The [Gadi transfer outlook](../../notes/gadi-transfer-outlook-20261102.md) distinguishes a plausible faster platform baseline from an unproven improvement over Gadi's own references. No Gadi result is claimed.
 
@@ -59,3 +59,8 @@ Job 2294637 completed 0:0. Organizer A1/A2 means 25.581958377 / 30.164981109 s/s
 The 21.2296 result is real, completed and retained. What is unproven is a stable configuration advantage: the same zyx choice reached 26.6108 in the reversed full-length job, while xyz also changed from 26.9538 to 21.8239. Both first arms won, confounding node/order effects with configuration. Saying no stable improvement must never be shortened to saying that no sub-22 native run exists. The latest teammate/organizer job's 22.397–30.165 means do not erase these older results or provide matched controls for them.
 
 Sources: [2294234 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-20261027/completed-2294234/REVIEW.json), [2294262 reversal](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-order56-full150-reverse-20261028/completed-2294262/REVIEW.json), [2294635 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-collated40-reverse-20261101/completed-2294635/REVIEW.json), [2293754 replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-65m-20261021/solver-review.json).
+
+
+## Own method trial completed: promotion rejected
+
+Job 2294640 completed 0:0 with all four native/source/runtime checks. Scotch 22.358237138/31.443932712 versus zyx 27.821793339/31.476255063s/step. Zyx pooled +10.21498%, adjacent +24.43644%/+0.10279%, control repeat drift +40.63690%. There is no favorable signal to promote, and no Gadi forecast. The conditional teammate-runtime payload is closed unsubmitted. [Full replay and inspection](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx 40-20261102/completed-2294640/RESULTS.md). The old 21.2296 result remains valid as an observation, not a stable optimization claim.

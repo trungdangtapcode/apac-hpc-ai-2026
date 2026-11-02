@@ -1,3 +1,7 @@
+# Closed without submission
+
+Parent 2294640 failed the positive/stable method prerequisite: zyx pooled +10.21498%, adjacent +24.43644%/+0.10279%, control repeat drift +40.63690%. This proposal remains undeployed, unsubmitted and unreserved. Preserve its prepared code as evidence; do not promote it unchanged. [Parent review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-own-zyx 40-20261102/completed-2294640/RESULTS.md). Earlier preparation follows as historical.
+
 # Conditional method comparison under teammate runtime
 
 **PREPARED ONLY: not deployed, submitted or reserved.** Do not run job.sbatch directly. Existing job 2294640 keeps its allocation and full reservation. This payload is not an automatic successor and no Codex schedule exists.
