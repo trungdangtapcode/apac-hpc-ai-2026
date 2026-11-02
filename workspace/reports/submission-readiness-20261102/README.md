@@ -1,5 +1,7 @@
 # Final submission audit — 2 November 2026
 
+**New runtime finding — 2026-11-02T08:00:53.498588+07:00:** exact-entry job28194 failed before benchmark on a gateway readiness race. A qualified readiness-only repair has been submitted as28197; [current details](../../notes/ai-final-portable-acceptance-20261102.md). The static/integrity findings below remain scoped as such; the published original entry is not end-to-end accepted, and no new benchmark/quality pass is claimed. Do not submit the old ZIP as if this runtime defect were already repaired.
+
 **Subsequent owner-authorised action:** [final exact-entry acceptance job 28194](../../notes/ai-final-portable-acceptance-20261102.md) has now been submitted; the audit-only no-job statement below describes its earlier timestamp. [Quality clarification](../../notes/ai-quality-threshold-clarification-20261102.md) explains that organiser-run accuracy pending is not a Basic pre-upload prohibition.
 
 Checked **2026-11-02T07:23:42.778551+07:00, Vietnam time (UTC+7)**. **AI materials and package integrity pass the present checks. Full organiser acceptance and the combined two-task submission are not certified.** This audit finishes the authorised read-only/offline checks; it does not submit a GPU job, rebuild the release, alter HPC or upload to the organiser.
