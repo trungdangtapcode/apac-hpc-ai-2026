@@ -64,3 +64,5 @@ Hover a milestone or an individual allocation to see a compact table of **good o
 Different loads and phases stay separate; the tooltip never averages them or selects the best score. A milestone with many points shows the last six retained entries with an explicit count; clicking opens all retained points and their exact source summaries. Red/green continues to identify hardware only.
 
 `collect_hover_metrics.py` collects metrics from exact job-directory matches in retained `summary.json` files, excluding private runtime homes. Run it before `build.py` to refresh this source index. The complete graph view now embeds the same 419 job nodes as the inventory; the 31-milestone option is a grouped explanation, not a separate count of experiments.
+
+The complete offline viewer also has a lossless [compressed copy](index.html.gz), retained directly in Git. If recovering only from Git, run `gzip -dk index.html.gz` in a new directory and open the extracted HTML; it already includes both graph views and the hover data. The extracted HTML exceeds the normal inline capture size, while this compressed copy preserves the exact bytes without a separate object download.

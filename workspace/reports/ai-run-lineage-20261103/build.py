@@ -2,7 +2,7 @@
 """Build an offline, evidence-linked run timeline and research dependency map."""
 from pathlib import Path
 from html import escape
-import csv,json,subprocess,sys
+import csv,json,subprocess,sys,gzip
 D=Path(__file__).resolve().parent
 
 def records(path):
@@ -77,4 +77,6 @@ for(const g of $('allocationGraph').querySelectorAll('g.node')){const id=g.query
 $('graphScope').onchange=()=>{const all=$('graphScope').value==='all';$('milestoneGraph').hidden=all;$('allocationGraph').hidden=!all;$('hoverMetrics').hidden=true;$('graph').scrollTop=0};
 $('search').oninput=draw;$('platform').onchange=draw;function tab(t){$('overview').style.display=t?'none':'block';$('timeline').style.display=t?'block':'none';$('overviewButton').classList.toggle('active',!t);$('timelineButton').classList.toggle('active',t)}$('overviewButton').onclick=()=>tab(false);$('timelineButton').onclick=()=>tab(true);let width=1300;$('smaller').onclick=()=>{width=Math.max(500,width/1.25);$('graph').querySelectorAll('svg').forEach(svg=>svg.style.width=width+'px')};$('larger').onclick=()=>{width*=1.25;$('graph').querySelectorAll('svg').forEach(svg=>svg.style.width=width+'px')};for(const e of DATA.curated.edges){let d=document.createElement('div');d.className='edge';d.textContent=e.source+' → '+e.target+' ['+e.relation+'] '+e.reason+' · Source: '+e.evidence;$('relations').append(d)}draw();</script></html>'''
 (D/'index.html').write_text(html.replace('__SVG__',svg).replace('__ALLSVG__',all_svg).replace('__DATA__',payload))
+# Keep a compact, directly Git-tracked copy of the complete standalone viewer.
+(D/'index.html.gz').write_bytes(gzip.compress((D/'index.html').read_bytes(),mtime=0))
 print(json.dumps(dict(total_unique_allocations=len(allruns),platforms={p:sum(r['platform']==p for r in allruns) for p in colors},overview_nodes=len(ids),supported_edges=len(curated['edges']))))
