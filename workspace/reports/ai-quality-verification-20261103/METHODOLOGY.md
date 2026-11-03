@@ -168,6 +168,8 @@ Once all sixteen valid events exist, the aggregator checks exact coverage and re
 
 ## 11. What we inspected beyond the accuracy percentage
 
+The examples below retain the first pair at its original review time. The final sixteen-job review is in [FULL_RESULTS.md](FULL_RESULTS.md): all jobs completed, no scored service errors, 47.32 H200 GPU-hours for the full test and 51.533333 including pilots. Per-run tails, invalid outputs, length caps, logs and missing hardware telemetry are preserved there.
+
 For the first full pair, both native top-level Slurm jobs are `COMPLETED 0:0`. Reference allocation time was 620 seconds; candidate allocation time was 739 seconds. Actual cost is `(620 + 739) ×16 /3600 = 6.04 H200 GPU-hours`. Together with all pilot allocations, including the failed startup, completed stage cost was 10.253333 GPU-hours at that review. Do not add worker-step times again: those steps share the same GPU allocation.
 
 | Evidence | Reference 28373 | Candidate 28375 |
@@ -194,7 +196,7 @@ Some immutable inherited `environment.json` files still say `accuracy_check: NOT
 
 ## What the presenter can safely say
 
-“We separated service speed from answer quality. We fixed a public benchmark, prepared the same questions for a stock FP8 reference and our deployed service, and retained every first response. The small pilot was below the local 99% ratio, so we preserved that result and ran the fixed complete test rather than changing the scorer. The first 1,504-question pair gave 1,200 correct for the reference and 1,205 for our service. That is favorable partial evidence; the complete-set and organiser conclusions must be reported separately.”
+“We separated service speed from answer quality. We fixed a public benchmark and tested the same 12,032 questions with a stock FP8 reference and our optimised service on the same 16 H200 GPUs. The reference answered 9,460 correctly and our service 9,452, retaining 99.9154% of reference accuracy. This passes our local 99% threshold. Every first response, the failed pilot and all losing shards are preserved. The organisers' own quality decision remains separate.”
 
 If asked “why do you know the weights being unchanged means PASS?”, answer: **we do not infer PASS from that fact. We use it as a control and measure the actual answers.**
 

@@ -17,7 +17,7 @@ This inventory separates source code, measured answers, execution provenance and
 | Definite scheduler receipts and cost reservations | `admission/`, `admission-reference-r2/`, `admission-full8/` | Prove actual submissions and distinguish them from plans |
 | Original responses and per-question scoring | Every completed `evaluation/responses.jsonl`, `run.json`, `summary.json` | Inspect what the model returned; reparse and recompute scores |
 | Worker/router/readiness/semantic logs | Each run's artifact directory | Verify startup, actual deployment and errors outside/inside the scored set |
-| Human result analysis and accounting | `reviews/` | Explain observations, decisions, limits and actual cost |
+| Reviewed result analysis and accounting | `reviews/` | Explain observations, decisions, limits and actual cost |
 | Finite continuation and its review | `workflow/finite_event.py`, `CODE_GUARD.json`, independent review/tests | Audit fixed-shard continuation, queue cap and failure stopping |
 | Dated monitoring, without a background watcher | `monitoring/` | Distinguish not-submitted, pending, running, terminal and validated states |
 
@@ -27,30 +27,31 @@ Raw artifacts remain immutable. New reviews and dated snapshots are separate fil
 
 Small safe source files, documentation, receipts, summaries and manifests are committed to the authorised private Git repository. The normal capture policy places files larger than 1 MiB in the sibling content-addressed object store; Git records their source path, original byte length, SHA-256 and compressed object path. **A Git push by itself does not upload those external object bytes.**
 
-### Latest verified backup: v3
+### Latest verified backup: v4 — the complete quality study
 
-The private draft release **`quality-evidence-20261103-v3`** contains the quality evidence captured at Git commit `42322e23fde0e0801cefbc9fcaf04549a3a04ffe`. It was uploaded, downloaded from GitHub again, restored in an isolated directory and independently checked. Read [the publication receipt](backup-verification/v3/PUBLICATION_RECEIPT.json) and [the exact executed verification script](backup-verification/v3/verify_restore.py).
+The private draft release **`quality-evidence-20261103-v4`** contains the quality evidence captured at Git commit `4b7a1d4a2b9e45ae8bc82ab841435cfb0d21d71e`. It was uploaded, downloaded from GitHub again and restored in an isolated directory. The restored frozen scorer reproduced the complete **9460 reference / 9452 candidate** result and all paired outcomes. Read [the publication receipt](backup-verification/v4/PUBLICATION_RECEIPT.json), [the exact executed recovery script](backup-verification/v4/verify_restore.py) and [the restored full comparison](backup-verification/v4/RESTORED_FULL_COMPARISON.json).
 
-| Verified v3 coverage | Value |
+| Verified v4 coverage | Value |
 |---|---|
-| Selected source paths restored |789|
-| Unique external objects downloaded/verified |17|
-| Bundle size |25148115 bytes|
-| Bundle SHA-256 |`4e7ab609433a963d9bd953165d89eb976fd8efd1b2c487c84e57a642ba7c2329`|
-| Original frozen files verified |310|
-| Additional guarded files/dependencies verified |27|
-| Required bytecode files restored |16|
-| Scores replayed from restored raw responses |28373:1200;28375:1205;28382:1206;28384:1204;28386:1166|
+| Source paths restored | **1339** |
+| Unique external objects downloaded and verified | **39** |
+| Bundle size | 45,280,026 bytes |
+| Bundle SHA-256 | `1e837442e0df348d00bbecaf2d977b2f66b624a2fc3fc80d968c0fef4e6064c7` |
+| Original frozen files verified | 310 |
+| Additional guarded files verified | 27 |
+| Required bytecode dependencies restored | 16 |
+| Full-study runs replayed from restored raw answers | **16/16** |
+| Full-set accuracy retention reproduced | **99.915433%** |
 
-The source, original dataset, complete prepared prompts, all fixed bundles, pilot failures and the **five completed full-study runs** are covered. The third reference is included as an unmatched result; only the first two shards are paired, covering 3008/12032 questions per role. Later job outputs are outside this dated snapshot. Local retained transport: `apac-hpc-ai-research-artifacts/portable-quality/20261103-v3/quality-object-backup-20261102T191845Z.tar.zst`.
+Coverage includes the pinned dataset, complete prepared prompts, all fixed bundles, retained pilot failures, every completed full-study response, admission receipts, final accounting, independent replay and run diagnostics at the captured commit. Later small publication receipts and prose corrections are separate Git commits. The builder's `remote_uploaded: false` records its pre-publication state; the publication receipt and successful download/restore establish the later completed upload.
 
-Retrieve the actual data using the existing private repository account:
+The retained local transport is `apac-hpc-ai-research-artifacts/portable-quality/20261103-v4/quality-object-backup-20261103T042922Z.tar.zst`. Retrieve the actual off-host data with the authorised private repository account:
 
 ```bash
-gh release download quality-evidence-20261103-v3 --repo trungdangtapcode/apac-hpc-ai-research --pattern quality-object-backup-20261102T191845Z.tar.zst --dir NEW_DOWNLOAD_DIRECTORY
+gh release download quality-evidence-20261103-v4 --repo trungdangtapcode/apac-hpc-ai-research --pattern quality-object-backup-20261103T042922Z.tar.zst --dir NEW_DOWNLOAD_DIRECTORY
 ```
 
-Draft assets require appropriate repository access. This is a private research backup, not an organiser submission. No credentials are included.
+Draft assets require repository access. This is a private research backup, not an organiser submission. No credentials, model weights or runtime images are included.
 
 ### Earlier verified versions are retained
 
@@ -58,6 +59,7 @@ Draft assets require appropriate repository access. This is a private research b
 |---|---|---|---|
 |v1|668 /13|28373,28375,28382|[v1 receipt](backup-verification/v1/PUBLICATION_RECEIPT.json)|
 |v2|742 /15|28373,28375,28382,28384|[v2 receipt](backup-verification/v2/PUBLICATION_RECEIPT.json)|
+|v3|789 /17|28373,28375,28382,28384,28386|[v3 receipt](backup-verification/v3/PUBLICATION_RECEIPT.json)|
 
 Each version has its own source commit, immutable asset hash and actual download/restore proof. Later versions add evidence; earlier versions are historical snapshots rather than silently replaced files.
 
