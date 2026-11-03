@@ -1,29 +1,29 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **3 November 2026, 11:34:15 Vietnam (UTC+7)**. This is the HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI remains separate. No background Codex, schedules or automatic MFA loops.
+Updated **3 November 2026, 13:48 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
-## Current result: no stable Iris gain
+## Answer to the Iris comparison question
 
-Job **2294671 FAILED 1:0**, 2,202 seconds / 56 allocated CPUs on iris001. The terminal snapshot was collected on 3 November; earlier running snapshots are historical. The first Scotch arm completed at **33.672468410 s/step** and the first xyz arm at **25.585999316 s/step**. The second xyz arm printed 20 steps / 19 timing intervals and **34.792584778 s/step**, but its command exited **124** at the 720-second per-arm cap. It is a failed arm, not a valid completed benchmark. The final Scotch arm never started. The root-set cap was too tight for successful finalization. There is no complete ABBA comparison and no new winner.
+The supplied teammate runtime recipe has a **qualified 11.2228% lower mean** than organizer/BTC in the complete 40-step Iris comparison 2294637. Our `zyx` loses 10.2150% to its own matched Scotch control; the small `xzy` gain reverses to 10.2525% slower in confirmation. Latest `xyz` 2294671 is incomplete and cannot establish a gain. No matched three-way test proves we beat the teammate. [Readable comparison, exact values and provenance](../reports/hpc-iris-comparison-20261103/README.md).
 
-All **173 terminal artifacts** were transferred with byte/hash verification. The retained remote runtime still matches its frozen payload. Per-run source-after and final gates were not reached. Independent partial-run review is complete; preserve the failed raw evidence. [Full reviewed findings](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/completed-2294671/RESULTS.md). [Terminal collection](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/completed-2294671/collection.json).
+Our old **21.229593669 s/step** is a real completed Iris observation, not a stable matched win over teammate/BTC. Never compare it against another allocation's slower raw time to claim first place.
 
-The collector now tolerates an unstarted arm. Two bounded read-only transfers failed at pre-frame transport limits; a later transfer succeeded. A local shell reproduction and a remote 100,000-byte synthetic reply passed, so the proposed prompt-prefix explanation is **unconfirmed**. No bridge protocol change, credential reset or authentication claim was made.
+## Reviewed preparation mechanism
 
-## Actual follow-up and accounting
+**2294675 COMPLETED 0:0**, 216 seconds / 56 CPUs on iris001. Terminal state collected **13:42:51 Vietnam**, compact evidence collected later this turn. All four fresh A/B/B/A preparations, actual policies, input/copy/source-after gates, 10 collected artifact hashes and 7 frozen hashes replay. Source is 1,040 accepted regular files plus 13 pinned metadata files and the approved mesh symlink. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-numa-qualify-r2-20261103/completed-2294675/RESULTS.md).
 
-Initial preparation diagnostic **2294674** was accepted at 11:31:21 Vietnam and failed after one second before copying: our parser missed numactl's actual `interleavemask` key. Raw evidence and the original frozen payload are preserved. It is not evidence that interleaving is unsupported. Its 9.333333 CPU-hour maximum was retired and one conservative CPU-hour charged.
+Inherited policy twice gave approximately 0 / 9.78 GiB of additional node-wide FilePages; interleaved child policy twice gave 4.89 / 4.89 GiB across the two NUMA nodes. This qualifies the policy mechanism and consistent aggregate response. It does not attribute individual pages/files, prove a solver bottleneck or establish speed improvement. OpenFOAM did not run. Failed parser job 2294674 remains preserved; its fix was in a separate frozen R2 bundle.
 
-**Corrected job 2294675 accepted at 3 November 11:33:56 Vietnam**, **RUNNING on iris001 at 11:34:15**, elapsed 19 seconds. Exact observed output is covered by a regression fixture. The only runtime changes are the parser spelling and distinct job name. [Accepted R2 and next gates](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-numa-qualify-r2-20261103/STATUS.md).
+## Next action and accounting
 
-This is a ten-minute, one-node, 56-CPU, zero-GPU **preparation-only NUMA diagnostic**. Four fresh copy/hash arms compare inherited and child-only interleaved memory policy in A/B/B/A order. It runs no solver and cannot establish a speed improvement. Exact source/copy inventory, actual distinct child policies, source-after seal and completed arms are runtime gates. The original 1,040 inputs and separately reviewed 13 ancillary files are both pinned. [Mechanism rationale](../reports/hpc-next-directions-20261103/MECHANISMS.md).
+A **native OpenFOAM comparison is being prepared**, all four arms using the same accepted Scotch source and solver settings. Only the copy/hash child's memory policy changes; solver policy stays inherited and is recorded. ABBA, 20 steps / 19 measured intervals, equal node sampling. Per-arm timeout increases from 720 to 1,000 seconds to include finalization; maximum one exclusive 56-CPU, zero-GPU allocation, 75 minutes. It is not submitted until a frozen root review, fresh queue, bounded stage record and definite receipt exist.
 
-2294671 cost **34.253333 allocated CPU-hours**, conservatively 35; 2294674 cost **0.015556**, conservatively 1. Both maxima retired once. Ledger now **985 consumed + 9.333333 reserved**, unchanged agent-selected stage **1,009**, leaving **14.666667 unreserved CPU-hours**. These are local planning CPU-hours, not billed SU. The current owned allocation cap is occupied at the dated snapshot. Preserve this job; collect and reconcile once terminal before any further admission. No NSCC/AI transfer.
+2294675 used 3.36 allocated CPU-hours, conservatively 4. Its 9.333333-hour reservation retired once. **Ledger 989 consumed + 0 reserved; existing agent-selected stage 1,009; 20 hours remain**. A 70-hour maximum native request would require a separately documented internal-stage increase of 50 to 1,059 before reservation. This is not a site SU balance or an owner-stated ceiling. Latest observed shared queue at collection was empty; check again under lock at admission. No NSCC/AI debit.
 
-## Reference and access boundaries
+## References and access boundaries
 
-No own stable scored-platform gain is established. Best reviewed NSCC **3.364622070 s/step** is our organizer-recipe reproduction; organizer **3.210832548** and teammate Gadi **2.079045460** are separate references. Iris results cannot forecast a Gadi win. Own historical Iris **21.229593669 s/step** is an observed run whose advantage was not stable under reversal.
+Best reviewed NSCC **3.364622070 s/step** is our organizer-recipe reproduction; organizer **3.210832548** and teammate Gadi **2.079045460** are separate references. Iris values do not forecast Gadi results. No Gadi identity/project supplied.
 
-Latest VPN retry **3 November 00:06:30–00:06:34 Vietnam** returned gateway Authentication failed; 00:07:58 path check remained NAMESPACE_UNAVAILABLE. No new VPN attempt in this status turn. No Gadi identity/project supplied. [Safe VPN record](nscc-vpn-retry-20261103.md).
+Latest VPN retry **3 November 00:06:30–00:06:34 Vietnam** returned gateway Authentication failed; 00:07:58 path check remained NAMESPACE_UNAVAILABLE. No new VPN attempt in this turn. [Safe VPN record](nscc-vpn-retry-20261103.md).
 
-Unchanged xzy, graph-placement, collated-I/O and topology-weight-only branches are closed after contradictory or negative checks. [Earlier detailed handoff, explicitly historical](history/HPC_CURRENT-before-xyz20-terminal-20261103.md). AI payloads, queues, budgets and submission materials remain unchanged.
+[Previous detailed handoff, historical](history/HPC_CURRENT-before-preparation-result-20261103.md). AI payloads, queues, budgets and submission materials remain unchanged.
