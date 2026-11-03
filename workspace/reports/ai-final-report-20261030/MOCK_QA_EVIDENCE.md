@@ -19,7 +19,7 @@ Updated 3 November 2026 after the full-set local quality review and portable acc
 | 13 | Repeated evidence supports N64 more strongly than an isolated peak |
 | 14 | Direct H200 tests decide which H100 ideas transfer |
 | 15 | Better proxy metrics did not always improve qualifying throughput |
-| 16 | Preserve the model; optimise the serving path |
+| 16 | The retained recipe survives performance and quality checks |
 
 ## Answer pattern
 

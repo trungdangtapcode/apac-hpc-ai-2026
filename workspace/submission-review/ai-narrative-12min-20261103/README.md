@@ -37,7 +37,7 @@ The ZIP still contains lossless full quality answers, the pinned scorer and a CP
 The snapshot uses the current HPC owner's published 3 November PDF, not the older AI edition's HPC pages. Merge and publication verify **68 HPC dependency parts**, eight pixel-identical HPC PDF pages, 277 folder files/modes and 265 ZIP members/metadata, preserving 13 prior folder/ZIP differences. No HPC scientific payload or result was changed.
 
 PPTX SHA-256: `0a5f347c8b276a60f87579315363c4d774226c7f3b7f09db546ee2117fb7f9af`.
-ZIP SHA-256: `e663cb1aac018d5ad07b4ec3b5ba5b597b8edb75a45e8f70ad9b53c9bef1feaf`; size185,183,258 bytes.
+ZIP SHA-256: `305d5f5e14e47704f6f63e87fe2632532a78273d0f41c7c95df2a63f080a088f`; size 185,183,256 bytes.
 
 ## Build and checks
 
@@ -46,3 +46,7 @@ Use the retained pinned presentation environment and set `TRIPLEU_REVIEW_STAGE=s
 The short spoken scripts are intentionally independently edited prose. Their extra reasoning need not be read verbatim from speaker notes. A source rebuild requires the exact captured input/version, not an assumption that the latest mutable teaching JSON reproduces an older deck hash.
 
 Visual previews and PDF pages were inspected. No actual Office/projector test, human mock or organiser upload is claimed. Git/object capture and a separately verified off-host final-asset copy preserve the reviewable result.
+
+## Off-host preservation
+
+The [private asset receipt](offhost/README.md) verifies the slide and guide files downloaded from GitHub. The final ZIP receives a separate versioned asset after the one-line Q&A-title synchronisation; earlier assets remain retained.
