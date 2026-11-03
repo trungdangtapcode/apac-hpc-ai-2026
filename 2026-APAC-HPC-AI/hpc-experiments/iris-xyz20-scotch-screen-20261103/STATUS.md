@@ -1,3 +1,9 @@
+# Terminal update — 3 November 2026
+
+Job 2294671 is **FAILED 1:0**, not running. The four-arm comparison was not completed: two valid short arms, an xyz timeout, and an unstarted final control. No stable speedup is established. [Independent full partial-run review](completed-2294671/RESULTS.md). Cost reconciled once: 35 conservative allocated CPU-hours; original 56-hour maximum retired.
+
+The following acceptance and running snapshots are historical.
+
 # Instrumented xyz versus Scotch diagnostic accepted
 
 **Job 2294671 accepted 03 November 2026 02:05:12 Vietnam.** Iris, one node, 56 CPUs, zero GPUs, maximum 60 minutes / 56 allocated CPU-hours. Native S/X/X/S sequence, 20 steps / 19 intervals each. Frozen runtime includes equal five-second node sampling with compute-side cost/availability checks and explicit missing-data handling. No measured improvement or official scaling result exists yet.

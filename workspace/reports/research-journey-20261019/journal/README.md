@@ -1,3 +1,5 @@
+Latest HPC review: [3 November failed xyz repeat, telemetry limits and bounded preparation locality qualification](entries/20261103-hpc-xyz-timeout-and-locality-qualification.md).
+
 Latest AI quality result: [3 November complete 12,032-question paired accuracy test and local gate PASS](entries/20261103-ai-quality-fullset-final.md).
 
 Latest AI runtime finding: [2 November real gateway readiness failure, qualified fix and definite R2 acceptance 28197](entries/20261102-gateway-readiness-failure-and-repair.md).

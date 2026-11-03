@@ -1,0 +1,21 @@
+# Iris xyz screen: incomplete repeat and a bounded locality hypothesis
+
+Recorded on 3 November 2026, Vietnam time. HPC/OpenFOAM only.
+
+**Question and prior evidence.** The owner asked whether Iris had improved. Earlier ordering reversals invalidated several apparent decomposition and I/O gains. Job 2294671 was intended to compare Scotch/xyz/xyz/Scotch in one 56-CPU allocation using native double-precision OpenFOAM, 20 steps per arm and equal five-second node sampling. The short horizon was diagnostic, not the official scoring protocol.
+
+**Observation and failure.** Scheduler state is FAILED 1:0, 2,202 allocated seconds. Scotch S1 completed at 33.672468410 seconds/step and xyz X1 at 25.585999316 seconds/step, a 24.015% reduction in this one adjacent comparison. X2 printed 34.792584778 seconds/step but timed out at the root-set 720-second command cap without successful parallel finalization. S2 did not run. The cap was too tight; the failed arm must not count as a valid completed repeat or a win. No full ABBA result exists.
+
+**Evidence and inspection.** [Independent review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-xyz20-scotch-screen-20261103/completed-2294671/RESULTS.md) replays all 173 transferred files, the archive, 62 frozen runtime hashes and native S1/X1 outputs. The initial fields remain method-specific; final evolved fields are not retained. X1/X2 printed force-coefficient rows are identical, while final Cd differs by 0.524% from Scotch in this short test. Source-after and final runtime gates were not reached. X2's near-zero GNU-time CPU usage excludes most solver child work at timeout and is not valid utilization evidence.
+
+The complete 397-sample node series shows different cache/reclaim/NUMA behavior across arms, but the faster valid X1 arm has more reclaim. CPU busy time can include MPI waiting. PSI is unavailable, not zero; clocks are instantaneous procfs readings. Native solver and sampler clock origins have not been aligned, so no exact step-to-five-second-window correlation is claimed. These limitations prevent declaring a causal bottleneck or stable speedup.
+
+**Cost.** 56 × 2,202 / 3,600 = 34.253333 allocated CPU-hours; conservative ledger debit 35, with the original 56-hour maximum retired once. The unchanged 1,009-hour internal stage now has 984 consumed and zero reserved before the next admission. Billed SU is unknown and separate from NSCC/AI.
+
+**Decision.** Do not extend an unchanged noisy benchmark merely to obtain a favorable result. First qualify whether the preparation child's memory policy changes whole-node counters during copying and hashing identical fresh case trees. A prepared A/B/B/A diagnostic compares inherited policy with child-only interleaving on both NUMA nodes. It runs no solver and can only qualify a mechanism for a later matched solver test. Bound: one exclusive Iris node, 56 CPUs, zero GPUs, ten minutes (9.333333 CPU-hours maximum), within the existing remaining stage. Preparation, deployment and actual scheduler acceptance are distinct states; follow the new bundle receipt for actual acceptance.
+
+**Review-driven corrections.** Exact-root checking initially rejected legitimate source metadata omitted by the original solver-input manifest. A separate 13-file / 50,497-byte manifest now pins that metadata while preserving the 1,040 accepted input hashes. Runtime checks reject unlisted paths, source inode reuse, policy drift and identical treatments. Two collection transport failures were recovered without changing credentials; their cause is unconfirmed.
+
+**Next acceptance gates.** Require four completed preparation arms, the actual distinct child policies, source-before/after and clone checks, and bounded resource use. Whole-node counter differences alone do not prove per-file placement or predict solver speed. A later solver trial must preserve source physics and use a time budget that includes finalization. No NSCC/Gadi gain, contest score or submission update is claimed.
+
+**Preservation.** Raw failure evidence and ledger correction were committed and pushed as 0ec161bf; prepared diagnostic as f9fca58e. This review is a separate small checkpoint. External artifact bytes remain subject to the archive's separate recovery boundary.
