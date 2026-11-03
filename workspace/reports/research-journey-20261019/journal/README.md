@@ -1,3 +1,5 @@
+Latest HPC acceptance: [3 November observed numactl parser defect and corrected qualification job 2294675](entries/20261103-hpc-numactl-parser-fix-and-resubmission.md).
+
 Latest HPC review: [3 November failed xyz repeat, telemetry limits and bounded preparation locality qualification](entries/20261103-hpc-xyz-timeout-and-locality-qualification.md).
 
 Latest AI quality result: [3 November complete 12,032-question paired accuracy test and local gate PASS](entries/20261103-ai-quality-fullset-final.md).

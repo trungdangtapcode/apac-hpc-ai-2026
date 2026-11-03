@@ -10,3 +10,5 @@ The four arms use fresh retained directories in `A1, B1, B2, A2` order. A uses t
 The run is bounded to one Iris node, 56 CPU cores, no GPU, and ten minutes. Each arm has a 90-second cap; all remaining-time checks reserve time for later arms and a final source check. It fails closed if topology, policy, counters, accepted source, or four-copy disk headroom cannot be verified. It never flushes global caches, migrates pages, changes sysctls, or inspects other users' processes.
 
 NUMA counters are whole-node cumulative observations, not process-attributed page placement. They can be affected by other node activity, and the filesystem/page cache can persist between arms. Thus even a consistent delta is only a diagnostic signal, not proof that interleaving caused a cache distribution or solver result. Copies are preserved under the run directory. No result exists until a scheduler job is actually accepted and reviewed; this directory is preparation only.
+
+Actual acceptance and dated scheduler state: [STATUS.md](STATUS.md).
