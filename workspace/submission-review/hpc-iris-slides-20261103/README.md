@@ -27,3 +27,7 @@ The guarded publisher replaces only the canonical PPTX and its dependent global 
 Use `/home/apacsc42/.local/share/tripleu-presentation-venv/bin/python` and the pinned section requirements. Run `workspace/submission-tools/build_hpc_iris_slides_20261103.py`, then `merge_hpc_iris_slides_20261103.py` against the retained `inputs/`. Inspect the generated previews and validation before running `publish_hpc_iris_slides_20261103.py`. Publication refuses a changed or already-published snapshot; do not bypass its guard.
 
 The publication verified 200 protected AI PowerPoint parts, 34 unchanged AI PDF pages, 2,152 unchanged folder files and 2,452 unchanged ZIP entries. The only package edits were the combined PPTX and its two global checksum records. The old NSCC tail example remains explicitly dated; the new native preparation trial is not counted as a reviewed performance result.
+
+## Verified off-host copy
+
+All six final presentation/package assets were uploaded to the existing private GitHub repository, downloaded again and verified by SHA-256 and byte length. [Private backup receipt](offhost/README.md) preserves source paths, remote asset names and recovery commands. The broader external artifact store is outside this six-file backup.

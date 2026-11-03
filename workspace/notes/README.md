@@ -35,7 +35,8 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 | Distinguish our own HPC experiments, borrowed recipes and the next actual owned-candidate job | [Own HPC research status](../reports/hpc-own-research-status-20261102/README.md) |
 | HPC task explanation, rules, baselines and experiment plan | [HPC research](../reports/hpc-openfoam-20261021/README.md) |
 | Learn the HPC track, its complete research story, figures and presenter script | [HPC learning and presentation guide](../reports/hpc-research-journey-20261023/README.md) |
-| Combined presentation: 32 AI slides + 8 HPC slides, portable CPU scripts and native logs | [23 October combined delivery](../submission-review/hpc-update-20261023/README.md) |
+| Current HPC slides: Iris recipe comparisons, screening horizons and updated NSCC reproduction; AI preserved | [3 November HPC presentation](../submission-review/hpc-iris-slides-20261103/README.md) |
+| Historical combined presentation: 32 AI slides + 8 HPC slides, portable CPU scripts and native logs | [23 October combined delivery](../submission-review/hpc-update-20261023/README.md) |
 | Real portable replay, AI reader correction and current ZIP; HPC/slide bytes preserved | [29 October reader repair](ai-artifact-path-fix-20261029.md) |
 | Final AI report, presentation, PDF and current submission; HPC preserved | [30 October journey/panel update](ai-journey-presentation-20261030.md) |
 | Current submission, N64 deployment, measured logs and slides | [28 October AI delivery](ai-submission-update-20261028.md) |
