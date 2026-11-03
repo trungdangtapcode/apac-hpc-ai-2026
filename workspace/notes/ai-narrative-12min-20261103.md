@@ -13,3 +13,5 @@ The owner asked for more research process, not more tables, while preserving the
 - [Detailed EN AI guide](../reports/ai-final-report-20261030/TRANSCRIPT_EN.md) / [PDF](../reports/ai-final-report-20261030/TRANSCRIPT_EN.pdf)
 
 The longer guides cover the 34 AI slides; current HPC explanations remain with their owner's notes. The earlier topology attribution and slide 14 “all below control” brief are corrected. No new GPU run or official certification. Earlier audits of the previous narrative are historical; their scientific limits still apply.
+
+Safe source/publication checkpoints are pushed. The [private final-material backup](../submission-review/ai-narrative-12min-20261103/offhost/README.md) downloaded and verified all slide/guide assets and the final versioned ZIP; exact recovery filenames, hashes and source commits are retained.

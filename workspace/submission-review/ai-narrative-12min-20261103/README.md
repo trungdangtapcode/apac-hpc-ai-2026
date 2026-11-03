@@ -49,4 +49,4 @@ Visual previews and PDF pages were inspected. No actual Office/projector test, h
 
 ## Off-host preservation
 
-The [private asset receipt](offhost/README.md) verifies the slide and guide files downloaded from GitHub. The final ZIP receives a separate versioned asset after the one-line Q&A-title synchronisation; earlier assets remain retained.
+The [private asset receipt](offhost/README.md) verifies the slide and guide files downloaded from GitHub. The final ZIP has a separately uploaded and downloaded versioned asset, `TripleU-narrative-final-v2.zip`, verified by hash and byte length after the Q&A-title synchronisation. Earlier assets remain retained.
