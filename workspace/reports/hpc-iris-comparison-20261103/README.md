@@ -1,5 +1,7 @@
 # Iris: our configurations, teammate and organizer
 
+For each group's **lowest observed completed mean**, read [BEST_RECORDED.md](BEST_RECORDED.md). The table below instead gives pooled matched comparisons.
+
 Reviewed **3 November 2026**, for the owner's direct comparison question. The teammate recipe has a favorable short-run signal against the organizer recipe on Iris. Our own configurations have **not established a stable improvement over the organizer control**, and there is no matched three-way trial proving that we beat the teammate.
 
 ## Compare each candidate with its own control

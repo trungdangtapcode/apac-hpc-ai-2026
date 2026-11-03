@@ -8,6 +8,12 @@ The supplied teammate runtime recipe has a **qualified 11.2228% lower mean** tha
 
 Our old **21.229593669 s/step** is a real completed Iris observation, not a stable matched win over teammate/BTC. Never compare it against another allocation's slower raw time to claim first place.
 
+## Exact lowest-observation clarification
+
+Lowest reviewed whole-arm means on Iris: **ours 21.051168942 s/step (2294390, 14 steps)**; **organizer 22.358237138 (2294640, 40 steps)**; **teammate 22.396949743 (2294637, 40 steps)**. Separate allocations/horizons are not a matched ranking. Our 50-step zyx value is 21.112004724, and 150-step value is 21.229593669. Calling the latter the absolute minimum across all horizons was too broad. [Exact values, attribution and source hashes](../reports/hpc-iris-comparison-20261103/BEST_RECORDED.md).
+
+At **3 November 2026 14:29:10 Vietnam**, job 2294676 is RUNNING on iris001, elapsed 32:08. Its live unreviewed output is excluded from the minima. Preserve its position and existing maximum reservation; no new admission during this clarification.
+
 ## Reviewed preparation mechanism
 
 **2294675 COMPLETED 0:0**, 216 seconds / 56 CPUs on iris001. Terminal state collected **13:42:51 Vietnam**, compact evidence collected later this turn. All four fresh A/B/B/A preparations, actual policies, input/copy/source-after gates, 10 collected artifact hashes and 7 frozen hashes replay. Source is 1,040 accepted regular files plus 13 pinned metadata files and the approved mesh symlink. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-numa-qualify-r2-20261103/completed-2294675/RESULTS.md).

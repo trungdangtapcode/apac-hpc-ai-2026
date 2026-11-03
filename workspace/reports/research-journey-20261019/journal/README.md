@@ -1,3 +1,5 @@
+Latest HPC clarification: [3 November exact lowest observations for our, teammate and organizer Iris recipes](../../hpc-iris-comparison-20261103/BEST_RECORDED.md).
+
 Latest AI presentation: [3 November complete quality result integrated into slides, report and bilingual scripts](entries/20261103-ai-quality-presentation-published.md).
 
 Latest HPC execution: [3 November native preparation-policy test 2294676 accepted and reached solver](entries/20261103-hpc-native-preparation-policy-submitted.md).
