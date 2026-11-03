@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "utc": "2026-11-03T04:33:06.169686+00:00",
+  "payload_sha256": {
+    "job.sbatch": "8829a259f3bf16e36e4180034b5067108f7922b3819ecaef561aeab4246a9c5d",
+    "qualify.py": "a2547fe5650aa65e4ba898501d299785f50a45ee30594c4bf4a9cf61fb469adc",
+    "copy_phase.py": "0981f82a6483366ef7e3acea954ef64e3c970d3b9fe245bb7bd206573337eebd",
+    "qualification_utils.py": "9b85cb92c65c44694dd339fba246e1e153641e7d7b6f1709be0b0873d199114f",
+    "seal_tree.py": "65ffadb38af873e18b4a6ed8a04325070eba4125f1c81b2aba655e9ee3a43ea3",
+    "accepted-source-manifest.json": "60f228181fbe41499037d61efcd608dae47d130571d9fec9ee6239b37f97cfed",
+    "supplementary-source-manifest.json": "fee70726176ad1331e0551277667ed296c58f4ce33e8f24ca34b1cffd0f8a48d"
+  },
+  "purpose": "Qualify child-only preparation memory policy, no solver or score claim",
+  "maximum_allocated_CPU_hours": 9.333333333333334,
+  "prior_terminal_job": "2294674",
+  "stage_ceiling_CPU_hours": 1009,
+  "consumed_CPU_hours": 985,
+  "reviewed_fixes": [
+    "exclusive low-QoS56CPU0GPU10min",
+    "source1040filemanifest unchanged; separately pinned13ancillary files50497bytes",
+    "exact all-path inventory with explicit directories",
+    "actual A child matches inherited policy; B child interleaves nodes0and1",
+    "reject identical effective treatments",
+    "source before/after and clone hashes; no source inode reuse",
+    "disk gate covers all regular files and four copies",
+    "offline tests reject extra root/processor paths and ancillary hash changes",
+    "all controlled policies affect only launched child; no cache flush/sysctl/migration"
+  ],
+  "tests": [
+    "offline_checks.py PASS",
+    "bash -n job.sbatch PASS",
+    "py_compile six Python files PASS",
+    "root reviewed final source and admission helper"
+  ],
+  "limits": [
+    "Job can fail closed if compute node policy unsupported or source changed",
+    "whole-node counters do not attribute pagecache to case or solver",
+    "570s external cap plus10s kill grace under600s Slurm; completion not guaranteed",
+    "no new planning envelope and no NSCC/AI charge"
+  ],
+  "terminal_parent_status_sha256": "b620df904991632ceafa71a82904bc2f99a8e71a5fcf37e6253186f125b7f260",
+  "changed_runtime_files": [
+    "job.sbatch",
+    "qualification_utils.py"
+  ],
+  "regression": "Exact observed Iris interleavemask output recognizes nodes0,1; all prior checks pass",
+  "parent_payload_sha256": {
+    "job.sbatch": "291289b5b4a65d9302d29c9c23649a5d39800b585befb385b750893b443610cd",
+    "qualify.py": "a2547fe5650aa65e4ba898501d299785f50a45ee30594c4bf4a9cf61fb469adc",
+    "copy_phase.py": "0981f82a6483366ef7e3acea954ef64e3c970d3b9fe245bb7bd206573337eebd",
+    "qualification_utils.py": "3fb3dfa3ed992f6db3a1bb2a5cdcb046bb9ed0bf8cde324b2a25eb3ea9c260d7",
+    "seal_tree.py": "65ffadb38af873e18b4a6ed8a04325070eba4125f1c81b2aba655e9ee3a43ea3",
+    "accepted-source-manifest.json": "60f228181fbe41499037d61efcd608dae47d130571d9fec9ee6239b37f97cfed",
+    "supplementary-source-manifest.json": "fee70726176ad1331e0551277667ed296c58f4ce33e8f24ca34b1cffd0f8a48d"
+  }
+}
