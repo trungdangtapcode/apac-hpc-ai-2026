@@ -1,5 +1,7 @@
 # AI presentation revision: start here
 
+**Quality update, 3 November 2026:** the complete local MMLU-Pro check now passes at **99.915433% retention** (candidate 9452 correct / stock reference 9460, 12032 identical questions each, 16 H200). [Exact result and short presenter answer](../ai-quality-verification-20261103/FULL_RESULTS.md). Earlier “local full-set unknown” wording is historical; official organiser certification remains separate.
+
 This is the study entry point for explaining how the team developed and evaluated its AI ideas. The materials describe retained experiments; they do not claim a completed human mock or invent missing original reasoning.
 
 ## Read in this order

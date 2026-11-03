@@ -1,3 +1,5 @@
+Latest AI quality result: [3 November complete 12,032-question paired accuracy test and local gate PASS](entries/20261103-ai-quality-fullset-final.md).
+
 Latest AI runtime finding: [2 November real gateway readiness failure, qualified fix and definite R2 acceptance 28197](entries/20261102-gateway-readiness-failure-and-repair.md).
 
 Latest AI acceptance: [2 November exact packaged-entry job 28194 submitted, plus quality/submission clarification](entries/20261102-final-portable-acceptance-submitted.md).

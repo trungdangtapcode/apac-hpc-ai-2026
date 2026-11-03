@@ -6,9 +6,9 @@ Written 3 November 2026, Vietnam time (UTC+7). This explains work actually perfo
 
 Our performance run already established that the submitted service works at the required load. It did not establish answer accuracy. This study asks a separate question: **does our serving configuration retain at least 99% of the accuracy of a stock deployment of the same official FP8 model?**
 
-The first two complete paired shards cover **3,008 questions per role**. The reference answered **2,406** correctly; our candidate answered **2,409**, giving **100.124688%** local retention. This includes a favorable first shard and two fewer correct answers on the second shard. The earlier 128-question pilot gave **98.076923%**, below 99%, and remains preserved separately. These are partial results, not the complete 12,032-question result or a BTC certificate. The first-shard numbers below remain a fixed worked example.
+**The complete study now passes the local point gate:** reference **9,460/12,032 (78.623670%)**, candidate **9,452/12,032 (78.557181%)**, retention **99.915433%**. Both complete role results have zero service errors and every question is retained. [Final results](FULL_RESULTS.md) explain paired disagreements, per-category losses, independent raw-answer replay, all sixteen terminal job IDs and the limits of this finding. It is not an official BTC certificate.
 
-For changing progress, use [the dated monitoring snapshots](../../../2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/monitoring/snapshots), [the current handoff](../../notes/AI_CURRENT.md) and the actual scheduler. The numbers in this document are deliberately fixed examples from reviewed runs.
+The earlier first-two-shard result (100.124688% over 3,008 questions per role) is a historical progress snapshot. The separate 128-question pilot failed at 98.076923% and remains preserved. First-shard numbers later in this guide remain fixed worked examples; the complete result above supersedes prior statements that full-set quality was unmeasured.
 
 ## 1. Why a new test was necessary
 
@@ -82,7 +82,7 @@ Actual complete-corpus preparation gave:
 | 1 | 3 |
 | Unfit, dropped or prompt-truncated | **0** |
 
-Actual API usage was also checked for all **4,512 response records** from completed jobs 28373, 28375 and 28382. Every reported prompt length matched the CPU-prepared length; no usage was missing. This checks lengths, not exact server-side token IDs, which were not collected. The reproducible check and source-response hashes are in `monitoring/check_prompt_lengths.py` and `reviews/API_PROMPT_LENGTH_CHECK_REPRODUCIBLE.json`.
+Actual API usage was checked for all **24,064 response records** across the sixteen completed full-study jobs. Every reported prompt length matched the CPU-prepared length; none was missing. This checks lengths, not exact server-side input token IDs, which were not collected. The reproducible check and source-response hashes are in `monitoring/check_prompt_lengths.py` and `reviews/API_PROMPT_LENGTH_CHECK_FULL_24064.json`.
 
 The native login Python lacked the tokenizer packages. We reused Python/Transformers from the organiser-supplied client image for CPU-only tokenisation. A real interface check exposed `BatchEncoding` instead of the expected token list; explicit `return_dict=False` plus shape checks fixed that before GPU admission. This was a preparation bug, not a quality loss. The resulting compiled corpus is frozen by SHA-256, including each question's prompt/token identities and shot count.
 
