@@ -2,6 +2,8 @@
 
 **Rehearsal draft for the 16-slide AI route.** The script is designed for about 12:30 including pauses, at an estimated 115–125 spoken words per minute. It has not been delivered or timed in a live mock. The public slot is 15–20 minutes for AI and HPC together, followed by 10 minutes of Q&A; the team must agree the split. This AI target leaves about 7:30 in a 20-minute combined slot for HPC. If the total slot is 15 minutes, the team must agree a shorter AI cut before rehearsal.
 
+**Reading slides 4–7:** each idea has a **Say** paragraph for delivery and a **Study explanation** for learning. Do not read the study explanation during the presentation.
+
 ## Slide 1 — Fast tokens count only when requests meet both latency limits
 
 Our question is not simply how fast the model generates tokens. We must serve Qwen3-235B on two nodes with eight H200 GPUs each, using 4,000 input and 200 output tokens. A request qualifies only if its first token arrives within three seconds and average later-token gaps stay within twenty milliseconds. At least ninety percent of all requests, including errors, must meet both limits. So raw speed matters only when enough requests also meet the service conditions.
@@ -16,19 +18,83 @@ The first design question is how to use sixteen GPUs when prefill and decode com
 
 ## Slide 4 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-On node one, two prefill workers each use four GPUs to process long prompts. Tensor parallel divides model operations across GPUs; expert parallel distributes experts in this mixture-of-experts model. They send KV state—the temporary attention state needed to continue generation—to a decode worker on node two, using eight GPUs to generate the answer token by token. This split gives the phases different worker shapes and keeps each tensor-parallel group within a node. The tradeoff is a transfer between roles for every request, which led to a separate investigation of setup and correctness.
+### Idea 1 — How prefill uses GPUs
+
+**Say:** Node one has two prefill workers, each using four GPUs to process long prompts. TP4 means four GPU ranks cooperate on the tensor operations of one worker; EP describes expert placement.
+
+**Study explanation:** Four GPUs cooperate within each prefill worker; separate workers can handle separate requests.
+
+### Idea 2 — Decode and TP groups
+
+**Say:** Node two has one eight-GPU TP8/EP8 decode worker. Each tensor-parallel group stays inside one machine.
+
+**Study explanation:** TP8/EP8 reuses eight GPUs; these two numbers do not multiply into 64 GPUs here.
+
+### Idea 3 — Why KV must move
+
+**Say:** After prefill processes a prompt, its KV attention state must reach decode so generation can continue. Because the phases run on different machines, we check both successful connection setup and correct data transfer.
+
+**Study explanation:** The transferred KV belongs to the request; model weights are already loaded at the workers.
 
 ## Slide 5 — Ready workers still failed before the first usable benchmark
 
-That transfer question came from a historical branch. Workers loaded and became ready, but the prefill/decode pair did not complete warmup within 360 seconds. AIPerf never started, so there was no score. We knew the failure was between worker readiness and a usable paired request, but not its cause. Source inspection showed descriptor construction enumerating the reserved KV pool. A descriptor is an address-range list, not the KV data itself. This made setup metadata a narrow first hypothesis, not a measured diagnosis of the timeout.
+### Idea 1 — The warmup request stalled
+
+**Say:** After workers loaded the model and reported ready, we sent a warmup request through the prefill–decode path. That request had not completed when its 360-second deadline expired.
+
+**Study explanation:** Ready concerns individual workers; the test request checks that the two phases work together.
+
+### Idea 2 — Where the timeout occurred
+
+**Say:** The timeout happened during warmup; AIPerf had not started scoring.
+
+**Study explanation:** 360 seconds is the warmup deadline, not a measured KV-transfer duration.
+
+### Idea 3 — The source-code lead
+
+**Say:** Source inspection showed that setup constructed descriptors for the reserved KV pool. A descriptor records addresses and byte lengths used to describe a transfer. Since one request uses only part of the pool, we tested preparing that metadata for the request itself.
+
+**Study explanation:** The source exposes a specific piece of setup work worth reducing; the following test checks the proposal.
 
 ## Slide 6 — Request-scoped descriptors remove work unrelated to the request
 
-Why examine address lists before changing bandwidth, KV layout or scheduling? We had not ruled those alternatives out. Source code showed that setup described pool regions unrelated to an individual request. The proposed change was to construct only the address ranges for that request, while preserving the same byte coverage and transfer meaning. That correctness invariant could be checked cheaply on CPU before another distributed run. Seven hundred twenty geometry cases passed. The reasoning was that avoiding irrelevant metadata was a testable first step—not that fewer descriptors guaranteed faster serving.
+### Idea 1 — Why this intervention came first
+
+**Say:** We examined descriptors first because the source exposed setup work we could reduce with a bounded change. Setup described the reserved KV pool, while a request needed only some pages. This concerns metadata preparation; it does not mean the old implementation transmitted the entire pool.
+
+**Study explanation:** The team chose a bounded first check; bandwidth and scheduling remained possible investigation areas.
+
+### Idea 2 — The bounded change
+
+**Say:** The patch describes the required request pages and merges adjacent ranges.
+
+**Study explanation:** A descriptor describes addresses and lengths. Preparing fewer entries differs from transmitting fewer required KV bytes.
+
+### Idea 3 — How correctness was checked
+
+**Say:** The invariant is that the request still reads and writes exactly the intended bytes. We checked that invariant in 720 CPU cases before testing distributed serving. This gave us a source-supported first intervention with a low-cost correctness check.
+
+**Study explanation:** The 720 cases check the intended byte ranges; the later GPU run establishes working distributed execution.
 
 ## Slide 7 — The patched path became usable; descriptor-only speedup is unknown
 
-With the patch, the real pair completed warmup, served actual requests and finished a full benchmark with zero scored errors. That moved the branch from a pre-benchmark timeout to a usable serving path. But the unpatched branch never produced a successful scored control, and there is no isolated initialization timer. We therefore cannot claim a descriptor-only speedup or assign the whole change to this one mechanism. We retained a bounded implementation that worked end to end, while leaving the size and cause of any performance effect unknown.
+### Idea 1 — Before and after the patch
+
+**Say:** The unpatched attempt timed out during warmup before benchmarking. With the patch, the prefill–decode path completed warmup, served real requests and finished a full benchmark with zero scored errors.
+
+**Study explanation:** The new evidence is completed real requests and a full benchmark after the patch.
+
+### Idea 2 — What the result supports
+
+**Say:** That result supports reducing descriptor setup work and establishes that the patched path works end to end. We retained the change on that evidence.
+
+**Study explanation:** The observed recovery supports the setup-work change and retaining the working patch.
+
+### Idea 3 — Limit of the conclusion
+
+**Say:** We did not separately time the old descriptor construction or obtain a successful unpatched scored control, so the result does not establish the sole cause of the timeout or a descriptor-only speedup.
+
+**Study explanation:** The uncertainty concerns sole-cause attribution and isolated speedup; it does not negate the working patched path.
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 

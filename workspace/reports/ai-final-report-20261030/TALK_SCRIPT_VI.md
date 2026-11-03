@@ -2,6 +2,8 @@
 
 **Bản tập nói cho tuyến 16 slide AI.** Thời lượng mục tiêu khoảng 12 phút 30 giây, đã tính khoảng dừng, với tốc độ ước tính 115–125 từ nói mỗi phút. Nhóm chưa trình bày thử trực tiếp và chưa bấm giờ. Khung công khai dành 15–20 phút cho cả AI và HPC, sau đó là 10 phút hỏi đáp; hai người nói cần thống nhất thời lượng. Mục tiêu này để khoảng 7 phút 30 giây trong khung 20 phút cho phần HPC. Nếu tổng thời lượng chỉ là 15 phút, nhóm cần thống nhất bản rút gọn AI trước khi tập.
 
+**Cách đọc slide 4–7:** mỗi ý có phần **Nói** để thuyết trình và phần **Giải thích để hiểu** để ôn tập. Phần giải thích không đọc khi trình bày.
+
 ## Slide 1 — Fast tokens count only when requests meet both latency limits
 
 Câu hỏi của nhóm không chỉ là mô hình sinh token nhanh đến đâu. Ta phải phục vụ Qwen3-235B trên hai máy, mỗi máy tám GPU H200, với 4.000 token đầu vào và 200 token đầu ra. Một yêu cầu chỉ đạt nếu token đầu tiên đến trong ba giây và khoảng cách trung bình giữa các token sau không quá hai mươi mili giây. Ít nhất 90% mọi yêu cầu, kể cả lỗi, phải đạt đồng thời hai giới hạn. Vì vậy tốc độ chỉ có ích khi đủ nhiều yêu cầu vẫn đạt điều kiện dịch vụ.
@@ -16,19 +18,83 @@ Câu hỏi thiết kế đầu tiên là dùng mười sáu GPU thế nào khi p
 
 ## Slide 4 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU xử lý prompt dài. Tensor parallel chia phép tính qua GPU; expert parallel phân bố các chuyên gia của mô hình MoE. Các worker gửi trạng thái KV—trạng thái chú ý tạm thời cần để tiếp tục sinh—sang worker decode ở máy hai, dùng tám GPU sinh từng token. Cách chia này cho hai pha hình dạng worker khác nhau và giữ mỗi nhóm tensor-parallel trong một máy. Đổi lại, mỗi yêu cầu cần chuyển trạng thái giữa hai vai trò; vì vậy nhóm kiểm tra riêng việc thiết lập và tính đúng đắn của đường chuyển.
+### Ý 1 — Prefill dùng GPU thế nào
+
+**Nói:** Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU xử lý prompt dài. TP4 nghĩa là bốn GPU cùng chia phép tính của một worker; EP mô tả cách phân bố các expert.
+
+**Giải thích để hiểu:** Một prefill worker dùng bốn GPU hợp tác; hai worker có thể nhận hai request khác nhau.
+
+### Ý 2 — Decode và nhóm TP
+
+**Nói:** Máy thứ hai chạy một worker decode dùng tám GPU, TP8/EP8. Các GPU cùng một nhóm TP đều nằm trong cùng máy.
+
+**Giải thích để hiểu:** TP8/EP8 dùng cùng tám GPU; các số TP và EP không nhân thành 64 GPU trong cấu hình này.
+
+### Ý 3 — Vì sao cần chuyển KV
+
+**Nói:** Sau khi prefill xử lý prompt, trạng thái attention KV cần được chuyển sang decode để tiếp tục sinh token. Vì hai pha nằm trên hai máy, nhóm kiểm tra cả việc kết nối thành công và việc chuyển đúng dữ liệu.
+
+**Giải thích để hiểu:** KV là trạng thái attention của request cần chuyển; trọng số model đã nạp ở các worker.
 
 ## Slide 5 — Ready workers still failed before the first usable benchmark
 
-Câu hỏi về chuyển dữ liệu bắt đầu từ một nhánh lịch sử. Worker đã nạp mô hình và báo sẵn sàng, nhưng cặp prefill/decode không hoàn tất warmup trong 360 giây. AIPerf chưa chạy nên chưa có điểm. Ta biết lỗi nằm giữa lúc worker sẵn sàng và lúc cặp xử lý được yêu cầu, nhưng chưa biết nguyên nhân. Đọc mã nguồn thấy bước tạo descriptor duyệt cả pool KV đã dành trước. Descriptor là danh sách địa chỉ vùng nhớ, không phải dữ liệu KV. Vì vậy metadata thiết lập trở thành giả thuyết hẹp để kiểm tra, không phải chẩn đoán đã đo được.
+### Ý 1 — Request warmup bị kẹt
+
+**Nói:** Sau khi các worker nạp xong model và báo ready, nhóm gửi request warmup để kiểm tra đường prefill–decode. Request thử này chưa hoàn tất khi hết thời hạn 360 giây.
+
+**Giải thích để hiểu:** Ready xác nhận từng worker đã khởi động; request thử mới kiểm tra được việc phối hợp hai pha.
+
+### Ý 2 — Vị trí timeout
+
+**Nói:** Timeout xảy ra trong warmup; AIPerf chưa bắt đầu đo nên chưa có điểm.
+
+**Giải thích để hiểu:** 360 giây là giới hạn chờ request warmup; không phải số đo thời gian truyền KV.
+
+### Ý 3 — Dấu hiệu từ mã nguồn
+
+**Nói:** Khi đọc mã nguồn, nhóm thấy bước thiết lập tạo descriptor cho cả pool KV đã dành trước. Descriptor mô tả địa chỉ và độ dài vùng nhớ cần dùng để truyền dữ liệu. Request chỉ dùng một phần pool, nên nhóm chọn thử cách chuẩn bị metadata theo chính request đó.
+
+**Giải thích để hiểu:** Mã nguồn cho một công việc cụ thể đáng thử giảm; bước sau kiểm tra đề xuất đó.
 
 ## Slide 6 — Request-scoped descriptors remove work unrelated to the request
 
-Vì sao xem danh sách địa chỉ trước bandwidth, cách bố trí KV hay scheduling? Nhóm chưa loại trừ các hướng đó. Mã nguồn cho thấy bước thiết lập mô tả cả vùng pool không liên quan đến một yêu cầu cụ thể. Thay đổi đề xuất là chỉ tạo danh sách địa chỉ cho vùng mà yêu cầu đó cần, trong khi giữ nguyên phạm vi byte và ý nghĩa chuyển dữ liệu. Điều kiện đúng đắn này có thể kiểm tra nhanh trên CPU trước lượt chạy phân tán. 720 ca hình học đã qua. Lý do thử là loại bỏ metadata không liên quan có thể kiểm chứng, không phải ít descriptor chắc chắn làm dịch vụ nhanh hơn.
+### Ý 1 — Vì sao chọn hướng này trước
+
+**Nói:** Nhóm chọn kiểm tra descriptor trước vì mã nguồn cho thấy một phần công việc thiết lập có thể giảm trong phạm vi nhỏ. Việc thiết lập chuẩn bị mô tả cho cả KV pool, trong khi request chỉ cần một số trang của nó. Điều đó nói về lượng metadata được chuẩn bị, không có nghĩa bản cũ truyền toàn bộ pool.
+
+**Giải thích để hiểu:** Nhóm chọn một thay đổi nhỏ có thể kiểm chứng trước; các hướng bandwidth hoặc scheduling vẫn có thể cần xem xét.
+
+### Ý 2 — Thay đổi cụ thể
+
+**Nói:** Bản sửa chỉ tạo mô tả cho các trang cần dùng và gộp những vùng liên tiếp.
+
+**Giải thích để hiểu:** Descriptor là bản hướng dẫn địa chỉ/độ dài. Giảm danh sách chuẩn bị khác với giảm lượng KV cần chuyển.
+
+### Ý 3 — Cách kiểm tra tính đúng
+
+**Nói:** Điều kiện phải giữ là request vẫn đọc và ghi đúng các byte như cách cũ. Nhóm kiểm tra điều kiện này qua 720 ca trên CPU trước khi thử đường chạy phân tán. Đây là cách chọn một hướng có căn cứ trong code và kiểm tra được với chi phí thấp.
+
+**Giải thích để hiểu:** 720 ca kiểm tra so sánh vùng byte phải đọc/ghi; lượt GPU sau đó xác nhận đường chạy thật hoạt động.
 
 ## Slide 7 — The patched path became usable; descriptor-only speedup is unknown
 
-Sau bản sửa, cặp worker hoàn tất warmup, xử lý yêu cầu thật và chạy hết benchmark với không lỗi được chấm. Như vậy nhánh đã chuyển từ timeout trước benchmark sang đường serving sử dụng được. Nhưng nhánh chưa sửa không có đối chứng thành công được chấm điểm, và không có đồng hồ đo riêng cho khởi tạo. Do đó ta không thể khẳng định tốc độ tăng riêng của descriptor hay quy toàn bộ thay đổi cho cơ chế này. Nhóm giữ bản sửa có giới hạn đã chạy đầu-cuối, còn độ lớn và nguyên nhân của tác động hiệu năng vẫn chưa biết.
+### Ý 1 — Trước và sau bản sửa
+
+**Nói:** Ở lượt chạy chưa sửa, request warmup bị timeout trước benchmark. Sau bản sửa, đường prefill–decode hoàn tất warmup, xử lý request thật và chạy hết benchmark với không lỗi được chấm.
+
+**Giải thích để hiểu:** Bằng chứng mới là request thật và benchmark đã hoàn tất sau khi sửa.
+
+### Ý 2 — Kết quả ủng hộ điều gì
+
+**Nói:** Kết quả này ủng hộ hướng giảm công việc tạo descriptor và cho thấy bản sửa đã chạy được đầu-cuối. Nhóm giữ bản sửa dựa trên bằng chứng đó.
+
+**Giải thích để hiểu:** Có cơ sở giữ bản sửa vì nó đã chạy được và kết quả phù hợp với hướng xử lý metadata.
+
+### Ý 3 — Giới hạn kết luận
+
+**Nói:** Nhóm chưa đo riêng thời gian tạo descriptor của bản cũ và chưa có đối chứng chưa sửa chạy thành công, nên chưa thể kết luận đây là nguyên nhân duy nhất của timeout hoặc tính mức tăng tốc riêng của bản sửa.
+
+**Giải thích để hiểu:** Giới hạn nằm ở việc xác định nguyên nhân duy nhất và mức tăng tốc riêng, không phải phủ nhận kết quả bản sửa.
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
