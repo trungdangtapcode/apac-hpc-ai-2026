@@ -1,0 +1,258 @@
+[
+  {
+    "slide": 1,
+    "title": "The task: same 65-million-cell airflow calculation",
+    "visible_text": [
+      "The task: same 65-million-cell airflow calculation",
+      "TripleU / APAC HPC-AI 2026",
+      "35 / 42",
+      "65.3 million",
+      "mesh cells",
+      "NSCC: 4 nodes",
+      "512 MPI ranks \u00b7 128 per node",
+      "150 steps",
+      "149 timed samples",
+      "Metric",
+      "Average seconds per solver step",
+      "Lower is better \u00b7 every required step stays in\nthe run",
+      "Iris screens use shorter horizons; they are not official scores."
+    ],
+    "speaker_notes_en": "We optimize execution of the official OpenFOAM v2512 car-flow case, not its mathematics. This slide describes the completed NSCC reference reproduction; Iris screening uses one node and 56 ranks with explicitly shorter horizons. The mesh contains 65,334,765 cells. The job completes the prescribed preparation and 150 solver iterations on four nodes. The measured metric is the solver's average wall-clock seconds per time step, beginning with the second solver iteration; lower is better. The retained final drag coefficient is a physical sanity signal, not the performance score.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/FOUNDATIONS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/equinix-private-ai-dgx/hybrid-ai-infrastructure-m460-d.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/dgx-superpod/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/equinix-private-ai-dgx/hybrid-ai-infrastructure-m460-d.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/dgx-superpod/",
+      "sha256": "241ea701484779a3c6f9dd0b9cc162475902d9deefe51eeefdea5ec1903181d9"
+    }
+  },
+  {
+    "slide": 2,
+    "title": "The whole required pipeline comes before the score",
+    "visible_text": [
+      "The whole required pipeline comes before the score",
+      "TripleU / APAC HPC-AI 2026",
+      "36 / 42",
+      "01",
+      "decomposePar",
+      "Assign mesh\ncells to ranks",
+      "\u2192",
+      "02",
+      "renumberMesh",
+      "Reorder local\ncell data",
+      "\u2192",
+      "03",
+      "potentialFoam",
+      "Initialize flow\nfields",
+      "\u2192",
+      "04",
+      "applyBoundary\nLayer",
+      "Apply\nprescribed\nboundary layer",
+      "\u2192",
+      "05",
+      "simpleFoam",
+      "Run all 150\nsolver steps",
+      "Decomposition",
+      "Which cells belong to each MPI rank?",
+      "CPU affinity",
+      "Which CPU runs each rank?"
+    ],
+    "speaker_notes_en": "MPI means Message Passing Interface: separate solver processes exchange information about cells at partition boundaries. Mesh decomposition assigns cells to ranks; CPU affinity maps ranks to CPUs. These are different decisions. A complete run includes mesh decomposition, renumbering, potential-flow initialization, boundary-layer setup, and the 150-step simpleFoam solve. Skipping preparation or solver work would not be a valid comparison.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/FOUNDATIONS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/dgx-superpod/Automotive-Collaboration-6701.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/dgx-superpod/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/dgx-superpod/Automotive-Collaboration-6701.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/dgx-superpod/",
+      "sha256": "48cde643c1c8012fb4da66bf937c030f613efc02e976b1920926fb18dcfaba2a"
+    }
+  },
+  {
+    "slide": 3,
+    "title": "Early lesson: a smaller graph cut did not mean faster",
+    "visible_text": [
+      "Early lesson: a smaller graph cut did not mean faster",
+      "TripleU / APAC HPC-AI 2026",
+      "37 / 42",
+      "NUMA-aware idea",
+      "Reduce remote-memory / interface cost",
+      "\u221210.63%",
+      "graph cut",
+      "\u2260",
+      "+3.4416%",
+      "slower solver mean",
+      "Lesson",
+      "A graph proxy is not a runtime measurement.",
+      "Cause not measured: MPI wait, bandwidth, frequency, power, page residency"
+    ],
+    "speaker_notes_en": "The NUMA-aware decomposition hypothesis was that grouping work by memory locality might reduce communication and improve speed. Its graph cut fell by 10.63%, but the solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416% slowdown. The comparison also changed other partition properties, so the cut alone cannot explain the runtime. We closed the unchanged branch. A separate offline mapping reduced a graph cut by 4.5741% but has no measured solver result.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-research-journey-20261023/JOURNEY.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/figures/research-journey.png\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/nvidiaweb/networking/infiniband-switching/nvidia-infiniband-switch-ndr-400gbs-2c50-d-2x.jpeg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/infiniband-switching/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/nvidiaweb/networking/infiniband-switching/nvidia-infiniband-switch-ndr-400gbs-2c50-d-2x.jpeg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/infiniband-switching/",
+      "sha256": "a96599b6fa3ec70cf18b35c952739d44b947dc59f624603fb85acf0b644c51e2"
+    }
+  },
+  {
+    "slide": 4,
+    "title": "Three Iris recipes: lowest observed completed means",
+    "visible_text": [
+      "Three Iris recipes: lowest observed completed means",
+      "TripleU / APAC HPC-AI 2026",
+      "38 / 42",
+      "One Iris node \u00b7 56 MPI ranks \u00b7 full-size mesh",
+      "Recipe and tested change",
+      "Mean s/step",
+      "Steps / samples",
+      "Ours: hierarchical zyx + graph placement",
+      "Change partitioning and rank-to-core assignment",
+      "21.0512",
+      "14 / 13",
+      "Organizer: Scotch + default MPI",
+      "Uncollated output",
+      "22.3582",
+      "40 / 39",
+      "Teammate settings ported to Iris",
+      "Scotch + socket/core mapping + collated output",
+      "22.3969",
+      "40 / 39",
+      "Different allocations and horizons: these minima are not a matched ranking."
+    ],
+    "speaker_notes_en": "On Iris, one node and 56 MPI ranks run the full-size physical mesh. The organizer uses Scotch decomposition, default MPI placement and uncollated output. The supplied teammate settings use the same Scotch source, socket/core MPI mapping and collated output; this ports runtime settings to Iris, not the entire Gadi environment. Our lowest individual completed arm uses hierarchical zyx decomposition plus graph-based rank placement. Its mean is 21.051168941923077 seconds per step in job 2294390 B1-graph, with only 14 steps / 13 measured intervals. Organizer job 2294640 A1-scotch reaches 22.35823713823077 over 40 / 39; teammate job 2294637 B1-teammate reaches 22.396949742666667 over 40 / 39. These are the lowest whole-arm arithmetic means, not fastest individual steps. They come from separate allocations and different horizons; do not rank optimizations by these minima. Our plain zyx also completed 50 steps at 21.112004724 and 150 at 21.229593669, but neither proves a stable matched win.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/BEST_RECORDED.md; /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/BEST_RECORDED_EVIDENCE.json\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrum-x-og-2.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/spectrumx/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrum-x-og-2.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/spectrumx/",
+      "sha256": "23f851a2329772688915736bbbca9659279258af68c15f620ce7f37d1ee6b517"
+    }
+  },
+  {
+    "slide": 5,
+    "title": "Matched comparisons give a different answer",
+    "visible_text": [
+      "Matched comparisons give a different answer",
+      "TripleU / APAC HPC-AI 2026",
+      "39 / 42",
+      "Candidate versus its own control \u00b7 mean seconds per step",
+      "Candidate",
+      "Control",
+      "Candidate",
+      "Time change",
+      "Teammate settings",
+      "40 steps per arm",
+      "27.8735",
+      "24.7453",
+      "\u221211.22%",
+      "Our plain zyx",
+      "40 steps per arm",
+      "26.9011",
+      "29.6490",
+      "+10.21%",
+      "Our xzy: reverse check",
+      "52 steps per arm",
+      "26.3600",
+      "29.0626",
+      "+10.25%",
+      "Negative = faster. Each row uses its own control; do not rank rows by seconds.",
+      "Teammate signal is promising; our stable matched win is still unproven."
+    ],
+    "speaker_notes_en": "Each row is a separate Iris allocation with two candidate and two control arms. The shown means pool the equal-length arms within each row; changes are relative to that row's own organizer control. Job 2294637: teammate 24.745277978102565 versus organizer 27.873469742846154 seconds per step, 11.2228% lower, 40 steps / 39 intervals per arm. Both adjacent comparisons favor the candidate, but same-treatment drift is about 18\u201321% and the organizer sample recommendation exceeds 39. This is a favorable short-run signal, not a stable final score or proof of the runtime mechanism. Job 2294640: plain hierarchical zyx 29.64902420125641 versus Scotch 26.901084925358974, 10.2150% slower, 40 / 39. Job 2294644: xzy 29.06256515409804 versus Scotch 26.360000645833335, 10.2525% slower, 52 / 51. That reversed-order check overturns the earlier 0.7097% lower time from job 2294643. No complete matched three-way test establishes that our configurations beat the teammate. Native output, work, source and force-coefficient checks are retained in the linked reviews.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/README.md; /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/EVIDENCE.json\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrumx-multiplane-ari-1920x1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/networking/spectrumx/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/networking/spectrumx/spectrumx-multiplane-ari-1920x1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/networking/spectrumx/",
+      "sha256": "704a45250268f40a93f890dc7c3b3cfc615a56100125da555fac1cbf65826287"
+    }
+  },
+  {
+    "slide": 6,
+    "title": "Keep every measured step; investigate slow tails",
+    "visible_text": [
+      "Keep every measured step; investigate slow tails",
+      "TripleU / APAC HPC-AI 2026",
+      "40 / 42",
+      "3.298742 s",
+      "median",
+      "3.795740 s",
+      "95th percentile",
+      "35.883552 s",
+      "maximum \u00b7 Time 119",
+      "NSCC, 23 Oct: 149/149 samples retained",
+      "Official-style arithmetic mean includes every measured step.",
+      "Cause unknown",
+      "No measured MPI wait, bandwidth, frequency, power or page residency"
+    ],
+    "speaker_notes_en": "Historical NSCC job 25921488 from 23 October, mean 3.677906731 seconds per step: Scotch-128 has a median of 3.298742 seconds, p95 of 3.795740 seconds, and maximum of 35.883552 seconds at solver Time 119. All 149 timed samples remain in the arithmetic mean. The review did not collect enough hardware counters to attribute the spike to MPI, CPU scheduling, memory or I/O. The sample-size warning motivates independent repeats; it does not authorize removing the slow point or changing the prescribed endpoint.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/four-node-review-20261023/RESULTS.md; /home/apacsc42/workspace/reports/hpc-research-journey-20261023/figures/iteration-spikes.png\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/ai-homepage/inference/inferencemax-promo-reference/dgx-press-gb300-1920x1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/ai-homepage/inference/inferencemax-promo-reference/dgx-press-gb300-1920x1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/",
+      "sha256": "80cc927752a3a59d136dc20b5ab623338a2d74ea132723275bc1d9dfcd142d83"
+    }
+  },
+  {
+    "slide": 7,
+    "title": "Why the 21.051 s/step result used only 14 steps",
+    "visible_text": [
+      "Why the 21.051 s/step result used only 14 steps",
+      "TripleU / APAC HPC-AI 2026",
+      "41 / 42",
+      "14-step screen",
+      "Graph-based rank placement",
+      "21.051 s/step",
+      "Fastest arm: 13 measured intervals",
+      "Complete reversed test",
+      "Graph \u2192 identity \u2192 identity \u2192 graph",
+      "5.37% slower",
+      "Overall result: close this branch",
+      "Plain zyx already ran 40 steps \u2014 a different configuration.",
+      "Its matched mean was 10.21% slower. Neither test supports promotion."
+    ],
+    "speaker_notes_en": "The 14-step horizon was a deliberate short screen for graph-based rank placement within a bounded 50-minute allocation, not an official or final 40-step comparison. The previous allocation's slow last baseline motivated a reversed B-A-A-B order, where B is graph placement and A is identity placement on the same hierarchical zyx source. Job 2294390 completed all four arms. The first graph arm averaged 21.051168942 seconds per step, but the repeated graph arm averaged 38.462425. Across the complete cycle, graph placement was 5.3685% slower than its identity control. Same-treatment drift was +43.0147% for control and +82.7092% for candidate; the direction was not robust. We closed this unchanged performance branch rather than promoting the selected fast arm. Plain zyx was separately tested for 40 steps in job 2294640 and lost 10.2150%; it is not the same configuration as zyx plus graph placement. A fair future promotion must hold recipe, hardware, input, horizon and measurement definition fixed, retain all samples, and survive a reversed-order repeat. The current records contain no completed matched 40-step three-way win.\n\nResearch sources: /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md; /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/README.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/technologies/blackwell-architecture/nvidia-gb200-nvl72-1920-1080.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/technologies/blackwell-architecture/nvidia-gb200-nvl72-1920-1080.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/",
+      "sha256": "31cf2598e6f652d933db6557452f34cebda97b17741af657aa9cd2308af7b864"
+    }
+  },
+  {
+    "slide": 8,
+    "title": "What we can defend \u2014 and what remains to test",
+    "visible_text": [
+      "What we can defend \u2014 and what remains to test",
+      "TripleU / APAC HPC-AI 2026",
+      "42 / 42",
+      "NSCC: reference reproduction",
+      "3.3646 s/step",
+      "4 nodes \u00b7 512 ranks \u00b7 150 steps",
+      "Same organizer recipe; not our new\noptimization.",
+      "Iris: qualified recipe signal",
+      "11.22% lower time",
+      "Teammate settings versus matched\ncontrol",
+      "Repeat drift limits confidence.",
+      "Next factor: preparation memory placement",
+      "Mechanism observed; solver benefit still requires a valid matched result."
+    ],
+    "speaker_notes_en": "Our best reviewed NSCC run is job 25940700, 3.364622070 seconds per step over 150 steps / 149 measured intervals on four nodes and 512 ranks. This is our reproduction of the organizer's recipe, not a new optimization. The old 23 October slides described this job as queued; that status is historical and is superseded here. The organizer's separate NSCC reference is 3.210832548, and the supplied teammate log on Gadi is 2.079045460. Different machines and allocations prevent attributing these raw-time gaps to configuration. On Iris, the teammate runtime settings have a qualified 11.22% lower-time signal; our decomposition and graph-placement variants have not established a stable matched win. The next investigated factor is preparation memory policy. Qualification job 2294675 changed aggregate file-page distribution across NUMA nodes, but did not run OpenFOAM and does not prove a solver speedup. The separate native test is excluded from this deck until reviewed; this slide makes no live scheduler claim. The presentation separates completed observation, baseline reproduction, matched evidence and future hypothesis.\n\nResearch sources: /home/apacsc42/workspace/reports/hpc-iris-comparison-20261103/README.md; /home/apacsc42/workspace/notes/HPC_CURRENT.md; /home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-numa-qualify-r2-20261103/completed-2294675/RESULTS.md\nBackground attribution: {\"author\": \"NVIDIA\", \"credit\": \"NVIDIA; NVIDIA reference imagery; all rights retained.\", \"license\": \"NVIDIA reference imagery; all rights retained.\", \"source\": \"https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/h100/hpc-web-gtc23-h100-2560x1440.jpg\", \"reference_page\": \"https://www.nvidia.com/en-us/data-center/h100/\", \"role\": \"Faint atmospheric backdrop; reference imagery, not the contest cluster.\"}",
+    "background_attribution": {
+      "author": "NVIDIA",
+      "credit": "NVIDIA; NVIDIA reference imagery; all rights retained.",
+      "license": "NVIDIA reference imagery; all rights retained.",
+      "source": "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/h100/hpc-web-gtc23-h100-2560x1440.jpg",
+      "reference_page": "https://www.nvidia.com/en-us/data-center/h100/",
+      "sha256": "2564d62e1875d0fd0c770475fd59fa8da19e7cd94eb1b8473ecb2c5958a1ca06"
+    }
+  }
+]

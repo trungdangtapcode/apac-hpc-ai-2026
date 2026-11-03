@@ -1,0 +1,35 @@
+# HPC section speaker notes
+
+Target duration: 3–4 minutes. The slides are numbered 35–42 for integration after the existing 34 AI slides (16 main plus 18 hidden backups). Sources and background credits are in each PowerPoint slide’s Notes pane and `slide-content.json`.
+
+## Slide 1 · The task: same 65-million-cell airflow calculation
+
+We optimize execution of the official OpenFOAM v2512 car-flow case, not its mathematics. This slide describes the completed NSCC reference reproduction; Iris screening uses one node and 56 ranks with explicitly shorter horizons. The mesh contains 65,334,765 cells. The job completes the prescribed preparation and 150 solver iterations on four nodes. The measured metric is the solver's average wall-clock seconds per time step, beginning with the second solver iteration; lower is better. The retained final drag coefficient is a physical sanity signal, not the performance score.
+
+## Slide 2 · The whole required pipeline comes before the score
+
+MPI means Message Passing Interface: separate solver processes exchange information about cells at partition boundaries. Mesh decomposition assigns cells to ranks; CPU affinity maps ranks to CPUs. These are different decisions. A complete run includes mesh decomposition, renumbering, potential-flow initialization, boundary-layer setup, and the 150-step simpleFoam solve. Skipping preparation or solver work would not be a valid comparison.
+
+## Slide 3 · Early lesson: a smaller graph cut did not mean faster
+
+The NUMA-aware decomposition hypothesis was that grouping work by memory locality might reduce communication and improve speed. Its graph cut fell by 10.63%, but the solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416% slowdown. The comparison also changed other partition properties, so the cut alone cannot explain the runtime. We closed the unchanged branch. A separate offline mapping reduced a graph cut by 4.5741% but has no measured solver result.
+
+## Slide 4 · Three Iris recipes: lowest observed completed means
+
+On Iris, one node and 56 MPI ranks run the full-size physical mesh. The organizer uses Scotch decomposition, default MPI placement and uncollated output. The supplied teammate settings use the same Scotch source, socket/core MPI mapping and collated output; this ports runtime settings to Iris, not the entire Gadi environment. Our lowest individual completed arm uses hierarchical zyx decomposition plus graph-based rank placement. Its mean is 21.051168941923077 seconds per step in job 2294390 B1-graph, with only 14 steps / 13 measured intervals. Organizer job 2294640 A1-scotch reaches 22.35823713823077 over 40 / 39; teammate job 2294637 B1-teammate reaches 22.396949742666667 over 40 / 39. These are the lowest whole-arm arithmetic means, not fastest individual steps. They come from separate allocations and different horizons; do not rank optimizations by these minima. Our plain zyx also completed 50 steps at 21.112004724 and 150 at 21.229593669, but neither proves a stable matched win.
+
+## Slide 5 · Matched comparisons give a different answer
+
+Each row is a separate Iris allocation with two candidate and two control arms. The shown means pool the equal-length arms within each row; changes are relative to that row's own organizer control. Job 2294637: teammate 24.745277978102565 versus organizer 27.873469742846154 seconds per step, 11.2228% lower, 40 steps / 39 intervals per arm. Both adjacent comparisons favor the candidate, but same-treatment drift is about 18–21% and the organizer sample recommendation exceeds 39. This is a favorable short-run signal, not a stable final score or proof of the runtime mechanism. Job 2294640: plain hierarchical zyx 29.64902420125641 versus Scotch 26.901084925358974, 10.2150% slower, 40 / 39. Job 2294644: xzy 29.06256515409804 versus Scotch 26.360000645833335, 10.2525% slower, 52 / 51. That reversed-order check overturns the earlier 0.7097% lower time from job 2294643. No complete matched three-way test establishes that our configurations beat the teammate. Native output, work, source and force-coefficient checks are retained in the linked reviews.
+
+## Slide 6 · Keep every measured step; investigate slow tails
+
+Historical NSCC job 25921488 from 23 October, mean 3.677906731 seconds per step: Scotch-128 has a median of 3.298742 seconds, p95 of 3.795740 seconds, and maximum of 35.883552 seconds at solver Time 119. All 149 timed samples remain in the arithmetic mean. The review did not collect enough hardware counters to attribute the spike to MPI, CPU scheduling, memory or I/O. The sample-size warning motivates independent repeats; it does not authorize removing the slow point or changing the prescribed endpoint.
+
+## Slide 7 · Why the 21.051 s/step result used only 14 steps
+
+The 14-step horizon was a deliberate short screen for graph-based rank placement within a bounded 50-minute allocation, not an official or final 40-step comparison. The previous allocation's slow last baseline motivated a reversed B-A-A-B order, where B is graph placement and A is identity placement on the same hierarchical zyx source. Job 2294390 completed all four arms. The first graph arm averaged 21.051168942 seconds per step, but the repeated graph arm averaged 38.462425. Across the complete cycle, graph placement was 5.3685% slower than its identity control. Same-treatment drift was +43.0147% for control and +82.7092% for candidate; the direction was not robust. We closed this unchanged performance branch rather than promoting the selected fast arm. Plain zyx was separately tested for 40 steps in job 2294640 and lost 10.2150%; it is not the same configuration as zyx plus graph placement. A fair future promotion must hold recipe, hardware, input, horizon and measurement definition fixed, retain all samples, and survive a reversed-order repeat. The current records contain no completed matched 40-step three-way win.
+
+## Slide 8 · What we can defend — and what remains to test
+
+Our best reviewed NSCC run is job 25940700, 3.364622070 seconds per step over 150 steps / 149 measured intervals on four nodes and 512 ranks. This is our reproduction of the organizer's recipe, not a new optimization. The old 23 October slides described this job as queued; that status is historical and is superseded here. The organizer's separate NSCC reference is 3.210832548, and the supplied teammate log on Gadi is 2.079045460. Different machines and allocations prevent attributing these raw-time gaps to configuration. On Iris, the teammate runtime settings have a qualified 11.22% lower-time signal; our decomposition and graph-placement variants have not established a stable matched win. The next investigated factor is preparation memory policy. Qualification job 2294675 changed aggregate file-page distribution across NUMA nodes, but did not run OpenFOAM and does not prove a solver speedup. The separate native test is excluded from this deck until reviewed; this slide makes no live scheduler claim. The presentation separates completed observation, baseline reproduction, matched evidence and future hypothesis.
