@@ -29,7 +29,10 @@ for folder in ('probes','mapping'):
 telemetry_checks={}
 for label in ('S1-scotch','X1-hierarchical-xyz','X2-hierarchical-xyz','S2-scotch'):
  a=run/'arms'/label
- status=json.loads((a/'telemetry-status.json').read_text())
+ if not a.is_dir():
+  telemetry_checks[label]={'state':'NOT_STARTED'}
+  continue
+ status=json.loads((a/'telemetry-status.json').read_text()) if (a/'telemetry-status.json').is_file() else {'state':'status_absent'}
  telemetry=validate_sample_file(a/'telemetry-samples.jsonl',optional=True)
  assert telemetry['bytes']<2000000
  if status.get('state')=='sampling':assert telemetry['present'] and telemetry['sample_count']==status.get('sample_count')

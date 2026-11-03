@@ -1,0 +1,58 @@
+{
+  "arm_order": [
+    "S1-scotch",
+    "X1-hierarchical-xyz",
+    "X2-hierarchical-xyz",
+    "S2-scotch"
+  ],
+  "commands_by_arm": {
+    "S1-scotch": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "S2-scotch": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "X1-hierarchical-xyz": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "X2-hierarchical-xyz": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ]
+  },
+  "internal_deadline_seconds": 3510,
+  "intervals_each": 19,
+  "nodes": 1,
+  "ranks": 56,
+  "request_maximum_cpu_hours": 56,
+  "scope": "Same original mesh/physics and runtime; standard Scotch versus hierarchical(7 4 2),orderxyz. Method-specific accepted initialization, not identical partitioned fields. Basic runtime comparison on Iris, not a scored or cross-platform result.",
+  "scored_result": false,
+  "steps_each": 20
+}
