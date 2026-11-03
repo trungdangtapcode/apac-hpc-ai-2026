@@ -12,3 +12,5 @@ Slide 16, the report, short EN/VI scripts, full bilingual Markdown/PDF transcrip
 - [Packaged quality method and CPU replay](../VNUHCM%20-%20TripleU/AI_Task/logs/quality-20261103/README.md)
 
 ZIP SHA-256 `28504d43febea5dd5ab8578a03ff6ca2a0d168f9319f96547fc2e7026f1c1d42`; PPTX `239a89d2b23fef51be4ae7f53b5de5ab79a725f6499c4a76268e40d9b81b642b`. HPC parts, files, modes and pre-existing folder/ZIP differences are preserved; all accepted runtime code is unchanged. No jobs, authentication or organiser upload. Earlier 2 November presentation notes describe a historical version.
+
+The release is captured and pushed in `0ce8fed2`; all eight final deliverables also have a [verified private off-host copy](../submission-review/ai-quality-update-20261103/offhost/README.md). The GitHub ZIP filename normalisation is recorded; downloaded bytes match the published local ZIP.

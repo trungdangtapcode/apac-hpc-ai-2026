@@ -75,3 +75,7 @@ The precise scope is essential: a quality-study bundle is not a backup of the en
 6. Read the latest handoff and frozen/source manifests. Evidence recovery does not authorise new GPU jobs, authentication or modifying old payloads. A replay on another cluster requires a new derived bundle with remapped paths and its own qualification.
 
 GPU hardware, interconnects, drivers, supplied images and the public checkpoint must be provisioned separately. Retaining the dataset, prompts and raw answers permits score auditing without GPUs; it does not reproduce performance on an arbitrary machine.
+
+## Presentation materials updated after the completed study
+
+The [3 November presentation release](../../submission-review/ai-quality-update-20261103/README.md) integrates the full result into slide 16, reports, both transcripts and the submission ZIP. Its [separate private artifact backup](../../submission-review/ai-quality-update-20261103/offhost/README.md) downloaded and verified all eight final assets. This supplements, rather than changes, the v4 study-object snapshot above.

@@ -33,3 +33,7 @@ Use `/home/apacsc42/.local/share/tripleu-presentation-venv/bin/python` with pinn
 Reproduction scripts in `workspace/submission-tools/` run in this order: quality transcript update; quality slide builder; acceptance merge; acceptance source extraction; quality guide builder; acceptance guide-PDF renderer; quality package preparation; the packaged CPU replay with a fresh output path; acceptance package validation; quality package validation; quality release validation. Publish only the reviewed stage using the guarded acceptance publisher, then rerun quality release validation with `--published`. The base acceptance tools are reused for their exact HPC-preservation checks, not to claim an earlier quality test.
 
 Published locally is separate from an organiser upload. Git captures retain sources and recovery manifests; final off-host artifact receipts are recorded separately.
+
+## Completed off-host preservation
+
+Source and local publication captured/pushed in `0ce8fed2`. [Private backup receipt](offhost/README.md): all eight final ZIP/PPTX/PDF/Markdown assets were downloaded and verified by size and SHA-256. Their source names and actual GitHub asset names are explicitly mapped. The prior full quality-study v4 object backup remains retained separately.
