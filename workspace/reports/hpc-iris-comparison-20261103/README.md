@@ -33,7 +33,7 @@ The teammate's **2.079045460 s/step on Gadi** and organizer's **3.210832548 s/st
 
 Job **2294675 completed 0:0 in 216 seconds**, after correcting a parser spelling defect in failed 2294674. It ran four case-copy/hash preparations, not OpenFOAM. In the inherited-policy arms, node-wide file-page counters grew by about 0 / 9.78 GiB across the two NUMA nodes; interleaved-child arms showed about 4.89 / 4.89 GiB twice. This consistently changes the observed preparation behavior, but does not attribute every page to a particular file or prove faster solver steps. A separate native matched test is required.
 
-That test is being prepared with identical Scotch inputs and solver settings for all arms; only the preparation child's memory policy will change. Preparation is not submission. Actual job acceptance must be read from the next receipt.
+The native test is now actually submitted as **2294676**, accepted 3 November 13:57:02 Vietnam; its first solver arm started at 13:58:25. It uses identical Scotch inputs and solver settings in all arms, changing only preparation-child policy. Maximum 75 minutes / 56 CPUs. No result is available yet. [Actual receipt and dated status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md).
 
 ## Evidence
 

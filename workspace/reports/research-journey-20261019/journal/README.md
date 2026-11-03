@@ -1,3 +1,5 @@
+Latest HPC execution: [3 November native preparation-policy test 2294676 accepted and reached solver](entries/20261103-hpc-native-preparation-policy-submitted.md).
+
 Latest HPC mechanism result: [3 November preparation policy qualified; native solver test still separate](entries/20261103-hpc-preparation-policy-qualified.md).
 
 Latest HPC acceptance: [3 November observed numactl parser defect and corrected qualification job 2294675](entries/20261103-hpc-numactl-parser-fix-and-resubmission.md).

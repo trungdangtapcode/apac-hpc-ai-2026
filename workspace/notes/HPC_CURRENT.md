@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **3 November 2026, 13:48 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
 ## Answer to the Iris comparison question
 
@@ -14,11 +14,13 @@ Our old **21.229593669 s/step** is a real completed Iris observation, not a stab
 
 Inherited policy twice gave approximately 0 / 9.78 GiB of additional node-wide FilePages; interleaved child policy twice gave 4.89 / 4.89 GiB across the two NUMA nodes. This qualifies the policy mechanism and consistent aggregate response. It does not attribute individual pages/files, prove a solver bottleneck or establish speed improvement. OpenFOAM did not run. Failed parser job 2294674 remains preserved; its fix was in a separate frozen R2 bundle.
 
-## Next action and accounting
+## Actual native follow-up and accounting
 
-A **native OpenFOAM comparison is being prepared**, all four arms using the same accepted Scotch source and solver settings. Only the copy/hash child's memory policy changes; solver policy stays inherited and is recorded. ABBA, 20 steps / 19 measured intervals, equal node sampling. Per-arm timeout increases from 720 to 1,000 seconds to include finalization; maximum one exclusive 56-CPU, zero-GPU allocation, 75 minutes. It is not submitted until a frozen root review, fresh queue, bounded stage record and definite receipt exist.
+**2294676 accepted at 3 November 13:57:02 Vietnam**, observed **RUNNING on iris001 at 13:58:42**, elapsed 1:40. Source/input gates and first fresh copy/hash passed; first actual OpenFOAM arm started at 13:58:25 with node sampling. No completed mean yet. [Receipt, startup and review route](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md).
 
-2294675 used 3.36 allocated CPU-hours, conservatively 4. Its 9.333333-hour reservation retired once. **Ledger 989 consumed + 0 reserved; existing agent-selected stage 1,009; 20 hours remain**. A 70-hour maximum native request would require a separately documented internal-stage increase of 50 to 1,059 before reservation. This is not a site SU balance or an owner-stated ceiling. Latest observed shared queue at collection was empty; check again under lock at admission. No NSCC/AI debit.
+All four arms keep the same accepted Scotch source and native runtime. Only preparation-child policy changes in A/B/B/A order; launcher-parent policy and solver command stay fixed. Policy inside MPI ranks is not measured. 20 steps / 19 intervals are directional only. Per-arm cap 1,000 seconds, job maximum 75 minutes / 56 CPUs / zero GPUs. Source-after, runtime/payload hashes, native work and cross-arm force coefficients must pass before a performance interpretation.
+
+Parent 2294675 used 3.36 CPU-hours, conservatively 4, and its maximum retired once. Under the authorized research execution contract, the new selected 70-hour maximum has a documented internal-stage change: **989 consumed + 70 reserved = 1059 committed**, old stage 1009 increased by 50 to 1059 for this one test. These numbers are agent-selected planning CPU-hours, not a known billed-SU balance or new owner-set allowance. Fresh admission checked an empty owned queue; the current owned allocation is occupied at the dated snapshot. No NSCC/AI transfer or automatic schedules.
 
 ## References and access boundaries
 
