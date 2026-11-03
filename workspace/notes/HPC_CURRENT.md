@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## HPC presentation publication — 3 November 2026, 16:44 Vietnam
+
+The owner requested only the HPC section. The canonical team PPTX and ZIP now contain the reviewed Iris comparison and 14-versus-40-step explanation in the existing eight HPC positions (35–42). All 34 AI slide dependency bytes, AI note bodies and AI PDF pages were preserved. NSCC job 25940700 is correctly described as a completed organizer-recipe reproduction at 3.364622070 s/step; the obsolete pending-slide claim is superseded. Job scripts and measurements in both tracks are unchanged. [Current slides, PDFs, notes and checks](../submission-review/hpc-iris-slides-20261103/README.md).
+
+This publication performed no scheduler query, submission or VPN action. Job 2294676's earlier scheduler state below remains a dated snapshot, not a live status. The native experiment is excluded from the slide results until reviewed.
+
 ## Answer to the Iris comparison question
 
 The supplied teammate runtime recipe has a **qualified 11.2228% lower mean** than organizer/BTC in the complete 40-step Iris comparison 2294637. Our `zyx` loses 10.2150% to its own matched Scotch control; the small `xzy` gain reverses to 10.2525% slower in confirmation. Latest `xyz` 2294671 is incomplete and cannot establish a gain. No matched three-way test proves we beat the teammate. [Readable comparison, exact values and provenance](../reports/hpc-iris-comparison-20261103/README.md).

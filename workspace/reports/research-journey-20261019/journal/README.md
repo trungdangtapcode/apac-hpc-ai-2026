@@ -1,3 +1,5 @@
+Latest HPC presentation: [3 November Iris recipe comparisons and the 14-versus-40-step explanation](entries/20261103-hpc-iris-presentation-update.md).
+
 Latest HPC clarification: [3 November exact lowest observations for our, teammate and organizer Iris recipes](../../hpc-iris-comparison-20261103/BEST_RECORDED.md).
 
 Latest AI presentation: [3 November complete quality result integrated into slides, report and bilingual scripts](entries/20261103-ai-quality-presentation-published.md).
