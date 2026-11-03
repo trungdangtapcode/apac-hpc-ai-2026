@@ -17,3 +17,7 @@ Exactly one attempt was made at the owner’s explicit request. The gateway retu
 ## Further explicit owner-requested retry — 2026-11-03T18:49:13.402940+07:00
 
 One login attempt returned gateway Authentication failed. The subsequent read-only path check at 18:49:21 Vietnam remained NAMESPACE_UNAVAILABLE; SSH authentication was not tested. DUO delivery/approval and the rejection cause remain unknown. No automatic retries or private-state deletion occurred. Safe receipt: `/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-transfer-campaign-20261027/launch/access-retry-20261103T114913Z.json`.
+
+## Repository-backed manual command
+
+The owner requested preservation of the one-command launcher. Use `python3 /home/apacsc42/workspace/submission-tools/vpn-login-once.py`; see [manual instructions](vpn-manual-login.md). The safe source has no credentials and uses an excluded local helper. The helper was preserved outside /tmp under private runtime storage; it remains machine-specific. Concurrent launcher invocations are locked. This implementation step performed no authentication attempt.
