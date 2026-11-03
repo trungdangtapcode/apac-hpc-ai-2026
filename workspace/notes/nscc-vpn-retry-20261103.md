@@ -21,3 +21,7 @@ One login attempt returned gateway Authentication failed. The subsequent read-on
 ## Repository-backed manual command
 
 The owner requested preservation of the one-command launcher. Use `python3 /home/apacsc42/workspace/submission-tools/vpn-login-once.py`; see [manual instructions](vpn-manual-login.md). The safe source has no credentials and uses an excluded local helper. The helper was preserved outside /tmp under private runtime storage; it remains machine-specific. Concurrent launcher invocations are locked. This implementation step performed no authentication attempt.
+
+## Read-only check — 4 November 2026, 01:01 Vietnam
+
+At 3 November 18:01:08 UTC, the persistent client pane was dead with exit 1, and the independent path check returned NAMESPACE_UNAVAILABLE. No usable VPN session was established; SSH authentication was not tested. No login attempt or DUO prompt was initiated by this check.
