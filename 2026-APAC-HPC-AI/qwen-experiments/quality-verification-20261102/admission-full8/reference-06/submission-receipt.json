@@ -1,0 +1,26 @@
+{
+  "utc": "2026-11-02T19:59:55.271672+00:00",
+  "argv": [
+    "sbatch",
+    "--parsable",
+    "--job-name=qrf06",
+    "--partition=hpcai",
+    "--nodes=2",
+    "--time=00:17:00",
+    "--gres=gpu:8",
+    "--exclusive",
+    "--propagate=NONE",
+    "--output=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-06of08/logs/%j.out",
+    "--error=/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-06of08/logs/%j.err",
+    "--wrap",
+    "if [ -f /scratch/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/STOP.json ]; then echo FINITE_WORKFLOW_STOP; exit 86; fi; bash /scratch/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-06of08/submit.sbatch; driver_rc=$?; python3 /scratch/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/workflow/finite_event.py --job \"$SLURM_JOB_ID\" --role reference --shard 6 --driver-rc \"$driver_rc\"; callback_rc=$?; if [ \"$driver_rc\" -ne 0 ]; then exit \"$driver_rc\"; fi; exit \"$callback_rc\""
+  ],
+  "cwd": "/scratch/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/jobs/full-ref-06of08",
+  "returncode": 0,
+  "stdout": "28402\n",
+  "stderr": "",
+  "job": 28402,
+  "state": "SUBMITTED_NOT_MEASURED",
+  "role": "reference",
+  "shard_index": 6
+}
