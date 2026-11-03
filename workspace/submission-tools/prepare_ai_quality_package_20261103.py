@@ -166,4 +166,7 @@ for p in sorted(root.rglob('*')):
 (O/'package-file-map.json').write_text(json.dumps(mapping,indent=2)+'\n')
 (O/'publish-file-map.json').write_text(json.dumps(publish,indent=2)+'\n')
 (O/'QUALITY_PREPARATION.json').write_text(json.dumps(dict(prepared_utc=datetime.now(timezone.utc).isoformat(),staged_only=True,full_quality_jobs=16,questions_per_role=12032,local_quality_gate='PASS',official_quality_certification=False,runtime_files_changed=[],quality_files=sum(1 for p in root.rglob('*') if p.is_file())),indent=2)+'\n')
+prepared = json.loads((O/'PREPARATION.json').read_text())
+prepared.update(mapped_files=len(mapping), changes='AI quality slide, scripts and report; complete lossless local quality replay evidence', quality_score_claimed=True, quality_scope='Full local MMLU-Pro point gate; not official certification', runtime_changes=[])
+(O/'PREPARATION.json').write_text(json.dumps(prepared,indent=2)+'\n')
 print('Staged complete lossless quality response evidence and replay; serving runtime unchanged.')

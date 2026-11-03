@@ -1,6 +1,6 @@
 # Mock panel Q&A: evidence and answer boundaries
 
-Updated 2 November 2026 after full portable acceptance job 28197 from retained AI run reviews and the current reasoning outline. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow reasoning-plan.json (source: `reasoning-plan.json`, retained outside this compact package): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
+Updated 3 November 2026 after the full-set local quality review and portable acceptance job 28197. This is rehearsal material, not an official question list and not a record that a mock interview has occurred. Slide references follow reasoning-plan.json (source: `reasoning-plan.json`, retained outside this compact package): AI slides 1–16 are the main route and AI slides 17–34 are backup slides; the slideshow hides those backups, then hands off from main slide 16 to unchanged HPC slides 35–42.
 
 | Main slide | Exact title in the current plan |
 |---:|---|
@@ -77,15 +77,17 @@ In about 30 seconds: state the observed problem, name the comparison or interven
 
 **Boundary:** no statistical confidence interval or broad hardware diversity is available. Job 28197 now provides complete single-allocation portable acceptance after the reader repair; it has no matched control. Do not call 3,048.446 the new optimum or 3,055.331 a successful job.
 
-### 6. How is the model-quality checkpoint handled?
+### 6. What did the full-set answer-quality check find?
 
-**30-second answer:** “Our Basic work preserves the official Qwen FP8 checkpoint and optimises the serving path. Job 28197 validates the exact deployment and performance: 3,051.518173 good output tokens/s and 1,881 of 1,907 requests meeting both latency limits. The 98.6366% is the request-latency fraction. The full-set reference comparison is a separate organiser-run Q1 evaluation; we keep its provenance distinct from our serving measurements.”
+**30-second answer:** “We compared our optimised serving configuration with a stock deployment of the same official FP8 checkpoint on the same 16 H200 GPUs and all 12,032 MMLU-Pro test questions. The reference got 9,460 correct (78.623670%); our service got 9,452 (78.557181%). That retains 99.915433% of reference accuracy, passing our local 99% point gate. This is not BTC certification, and the organisers’ Q1 decision remains separate.”
 
-**Cross-examination:** “Does 98.6366% describe answer accuracy?” No. It counts benchmark requests that satisfied both latency conditions. The official model checkpoint and weights were preserved; the organiser evaluates the full-set score against its reference as part of Q1.
+**Cross-examination:** “Does 99.915433% mean the candidate is 99.9% accurate?” No. Candidate accuracy was 78.557181%; 99.915433% is the ratio of candidate accuracy to the measured stock-reference accuracy. “Is this a statistical equivalence result?” No. It is one complete local benchmark comparison. Paired correctness differed on 876 questions (434 candidate-only correct and 442 reference-only correct), for a net eight fewer correct answers. Computer science retention was 97.971014%, and philosophy was 98.966408%; no per-category threshold was predeclared.
 
-**Retained evidence:** main slide 16; [final AI report](<FINAL_REPORT.md>); 25366 review (source: `REVIEW.md`, retained outside this compact package), 25373 review (source: `REVIEW.md`, retained outside this compact package), and 25487/25488 pair review (source: `REVIEW.md`, retained outside this compact package); AI handoff (source: `AI_CURRENT.md`, retained outside this compact package); latest packaged results (source: `latest-results.md`, retained outside this compact package).
+**Keep the metrics separate:** job 28197’s 98.636602% is the fraction of synthetic performance requests meeting both latency limits. It is neither answer accuracy nor the quality-retention ratio.
 
-**Scope of this answer:** job 28197 validates the exact portable deployment, semantic paths, corrected readers, performance gate and cleanup. The full-set reference comparison is a distinct organiser-run Q1 result. Authoritative generated token IDs from the performance run are not retained.
+**Retained evidence:** full results (source: `FULL_RESULTS.md`, retained outside this compact package), methodology (source: `METHODOLOGY.md`, retained outside this compact package), main slide 16, [final AI report](<FINAL_REPORT.md>).
+
+**Scope:** both deployments used 16 H200 GPUs and the same questions, prompts, generation settings and parser. The study compares complete serving implementations, so it does not isolate a kernel or patch effect. It does not establish future-workload equivalence or BTC certification.
 
 ### 7. What does the N64 request-level scatter tell you about the SLA misses?
 
@@ -119,11 +121,11 @@ Only a bounded held-out check. A frozen N52 calibration predicted 2,642.244 good
 
 **Retained evidence:** slide 16 and backup 31; 28197 acceptance review (source: `REVIEW.md`, retained outside this compact package), actual scheduler receipt and state (source: `STATUS.md`, retained outside this compact package), preserved 28194 failure (source: `summary.json`, retained outside this compact package) and [portable performance gate](<acceptance-20261102/reruns/28197/performance-gate.json>).
 
-**Evaluation workflow:** the Basic package preserves the official Qwen FP8 checkpoint for the organiser-run full-set comparison. Job 28197 establishes deployment and serving performance; its request-latency fraction is reported separately from model accuracy.
+**Evaluation workflow:** we preserve the official Qwen FP8 checkpoint and have completed a separate local full-set comparison against a stock deployment. Job 28197 establishes deployment and serving performance; its request-latency fraction is reported separately from model accuracy. The organisers’ Q1 decision and any BTC certification remain separate.
 
 ### 10. What does the “quality score” say, and can we submit without it?
 
-**Answer:** “We preserve the official Qwen FP8 checkpoint and submit the serving stack and benchmark materials for the Basic track. The organiser runs the full-set comparison against its reference as the separate Q1 model-quality evaluation. Job 28197 reports serving performance: 98.6366% of requests met both latency limits; that is not an accuracy percentage. We do not substitute a team estimate for the organiser’s result.”
+**Answer:** “We preserve the official Qwen FP8 checkpoint and have completed a local full-set comparison: our service retained 99.915433% of the stock reference accuracy, passing our local 99% point gate. That is not BTC certification; the organisers’ Q1 decision remains separate. Job 28197 reports serving performance: 98.6366% of requests met both latency limits, which is not an accuracy percentage.”
 
 **Retained evidence:** exact requirement and careful interpretation (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package), official Qwen rules snapshot (source: `1. Qwen3 AI Task Rules.md`, retained outside this compact package).
 
@@ -149,6 +151,6 @@ If asked about the HPC section, keep the answer to ownership and handoff: “Sli
 
 This is a rehearsal procedure, not a claim that the team has rehearsed. Run one compact timed 16-slide AI main route with a 10–11 minute target inside the official combined 15–20 minute AI/HPC talk; the separate Q&A is 10 minutes. Then ask the questions and follow-ups above without opening a terminal. Use hidden backups 17–34 only when prompted, and preserve the time assigned to the independent HPC speaker. Record whether each answer states (1) the measured observation and unit, (2) why that test followed, (3) what the comparison held fixed, (4) the supported conclusion, and (5) one specific missing measurement. Cut detail before removing an evidence boundary.
 
-At the end, hand the microphone and slide control to the independent HPC presenter. Keep a concise evaluation-workflow sentence ready: “We preserved the official FP8 checkpoint and optimised only serving. Our H200 result reports deployment and request performance; the organiser owns the separate full-set Q1 comparison.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
+At the end, hand the microphone and slide control to the independent HPC presenter. Keep a concise evaluation-workflow sentence ready: “We preserved the official FP8 checkpoint and optimised serving. Our local full-set check retained 99.915433% of reference accuracy; BTC certification remains separate. The H200 performance result reports deployment and request performance.” If a number or source is not immediately available, state the boundary and point to the named retained review rather than searching a command line live. Afterwards assess whether the answers were clear to a non-specialist, whether each explained the technical reasoning rather than reciting chronology, whether every causal claim was defensible against its control, and whether timing left the promised HPC handoff intact. Record actual timings and feedback only after a real rehearsal.
 
 No rehearsal outcome, timing result, panel question, HPC explanation, research job, authentication action, organiser upload receipt or organiser quality result is asserted by this document.

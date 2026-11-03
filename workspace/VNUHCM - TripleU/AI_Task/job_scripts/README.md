@@ -12,7 +12,26 @@ The complete portable entry passed as **job 28197** on **16 H200 GPUs / N64**:
 **3051.518173 good output tokens/s**, **1881/1907 joint SLA passes (98.636602%)**,
 zero request errors/cancellations, and successful readers, gate and cleanup.
 Total allocation duration was **10 min 11 s**. These are measured serving
-results; no numerical full-set model-quality score is asserted.
+results. A later full local MMLU-Pro comparison retained 99.915433% of a measured stock FP8 reference score; this is separate from organiser Q1 certification.
+
+The earlier readiness failure 28194 and reader failures remain historical
+evidence under `../logs/`; they are not the status of this accepted entry.
+
+## Retained configuration
+
+## Submission scope and verified execution
+
+This Basic submission retains the official Qwen3-235B-A22B-Instruct-2507-FP8
+checkpoint, all model layers and experts, and BF16 KV. It does not requantise
+the checkpoint or intentionally approximate model computation. The work tunes
+the serving topology, supported backends, scheduling and KV-transfer metadata.
+Model-quality evaluation follows the organiser Q1 protocol.
+
+The complete portable entry passed as **job 28197** on **16 H200 GPUs / N64**:
+**3051.518173 good output tokens/s**, **1881/1907 joint SLA passes (98.636602%)**,
+zero request errors/cancellations, and successful readers, gate and cleanup.
+Total allocation duration was **10 min 11 s**. These are measured serving
+results. A later full local MMLU-Pro comparison retained 99.915433% of a measured stock FP8 reference score; this is separate from organiser Q1 certification.
 
 The earlier readiness failure 28194 and reader failures remain historical
 evidence under `../logs/`; they are not the status of this accepted entry.
@@ -109,3 +128,7 @@ See ../logs/measured/latest-results.md for source IDs, latency units, validity
 classes and the distinction between an isolated peak and a reproduced choice.
 
 For the research decisions behind this unchanged primary, see ../logs/RESEARCH_JOURNEY.md and ../logs/EVIDENCE_CARDS.md. No new serving option is introduced by the presentation revision.
+
+## Complete local answer-quality verification — 3 November 2026
+
+Reference **9460/12032**, candidate **9452/12032**, accuracy retention **99.915433%**. Same 16 H200 and same prepared questions; all sixteen jobs completed, zero service errors. This measured local MMLU-Pro pass is distinct from the 98.636602% latency fraction and from organiser certification. [Method, retained answers and CPU replay](../logs/quality-20261103/README.md).

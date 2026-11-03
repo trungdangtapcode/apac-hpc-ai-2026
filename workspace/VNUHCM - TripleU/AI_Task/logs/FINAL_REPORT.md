@@ -2,7 +2,7 @@
 
 The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The 24-page main-talk PDF (source: `TripleU_APAC2026_Main_Talk.pdf`, retained outside this compact package) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
 
-Updated 2 November 2026, Vietnam time (UTC+7). **Submission posture: prepare the Basic deliverable around the official Qwen FP8 checkpoint and optimise the serving path only.** The checkpoint and model weights are preserved; experiments changed the serving configuration. Exact-package deployment and performance acceptance completed in job 28197. The official full-set evaluation is a separate organiser-run checkpoint. This report does not claim an upload receipt or organiser evaluation outcome.
+Updated 3 November 2026, Vietnam time (UTC+7). **Submission posture: preserve the official Qwen FP8 checkpoint and optimise the serving path.** The checkpoint and model weights are preserved; experiments changed the serving configuration. Exact-package deployment and performance acceptance completed in job 28197. A separate full-set local MMLU-Pro comparison now passes the predeclared 99% reference-retention point gate. This is our measured local check, not BTC certification or an organiser evaluation result.
 
 ## Result and submission choice
 
@@ -14,11 +14,13 @@ Updated 2 November 2026, Vietnam time (UTC+7). **Submission posture: prepare the
 
 This is a complete portable deployment-acceptance observation, not a new serving recipe or a matched speedup. Its value is numerically above the prior highest complete individual 27378, but it has no contemporaneous matched control and establishes no optimisation gain. Keep it separate from the historical three-run mean 3,044.400475, native job 26766 at 3,045.501509, prior highest complete configuration 27378 at 3,048.446289, and recovered raw observation 27145 at 3,055.330517 whose original job FAILED during postprocessing.
 
-### Official evaluation workflow
+### Answer-quality verification
 
-The 28197 value of 98.636602% is the fraction of benchmark requests that met both latency limits. It is a serving metric, not an answer-accuracy score. The Basic workflow preserves the official Qwen FP8 checkpoint and assigns the full-set comparison against the organiser reference to the organisers. This report does not substitute a team score for that checkpoint and does not claim that it has already been run. The public Basic requirements do not state that teams must possess the organisers’ unpublished reference value before upload. The exact qualification and evidence boundary are recorded in the quality and submission clarification (source: `ai-quality-threshold-clarification-20261102.md`, retained outside this compact package).
+A separate local full-set check compared the stock official FP8 deployment with the accepted serving configuration on the same 16 H200 GPUs and the same 12,032 MMLU-Pro questions. The reference answered 9,460 correctly (78.623670%); the candidate answered 9,452 (78.557181%), retaining **99.915433%** of reference accuracy and passing our predeclared local 99% point gate. Both roles had zero service errors; invalid answers and answers reaching the generation limit remained in the denominator. The paired outcomes differ on 876 questions, for a net eight fewer correct answers on the candidate. Computer science retention was 97.971014% and philosophy retention 98.966408%; no per-category gate was declared. This is one local benchmark comparison, not statistical equivalence or BTC certification. All sixteen full-study allocations completed; total allocated cost was 51.533333 H200 GPU-hours including pilots (47.32 for the full set), not active compute time or money. The separate N16 pilot remains a failed point result at 98.076923%; it was not combined with the full-set score.
 
-Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), actual job status/receipt (source: `STATUS.md`, retained outside this compact package), current presentation package (source: `ai-basic-submission-polish-20261102`, retained outside this compact package).
+The 28197 value of 98.636602% remains the fraction of performance-benchmark requests that met both latency limits. It is not answer accuracy. Performance and quality are separate measurements. See [full quality results](quality-20261103/FULL_RESULTS.md) and [methodology](quality-20261103/METHODOLOGY.md).
+
+Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), actual job status/receipt (source: `STATUS.md`, retained outside this compact package), current presentation package (source: `ai-quality-update-20261103`, retained outside this compact package).
 
 ## Workload and score
 
@@ -79,12 +81,12 @@ The accepted 28197 delivery copy retains the exact portable N64 entry and correc
 
 Submission artifacts and slides are in English; the owner-requested Vietnamese learning transcript is a separate exception. The existing theme, gradients and distinct background photographs are retained. The eight HPC slides and their 68 transitive OOXML parts remain protected. Current live HPC files and the existing ZIP's HPC contents are preserved independently because another worker has unpublished folder changes; this AI update does not silently package them.
 
-No organiser upload receipt or quality-evaluation result is recorded here. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
+No organiser upload receipt or organiser quality-evaluation result is recorded here. The local full-set quality comparison is documented above; it does not claim BTC certification. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
 - Updated presentation (source: `TripleU_APAC2026_Presentation.pptx`, retained outside this compact package)
 - Review PDF (source: `TripleU_APAC2026_Presentation.pdf`, retained outside this compact package)
 - Speaker notes (source: `PRESENTER_NOTES.md`, retained outside this compact package)
-- Current detailed metrics and configuration (source: `latest-results.md`, retained outside this compact package)
+- [Current detailed metrics and configuration](<measured/latest-results.md>)
 - Publication verification (source: `publication-validation.json`, retained outside this compact package)
 
 
@@ -127,8 +129,8 @@ On the transferred recipe, N54->N64 gives no goodput gain while mean TTFT rises
 896.156->1591.493 ms and sampled prefill queues increase. Direct per-request
 queue/compute/transfer decomposition is absent; the added latency cannot be
 causally assigned to one kernel. All four have zero scored errors/cancellations,
-smoke 7/8 non-regression and retrieval 12/12; official full-set quality remains
-UNKNOWN. Actual wave 12.671111 GPU-hours, no PBS SU.
+smoke 7/8 non-regression and retrieval 12/12. At this 31 October checkpoint, the full-set
+quality study had not yet been run. Actual wave 12.671111 GPU-hours, no PBS SU.
 
 The panel-facing lesson is measured: H100 screened compatibility and tradeoffs;
 we validated selected alternatives against a fresh H200 control, and retained
@@ -152,8 +154,8 @@ engineering choice, but it is not a per-kernel causal profile.
 
 Both have zero scored errors/cancellations, 30 TTFT/0 ITL breaches, smoke 7/8
 non-regression and retrieval 12/12. Larger chunks coincide with lower prefill
-queue means and TTFT; direct queue/compute/transport time is uncollected. Full
-official quality UNKNOWN, actual pair 6.062222 GPU-hours, zero PBS SU. At this historical chunk-stage checkpoint only two additional distinct ports had completed; the later phase results below complete the four-intervention set. Raw artifacts, runtime/source checks and cost are preserved. The final deck summarises the decision in main slide 14 and preserves the complete nine-job ledger in backup 34.
+queue means and TTFT; direct queue/compute/transport time is uncollected. At this
+31 October checkpoint, the full-set quality study had not yet been run; actual pair 6.062222 GPU-hours, zero PBS SU. At this historical chunk-stage checkpoint only two additional distinct ports had completed; the later phase results below complete the four-intervention set. Raw artifacts, runtime/source checks and cost are preserved. The final deck summarises the decision in main slide 14 and preserves the complete nine-job ledger in backup 34.
 
 Complete evidence and limitations (source: `RESULTS.md`, retained outside this compact package).
 
@@ -173,7 +175,7 @@ arguments only in engine seeds. Do not describe the role-launch receipt as a
 per-rank steady-state mode or kernel trace. Prefill-only TTFT p95 improves in
 one observation, but each arm retains 26 TTFT/0 ITL breaches and the score effect
 is small. Zero scored errors/cancellations, smoke 7/8 non-regression and retrieval
-12/12; full official model quality UNKNOWN. Actual phase cost 9.604444 GPU-hours,
+12/12. At this 31 October checkpoint, the full-set quality study had not yet been run. Actual phase cost 9.604444 GPU-hours,
 zero PBS SU.
 
 Four distinct additional H100-derived interventions have now been reviewed on

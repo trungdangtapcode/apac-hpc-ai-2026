@@ -10,9 +10,9 @@ This is a **proposed speaking script and learning guide**, not a verbatim record
 - Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
-- Broad optimisation remains stopped. The owner-authorised final acceptance job 28197 completed; future actions are proposals unless explicitly labelled as executed.
+- Broad optimisation remains stopped. The final acceptance job 28197 and the complete paired MMLU-Pro quality study have finished. Future actions are proposals unless explicitly labelled as executed.
 
-Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `2c85a21ae0ca66b6955cfa102ca72e473f479734d9e7a2beccb3167a1a82b1ae`. This guide describes that version; recheck it if the deck changes.
+Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `239a89d2b23fef51be4ae7f53b5de5ab79a725f6499c4a76268e40d9b81b642b`. This guide describes that version; recheck it if the deck changes.
 
 ## Understand the claims before presenting them
 
@@ -20,7 +20,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 **Full run:** the campaign protocol uses 60 seconds of warmup, 120 seconds of profiling, and 30 seconds of grace for outstanding requests to finish. Full distinguishes it from a shorter idea-screening test. It does not mean all model-quality datasets were evaluated or every request passed. The latency rule requires at least 90% of all requests to jointly meet both limits.
 
-**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains unverified.
+**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains separate. The full local MMLU-Pro check now passes at 99.915433% retention; slide 16 explains its measured scope.
 
 **Control and candidate:** a control is the retained comparison configuration; a candidate changes the factor being tested. Cache candidate 27378 should be compared with fresh control 27376. Comparing it against a historical mean from another series mixes the tested change with time and environment differences.
 
@@ -90,7 +90,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 13 — A complete portable run reproduces the retained operating level](#slide-13)
 - [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — Preserve the model; optimise the serving path](#slide-16)
+- [Slide 16 — The optimised service retains 99.9154% of reference accuracy](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
 - [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
@@ -132,7 +132,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 We serve Qwen3-235B FP8 on sixteen H200 GPUs. A request contributes only if it meets both latency limits; at least 90% must qualify. We report qualifying output tokens per second, not raw throughput.
 
-![Slide 01](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-quality-update-20261103/slides/assets/slide-01.png)
 
 ### Reasoning to communicate
 
@@ -172,11 +172,11 @@ Explain the intended metric pipeline from one request to the final service score
 - **Observation:** The task fixes a 4,000-token prompt, 200 requested output tokens, two per-request latency limits, and a minimum 90% joint pass share.
 - **Hypothesis:** A configuration with high raw output can still be a poor service if too many individual requests miss either latency limit.
 - **Supported conclusion:** Use qualifying throughput under the joint gate as the objective for later engineering and experimental decisions.
-- **Unknown / limitation:** This definition does not by itself establish official model accuracy or a contest ranking; full-set quality remains a separate validation question.
+- **Unknown / limitation:** The local full-set MMLU-Pro point gate is now measured and passes; this service metric does not establish BTC certification or a contest ranking.
 
 ### Spoken script
 
-Our problem is to serve Qwen3-235B FP8 on sixteen H200 GPUs across two nodes. Each synthetic request has 4,000 input tokens and asks for 200 output tokens. A request counts only when it gets its first token within 3,000 milliseconds and its mean spacing between generated tokens is no more than 20 milliseconds. At least 90 percent of all requests must meet both conditions; errors count too. We therefore report goodput multiplied by the requested 200 output tokens. This measures qualifying output, not unrestricted token generation. Official model quality is a separate question.
+Our problem is to serve Qwen3-235B FP8 on sixteen H200 GPUs across two nodes. Each synthetic request has 4,000 input tokens and asks for 200 output tokens. A request counts only when it gets its first token within 3,000 milliseconds and its mean spacing between generated tokens is no more than 20 milliseconds. At least 90 percent of all requests must meet both conditions; errors count too. We therefore report goodput multiplied by the requested 200 output tokens. This measures qualifying output, not unrestricted token generation. The local full-set quality check is reported at the end; it is separate from this service metric and does not certify the organiser’s result.
 
 ### Avoid this interpretation
 
@@ -200,7 +200,7 @@ Now that the objective is fixed, we can be precise about which parts of the work
 
 We separate architecture choices, the team’s request-scoped KV patch, and backend measurements. These claims use different evidence: layout records, source plus transfer validation, and controlled experiments; H100 remains separate from H200.
 
-![Slide 02](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-quality-update-20261103/slides/assets/slide-02.png)
 
 ### Reasoning to communicate
 
@@ -266,7 +266,7 @@ We begin with the engineering choice: how replicas and parallel width compete fo
 
 The topology trials exposed a tradeoff between more prompt workers and wider workers. We retained a split that fits two eight-GPU nodes, has a working transfer path and survives later full N64 repeats. The different-load scores do not prove it is globally best.
 
-![Slide 03](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-quality-update-20261103/slides/assets/slide-03.png)
 
 ### Reasoning to communicate
 
@@ -334,7 +334,7 @@ A separate historical heterogeneous-TP branch then exposed a transfer-readiness 
 
 The retained split uses two four-GPU TP4/EP1 prefill workers on one node and one eight-GPU TP8/EP8 decode worker on the other. This fits sixteen H200s but adds KV transfer between roles.
 
-![Slide 04](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-quality-update-20261103/slides/assets/slide-04.png)
 
 ### Reasoning to communicate
 
@@ -402,7 +402,7 @@ To understand why transfer validation mattered, we now examine that separate his
 
 In job 22271, the P8 TP8/EP2 to D8 TP4/EP4 workers loaded but pair warmup timed out after 360 seconds. AIPerf never ran, so there was no baseline score.
 
-![Slide 05](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-quality-update-20261103/slides/assets/slide-05.png)
 
 ### Reasoning to communicate
 
@@ -469,7 +469,7 @@ The timeout locates the symptom before scoring, but not its cause. We next inspe
 
 Workers reached ready state but pair warmup timed out before AIPerf. Source inspection found request-independent enumeration of a large reserved KV pool. We tried request-scoped ranges first because this setup hypothesis was narrow and cheaply testable.
 
-![Slide 06](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-quality-update-20261103/slides/assets/slide-06.png)
 
 ### Reasoning to communicate
 
@@ -539,7 +539,7 @@ The CPU checks only establish that the patch describes the same byte ranges. The
 
 Patched job 22294 completed warmup in 0.68–0.70 seconds per request and scored 1,422.96 good tokens/s at N32, with 95.87% joint SLA and zero errors. This proves feasibility, not isolated speedup.
 
-![Slide 07](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-quality-update-20261103/slides/assets/slide-07.png)
 
 ### Reasoning to communicate
 
@@ -607,7 +607,7 @@ The patch restores a measurable serving path but leaves the performance cause un
 
 The separate N48 diagnostic assigns about 23.48% of summed recorded GPU-kernel duration to communication and normalization. This motivates a controlled test; it does not establish that communication consumes the same share of request latency or limits N64.
 
-![Slide 08](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-quality-update-20261103/slides/assets/slide-08.png)
 
 ### Reasoning to communicate
 
@@ -674,7 +674,7 @@ This diagnostic narrows the questions but does not choose a fix. We now show a s
 
 We compared automatic decode with HPC-Ops on the same full H200 N60 setup, holding DeepGEMM prefill and chunk 8,192 fixed. The hypothesis was that decode execution could improve useful throughput; a separate treatment repeat checks consistency.
 
-![Slide 09](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-quality-update-20261103/slides/assets/slide-09.png)
 
 ### Reasoning to communicate
 
@@ -739,7 +739,7 @@ Now read the paired result across goodput, first-token latency and token spacing
 
 The decode change improves qualifying throughput by about 5.30% on H200, and a separate deployment repeats the result closely. First-token wait gets worse while streaming gaps improve. We retain this measured tradeoff, not a claim that everything became faster.
 
-![Slide 10](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-quality-update-20261103/slides/assets/slide-10.png)
 
 ### Reasoning to communicate
 
@@ -804,7 +804,7 @@ Next, choose the request load by comparing N64 repetition with the apparent N68 
 
 Full N64 beat N62 by 1.082867% and repeated within 0.013634%. N68 looked 2.27% better in a short screen, but the full pair showed only 0.083056%, below the useful-gain gate. N64 is the supported load choice.
 
-![Slide 11](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-quality-update-20261103/slides/assets/slide-11.png)
 
 ### Reasoning to communicate
 
@@ -869,7 +869,7 @@ At the selected N64 load, inspect which request-level latency condition still fa
 
 Of 1,902 requests, 1,875 met both latency limits; all 27 misses were TTFT-only. No request missed ITL, and there were zero request errors. The scatter identifies the failed condition, not why those first tokens were late.
 
-![Slide 12](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-quality-update-20261103/slides/assets/slide-12.png)
 
 ### Reasoning to communicate
 
@@ -934,7 +934,7 @@ Next, compare replicated N64 evidence with isolated higher or lower observations
 
 Three evidence series now meet: historical N64 mean 3,044.40, separate native run 3,045.50, and complete portable run 28197 at 3,051.52 good tokens/s. This confirms the packaged path once; lower valid replays still have no identified cause.
 
-![Slide 13](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-quality-update-20261103/slides/assets/slide-13.png)
 
 ### Reasoning to communicate
 
@@ -942,7 +942,7 @@ Three evidence series now meet: historical N64 mean 3,044.40, separate native ru
 - **Why it matters:** A good benchmark score is useful for submission only if the actual portable package can pass readiness, serve both roles, run the client, read results and clean up in a real allocation.
 - **Why this test:** After one exact-ZIP attempt failed before scoring because the gateway health check returned HTTP 200 while model registration still returned 503, change only the deployment readiness wait and checksum. Keep workers, official client, readers and semantic paths unchanged, then run a complete 16-H200 N64 entry.
 - **What we learned:** Job 28197 completed the full portable entry in 611 seconds, passed both P/D semantic paths and summary gates, and scored 3051.518173 good tokens/s with 98.6366% joint SLA and zero errors/cancellations. This closes the post-reader-fix GPU acceptance gap.
-- **Why the next step follows:** The package has one complete post-fix GPU acceptance run. Keep its scope separate from historical performance repeats, then close with the remaining official model-quality requirement.
+- **Why the next step follows:** The package has one complete post-fix GPU acceptance run. Keep it separate from historical performance repeats; slide 16 reports the separately measured local full-set quality result and its limits.
 
 ### Purpose
 
@@ -975,7 +975,7 @@ Use three separately labelled evidence cards: (A) historical three-run N64 full-
 - **Observation:** 28197 scored 3051.518173 good tokens/s with 1881/1907 jointly passing, zero errors/cancellations, mean/p95 TTFT 1100.3153/1285.9962 ms and ITL 15.009828/15.185750 ms. It completed the full portable entry after the exact-ZIP readiness attempt failed before benchmark.
 - **Hypothesis:** Independent native and portable paths should reproduce the retained operating level if the fixes address packaging/readiness rather than changing model semantics or server/client behavior.
 - **Supported conclusion:** The complete portable acceptance run supports the deployment path and is consistent with the prior roughly 3044–3046 operating series. It is one acceptance run, not a fresh matched performance treatment or proof of a global optimum.
-- **Unknown / limitation:** A lower valid legacy replay remains unexplained; run-to-run variation and broader statistical repeatability are not resolved. Official model quality remains a separate unknown.
+- **Unknown / limitation:** The complete local MMLU-Pro comparison is reported on slide 16; BTC’s quality outcome remains unknown. The local result does not explain lower legacy replay variation or establish broader statistical repeatability.
 
 ### Spoken script
 
@@ -983,11 +983,11 @@ We now have three distinct pieces of repeatability evidence. The historical N64 
 
 ### Avoid this interpretation
 
-Do not merge the historical mean, native run and portable run into one statistical series. A single portable acceptance proves package execution once, not official model quality or the cause of prior drift.
+Do not merge the historical mean, native run and portable run into one statistical series. A single portable acceptance proves package execution once, not BTC quality certification or the cause of prior drift.
 
 ### Transition
 
-The successful portable entry closes the deployment-replay gap. The final slide separates that acceptance from the organiser’s still-unverified full-set quality test.
+The successful portable entry closes the deployment-replay gap. The final slide reports the separate local full-set quality comparison and distinguishes it from BTC’s still-unknown decision.
 
 ---
 
@@ -1001,7 +1001,7 @@ The successful portable entry closes the deployment-replay gap. The final slide 
 
 We ported four distinct H100-derived settings onto the current H200 base. Every candidate stayed below the fresh H200 control: chunk 8192 lost 4.52%, while phase-mode changes gained at most 0.13%. Keep the H200 recipe.
 
-![Slide 14](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-quality-update-20261103/slides/assets/slide-14.png)
 
 ### Reasoning to communicate
 
@@ -1069,7 +1069,7 @@ This closes our measured AI transfer and tuning story. We retain the H200 recipe
 
 Sparse graphs reduced capture memory but goodput fell 0.370208% versus control 27376. Full shallow EAGLE scored 2.080318% below target-only control 26949. These separate results reject neither idea universally; they bound the tested settings.
 
-![Slide 15](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-quality-update-20261103/slides/assets/slide-15.png)
 
 ### Reasoning to communicate
 
@@ -1125,69 +1125,69 @@ The closing slide separates what the serving evidence supports from two validati
 
 <a id="slide-16"></a>
 
-## Slide 16 — Preserve the model; optimise the serving path
+## Slide 16 — The optimised service retains 99.9154% of reference accuracy
 
-**Hardware: H200 performance evidence · official model quality not verified · handoff to unchanged OpenFOAM slide 33**
+**Hardware: Paired local MMLU-Pro study · same 16 H200 · official BTC quality decision remains unknown · handoff to unchanged OpenFOAM slide 35**
 
-**Claim type: Framing / claim boundary.**
+**Claim type: Local full-set quality measurement / claim boundary.**
 
 ### Quick brief · 10–20 seconds
 
-We preserved the official FP8 checkpoint and target computation while tuning serving. Portable job 28197 completed the full 16-H200 entry in 10 minutes 11 seconds, with 3,051.52 good tokens/s and 1,881 of 1,907 requests meeting both latency limits.
+On the same 12,032 MMLU-Pro questions and 16 H200s, the optimised service got 9,452 correct versus 9,460 for stock FP8. That retains 99.9154% of reference accuracy, above our local 99% threshold.
 
-![Slide 16](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-quality-update-20261103/slides/assets/slide-16.png)
 
 ### Reasoning to communicate
 
-- **Problem:** The service must meet the latency-qualified throughput objective while using the contest model and its intended computation.
-- **Why it matters:** Serving optimizations are relevant only if they retain the required model behavior and produce a deployable service on the supplied hardware.
-- **Why this test:** Preserve the official FP8 checkpoint, all layers and experts, and BF16 KV while running the complete portable H200 entry with the official client and existing latency gates.
-- **What we learned:** Job 28197 completed every deployment and scoring stage in 611 seconds, with 3051.518173 good tokens/s and 1881/1907 joint SLA passes. This establishes a full serving acceptance run with the model configuration preserved.
-- **Why the next step follows:** Present the serving result and preserved model configuration, then state that model-quality evaluation follows the organiser Q1 protocol and hand over to OpenFOAM.
+- **Problem:** The accepted performance run proved that the service could meet its workload gates, but synthetic benchmark requests did not establish answer accuracy.
+- **Why it matters:** Serving layout, kernels, batching and reductions can change generated answers even when the official checkpoint is retained. A quality claim therefore needs scored model answers, not only unchanged weights or good throughput.
+- **Why this test:** Compare the stock official FP8 deployment with the accepted optimised service on the same two-node, 16-H200 hardware, identical pinned MMLU-Pro prompts and all 12,032 test questions. Keep the first response and use the frozen scorer. Count invalid parsed answers as wrong; keep length-capped answers in the denominator and score each parsed answer normally.
+- **What we learned:** The stock deployment answered 9,460/12,032 correctly (78.623670%); the candidate answered 9,452/12,032 correctly (78.557181%). Their accuracy ratio is 99.915433%, above the local 99% point threshold. There were 434 candidate-only correct and 442 reference-only correct outcomes, so the net loss of eight is not only eight changed questions. All sixteen jobs completed with zero scored service errors.
+- **Why the next step follows:** Close the AI section with the bounded local pass and its limits: one pass per role, category losses, and no BTC certification. Then hand over to the unchanged OpenFOAM section.
 
 ### Purpose
 
-Summarize the engineering boundary: preserve the submitted model and its target computation, then optimize the deployment around it. Report the completed serving acceptance with its measured SLA result. The full-set model-quality result is separate and follows the organiser Q1 evaluation protocol.
+Close the AI talk with the completed full-set local quality comparison. Distinguish absolute accuracy from accuracy retention, show that the two complete deployments were compared on the same H200 hardware and inputs, and keep the local point-gate result separate from the organisers’ unknown quality decision.
 
 ### Technical interpretation and reasoning
 
-Use two equal panels. Left, “PRESERVED · MODEL”: Official FP8 checkpoint; no requantisation or skipped layers/experts; BF16 KV; unchanged target computation intended. Right, “VERIFIED · SERVICE”: 28197 · 3,051.52 good output tokens/s; 1,881 / 1,907 joint SLA passes; full entry completed in 10 min 11 s. Bottom neutral small text: “Model-quality evaluation follows the organiser Q1 protocol.” Add the HPC handoff bar. Do not make an unknown-quality warning a main panel or imply an accuracy result.
+The shared-input line reads “Same FP8 checkpoint · same prompts, generation and scoring”; the subtitle specifies 16 H200 GPUs, both complete deployments, and all 12,032 questions. Two comparison cards show stock reference (9,460/12,032 = 78.6237% accuracy) and the optimised service (9,452/12,032 = 78.5572% accuracy); this is not a chart and has no axes. The counts are numbers of questions; percentages label accuracy or accuracy retention. Dark teal identifies the stock reference, while orange identifies the candidate and threshold decision. These colors distinguish roles and the decision; they do not imply candidate accuracy is higher. Candidate accuracy (78.5572%) is below reference accuracy (78.6237%). Along the bottom, the left side gives “Accuracy retention = 9,452 / 9,460 = 99.9154%”; the right side shows PASS against the ≥99% threshold, plus 16/16 completed jobs and zero service errors. A neutral note says the organisers’ own quality decision remains separate. The oral handoff to OpenFOAM is unchanged.
 
 ### Terms and symbols to understand
 
-- **native FP8 checkpoint:** The official eight-bit floating-point model checkpoint is used as supplied; no new quantisation is applied.
-- **BF16 KV:** Key/value cache values use bfloat16 during inference; this is separate from the FP8 model weights.
-- **target computation preserved:** No layers or experts were skipped and the intended model computation was kept while serving settings were tuned. This does not alone measure output accuracy.
-- **joint SLA passes:** Requests satisfying both TTFT ≤3000 ms and mean ITL ≤20 ms; the denominator includes every request.
-- **Q1 evaluation:** The organiser’s official full-set model-quality procedure, separate from the serving throughput acceptance run.
+- **accuracy:** The share of the 12,032 questions answered correctly: correct answers divided by all questions.
+- **accuracy retention:** Candidate accuracy divided by reference accuracy. Here the equal question denominators cancel, so retention is 9,452/9,460 = 99.9154%. It is not the percentage of questions the candidate answered correctly.
+- **stock FP8 reference:** Our local stock deployment of the official Qwen3-235B FP8 checkpoint. It is the measured denominator for this comparison, not a numeric organiser-provided score.
+- **same 16 H200:** Both complete deployments used the same two-node, sixteen-H200 cluster. The comparison is H200-to-H200; no H100 estimate is involved.
+- **local 99% point threshold:** The predeclared rule that candidate accuracy divided by this measured stock-reference accuracy must be at least 0.99. Passing it is a local result, not BTC certification.
 
 ### Interpreting the evidence or diagram
 
-- The serving changes preserve the official FP8 checkpoint: the team did not requantise it or skip layers/experts. KV cache remains BF16.
-- The intended target computation remains unchanged while parallel layout, communication path and runtime serving settings are tuned. Preservation is a design fact; by itself it is not a numerical quality result.
-- Job 28197 completed the full portable entry on 16 H200 at N64 in 611 seconds, including both semantic routes, official client, result reading, summary gates and cleanup.
-- It scored 3051.518173 good output tokens/s. 1881/1907 requests met TTFT and request-mean ITL limits jointly (98.63660199265862%); 26 missed TTFT, zero missed ITL and zero errors/cancellations.
-- Good output tokens/s is the official AIPerf Goodput request/s multiplied by 200 target output tokens.
-- This is a service result. The organiser’s full-set quality check is a separate Q1 evaluation; no numeric full-set quality score is reported here.
+- Read each accuracy as correct answers divided by all 12,032 questions: stock 9,460/12,032 = 78.623670%; candidate 9,452/12,032 = 78.557181%.
+- The candidate has eight fewer correct answers, a net difference of 0.066489 percentage points. Accuracy retention is the ratio of the two accuracies, 9,452/9,460 = 99.915433%, which passes the local 99% point threshold.
+- The net difference hides 876 discordant outcomes: 434 questions were candidate-only correct and 442 were reference-only correct. There were gains and losses across shards and categories.
+- Computer science retained 338/345 = 97.971014% and philosophy 383/387 = 98.966408%. The declared gate is aggregate only; these category results remain limitations.
+- Each role received all 12,032 questions once, split into eight fixed shards. All sixteen jobs completed and both roles had zero scored service errors. The 101 invalid parses per role were scored wrong. Answers reaching the generation cap (1,484 reference; 1,468 candidate) stayed in the denominator and were scored normally from their parsed answer, not automatically marked wrong.
+- This is one complete pass per deployment, not repeated independent deployments. Raw-answer replay verifies scoring but is not a second GPU trial. The local MMLU-Pro pass does not certify BTC’s evaluation or predict unseen benchmarks.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** The official FP8 checkpoint and intended target computation were preserved; BF16 KV was used. Portable job 28197 completed the full entry in 611 seconds at 3051.518173 good output tokens/s with 1881/1907 joint passes and zero scored errors/cancellations.
-- **Hypothesis:** Keeping model computation fixed lets the team improve the serving path while preserving the model’s intended behavior; quality still needs the organiser’s full-set procedure.
-- **Supported conclusion:** The full portable serving entry passed the team’s workload and latency gates. The measured result supports deployment acceptance; it is reported separately from model quality.
-- **Unknown / limitation:** No numeric full-set accuracy result against the organiser reference is present in this record. Preserving weights and computation is not itself proof of the ≥99% quality threshold.
+- **Observation:** On identical 12,032-question inputs and the same 16 H200 GPUs, stock FP8 scored 9,460/12,032 (78.623670%) and the optimised deployment scored 9,452/12,032 (78.557181%). Both roles had zero scored service errors; all sixteen allocations completed.
+- **Hypothesis:** The full local paired comparison tests whether the complete optimised serving implementation retains at least 99% of the measured stock deployment’s accuracy, while preserving every question and first response.
+- **Supported conclusion:** The candidate retains 9,452/9,460 = 99.915433% of reference accuracy and passes the predeclared aggregate local 99% point threshold. This is a local MMLU-Pro result, not an organiser-certified result.
+- **Unknown / limitation:** One complete pass per deployment does not establish statistical equivalence, identical answers, causality for any kernel or patch, or quality on unseen tasks. Category retention is below 99% in computer science and philosophy. BTC’s own quality outcome remains unknown.
 
 ### Spoken script
 
-We preserved the official FP8 checkpoint and the intended model computation: no layers or experts were skipped, and the KV cache used BF16. We then completed the full portable serving entry on sixteen H200s. Job 28197 finished in ten minutes eleven seconds and scored 3,051.52 good output tokens per second. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent. That verifies the serving path under this workload with the model configuration preserved. Model quality is evaluated separately under the organiser’s Q1 protocol; this serving result is not that quality score. I now hand over to the OpenFOAM presenter.
+We tested the complete optimised service against a stock deployment of the same FP8 checkpoint, on the same sixteen H200 GPUs and all 12,032 MMLU-Pro questions. The stock deployment got 9,460 correct, or 78.62 percent. Our service got 9,452, or 78.56 percent. Dividing those accuracies gives 99.9154 percent retention, above our local 99 percent threshold. All sixteen jobs completed without scored service errors, and invalid answers stayed counted as wrong. This is one full local pass per deployment, not a BTC certificate or a guarantee for other benchmarks. I now hand over to OpenFOAM.
 
 ### Avoid this interpretation
 
-Do not present preservation of weights/target computation or the serving SLA as proof of the organiser’s ≥99% full-set accuracy result. No numeric official quality score is reported in this deck.
+Call 99.9154% accuracy retention, not candidate accuracy; candidate accuracy is 78.557181%. Do not say the services differed on only eight questions: 876 questions had discordant correctness outcomes. Do not present this local MMLU-Pro point-gate pass as BTC certification, statistical equivalence, causal attribution to one optimisation, or a guarantee on unseen tasks.
 
 ### Transition
 
-Serving acceptance is established for this full run. Model-quality evaluation follows the organiser Q1 protocol; next we hand over to OpenFOAM.
+The paired local quality check passes its aggregate point threshold, with its scope and limits clear. We now hand over to the unchanged OpenFOAM section.
 
 ---
 
@@ -1201,7 +1201,7 @@ Serving acceptance is established for this full run. Model-quality evaluation fo
 
 Both systems allocate sixteen GPUs and use the same Qwen checkpoint and staged workload. Firmus uses H200s; NSCC uses H100s. Different hardware, schedulers, containers, and node conditions mean their scores are separate measurements, not a direct GPU conversion.
 
-![Slide 17](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-17.png)
+![Slide 17](../../submission-review/ai-quality-update-20261103/slides/assets/slide-17.png)
 
 **AI backup section: open when a deeper explanation is needed.**
 
@@ -1261,7 +1261,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The failed TP8/EP1 partition had 192 elements, which leaves a 64-element remainder against a 128-wide FP8 block. EP2 changes the effective split to 384 elements, or three full blocks. That fixes this shape mismatch; it does not prove serving speed or quality.
 
-![Slide 18](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-18.png)
+![Slide 18](../../submission-review/ai-quality-update-20261103/slides/assets/slide-18.png)
 
 ### Purpose
 
@@ -1319,7 +1319,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The H200 chart rises from 1,297 good tokens/s at N32 to a 3,044 N64 mean. It shows better measured operating points over the campaign, but each milestone changes load or configuration, so the bars do not assign a causal gain to each optimization.
 
-![Slide 19](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-19.png)
+![Slide 19](../../submission-review/ai-quality-update-20261103/slides/assets/slide-19.png)
 
 ### Purpose
 
@@ -1375,7 +1375,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The patch builds descriptors for requested KV pages and coalesces contiguous ranges while preserving mapping and stride. CPU tests passed 720 geometry cases; the fixture explicitly did not validate real GPU transport.
 
-![Slide 20](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-20.png)
+![Slide 20](../../submission-review/ai-quality-update-20261103/slides/assets/slide-20.png)
 
 ### Purpose
 
@@ -1434,7 +1434,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 On patched job 22294, pair warmup took 0.68–0.70 seconds per request and full N32 goodput was 1,422.96 with 95.87% joint SLA and zero errors. No matched unpatched control measures speedup.
 
-![Slide 21](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-21.png)
+![Slide 21](../../submission-review/ai-quality-update-20261103/slides/assets/slide-21.png)
 
 ### Purpose
 
@@ -1493,7 +1493,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 In one matched H100 N54 pair, FA3 cut mean TTFT from 713.199 to 594.276 ms, but goodput fell from 2,420.945 to 2,401.284 tokens/s, about 0.812%. A faster first token did not improve the full request objective.
 
-![Slide 22](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-22.png)
+![Slide 22](../../submission-review/ai-quality-update-20261103/slides/assets/slide-22.png)
 
 ### Purpose
 
@@ -1551,7 +1551,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Read-first initially reduced scheduler walltime by 18.74%, but the reversed-order confirmation saved only 9.84%, below the predeclared 10% threshold. Goodput changed slightly in both pairs; unknown cache state prevents a cold-storage causal claim.
 
-![Slide 23](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-23.png)
+![Slide 23](../../submission-review/ai-quality-update-20261103/slides/assets/slide-23.png)
 
 ### Purpose
 
@@ -1608,7 +1608,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Several H200 changes were activated and measured, but gains were small, negative, or worse in a tail metric. For example, a prefill attention change lost 6.385% goodput. A working flag is not enough to replace the selected configuration.
 
-![Slide 24](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-24.png)
+![Slide 24](../../submission-review/ai-quality-update-20261103/slides/assets/slide-24.png)
 
 ### Purpose
 
@@ -1667,7 +1667,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The 2,549.20 N52 attention package changed several factors; representative Triton probes, CPU fixtures, and source review answer narrower questions. Full Qwen compilation stopped at a RoPE/KV assertion. None alone proves a full-model serving gain.
 
-![Slide 25](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-25.png)
+![Slide 25](../../submission-review/ai-quality-update-20261103/slides/assets/slide-25.png)
 
 ### Purpose
 
@@ -1726,7 +1726,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The retained H200 recipe and H100 recipe remain separate. H200 now also has a complete portable acceptance run at 3,051.52 good tokens/s; this validates deployment, not H100-to-H200 conversion.
 
-![Slide 26](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-26.png)
+![Slide 26](../../submission-review/ai-quality-update-20261103/slides/assets/slide-26.png)
 
 ### Purpose
 
@@ -1787,7 +1787,7 @@ The platform configurations and the complete H200 acceptance are separate eviden
 
 Under the same full N64 workload, increasing prefill chunk from 8,192 to 12,288 reduced goodput from 3,045.50 to 3,020.94 tokens/s and worsened p95 TTFT. Each setting has one reviewed H200 run; this does not establish a global optimum.
 
-![Slide 27](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-27.png)
+![Slide 27](../../submission-review/ai-quality-update-20261103/slides/assets/slide-27.png)
 
 ### Purpose
 
@@ -1846,7 +1846,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Sparse capture cut logged memory from 1.15 to 0.36 GB per decode rank, but goodput fell 0.370208% and mean ITL worsened. Padding was not measured as a cause. The team retained dense graphs; this pair does not prove a causal effect.
 
-![Slide 28](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-28.png)
+![Slide 28](../../submission-review/ai-quality-update-20261103/slides/assets/slide-28.png)
 
 ### Purpose
 
@@ -1904,7 +1904,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Historical full N64 averaged 3,044.40 while a newer short control was about 2,560. Graph policy, server admission cap and measurement procedure changed. The completed tests did not isolate one cause, so we retain the drift without attributing it to one flag.
 
-![Slide 29](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-29.png)
+![Slide 29](../../submission-review/ai-quality-update-20261103/slides/assets/slide-29.png)
 
 ### Purpose
 
@@ -1959,7 +1959,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 EAGLE3 placement missed latency; a validator bug was repaired; the short retry and separate full shallow trial both lost goodput. The tested method therefore did not help this workload, although other configurations remain untested.
 
-![Slide 30](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-30.png)
+![Slide 30](../../submission-review/ai-quality-update-20261103/slides/assets/slide-30.png)
 
 ### Purpose
 
@@ -2014,7 +2014,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Jobs 27136 and 27145 failed in separate result-reader defects; 27152 verified both fixes on CPU. Exact-ZIP job 28194 then hit a gateway health/registration race before scoring. Job 28197 changed readiness wait/checksum and passed the full 611-second H200 entry.
 
-![Slide 31](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-31.png)
+![Slide 31](../../submission-review/ai-quality-update-20261103/slides/assets/slide-31.png)
 
 ### Purpose
 
@@ -2073,7 +2073,7 @@ This appendix shows how the portable deployment failure was isolated and finally
 
 At H200 N52, combining attention and communication measured about 1.43 percent above a later MNNVL control. This supports the combined setting at this load, not additive component gains or a universal rule.
 
-![Slide 32](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-32.png)
+![Slide 32](../../submission-review/ai-quality-update-20261103/slides/assets/slide-32.png)
 
 ### Purpose
 
@@ -2130,7 +2130,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.
 
-![Slide 33](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-33.png)
+![Slide 33](../../submission-review/ai-quality-update-20261103/slides/assets/slide-33.png)
 
 ### Purpose
 
@@ -2186,7 +2186,7 @@ For the latest direct H200 transfer results, return to main slide 14; the comple
 
 Nine final H200 allocations tested controls and H100-derived alternatives. No distinct candidate cleared the team’s 1% usefulness gate; the existing H200 recipe remains the measured choice.
 
-![Slide 34](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-34.png)
+![Slide 34](../../submission-review/ai-quality-update-20261103/slides/assets/slide-34.png)
 
 ### Purpose
 

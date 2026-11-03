@@ -12,7 +12,7 @@
 - **↑ / ↓** thường là hướng mong muốn tối ưu, không khẳng định số liệu thực tế đã tăng/giảm. “Không có trục” nghĩa là sơ đồ/bảng/card, không cần tự suy ra trục X/Y.
 - Tối ưu mở rộng vẫn dừng. Job kiểm chứng cuối 28197 đã chạy xong theo yêu cầu; các việc “tiếp theo” là đề xuất trừ khi ghi rõ đã thực hiện.
 
-Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-acceptance-update-20261102/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `2c85a21ae0ca66b6955cfa102ca72e473f479734d9e7a2beccb3167a1a82b1ae`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
+Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Presentation.pdf), [bản tiếng Anh](TRANSCRIPT_EN.md). SHA-256 của PowerPoint: `239a89d2b23fef51be4ae7f53b5de5ab79a725f6499c4a76268e40d9b81b642b`. Đây là transcript của phiên bản này; đổi deck thì cần kiểm tra lại hướng dẫn.
 
 ## Những cách gọi cần hiểu trước khi thuyết trình
 
@@ -20,7 +20,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 **“Phép đo đầy đủ”:** trong chiến dịch này là 60 giây warmup để dịch vụ hoạt động trước, 120 giây profiling để thu số đo, và 30 giây grace cho request còn lại hoàn tất. “Đầy đủ” phân biệt với phép thử ngắn dùng sàng lọc ý tưởng. Nó không có nghĩa đã chạy mọi bài đánh giá chất lượng hay mọi request đều đạt. Theo luật, ít nhất 90% request phải đồng thời đạt hai giới hạn độ trễ.
 
-**“Đã kiểm tra đạt”:** nhóm kiểm tra dữ liệu theo những điều kiện đã triển khai cho lần chạy đó, chẳng hạn protocol, cấu hình thực sự được bật, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Cần đọc điều kiện cụ thể của từng run; việc scheduler ghi COMPLETED chỉ cho biết script trả mã thành công. Cả hai chưa thay thế đánh giá chất lượng chính thức ≥99% điểm tham chiếu của BTC; yêu cầu đó vẫn chưa được xác minh.
+**“Đã kiểm tra đạt”:** nhóm kiểm tra dữ liệu theo những điều kiện đã triển khai cho lần chạy đó, chẳng hạn protocol, cấu hình thực sự được bật, độ trễ/lỗi và kiểm tra đầu ra nhỏ. Cần đọc điều kiện cụ thể của từng run; việc scheduler ghi COMPLETED chỉ cho biết script trả mã thành công. Cả hai chưa thay thế đánh giá chất lượng chính thức ≥99% điểm tham chiếu của BTC; kết quả chính thức đó vẫn tách biệt. Phép đối chứng MMLU-Pro đầy đủ của nhóm đã đạt tỷ lệ giữ điểm 99,915433%; slide 16 giải thích phạm vi phép đo.
 
 **“Đối chứng” và “ứng viên”:** đối chứng là cấu hình giữ để làm mốc; ứng viên là cấu hình đổi yếu tố muốn thử. Ví dụ cache mới 27378 phải so với đối chứng mới 27376. So nó với trung bình lịch sử của một chuỗi khác sẽ trộn thay đổi cần thử với khác biệt thời điểm và môi trường.
 
@@ -90,7 +90,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 13 — A complete portable run reproduces the retained operating level](#slide-13)
 - [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — Preserve the model; optimise the serving path](#slide-16)
+- [Slide 16 — The optimised service retains 99.9154% of reference accuracy](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
 - [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
@@ -132,7 +132,7 @@ Nguồn: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 Chúng tôi phục vụ Qwen3-235B FP8 trên 16 GPU H200. Một yêu cầu chỉ được tính khi đạt cả hai giới hạn độ trễ; ít nhất 90% phải đạt. Chỉ thông lượng đầu ra đạt chuẩn mới được báo cáo.
 
-![Slide 01](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-quality-update-20261103/slides/assets/slide-01.png)
 
 ### Mạch suy luận để nói
 
@@ -172,11 +172,11 @@ Giải thích luồng tính chỉ số từ một yêu cầu đến điểm dị
 - **Quan sát:** Bài toán cố định prompt 4.000 token, 200 token đầu ra yêu cầu, hai giới hạn độ trễ từng yêu cầu và tỷ lệ đạt kết hợp tối thiểu 90%.
 - **Giả thuyết:** Cấu hình tạo nhiều token thô vẫn có thể phục vụ kém nếu quá nhiều yêu cầu riêng lẻ trượt một trong hai giới hạn độ trễ.
 - **Kết luận được hỗ trợ:** Dùng thông lượng đạt chuẩn dưới cổng kết hợp làm mục tiêu cho các quyết định kỹ thuật và thực nghiệm sau.
-- **Chưa biết / giới hạn:** Định nghĩa này không chứng minh accuracy chính thức của mô hình hay thứ hạng cuộc thi; chất lượng trên bộ đầy đủ vẫn là câu hỏi xác minh riêng.
+- **Chưa biết / giới hạn:** Cổng điểm MMLU-Pro cục bộ trên toàn bộ tập hiện đã được đo và đạt; chỉ số dịch vụ này không chứng minh BTC chứng nhận hay thứ hạng cuộc thi.
 
 ### Lời nói mẫu
 
-Bài toán của chúng tôi là phục vụ Qwen3-235B FP8 trên mười sáu GPU H200, chia trên hai nút. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ được tính nếu nhận token đầu tiên trong không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% toàn bộ yêu cầu phải đồng thời đạt hai điều kiện; lỗi cũng bị tính. Vì vậy chúng tôi báo cáo goodput nhân với 200 token đầu ra yêu cầu. Chỉ số này phản ánh đầu ra đạt chuẩn, không phải toàn bộ token sinh. Accuracy chính thức là câu hỏi riêng.
+Bài toán của chúng tôi là phục vụ Qwen3-235B FP8 trên mười sáu GPU H200, chia trên hai nút. Mỗi yêu cầu tổng hợp có 4.000 token đầu vào và yêu cầu 200 token đầu ra. Một yêu cầu chỉ được tính nếu nhận token đầu tiên trong không quá 3.000 mili giây và khoảng cách token trung bình không quá 20 mili giây. Ít nhất 90% toàn bộ yêu cầu phải đồng thời đạt hai điều kiện; lỗi cũng bị tính. Vì vậy chúng tôi báo cáo goodput nhân với 200 token đầu ra yêu cầu. Chỉ số này phản ánh đầu ra đạt chuẩn, không phải toàn bộ token sinh. Kết quả quality cục bộ trên toàn bộ tập được trình bày ở cuối; đó là phép đo riêng với chỉ số dịch vụ này và không chứng nhận kết quả của BTC.
 
 ### Điều không nên nói
 
@@ -200,7 +200,7 @@ Khi mục tiêu đã rõ, ta có thể phân biệt chính xác phần nào là 
 
 Chúng tôi tách lựa chọn kiến trúc, bản vá KV theo yêu cầu của nhóm và phép đo backend. Mỗi kết luận có loại bằng chứng riêng: hồ sơ layout, source cùng xác minh truyền, hoặc thử nghiệm có đối chứng; H100 được giữ riêng với H200.
 
-![Slide 02](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-quality-update-20261103/slides/assets/slide-02.png)
 
 ### Mạch suy luận để nói
 
@@ -266,7 +266,7 @@ Ta bắt đầu từ quyết định kiến trúc: số replica và độ rộng
 
 Các phép thử cho thấy đánh đổi giữa nhiều worker xử lý prompt và worker có độ song song rộng. Nhóm giữ cấu hình vừa hai node tám GPU, có đường truyền KV hoạt động và lặp lại được ở N64. Điểm đo khác tải không chứng minh đây là cấu hình tốt nhất toàn cục.
 
-![Slide 03](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-quality-update-20261103/slides/assets/slide-03.png)
 
 ### Mạch suy luận để nói
 
@@ -334,7 +334,7 @@ Sau đó, một nhánh heterogeneous-TP lịch sử riêng gặp lỗi sẵn sà
 
 Cách chia được giữ lại dùng hai worker prefill TP4/EP1, mỗi worker bốn GPU, trên một nút; nút kia chạy decode TP8/EP8 trên tám GPU. Cấu hình vừa 16 H200 nhưng cần truyền KV giữa hai vai trò. Cấu hình này được chọn để cân bằng hai pha trong ngân sách GPU.
 
-![Slide 04](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-quality-update-20261103/slides/assets/slide-04.png)
 
 ### Mạch suy luận để nói
 
@@ -402,7 +402,7 @@ Không nhầm topology được chọn với nhánh khôi phục lịch sử P8 
 
 Trong job 22271, worker P8 TP8/EP2 sang D8 TP4/EP4 đã nạp mô hình nhưng warmup cặp timeout sau 360 giây. AIPerf chưa chạy, vì vậy không có điểm baseline. Đây là dấu hiệu lỗi khởi động, chưa phải kết quả hiệu năng.
 
-![Slide 05](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-quality-update-20261103/slides/assets/slide-05.png)
 
 ### Mạch suy luận để nói
 
@@ -469,7 +469,7 @@ Timeout xác định lỗi xảy ra trước khi chấm điểm nhưng chưa cho
 
 Hai worker đã sẵn sàng nhưng warmup qua cặp P/D timeout trước AIPerf. Source cho thấy setup duyệt cả pool KV không phụ thuộc request. Nhóm thử giới hạn descriptor theo request trước vì đây là giả thuyết nhỏ, kiểm tra được với chi phí thấp.
 
-![Slide 06](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-quality-update-20261103/slides/assets/slide-06.png)
 
 ### Mạch suy luận để nói
 
@@ -539,7 +539,7 @@ Kiểm tra CPU chỉ xác nhận mô tả khoảng byte tương đương. Slide 
 
 Job 22294 có bản vá hoàn tất warmup trong 0,68–0,70 giây mỗi yêu cầu và đạt 1.422,96 good tokens/s ở N32, SLA kết hợp 95,87%, không lỗi. Kết quả chứng minh tính khả thi, không phải mức tăng tốc riêng. Đây là bằng chứng khả thi của một lần chạy cụ thể. Cần đối chứng thành công để ước lượng tác động riêng của bản vá.
 
-![Slide 07](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-quality-update-20261103/slides/assets/slide-07.png)
 
 ### Mạch suy luận để nói
 
@@ -607,7 +607,7 @@ Bản sửa khôi phục được đường serving có thể đo, nhưng nguyê
 
 Profile N48 riêng ghi giao tiếp và chuẩn hóa chiếm khoảng 23,48% tổng thời lượng kernel GPU đã thu. Quan sát này giúp chọn phép thử có đối chứng, chưa chứng minh giao tiếp chiếm cùng tỷ lệ thời gian chờ của request hoặc là bottleneck của N64.
 
-![Slide 08](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-quality-update-20261103/slides/assets/slide-08.png)
 
 ### Mạch suy luận để nói
 
@@ -674,7 +674,7 @@ Profile thu hẹp câu hỏi nhưng chưa chọn giải pháp. Bây giờ là ph
 
 Chúng tôi so decode tự động với HPC-Ops trên cùng cấu hình H200 N60 đầy đủ, giữ prefill DeepGEMM và chunk 8.192 cố định. Giả thuyết là decode có thể tăng thông lượng hữu ích; lần lặp treatment riêng kiểm tra độ nhất quán.
 
-![Slide 09](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-quality-update-20261103/slides/assets/slide-09.png)
 
 ### Mạch suy luận để nói
 
@@ -739,7 +739,7 @@ Bây giờ đọc kết quả theo goodput, độ trễ token đầu và khoản
 
 Đổi cách thực thi decode giúp thông lượng đạt chuẩn trên H200 tăng khoảng 5,30%, và lần triển khai khác cho kết quả gần như vậy. Token đầu chậm hơn nhưng khoảng token khi đang sinh ngắn hơn. Nhóm chọn đánh đổi đã đo này, không khẳng định mọi thứ đều nhanh hơn.
 
-![Slide 10](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-quality-update-20261103/slides/assets/slide-10.png)
 
 ### Mạch suy luận để nói
 
@@ -804,7 +804,7 @@ Tiếp theo, chọn tải request bằng cách đối chiếu N64 lặp lại v�
 
 N64 đầy đủ hơn N62 1,082867% và lặp lại trong 0,013634%. N68 có vẻ hơn 2,27% ở phép thử ngắn, nhưng cặp đầy đủ chỉ còn 0,083056%, dưới ngưỡng hữu ích. N64 là lựa chọn tải có căn cứ. N64 vì thế phù hợp hơn cho vận hành đầy đủ.
 
-![Slide 11](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-quality-update-20261103/slides/assets/slide-11.png)
 
 ### Mạch suy luận để nói
 
@@ -869,7 +869,7 @@ N là số request client đồng thời, không phải số GPU. Không coi th�
 
 Trong 1.902 request, có 1.875 đạt cả hai giới hạn; cả 27 request trượt đều chỉ lỗi TTFT. Không request nào trượt ITL và không có lỗi request. Scatter cho biết điều kiện bị vi phạm, không giải thích vì sao token đầu trễ.
 
-![Slide 12](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-quality-update-20261103/slides/assets/slide-12.png)
 
 ### Mạch suy luận để nói
 
@@ -934,7 +934,7 @@ Tiếp theo, so bằng chứng N64 lặp lại với các quan sát cao/thấp r
 
 Ba nhóm bằng chứng nay cùng nằm gần nhau: trung bình N64 lịch sử 3.044,40; run native riêng 3.045,50; portable đầy đủ 28197 đạt 3.051,52 good tokens/s. Gói đã qua một lần chạy thật; nguyên nhân replay thấp cũ vẫn chưa rõ.
 
-![Slide 13](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-quality-update-20261103/slides/assets/slide-13.png)
 
 ### Mạch suy luận để nói
 
@@ -942,7 +942,7 @@ Ba nhóm bằng chứng nay cùng nằm gần nhau: trung bình N64 lịch sử 
 - **Vì sao quan trọng:** Điểm benchmark chỉ dùng cho nộp bài khi package thật qua readiness, phục vụ cả hai vai trò, chạy client, đọc kết quả và cleanup trong allocation GPU thật.
 - **Vì sao chọn phép thử này:** Sau lần dùng ZIP nguyên trạng lỗi trước khi chấm vì health gateway trả HTTP 200 trong khi model registration vẫn trả 503, chỉ đổi thời gian đợi readiness và checksum. Giữ nguyên worker, official client, reader, hai đường semantic rồi chạy entry đầy đủ 16 H200 N64.
 - **Điều rút ra:** Job 28197 hoàn tất entry portable trong 611 giây, qua hai đường semantic P/D và summary gate, đạt 3051,518173 good tokens/s với 98,6366% SLA chung và không lỗi/hủy. Điều này đóng khoảng trống GPU acceptance sau sửa reader.
-- **Vì sao chuyển sang bước tiếp:** Package có một lần acceptance GPU đầy đủ sau sửa. Giữ phạm vi đó riêng với các lần đo hiệu năng lịch sử rồi kết thúc bằng yêu cầu quality toàn tập chính thức còn mở.
+- **Vì sao chuyển sang bước tiếp:** Package có một lượt acceptance GPU đầy đủ sau sửa. Giữ riêng kết quả này với các lần đo performance lịch sử; slide 16 trình bày kết quả quality cục bộ trên toàn bộ tập và các giới hạn.
 
 ### Slide muốn nói gì
 
@@ -975,7 +975,7 @@ Dùng ba thẻ bằng chứng có nhãn riêng: (A) trung bình ba full run N64 
 - **Quan sát:** 28197 đạt 3051,518173 good tokens/s với 1881/1907 cùng đạt SLA, không lỗi/hủy, TTFT mean/p95 1100,3153/1285,9962 ms và ITL 15,009828/15,185750 ms. Job hoàn tất entry portable sau khi lần thử ZIP nguyên trạng lỗi trước benchmark.
 - **Giả thuyết:** Đường native và portable độc lập sẽ tái lập điểm vận hành nếu sửa readiness/đóng gói không đổi ngữ nghĩa model hay hành vi server/client.
 - **Kết luận được hỗ trợ:** Run portable đầy đủ hỗ trợ deployment hoạt động và cùng mức với chuỗi vận hành trước khoảng 3044–3046. Đây là một lần acceptance, không phải treatment hiệu năng matched mới hay chứng minh tối ưu toàn cục.
-- **Chưa biết / giới hạn:** Replay hợp lệ thấp hơn vẫn chưa giải thích; biến động giữa run và độ lặp thống kê rộng chưa được giải quyết. Quality model chính thức vẫn là câu hỏi riêng.
+- **Chưa biết / giới hạn:** Phép so sánh MMLU-Pro cục bộ đầy đủ được trình bày ở slide 16; kết quả quality của BTC vẫn chưa biết. Kết quả cục bộ không giải thích biến động của replay cũ thấp hơn hay chứng minh tính lặp thống kê rộng hơn.
 
 ### Lời nói mẫu
 
@@ -983,11 +983,11 @@ Giờ ta có ba mảnh bằng chứng riêng về khả năng lặp lại. Chu�
 
 ### Điều không nên nói
 
-Không gộp trung bình lịch sử, run native và run portable thành một chuỗi thống kê. Một lần portable acceptance chứng minh package chạy được một lần, không chứng nhận quality chính thức hay nguyên nhân drift cũ.
+Không gộp trung bình lịch sử, run native và run portable thành một chuỗi thống kê. Một lượt portable acceptance chứng minh package chạy được một lần, không chứng nhận quality của BTC hay giải thích nguyên nhân drift cũ.
 
 ### Câu chuyển slide
 
-Run portable thành công đóng khoảng trống replay deployment. Slide cuối phân biệt acceptance này với bài kiểm tra quality toàn tập của ban tổ chức vẫn chưa xác minh.
+Run portable thành công đóng khoảng trống replay deployment. Slide cuối trình bày phép so sánh quality cục bộ trên toàn bộ tập và phân biệt kết quả đó với quyết định của BTC vẫn chưa biết.
 
 ---
 
@@ -1001,7 +1001,7 @@ Run portable thành công đóng khoảng trống replay deployment. Slide cuố
 
 Nhóm thử bốn hướng rút ra từ H100 trực tiếp trên nền H200 hiện tại. Không ứng viên nào vượt control H200 mới: chunk 8192 thấp hơn 4,52%; thay đổi phase-mode chỉ tăng tối đa 0,13%. Vì vậy giữ recipe H200.
 
-![Slide 14](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-quality-update-20261103/slides/assets/slide-14.png)
 
 ### Mạch suy luận để nói
 
@@ -1069,7 +1069,7 @@ Không so trực tiếp điểm H100 với H200 hoặc gọi điểm cao nhất 
 
 Graph thưa giảm bộ nhớ capture nhưng goodput thấp hơn control 27376 là 0,370208%. EAGLE nông đầy đủ đạt thấp hơn control target-only 26949 là 2,080318%. Đây là hai kết quả riêng, giới hạn đúng cấu hình đã thử chứ không bác bỏ mọi biến thể.
 
-![Slide 15](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-quality-update-20261103/slides/assets/slide-15.png)
 
 ### Mạch suy luận để nói
 
@@ -1125,69 +1125,69 @@ Slide kết luận tách điều bằng chứng serving hỗ trợ khỏi hai c�
 
 <a id="slide-16"></a>
 
-## Slide 16 — Preserve the model; optimise the serving path
+## Slide 16 — The optimised service retains 99.9154% of reference accuracy
 
-**Phần cứng: Bằng chứng hiệu năng H200 · chất lượng model chính thức chưa xác minh · chuyển sang slide OpenFOAM 33 không đổi**
+**Phần cứng: Phép đo MMLU-Pro của nhóm trên cluster H200 · cùng 16 GPU · kết luận quality của BTC chưa rõ · bàn giao sang slide OpenFOAM 35 không đổi**
 
-**Loại nội dung: Mục tiêu hoặc giới hạn kết luận.**
+**Loại nội dung: Đo quality trên toàn bộ tập do nhóm thực hiện / giới hạn kết luận.**
 
 ### Nói nhanh · 10–20 giây
 
-Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu khi tối ưu serving. Job portable 28197 hoàn tất entry 16 H200 trong 10 phút 11 giây, đạt 3.051,52 good tokens/s; 1.881/1.907 request cùng đạt hai ngưỡng latency.
+Trên cùng 12.032 câu MMLU-Pro và 16 H200, dịch vụ tối ưu trả lời đúng 9.452 câu, so với 9.460 của FP8 nguyên bản. Tỷ lệ giữ accuracy là 99,9154%, cao hơn ngưỡng kiểm tra của nhóm là 99%.
 
-![Slide 16](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-quality-update-20261103/slides/assets/slide-16.png)
 
 ### Mạch suy luận để nói
 
-- **Vấn đề:** Dịch vụ phải đạt mục tiêu throughput có điều kiện latency trong khi dùng đúng model cuộc thi và phép tính dự kiến của model.
-- **Vì sao quan trọng:** Tối ưu serving chỉ có ý nghĩa nếu vẫn giữ hành vi model cần thiết và tạo dịch vụ chạy được trên phần cứng được cấp.
-- **Vì sao chọn phép thử này:** Giữ checkpoint FP8 chính thức, tất cả layer và expert cùng KV BF16 rồi chạy portable entry H200 đầy đủ bằng official client và các ngưỡng latency hiện tại.
-- **Điều rút ra:** Job 28197 hoàn tất mọi bước deploy và chấm trong 611 giây, đạt 3051,518173 good tokens/s và 1881/1907 request đạt SLA chung. Đây là acceptance serving đầy đủ với cấu hình model được giữ.
-- **Vì sao chuyển sang bước tiếp:** Trình bày kết quả serving và model được bảo toàn, sau đó nói rõ quality được đánh giá theo protocol Q1 của BTC rồi bàn giao sang HPC.
+- **Vấn đề:** Lượt performance được chấp nhận chứng minh dịch vụ đạt cổng workload, nhưng yêu cầu tổng hợp của benchmark không đo accuracy câu trả lời.
+- **Vì sao quan trọng:** Layout serving, kernel, batching và phép reduction có thể làm đổi câu trả lời sinh ra dù vẫn giữ checkpoint chính thức. Vì vậy, tuyên bố về quality cần câu trả lời model được chấm, không chỉ trọng số không đổi hay throughput tốt.
+- **Vì sao chọn phép thử này:** So sánh deployment FP8 chính thức nguyên bản với dịch vụ tối ưu đã được chấp nhận trên cùng phần cứng hai nút, 16 H200, cùng prompt MMLU-Pro đã ghim phiên bản và toàn bộ 12.032 câu kiểm tra. Giữ phản hồi đầu tiên và dùng scorer đã cố định. Câu trả lời không phân tích được tính là sai; câu chạm giới hạn sinh vẫn nằm trong mẫu số và được chấm bình thường theo đáp án đã phân tích.
+- **Điều rút ra:** Deployment nguyên bản trả lời đúng 9.460/12.032 câu (78,623670%); ứng viên đúng 9.452/12.032 câu (78,557181%). Tỷ số accuracy là 99,915433%, cao hơn ngưỡng kiểm tra của nhóm 99%. Có 434 câu chỉ ứng viên đúng và 442 câu chỉ tham chiếu đúng, nên mức giảm ròng tám câu không đồng nghĩa chỉ có tám câu khác kết quả. Cả mười sáu job hoàn tất và không có lỗi dịch vụ được chấm.
+- **Vì sao chuyển sang bước tiếp:** Khép phần AI bằng kết quả nhóm tự đo trên cluster H200 với giới hạn rõ ràng: mỗi vai trò một lượt, có mất mát ở một số hạng mục, và không có chứng nhận BTC. Sau đó bàn giao sang phần OpenFOAM không đổi.
 
 ### Slide muốn nói gì
 
-Tóm tắt ranh giới kỹ thuật: giữ nguyên model nộp thi và phép tính mục tiêu, rồi tối ưu hệ thống phục vụ xung quanh nó. Báo cáo acceptance serving đã hoàn tất cùng kết quả SLA đo được. Đánh giá quality toàn tập là bước riêng theo protocol Q1 của BTC.
+Khép lại phần AI bằng phép so sánh quality MMLU-Pro do nhóm tự đo trên cluster H200, dùng toàn bộ tập câu hỏi. Phân biệt accuracy tuyệt đối với tỷ lệ giữ accuracy, cho thấy hai deployment hoàn chỉnh được so trên cùng phần cứng và đầu vào, đồng thời tách kết quả ngưỡng kiểm tra của nhóm khỏi kết luận quality chưa biết của ban tổ chức.
 
 ### Giải thích kết quả và lập luận
 
-Dùng hai khung bằng nhau. Bên trái, “GIỮ NGUYÊN · MODEL”: checkpoint FP8 chính thức; không quantize lại hoặc bỏ layer/expert; KV BF16; dự kiến giữ phép tính mục tiêu. Bên phải, “ĐÃ XÁC MINH · DỊCH VỤ”: 28197 · 3.051,52 good output tokens/s; 1.881 / 1.907 request đạt SLA chung; entry hoàn tất trong 10 phút 11 giây. Dòng nhỏ trung tính bên dưới: “Đánh giá chất lượng model thực hiện theo protocol Q1 của BTC.” Thêm thanh bàn giao sang HPC. Không biến cảnh báo quality chưa biết thành panel chính hoặc hàm ý đã có điểm accuracy.
+Dòng đầu vào chung ghi “Cùng checkpoint FP8 · cùng prompt, cách sinh và cách chấm”; phụ đề nêu 16 GPU H200, cả hai deployment hoàn chỉnh và đủ 12.032 câu hỏi. Hai thẻ so sánh cho thấy FP8 nguyên bản (9.460/12.032 = 78,6237% accuracy) và dịch vụ tối ưu (9.452/12.032 = 78,5572% accuracy); đây không phải biểu đồ và không có trục. Các con số đếm là số câu hỏi; phần trăm biểu thị accuracy hoặc tỷ lệ giữ accuracy. Màu xanh teal đậm nhận diện tham chiếu nguyên bản, màu cam nhận diện ứng viên và quyết định ngưỡng. Màu sắc phân biệt vai trò và quyết định, không hàm ý ứng viên có accuracy cao hơn. Accuracy ứng viên (78,5572%) thấp hơn accuracy tham chiếu (78,6237%). Ở cuối slide, bên trái ghi “Tỷ lệ giữ accuracy = 9.452 / 9.460 = 99,9154%”; bên phải hiện PASS so với ngưỡng ≥99%, cùng 16/16 job hoàn tất và 0 lỗi dịch vụ. Một dòng trung tính nói kết luận quality riêng của ban tổ chức chưa được biết. Lời bàn giao sang OpenFOAM vẫn giữ nguyên.
 
 ### Thuật ngữ và ký hiệu cần hiểu
 
-- **checkpoint FP8 nguyên bản:** Checkpoint model dấu phẩy động tám bit chính thức được dùng như đã cấp; không lượng tử hóa lại.
-- **KV BF16:** Giá trị cache key/value dùng định dạng bfloat16 khi suy luận; đây là phần riêng với trọng số model FP8.
-- **giữ phép tính mục tiêu:** Không bỏ layer hay expert và dự định giữ phép tính của model trong lúc tinh chỉnh serving. Điều này tự nó không đo accuracy đầu ra.
-- **SLA chung:** Request đồng thời đạt TTFT ≤3000 ms và ITL trung bình ≤20 ms; mẫu số gồm tất cả request.
-- **đánh giá Q1:** Quy trình đánh giá quality toàn tập chính thức của BTC, riêng với lượt đo throughput serving.
+- **accuracy:** Tỷ lệ câu trả lời đúng trên toàn bộ 12.032 câu: số câu đúng chia cho tổng số câu.
+- **tỷ lệ giữ accuracy:** Accuracy của ứng viên chia cho accuracy của tham chiếu. Vì hai mẫu số đều là 12.032, phép tính rút gọn thành 9.452/9.460 = 99,9154%. Đây không phải tỷ lệ câu hỏi mà ứng viên trả lời đúng.
+- **tham chiếu FP8 nguyên bản:** Deployment nguyên bản của checkpoint Qwen3-235B FP8 chính thức, do nhóm đo trên cluster H200. Đây là mẫu số thực nghiệm của phép so sánh, không phải điểm số do ban tổ chức công bố.
+- **cùng 16 H200:** Cả hai deployment hoàn chỉnh đều dùng cùng cụm hai nút, mười sáu H200. Đây là so sánh H200 với H200, không có ước tính từ H100.
+- **ngưỡng kiểm tra của nhóm 99%:** Quy tắc định trước yêu cầu accuracy của ứng viên chia cho accuracy tham chiếu đo được phải đạt ít nhất 0,99. Đạt ngưỡng này là kết quả nhóm tự đo, không phải chứng nhận BTC.
 
 ### Cách diễn giải số liệu hoặc sơ đồ
 
-- Nhóm giữ checkpoint FP8 chính thức như được cấp: không quantize lại và không bỏ layer/expert. KV cache vẫn dùng BF16.
-- Phép tính mục tiêu dự định giữ nguyên trong khi nhóm tối ưu parallel layout, đường giao tiếp và thiết lập runtime serving. Bảo toàn là sự thật về cách làm, tự nó chưa phải số đo quality.
-- Job 28197 hoàn tất portable entry đầy đủ trên 16 H200 N64 trong 611 giây, gồm hai semantic route, official client, đọc kết quả, summary gate và cleanup.
-- Điểm đạt 3051,518173 good output tokens/s. Có 1881/1907 request cùng đạt TTFT và ITL giới hạn (98,63660199265862%); 26 trượt TTFT, không trượt ITL và không error/cancel.
-- Good output tokens/s bằng Goodput request/s của AIPerf nhân mục tiêu 200 token đầu ra.
-- Đây là kết quả dịch vụ. Đánh giá quality toàn tập chính thức của BTC là bước Q1 riêng; slide này không báo cáo điểm quality số học.
+- Mỗi accuracy là số câu đúng chia cho toàn bộ 12.032 câu: FP8 nguyên bản 9.460/12.032 = 78,623670%; ứng viên 9.452/12.032 = 78,557181%.
+- Ứng viên ít hơn tám câu đúng, chênh lệch ròng 0,066489 điểm phần trăm. Tỷ lệ giữ accuracy là tỷ số của hai accuracy, 9.452/9.460 = 99,915433%, đạt ngưỡng kiểm tra của nhóm 99%.
+- Chênh lệch ròng che khuất 876 kết quả bất đồng: có 434 câu chỉ ứng viên trả lời đúng và 442 câu chỉ tham chiếu trả lời đúng. Có cả tăng lẫn giảm giữa các shard và hạng mục.
+- Khoa học máy tính giữ 338/345 = 97,971014%; triết học giữ 383/387 = 98,966408%. Cổng đã định chỉ áp dụng cho tổng thể; đây vẫn là các giới hạn theo hạng mục.
+- Mỗi vai trò nhận đủ 12.032 câu đúng một lần, chia thành tám shard cố định. Cả mười sáu job hoàn tất và hai vai trò đều không có lỗi dịch vụ được chấm. Câu trả lời không phân tích được (101 mỗi vai trò) được tính là sai. Câu chạm giới hạn sinh (1.484 tham chiếu; 1.468 ứng viên) vẫn nằm trong mẫu số và được chấm theo đáp án đã phân tích, không mặc định là sai.
+- Mỗi deployment chỉ có một lượt hoàn chỉnh, không phải nhiều lần chạy độc lập. Phát lại câu trả lời thô xác minh cách chấm nhưng không phải lần chạy GPU thứ hai. Phép đo MMLU-Pro này do nhóm thực hiện trên cluster H200; nó không chứng nhận đánh giá của BTC hay dự đoán benchmark chưa kiểm tra.
 
 ### Đánh đổi và mức độ bằng chứng
 
-- **Quan sát:** Checkpoint FP8 chính thức và phép tính mục tiêu được giữ; KV dùng BF16. Job portable 28197 hoàn tất entry trong 611 giây, đạt 3051,518173 good output tokens/s, 1881/1907 request đạt SLA chung, không lỗi bị chấm.
-- **Giả thuyết:** Giữ cố định phép tính model cho phép cải thiện đường serving mà vẫn giữ hành vi dự định; quality vẫn cần được đánh giá theo quy trình toàn tập của BTC.
-- **Kết luận được hỗ trợ:** Entry serving portable đầy đủ qua workload và các ngưỡng latency của nhóm. Kết quả đo hỗ trợ acceptance deployment; được báo cáo riêng với quality model.
-- **Chưa biết / giới hạn:** Hồ sơ này không có điểm accuracy toàn tập số học so tham chiếu BTC. Giữ trọng số/phép tính tự nó không chứng minh đạt ngưỡng quality ≥99%.
+- **Quan sát:** Trên cùng 12.032 câu hỏi và cùng 16 GPU H200, FP8 nguyên bản đạt 9.460/12.032 (78,623670%) còn deployment tối ưu đạt 9.452/12.032 (78,557181%). Cả hai vai trò không có lỗi dịch vụ được chấm; cả mười sáu allocation đã hoàn tất.
+- **Giả thuyết:** Phép so sánh đầy đủ có đối chứng do nhóm thực hiện trên cluster H200 kiểm tra liệu toàn bộ implementation serving tối ưu có giữ ít nhất 99% accuracy của deployment nguyên bản được đo hay không, trong khi giữ mọi câu hỏi và phản hồi đầu tiên.
+- **Kết luận được hỗ trợ:** Ứng viên giữ 9.452/9.460 = 99,915433% accuracy tham chiếu và vượt ngưỡng kiểm tra tổng thể 99% đã định trước của nhóm. Đây là kết quả MMLU-Pro do nhóm tự đo trên cluster H200, không phải kết quả được ban tổ chức chứng nhận.
+- **Chưa biết / giới hạn:** Một lượt hoàn chỉnh mỗi deployment không chứng minh tương đương thống kê, câu trả lời giống hệt, nguyên nhân từ kernel hay patch cụ thể, hoặc quality trên tác vụ chưa thấy. Tỷ lệ giữ theo hạng mục thấp hơn 99% ở khoa học máy tính và triết học. Kết quả quality riêng của BTC vẫn chưa biết.
 
 ### Lời nói mẫu
 
-Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu của model: không bỏ layer hay expert, KV cache dùng BF16. Sau đó chúng tôi chạy xong portable serving entry trên 16 H200. Job 28197 hoàn tất trong 10 phút 11 giây, đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 request đạt đồng thời cả hai ngưỡng latency, tương đương 98,64%. Điều này xác minh đường serving dưới workload này trong khi cấu hình model được giữ nguyên. Quality model được đánh giá riêng theo protocol Q1 của BTC; đây không phải điểm quality đó. Tôi xin bàn giao cho người trình bày OpenFOAM.
+Chúng tôi so sánh toàn bộ dịch vụ tối ưu với deployment nguyên bản của cùng checkpoint FP8, trên cùng mười sáu GPU H200 và đủ 12.032 câu MMLU-Pro. Bản nguyên bản trả lời đúng 9.460 câu, tức 78,62%. Dịch vụ của chúng tôi đúng 9.452 câu, tức 78,56%. Chia hai accuracy cho nhau, ta được tỷ lệ giữ 99,9154%, cao hơn ngưỡng kiểm tra của nhóm là 99%. Cả mười sáu job hoàn tất mà không có lỗi dịch vụ được chấm; câu trả lời không hợp lệ vẫn tính là sai. Câu chạm giới hạn sinh vẫn được chấm theo đáp án đã phân tích. Đây là một lượt đầy đủ cho mỗi deployment do nhóm tự đo trên cluster H200, không phải chứng nhận của BTC hay bảo đảm cho benchmark khác. Bây giờ tôi xin bàn giao sang phần OpenFOAM.
 
 ### Điều không nên nói
 
-Không dùng việc giữ trọng số/phép tính hay đạt SLA serving làm bằng chứng rằng accuracy toàn tập ≥99% theo tham chiếu BTC. Deck không có điểm quality chính thức bằng số.
+Gọi 99,9154% là tỷ lệ giữ accuracy, không phải accuracy của ứng viên; accuracy ứng viên là 78,557181%. Không nói hai dịch vụ chỉ khác nhau ở tám câu: có 876 câu bất đồng về đúng/sai. Không trình bày phép đo này như chứng nhận BTC, tương đương thống kê, kết luận nhân quả cho một tối ưu riêng hay bảo đảm trên tác vụ chưa kiểm tra.
 
 ### Câu chuyển slide
 
-Acceptance serving của lượt đầy đủ đã được xác lập. Quality model sẽ theo protocol Q1 của BTC; tiếp theo bàn giao sang OpenFOAM.
+Phép so sánh quality MMLU-Pro do nhóm tự đo trên cluster H200 đạt ngưỡng kiểm tra tổng thể, với phạm vi và giới hạn đã nêu. Bây giờ chúng tôi bàn giao sang phần OpenFOAM không đổi.
 
 ---
 
@@ -1201,7 +1201,7 @@ Acceptance serving của lượt đầy đủ đã được xác lập. Quality 
 
 Cả hai hệ thống cấp mười sáu GPU và dùng cùng checkpoint Qwen cùng workload đã staging. Firmus dùng H200; NSCC dùng H100. Phần cứng, scheduler, container và điều kiện node khác nhau, nên đây là các phép đo riêng, không phải hệ số quy đổi GPU.
 
-![Slide 17](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-17.png)
+![Slide 17](../../submission-review/ai-quality-update-20261103/slides/assets/slide-17.png)
 
 **Phần dự phòng AI: chỉ mở khi cần giải thích sâu hơn.**
 
@@ -1261,7 +1261,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Phân vùng TP8/EP1 thất bại có 192 phần tử, dư 64 so với block FP8 rộng 128. EP2 đổi phép chia hiệu dụng thành 384 phần tử, vừa ba block đầy. Điều này sửa sai hình dạng tensor, chưa chứng minh serving nhanh hay đúng.
 
-![Slide 18](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-18.png)
+![Slide 18](../../submission-review/ai-quality-update-20261103/slides/assets/slide-18.png)
 
 ### Slide muốn nói gì
 
@@ -1319,7 +1319,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Biểu đồ H200 tăng từ 1.297 token tốt/giây ở N32 lên trung bình N64 là 3.044. Nó cho thấy các điểm vận hành đo được tốt hơn, nhưng mỗi mốc đổi tải hoặc cấu hình nên không quy được mức tăng cho từng tối ưu.
 
-![Slide 19](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-19.png)
+![Slide 19](../../submission-review/ai-quality-update-20261103/slides/assets/slide-19.png)
 
 ### Slide muốn nói gì
 
@@ -1375,7 +1375,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Bản vá tạo descriptor cho các trang KV cần thiết rồi gộp dải liên tục, đồng thời giữ nguyên ánh xạ và stride. Kiểm tra CPU đạt 720 trường hợp hình học; fixture ghi rõ chưa xác minh truyền GPU thật.
 
-![Slide 20](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-20.png)
+![Slide 20](../../submission-review/ai-quality-update-20261103/slides/assets/slide-20.png)
 
 ### Slide muốn nói gì
 
@@ -1434,7 +1434,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Job 22294 có bản vá warmup cặp mất 0,68–0,70 giây mỗi yêu cầu; benchmark N32 đạt 1.422,96 good tokens/s, SLA kết hợp 95,87% và không có lỗi. Chưa có đối chứng cùng topology để đo mức tăng tốc trong lần này.
 
-![Slide 21](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-21.png)
+![Slide 21](../../submission-review/ai-quality-update-20261103/slides/assets/slide-21.png)
 
 ### Slide muốn nói gì
 
@@ -1493,7 +1493,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Trong một cặp H100 N54 khớp điều kiện, FA3 giảm TTFT trung bình từ 713,199 xuống 594,276 ms, nhưng goodput giảm từ 2.420,945 xuống 2.401,284 token/s, khoảng 0,812%. Token đầu đến nhanh hơn không cải thiện mục tiêu toàn request.
 
-![Slide 22](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-22.png)
+![Slide 22](../../submission-review/ai-quality-update-20261103/slides/assets/slide-22.png)
 
 ### Slide muốn nói gì
 
@@ -1551,7 +1551,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Read-first ban đầu giảm walltime scheduler 18,74%, nhưng phép xác nhận đảo thứ tự chỉ tiết kiệm 9,84%, thấp hơn ngưỡng 10% đã đặt. Goodput đổi nhẹ ở cả hai cặp; cache chưa rõ nên không thể kết luận nguyên nhân do lưu trữ lạnh.
 
-![Slide 23](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-23.png)
+![Slide 23](../../submission-review/ai-quality-update-20261103/slides/assets/slide-23.png)
 
 ### Slide muốn nói gì
 
@@ -1608,7 +1608,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Một số thay đổi H200 đã được kích hoạt và đo, nhưng mức tăng nhỏ, âm hoặc làm xấu chỉ số đuôi. Chẳng hạn, thay attention prefill làm goodput giảm 6,385%. Cờ hoạt động được chưa đủ để đổi cấu hình đang chọn.
 
-![Slide 24](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-24.png)
+![Slide 24](../../submission-review/ai-quality-update-20261103/slides/assets/slide-24.png)
 
 ### Slide muốn nói gì
 
@@ -1667,7 +1667,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Gói attention N52 đạt 2.549,20 nhưng đổi nhiều yếu tố; Triton probe, fixture CPU và đọc mã nguồn trả lời câu hỏi hẹp hơn. Compile Qwen đầy đủ dừng ở assertion RoPE/KV. Không bằng chứng nào trong số đó tự chứng minh serving toàn model tăng tốc.
 
-![Slide 25](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-25.png)
+![Slide 25](../../submission-review/ai-quality-update-20261103/slides/assets/slide-25.png)
 
 ### Slide muốn nói gì
 
@@ -1726,7 +1726,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Recipe H200 và recipe H100 vẫn tách riêng. H200 nay có một lần portable acceptance đầy đủ đạt 3.051,52 good tokens/s; điều này xác minh deployment, không quy đổi H100 sang H200.
 
-![Slide 26](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-26.png)
+![Slide 26](../../submission-review/ai-quality-update-20261103/slides/assets/slide-26.png)
 
 ### Slide muốn nói gì
 
@@ -1787,7 +1787,7 @@ Cấu hình từng nền tảng và acceptance H200 đầy đủ là hai loại 
 
 Cùng workload N64 đầy đủ, tăng chunk prefill từ 8.192 lên 12.288 làm goodput giảm từ 3.045,50 xuống 3.020,94 token/s và p95 TTFT xấu hơn. Mỗi cấu hình có một lần H200 được nhóm xem xét; chưa xác lập tối ưu chung.
 
-![Slide 27](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-27.png)
+![Slide 27](../../submission-review/ai-quality-update-20261103/slides/assets/slide-27.png)
 
 ### Slide muốn nói gì
 
@@ -1846,7 +1846,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Capture thưa giảm bộ nhớ log từ 1,15 xuống 0,36 GB mỗi rank decode, nhưng goodput giảm 0,370208% và ITL trung bình xấu hơn. Chưa đo padding để quy nguyên nhân. Nhóm giữ graph dày; cặp này không chứng minh quan hệ nhân quả.
 
-![Slide 28](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-28.png)
+![Slide 28](../../submission-review/ai-quality-update-20261103/slides/assets/slide-28.png)
 
 ### Slide muốn nói gì
 
@@ -1904,7 +1904,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 N64 đầy đủ lịch sử trung bình 3.044,40, còn control ngắn mới khoảng 2.560. Graph policy, giới hạn admission server và quy trình đo đều thay đổi. Phép thử hoàn tất không cô lập nguyên nhân, nên giữ drift mà không quy cho một flag.
 
-![Slide 29](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-29.png)
+![Slide 29](../../submission-review/ai-quality-update-20261103/slides/assets/slide-29.png)
 
 ### Slide muốn nói gì
 
@@ -1959,7 +1959,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Vị trí draft EAGLE3 làm trượt latency; validator được sửa; cả retry ngắn và thử nghiệm shallow đầy đủ riêng đều mất goodput. Cách đã thử không giúp workload này, dù còn cấu hình khác chưa được đo. Bằng chứng hiện tại chỉ áp dụng cho các cấu hình đã thử trên H200.
 
-![Slide 30](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-30.png)
+![Slide 30](../../submission-review/ai-quality-update-20261103/slides/assets/slide-30.png)
 
 ### Slide muốn nói gì
 
@@ -2014,7 +2014,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Job 27136 và 27145 lỗi ở hai reader khác nhau; 27152 kiểm tra cả hai bản sửa trên CPU. ZIP nguyên trạng ở 28194 gặp race gateway trước benchmark. Job 28197 chỉ đổi readiness wait/checksum và qua entry H200 đầy đủ trong 611 giây.
 
-![Slide 31](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-31.png)
+![Slide 31](../../submission-review/ai-quality-update-20261103/slides/assets/slide-31.png)
 
 ### Slide muốn nói gì
 
@@ -2073,7 +2073,7 @@ Phụ lục giải thích cách cô lập lỗi deployment portable rồi qua ac
 
 Ở H200 N52, tổ hợp attention và giao tiếp đo cao hơn control MNNVL sau đó khoảng 1,43 phần trăm. Kết quả ủng hộ tổ hợp tại tải này, không chứng minh gain từng phần cộng lại hay quy tắc phổ quát.
 
-![Slide 32](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-32.png)
+![Slide 32](../../submission-review/ai-quality-update-20261103/slides/assets/slide-32.png)
 
 ### Slide muốn nói gì
 
@@ -2130,7 +2130,7 @@ Sau khi trả lời, quay về câu hỏi và bằng chứng chính; không trì
 
 Dự báo được ghi trước khi có số đo H200 lệch khoảng 1,54%, trong dung sai 2% nhóm đặt. Tuy nhiên, phép kiểm còn bộc lộ phần bất định bị bỏ sót. Một dự báo gần đúng chỉ có giá trị kiểm tra giới hạn, chưa phải quy tắc đổi mọi điểm H100 sang H200.
 
-![Slide 33](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-33.png)
+![Slide 33](../../submission-review/ai-quality-update-20261103/slides/assets/slide-33.png)
 
 ### Slide muốn nói gì
 
@@ -2186,7 +2186,7 @@ Xem kết quả chuyển giao H200 trực tiếp mới nhất ở slide chính 1
 
 Chín allocation H200 cuối kiểm tra control và các phương án rút từ H100. Không ứng viên riêng nào vượt ngưỡng hữu ích 1% của nhóm; recipe H200 hiện tại vẫn là lựa chọn theo số đo.
 
-![Slide 34](../../submission-review/ai-acceptance-update-20261102/slides/assets/slide-34.png)
+![Slide 34](../../submission-review/ai-quality-update-20261103/slides/assets/slide-34.png)
 
 ### Slide muốn nói gì
 

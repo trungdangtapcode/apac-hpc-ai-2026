@@ -1,3 +1,5 @@
+> Historical 2 November edition. Superseded by the [3 November quality-integrated release](ai-quality-presentation-20261103.md). Its prior unmeasured-local-quality statements do not describe the completed study.
+
 # Current Basic AI submission framing — 2 November 2026
 
 Published locally **2026-11-02T22:25:35.912318+07:00, Vietnam time (UTC+7)**. The current AI deliverable foregrounds the official FP8 model, serving-only optimisation and actual performance evidence. It does not label the absence of an organiser score as a failed quality result, or assert an unmeasured >=99% pass. This is the current presentation/README edition; earlier acceptance measurements are unchanged.

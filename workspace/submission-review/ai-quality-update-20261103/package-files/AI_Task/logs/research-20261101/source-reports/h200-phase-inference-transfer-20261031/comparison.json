@@ -1,0 +1,118 @@
+{
+  "reviewed_vietnam_time": "2026-10-31T21:54:43.696307+07:00",
+  "hardware": "16 H200, g1/g4",
+  "state": "THREE_LOCAL_PASSES_NO_USEFUL_PHASE_GAIN",
+  "scores_good_output_tokens_per_second": {
+    "27826": 3039.1670930293776,
+    "27828": 3039.356215188634,
+    "27830": 3043.1412580549845
+  },
+  "decode_only_vs_explicit_control_percent": 0.006222828606228248,
+  "prefill_only_vs_explicit_control_percent": 0.13076493999695238,
+  "native_role_provider_preflight_activation": {
+    "27826": {
+      "prefill-0": false,
+      "prefill-1": false,
+      "decode-0": false
+    },
+    "27828": {
+      "prefill-0": false,
+      "prefill-1": false,
+      "decode-0": true
+    },
+    "27830": {
+      "prefill-0": true,
+      "prefill-1": true,
+      "decode-0": false
+    }
+  },
+  "resolved_serving_argument_changes": {
+    "27826": {
+      "prefill-0": {},
+      "prefill-1": {},
+      "decode-0": {}
+    },
+    "27828": {
+      "prefill-0": {
+        "random_seed": [
+          "Constant(value=337273618)",
+          "Constant(value=829306307)"
+        ]
+      },
+      "prefill-1": {
+        "random_seed": [
+          "Constant(value=771350478)",
+          "Constant(value=153001229)"
+        ]
+      },
+      "decode-0": {
+        "random_seed": [
+          "Constant(value=48326139)",
+          "Constant(value=836808863)"
+        ]
+      }
+    },
+    "27830": {
+      "prefill-0": {
+        "random_seed": [
+          "Constant(value=337273618)",
+          "Constant(value=13433118)"
+        ]
+      },
+      "prefill-1": {
+        "random_seed": [
+          "Constant(value=771350478)",
+          "Constant(value=33598392)"
+        ]
+      },
+      "decode-0": {
+        "random_seed": [
+          "Constant(value=48326139)",
+          "Constant(value=440900979)"
+        ]
+      }
+    }
+  },
+  "frozen_worker_change_is_phase_flags_only": true,
+  "actual_three_job_GPU_hours": 9.604444444444443,
+  "maximum_three_job_GPU_hours": 13.6,
+  "PBS_SU": 0,
+  "terminal_accounting": [
+    {
+      "JobID": "27826",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:12:06",
+      "ElapsedRaw": "726",
+      "NodeList": "g[1,4]"
+    },
+    {
+      "JobID": "27828",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:12:16",
+      "ElapsedRaw": "736",
+      "NodeList": "g[1,4]"
+    },
+    {
+      "JobID": "27830",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:11:39",
+      "ElapsedRaw": "699",
+      "NodeList": "g[1,4]"
+    }
+  ],
+  "fresh_queue": "",
+  "official_accuracy": "UNKNOWN",
+  "promotion": false,
+  "requested_four_distinct_ports_reviewed": [
+    27804,
+    27806,
+    27828,
+    27830
+  ],
+  "extra_explicit_control_not_a_candidate": 27826,
+  "decision": "Retain the current H200 recipe and native default provider. Both phase gains are below the prospective 1% useful-gain gate; no unchanged repeat or combined-mode sweep.",
+  "limits": "One run per arm, generated engine seeds vary and node/cache state is not controlled. Role-level provider preflight and inherited environment are verified; no per-rank steady-state mode/kernel trace or direct queue/compute/transfer decomposition. Source H100 studies used a different base recipe/load; these are intervention ports, not full-recipe reproductions."
+}

@@ -26,11 +26,14 @@ The earlier failed jobs remain in the historical evidence folders.
 
 The 98.636602% value is joint request-latency success, not answer accuracy.
 Model-quality evaluation follows organiser Q1 against its unchanged official FP8
-reference. The submitted methods preserve the target model and precision; no
-team full-set quality score or completed organiser review is claimed here.
+reference. The submitted methods preserve the target model and precision; the later full local MMLU-Pro check retains 99.915433% of stock reference accuracy. No completed organiser review is claimed here.
 The Q&A distinguishes source checks, local output screens and that evaluation.
 H100 and H200 scores remain separate. The existing HPC payload is preserved.
 
 The main deck contains 16 AI slides followed by eight HPC slides; 18 additional
 AI slides are hidden backups. The combined talk is 15–20 minutes with a separate
 10-minute Q&A. The AI rehearsal target leaves the agreed HPC speaking time.
+
+## Complete local answer-quality verification — 3 November 2026
+
+Reference **9460/12032**, candidate **9452/12032**, accuracy retention **99.915433%**. Same 16 H200 and same prepared questions; all sixteen jobs completed, zero service errors. This measured local MMLU-Pro pass is distinct from the 98.636602% latency fraction and from organiser certification. [Method, retained answers and CPU replay](quality-20261103/README.md).
