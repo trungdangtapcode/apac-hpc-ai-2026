@@ -62,9 +62,9 @@ H100 giúp nhóm sàng lọc tương thích và lựa chọn ứng viên, nhưng
 
 Một số thay đổi cải thiện chỉ số phụ nhưng không cải thiện dịch vụ. Sparse graph giảm lượng bộ nhớ capture được ghi nhận, nhưng goodput lại thấp hơn một chút so với đối chứng. Một lượt speculative decoding nông cũng giảm goodput. Nhóm đóng các cấu hình đã thử đó. Bộ nhớ giảm hay tính năng chạy được chưa đủ; cả workload phải cải thiện và vẫn giữ giới hạn độ trễ cùng chất lượng.
 
-## Slide 16 — Giữ nguyên model; tối ưu đường serving
+## Slide 16 — Dịch vụ tối ưu giữ được 99,9154% độ chính xác tham chiếu
 
-Nhóm giữ checkpoint FP8 chính thức và phép tính mục tiêu của model: không bỏ layer hay expert, KV cache dùng BF16. Sau đó chúng tôi chạy xong portable serving entry trên 16 H200. Job 28197 hoàn tất trong 10 phút 11 giây, đạt 3.051,52 good output tokens mỗi giây. Trong 1.907 request, 1.881 request đạt đồng thời cả hai ngưỡng latency, tương đương 98,64%. Điều này xác minh đường serving dưới workload này trong khi cấu hình model được giữ nguyên. Quality model được đánh giá riêng theo protocol Q1 của BTC; đây không phải điểm quality đó. Tôi xin bàn giao cho người trình bày OpenFOAM.
+Kết quả hiệu năng và chất lượng trả lời là hai phép đo khác nhau. Ở job 28197, 98,6366% request hiệu năng đạt đồng thời hai giới hạn độ trễ; đây là tỷ lệ đạt SLA, không phải độ chính xác. Với chất lượng, nhóm so sánh dịch vụ FP8 chính thức chạy mặc định với cấu hình serving tối ưu trên cùng 16 H200 và cùng 12.032 câu MMLU-Pro. Bản tham chiếu đúng 9.460 câu, đạt 78,6237%; dịch vụ của nhóm đúng 9.452 câu, đạt 78,5572%. Tỷ lệ giữ lại so với điểm tham chiếu là 99,9154%, vượt ngưỡng điểm cục bộ 99% đã đặt trước. Nhóm phát lại toàn bộ câu trả lời đã lưu; lỗi dịch vụ, đáp án không phân tích được và đáp án chạm giới hạn độ dài đều vẫn được tính. Đây là phép kiểm tra cục bộ của nhóm, không phải chứng nhận của BTC; kết luận Q1 của ban tổ chức vẫn do họ đưa ra. Tôi xin bàn giao cho người trình bày OpenFOAM.
 
 ## Bản dự phòng khi hỏi
 
