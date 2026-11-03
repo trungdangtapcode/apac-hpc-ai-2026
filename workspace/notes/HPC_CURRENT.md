@@ -1,6 +1,6 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **3 November 2026, 11:25 Vietnam (UTC+7)**. This is the HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI remains separate. No background Codex, schedules or automatic MFA loops.
+Updated **3 November 2026, 11:32 Vietnam (UTC+7)**. This is the HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI remains separate. No background Codex, schedules or automatic MFA loops.
 
 ## Current result: no stable Iris gain
 
@@ -12,9 +12,9 @@ The collector now tolerates an unstarted arm. Two bounded read-only transfers fa
 
 ## Next measurement and accounting
 
-Preparing a ten-minute, one-node, 56-CPU, zero-GPU **preparation-only NUMA diagnostic**: compare inherited memory policy with child-only interleaving during fresh case copy/hash in A/B/B/A order. This checks whether preparation changes whole-node memory counters; it runs no solver and cannot establish a speed improvement. Root code review and offline checks pass. Compute-side source/copy inventory and actual child policy remain runtime gates. [Mechanism rationale](../reports/hpc-next-directions-20261103/MECHANISMS.md).
+The ten-minute **preparation-only NUMA diagnostic** was accepted as **2294674 at 11:31:21 Vietnam**, then failed after one allocated second before any copying: the parser missed numactl’s actual `interleavemask` key. This is our parser defect, not unsupported policy. Its frozen payload and raw error are preserved. A derived corrected retry is being prepared. Intended one-node / 56-CPU / zero-GPU experiment: compare inherited memory policy with child-only interleaving during fresh case copy/hash in A/B/B/A order. This checks whether preparation changes whole-node memory counters; it runs no solver and cannot establish a speed improvement. Root code review and offline checks pass. Compute-side source/copy inventory and actual child policy remain runtime gates. [Mechanism rationale](../reports/hpc-next-directions-20261103/MECHANISMS.md).
 
-The terminal cost was reconciled once from sacct: **34.253333 allocated CPU-hours**, rounded conservatively to **35**. Ledger now **984 consumed + 0 reserved**, unchanged agent-selected stage **1,009**; **25 CPU-hours** remain. These are local planning CPU-hours, not billed SU. Fresh queue, frozen payload and locked admission still required before submitting the new maximum 9.333333 CPU-hour diagnostic.
+The terminal cost was reconciled once from sacct: **34.253333 allocated CPU-hours**, rounded conservatively to **35**. After the diagnostic parser failure adds one conservative CPU-hour, ledger now **985 consumed + 0 reserved**, unchanged agent-selected stage **1,009**; **24 CPU-hours** remain. These are local planning CPU-hours, not billed SU. Fresh queue, frozen payload and locked admission still required before submitting the new maximum 9.333333 CPU-hour diagnostic.
 
 ## Reference and access boundaries
 
