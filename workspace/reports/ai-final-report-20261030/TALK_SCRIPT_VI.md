@@ -1,71 +1,87 @@
 # Kịch bản nói phần AI — tiếng Việt
 
-Đây là kịch bản đề xuất cho 16 slide AI, chưa phải bản ghi một buổi thuyết trình đã diễn ra hay được bấm giờ. Hãy tập nói khoảng 10–11 phút và thống nhất phần còn lại trong tổng 15–20 phút cho người trình bày HPC. Theo quy định công khai, phần hỏi đáp có thêm 10 phút. Hai người nói AI và HPC cần thống nhất phần chia; nếu bài nói chỉ có 15 phút thì mục tiêu 10–11 phút cho AI để lại ít nhất bốn phút cho HPC.
+**Bản tập nói cho tuyến 16 slide AI.** Thời lượng mục tiêu khoảng 12 phút 30 giây, đã tính khoảng dừng, với tốc độ ước tính 115–125 từ nói mỗi phút. Nhóm chưa trình bày thử trực tiếp và chưa bấm giờ. Khung công khai dành 15–20 phút cho cả AI và HPC, sau đó là 10 phút hỏi đáp; hai người nói cần thống nhất thời lượng. Mục tiêu này để khoảng 7 phút 30 giây trong khung 20 phút cho phần HPC. Nếu tổng thời lượng chỉ là 15 phút, nhóm cần thống nhất bản rút gọn AI trước khi tập.
 
-## Slide 1 — Điểm số phải đi cùng độ trễ
+## Slide 1 — Fast tokens count only when requests meet both latency limits
 
-Bài toán là phục vụ Qwen3-235B trên hai máy, mỗi máy có tám H200. Workload cố định dùng 4.000 token đầu vào và sinh 200 token đầu ra. Yêu cầu chỉ đạt nếu token đầu tiên xuất hiện trong ba giây và khoảng cách trung bình giữa các token sau không quá hai mươi mili giây. Ít nhất chín mươi phần trăm tất cả yêu cầu, kể cả lỗi, phải đồng thời đạt cả hai điều kiện. Vì vậy ta cần thông lượng hữu ích mà vẫn đáp ứng độ trễ.
+Câu hỏi của nhóm không chỉ là mô hình sinh token nhanh đến đâu. Ta phải phục vụ Qwen3-235B trên hai máy, mỗi máy tám GPU H200, với 4.000 token đầu vào và 200 token đầu ra. Một yêu cầu chỉ đạt nếu token đầu tiên đến trong ba giây và khoảng cách trung bình giữa các token sau không quá hai mươi mili giây. Ít nhất 90% mọi yêu cầu, kể cả lỗi, phải đạt đồng thời hai giới hạn. Vì vậy tốc độ chỉ có ích khi đủ nhiều yêu cầu vẫn đạt điều kiện dịch vụ.
 
-## Slide 2 — Ba loại kết luận
+## Slide 2 — Three investigations support three different kinds of claim
 
-Nhóm tách ba loại công việc. Chọn cách chia số GPU là quyết định kỹ thuật. Sửa cách tạo mô tả vùng KV theo từng yêu cầu là phần triển khai của nhóm. Đo backend và mức tải là kết quả thực nghiệm. Các kernel GPU có sẵn do runtime cung cấp; đóng góp của nhóm là tích hợp, chọn cấu hình và kiểm tra bằng phép đo có đối chứng. Trước hết phải biết một cấu hình chạy được, sau đó mới biết nó có cải thiện mục tiêu hay không.
+Nhóm phân biệt ba loại đóng góp. Thứ nhất là quyết định chia GPU giữa xử lý prompt và sinh câu trả lời. Thứ hai là thay đổi có giới hạn trong một đường thiết lập chuyển KV. Thứ ba là kết quả đo backend và tải client. Nhóm sử dụng SGLang, NIXL, DeepGEMM, FlashInfer và HPC-Ops là các dự án có sẵn, không phải sản phẩm do nhóm phát minh. Đóng góp là tích hợp cục bộ, kiểm tra tương thích và chọn lựa dựa trên bằng chứng. Ba câu chuyện trả lời các câu hỏi khác nhau.
 
-## Slide 3 — Vì sao giữ topology này
+## Slide 3 — Replica count and parallel width compete for the same 16 GPUs
 
-Mười bảy cấu hình dùng được giúp tìm ra các cách bố trí có thể nạp mô hình FP8 và phục vụ hai giai đoạn. Ba điểm minh họa được đo tại N32, N40 và N48, tức số yêu cầu đồng thời khác nhau. Do tải khác nhau, không thể nhìn ba điểm đó rồi kết luận cấu hình nào thắng trong một phép so sánh công bằng. Nhóm giữ hai worker prefill TP4 và một worker decode TP8/EP8 vì nó vừa ngân sách hai máy, qua kiểm tra tương thích và đường xử lý thực tế, rồi tiếp tục được dùng ở các phép đo sau. Đây là lựa chọn thực dụng đã kiểm chứng vận hành, không phải tối ưu toàn cục.
+Câu hỏi thiết kế đầu tiên là dùng mười sáu GPU thế nào khi prefill và decode cùng cần tài nguyên. Tăng số replica prefill giúp xử lý nhiều prompt độc lập; dành nhiều GPU hơn cho decode có thể hỗ trợ sinh. Nhưng mỗi lựa chọn làm phần còn lại có ít GPU hơn. Nhóm giữ hai worker prefill TP4/EP1 và một worker decode TP8/EP8 vì cách chia vừa hai máy, qua kiểm tra hình học mô hình và hai pha, rồi dùng được trong các lượt đầy đủ sau. Đây là bố trí khả thi; dữ liệu không xếp hạng công bằng mọi cách chia hay chứng minh tối ưu toàn cục.
 
-## Slide 4 — Công việc chạy ở đâu
+## Slide 4 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU theo tensor parallel. Cách này chia phép tính tensor của mô hình qua nhiều GPU; expert parallel chia các chuyên gia của mô hình MoE qua GPU. Chúng xử lý prompt dài rồi gửi trạng thái KV qua NIXL sang máy thứ hai. Máy thứ hai chạy một worker decode dùng tám GPU theo tensor và expert parallel để sinh câu trả lời. Giữ nhóm tensor parallel trong cùng máy phù hợp với cách bố trí phần cứng. Đổi lại, mỗi yêu cầu phải chuyển KV giữa hai vai trò.
+Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU xử lý prompt dài. Tensor parallel chia phép tính qua GPU; expert parallel phân bố các chuyên gia của mô hình MoE. Các worker gửi trạng thái KV—trạng thái chú ý tạm thời cần để tiếp tục sinh—sang worker decode ở máy hai, dùng tám GPU sinh từng token. Cách chia này cho hai pha hình dạng worker khác nhau và giữ mỗi nhóm tensor-parallel trong một máy. Đổi lại, mỗi yêu cầu cần chuyển trạng thái giữa hai vai trò; vì vậy nhóm kiểm tra riêng việc thiết lập và tính đúng đắn của đường chuyển.
 
-## Slide 5 — Lỗi xuất hiện trước khi benchmark
+## Slide 5 — Ready workers still failed before the first usable benchmark
 
-Nhóm xem lại một nhánh dùng tensor parallel khác nhau giữa prefill và decode. Mô hình đã nạp xong và worker báo sẵn sàng, nhưng bước khởi động cặp prefill/decode hết ba trăm sáu mươi giây. AIPerf chưa hề chấm yêu cầu nào. Ta biết lỗi nằm trước phép benchmark ổn định, nhưng chưa biết một thành phần khởi động cụ thể nào gây lỗi. Đọc mã nguồn thấy phần tạo descriptor dường như duyệt cả vùng KV đã dành trước, nên nhóm chọn kiểm tra giả thuyết hẹp đó trước.
+Câu hỏi về chuyển dữ liệu bắt đầu từ một nhánh lịch sử. Worker đã nạp mô hình và báo sẵn sàng, nhưng cặp prefill/decode không hoàn tất warmup trong 360 giây. AIPerf chưa chạy nên chưa có điểm. Ta biết lỗi nằm giữa lúc worker sẵn sàng và lúc cặp xử lý được yêu cầu, nhưng chưa biết nguyên nhân. Đọc mã nguồn thấy bước tạo descriptor duyệt cả pool KV đã dành trước. Descriptor là danh sách địa chỉ vùng nhớ, không phải dữ liệu KV. Vì vậy metadata thiết lập trở thành giả thuyết hẹp để kiểm tra, không phải chẩn đoán đã đo được.
 
-## Slide 6 — Vì sao thử descriptor trước
+## Slide 6 — Request-scoped descriptors remove work unrelated to the request
 
-Lý do là có thể kiểm tra nhanh: mã nguồn tạo mô tả cho vùng nhớ không cần thiết đối với một yêu cầu; thay đổi đề xuất chỉ mô tả các trang của yêu cầu đó và gộp các đoạn liền nhau. Ta có thể kiểm tra các khoảng byte còn tương đương trên CPU trước khi chạy lại toàn bộ mô hình. Bảy trăm hai mươi ca hình học vùng nhớ đã qua kiểm tra. Con số 403,8 triệu là mục nguồn trên mỗi hạng của cả pool; 188 là số đoạn đã gộp cho một yêu cầu bốn nghìn token. Hai con số khác phạm vi, không phải tỷ lệ tăng tốc. Nhóm chưa đo bandwidth, chưa so sánh các cách bố trí KV, và chưa loại trừ scheduling bằng thực nghiệm.
+Vì sao xem danh sách địa chỉ trước bandwidth, cách bố trí KV hay scheduling? Nhóm chưa loại trừ các hướng đó. Mã nguồn cho thấy bước thiết lập mô tả cả vùng pool không liên quan đến một yêu cầu cụ thể. Thay đổi đề xuất là chỉ tạo danh sách địa chỉ cho vùng mà yêu cầu đó cần, trong khi giữ nguyên phạm vi byte và ý nghĩa chuyển dữ liệu. Điều kiện đúng đắn này có thể kiểm tra nhanh trên CPU trước lượt chạy phân tán. 720 ca hình học đã qua. Lý do thử là loại bỏ metadata không liên quan có thể kiểm chứng, không phải ít descriptor chắc chắn làm dịch vụ nhanh hơn.
 
-## Slide 7 — Bản sửa thực sự chứng minh điều gì
+## Slide 7 — The patched path became usable; descriptor-only speedup is unknown
 
-Với đường chạy đã sửa, worker khởi động xong và bước warmup cặp mất khoảng 0,68 đến 0,70 giây mỗi yêu cầu. Một lượt đầy đủ ở N32 đạt 1.422,96 token đầu ra hữu ích mỗi giây; 95,87 phần trăm yêu cầu đạt đồng thời hai giới hạn độ trễ và không có lỗi được chấm. Kết quả này chứng minh đường chạy sau sửa có thể phục vụ benchmark. Bản chưa sửa dừng trước khi có điểm, nên ta không có đối chứng thành công và không biết riêng descriptor tăng throughput bao nhiêu. Không được lấy 360 chia cho 0,7 rồi gọi đó là hệ số tăng tốc.
+Sau bản sửa, cặp worker hoàn tất warmup, xử lý yêu cầu thật và chạy hết benchmark với không lỗi được chấm. Như vậy nhánh đã chuyển từ timeout trước benchmark sang đường serving sử dụng được. Nhưng nhánh chưa sửa không có đối chứng thành công được chấm điểm, và không có đồng hồ đo riêng cho khởi tạo. Do đó ta không thể khẳng định tốc độ tăng riêng của descriptor hay quy toàn bộ thay đổi cho cơ chế này. Nhóm giữ bản sửa có giới hạn đã chạy đầu-cuối, còn độ lớn và nguyên nhân của tác động hiệu năng vẫn chưa biết.
 
-## Slide 8 — Profiling cho hướng điều tra
+## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
-Một phép profiling riêng ở N48 ghi thời lượng các kernel trên GPU. GEMM, collective cùng chuẩn hóa và attention là những hướng đáng kiểm tra. Các tỷ lệ đó tính trên tổng thời lượng kernel được ghi nhận; công việc có thể chồng lấp nên chúng không phải tỷ lệ thời gian toàn yêu cầu. Ở N64, ta cũng thấy một số yêu cầu trễ token đầu, nhưng chưa có thời điểm từng giai đoạn của từng yêu cầu để biết nguyên nhân là hàng đợi, prefill, chuyển KV hay tính toán. Profiling giúp đặt câu hỏi tiếp, chưa chứng minh bottleneck.
+Phép chẩn đoán N48 riêng ghi thời lượng kernel GPU. GEMM, collective cùng normalization và attention là các ứng viên để kiểm tra. Tỷ lệ của chúng tính trên tổng thời lượng kernel; GPU có thể chạy chồng lấp nên đó không phải tỷ lệ thời gian của cả yêu cầu. Riêng serving N64 cho thấy token đầu trễ, nhưng thiếu mốc từng pha để phân biệt hàng đợi, prefill, chuyển KV hay tính toán. Đây là hướng điều tra và triệu chứng, chưa phải bottleneck được xác minh. Nhóm không dùng phần trăm kernel làm nguyên nhân đã chứng minh cho phép thử kế tiếp.
 
-## Slide 9 — Một phép thử decode riêng có đối chứng
+## Slide 9 — Test the decode implementation while holding the serving setup fixed
 
-Kết quả tiếp theo đến từ thí nghiệm riêng: so sánh cấu hình decode tự chọn mới với triển khai HPC-Ops được hỗ trợ ở N60. Topology, prefill, chunk, workload, attention và transport được giữ cố định. Nhóm thử hướng này vì implementation decode là một trong vài khả năng đáng kiểm tra ở cấp dịch vụ. Tỷ lệ kernel ở slide trước không chứng minh đây là cách sửa bottleneck. Bằng chứng cho kết quả là đối chứng mới và lần lặp lại, không phải phần trăm profiling.
+Câu chuyện tiếp theo là phép thử backend riêng, không phải cách sửa được suy ra từ profiling. Thay đổi implementation decode là một hướng hợp lý ở cấp dịch vụ. Nhóm so sánh đối chứng decode tự động mới với HPC-Ops ở lượt N60 đầy đủ, giữ nguyên topology, prefill và chunk, workload, attention cùng transport. Như vậy có thể đánh giá lựa chọn cấu hình rõ hơn so với thay nhiều yếu tố cùng lúc. Phép so sánh vẫn không chỉ ra kernel hay hàng đợi nội bộ nào tạo chênh lệch. Bằng chứng là kết quả toàn dịch vụ có đối chứng và lần lặp lại.
 
-## Slide 10 — Throughput và độ trễ đổi chiều
+## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 
-Throughput token đầu ra hữu ích tăng từ 2.838,85 lên 2.989,17, khoảng 5,30 phần trăm. Thời gian token đầu tiên trung bình chậm thêm 125 mili giây, còn khoảng cách token trung bình giảm khoảng 1,64 mili giây. Lần chạy độc lập của nhánh HPC-Ops lệch khoảng âm 0,033 phần trăm so với lần trước. Nhóm ghi nhận cấu hình này có đánh đổi về token đầu tiên và dùng nó để khảo sát mức tải tiếp theo. Kết quả không cô lập một kernel và cũng không thể cộng cơ học với các cải tiến khác.
+Goodput đầu ra tăng khoảng 5,30%. Thời gian token đầu trung bình chậm thêm khoảng 125 mili giây, trong khi độ trễ giữa token trung bình tốt hơn khoảng 1,64 mili giây. Lần chạy độc lập tái hiện kết quả gần như tương tự. Nhóm giữ cấu hình đã thử để nghiên cứu tải tiếp theo, đồng thời ghi nhận token đầu chậm hơn là đánh đổi thật. Đây là kết quả ở cấp cấu hình, lặp lại trong workload này; nó không chứng minh cơ chế của một kernel hay cho phép cộng cơ học mức tăng với thí nghiệm khác.
 
-## Slide 11 — Chọn N64 bằng phép đo đầy đủ
+## Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage
 
-Nhóm so sánh lượt đầy đủ N62 và N64. Throughput hữu ích tại N64 tăng khoảng 1,08 phần trăm; một lượt N64 độc lập khác cho kết quả gần như bằng nhau. Lượt ngắn N68 trông tốt hơn, nhưng đo đầy đủ chỉ tăng khoảng 0,08 phần trăm, thấp hơn ngưỡng hữu ích một phần trăm mà nhóm đặt ra. Vì vậy nhóm giữ N64 làm điểm vận hành có thể lặp lại. Concurrency ở đây là số yêu cầu của client đang chờ xử lý, không phải số GPU hay batch decode.
+Sau khi đổi backend, nhóm kiểm tra lại concurrency của client. Nhiều yêu cầu đang bay có thể giúp chồng lấp công việc, nhưng cũng có thể tăng thời gian chờ và làm token đầu chậm hơn. Các lượt đầy đủ N62/N64 cho thấy N64 tăng goodput khoảng 1,08%, rồi một lượt N64 độc lập cho điểm gần như tương tự. Lượt N68 ngắn có vẻ tốt, nhưng phép đo đầy đủ chỉ tăng khoảng 0,08%, dưới ngưỡng hữu ích 1% của nhóm. Nhóm giữ N64 và đóng nhánh N68. Concurrency là số yêu cầu client đang bay, không phải số GPU hay batch decode.
 
-## Slide 12 — Yêu cầu nào không đạt
+## Slide 12 — The remaining latency failures are first-token tails
 
-Biểu đồ từng yêu cầu đến từ một lượt N64 đầy đủ riêng. Trong 1.902 yêu cầu, có 1.875 yêu cầu đạt đồng thời cả hai giới hạn. Hai mươi bảy yêu cầu còn lại đều trễ token đầu; không yêu cầu nào vi phạm ITL trung bình và không có lỗi được tính điểm. Biểu đồ cho biết điều kiện nào bị trượt trong lượt đó, nhưng không cho biết nguyên nhân bên trong server.
+Trong một lượt N64 đầy đủ riêng, 1.875 trên 1.902 yêu cầu đạt cả hai giới hạn độ trễ. Cả 27 yêu cầu trượt đều chậm token đầu; không yêu cầu nào trượt độ trễ trung bình giữa token và không có lỗi được chấm. Điều này cho biết điều kiện dịch vụ nào bị trượt. Nhưng thiếu thời gian từng pha nên chưa thể quy token đầu chậm cho hàng đợi, prefill, chuyển dữ liệu hay nguyên nhân khác. Nhóm báo triệu chứng đã đo, chưa gán nguyên nhân nội bộ.
 
-## Slide 13 — Gói nộp chạy hoàn chỉnh và tái hiện mức hiệu năng đã chọn
+## Slide 13 — A complete portable run reproduces the retained operating level
 
-Ba lượt N64 đầy đủ trước đó trung bình đạt 3.044,40 token đầu ra đạt chuẩn mỗi giây; một lượt native riêng đạt 3.045,50. Gói nộp vừa chạy trọn ở job 28197 đạt 3.051,52 trên cùng công thức mười sáu H200. Đây là ba nhóm bằng chứng riêng, không phải phép so sánh ghép cặp để chứng minh một tối ưu mới. Lượt mới xác nhận bản nộp chạy hết từ khởi động, suy luận, chấm điểm đến dọn job. Nhóm vẫn giữ lượt hợp lệ cũ ở mức 2.830,92 mà chưa xác định được nguyên nhân thấp hơn.
+Gói nộp cũng phải sẵn sàng, phục vụ yêu cầu thật, qua bộ đọc kết quả phía client và dọn dẹp đúng. Kiểm tra sẵn sàng ban đầu thấy router khỏe trước khi mô hình đăng ký xong nên dừng trước benchmark. Nhóm điều chỉnh điều kiện chờ để xác nhận danh sách model và worker còn sống, rồi chạy job 28197 được chấp nhận với công thức đã giữ. Job hoàn tất chuỗi triển khai, phục vụ, đọc kết quả và dọn dẹp, đạt 3.051,52 token đầu ra hữu ích mỗi giây. Không có đối chứng ghép cặp và công thức phục vụ không đổi, nên đây là bằng chứng gói portable được chấp nhận, không phải tối ưu mới.
 
-## Slide 14 — Đem ý tưởng từ H100 sang kiểm tra trên H200
+## Slide 14 — Direct H200 tests decide which H100 ideas transfer
 
-H100 giúp nhóm sàng lọc tương thích và lựa chọn ứng viên, nhưng điểm H100 không xếp hạng cấu hình H200. Sau đó nhóm đo các lựa chọn đã chọn cùng một đối chứng mới trên đúng mười sáu H200. Công thức H100 đầy đủ khi chuyển sang H200 đạt 2.721,82, thấp hơn đối chứng H200 khoảng 10,41 phần trăm. Decode FA3 thấp hơn 1,28 phần trăm. Hai chunk prefill HPC-Ops và hai chế độ inference theo từng pha cũng không vượt đối chứng theo ngưỡng một phần trăm. Kết luận là giữ công thức riêng cho H200; không suy ra thư viện nào luôn chậm hơn trong mọi trường hợp.
+Nhóm đo trực tiếp một số ý tưởng từ H100 trên H200, với đối chứng mới. Công thức H100 đầy đủ bị giảm; thay chunk khôi phục một phần nhánh đó: phép thử ghép cặp tăng 6,57% so với đối chứng chunk 4096, nhưng vẫn thấp hơn công thức H200 hiện dùng 4,52%. Một số chế độ theo pha có kết quả dương, nhưng dưới 0,14%; không phương án nào vượt ngưỡng hữu ích 1%. Nhóm giữ công thức riêng cho H200. Các phép đo không ủng hộ nâng cấp những cấu hình này trong điều kiện đã thử, chứ không kết luận thư viện luôn chậm hơn.
 
-## Slide 15 — Không chọn proxy thay cho mục tiêu dịch vụ
+## Slide 15 — Better proxy metrics did not always improve qualifying throughput
 
-Một số thay đổi cải thiện chỉ số phụ nhưng không cải thiện dịch vụ. Sparse graph giảm lượng bộ nhớ capture được ghi nhận, nhưng goodput lại thấp hơn một chút so với đối chứng. Một lượt speculative decoding nông cũng giảm goodput. Nhóm đóng các cấu hình đã thử đó. Bộ nhớ giảm hay tính năng chạy được chưa đủ; cả workload phải cải thiện và vẫn giữ giới hạn độ trễ cùng chất lượng.
+Sparse graph giảm chỉ số bộ nhớ capture được ghi lại nhưng goodput giảm nhẹ. Cấu hình speculative decoding nông cũng giảm goodput. Nhóm đóng cả hai nhánh đã thử thay vì coi bộ đếm thấp hơn hay tính năng chạy được là cải thiện. Chỉ số phụ có thể gợi ra câu hỏi; muốn giữ cấu hình thì workload đầy đủ phải tăng đầu ra hữu ích mà vẫn đạt độ trễ và chất lượng. Kết quả âm giúp thu hẹp công thức và vẫn là bằng chứng cần giữ lại.
 
-## Slide 16 — Dịch vụ tối ưu giữ được 99,9154% độ chính xác tham chiếu
+## Slide 16 — The retained recipe survives performance and quality checks
 
-Kết quả hiệu năng và chất lượng trả lời là hai phép đo khác nhau. Ở job 28197, 98,6366% request hiệu năng đạt đồng thời hai giới hạn độ trễ; đây là tỷ lệ đạt SLA, không phải độ chính xác. Với chất lượng, nhóm so sánh dịch vụ FP8 chính thức chạy mặc định với cấu hình serving tối ưu trên cùng 16 H200 và cùng 12.032 câu MMLU-Pro. Bản tham chiếu đúng 9.460 câu, đạt 78,6237%; dịch vụ của nhóm đúng 9.452 câu, đạt 78,5572%. Tỷ lệ giữ lại so với điểm tham chiếu là 99,9154%, vượt ngưỡng điểm cục bộ 99% đã đặt trước. Nhóm phát lại toàn bộ câu trả lời đã lưu; lỗi dịch vụ, đáp án không phân tích được và đáp án chạm giới hạn độ dài đều vẫn được tính. Đây là phép kiểm tra cục bộ của nhóm, không phải chứng nhận của BTC; kết luận Q1 của ban tổ chức vẫn do họ đưa ra. Tôi xin bàn giao cho người trình bày OpenFOAM.
+Kết thúc là ba bài học. Một, chọn cách chia pha và backend theo phần cứng đích; cấu hình H100 không tự động phù hợp H200. Hai, chỉ giữ mức tăng qua phép đo đầy đủ và lặp lại; loại kết quả ngắn không đạt ngưỡng hữu ích. Ba, kiểm tra riêng triển khai, hiệu năng và chất lượng câu trả lời. Gói portable được chấp nhận đạt khoảng 3.052 token hữu ích mỗi giây. Trên cùng 16 H200 và 12.032 câu MMLU-Pro, dịch vụ tối ưu đúng 9.452 câu so với 9.460 của bản FP8 tham chiếu: giữ lại 99,9154% điểm, cao hơn ngưỡng cục bộ 99%. Đây là phép kiểm tra cục bộ, không phải chứng nhận BTC. Tôi xin bàn giao cho người trình bày HPC.
 
-## Bản dự phòng khi hỏi
+## Backup 19 — Backup · full-set accuracy verification
 
-Chín job H200 cuối ngày 31/10 đều đã được rà soát. Đối chứng mới 27777 đạt 3.038,02; FA3 decode 27779 đạt 2.999,25. Công thức H100 chuyển sang H200 ở N64, job 27783, đạt 2.721,82. HPC-Ops prefill với chunk 6.144 và 8.192 đạt 2.821,88 và 2.900,61. Chỉ thử inference mode ở decode và prefill lần lượt đạt 3.039,36 và 3.043,14, so với đối chứng riêng 3.039,17. Không ứng viên nào qua ngưỡng hữu ích một phần trăm nên cấu hình H200 không đổi. Các job qua kiểm tra nội bộ; điều đó không thay cho chứng nhận chất lượng chính thức của ban tổ chức.
+Nếu được hỏi chi tiết: hai dịch vụ cùng nhận 12.032 câu, mỗi câu một lần. Bản tham chiếu đạt 78,6237%; ứng viên đạt 78,5572%, chênh ròng tám câu đúng. Câu trả lời không phân tích được và câu chạm giới hạn 2.048 token vẫn nằm trong mẫu số. Con số 99,9154% là điểm ứng viên chia cho điểm tham chiếu, không phải tỷ lệ câu trả lời đúng. Đây là một phép so sánh cục bộ đầy đủ, không chứng minh tương đương thống kê cho workload tương lai và không phải chứng nhận của BTC. Phát lại dữ liệu đã lưu tái tạo đúng các số đếm.
+
+## Backup 20 — Backup · request-scoped descriptor construction
+
+Đường cũ duyệt pool KV đã dành trước trong khi yêu cầu chỉ cần các trang của chính nó. Điều kiện đúng là danh sách địa chỉ mới phải bao phủ đúng cùng byte và giữ nguyên ý nghĩa chuyển dữ liệu, thông báo. Các ca hình học CPU kiểm tra điều kiện đó. 403,8 triệu mục nguồn trên mỗi hạng và 188 vùng cho một yêu cầu chỉ minh họa khác biệt về phạm vi; chúng không phải tỷ lệ tăng tốc. Không có bằng chứng loại trừ bandwidth, bố trí KV hay scheduling.
+
+## Backup 21 — Backup · what the KV recovery run actually proves
+
+Job chưa sửa 22271 timeout trước khi chấm điểm. Job đã sửa 22294 hoàn tất yêu cầu prefill/decode thật và benchmark N32 đầy đủ, không có lỗi được chấm. Kết quả chứng minh đường chạy đã sửa trở nên sử dụng được. Vì thiếu đối chứng chưa sửa có điểm và bộ hẹn giờ khởi tạo riêng, tốc độ tăng riêng của descriptor và quy kết nguyên nhân vẫn chưa biết.
+
+## Backup 31 — Backup · real failures led to a complete portable acceptance
+
+Gói ban đầu kiểm tra router trước khi đăng ký model hoàn tất nên dừng trước benchmark. Bản sửa chờ danh sách model hợp lệ và worker còn sống. Job 28197 được chấp nhận sau đó hoàn tất trên 16 H200, qua serving P/D, bộ đọc kết quả, điều kiện hiệu năng và dọn dẹp, đạt 3.051,518 token đầu ra hữu ích mỗi giây. Các lượt N64 trước có trung bình 3.044,40; lượt native đạt 3.045,50; một lượt hợp lệ cũ đạt 2.830,92 vẫn chưa giải thích được. Đây là quan sát riêng, không phải đối chứng tối ưu ghép cặp. Job được chấp nhận không có đối chứng và không đổi công thức phục vụ.
+
+## Chi tiết dự phòng khi hỏi
+
+Chín lượt H200 cuối được rà soát. Đối chứng mới đạt 3.038,02; decode FA3 đạt 2.999,25. Công thức H100 chuyển sang đạt 2.721,82. HPC-Ops prefill với chunk 6.144 và 8.192 đạt 2.821,88 và 2.900,61. Hai biến thể inference mode chỉ bật ở decode hoặc prefill nhỉnh hơn đôi chút so với đối chứng, nhưng đều dưới ngưỡng hữu ích 1%. Không biến thể nào thay công thức được giữ. Xem [FULL_RESULTS.md](../ai-quality-verification-20261103/FULL_RESULTS.md) để biết phương pháp kiểm tra chất lượng và [MOCK_QA_EVIDENCE.md](MOCK_QA_EVIDENCE.md) để tra nguồn cùng giới hạn của từng kết quả. Chưa có mock thuyết trình trực tiếp được bấm giờ.

@@ -1,6 +1,18 @@
 # TripleU AI task — final research report
 
-The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The [24-page main-talk PDF](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Main_Talk.pdf) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
+## Presentation narrative — 12–13 minute AI edition
+
+The main talk selects three linked decisions rather than presenting the whole experiment log. First, make a phase-split service usable within sixteen GPUs. Second, test supported phase-specific execution choices against controls and retain a throughput/latency tradeoff that survives a repeat. Third, check load, target-hardware transfer, complete packaged execution and answer quality before defending the retained recipe. The original theme and sixteen main AI positions remain; the complete job history stays in the report and Q&A material.
+
+**Team implementation:** the request-scoped descriptor patch in a particular heterogeneous-TP NIXL path, with range-equivalence checks and real distributed validation. NIXL itself is an existing transfer library; a descriptor is an address/length description of memory, not the KV data or a model weight. The missing successful unpatched scored control prevents a descriptor-only speedup claim.
+
+**Team engineering and experimental contribution:** selecting and integrating existing serving components, designing bounded matched tests, reproducing the measured backend tradeoff, rejecting unsuccessful settings and checking the final service. DeepGEMM, FlashInfer, HPC-Ops and MNNVL are reused implementations, not newly invented team kernels. The phase/shape rationale is retrospective where the original before-run motive is not retained; the N48 diagnostic must not be presented as proof that it selected one causal remedy.
+
+Main slide 3 now explains the architectural tradeoff without the erroneous old topology-09/1666.01 attribution. Main slide 14 correctly reports that none of the tested transfers passed the 1% usefulness threshold, including the small positive phase-mode observations. Main slide 16 closes on the retained decisions and two separate evidence classes. Exact full-set quality counts move to backup 19. The compact speaking script targets 12:30, subject to an actual timed rehearsal; the longer bilingual guides are study material, not text to read in full during the talk.
+
+
+
+The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The [24-page main-talk PDF](../../submission-review/ai-narrative-12min-20261103/TripleU_APAC2026_Main_Talk.pdf) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
 
 Updated 3 November 2026, Vietnam time (UTC+7). **Submission posture: preserve the official Qwen FP8 checkpoint and optimise the serving path.** The checkpoint and model weights are preserved; experiments changed the serving configuration. Exact-package deployment and performance acceptance completed in job 28197. A separate full-set local MMLU-Pro comparison now passes the predeclared 99% reference-retention point gate. This is our measured local check, not BTC certification or an organiser evaluation result.
 
@@ -20,7 +32,7 @@ A separate local full-set check compared the stock official FP8 deployment with 
 
 The 28197 value of 98.636602% remains the fraction of performance-benchmark requests that met both latency limits. It is not answer accuracy. Performance and quality are separate measurements. See [full quality results](../ai-quality-verification-20261103/FULL_RESULTS.md) and [methodology](../ai-quality-verification-20261103/METHODOLOGY.md).
 
-[Full 28197 review and failure-to-fix evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [actual job status/receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), [current presentation package](/home/apacsc42/workspace/submission-review/ai-quality-update-20261103/).
+[Full 28197 review and failure-to-fix evidence](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md), [actual job status/receipt](/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/STATUS.md), [current presentation package](/home/apacsc42/workspace/submission-review/ai-narrative-12min-20261103/).
 
 ## Workload and score
 
@@ -83,11 +95,11 @@ Submission artifacts and slides are in English; the owner-requested Vietnamese l
 
 No organiser upload receipt or organiser quality-evaluation result is recorded here. The local full-set quality comparison is documented above; it does not claim BTC certification. Large artifact recovery metadata is backed up through the private research repository; Git does not upload the sibling external object bytes.
 
-- [Updated presentation](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Presentation.pptx)
-- [Review PDF](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Presentation.pdf)
-- [Speaker notes](../../submission-review/ai-quality-update-20261103/PRESENTER_NOTES.md)
+- [Updated presentation](../../submission-review/ai-narrative-12min-20261103/TripleU_APAC2026_Presentation.pptx)
+- [Review PDF](../../submission-review/ai-narrative-12min-20261103/TripleU_APAC2026_Presentation.pdf)
+- [Speaker notes](../../submission-review/ai-narrative-12min-20261103/PRESENTER_NOTES.md)
 - [Current detailed metrics and configuration](../../VNUHCM%20-%20TripleU/AI_Task/logs/measured/latest-results.md)
-- [Publication verification](../../submission-review/ai-quality-update-20261103/publication-validation.json)
+- [Publication verification](../../submission-review/ai-narrative-12min-20261103/publication-validation.json)
 
 
 ## Presentation readiness
