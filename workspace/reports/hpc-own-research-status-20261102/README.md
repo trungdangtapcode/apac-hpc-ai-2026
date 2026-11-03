@@ -1,3 +1,5 @@
+> **Current comparison, 3 November 2026:** read [Iris: our configurations, teammate and organizer](../hpc-iris-comparison-20261103/README.md). The text below preserves dated historical updates, including old running/prepared snapshots; they are not live scheduler state. Teammate showed a qualified 11.22% lower mean in its matched screen; no stable own-config gain is established.
+
 # What our HPC research has actually established
 
 **No configuration developed by this worker has demonstrated a stable improvement over our scored-platform baseline.** Our best reviewed NSCC result is **3.364622070 seconds per step**, job 25940700, four nodes / 512 ranks / 150 steps. It reproduces the organizer's default Scotch recipe. It must not be presented as a new optimization we invented.
