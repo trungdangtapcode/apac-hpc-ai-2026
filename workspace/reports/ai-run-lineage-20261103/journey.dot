@@ -1,0 +1,111 @@
+digraph journey {
+graph [rankdir=TB,splines=polyline,bgcolor="#f6f8fb",pad="0.5",nodesep="0.35",ranksep="0.75",fontname="DejaVu Sans",label="Qwen research: questions, interventions and evidence
+H100 = red · H200 = green · arrows carry documented relations",labelloc=t,fontsize=22];
+node [shape=box,style="rounded,filled",fontname="DejaVu Sans",fontsize=11,margin="0.20,0.13"];
+edge [fontname="DejaVu Sans",fontsize=9,color="#607080"];
+"early-layout" [label="2026-10-09 · H200\nInitial split topology\nJobs 22197, 22131, 22200, 22219\nCompared early disaggregated layouts and repaired setup/protocol\nissues.\n07 job 22197 reached 1,297.02 good output tokens/s at N32; 09 job\n22131 reached 1,472.73 at N32 and job 22200 reached 1,649.27 at\nN40. Separate topology job 22219 reached 1,666.01 at N40. The\nlayouts and loads differ; these are feasibility milestones, not a\ncausal ablation.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"tp8-warmup-failure" [label="2026-10-10 · H200\nHeterogeneous TP8 warmup failure\nJobs 22271\nWorkers loaded, but pair warmup timed out before benchmark\nscoring.\nNo score; localized the problem to setup/transfer path and\nmotivated inspecting KV descriptor work.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"nixl-request-scope" [label="2026-10-10 · H200\nRequest-scoped NIXL descriptors\nJobs 22294\nBuilt and coalesced descriptors only for request pages after 720\nCPU equivalence cases.\nActual P/D warmup completed; N32 scored 1,422.96 good tokens/s.\nEstablishes patched-path feasibility, not descriptor-only\nspeedup.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"equal-tp-recovery" [label="2026-10-11 · H200\nEqual-TP recovery and preserved losses\nJobs 22750, 22778, 22809\nRetained partial and timeout attempts; tested a separately scoped\nequal-TP8 descriptor route.\n22809 reached 1,507.96 at N32 but only 95.38% joint SLA; N40/N48\nfailed eligibility. Not selected.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"baseline-dense" [label="2026-10-13 · H200\nUsable split baseline\nJobs 22415, 23102, 23104\nKept two TP4 prefill replicas feeding TP8/EP8 decode; established\nfull runs and controls.\n22415 delivered N48 at 1,912.30; later controls near 1,911. This\nbecame a matched-tuning baseline.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"prefill-routing" [label="2026-10-15 · H200\nRound-robin prefill routing\nJobs 23325, 23607\nChanged routing after poor first-token latency; followed with a\nfresh control.\nPilot 23325 scored 2,402.64 vs 2,075.11 control and lowered mean\nTTFT 1,437.63→333.25 ms; single observation, ITL approached\nlimit.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"backend-losses" [label="2026-10-15 · H200\nFP8 KV and decode DeepGEMM losses\nJobs 23608, 23609\nTested each backend on the routed pipeline at matched N52.\nBoth failed joint SLA; retained BF16 KV and closed those tested\nbranches. Does not rule out phase-specific use.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"mnnvl-flashinfer" [label="2026-10-15 · H200\nMNNVL plus FlashInfer interaction\nJobs 23778, 23839\nTested communication/attention paths and their combined pipeline\nwith repeat evidence.\nMNNVL reached 2,592.16 and repeat ~2,592.92, about 8% over\nmatched N52 control; FlashInfer alone near tie. Combined\nconfiguration reached later 2,632.61.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h100-commission" [label="2026-10-15 · H100\nH100 platform becomes measurable\nJobs 220562.pbs111\nSeparated PBS launch and loader failures from a completed\nbaseline.\nFirst full N32 point ~1,565.16 after long startup; H100\nperformance remains a separate series.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"h100-decode-ops" [label="2026-10-18 · H100\nH100 HPC-Ops decode\nJobs 221263.pbs111, 221274.pbs111, 221275.pbs111\nCompared decode-only HPC-Ops against controls and repeated the\ntreatment.\n2,308.308 vs 2,245.534 (+2.7955%); repeat 2,304.083 stayed above\nfresh control 221275. ITL improved, TTFT rose.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"h100-both-ops" [label="2026-10-19 · H100\nH100 both-phase HPC-Ops\nJobs 221315.pbs111, 221590.pbs111, 221645.pbs111\nAdded prefill HPC-Ops to the retained decode path and refined\nload with repeat controls.\nInitial 2,371.961 vs 2,308.979 control; later N54 2,430.891 and\nrepeat 2,418.588. N56 did not establish further gain.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"h200-prefill-deepgemm" [label="2026-10-17 · H200\nDeepGEMM specifically in prefill\nJobs 24291, 24320, 24327\nChanged prefill only after a decode-only DeepGEMM loss; held\ndecode and workload, then repeated.\n24291 reached 2,715.842; independent 24327 reached 2,716.787,\n+1.7401% vs fresh control 24320. H100 did not inherit this\nresult.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h100-prefill-branches" [label="2026-10-19 · H100\nH100 prefill alternatives lose\nJobs 221828.pbs111, 221880.pbs111\nMatched tests covered chunk6144, selectors and dense FlashInfer\nprefill.\nChunk6144 2,411.995 vs 2,413.802 control; dense FlashInfer\n2,227.031 (−7.74%). Passing gates did not mean improvement.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"h200-chunk-backend" [label="2026-10-19 · H200\nHPC-Ops decode with DeepGEMM/chunk8192\nJobs 24721, 24724\nRevisited decode backend under changed prefill runner/chunk and\ncompared against a same-load control.\nN58 candidate 2,938.628 vs 2,780.403 (+5.6907%); TTFT rose, ITL\nimproved. Promising interaction, not yet confirmed by this pair\nalone.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h200-repeat-controls" [label="2026-10-19 · H200\nSeparate N60 repeat/control\nJobs 24722, 24732\nRepeated the incumbent auto-decode configuration separately from\nthe N58 treatment.\n24732 2,836.531 vs 2,839.532 original control; confirms stability\nof that configuration only, not the N58 treatment.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h200-interaction-repeat" [label="2026-10-20 · H200\nN60 HPC-Ops interaction repeat\nJobs 24912, 24913\nRan fresh matched controls and independently repeated the\npromising phase interaction.\nRepeat improved 5.295% vs matched auto-decode control and was\n~0.033% below original treatment; mean TTFT/ITL tradeoff\nretained.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h100-frontier" [label="2026-10-20 · H100\nH100 load/chunk frontier\nJobs 222281.pbs111, 222282.pbs111, 222383.pbs111\nMeasured chunk and load interactions with full-run latency gates.\nN54 control 222281 scored 2,401.578; smaller chunk2048 lost\n~26.13%; 8192 and later H100 chunk branches did not establish a\nuseful gain.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"n64-selection" [label="2026-10-21 · H200\nN62 to N64 matched load\nJobs 25365, 25366\nTested a bounded concurrency increase on the revised recipe.\nN62 3,011.875; N64 3,044.490 (+1.082867%) under full gates. This\nmotivated a repeat, not a claim of certainty.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"n64-repeat" [label="2026-10-22 · H200\nIndependent N64 repeat\nJobs 25373\nRepeated the selected N64 configuration under the full protocol.\n3,044.075, −0.013634% vs first N64; supported the historical\nrepeated mean 3,044.400475.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"n68-stop" [label="2026-10-22 · H200\nN64 versus N68 stop\nJobs 25487, 25488\nCompared fresh full N64/N68 runs after the repeated N64 result.\nOnly +0.083056% at N68 while mean TTFT rose ~1,113.6→1,347.1 ms;\nretained N64 and closed N68.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"h100-separate-peak" [label="2026-10-20 · H100\nH100 repeated frontier remains separate\nJobs 222048.pbs111, 222049.pbs111, 222050.pbs111\nReviewed three H100 full runs with independent observations.\n2,433.020 / 2,395.311 / 2,406.802 good tokens/s; no pooling with\nH200 3,044 series.",color="#b83f49",fillcolor="#fff0f1",penwidth=1.6];
+"phase-specific-backend" [label="2026-10-29 · H200\nTokenizer, prefill attention and EAGLE losses\nJobs 26949, 26951, 26953, 27077, 27238\nTested targeted backend/serving alternatives with same incumbent\ncontext.\nDynamic tokenizer gains +0.192/+0.270% not promoted; FlashInfer\nprefill −6.385%; shallow EAGLE3 −2.080%.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"native-repeat" [label="2026-10-27 · H200\nNative full N64 reproduction\nJobs 26766\nReplayed the retained native configuration with current gates.\n3,045.501509 good output tokens/s; separate series from\nhistorical repeated mean.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"cache-control" [label="2026-10-29 · H200\nCold-prefill cache candidate\nJobs 27376, 27378\nCompared a cache intervention to its own fresh control.\nCandidate peak 3,048.446289 but only +0.240921%, below 1% gate;\np95 TTFT worsened. No promotion.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"sparse-graphs" [label="2026-10-30 · H200\nSparse decode graph experiment\nJobs 27510\nReduced graph buckets to test memory proxy hypothesis.\n3,029.861122 (−0.370208%); memory/rank fell 1.15→0.36 GB but\nthroughput did not improve.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"cross-hardware-transfer" [label="2026-10-31 · H200\nDirect H100-derived recipe check on H200\nJobs 27777, 27779, 27781, 27783\nFresh H200 control, FA3 decode and H100 recipe at N54/N64;\npreserved same-GPU comparison.\nControl 3,038.022907; FA3 −1.276%; H100 recipe N64 −10.408%.\nRetained H200-specific recipe; no pooled GPU ranking.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"transfer-chunk-refine" [label="2026-10-31 · H200\nRefine transferred recipe chunk\nJobs 27804, 27806\nHeld HPC-Ops prefill runner and tested chunk6144/8192, then\ncompared at shared chunk.\n2,821.885 / 2,900.607; chunk8192 recovered vs 4096 but remained\n4.523% below incumbent.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"phase-mode-test" [label="2026-10-31 · H200\nPhase-specific inference mode\nJobs 27826, 27828, 27830\nCompared decode-only and prefill-only inference_mode ports with\nexplicit no_grad control.\n3,039.167 control; +0.006223% decode and +0.130765% prefill.\nBelow 1% gate; no promotion.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"packaged-acceptance" [label="2026-11-02 · H200\nExact packaged entry failure and acceptance\nJobs 28194, 28197\nFixed readiness check after health returned before model\nregistration; reran exact entry.\n28194 failed before benchmark; 28197 passed in 611 s at N64,\n3,051.518173 good output tokens/s. Acceptance, not matched\noptimization.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"quality-pilot" [label="2026-11-02 · H200\nN16 quality pilot fails point threshold\nJobs 28367, 28368, 28371\nCompared a bounded pilot before committing the full fixed study.\nThe first reference attempt 28367 failed; corrected reference\n28371 scored 104 correct and candidate 28368 scored 102\n(98.076923% retention). The pilot failed the local 99% point gate\nand motivated the full-set measurement.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"quality-fullset" [label="2026-11-02 · H200\nComplete paired local answer-quality test\nJobs 28373, 28375, 28382, 28384, 28386, 28388, 28390, 28392,\n28394, 28396, 28398, 28400, 28402, 28404, 28406, 28408\nCompared stock FP8 and accepted candidate on the same 12,032\nMMLU-Pro questions, fixed prompts/settings/parser, in eight\npaired shards.\nReference 9,460/12,032 (78.623670%); candidate 9,452/12,032\n(78.557181%); 99.915433% reference-score retention passes local\n99% point gate. Not BTC certification or statistical equivalence.",color="#16865f",fillcolor="#ebf8f1",penwidth=1.6];
+"early-layout" -> "tp8-warmup-failure" [label="motivated",style=dotted];
+"tp8-warmup-failure" -> "nixl-request-scope" [label="derived",style=solid];
+"nixl-request-scope" -> "equal-tp-recovery" [label="motivated",style=dotted];
+"early-layout" -> "baseline-dense" [label="derived",style=solid];
+"baseline-dense" -> "prefill-routing" [label="motivated",style=dotted];
+"prefill-routing" -> "backend-losses" [label="control",style=dashed];
+"prefill-routing" -> "mnnvl-flashinfer" [label="motivated",style=dotted];
+"mnnvl-flashinfer" -> "h200-prefill-deepgemm" [label="motivated",style=dotted];
+"h100-commission" -> "h100-decode-ops" [label="derived",style=solid];
+"h100-decode-ops" -> "h100-both-ops" [label="motivated",style=dotted];
+"h100-both-ops" -> "h100-prefill-branches" [label="control",style=dashed];
+"h200-prefill-deepgemm" -> "h200-chunk-backend" [label="motivated",style=dotted];
+"h200-chunk-backend" -> "h200-interaction-repeat" [label="derived",style=solid];
+"h200-repeat-controls" -> "h200-interaction-repeat" [label="control",style=dashed];
+"h100-both-ops" -> "h100-frontier" [label="control",style=dashed];
+"h200-interaction-repeat" -> "n64-selection" [label="motivated",style=dotted];
+"n64-selection" -> "n64-repeat" [label="derived",style=solid];
+"n64-repeat" -> "n68-stop" [label="motivated",style=dotted];
+"h100-separate-peak" -> "cross-hardware-transfer" [label="motivated",style=dotted];
+"cross-hardware-transfer" -> "transfer-chunk-refine" [label="motivated",style=dotted];
+"cross-hardware-transfer" -> "phase-mode-test" [label="motivated",style=dotted];
+"n64-repeat" -> "native-repeat" [label="control",style=dashed];
+"native-repeat" -> "cache-control" [label="motivated",style=dotted];
+"native-repeat" -> "sparse-graphs" [label="control",style=dashed];
+"cross-hardware-transfer" -> "packaged-acceptance" [label="motivated",style=dotted];
+"packaged-acceptance" -> "quality-pilot" [label="motivated",style=dotted];
+"quality-pilot" -> "quality-fullset" [label="motivated",style=dotted];
+date0 [label="2026-10-09",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date0;"early-layout";}
+date1 [label="2026-10-10",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date1;"tp8-warmup-failure";"nixl-request-scope";}
+date0 -> date1 [style=invis,weight=100];
+date2 [label="2026-10-11",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date2;"equal-tp-recovery";}
+date1 -> date2 [style=invis,weight=100];
+date3 [label="2026-10-13",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date3;"baseline-dense";}
+date2 -> date3 [style=invis,weight=100];
+date4 [label="2026-10-15",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date4;"prefill-routing";"backend-losses";"mnnvl-flashinfer";"h100-commission";}
+date3 -> date4 [style=invis,weight=100];
+date5 [label="2026-10-17",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date5;"h200-prefill-deepgemm";}
+date4 -> date5 [style=invis,weight=100];
+date6 [label="2026-10-18",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date6;"h100-decode-ops";}
+date5 -> date6 [style=invis,weight=100];
+date7 [label="2026-10-19",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date7;"h100-both-ops";"h100-prefill-branches";"h200-chunk-backend";"h200-repeat-controls";}
+date6 -> date7 [style=invis,weight=100];
+date8 [label="2026-10-20",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date8;"h200-interaction-repeat";"h100-frontier";"h100-separate-peak";}
+date7 -> date8 [style=invis,weight=100];
+date9 [label="2026-10-21",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date9;"n64-selection";}
+date8 -> date9 [style=invis,weight=100];
+date10 [label="2026-10-22",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date10;"n64-repeat";"n68-stop";}
+date9 -> date10 [style=invis,weight=100];
+date11 [label="2026-10-27",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date11;"native-repeat";}
+date10 -> date11 [style=invis,weight=100];
+date12 [label="2026-10-29",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date12;"phase-specific-backend";"cache-control";}
+date11 -> date12 [style=invis,weight=100];
+date13 [label="2026-10-30",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date13;"sparse-graphs";}
+date12 -> date13 [style=invis,weight=100];
+date14 [label="2026-10-31",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date14;"cross-hardware-transfer";"transfer-chunk-refine";"phase-mode-test";}
+date13 -> date14 [style=invis,weight=100];
+date15 [label="2026-11-02",shape=plaintext,fillcolor="#f6f8fb",fontcolor="#607080"];
+{rank=same;date15;"packaged-acceptance";"quality-pilot";"quality-fullset";}
+date14 -> date15 [style=invis,weight=100];
+}

@@ -1,3 +1,5 @@
+Latest AI history audit: [all retained GPU allocations and documented research lineage](../../ai-run-lineage-20261103/README.md), captured 3 November 2026. Counts distinguish started, cancelled and uncertain jobs; relations distinguish derivation, controls and motivation.
+
 Latest HPC presentation: [3 November Iris recipe comparisons and the 14-versus-40-step explanation](entries/20261103-hpc-iris-presentation-update.md).
 
 Latest HPC clarification: [3 November exact lowest observations for our, teammate and organizer Iris recipes](../../hpc-iris-comparison-20261103/BEST_RECORDED.md).

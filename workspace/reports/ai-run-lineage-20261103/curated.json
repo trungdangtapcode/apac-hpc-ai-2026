@@ -1,0 +1,822 @@
+{
+  "nodes": [
+    {
+      "id": "early-layout",
+      "job_ids": [
+        "22197",
+        "22131",
+        "22200",
+        "22219"
+      ],
+      "platform": "H200",
+      "date": "2026-10-09",
+      "title": "Initial split topology",
+      "change": "Compared early disaggregated layouts and repaired setup/protocol issues.",
+      "outcome": "07 job 22197 reached 1,297.02 good output tokens/s at N32; 09 job 22131 reached 1,472.73 at N32 and job 22200 reached 1,649.27 at N40. Separate topology job 22219 reached 1,666.01 at N40. The layouts and loads differ; these are feasibility milestones, not a causal ablation.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/TOPOLOGY_RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-09"
+      ]
+    },
+    {
+      "id": "tp8-warmup-failure",
+      "job_ids": [
+        "22271"
+      ],
+      "platform": "H200",
+      "date": "2026-10-10",
+      "title": "Heterogeneous TP8 warmup failure",
+      "change": "Workers loaded, but pair warmup timed out before benchmark scoring.",
+      "outcome": "No score; localized the problem to setup/transfer path and motivated inspecting KV descriptor work.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/TOPOLOGY_REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-10"
+      ]
+    },
+    {
+      "id": "nixl-request-scope",
+      "job_ids": [
+        "22294"
+      ],
+      "platform": "H200",
+      "date": "2026-10-10",
+      "title": "Request-scoped NIXL descriptors",
+      "change": "Built and coalesced descriptors only for request pages after 720 CPU equivalence cases.",
+      "outcome": "Actual P/D warmup completed; N32 scored 1,422.96 good tokens/s. Establishes patched-path feasibility, not descriptor-only speedup.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/README.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RECOVERY_RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-10"
+      ]
+    },
+    {
+      "id": "equal-tp-recovery",
+      "job_ids": [
+        "22750",
+        "22778",
+        "22809"
+      ],
+      "platform": "H200",
+      "date": "2026-10-11",
+      "title": "Equal-TP recovery and preserved losses",
+      "change": "Retained partial and timeout attempts; tested a separately scoped equal-TP8 descriptor route.",
+      "outcome": "22809 reached 1,507.96 at N32 but only 95.38% joint SLA; N40/N48 failed eligibility. Not selected.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-equal-ondemand/README.md"
+      ],
+      "date_range": [
+        "2026-10-11"
+      ]
+    },
+    {
+      "id": "baseline-dense",
+      "job_ids": [
+        "22415",
+        "23102",
+        "23104"
+      ],
+      "platform": "H200",
+      "date": "2026-10-13",
+      "title": "Usable split baseline",
+      "change": "Kept two TP4 prefill replicas feeding TP8/EP8 decode; established full runs and controls.",
+      "outcome": "22415 delivered N48 at 1,912.30; later controls near 1,911. This became a matched-tuning baseline.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/PLAN.md"
+      ],
+      "date_range": [
+        "2026-10-10",
+        "2026-10-13"
+      ]
+    },
+    {
+      "id": "prefill-routing",
+      "job_ids": [
+        "23325",
+        "23607"
+      ],
+      "platform": "H200",
+      "date": "2026-10-15",
+      "title": "Round-robin prefill routing",
+      "change": "Changed routing after poor first-token latency; followed with a fresh control.",
+      "outcome": "Pilot 23325 scored 2,402.64 vs 2,075.11 control and lowered mean TTFT 1,437.63→333.25 ms; single observation, ITL approached limit.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-04/RESEARCH.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-05/PLAN.md"
+      ],
+      "date_range": [
+        "2026-10-14",
+        "2026-10-15"
+      ]
+    },
+    {
+      "id": "backend-losses",
+      "job_ids": [
+        "23608",
+        "23609"
+      ],
+      "platform": "H200",
+      "date": "2026-10-15",
+      "title": "FP8 KV and decode DeepGEMM losses",
+      "change": "Tested each backend on the routed pipeline at matched N52.",
+      "outcome": "Both failed joint SLA; retained BF16 KV and closed those tested branches. Does not rule out phase-specific use.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/PLAN.md"
+      ],
+      "date_range": [
+        "2026-10-15"
+      ]
+    },
+    {
+      "id": "mnnvl-flashinfer",
+      "job_ids": [
+        "23778",
+        "23839"
+      ],
+      "platform": "H200",
+      "date": "2026-10-15",
+      "title": "MNNVL plus FlashInfer interaction",
+      "change": "Tested communication/attention paths and their combined pipeline with repeat evidence.",
+      "outcome": "MNNVL reached 2,592.16 and repeat ~2,592.92, about 8% over matched N52 control; FlashInfer alone near tie. Combined configuration reached later 2,632.61.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/PLAN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/MATCHED_REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-15"
+      ]
+    },
+    {
+      "id": "h100-commission",
+      "job_ids": [
+        "220562.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-15",
+      "title": "H100 platform becomes measurable",
+      "change": "Separated PBS launch and loader failures from a completed baseline.",
+      "outcome": "First full N32 point ~1,565.16 after long startup; H100 performance remains a separate series.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/README.md"
+      ],
+      "date_range": [
+        "2026-10-15"
+      ]
+    },
+    {
+      "id": "h100-decode-ops",
+      "job_ids": [
+        "221263.pbs111",
+        "221274.pbs111",
+        "221275.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-18",
+      "title": "H100 HPC-Ops decode",
+      "change": "Compared decode-only HPC-Ops against controls and repeated the treatment.",
+      "outcome": "2,308.308 vs 2,245.534 (+2.7955%); repeat 2,304.083 stayed above fresh control 221275. ITL improved, TTFT rose.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-0900/RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-0917/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-18"
+      ]
+    },
+    {
+      "id": "h100-both-ops",
+      "job_ids": [
+        "221315.pbs111",
+        "221590.pbs111",
+        "221645.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-19",
+      "title": "H100 both-phase HPC-Ops",
+      "change": "Added prefill HPC-Ops to the retained decode path and refined load with repeat controls.",
+      "outcome": "Initial 2,371.961 vs 2,308.979 control; later N54 2,430.891 and repeat 2,418.588. N56 did not establish further gain.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-1323/RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-18",
+        "2026-10-19"
+      ]
+    },
+    {
+      "id": "h200-prefill-deepgemm",
+      "job_ids": [
+        "24291",
+        "24320",
+        "24327"
+      ],
+      "platform": "H200",
+      "date": "2026-10-17",
+      "title": "DeepGEMM specifically in prefill",
+      "change": "Changed prefill only after a decode-only DeepGEMM loss; held decode and workload, then repeated.",
+      "outcome": "24291 reached 2,715.842; independent 24327 reached 2,716.787, +1.7401% vs fresh control 24320. H100 did not inherit this result.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1830/RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-2335/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-17"
+      ]
+    },
+    {
+      "id": "h100-prefill-branches",
+      "job_ids": [
+        "221828.pbs111",
+        "221880.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-19",
+      "title": "H100 prefill alternatives lose",
+      "change": "Matched tests covered chunk6144, selectors and dense FlashInfer prefill.",
+      "outcome": "Chunk6144 2,411.995 vs 2,413.802 control; dense FlashInfer 2,227.031 (−7.74%). Passing gates did not mean improvement.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/ATTENTION_RESULT.md"
+      ],
+      "date_range": [
+        "2026-10-19"
+      ]
+    },
+    {
+      "id": "h200-chunk-backend",
+      "job_ids": [
+        "24721",
+        "24724"
+      ],
+      "platform": "H200",
+      "date": "2026-10-19",
+      "title": "HPC-Ops decode with DeepGEMM/chunk8192",
+      "change": "Revisited decode backend under changed prefill runner/chunk and compared against a same-load control.",
+      "outcome": "N58 candidate 2,938.628 vs 2,780.403 (+5.6907%); TTFT rose, ITL improved. Promising interaction, not yet confirmed by this pair alone.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-19"
+      ]
+    },
+    {
+      "id": "h200-repeat-controls",
+      "job_ids": [
+        "24722",
+        "24732"
+      ],
+      "platform": "H200",
+      "date": "2026-10-19",
+      "title": "Separate N60 repeat/control",
+      "change": "Repeated the incumbent auto-decode configuration separately from the N58 treatment.",
+      "outcome": "24732 2,836.531 vs 2,839.532 original control; confirms stability of that configuration only, not the N58 treatment.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-19"
+      ]
+    },
+    {
+      "id": "h200-interaction-repeat",
+      "job_ids": [
+        "24912",
+        "24913"
+      ],
+      "platform": "H200",
+      "date": "2026-10-20",
+      "title": "N60 HPC-Ops interaction repeat",
+      "change": "Ran fresh matched controls and independently repeated the promising phase interaction.",
+      "outcome": "Repeat improved 5.295% vs matched auto-decode control and was ~0.033% below original treatment; mean TTFT/ITL tradeoff retained.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-20"
+      ]
+    },
+    {
+      "id": "h100-frontier",
+      "job_ids": [
+        "222281.pbs111",
+        "222282.pbs111",
+        "222383.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-20",
+      "title": "H100 load/chunk frontier",
+      "change": "Measured chunk and load interactions with full-run latency gates.",
+      "outcome": "N54 control 222281 scored 2,401.578; smaller chunk2048 lost ~26.13%; 8192 and later H100 chunk branches did not establish a useful gain.",
+      "evidence": [
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/RESULTS.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-hpc-smallchunk-20261020/PAIR_REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-20"
+      ]
+    },
+    {
+      "id": "n64-selection",
+      "job_ids": [
+        "25365",
+        "25366"
+      ],
+      "platform": "H200",
+      "date": "2026-10-21",
+      "title": "N62 to N64 matched load",
+      "change": "Tested a bounded concurrency increase on the revised recipe.",
+      "outcome": "N62 3,011.875; N64 3,044.490 (+1.082867%) under full gates. This motivated a repeat, not a claim of certainty.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25365-20261022/REVIEW.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-21"
+      ]
+    },
+    {
+      "id": "n64-repeat",
+      "job_ids": [
+        "25373"
+      ],
+      "platform": "H200",
+      "date": "2026-10-22",
+      "title": "Independent N64 repeat",
+      "change": "Repeated the selected N64 configuration under the full protocol.",
+      "outcome": "3,044.075, −0.013634% vs first N64; supported the historical repeated mean 3,044.400475.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-22"
+      ]
+    },
+    {
+      "id": "n68-stop",
+      "job_ids": [
+        "25487",
+        "25488"
+      ],
+      "platform": "H200",
+      "date": "2026-10-22",
+      "title": "N64 versus N68 stop",
+      "change": "Compared fresh full N64/N68 runs after the repeated N64 result.",
+      "outcome": "Only +0.083056% at N68 while mean TTFT rose ~1,113.6→1,347.1 ms; retained N64 and closed N68.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25487-25488-20261023/REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-22"
+      ]
+    },
+    {
+      "id": "h100-separate-peak",
+      "job_ids": [
+        "222048.pbs111",
+        "222049.pbs111",
+        "222050.pbs111"
+      ],
+      "platform": "H100",
+      "date": "2026-10-20",
+      "title": "H100 repeated frontier remains separate",
+      "change": "Reviewed three H100 full runs with independent observations.",
+      "outcome": "2,433.020 / 2,395.311 / 2,406.802 good tokens/s; no pooling with H200 3,044 series.",
+      "evidence": [
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md",
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md"
+      ],
+      "date_range": [
+        "2026-10-20"
+      ]
+    },
+    {
+      "id": "phase-specific-backend",
+      "job_ids": [
+        "26949",
+        "26951",
+        "26953",
+        "27077",
+        "27238"
+      ],
+      "platform": "H200",
+      "date": "2026-10-29",
+      "title": "Tokenizer, prefill attention and EAGLE losses",
+      "change": "Tested targeted backend/serving alternatives with same incumbent context.",
+      "outcome": "Dynamic tokenizer gains +0.192/+0.270% not promoted; FlashInfer prefill −6.385%; shallow EAGLE3 −2.080%.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md"
+      ],
+      "date_range": [
+        "2026-10-28",
+        "2026-10-29"
+      ]
+    },
+    {
+      "id": "native-repeat",
+      "job_ids": [
+        "26766"
+      ],
+      "platform": "H200",
+      "date": "2026-10-27",
+      "title": "Native full N64 reproduction",
+      "change": "Replayed the retained native configuration with current gates.",
+      "outcome": "3,045.501509 good output tokens/s; separate series from historical repeated mean.",
+      "evidence": [
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md",
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md"
+      ],
+      "date_range": [
+        "2026-10-27"
+      ]
+    },
+    {
+      "id": "cache-control",
+      "job_ids": [
+        "27376",
+        "27378"
+      ],
+      "platform": "H200",
+      "date": "2026-10-29",
+      "title": "Cold-prefill cache candidate",
+      "change": "Compared a cache intervention to its own fresh control.",
+      "outcome": "Candidate peak 3,048.446289 but only +0.240921%, below 1% gate; p95 TTFT worsened. No promotion.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-29"
+      ]
+    },
+    {
+      "id": "sparse-graphs",
+      "job_ids": [
+        "27510"
+      ],
+      "platform": "H200",
+      "date": "2026-10-30",
+      "title": "Sparse decode graph experiment",
+      "change": "Reduced graph buckets to test memory proxy hypothesis.",
+      "outcome": "3,029.861122 (−0.370208%); memory/rank fell 1.15→0.36 GB but throughput did not improve.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-sparse-decode-compile-20261029/RESULTS-27510.md"
+      ],
+      "date_range": [
+        "2026-10-30"
+      ]
+    },
+    {
+      "id": "cross-hardware-transfer",
+      "job_ids": [
+        "27777",
+        "27779",
+        "27781",
+        "27783"
+      ],
+      "platform": "H200",
+      "date": "2026-10-31",
+      "title": "Direct H100-derived recipe check on H200",
+      "change": "Fresh H200 control, FA3 decode and H100 recipe at N54/N64; preserved same-GPU comparison.",
+      "outcome": "Control 3,038.022907; FA3 −1.276%; H100 recipe N64 −10.408%. Retained H200-specific recipe; no pooled GPU ranking.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-31"
+      ]
+    },
+    {
+      "id": "transfer-chunk-refine",
+      "job_ids": [
+        "27804",
+        "27806"
+      ],
+      "platform": "H200",
+      "date": "2026-10-31",
+      "title": "Refine transferred recipe chunk",
+      "change": "Held HPC-Ops prefill runner and tested chunk6144/8192, then compared at shared chunk.",
+      "outcome": "2,821.885 / 2,900.607; chunk8192 recovered vs 4096 but remained 4.523% below incumbent.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/PLAN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-31"
+      ]
+    },
+    {
+      "id": "phase-mode-test",
+      "job_ids": [
+        "27826",
+        "27828",
+        "27830"
+      ],
+      "platform": "H200",
+      "date": "2026-10-31",
+      "title": "Phase-specific inference mode",
+      "change": "Compared decode-only and prefill-only inference_mode ports with explicit no_grad control.",
+      "outcome": "3,039.167 control; +0.006223% decode and +0.130765% prefill. Below 1% gate; no promotion.",
+      "evidence": [
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/PLAN.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md"
+      ],
+      "date_range": [
+        "2026-10-31"
+      ]
+    },
+    {
+      "id": "packaged-acceptance",
+      "job_ids": [
+        "28194",
+        "28197"
+      ],
+      "platform": "H200",
+      "date": "2026-11-02",
+      "title": "Exact packaged entry failure and acceptance",
+      "change": "Fixed readiness check after health returned before model registration; reran exact entry.",
+      "outcome": "28194 failed before benchmark; 28197 passed in 611 s at N64, 3,051.518173 good output tokens/s. Acceptance, not matched optimization.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md"
+      ],
+      "date_range": [
+        "2026-11-02"
+      ]
+    },
+    {
+      "id": "quality-pilot",
+      "job_ids": [
+        "28367",
+        "28368",
+        "28371"
+      ],
+      "platform": "H200",
+      "date": "2026-11-02",
+      "title": "N16 quality pilot fails point threshold",
+      "change": "Compared a bounded pilot before committing the full fixed study.",
+      "outcome": "The first reference attempt 28367 failed; corrected reference 28371 scored 104 correct and candidate 28368 scored 102 (98.076923% retention). The pilot failed the local 99% point gate and motivated the full-set measurement.",
+      "evidence": [
+        "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/reviews/PILOT_RESULTS.md",
+        "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md"
+      ],
+      "date_range": [
+        "2026-11-02"
+      ]
+    },
+    {
+      "id": "quality-fullset",
+      "job_ids": [
+        "28373",
+        "28375",
+        "28382",
+        "28384",
+        "28386",
+        "28388",
+        "28390",
+        "28392",
+        "28394",
+        "28396",
+        "28398",
+        "28400",
+        "28402",
+        "28404",
+        "28406",
+        "28408"
+      ],
+      "platform": "H200",
+      "date": "2026-11-02",
+      "title": "Complete paired local answer-quality test",
+      "change": "Compared stock FP8 and accepted candidate on the same 12,032 MMLU-Pro questions, fixed prompts/settings/parser, in eight paired shards.",
+      "outcome": "Reference 9,460/12,032 (78.623670%); candidate 9,452/12,032 (78.557181%); 99.915433% reference-score retention passes local 99% point gate. Not BTC certification or statistical equivalence.",
+      "evidence": [
+        "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md",
+        "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/METHODOLOGY.md"
+      ],
+      "date_range": [
+        "2026-11-02"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "early-layout",
+      "target": "tp8-warmup-failure",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "The topology search exposed a warmup failure before scoring, motivating transfer-path inspection."
+    },
+    {
+      "source": "tp8-warmup-failure",
+      "target": "nixl-request-scope",
+      "relation": "derived",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/README.md",
+      "reason": "The patch directly targets full-pool descriptor work identified in the failed warmup path."
+    },
+    {
+      "source": "nixl-request-scope",
+      "target": "equal-tp-recovery",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RECOVERY_RESULTS.md",
+      "reason": "The later equal-TP recovery addresses a related descriptor path after preserving failures."
+    },
+    {
+      "source": "early-layout",
+      "target": "baseline-dense",
+      "relation": "derived",
+      "evidence": "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "reason": "The later measured baseline retains the workable TP4-prefill/TP8-decode family; this is architectural continuity, not one-factor causality."
+    },
+    {
+      "source": "baseline-dense",
+      "target": "prefill-routing",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "reason": "A usable baseline made a matched routing question possible after first-token latency concerns."
+    },
+    {
+      "source": "prefill-routing",
+      "target": "backend-losses",
+      "relation": "control",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/PLAN.md",
+      "reason": "Backend alternatives were tested on the routed pipeline at fixed load."
+    },
+    {
+      "source": "prefill-routing",
+      "target": "mnnvl-flashinfer",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "reason": "The route changed sustained phase behavior and motivated measuring backend interactions."
+    },
+    {
+      "source": "mnnvl-flashinfer",
+      "target": "h200-prefill-deepgemm",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "Decode-only DeepGEMM loss did not answer the distinct prefill question."
+    },
+    {
+      "source": "h100-commission",
+      "target": "h100-decode-ops",
+      "relation": "derived",
+      "evidence": "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "reason": "H100 baseline enabled platform-local decode testing."
+    },
+    {
+      "source": "h100-decode-ops",
+      "target": "h100-both-ops",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "reason": "Repeated decode evidence motivated testing prefill independently on H100."
+    },
+    {
+      "source": "h100-both-ops",
+      "target": "h100-prefill-branches",
+      "relation": "control",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/RESULTS.md",
+      "reason": "Later H100 prefill alternatives use the platform-specific incumbent as controls."
+    },
+    {
+      "source": "h200-prefill-deepgemm",
+      "target": "h200-chunk-backend",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "The prefill runner change made prior decode comparisons stale and motivated the runner/chunk interaction test."
+    },
+    {
+      "source": "h200-chunk-backend",
+      "target": "h200-interaction-repeat",
+      "relation": "derived",
+      "evidence": "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "reason": "Fresh matched controls and an independent repeat checked the promising interaction."
+    },
+    {
+      "source": "h200-repeat-controls",
+      "target": "h200-interaction-repeat",
+      "relation": "control",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h200-load/PLAN.md",
+      "reason": "N60 repeat/control evidence is separate from the N58 interaction; later controls continue matched validation."
+    },
+    {
+      "source": "h100-both-ops",
+      "target": "h100-frontier",
+      "relation": "control",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/RESULTS.md",
+      "reason": "The H100 chunk/load experiments use H100 controls and preserve their own frontier."
+    },
+    {
+      "source": "h200-interaction-repeat",
+      "target": "n64-selection",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "The repeated revised recipe made bounded concurrency re-evaluation the next question."
+    },
+    {
+      "source": "n64-selection",
+      "target": "n64-repeat",
+      "relation": "derived",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md",
+      "reason": "The independent repeat checks the N64 candidate directly."
+    },
+    {
+      "source": "n64-repeat",
+      "target": "n68-stop",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "Repeated N64 evidence justified one bounded higher-load comparison."
+    },
+    {
+      "source": "h100-separate-peak",
+      "target": "cross-hardware-transfer",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md",
+      "reason": "Panel concern about cross-platform transfer motivated direct H200 verification of H100-derived choices."
+    },
+    {
+      "source": "cross-hardware-transfer",
+      "target": "transfer-chunk-refine",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "The full transfer changed runner and chunk together, so chunk was isolated as the next question."
+    },
+    {
+      "source": "cross-hardware-transfer",
+      "target": "phase-mode-test",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "reason": "A separate hypothesis tested whether phase-specific inference mode helps on H200."
+    },
+    {
+      "source": "n64-repeat",
+      "target": "native-repeat",
+      "relation": "control",
+      "evidence": "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "reason": "Later full N64 reproduction is explicitly a separate native series, not a matched treatment to historical runs."
+    },
+    {
+      "source": "native-repeat",
+      "target": "cache-control",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "reason": "A later cache candidate was evaluated against a fresh control and prospective usefulness gate."
+    },
+    {
+      "source": "native-repeat",
+      "target": "sparse-graphs",
+      "relation": "control",
+      "evidence": "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "reason": "Sparse graph result was compared against an earlier dense-graph incumbent; it is a distinct intervention."
+    },
+    {
+      "source": "cross-hardware-transfer",
+      "target": "packaged-acceptance",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "reason": "After cross-platform verification, the exact packaged entry was retried to close deployment acceptance."
+    },
+    {
+      "source": "packaged-acceptance",
+      "target": "quality-pilot",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md",
+      "reason": "Performance acceptance did not establish answer quality; a separate local quality check was needed."
+    },
+    {
+      "source": "quality-pilot",
+      "target": "quality-fullset",
+      "relation": "motivated",
+      "evidence": "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md",
+      "reason": "The pilot failed the point gate, motivating the fixed complete paired test."
+    }
+  ]
+}
