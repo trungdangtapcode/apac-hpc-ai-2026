@@ -5,3 +5,7 @@ The owner asked to continue in the context of repeated VPN retries and ongoing H
 The reused wrapper carries an inherited 28 October authorization label; the current continuation is the authority for this bounded action. No password, OTP, session object or private client log belongs in the archive. Existing private state is not intentionally reset or deleted. [Safe result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-vpn-retry-20261102/RESULT-20261103T0006-VN.json) hash-binds the original safe wrapper output.
 
 A separate read-only Iris query established terminal job 2294657. VPN and Iris access are independent; this gateway rejection is not an Iris authentication diagnosis. The job review and any research admission are separately recorded, not authorized merely by this access check.
+
+## Read-only access check — 2026-11-03T18:14:02.616530+07:00
+
+The owner asked whether VPN access was working. The persistent-session helper reported a dead client pane (exit 1), and the bounded existing-session SSH helper exited because it found no live VPN session. No usable NSCC connection is established. No new authentication, DUO prompt, cache deletion or configuration change was performed. This identifies absent local VPN session state; it is not a newly tested gateway authentication rejection or CPU SSH rejection.
