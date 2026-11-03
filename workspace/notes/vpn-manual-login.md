@@ -23,3 +23,9 @@ Sanitised per-invocation receipts are written under `inspection/manual-login-att
 The server-side DUO approval deadline has not been established. Two retained 3 November attempts returned gateway Authentication failed after approximately 4.52 and 4.50 seconds. That does not establish that DUO arrived or that the captain missed its deadline.
 
 The launcher polls up to 12 times with a 3-second pause (about 36 seconds plus transport-check overhead). If authentication is still pending, it leaves the VPN client alive; that observation window is not a DUO timeout. Its 45-second helper timeout concerns local credential handoff, not the phone approval deadline. Extending local polling cannot prevent a gateway rejection.
+
+## Late approval after a failed VPN attempt
+
+Duo recommends configuring RADIUS clients to wait at least 60 seconds for out-of-band approval: https://duo.com/docs/radius . This recommendation does not establish NSCC's configured deadline. Duo and the VPN gateway can have separate timers.
+
+If the VPN client has already received a terminal rejection and exited, subsequent approval cannot reopen that exited connection. A delayed phone prompt may still be visible, but its existence and acceptance would not prove VPN establishment. A new coordinated attempt is needed; do not infer a 4.5-second DUO deadline from the retained gateway failures. Phone-side receipt and administrator logs are required to distinguish rejection before MFA from a gateway timeout while MFA is still pending.
