@@ -1,18 +1,18 @@
 # Slide-by-slide transcript and learning guide — English
 
-This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 42 slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
+This is a **proposed speaking script and learning guide**, not a verbatim record of a delivered talk. It follows all 34 AI slides of the current presentation. The separately requested Vietnamese companion is a narrow language exception; code and other reports remain English.
 
 **How to use it:** each slide starts with a **“Quick brief · 10–20 seconds”** that can be spoken directly: the main point, a standout result and its meaning. Essential terminology is explained within the brief, such as repeated meaning rerunning a benchmark to check reproducibility. Timing is a rehearsal target, not a timed recording. Continue with the purpose, technical interpretation, terms and longer script for deeper preparation or questions.
 
-- **Slides 1–16:** main AI talk. Follow the [compact 10–12 minute AI rehearsal plan](PRESENTATION_PLAN.md), within the combined public 15–20 minute talk plus a separate 10-minute Q&A; preserve the agreed OpenFOAM allocation.
-- **Slides 17–34:** AI backup material. Backups are hidden in the PowerPoint slide show: AI 16 advances to OpenFOAM 35. This guide keeps all 42 slides for study and questions.
-- **Slides 35–42:** read-only explanation of the preserved HPC section. Its scheduler statements are **23 October snapshots**, not current scheduler status. This guide neither updates nor independently certifies later HPC work. Do not automatically include HPC in the AI time allowance.
+- **Slides 1–16:** main AI talk. Follow the [12–13 minute AI rehearsal plan](PRESENTATION_PLAN.md), within the combined public 15–20 minute talk plus a separate 10-minute Q&A; preserve the agreed OpenFOAM allocation.
+- **Slides 17–34:** AI backup material. Backups are hidden in the PowerPoint slide show: AI 16 advances to OpenFOAM 35. This guide keeps all 34 AI slides for study and questions.
+- **HPC slides 35–42** remain in the combined deck. This AI-only guide ends at backup 34; use the [current HPC presenter notes](../../submission-review/hpc-iris-slides-20261103/PRESENTER_NOTES.md) for that separately updated section. AI speaking target: **12–13 minutes**, with a 12:30 rehearsal plan.
 - Every slide has a **Hardware** label below its title. H200 means Firmus; H100 means NSCC ASPIRE 2A+. Mixed-platform and CPU-only evidence is attributed separately. Shared labels describe common rules or layouts, not a matched performance comparison.
 - Colors have **slide-local meanings**. Orange does not always mean a win or a failure. Background photographs, gradients and footer decorations are not measurements.
 - **↑ / ↓** generally indicate the desired optimization direction, not an observed increase/decrease. “No axes” means a table, card or schematic; do not invent X/Y quantities.
 - Broad optimisation remains stopped. The final acceptance job 28197 and the complete paired MMLU-Pro quality study have finished. Future actions are proposals unless explicitly labelled as executed.
 
-Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-quality-update-20261103/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `239a89d2b23fef51be4ae7f53b5de5ab79a725f6499c4a76268e40d9b81b642b`. This guide describes that version; recheck it if the deck changes.
+Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [PDF](../../submission-review/ai-narrative-12min-20261103/TripleU_APAC2026_Presentation.pdf), [Vietnamese companion](TRANSCRIPT_VI.md). PowerPoint SHA-256: `0a5f347c8b276a60f87579315363c4d774226c7f3b7f09db546ee2117fb7f9af`. This guide describes that version; recheck it if the deck changes.
 
 ## Understand the claims before presenting them
 
@@ -20,7 +20,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 **Full run:** the campaign protocol uses 60 seconds of warmup, 120 seconds of profiling, and 30 seconds of grace for outstanding requests to finish. Full distinguishes it from a shorter idea-screening test. It does not mean all model-quality datasets were evaluated or every request passed. The latency rule requires at least 90% of all requests to jointly meet both limits.
 
-**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains separate. The full local MMLU-Pro check now passes at 99.915433% retention; slide 16 explains its measured scope.
+**Reviewed pass:** the team examined retained data against the checks implemented for that run, such as protocol, actual runtime settings, latency/errors and small output checks. Read each run's exact conditions. Scheduler COMPLETED alone means the script returned successfully. Neither label substitutes for the official model-quality evaluation requiring at least 99% of the organiser reference; that remains separate. The full local MMLU-Pro check now passes at 99.915433% retention; slides 16 and backup 19 explain its measured scope.
 
 **Control and candidate:** a control is the retained comparison configuration; a candidate changes the factor being tested. Cache candidate 27378 should be compared with fresh control 27376. Comparing it against a historical mean from another series mixes the tested change with time and environment differences.
 
@@ -90,10 +90,10 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 13 — A complete portable run reproduces the retained operating level](#slide-13)
 - [Slide 14 — Direct H200 tests decide which H100 ideas transfer](#slide-14)
 - [Slide 15 — Better proxy metrics did not always improve qualifying throughput](#slide-15)
-- [Slide 16 — The optimised service retains 99.9154% of reference accuracy](#slide-16)
+- [Slide 16 — The retained recipe survives performance and quality checks](#slide-16)
 - [Slide 17 — Backup · two platforms, separate experimental systems](#slide-17)
 - [Slide 18 — Backup · FP8 geometry constrains a topology](#slide-18)
-- [Slide 19 — Backup · historical milestones behind the decisions](#slide-19)
+- [Slide 19 — Backup · full-set accuracy verification](#slide-19)
 - [Slide 20 — Backup · request-scoped descriptor construction](#slide-20)
 - [Slide 21 — Backup · what the KV recovery run actually proves](#slide-21)
 - [Slide 22 — Backup · H100: first-token gain, goodput loss](#slide-22)
@@ -109,14 +109,6 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 - [Slide 32 — Do attention and communication choices interact?](#slide-32)
 - [Slide 33 — Backup · one held-out forecast is not a GPU conversion rule](#slide-33)
 - [Slide 34 — Backup · nine final H200 runs support retaining the recipe](#slide-34)
-- [Slide 35 — The task: same 65-million-cell airflow calculation](#slide-35)
-- [Slide 36 — The whole required pipeline comes before the score](#slide-36)
-- [Slide 37 — A smaller partition cut did not make the solver faster](#slide-37)
-- [Slide 38 — Observed scaling changed which decomposition led](#slide-38)
-- [Slide 39 — At four nodes, the winner depends on ranks per node](#slide-39)
-- [Slide 40 — Keep the slow step in the mean; inspect the tail](#slide-40)
-- [Slide 41 — A reproducible candidate needs more than a fast log](#slide-41)
-- [Slide 42 — What we learned — and the next measurement](#slide-42)
 
 ---
 
@@ -132,7 +124,7 @@ Sources: [PowerPoint](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_P
 
 We serve Qwen3-235B FP8 on sixteen H200 GPUs. A request contributes only if it meets both latency limits; at least 90% must qualify. We report qualifying output tokens per second, not raw throughput.
 
-![Slide 01](../../submission-review/ai-quality-update-20261103/slides/assets/slide-01.png)
+![Slide 01](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-01.png)
 
 ### Reasoning to communicate
 
@@ -176,7 +168,7 @@ Explain the intended metric pipeline from one request to the final service score
 
 ### Spoken script
 
-Our problem is to serve Qwen3-235B FP8 on sixteen H200 GPUs across two nodes. Each synthetic request has 4,000 input tokens and asks for 200 output tokens. A request counts only when it gets its first token within 3,000 milliseconds and its mean spacing between generated tokens is no more than 20 milliseconds. At least 90 percent of all requests must meet both conditions; errors count too. We therefore report goodput multiplied by the requested 200 output tokens. This measures qualifying output, not unrestricted token generation. The local full-set quality check is reported at the end; it is separate from this service metric and does not certify the organiser’s result.
+Our goal is not simply to make the model generate tokens quickly. We have sixteen H200 GPUs across two nodes, a fixed Qwen3-235B FP8 checkpoint, and a request mix with 4,000 input tokens and 200 requested output tokens. A request counts as useful only if its first token arrives within three seconds and its average spacing between later tokens stays within twenty milliseconds. At least ninety percent of all requests, including failures, must pass both limits. That definition is the test every design decision must answer.
 
 ### Avoid this interpretation
 
@@ -200,7 +192,7 @@ Now that the objective is fixed, we can be precise about which parts of the work
 
 We separate architecture choices, the team’s request-scoped KV patch, and backend measurements. These claims use different evidence: layout records, source plus transfer validation, and controlled experiments; H100 remains separate from H200.
 
-![Slide 02](../../submission-review/ai-quality-update-20261103/slides/assets/slide-02.png)
+![Slide 02](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-02.png)
 
 ### Reasoning to communicate
 
@@ -242,7 +234,7 @@ Describe three claim lanes joined by a common objective. The architecture lane i
 
 ### Spoken script
 
-There are three kinds of contribution here. First, engineering decisions: choosing a layout that fits the sixteen-GPU budget and can serve the workload. Second, a direct team contribution: changing heterogeneous-TP KV descriptor construction to work per request. Third, backend findings: measurements from controlled serving comparisons. These use different evidence. A working layout does not by itself prove a speedup. CPU geometry checks do not prove GPU transport. A backend score does not certify model accuracy. All results still use the same latency-qualified objective, but we keep their evidence separate. H200 is our primary platform; H100 results stay a distinct series.
+We separate three kinds of evidence so we do not accidentally add unrelated gains together. First are engineering decisions: how to fit prefill and decode workers into the two-node allocation. Second is our scoped software contribution: changing how one existing transfer library prepares metadata for a request. Third are measured backend choices, where matched full runs test whether an implementation improves the service. A topology record cannot prove a software patch caused a speedup; a source diff cannot prove a throughput gain. We will keep those claims distinct.
 
 ### Avoid this interpretation
 
@@ -264,9 +256,9 @@ We begin with the engineering choice: how replicas and parallel width compete fo
 
 ### Quick brief · 10–20 seconds
 
-The topology trials exposed a tradeoff between more prompt workers and wider workers. We retained a split that fits two eight-GPU nodes, has a working transfer path and survives later full N64 repeats. The different-load scores do not prove it is globally best.
+We chose a phase split that fits two nodes, works with FP8, passes real transfer, and survives a full repeat. The slide shows why the fixed GPU budget makes this a practical engineering decision.
 
-![Slide 03](../../submission-review/ai-quality-update-20261103/slides/assets/slide-03.png)
+![Slide 03](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-03.png)
 
 ### Reasoning to communicate
 
@@ -282,7 +274,7 @@ Explain the actual decision rule behind the retained topology. The choice was ma
 
 ### Technical interpretation and reasoning
 
-The left column lists four selection gates: fit two nodes of eight H200, pass FP8 parallel-shape compatibility, complete the real prefill/decode KV path, and establish a full-run SLA-qualified operating point with later repeats. The right column gives three historical layout observations at N32, N40 and N48. Orange highlights the retained split and the repeat requirement; it does not mark a controlled topology winner. There are no chart axes; the throughput unit is good output tokens/s. P means prefill workers and D means decode workers. Different loads prevent a topology-only causal ranking.
+The slide isolates the two-node constraint and explains why phase-specific workers are practical. Prefill processes the prompt; decode generates output tokens. One fixed sixteen-GPU budget forces a tradeoff between worker width and replica count. The slide has no historical topology score list or axes.
 
 ### Terms and symbols to understand
 
@@ -295,11 +287,10 @@ The left column lists four selection gates: fit two nodes of eight H200, pass FP
 
 ### Interpreting the evidence or diagram
 
-- The resource constraint is exactly two nodes of eight H200 GPUs; each candidate must fit those resources.
-- The model’s FP8 block geometry rules out some nominal parallel shapes before performance comparison.
-- A split is useful only if real requests complete the prefill-to-decode KV transfer and the service meets the joint latency gate.
-- The retained operating point later has full N64 repeats around 3,044 good output tokens/s; these repeats support the operating point, not its causal advantage over every topology.
-- The older N32/N40/N48 values are shown to explain the search, not to claim increasing topology-only performance.
+- Prefill handles the prompt; decode generates output tokens, so their useful worker shapes can differ.
+- Both phases share two nodes with eight H200 GPUs each.
+- Wider workers consume more of the fixed budget; more replicas divide that budget across workers.
+- The diagram explains the practical selection constraint and does not rank topology measurements.
 
 ### Tradeoff and strength of evidence
 
@@ -310,11 +301,11 @@ The left column lists four selection gates: fit two nodes of eight H200, pass FP
 
 ### Spoken script
 
-We had two nodes with eight H200s each, and some apparent parallel layouts were not valid for this FP8 model. We therefore applied four practical gates: fit the allocation, pass the model’s parallel-shape constraints, complete a real request across prefill and decode, and sustain the latency rule in full runs. The retained two-TP4 prefill plus TP8/EP8 decode layout passes those feasibility gates, and its later N64 service point repeats around 3,044 good tokens per second. The N32, N40 and N48 topology scores on this slide used different loads. They explain what we explored; they do not prove this layout is the global performance winner. We chose a feasible, repeatable operating point with the evidence available.
+The architecture question was how to spend the same sixteen GPUs across two different phases. Prefill processes a long prompt; decode generates tokens one by one, so one parallel layout need not suit both. The practical choice was constrained by two eight-GPU nodes and by the model's FP8 partition requirements. We first reject layouts that do not fit or cannot run correctly, then require an actual prefill-to-decode request path, then assess full-run latency-qualified output and repeatability. Historical measurements helped narrow candidates, but their loads differed. They do not establish a numerical topology winner.
 
 ### Avoid this interpretation
 
-Do not say the different N32/N40/N48 points prove the topology caused their score differences or that the retained layout is globally optimal. Feasibility and a repeated operating point are the supported selection rationale.
+Do not attribute old topology scores to a named configuration or present them as a causal ranking. The slide explains the hardware constraint and practical phase split.
 
 ### Transition
 
@@ -334,7 +325,7 @@ A separate historical heterogeneous-TP branch then exposed a transfer-readiness 
 
 The retained split uses two four-GPU TP4/EP1 prefill workers on one node and one eight-GPU TP8/EP8 decode worker on the other. This fits sixteen H200s but adds KV transfer between roles.
 
-![Slide 04](../../submission-review/ai-quality-update-20261103/slides/assets/slide-04.png)
+![Slide 04](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-04.png)
 
 ### Reasoning to communicate
 
@@ -378,7 +369,7 @@ Show Node 0 containing P0 and P1, each with four GPUs and TP4/EP1. Show Node 1 c
 
 ### Spoken script
 
-The architecture we retained uses both H200 nodes. Node 0 runs two prefill workers, P0 and P1, each on four GPUs with TP4 and EP1. Node 1 runs one decode worker on eight GPUs with TP8 and EP8. Together that uses all sixteen GPUs. The split reflects different roles: prefill handles the prompt and prepares key/value state, while decode uses that state to generate output. Separating the phases also means the request's KV data must move from one node to the other. This is our retained engineering design; the topology search did not prove a causal win against every alternative at the same load.
+The retained design places two TP4/EP1 prefill workers on one node and one TP8/EP8 decode worker on the other. TP means tensor parallelism: several GPUs cooperate on one model worker. EP divides experts across devices. In simple terms, the design gives prompts two workers to enter while reserving a wider worker for token generation. That fits the allocation and passed the actual split-phase path checks. It also creates a dependency: key-value state must cross from prefill to decode. So the topology is a workable engineering choice, not a free speedup; it makes transfer correctness part of the system.
 
 ### Avoid this interpretation
 
@@ -402,7 +393,7 @@ To understand why transfer validation mattered, we now examine that separate his
 
 In job 22271, the P8 TP8/EP2 to D8 TP4/EP4 workers loaded but pair warmup timed out after 360 seconds. AIPerf never ran, so there was no baseline score.
 
-![Slide 05](../../submission-review/ai-quality-update-20261103/slides/assets/slide-05.png)
+![Slide 05](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-05.png)
 
 ### Reasoning to communicate
 
@@ -445,7 +436,7 @@ Show the request path from a ready prefill worker toward decode, then mark the p
 
 ### Spoken script
 
-The KV transfer investigation came from a separate historical branch, not the architecture we just selected. In job 22271, prefill P8 used TP8 and EP2, while decode D8 used TP4 and EP4. The model workers loaded, but the pair warmup request never completed. Its retained log ends with an HTTP timeout after 360 seconds. AIPerf did not run, so there is no baseline score. This tells us that the cold path was not ready; it does not tell us that steady-state network bandwidth was saturated or that a KV copy was measured to be slow. Since the failure came before scoring, we next looked for a setup hypothesis that could be tested directly.
+The KV investigation came from a separate historical heterogeneous-TP branch, not from the selected layout. KV means key and value state: temporary attention information built while processing the prompt and reused when generating later tokens. In job 22271, both workers loaded, but a request could not complete pair warmup within 360 seconds; the benchmark never started. The transfer mechanism was NIXL, an existing library used to move that state between workers. This told us where the failure appeared, before scoring. It did not tell us whether bandwidth, layout, scheduling, or setup overhead caused it.
 
 ### Avoid this interpretation
 
@@ -469,7 +460,7 @@ The timeout locates the symptom before scoring, but not its cause. We next inspe
 
 Workers reached ready state but pair warmup timed out before AIPerf. Source inspection found request-independent enumeration of a large reserved KV pool. We tried request-scoped ranges first because this setup hypothesis was narrow and cheaply testable.
 
-![Slide 06](../../submission-review/ai-quality-update-20261103/slides/assets/slide-06.png)
+![Slide 06](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-06.png)
 
 ### Reasoning to communicate
 
@@ -485,7 +476,7 @@ Explain why descriptor construction was the first intervention. After the pre-sc
 
 ### Technical interpretation and reasoning
 
-The preceding slide supplies the failed warmup context. Here the left grid illustrates the whole reserved KV pool, with orange pages representing the small requested subset. The right orange range illustrates selecting request pages and coalescing adjacent ranges. The labels compare representative pool-source entries per rank (403.8 million) with coalesced ranges for one 4,000-token request (188). These scopes differ; no axis or speed ratio exists. The heading explains why this bounded source-visible setup hypothesis was chosen first. The bottom note reports 720 CPU checks and says bandwidth and scheduling were not ruled out; CPU checks do not validate GPU transport.
+The left side represents the whole reserved KV pool; the request-scoped side selects only the pages needed now and merges adjacent byte ranges. The analogy is reserving a whole parking lot but writing directions only for cars in this trip. The slide shows the scope distinction and 720 CPU geometry checks, not a transfer-speed chart.
 
 ### Terms and symbols to understand
 
@@ -500,11 +491,11 @@ The preceding slide supplies the failed warmup context. Here the left grid illus
 
 ### Interpreting the evidence or diagram
 
-- The motivating symptom was a 360-second pair-warmup timeout before AIPerf, with no scored requests.
-- Source review found descriptor setup traversing the whole registered pool even though the immediate request references only a subset of pages.
-- The first intervention was deliberately narrow: build descriptors for request pages and merge adjacent byte ranges while preserving offsets and strides.
-- 720 CPU fixtures checked range equivalence, making this a cheap correctness gate before another distributed GPU attempt. They do not validate real NIC/GPU transfer behavior.
-- Bandwidth, KV layout and request scheduling remain competing explanations not isolated by these counts.
+- The preceding symptom was a pair-warmup timeout before the benchmark; no scored request existed in that attempt.
+- Source review found setup work over the reserved pool, including pages outside the current request.
+- The team changed its descriptor construction around the existing NIXL transfer library; NIXL itself and model kernels were not invented here.
+- The request-scoped path preserves byte ranges while avoiding metadata work for unrelated pages.
+- 720 CPU geometry cases passed; they do not establish real GPU or network transfer performance.
 
 ### Tradeoff and strength of evidence
 
@@ -515,11 +506,11 @@ The preceding slide supplies the failed warmup context. Here the left grid illus
 
 ### Spoken script
 
-Why start with descriptors? In job 22271 both model workers loaded, but a real request through the pair timed out during warmup after 360 seconds; AIPerf never scored traffic. Reading the source showed setup enumerating the registered KV pool even when a request used only a small subset. That gave us a narrow hypothesis: build metadata for the request pages and coalesce adjacent ranges. It had a cheap check—720 CPU cases to verify the byte ranges still matched—before spending another multi-node run. We chose it because the extra setup work was visible and testable, not because we had already ruled out network bandwidth, KV layout or scheduling. Those alternatives remain unmeasured.
+Why investigate descriptors first? The source showed that setup described the entire reserved KV pool, even though a request uses only some pages. Think of reserving a whole parking lot but writing transfer instructions only for the cars in one trip. The team narrowed its own descriptor construction around the existing NIXL library; we did not modify that library or create a new kernel. Seven hundred twenty CPU geometry checks verified that selected byte ranges remained correct. That made this a cheap, testable first intervention. It did not prove this was the dominant bottleneck or clear bandwidth, layout and scheduling as alternatives.
 
 ### Avoid this interpretation
 
-Do not call descriptors the verified dominant bottleneck. The counts have different scopes, CPU geometry checks are not GPU transport tests, and bandwidth/layout/scheduling were not excluded.
+Do not infer a performance ratio from different-scope descriptor counts. The patch is a scoped implementation change; bandwidth, KV layout and scheduling were not proven innocent.
 
 ### Transition
 
@@ -537,9 +528,9 @@ The CPU checks only establish that the patch describes the same byte ranges. The
 
 ### Quick brief · 10–20 seconds
 
-Patched job 22294 completed warmup in 0.68–0.70 seconds per request and scored 1,422.96 good tokens/s at N32, with 95.87% joint SLA and zero errors. This proves feasibility, not isolated speedup.
+Job 22294 completed real prefill-to-decode requests and the full N32 benchmark with no scored request errors. This shows the patched recovery path worked in one run; it does not measure descriptor-only speedup.
 
-![Slide 07](../../submission-review/ai-quality-update-20261103/slides/assets/slide-07.png)
+![Slide 07](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-07.png)
 
 ### Reasoning to communicate
 
@@ -555,24 +546,19 @@ Report the end-to-end result of the patched recovery branch and define its evide
 
 ### Technical interpretation and reasoning
 
-Show before and after as two distinct job records, not a conventional speedup chart. Before: 22271 loaded workers, then timed out during pair warmup at 360 seconds; no AIPerf result. After: 22294 with the patch completed real P/D warmup in 0.68–0.70 seconds per request, then a full N32 benchmark produced 1,422.96 good tokens/s, 95.87% joint SLA, zero errors and cancellations. Place a clearly separate “not measured” callout for descriptor-only speedup and causal attribution.
+Two distinct job cards, not a speedup chart. The earlier unpatched attempt had ready workers but its pair warmup timed out before AIPerf. The patched attempt completed real prefill-to-decode requests and the full N32 benchmark without scored request errors. A separate callout states that descriptor-only speedup was not measured.
 
 ### Terms and symbols to understand
 
-- **job 22294:** The patched H200 recovery run on the same heterogeneous-TP topology family as the earlier timeout.
-- **0.68–0.70 s/request:** Observed pair-warmup duration per request after the servers were ready; not an isolated descriptor-initialization timer.
-- **N32:** Full benchmark concurrency target of 32 client requests in flight.
-- **1,422.96 good tokens/s:** Measured latency-qualified output-token throughput for the full N32 confirmation in job 22294.
-- **95.87% joint SLA:** Share of evaluated requests that passed both TTFT and mean ITL limits in the recorded run.
-- **zero errors/cancellations:** No request errors or cancellations were recorded in the full confirmation result.
-- **descriptor-only speedup:** The performance change attributable solely to descriptor construction; it requires a matched no-patch control and timing evidence that were not collected.
+- **pair warmup:** A readiness check that sends a real request through the prefill and decode workers.
+- **descriptor-only speedup:** A performance change attributable only to descriptor construction; it was not measured with a matched control.
 
 ### Interpreting the evidence or diagram
 
-- Before: job 22271 had a 360-second pair-warmup timeout and no AIPerf score.
-- After: patched job 22294 completed real P/D warmup in 0.68–0.70 seconds per request after server readiness, then completed an N32 benchmark.
-- The full result was 1,422.96 good tokens/s, 95.87% joint SLA, and zero errors or cancellations.
-- The comparison establishes feasibility of the patched topology in that run. It is not a speedup ratio: there is no successful no-patch control, no isolated old/new setup timer, and no causal latency decomposition.
+- The earlier attempt stopped during warmup before any benchmark score.
+- In the patched attempt, real requests traversed both prefill and decode roles and the full N32 benchmark completed.
+- The useful conclusion is feasibility of this patched recovery path in one run, with no scored request errors.
+- No successful unpatched scored control or isolated descriptor timer exists, so the slide claims no descriptor-only speedup.
 
 ### Tradeoff and strength of evidence
 
@@ -583,11 +569,11 @@ Show before and after as two distinct job records, not a conventional speedup ch
 
 ### Spoken script
 
-We then tested the patched path in the real H200 recovery topology. Job 22294 completed both prefill and decode warmup routes in 0.68 to 0.70 seconds per request after the servers were ready. Its full N32 local benchmark measured 1,422.96 good output tokens per second, with 95.87 percent of requests passing both latency limits and no errors or cancellations. That is meaningful end-to-end feasibility evidence: this patched topology served the workload in that run. But it is not a measured speedup over job 22271. The earlier job timed out and never ran AIPerf, so it is not a successful matched control. We also lack separate old-versus-new setup timing and a breakdown of the warmup delay. The patch's independent performance effect remains unknown.
+The CPU checks only establish that the patch selects correct memory ranges. We then needed the real distributed path to become usable. In job 22294, the patched heterogeneous-TP setup completed pair warmup in 0.68 to 0.70 seconds per request and finished a full N32 benchmark at about 1,423 good output tokens per second, with 95.87 percent joint SLA and zero scored errors. That is an end-to-end result for this recovery run. The earlier job had no score, and the runs were not a matched performance pair. Therefore we can say the patched path worked in this case, but we cannot assign the whole score or an isolated speedup to the descriptor change.
 
 ### Avoid this interpretation
 
-Do not divide the 360-second timeout by 0.68–0.70 seconds, call the result a speedup, or attribute the full 1,422.96 score to the patch. The jobs are not a matched performance comparison.
+Do not turn the prior timeout into a speedup ratio or attribute the full recovery-branch score to the patch. The slide reports a usable path, not an isolated cause.
 
 ### Transition
 
@@ -605,9 +591,9 @@ The patch restores a measurable serving path but leaves the performance cause un
 
 ### Quick brief · 10–20 seconds
 
-The separate N48 diagnostic assigns about 23.48% of summed recorded GPU-kernel duration to communication and normalization. This motivates a controlled test; it does not establish that communication consumes the same share of request latency or limits N64.
+Diagnostic profiles suggest compute, communication, and attention as areas to probe. They do not establish a causal time budget or bottleneck.
 
-![Slide 08](../../submission-review/ai-quality-update-20261103/slides/assets/slide-08.png)
+![Slide 08](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-08.png)
 
 ### Reasoning to communicate
 
@@ -623,23 +609,21 @@ Use instrumentation to prioritize a follow-up without mistaking recorded GPU act
 
 ### Technical interpretation and reasoning
 
-The profile's categories are matrix operations, communication/normalization, and attention. The displayed percentages divide each category's recorded kernel duration by the sum of recorded kernel durations across profiled ranks. GPU kernels can overlap; queues, CPU work, gaps, and unrecorded activity also contribute to elapsed request time. Separate N64 requests later missed TTFT but passed ITL, which identifies the failed latency condition, not its cause. The N48 profile and N64 request outcomes are different observations.
+The profile groups candidate work into compute, communication and attention; no percentage bars are shown. The later request-tail observation is separate and cannot be attributed to this diagnostic. These categories motivate a cheap, controlled backend probe rather than a causal bottleneck claim.
 
 ### Terms and symbols to understand
 
-- **GEMM:** General matrix multiplication, a common GPU computation.
-- **MNNVL:** The NVLink collective communication path between GPUs.
-- **RMSNorm:** A normalization operation applied to model activations.
-- **kernel-time share:** A category's share of summed recorded GPU-kernel durations. Overlap means it is not that share of request elapsed time.
-- **N48 / N64:** Client concurrency targets of 48 and 64 in separate runs; they are not GPU counts.
-- **profile:** A diagnostic recording of selected activity while a workload runs; coverage is limited to the signals collected.
+- **compute:** Model calculations such as matrix operations.
+- **communication:** Data exchange and coordination among GPUs.
+- **attention:** The model operation that uses query/key/value information, including cached KV during decode.
+- **profile:** A diagnostic sample of selected runtime activity; it may not cover all work or explain request latency.
 
 ### Interpreting the evidence or diagram
 
-- The N48 profile attributed 21.642% to GEMM, 23.479% to MNNVL collective plus RMSNorm, and 15.064% to FlashInfer paged attention, as shares of summed recorded kernel duration.
-- A separate N64 run had 27 requests fail TTFT, zero fail ITL, and zero request errors among 1,902 profiling requests. This says which service limit was missed; it does not connect that tail to the N48 profile.
-- The evidence motivates measuring phase-specific queueing and timing. It does not show that optimizing the largest kernel share yields an equal request-latency reduction.
-- The horizontal bar lengths show each named group’s share of summed recorded kernel durations, in percent; the printed labels give the values. Colors identify/emphasize groups, not pass or failure. There is no per-request time axis or exclusive wall-time partition.
+- The N48 diagnostic and N64 request-tail observations came from separate conditions.
+- Compute, communication and attention are candidate areas for investigation, not confirmed bottlenecks.
+- Summed kernel duration is not a complete request wall-time budget because work can overlap and CPU or queue time is outside that sum.
+- A bounded backend probe with other settings held fixed is a useful next test; the profile itself does not predict its speedup.
 
 ### Tradeoff and strength of evidence
 
@@ -650,11 +634,11 @@ The profile's categories are matrix operations, communication/normalization, and
 
 ### Spoken script
 
-We profiled an N48 diagnostic run and separately inspected an N64 request trace. The profile records GPU kernel durations, not the fraction of each request spent waiting, computing or transferring KV. The N64 misses tell us first-token latency needs attention, but do not show its cause. These observations make compute, communication, attention and serving queues reasonable candidates. They did not establish that a particular kernel was the bottleneck or select HPC-Ops as the remedy. The next slide is a separate controlled probe of a supported decode implementation; its evidence comes from a fresh control and a repeat.
+After the transfer path worked, we still needed to ask what limited the selected service. Profiling gives clues, not a verdict: time attributed to GPU kernels is not a complete account of request latency, and the diagnostic used a different concurrency from the final run. We treated compute, collective communication, and attention as candidate areas. The next sensible action is a cheap, controlled backend probe that changes one implementation while holding the serving setup fixed. This avoids turning a profile percentage into a causal story before a matched end-to-end test supports it.
 
 ### Avoid this interpretation
 
-Do not attribute N64 request failures to N48 kernel shares or claim an equal speedup from optimizing a percentage of summed kernel time.
+Do not display profile percentages as shares of request latency or infer that N48 kernel activity caused the separate N64 TTFT misses.
 
 ### Transition
 
@@ -674,7 +658,7 @@ This diagnostic narrows the questions but does not choose a fix. We now show a s
 
 We compared automatic decode with HPC-Ops on the same full H200 N60 setup, holding DeepGEMM prefill and chunk 8,192 fixed. The hypothesis was that decode execution could improve useful throughput; a separate treatment repeat checks consistency.
 
-![Slide 09](../../submission-review/ai-quality-update-20261103/slides/assets/slide-09.png)
+![Slide 09](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-09.png)
 
 ### Reasoning to communicate
 
@@ -715,7 +699,7 @@ The setup diagram should be read as two otherwise matching full N60 runs: fresh 
 
 ### Spoken script
 
-The profile did not tell us which component to change, so we should not present this as “the profile found the HPC-Ops fix.” We asked a separate practical question: does a supported HPC-Ops decode setting change full-service performance when topology, prefill, transport, workload and benchmark protocol stay fixed? We compared a fresh automatic-decode control with the HPC-Ops setting, then checked the treatment against its independent repeat. That design supports a service-level comparison. It does not isolate a particular kernel as the cause.
+We tested a decode implementation with the full H200 N60 workload. Automatic decode was the control; HPC-Ops decode was the candidate. Prefill backend, chunk size and serving protocol stayed fixed, so this pair answers a narrower question than a broad profile: what changed when decode execution changed in this setup? The measured goodput rose from 2,838.853 to 2,989.175 tokens per second. We then checked tails and a separate repeat before deciding whether the result was useful. This is an implementation comparison, not proof that one specific kernel or communication primitive alone caused the gain.
 
 ### Avoid this interpretation
 
@@ -737,9 +721,9 @@ Now read the paired result across goodput, first-token latency and token spacing
 
 ### Quick brief · 10–20 seconds
 
-The decode change improves qualifying throughput by about 5.30% on H200, and a separate deployment repeats the result closely. First-token wait gets worse while streaming gaps improve. We retain this measured tradeoff, not a claim that everything became faster.
+The matched HPC-Ops decode pair improved goodput 5.30%; mean TTFT rose 125 ms while mean ITL fell 1.64 ms. The repeat was close.
 
-![Slide 10](../../submission-review/ai-quality-update-20261103/slides/assets/slide-10.png)
+![Slide 10](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-10.png)
 
 ### Reasoning to communicate
 
@@ -780,7 +764,7 @@ The three metric arrows show opposing movements: goodput increases, mean time to
 
 ### Spoken script
 
-The important observation is the tradeoff, not every cell of the benchmark. At fixed N60, the candidate raises qualifying throughput by about 5.30 percent. It also makes first tokens slower while reducing the gaps during streaming. We keep the configuration because the contest rewards qualifying service, and another deployment closely reproduces the treatment. This is an integrated service comparison using provided implementations; it does not identify one kernel as the sole cause. The next question is how much concurrent load this service should accept.
+The matched N60 pair improved goodput by about 5.30 percent, but the tradeoff matters. Mean time to first token increased by about 125 milliseconds, while mean inter-token spacing decreased by about 1.64 milliseconds. That means users waited a little longer for the first token but saw subsequent tokens arrive faster on average. An independent deployment repeated the gain within about 0.03 percent of the original treatment. We kept the implementation because full-run evidence supported the service-level result, while reporting the TTFT cost. We do not claim a kernel-level cause or combine this with unrelated optimization percentages.
 
 ### Avoid this interpretation
 
@@ -802,9 +786,9 @@ Next, choose the request load by comparing N64 repetition with the apparent N68 
 
 ### Quick brief · 10–20 seconds
 
-Full N64 beat N62 by 1.082867% and repeated within 0.013634%. N68 looked 2.27% better in a short screen, but the full pair showed only 0.083056%, below the useful-gain gate. N64 is the supported load choice.
+Full N64 gained 1.08% over N62 and repeated within 0.014%; N68 retained only 0.08% in a full pair, below promotion threshold.
 
-![Slide 11](../../submission-review/ai-quality-update-20261103/slides/assets/slide-11.png)
+![Slide 11](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-11.png)
 
 ### Reasoning to communicate
 
@@ -820,7 +804,7 @@ Choose an operating load using complete-protocol evidence and a repeat, while re
 
 ### Technical interpretation and reasoning
 
-Follow the load decision, not a bar-height ranking. Full N62 control 25365 scored 3,011.875 good tokens/s; N64 candidate 25366 scored 3,044.490, a 1.082867% gain. Independent N64 repeat 25373 scored 3,044.075, 0.013634% below the candidate. A short N68 screen appeared 2.27% higher, but the later full N68 comparison reduced the difference to 0.083056%. The load decision is therefore based on N64's full gain and repeatability, not the short N68 signal.
+Three percentage cards compare the full N62-to-N64 gain (+1.08%), the N64 repeat difference (0.014%), and the full N68 gain over N64 (+0.08%). The short N68 screen is context for why the full comparison mattered, not the selected result.
 
 ### Terms and symbols to understand
 
@@ -832,9 +816,10 @@ Follow the load decision, not a bar-height ranking. Full N62 control 25365 score
 
 ### Interpreting the evidence or diagram
 
-- Full N64 increased goodput from 3,011.875 at N62 to 3,044.490 tokens/s, +1.082867%.
-- N64 repeat 25373 scored 3,044.075, only −0.013634% versus candidate 25366.
-- N68's +2.27% short-screen result became +0.083056% in full measurement, so it did not establish a useful improvement over N64.
+- The full N62/N64 comparison improved goodput by 1.08%.
+- An independent full N64 run differed from the first by only 0.014%.
+- N68's full comparison retained only 0.08%; its larger short-screen signal did not survive the full protocol.
+- N64 is retained as a repeatable measured operating point; the evidence does not establish a universal concurrency optimum.
 
 ### Tradeoff and strength of evidence
 
@@ -845,11 +830,11 @@ Follow the load decision, not a bar-height ranking. Full N62 control 25365 score
 
 ### Spoken script
 
-The full N62-to-N64 comparison gained about 1.08 percent, and another full N64 run was within 0.014 percent of the candidate. N68 first looked 2.27 percent better in a short screen, but the full comparison showed only 0.083 percent. That is too small to justify moving to higher load. We retain N64 because its full gain repeated, while the larger-load signal did not survive confirmation.
+Next we chose client concurrency, which is the number of requests in flight, not the number of GPUs. A full N64 run improved goodput by 1.08 percent over full N62, and an independent N64 repeat differed by only 0.014 percent. N68 first looked 2.27 percent better in a short screen, but its full comparison retained just 0.08 percent, below our one-percent usefulness rule. We therefore selected N64 as a repeatable operating point, not because it is a universal optimum. The full protocol changed the decision by showing the short-test advantage did not hold.
 
 ### Avoid this interpretation
 
-N is concurrent client requests, not GPU count. Do not treat a short screen as a full result or extrapolate a universal concurrency curve from these points.
+N denotes concurrent client requests, not GPUs. Do not present the short screen as a full result or claim concurrency alone caused every measured difference.
 
 ### Transition
 
@@ -869,7 +854,7 @@ At the selected N64 load, inspect which request-level latency condition still fa
 
 Of 1,902 requests, 1,875 met both latency limits; all 27 misses were TTFT-only. No request missed ITL, and there were zero request errors. The scatter identifies the failed condition, not why those first tokens were late.
 
-![Slide 12](../../submission-review/ai-quality-update-20261103/slides/assets/slide-12.png)
+![Slide 12](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-12.png)
 
 ### Reasoning to communicate
 
@@ -910,7 +895,7 @@ Each point represents one profiling request. The horizontal position is that req
 
 ### Spoken script
 
-This scatter shows each of the 1,902 measured requests, with first-token delay horizontally and average token spacing vertically. The two limits are inclusive: at most 3,000 milliseconds to the first token and 20 milliseconds between later tokens on average. 1,875 requests passed both. The other 27 missed only the first-token limit; none missed ITL, and there were no errors. So we know the failure pattern, but not whether queueing, prefill, or transfer caused it.
+At N64, we inspected individual requests rather than only the average score. Of 1,902 profiled requests, 1,875 met both latency limits. The other 27 all missed the first-token limit; none missed the average spacing limit, and there were no request errors. This tells us exactly which service condition remained unsatisfied. The scatter does not identify why those first tokens were late. We would need synchronized queue, prefill and request-phase measurements to test a cause. That distinction matters: locating a symptom is a result; diagnosing its source needs additional evidence.
 
 ### Avoid this interpretation
 
@@ -932,9 +917,9 @@ Next, compare replicated N64 evidence with isolated higher or lower observations
 
 ### Quick brief · 10–20 seconds
 
-Three evidence series now meet: historical N64 mean 3,044.40, separate native run 3,045.50, and complete portable run 28197 at 3,051.52 good tokens/s. This confirms the packaged path once; lower valid replays still have no identified cause.
+Portable job 28197 reached 3,051.52 good tokens/s after model registration, both P/D routes, client, reader and cleanup all passed in the full entry. This verifies the delivered entry under the tested workload.
 
-![Slide 13](../../submission-review/ai-quality-update-20261103/slides/assets/slide-13.png)
+![Slide 13](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-13.png)
 
 ### Reasoning to communicate
 
@@ -950,25 +935,19 @@ Assess repeatability across distinct deployment paths without pooling them as on
 
 ### Technical interpretation and reasoning
 
-Use three separately labelled evidence cards: (A) historical three-run N64 full-run mean 3044.400475 good tokens/s; (B) separate native job 26766 at 3045.501509; (C) new complete portable job 28197 at 3051.518173. Show its 1881/1907 joint SLA passes (98.6366%), zero errors/cancellations, mean/p95 TTFT 1100.315/1285.996 ms and request-mean ITL 15.010/15.186 ms. Footer: older valid low replay 26313 at 2830.923547 remains unexplained; earlier cache 27378 at 3048.446289 was the highest complete individual before 28197, not current peak. No axes: these are distinct measured series, not a continuous trend or error-bar plot.
+The slide follows the portable entry through model registration, both prefill/decode routes, the client, result reader and cleanup. Its performance result is 3,051.52 good output tokens/s. This is one complete deployment acceptance, not a matched gain.
 
 ### Terms and symbols to understand
 
-- **historical three-run mean:** The arithmetic mean of the retained historical N64 full runs; it does not include the separate native or portable observations.
-- **native run 26766:** A separately packaged/native full H200 N64 run at 3045.501509 good output tokens/s.
-- **portable run 28197:** A full portable 16-H200 N64 acceptance entry completing gateway readiness, both P/D semantic paths, official client, result summary/gates and cleanup in 611 seconds.
-- **joint SLA pass:** One request meets TTFT ≤3000 ms and its mean ITL ≤20 ms together; all requests, including errors, remain in the denominator.
-- **no axes:** Three cards show distinct deployments and statistics; their positions do not encode a continuous timeline or confidence interval.
+- **good output tokens/s:** Latency-qualified requests per second multiplied by the fixed 200-token output target.
+- **portable acceptance:** A complete run of the packaged entry through startup, serving checks, benchmark result reading and cleanup.
 
 ### Interpreting the evidence or diagram
 
-- The historical three-run mean (3044.400475) summarizes its own series; do not mix it with later runtime paths.
-- Native job 26766 at 3045.501509 is a separate complete run, not an additional replicate in that historical mean.
-- Portable job 28197 is a full 16-H200 N64 package run at 3051.518173 good output tokens/s after the reader and gateway-readiness fixes.
-- Its 1881/1907 requests jointly pass both SLA thresholds (98.63660199265862%); 26 miss TTFT, none miss ITL, and errors/cancellations are zero.
-- Mean/p95 TTFT is 1100.3153/1285.9962 ms. Mean/p95 request-mean ITL is 15.009828/15.185750 ms.
-- The earlier complete cache candidate 27378 scored 3048.446289, only +0.240921% over its own fresh control; 28197 is now higher, but these are different deployment series.
-- Valid lower replay 26313 scored 2830.923547; its cause remains unresolved. This spread warns against claiming all drift is explained.
+- The exact portable entry completed its full deployment and performance checks once.
+- Job 28197 measured about 3,052 good output tokens/s and completed its serving checks.
+- A single accepted run verifies that the packaged entry worked; without a matched control, it does not establish a new speedup.
+- Performance request acceptance and answer accuracy are separate quantities; quality is checked on the closing slide.
 
 ### Tradeoff and strength of evidence
 
@@ -979,11 +958,11 @@ Use three separately labelled evidence cards: (A) historical three-run N64 full-
 
 ### Spoken script
 
-We now have three distinct pieces of repeatability evidence. The historical N64 series averages 3,044.40 good tokens per second. A separate native run reached 3,045.50. The new portable job 28197 completed the entire packaged path on sixteen H200s at N64 and scored 3,051.52. It passed both prefill/decode semantic routes, the official client, result summary and cleanup in 611 seconds. Of 1,907 requests, 1,881 met both latency limits, or 98.64 percent; there were 26 first-token misses and no ITL misses or errors. This confirms the repaired package can complete once and reproduces the operating level. It does not explain the older valid 2,830.92 result or prove a global optimum.
+We also had to verify the exact portable entry, because a strong native run is not enough if the packaged deployment cannot start, serve both roles, run the official client, read results and clean up. The earlier entry failed before scoring due to a readiness race. In job 28197, we waited for model registration, verified both prefill and decode routes, then ran the client, result reader and cleanup. The full entry measured 3,051.52 good output tokens per second. This is deployment acceptance and one operating-level observation. It has no matched control, so it is not evidence of a new speedup.
 
 ### Avoid this interpretation
 
-Do not merge the historical mean, native run and portable run into one statistical series. A single portable acceptance proves package execution once, not BTC quality certification or the cause of prior drift.
+Do not call 28197 a new recipe, matched optimization gain, or answer-quality result.
 
 ### Transition
 
@@ -999,9 +978,9 @@ The successful portable entry closes the deployment-replay gap. The final slide 
 
 ### Quick brief · 10–20 seconds
 
-We ported four distinct H100-derived settings onto the current H200 base. Every candidate stayed below the fresh H200 control: chunk 8192 lost 4.52%, while phase-mode changes gained at most 0.13%. Keep the H200 recipe.
+On H200, the full H100 recipe port lost 10.41%, chunk 8192 lost 4.52%, and phase-mode changes moved under 0.14%; none cleared 1%.
 
-![Slide 14](../../submission-review/ai-quality-update-20261103/slides/assets/slide-14.png)
+![Slide 14](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-14.png)
 
 ### Reasoning to communicate
 
@@ -1017,7 +996,7 @@ Answer the panel’s cross-hardware question using direct H200 measurements, not
 
 ### Technical interpretation and reasoning
 
-Three cards show target-hardware evidence, not a mixed H100/H200 score chart. All displayed throughput values are full N64 measurements on 16 H200. Teal is fresh control 27777 at 3,038.02 good output tokens/s. Red is the transferred full H100 recipe 27783 at 2,721.82, a 10.41% loss. Gray is HPC-Ops prefill with chunk 8192, job 27806 at 2,900.61, still 4.52% below that control. The smaller line summarises the FA3 loss and phase-mode changes; those mode gains use their separate 27826 control. There are no plot axes. Backup 34 provides the complete nine-job ledger, including N54, and the control for every delta.
+Three cards summarize direct H200 evidence: full H100 recipe port −10.41%; chunk-8192 branch −4.52%; phase-mode variants below +0.14%. All are compared with their proper H200 control, and none clears the team's 1% usefulness gate.
 
 ### Terms and symbols to understand
 
@@ -1028,13 +1007,10 @@ Three cards show target-hardware evidence, not a mixed H100/H200 score chart. Al
 
 ### Interpreting the evidence or diagram
 
-- All listed measurements ran on 16 H200 at N64, so the target-hardware comparisons use the H200 system rather than comparing H100 and H200 scores directly.
-- Fresh control 27777 measured 3038.022907 good output tokens/s. FA3 decode 27779 measured 2999.245473 (−1.276404%).
-- H100 full-recipe port 27783 measured 2721.815800 (−10.408319%). It changes a coupled prefill runner/chunk recipe, so its loss is not attributable to one factor.
-- HPC-Ops prefill chunk 8192 job 27806 measured 2900.606831 (−4.523207%); chunk 6144 job 27804 measured 2821.884862 (−7.114431%). Larger chunks improved that losing branch versus chunk 4096, but did not beat the DeepGEMM incumbent.
-- Phase-mode control 27826 measured 3039.167093; decode inference mode 27828 gained 0.006223%, and prefill inference mode 27830 gained 0.130765%. Both are below the team’s 1% usefulness gate.
-- Four distinct additional H100-derived interventions are represented by jobs 27804, 27806, 27828 and 27830. Job 27826 is their explicit phase-mode control, not another candidate. The broader nine-job final verification also includes 27777, 27779, 27781 and 27783.
-- MNNVL is the decode-side GPU collective communication path; NIXL transfers request KV state between the separate prefill and decode roles.
+- All displayed candidate results were measured directly on H200; no H100-to-H200 score conversion is used.
+- The full recipe port lost 10.41%; the chunk-8192 branch remained 4.52% below its control.
+- Phase-mode points were slightly positive, under 0.14%, but below the 1% threshold.
+- The decision is to retain the existing H200 recipe; this is not a claim every candidate was negative.
 
 ### Tradeoff and strength of evidence
 
@@ -1045,11 +1021,11 @@ Three cards show target-hardware evidence, not a mixed H100/H200 score chart. Al
 
 ### Spoken script
 
-We asked whether ideas selected on H100 would help the H200 system. Rather than convert scores between GPUs, we tested them directly on 16 H200 at N64 against fresh H200 references. The H100-derived full recipe lost 10.41%; FA3 decode lost 1.28%. HPC-Ops prefill with chunk 8192 recovered part of that branch’s loss but remained 4.52% below the DeepGEMM control. The two phase-specific inference-mode tests changed goodput by only 0.006% and 0.131%, both below our 1% decision threshold. These results support keeping the H200-specific recipe. They are separate single-run comparisons, not a universal claim that H100 ideas never transfer, and the official model-quality score remains unknown.
+The cross-hardware question was whether settings that looked useful on H100 would help the H200 service. We tested them directly on H200 instead of converting scores between GPU generations. The full transferred recipe was 10.41 percent below its matched control. The chunk-matched branch remained 4.52 percent below the current recipe. Two phase-mode candidates showed small positive points, both below 0.14 percent and below our one-percent promotion threshold. So the evidence does not say every variant was negative; it says none justified replacing the retained setting. The H200 recipe remains a measured choice, not a universal optimum.
 
 ### Avoid this interpretation
 
-Do not compare an H100 score directly with an H200 score or call the best observed point a global optimum. The four distinct transferred settings are 27804, 27806, 27828 and 27830; 27826 is a control. No candidate cleared the team’s prospective 1% gate.
+Do not claim every phase-mode candidate was below control; their small positive values still fail the usefulness gate.
 
 ### Transition
 
@@ -1069,7 +1045,7 @@ This closes our measured AI transfer and tuning story. We retain the H200 recipe
 
 Sparse graphs reduced capture memory but goodput fell 0.370208% versus control 27376. Full shallow EAGLE scored 2.080318% below target-only control 26949. These separate results reject neither idea universally; they bound the tested settings.
 
-![Slide 15](../../submission-review/ai-quality-update-20261103/slides/assets/slide-15.png)
+![Slide 15](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-15.png)
 
 ### Reasoning to communicate
 
@@ -1111,7 +1087,7 @@ Read the two evidence cards separately because they use different controls and a
 
 ### Spoken script
 
-These cards show why a better component metric is not automatically a better service. Sparse graphs cut logged capture memory from 1.15 to 0.36 gigabytes per rank, yet goodput was 0.37 percent lower than its control. In a separate full comparison, shallow EAGLE scored 2.08 percent below the target-only control. The two tests have different controls, so we do not combine them. We retain dense graphs and target-only serving for these tested settings, without rejecting every possible variant.
+Two later tests remind us to judge the service objective, not an attractive proxy. Sparse decode graphs reduced logged capture memory, but full goodput fell 0.37 percent against its control. Shallow speculative decoding also lost about 2.08 percent in its full comparison. These are separate experiments with separate controls. The graph result does not mean memory savings are useless in general, and the EAGLE result does not rule out every speculative method. They tell us these tested forms did not improve this workload's qualifying throughput, so we keep the incumbent and do not promote them.
 
 ### Avoid this interpretation
 
@@ -1125,7 +1101,7 @@ The closing slide separates what the serving evidence supports from two validati
 
 <a id="slide-16"></a>
 
-## Slide 16 — The optimised service retains 99.9154% of reference accuracy
+## Slide 16 — The retained recipe survives performance and quality checks
 
 **Hardware: Paired local MMLU-Pro study · same 16 H200 · official BTC quality decision remains unknown · handoff to unchanged OpenFOAM slide 35**
 
@@ -1133,9 +1109,9 @@ The closing slide separates what the serving evidence supports from two validati
 
 ### Quick brief · 10–20 seconds
 
-On the same 12,032 MMLU-Pro questions and 16 H200s, the optimised service got 9,452 correct versus 9,460 for stock FP8. That retains 99.9154% of reference accuracy, above our local 99% threshold.
+Two evidence cards close the story: about 3,052 good tokens/s in accepted deployment and 99.9154% local accuracy retention. The organiser's decision is separate.
 
-![Slide 16](../../submission-review/ai-quality-update-20261103/slides/assets/slide-16.png)
+![Slide 16](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-16.png)
 
 ### Reasoning to communicate
 
@@ -1147,11 +1123,11 @@ On the same 12,032 MMLU-Pro questions and 16 H200s, the optimised service got 9,
 
 ### Purpose
 
-Close the AI talk with the completed full-set local quality comparison. Distinguish absolute accuracy from accuracy retention, show that the two complete deployments were compared on the same H200 hardware and inputs, and keep the local point-gate result separate from the organisers’ unknown quality decision.
+Close with the two questions performance trials alone could not answer: can the accepted package serve the workload, and does the complete service preserve answer quality? Then state the decision lessons that shaped the investigation.
 
 ### Technical interpretation and reasoning
 
-The shared-input line reads “Same FP8 checkpoint · same prompts, generation and scoring”; the subtitle specifies 16 H200 GPUs, both complete deployments, and all 12,032 questions. Two comparison cards show stock reference (9,460/12,032 = 78.6237% accuracy) and the optimised service (9,452/12,032 = 78.5572% accuracy); this is not a chart and has no axes. The counts are numbers of questions; percentages label accuracy or accuracy retention. Dark teal identifies the stock reference, while orange identifies the candidate and threshold decision. These colors distinguish roles and the decision; they do not imply candidate accuracy is higher. Candidate accuracy (78.5572%) is below reference accuracy (78.6237%). Along the bottom, the left side gives “Accuracy retention = 9,452 / 9,460 = 99.9154%”; the right side shows PASS against the ≥99% threshold, plus 16/16 completed jobs and zero service errors. A neutral note says the organisers’ own quality decision remains separate. The oral handoff to OpenFOAM is unchanged.
+Two evidence cards report 3,051.52 good output tokens/s for the accepted portable entry and 99.9154% accuracy retention in the full local quality check. Three decision lessons follow: choose phase-specific implementations from matched evidence; keep a setting when a full repeat supports it; verify answer quality separately from performance. The organiser's evaluation remains a separate decision.
 
 ### Terms and symbols to understand
 
@@ -1179,7 +1155,7 @@ The shared-input line reads “Same FP8 checkpoint · same prompts, generation a
 
 ### Spoken script
 
-We tested the complete optimised service against a stock deployment of the same FP8 checkpoint, on the same sixteen H200 GPUs and all 12,032 MMLU-Pro questions. The stock deployment got 9,460 correct, or 78.62 percent. Our service got 9,452, or 78.56 percent. Dividing those accuracies gives 99.9154 percent retention, above our local 99 percent threshold. All sixteen jobs completed without scored service errors, and invalid answers stayed counted as wrong. This is one full local pass per deployment, not a BTC certificate or a guarantee for other benchmarks. I now hand over to OpenFOAM.
+We close with two evidence cards because speed and answer quality answer different questions. The accepted portable deployment, job 28197, measured 3,051.52 good output tokens per second and passed its serving checks; that single run validates the package, not a matched improvement. Separately, the full local MMLU-Pro comparison retained 99.9154 percent of the stock reference accuracy, above our local 99 percent point gate. Our decisions follow three lessons: choose implementations for each serving phase using matched evidence, keep a setting only when a repeated full run supports it, and check answer quality separately. The organiser's quality decision remains independent.
 
 ### Avoid this interpretation
 
@@ -1187,7 +1163,7 @@ Call 99.9154% accuracy retention, not candidate accuracy; candidate accuracy is 
 
 ### Transition
 
-The paired local quality check passes its aggregate point threshold, with its scope and limits clear. We now hand over to the unchanged OpenFOAM section.
+We hand over to the separate OpenFOAM presentation; its CPU measurements and conclusions belong to that workstream.
 
 ---
 
@@ -1201,7 +1177,7 @@ The paired local quality check passes its aggregate point threshold, with its sc
 
 Both systems allocate sixteen GPUs and use the same Qwen checkpoint and staged workload. Firmus uses H200s; NSCC uses H100s. Different hardware, schedulers, containers, and node conditions mean their scores are separate measurements, not a direct GPU conversion.
 
-![Slide 17](../../submission-review/ai-quality-update-20261103/slides/assets/slide-17.png)
+![Slide 17](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-17.png)
 
 **AI backup section: open when a deeper explanation is needed.**
 
@@ -1261,7 +1237,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The failed TP8/EP1 partition had 192 elements, which leaves a 64-element remainder against a 128-wide FP8 block. EP2 changes the effective split to 384 elements, or three full blocks. That fixes this shape mismatch; it does not prove serving speed or quality.
 
-![Slide 18](../../submission-review/ai-quality-update-20261103/slides/assets/slide-18.png)
+![Slide 18](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-18.png)
 
 ### Purpose
 
@@ -1311,53 +1287,52 @@ Return to the question and main evidence after answering; these backups are not 
 
 <a id="slide-19"></a>
 
-## Slide 19 — Backup · historical milestones behind the decisions
+## Slide 19 — Backup · full-set accuracy verification
 
-**Hardware: H200 · different loads, layouts, and runtime settings**
+**Hardware: Paired local MMLU-Pro quality evidence · same 16 H200**
 
 ### Quick brief · 10–20 seconds
 
-The H200 chart rises from 1,297 good tokens/s at N32 to a 3,044 N64 mean. It shows better measured operating points over the campaign, but each milestone changes load or configuration, so the bars do not assign a causal gain to each optimization.
+The full-set comparison found 9,460 correct reference answers and 9,452 candidate answers over 12,032 questions: 99.9154% retention, a local result only.
 
-![Slide 19](../../submission-review/ai-quality-update-20261103/slides/assets/slide-19.png)
+![Slide 19](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-19.png)
 
 ### Purpose
 
-Use the historical chart as context for the research questions: it shows which operating points motivated later controlled tests, while teaching why a rising sequence is not a cumulative causal experiment.
+Keep detailed quality methodology available for questions. Explain how the full paired evaluation addresses the gap between a performance pass and answer correctness, and preserve the organiser-claim boundary.
 
 ### Technical interpretation and reasoning
 
-The horizontal axis lists named milestones, not dates or equal time intervals. The vertical axis is good output tokens per second, so taller bars mean more requests meeting the latency limits under that milestone's workload. Gray marks early layouts, teal marks backend specialization, and orange marks later tuning and repeat points. The chart progresses from 1,297 at N32 and 1,666 at N40, through 1,912 at N48 and 2,631 at N52, to a rounded historical N64 mean of 3,044. Since concurrency, worker layout, backends, and runtime conditions change along the way, the chart shows the team found stronger measured configurations; it does not show how much any one change caused.
+The paired quality record compares stock FP8 and the candidate on identical MMLU-Pro inputs. It reports their absolute accuracies, 99.915433% retained accuracy, and the local 99% point threshold. The record also reports discordant outcomes and keeps invalid and length-capped outputs in the denominator. This is not BTC certification.
 
 ### Terms and symbols to understand
 
-- **good output tokens/s:** Qualifying requests per second multiplied by the requested 200 output tokens; higher means more useful output under the latency rule.
-- **milestone chart:** A grouped history of operating points. Horizontal spacing is categorical, not elapsed time, and neighboring bars are not necessarily matched experiments.
-- **N32–N64:** Target numbers of simultaneous client requests, not GPU counts. Increasing N changes offered load and can change latency and useful throughput.
-- **repeated point:** A configuration measured again to check reproducibility. A repeat tests consistency; it does not isolate the cause of an earlier gain.
-- **causal ablation:** A comparison that changes one defined factor while holding others sufficiently constant. This historical chart is not one cumulative ablation.
+- **accuracy:** Correct answers divided by all 12,032 questions.
+- **accuracy retention:** Candidate accuracy divided by stock-reference accuracy; this is not the candidate absolute accuracy.
+- **discordant outcomes:** Questions where only one deployment answered correctly; paired systems can differ on many questions despite a small net score gap.
 
 ### Interpreting the evidence or diagram
 
-- This is supporting evidence for Q&A, hidden during the main slide show. It does not add a new experiment to the main argument.
-- The milestones are 1,297 (initial 07/N32), 1,666 (initial 09/N40), 1,912 (split/N48), 2,631 (FlashInfer plus MNNVL/N52), 2,716 (DeepGEMM prefill/N56), 2,939 (DeepGEMM plus HPC-Ops/N58), 2,989 (repeated N60), 3,023 (repeated N62), and 3,044 (three historical N64 runs). Labels are rounded.
-- Later N62 runs measured 3,022.034919 and 3,023.072304; later N64 repeats measured 3,044.489701 and 3,044.074628. These support repeatability at those settings, not a universal optimum or causal explanation for every step.
-- Colors group phases of work; they are not pass/fail marks. Bar height is a score, not a confidence interval.
+- Reference accuracy is 9,460/12,032 = 78.623670%; candidate accuracy is 9,452/12,032 = 78.557181%.
+- Retention is 9,452 divided by 9,460, or 99.915433%; this passes the team's local 99% point threshold.
+- There are 876 discordant outcomes: 434 candidate-only correct and 442 reference-only correct, a net eight fewer correct answers for the candidate.
+- Invalid parsed answers and length-capped generations remain in the denominator; there were zero service errors in either role.
+- This is one local full-set MMLU-Pro comparison, not statistical equivalence or BTC certification.
 
 ### Tradeoff and strength of evidence
 
-- **Observation:** Measured good output throughput rises across named operating points from 1,297 at N32 to a rounded 3,044 at historical N64.
-- **Hypothesis:** Recovering a usable split and transfer path, then specializing attention, collective, prefill, and decode backends, helped identify stronger configurations.
-- **Supported conclusion:** The chart is a map of milestones and later replication targets; it is not evidence the named optimizations add up to the full rise.
-- **Unknown / limitation:** Loads, topology, runtime settings, and observation conditions vary; individual causal contributions and a global optimum are not established.
+- **Observation:** The candidate has eight fewer net correct answers and 876 paired outcomes disagree, while aggregate retention remains 99.915433%.
+- **Hypothesis:** A full paired evaluation is needed because passing serving performance does not itself establish answer quality.
+- **Supported conclusion:** The local aggregate point gate passes. Preserve the official checkpoint and report category limits and organiser evaluation separately.
+- **Unknown / limitation:** One run per role; no statistical-equivalence claim and no official BTC quality result.
 
 ### Spoken script
 
-This chart summarizes how H200 work moved from about 1,300 good output tokens per second at N32 to about 3,044 at N64. The horizontal axis names milestones, not dates; the vertical axis is latency-qualified output rate. Colors group phases of work. But load and software settings change between bars, so this is a history of better measured operating points, not proof that each named optimization caused the full increase.
+If asked what the quality result means, distinguish accuracy from retention. The candidate got 9,452 of 12,032 questions correct, or 78.557181 percent. The stock reference got 9,460, or 78.623670 percent. Dividing candidate accuracy by reference accuracy gives 99.915433 percent retention, above the local 99 percent point threshold. The paired answers were not identical: 876 question outcomes disagreed, with 434 candidate-only correct and 442 reference-only correct, for eight fewer net correct candidate answers. Invalid and length-capped outputs stayed in the denominator. This is one local MMLU-Pro evaluation, not statistical equivalence and not the organiser's quality decision.
 
 ### Avoid this interpretation
 
-Do not read horizontal spacing as time, add bar differences as independent gains, or treat colors as pass/fail. N is request concurrency, not GPU count.
+Do not call 99.9154% candidate accuracy, hide the discordant outcomes, or present this local result as the organiser's decision.
 
 ### Transition
 
@@ -1375,7 +1350,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The patch builds descriptors for requested KV pages and coalesces contiguous ranges while preserving mapping and stride. CPU tests passed 720 geometry cases; the fixture explicitly did not validate real GPU transport.
 
-![Slide 20](../../submission-review/ai-quality-update-20261103/slides/assets/slide-20.png)
+![Slide 20](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-20.png)
 
 ### Purpose
 
@@ -1434,7 +1409,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 On patched job 22294, pair warmup took 0.68–0.70 seconds per request and full N32 goodput was 1,422.96 with 95.87% joint SLA and zero errors. No matched unpatched control measures speedup.
 
-![Slide 21](../../submission-review/ai-quality-update-20261103/slides/assets/slide-21.png)
+![Slide 21](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-21.png)
 
 ### Purpose
 
@@ -1493,7 +1468,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 In one matched H100 N54 pair, FA3 cut mean TTFT from 713.199 to 594.276 ms, but goodput fell from 2,420.945 to 2,401.284 tokens/s, about 0.812%. A faster first token did not improve the full request objective.
 
-![Slide 22](../../submission-review/ai-quality-update-20261103/slides/assets/slide-22.png)
+![Slide 22](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-22.png)
 
 ### Purpose
 
@@ -1551,7 +1526,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Read-first initially reduced scheduler walltime by 18.74%, but the reversed-order confirmation saved only 9.84%, below the predeclared 10% threshold. Goodput changed slightly in both pairs; unknown cache state prevents a cold-storage causal claim.
 
-![Slide 23](../../submission-review/ai-quality-update-20261103/slides/assets/slide-23.png)
+![Slide 23](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-23.png)
 
 ### Purpose
 
@@ -1608,7 +1583,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Several H200 changes were activated and measured, but gains were small, negative, or worse in a tail metric. For example, a prefill attention change lost 6.385% goodput. A working flag is not enough to replace the selected configuration.
 
-![Slide 24](../../submission-review/ai-quality-update-20261103/slides/assets/slide-24.png)
+![Slide 24](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-24.png)
 
 ### Purpose
 
@@ -1667,7 +1642,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The 2,549.20 N52 attention package changed several factors; representative Triton probes, CPU fixtures, and source review answer narrower questions. Full Qwen compilation stopped at a RoPE/KV assertion. None alone proves a full-model serving gain.
 
-![Slide 25](../../submission-review/ai-quality-update-20261103/slides/assets/slide-25.png)
+![Slide 25](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-25.png)
 
 ### Purpose
 
@@ -1726,7 +1701,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 The retained H200 recipe and H100 recipe remain separate. H200 now also has a complete portable acceptance run at 3,051.52 good tokens/s; this validates deployment, not H100-to-H200 conversion.
 
-![Slide 26](../../submission-review/ai-quality-update-20261103/slides/assets/slide-26.png)
+![Slide 26](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-26.png)
 
 ### Purpose
 
@@ -1787,7 +1762,7 @@ The platform configurations and the complete H200 acceptance are separate eviden
 
 Under the same full N64 workload, increasing prefill chunk from 8,192 to 12,288 reduced goodput from 3,045.50 to 3,020.94 tokens/s and worsened p95 TTFT. Each setting has one reviewed H200 run; this does not establish a global optimum.
 
-![Slide 27](../../submission-review/ai-quality-update-20261103/slides/assets/slide-27.png)
+![Slide 27](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-27.png)
 
 ### Purpose
 
@@ -1846,7 +1821,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Sparse capture cut logged memory from 1.15 to 0.36 GB per decode rank, but goodput fell 0.370208% and mean ITL worsened. Padding was not measured as a cause. The team retained dense graphs; this pair does not prove a causal effect.
 
-![Slide 28](../../submission-review/ai-quality-update-20261103/slides/assets/slide-28.png)
+![Slide 28](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-28.png)
 
 ### Purpose
 
@@ -1904,7 +1879,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Historical full N64 averaged 3,044.40 while a newer short control was about 2,560. Graph policy, server admission cap and measurement procedure changed. The completed tests did not isolate one cause, so we retain the drift without attributing it to one flag.
 
-![Slide 29](../../submission-review/ai-quality-update-20261103/slides/assets/slide-29.png)
+![Slide 29](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-29.png)
 
 ### Purpose
 
@@ -1959,7 +1934,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 EAGLE3 placement missed latency; a validator bug was repaired; the short retry and separate full shallow trial both lost goodput. The tested method therefore did not help this workload, although other configurations remain untested.
 
-![Slide 30](../../submission-review/ai-quality-update-20261103/slides/assets/slide-30.png)
+![Slide 30](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-30.png)
 
 ### Purpose
 
@@ -2014,7 +1989,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 Jobs 27136 and 27145 failed in separate result-reader defects; 27152 verified both fixes on CPU. Exact-ZIP job 28194 then hit a gateway health/registration race before scoring. Job 28197 changed readiness wait/checksum and passed the full 611-second H200 entry.
 
-![Slide 31](../../submission-review/ai-quality-update-20261103/slides/assets/slide-31.png)
+![Slide 31](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-31.png)
 
 ### Purpose
 
@@ -2073,7 +2048,7 @@ This appendix shows how the portable deployment failure was isolated and finally
 
 At H200 N52, combining attention and communication measured about 1.43 percent above a later MNNVL control. This supports the combined setting at this load, not additive component gains or a universal rule.
 
-![Slide 32](../../submission-review/ai-quality-update-20261103/slides/assets/slide-32.png)
+![Slide 32](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-32.png)
 
 ### Purpose
 
@@ -2130,7 +2105,7 @@ Return to the question and main evidence after answering; these backups are not 
 
 A forecast recorded before the H200 measurement misses by about 1.54%, inside our stated 2% tolerance. It nevertheless exposes missing uncertainty. One near-correct prediction supports a limited check, not a universal H100-to-H200 conversion.
 
-![Slide 33](../../submission-review/ai-quality-update-20261103/slides/assets/slide-33.png)
+![Slide 33](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-33.png)
 
 ### Purpose
 
@@ -2186,7 +2161,7 @@ For the latest direct H200 transfer results, return to main slide 14; the comple
 
 Nine final H200 allocations tested controls and H100-derived alternatives. No distinct candidate cleared the team’s 1% usefulness gate; the existing H200 recipe remains the measured choice.
 
-![Slide 34](../../submission-review/ai-quality-update-20261103/slides/assets/slide-34.png)
+![Slide 34](../../submission-review/ai-narrative-12min-20261103/slides/assets/slide-34.png)
 
 ### Purpose
 
@@ -2231,460 +2206,3 @@ Do not call all nine jobs distinct candidates, compare percentages with differen
 ### Transition
 
 Return to slide 16 for the main conclusion, or show slide 35 for the bounded held-out forecast check.
-
----
-
-<a id="slide-35"></a>
-
-## Slide 35 — The task: same 65-million-cell airflow calculation
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-We fix the workload at 65.3 million cells, four nodes and 512 MPI ranks. All 150 solver steps run; 149 are timed. The measure is average seconds per step, with lower being better.
-
-![Slide 35](transcript-assets/slide-35.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Define the fixed CPU workload and the performance quantity being optimized. The comparison holds the prescribed calculation constant and asks how efficiently the cluster executes it.
-
-### Technical interpretation and reasoning
-
-Read the figures as the fixed-work contract: 65,334,765 mesh cells are distributed over four nodes and 512 MPI ranks, or 128 ranks on each node. An MPI rank is a software process; it is not the same thing as a physical CPU core. The prescribed calculation runs 150 solver iterations, with 149 timed samples because the first iteration is excluded from the reported mean. The unit is wall-clock seconds per solver step, so a smaller value means less elapsed time for each iteration. This slide defines the work and metric; it does not report an optimization result.
-
-### Terms and symbols to understand
-
-- **65.3 million:** Rounded display of the 65,334,765-cell mesh.
-- **MPI rank:** One distributed solver process; 512 total means 128 per node on four nodes.
-- **s/step:** Wall-clock seconds per solver iteration, not seconds of simulated driving.
-- **physical CPU core:** A hardware execution core. An MPI rank is a software process; ranks may be bound to cores, but the mapping must be verified rather than assumed.
-
-### Interpreting the evidence or diagram
-
-- Read this as a workload definition, not a result comparison: same mesh and required solver work, executed on four CPU nodes.
-- The 149 timed samples begin after the first solver iteration; the complete run still performs all 150 steps.
-- The task is to reduce runtime through better CPU-resource use, not by reducing mesh size or required work.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** The fixed run has substantial parallel work: roughly 65.3 million cells distributed across 512 ranks.
-- **Hypothesis:** A more effective distribution and placement of work may reduce time per step.
-- **Supported conclusion:** The slide establishes the measurement frame; it reports no tuning win by itself.
-- **Unknown / limitation:** It does not identify a bottleneck or establish a causal performance improvement.
-
-### Spoken script
-
-We are optimizing the prescribed OpenFOAM airflow calculation, not changing its mathematics. The mesh has 65.3 million cells. On four nodes, 512 MPI ranks perform all 150 solver steps. The first iteration is excluded from timing, leaving 149 measured steps. We compare the average wall-clock seconds per step, where lower is better. That makes this a fixed-work CPU-efficiency question.
-
-### Avoid this interpretation
-
-Do not call 65.3 million the exact count, do not describe the 149 timed steps as the whole solve, and do not treat the displayed task definition as evidence of a speedup. The retained drag coefficient is a physical sanity check, not this performance metric.
-
-### Transition
-
-Next, show which preparation stages must be retained for a valid end-to-end run.
-
----
-
-<a id="slide-36"></a>
-
-## Slide 36 — The whole required pipeline comes before the score
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-A valid comparison includes every preparation stage and all 150 solver steps. Decomposition assigns cells to ranks; CPU affinity assigns ranks to CPUs. These are separate choices that can each affect runtime.
-
-![Slide 36](transcript-assets/slide-36.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Explain why the score is meaningful only after preserving the full required pipeline, and distinguish mesh decomposition from CPU affinity.
-
-### Technical interpretation and reasoning
-
-The sequence is part of the measured task: decomposePar assigns mesh cells to MPI ranks; renumberMesh changes the ordering of local cell data; potentialFoam initializes flow fields; applyBoundaryLayer applies the required boundary treatment; simpleFoam then performs all 150 solver steps. Decomposition determines which cells a process owns and therefore which neighboring-cell exchanges cross process boundaries. CPU affinity determines where a rank runs. Affinity can affect access to nearby CPU cores and memory, but it does not change the cells owned by that rank. Both decisions can affect performance, and they must not be confused.
-
-### Terms and symbols to understand
-
-- **MPI:** Message Passing Interface; separate ranks exchange data, especially across partition boundaries.
-- **decomposePar:** OpenFOAM utility that partitions mesh cells among ranks.
-- **CPU affinity:** Binding a process or rank to CPU resources; distinct from assigning it mesh cells.
-- **neighbor exchange:** Ranks exchange field values for cells adjacent across their partition boundary; more cut edges are only a proxy for the amount and cost of this traffic.
-
-### Interpreting the evidence or diagram
-
-- Follow the orange arrows from preprocessing into the solver; the final timing is not a substitute for those stages.
-- A decomposition answers which cells a rank owns. Affinity answers where that rank executes.
-- The sequence shown is the complete required preparation and 150-step solve, not an optional menu.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** The pipeline contains data setup, initialization, boundary treatment, then iterative solving.
-- **Hypothesis:** Choices in decomposition and placement can affect execution while preserving the prescribed calculation.
-- **Supported conclusion:** Valid comparisons must retain each required stage and its successful completion.
-- **Unknown / limitation:** This flow diagram alone does not measure the cost of each stage or prove which mapping is faster.
-
-### Spoken script
-
-Before comparing solver times, we keep the entire required pipeline: assign cells to MPI ranks, reorder the local data, initialize the flow, apply the prescribed boundary layer, and run all 150 simpleFoam steps. Decomposition decides which cells each rank owns. CPU affinity decides which CPU runs the rank. Those are separate decisions, and a valid run must preserve every preparation step as well as the solve.
-
-### Avoid this interpretation
-
-The slide gives process order, not per-stage timings, and it does not establish that affinity was measured or optimized in a particular result.
-
-### Transition
-
-With the workload and pipeline fixed, the next slide tests whether a locality proxy predicted solver runtime.
-
----
-
-<a id="slide-37"></a>
-
-## Slide 37 — A smaller partition cut did not make the solver faster
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-The NUMA-aware partition reduced its graph-cut proxy by 10.63%, yet mean solver time worsened by 3.4416%, from 13.881 to 14.359 seconds per step. The proxy did not predict runtime.
-
-![Slide 37](transcript-assets/slide-37.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Show a failed NUMA-aware locality hypothesis and explain why a partition-graph proxy cannot stand in for a runtime measurement.
-
-### Technical interpretation and reasoning
-
-The orange −10.63% is a reduction in a partition-graph cut proxy: fewer weighted mesh connections cross the selected locality boundary. It does not mean communication time fell by 10.63%. Actual exchanges also depend on message sizes, frequency, network and MPI behavior, while solver time includes computation, synchronization, memory access and other work. The measured mean moved in the wrong direction, from 13.881 to 14.359 seconds per step (+3.4416%, slower). Thus the proxy improvement did not produce a runtime improvement in this comparison. The slide leaves the cause open because MPI wait, bandwidth, CPU frequency, power and memory-page placement were not measured.
-
-### Terms and symbols to understand
-
-- **NUMA:** Non-Uniform Memory Access: memory access cost can depend on which CPU socket or locality domain owns the memory.
-- **graph cut:** A proxy count/weight of partition connections crossing a selected boundary; it is not a direct measurement of communication time.
-- **−10.63%:** The graph-cut proxy was reduced by 10.63% for this candidate.
-- **+3.4416%:** The solver mean became 3.4416% slower in the compared observation.
-- **partition graph cut:** A weighted count of mesh-neighbor connections split between partitions. It estimates potential interface traffic, but does not measure bytes transferred, MPI wait, network time or total solver runtime.
-- **NUMA locality:** On multi-socket servers, a CPU core can access memory attached to its own socket more directly than memory attached to another socket; placement can therefore affect latency and bandwidth.
-- **MPI wait:** Time a process spends waiting for other processes or communication to complete; it was listed as unmeasured here.
-
-### Interpreting the evidence or diagram
-
-- Orange marks proxy improvement; red marks worse measured solver time. Their signs make the mismatch clear.
-- A smaller proxy can coexist with slower execution because other partition properties and runtime effects also matter.
-- The slide explicitly leaves the cause unmeasured; it records a rejected candidate, not a diagnosis.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** Graph cut fell 10.63%, while mean runtime rose from 13.881 to 14.359 seconds per step.
-- **Hypothesis:** Grouping work by memory locality might reduce remote-memory and interface cost.
-- **Supported conclusion:** The unchanged NUMA-aware branch was closed; graph cut alone did not predict solver speed.
-- **Unknown / limitation:** MPI wait, bandwidth, frequency, power, page residency, and other possible causes were not measured.
-
-### Spoken script
-
-We tested a NUMA-aware idea: grouping work by locality should reduce remote-memory or interface cost. The graph-cut proxy fell by 10.63 percent, but the measured solver mean worsened from 13.881 to 14.359 seconds per step, a 3.4416 percent slowdown. That is why we closed this unchanged candidate. A graph proxy describes the partition; it is not measured runtime or proof of less communication time.
-
-### Avoid this interpretation
-
-The comparison changed other partition properties, so do not attribute the slowdown to one mechanism. A separate offline mapping with a 4.5741% smaller proxy had no solver run and is not evidence of performance. Do not interpret the percentages as reciprocal measures.
-
-### Transition
-
-The next comparison asks whether the better observed decomposition changes with node count.
-
----
-
-<a id="slide-38"></a>
-
-## Slide 38 — Observed scaling changed which decomposition led
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-The observed leader changes across allocations: Hierarchical is lower at one and two nodes, while Scotch is lower at four. Since run lengths and allocations differ, these values describe observations, not a causal scaling result.
-
-![Slide 38](transcript-assets/slide-38.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Compare the observed Scotch and hierarchical means across one-, two-, and four-node allocations, while explicitly limiting the inference because work endpoints and allocations differ.
-
-### Technical interpretation and reasoning
-
-The orange Scotch and dark-teal Hierarchical labels identify the two decomposition methods; every value is a mean in seconds per solver step, so lower is faster. Hierarchical is lower in the one-node observation (14.366 vs 14.451) and the two-node observation (7.170 vs 7.463); Scotch is lower in the four-node observation (3.678 vs 3.820). These are not points on a controlled scaling curve: each used a separate allocation, and the required endpoint changed from 40 to 80 to 150 steps. Node count, run length, allocation conditions and configuration therefore vary together. The bars describe what was observed; they cannot isolate node count as the cause of the ranking change.
-
-### Terms and symbols to understand
-
-- **Scotch:** A graph-based mesh-decomposition method used by the OpenFOAM workflow.
-- **Hierarchical:** A decomposition method that partitions the mesh using a hierarchy of spatial divisions.
-- **s/step:** Mean wall-clock seconds for each timed solver iteration; lower is better.
-- **descriptive comparison:** A report of observed values. Because node count, step endpoint and allocation changed together, it cannot isolate the effect of any one factor.
-
-### Interpreting the evidence or diagram
-
-- At one node hierarchical is slightly lower; at two nodes hierarchical is lower; at four nodes Scotch is lower.
-- The displayed step endpoints are not identical, and each result came from a separate allocation.
-- This is descriptive evidence about observed candidate means, not a controlled strong-scaling curve.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** Hierarchical leads the displayed two-node pair, while Scotch leads the four-node pair; the one-node means are close with hierarchical lower.
-- **Hypothesis:** The preferable partition may depend on node count, rank density, and allocation-specific conditions.
-- **Supported conclusion:** There is no single decomposition winner across these observations; the four-node Scotch result motivates closer review.
-- **Unknown / limitation:** Different allocations and endpoints prevent assigning the differences to node count alone or claiming causal scaling efficiency.
-
-### Spoken script
-
-The observed leader changes with the allocation. Hierarchical has a slightly lower one-node mean and leads at two nodes, while Scotch leads at four nodes. The values are seconds per solver step. However, these are separately allocated runs with different prescribed endpoints—40, 80 and 150 steps—so this is descriptive scaling evidence, not a controlled causal comparison. The candidate choice must be evaluated at the intended node count and rank density.
-
-### Avoid this interpretation
-
-Do not calculate or claim ideal speedup from these means. The bars show means only, without uncertainty ranges; the separate allocations and run lengths matter. This slide alone cannot show a universal advantage for either method.
-
-### Transition
-
-The four-node results can be split further by ranks per node, which is the next comparison.
-
----
-
-<a id="slide-39"></a>
-
-## Slide 39 — At four nodes, the winner depends on ranks per node
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-At four nodes, Hierarchical has lower means at 64 and 96 ranks per node; Scotch is lower at 128. Scotch-128's 3.678 seconds per step is the lowest reviewed mean, still a candidate observation needing confirmation.
-
-![Slide 39](transcript-assets/slide-39.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Show that the four-node decomposition ranking changes with process density, and identify the lowest reviewed mean without overstating it as a universal optimum.
-
-### Technical interpretation and reasoning
-
-At four nodes, the bars compare observed mean seconds per step at 64, 96 and 128 MPI ranks per node. Orange denotes Scotch and dark teal denotes Hierarchical. Hierarchical has the lower mean at 64 ranks (4.489 vs 10.310) and 96 ranks (4.922 vs 7.146); Scotch is slightly lower at 128 ranks (3.678 vs 3.820). Across four nodes these settings use 256, 384 and 512 ranks, respectively, but a rank is a process, not automatically one physical core. The 128-rank Scotch observation is the lowest reviewed mean among these six logs. Separate allocations and differences in requested CPU counts confound the comparison, so it identifies a candidate to repeat, not proof that rank density or method alone caused the difference.
-
-### Terms and symbols to understand
-
-- **ranks per node:** Number of MPI processes placed on each node; across four nodes the displayed settings correspond to 256, 384, and 512 ranks.
-- **s/step:** Mean measured wall-clock seconds per solver step.
-- **lowest reviewed mean:** The smallest mean among the reviewed observations in this set, not proof of global optimality.
-- **rank density:** The number of MPI processes assigned per node. It is distinct from physical-core count and does not by itself prove CPU binding or exclusive core use.
-
-### Interpreting the evidence or diagram
-
-- At 64 and 96 ranks per node hierarchical is lower; at 128 ranks per node Scotch is lower by about 0.142 seconds per step.
-- The highlighted takeaway identifies Scotch-128 at 3.677906731 seconds per step as the lowest reviewed mean.
-- Each bar summarizes a separate allocation; requested CPU counts also differ in some configurations.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** The preferred method flips at the highest displayed rank density; Scotch-128 has the smallest observed mean among these six logs.
-- **Hypothesis:** Decomposition quality may interact with the density of ranks on each node.
-- **Supported conclusion:** Choose based on the measured node count and rank density; method name alone does not predict the winner.
-- **Unknown / limitation:** Separate allocations and differing requested CPU counts prevent attributing the differences solely to decomposition or density.
-
-### Spoken script
-
-At four nodes, rank density changes which method has the lower observed mean. Hierarchical leads at 64 and 96 ranks per node. At 128, Scotch records 3.678 seconds per step versus 3.820 for hierarchical. That 3.678-second value is the lowest reviewed mean among these six observations. We treat it as a candidate for confirmation, not a causal effect or universal best method, because these are separate allocations and some requested CPU counts differ.
-
-### Avoid this interpretation
-
-The decimal labels are seconds per step, not speedup factors. The bar display has no explicit axis or error bars; avoid implying statistical significance from bar lengths. The slide does not establish stable repeatability.
-
-### Transition
-
-The next slide examines the full timing distribution behind the Scotch-128 mean, especially its slow tail.
-
----
-
-<a id="slide-40"></a>
-
-## Slide 40 — Keep the slow step in the mean; inspect the tail
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-Most steps were near 3.3 to 3.8 seconds, but one reached 35.884 seconds. We retain all 149 samples in the arithmetic mean; the spike is real in this run, while its cause remains unknown.
-
-![Slide 40](transcript-assets/slide-40.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Explain why every timed iteration, including an extreme slow step, remains in the official-style arithmetic mean, and separate observation from causal diagnosis.
-
-### Technical interpretation and reasoning
-
-These are distribution summaries for the 149 timed steps: median 3.298742 s, 95th percentile 3.795740 s, and maximum 35.883552 s at solver Time 119. The median is the middle observation; the p95 marks the point below which about 95% of observations fall. The arithmetic mean is different: add every sample and divide by 149, so the 35.9-second step remains in it and pulls the mean upward. Keeping that sample preserves the actual run rather than hiding a slow event. The orange and red markers distinguish typical timing from the extreme maximum; printed numbers carry the exact units. The event is visible, but its cause is not identified by these timings.
-
-### Terms and symbols to understand
-
-- **median:** Middle value after sorting the 149 timed samples.
-- **95th percentile (p95):** A value at or below which approximately 95% of samples fall, under the percentile convention used.
-- **maximum:** Largest recorded sample; here 35.883552 seconds at solver Time 119.
-- **Time 119:** Solver iteration/time index reported by the run, not 119 seconds of wall-clock duration.
-- **arithmetic mean:** Sum of all timed values divided by the number of values. Unlike the median, a very large sample can noticeably raise it.
-- **tail:** The slowest portion of the timing distribution; p95 summarizes a high percentile, while the maximum records the single slowest sample.
-
-### Interpreting the evidence or diagram
-
-- The median and p95 are near 3.3–3.8 seconds, but one retained step is about 35.9 seconds.
-- All 149 samples stay in the arithmetic mean; removing the outlier would change the stated performance metric.
-- The red color marks the extreme maximum; it does not indicate a known failure mechanism.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** One unusually slow step appears at index 119, while the center and p95 are much smaller.
-- **Hypothesis:** A transient system or application event may have caused the spike, but telemetry is needed to test possibilities.
-- **Supported conclusion:** Preserve the tail and investigate it; do not trim the slow point or alter the prescribed endpoint.
-- **Unknown / limitation:** MPI wait, bandwidth, CPU frequency, power, and memory-page residency were not measured sufficiently to identify a cause.
-
-### Spoken script
-
-The median step is 3.299 seconds and the 95th percentile is 3.796 seconds, but the maximum reaches 35.884 seconds at solver Time 119. We retain all 149 timed samples in the arithmetic mean. That slow point is part of the measured run, not something to discard because it is inconvenient. The trace establishes that a spike occurred; it does not explain why. We need instrumentation and independent repeats to study its cause and stability.
-
-### Avoid this interpretation
-
-Do not call solver Time 119 119 seconds; it is the reported iteration/time index. Do not imply the median or p95 is the official arithmetic mean. Cause is explicitly unknown: missing telemetry is not evidence that MPI, memory, or hardware was healthy.
-
-### Transition
-
-That uncertainty is why the next slide asks for an independently repeated, fully evidenced run.
-
----
-
-<a id="slide-41"></a>
-
-## Slide 41 — A reproducible candidate needs more than a fast log
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-Scotch with 128 processes per node measured about 3.678 seconds per step. In the slide’s 23 October snapshot, its confirmation job was still queued without a result. This remains a candidate observation, not an accepted official score.
-
-![Slide 41](transcript-assets/slide-41.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Distinguish a reviewed candidate timing from an accepted official result and list the proofs required from an independent confirmation.
-
-### Technical interpretation and reasoning
-
-The left side is an already reviewed candidate observation: Scotch-128 averaged 3.677906731 seconds per step over 149 samples. The right side is a different state of evidence: job 25940700 was shown waiting in Q/q5 at 15:06 UTC because node_pool resources were insufficient, with no result yet. Its frozen 54-file bundle is an exact, fixed input package; hashes and seals are checks that source, mesh and outputs match the recorded files. Provenance means the record of which inputs, commands, resources and outputs produced a run. The checklist also asks for successful return codes from every stage and proof that 512 physical CPU cores across four hosts were actually allocated. These are requirements for confirmation, not checks already passed.
-
-### Terms and symbols to understand
-
-- **Q/q5:** Scheduler queue/state labels shown in the dated observation; the slide reports the job waiting, not executing.
-- **Scotch-128:** Scotch decomposition at 128 MPI ranks per node on four nodes.
-- **seal:** Recorded identity/integrity evidence for source, mesh, or output files; the slide lists required checks, not completed checks.
-- **frozen input bundle:** A fixed, versioned set of input files kept unchanged for a repeat, so the comparison uses the same declared inputs.
-- **hash / seal:** A cryptographic digest or integrity record used to check whether a file is byte-for-byte the recorded version; a seal is evidence to verify, not a performance result.
-- **provenance:** Traceable record of input identities, software/source, commands, allocated resources and produced outputs.
-- **scheduler terminal proof:** A scheduler record showing a definite final state such as completed or failed, rather than merely queued or running.
-- **return code:** A program exit status; checking each stage helps establish that every required command completed successfully.
-
-### Interpreting the evidence or diagram
-
-- The candidate has a measured mean and 149 samples, but that alone does not establish official acceptance.
-- The independent job is queued and has no result in the shown status snapshot.
-- The checklist is prospective proof required from that queued confirmation, not claims that the checks already passed.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** The best reviewed candidate is 3.677906731 s/step; its independent confirmation job is waiting because node_pool resources are insufficient.
-- **Hypothesis:** A fresh, frozen, full-pipeline repeat can test reproducibility and verify provenance and resource placement.
-- **Supported conclusion:** Report the existing number as a candidate observation, not an accepted official score; review the repeat before choosing next.
-- **Unknown / limitation:** The slide gives no result, terminal scheduler proof, or completed verification for job 25940700.
-
-### Spoken script
-
-The reviewed Scotch-128 candidate averages 3.677906731 seconds per step over 149 samples. That is a candidate observation, not an accepted official score. We submitted job 25940700 as an independent confirmation, but the dated scheduler status still shows it queued because node-pool resources are insufficient, so it has no result. Confirmation must preserve the input bundle, execute initialization and all 150 steps, record explicit stage exits, prove 512 physical cores across four hosts, and seal source, mesh, and outputs.
-
-### Avoid this interpretation
-
-All scheduler wording is a historical snapshot at 15:06 UTC on the slide; do not present it as live status. The checklist describes required proof, not verified completion. A fast log by itself is not full reproducibility or acceptance.
-
-### Transition
-
-The final slide summarizes the evidence discipline and the next review decision without claiming a new result.
-
----
-
-<a id="slide-42"></a>
-
-## Slide 42 — What we learned — and the next measurement
-
-**Hardware: CPU · OpenFOAM HPC task — not an H100/H200 inference measurement.**
-
-### Quick brief · 10–20 seconds
-
-We choose by measured runtime, retain slow samples, and require another run to confirm results. The lowest candidate mean is about 3.678 seconds per step; confirmation had no result on 23 October. A fast number needs adequate evidence.
-
-![Slide 42](transcript-assets/slide-42.png)
-
-**Unchanged HPC section: explanation of the existing slide, not a new status or result update.**
-
-### Purpose
-
-Close the HPC section with four measurement principles and the next decision point: inspect complete confirmation evidence before selecting another configuration.
-
-### Technical interpretation and reasoning
-
-The four principles connect a credible measurement to reproducible evidence: include preparation and the full solve; judge runtime rather than a graph-cut proxy; retain all samples, including slow-tail events; and repeat independently. The status line is explicitly a historical snapshot: on 23 October at 15:06 UTC, job 25940700 was still waiting for node_pool resources and had no result. A scheduler query or terminal record proves whether the job ran and how it ended; it does not by itself prove correct inputs or a valid measurement. Hashes, stage return codes, resource-placement evidence and complete output provenance address those separate questions. The next action stated here is to review the confirmation's terminal evidence and timing tails, then use bounded hardware sampling to investigate stability. No later outcome is asserted.
-
-### Terms and symbols to understand
-
-- **terminal proof:** Evidence that the scheduler job reached a definite terminal state, paired with complete run outputs and return codes.
-- **bounded hardware samples:** Limited, planned instrumentation samples collected with controlled scope, not an unbounded profiling run.
-- **Q/q5:** The queue/state shown in the dated status snapshot, not a current query.
-- **bounded hardware sampling:** A small, preplanned set of hardware measurements taken for a stated interval or phase, with scope limited to avoid changing the workload materially.
-
-### Interpreting the evidence or diagram
-
-- The four principles connect validity, measured runtime, preservation of outliers, and independent reproducibility.
-- The next step is review, not claiming a performance gain from the queued job.
-- The status line freezes the state known at 23 October 15:06 UTC: the confirmation had no result.
-
-### Tradeoff and strength of evidence
-
-- **Observation:** Reviewed four-node data narrowed choices and identified Scotch-128 as the lowest mean among six observations, while the confirmation remained queued in the dated record.
-- **Hypothesis:** Reviewing full terminal evidence, tails, and limited hardware sampling may clarify stability before another choice.
-- **Supported conclusion:** The work narrows candidates and improves evidence requirements; it does not establish a global optimum or accepted score.
-- **Unknown / limitation:** The slide does not report what later happened to job 25940700 or identify the cause of the timing spike.
-
-### Spoken script
-
-We take four lessons forward: measure the whole job, trust runtime evidence over a partition proxy, keep every timing sample, and confirm independently. The reviewed Scotch-128 mean narrowed our choice, but it is not a proven global optimum or accepted score. At the recorded time—23 October at 15:06 UTC—job 25940700 was still queued for node-pool resources and had no result. The next decision is to inspect terminal proof and timing tails, then collect bounded hardware samples before selecting another measurement.
-
-### Avoid this interpretation
-
-This is a dated handoff, not live scheduler status. Do not infer a later success or failure, and do not describe bounded sampling as already collected. The presentation summarizes published evidence; it does not certify new measurements.
-
-### Transition
-
-This concludes the HPC slides; return to the combined presentation's overall research conclusion.

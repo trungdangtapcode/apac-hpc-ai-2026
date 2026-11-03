@@ -32,11 +32,11 @@ Sau bản sửa, cặp worker hoàn tất warmup, xử lý yêu cầu thật và
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
-Phép chẩn đoán N48 riêng ghi thời lượng kernel GPU. GEMM, collective cùng normalization và attention là các ứng viên để kiểm tra. Tỷ lệ của chúng tính trên tổng thời lượng kernel; GPU có thể chạy chồng lấp nên đó không phải tỷ lệ thời gian của cả yêu cầu. Riêng serving N64 cho thấy token đầu trễ, nhưng thiếu mốc từng pha để phân biệt hàng đợi, prefill, chuyển KV hay tính toán. Đây là hướng điều tra và triệu chứng, chưa phải bottleneck được xác minh. Nhóm không dùng phần trăm kernel làm nguyên nhân đã chứng minh cho phép thử kế tiếp.
+Phép chẩn đoán N48 riêng cho thấy các nhóm tính toán, giao tiếp và attention đáng xem xét. Tổng thời lượng kernel có thể chồng lấp nên chưa chứng minh yêu cầu mất thời gian ở đâu. Một dấu hiệu quan trọng khác là sự khác nhau giữa hai pha: cấu hình DeepGEMM ở decode từng không đạt ngưỡng độ trễ, nhưng điều đó chưa trả lời liệu nó có phù hợp với prefill, nơi nhiều token của prompt được xử lý cùng lúc. Vì vậy đáng thử riêng prefill, giữ decode cố định. Đây là cách giải thích kỹ thuật nhìn lại từ bằng chứng đã lưu; nhóm không nói profiling đã dự đoán được người thắng. Kết luận đến từ phép đo có đối chứng và lần chạy lặp lại.
 
 ## Slide 9 — Test the decode implementation while holding the serving setup fixed
 
-Câu chuyện tiếp theo là phép thử backend riêng, không phải cách sửa được suy ra từ profiling. Thay đổi implementation decode là một hướng hợp lý ở cấp dịch vụ. Nhóm so sánh đối chứng decode tự động mới với HPC-Ops ở lượt N60 đầy đủ, giữ nguyên topology, prefill và chunk, workload, attention cùng transport. Như vậy có thể đánh giá lựa chọn cấu hình rõ hơn so với thay nhiều yếu tố cùng lúc. Phép so sánh vẫn không chỉ ra kernel hay hàng đợi nội bộ nào tạo chênh lệch. Bằng chứng là kết quả toàn dịch vụ có đối chứng và lần lặp lại.
+Sau khi thay prefill và kích thước chunk, nhóm đặt câu hỏi: lựa chọn decode cũ còn phù hợp dưới điều kiện vận hành mới không? Đây là lý do kiểm tra lại một implementation có sẵn, thay vì lặp nguyên một thử nghiệm đã thua. Nhóm so đối chứng decode tự động mới với HPC-Ops ở N60 đầy đủ, giữ topology, prefill, chunk, workload, attention và transport giống nhau. Nếu cả dịch vụ tốt hơn và chạy lại vẫn giữ được kết quả, nhóm có cơ sở chọn cấu hình. Nếu chỉ một chỉ số nội bộ tốt hơn hoặc vi phạm SLA, nhóm sẽ loại. Phép thử kiểm tra quyết định đó; nó chưa xác định một kernel duy nhất là nguyên nhân.
 
 ## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 

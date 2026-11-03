@@ -1,3 +1,5 @@
+> Historical quality-integration edition. The [current 12–13 minute narrative](ai-narrative-12min-20261103.md) retains the same measurements and improves the presentation and scripts.
+
 # Full quality result integrated into the AI deliverables
 
 Updated 2026-11-03T14:00:51.849386+07:00, Vietnam time (UTC+7). [Release and checks](../submission-review/ai-quality-update-20261103/README.md).

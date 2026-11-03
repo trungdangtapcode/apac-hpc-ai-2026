@@ -1,3 +1,5 @@
+> The findings below describe the previous deck. The [later narrative release](../../submission-review/ai-narrative-12min-20261103/README.md) corrects the two concrete defects and revises the talk; human rehearsal remains outstanding.
+
 # Does the current AI talk meet the teacher's narrative feedback?
 
 Reviewed 3 November 2026 against `/home/apacsc42/requirement.md`, the live combined PowerPoint, the retained AI source texts and bilingual scripts. This is an assessment, not a new slide publication.

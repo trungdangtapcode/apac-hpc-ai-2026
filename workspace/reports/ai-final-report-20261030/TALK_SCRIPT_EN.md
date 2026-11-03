@@ -32,11 +32,11 @@ With the patch, the real pair completed warmup, served actual requests and finis
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
-A separate N48 diagnostic recorded GPU kernel durations. GEMM, collective-plus-normalisation and attention were candidates to inspect. Their shares are fractions of summed kernel durations; overlapping GPU work means they are not fractions of total request time. Separately, N64 serving showed first-token misses, but we lacked per-request phase timestamps to distinguish queueing, prefill, KV transfer or computation. These observations gave us leads and a symptom, not a verified bottleneck. We do not present a kernel percentage as the cause of the next experiment.
+A separate N48 diagnostic highlighted compute, communication and attention work. Summed kernel durations overlap; they do not prove where request time is lost. Another important clue was phase specificity: an earlier DeepGEMM decode setting failed the latency gate, but that did not answer whether DeepGEMM would suit prefill, where many prompt tokens are processed together. Testing prefill separately, with decode fixed, was therefore worth trying. This phase-and-shape explanation is retrospective; we do not claim the profile predicted the winner. The evidence comes from the controlled measurements and repeat.
 
 ## Slide 9 — Test the decode implementation while holding the serving setup fixed
 
-The next story is a separate backend test, not a fix inferred from that profile. Decode implementation was one plausible service-level direction. We compared a fresh automatic-decode control with HPC-Ops decode at full N60, holding topology, prefill and chunk, workload, attention and transport fixed. That tests a configuration choice more cleanly than changing several pieces together. It still cannot identify which internal kernel or queue caused a difference. The evidence is the matched whole-service comparison and repeat.
+After changing prefill and its chunk size, we asked whether the earlier decode choice still held under the new operating conditions. This justified revisiting an existing implementation instead of repeating an unchanged losing experiment. We compared fresh automatic-decode control with HPC-Ops decode at full N60, holding topology, prefill, chunk, workload, attention and transport fixed. If the whole service improved and repeated, we could retain that configuration. If it only improved an internal counter or violated the SLA, we would reject it. The experiment tests that decision; it does not identify one causal kernel.
 
 ## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 

@@ -242,7 +242,7 @@
     "en": {
       "brief": "We chose a phase split that fits two nodes, works with FP8, passes real transfer, and survives a full repeat. The slide shows why the fixed GPU budget makes this a practical engineering decision.",
       "purpose": "Explain the actual decision rule behind the retained topology. The choice was made from feasible model-compatible layouts that use the fixed two-node budget, can complete disaggregated requests and support a latency-qualified operating point that was later repeated. Historical scores at N32, N40 and N48 motivated the choice but cannot rank topology independently because load and trial conditions differ.",
-      "visual": "Show only the two-node constraint and why phase-specific workers are practical. Prefill processes the prompt; decode generates output tokens. One fixed sixteen-GPU budget forces a tradeoff between worker width and replica count. The slide has no historical topology score list or axes.",
+      "visual": "The slide isolates the two-node constraint and explains why phase-specific workers are practical. Prefill processes the prompt; decode generates output tokens. One fixed sixteen-GPU budget forces a tradeoff between worker width and replica count. The slide has no historical topology score list or axes.",
       "terms": [
         {
           "symbol": "replica",
@@ -1331,7 +1331,7 @@
     "title": "A complete portable run reproduces the retained operating level",
     "en": {
       "hardware": "H200 · historical series, native run and portable acceptance reported separately",
-      "brief": "Portable job 28197 reached 3,051.52 good tokens/s after model registration, both P/D routes, client, reader and cleanup passed.",
+      "brief": "Portable job 28197 reached 3,051.52 good tokens/s after model registration, both P/D routes, client, reader and cleanup all passed in the full entry. This verifies the delivered entry under the tested workload.",
       "purpose": "Assess repeatability across distinct deployment paths without pooling them as one homogeneous series. The newly completed portable run used the repaired result readers and a genuine full H200 allocation. It supports the retained operating level and closes the previous post-reader-fix GPU acceptance gap, while leaving unexplained drift and single-run uncertainty visible.",
       "visual": "The slide follows the portable entry through model registration, both prefill/decode routes, the client, result reader and cleanup. Its performance result is 3,051.52 good output tokens/s. This is one complete deployment acceptance, not a matched gain.",
       "terms": [
@@ -1372,7 +1372,7 @@
       "hardware": "H200 · báo riêng chuỗi lịch sử, run native và portable acceptance",
       "brief": "Job portable 28197 đạt 3.051,52 token tốt/giây sau khi model registration, cả hai đường P/D, client, reader và cleanup đều đạt.",
       "purpose": "Đánh giá khả năng tái lập qua các đường triển khai riêng mà không gộp chúng thành một chuỗi đồng nhất. Run portable mới đã dùng reader sửa và allocation H200 đầy đủ. Kết quả hỗ trợ điểm vận hành được giữ và đóng khoảng trống GPU acceptance sau sửa reader, đồng thời vẫn nêu rõ drift chưa giải thích và giới hạn một lần chạy.",
-      "visual": "Dùng một thẻ lớn cho job portable được chấp nhận 28197: 3.051,52 token đầu ra tốt mỗi giây và cả hai đường P/D, client, reader và cleanup. Đây là một lần acceptance deployment hoàn chỉnh, không phải mức tăng có đối chứng. Không trộn với chuỗi lịch sử hoặc native ở slide này.",
+      "visual": "Slide theo dõi entry portable qua đăng ký model, hai đường prefill/decode, client, bộ đọc kết quả và cleanup. Kết quả performance là 3.051,52 good output tokens/s. Đây là một lần acceptance deployment hoàn chỉnh, không phải mức tăng có đối chứng.",
       "terms": [
         {
           "symbol": "good output tokens/s",

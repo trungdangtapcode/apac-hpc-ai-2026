@@ -34,6 +34,12 @@ The team found a concrete setup path worth improving, checked that the new range
 
 A separate N48 diagnostic recorded GPU kernel durations. GEMM, collective plus normalisation, and attention were visible candidates, but summed kernel time is not total request time because GPU operations may overlap. A separate full N64 run had first-token misses. Without phase timestamps, the team could not assign those misses to queueing, prefill, KV transfer or compute. These observations suggested questions; they did not identify a verified bottleneck.
 
+### Why did a failed backend remain a candidate for another phase?
+
+An earlier DeepGEMM setting failed in decode. That is evidence about that setting and phase, not a universal library ranking. Prefill and decode present different token shapes to the implementation, so the team tested DeepGEMM only in prefill while retaining the known decode path. The later H200 control and repeat supported that phase-specific choice. Where an original before-run motive was not retained, this is an explicitly retrospective engineering explanation, not a reconstructed prediction.
+
+After prefill and chunk size changed, the older decode comparison no longer settled the integrated service question. Rechecking HPC-Ops against a fresh same-load control was therefore a distinct hypothesis under changed conditions. This is the reasoning link between the phases; a profile percentage alone does not establish it.
+
 ### Why try another decode implementation?
 
 The backend experiment was a distinct controlled probe, not a fix proven by the profile. Decode implementation was a plausible way to change whole-service performance. The team compared a fresh automatic-decode control with HPC-Ops decode while holding topology, prefill implementation and chunk, workload, attention and transport fixed. This asked whether the tested configuration performed better under the same load. It did not identify which internal kernel or queue caused the difference.

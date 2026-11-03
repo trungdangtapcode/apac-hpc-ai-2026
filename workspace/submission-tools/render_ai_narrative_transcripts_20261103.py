@@ -215,7 +215,7 @@ def render(source, target, lang):
                 raise ValueError(f'Unhandled block node: {kind}')
 
     blocks(nodes)
-    assert state['slides'] == list(range(1, 43)) and state['images'] == 34
+    assert state['slides'] == list(range(1, 35)) and state['images'] == 34
     doc = GuideDocument(target, lang)
     doc.build(story)
     return doc.slide_pages

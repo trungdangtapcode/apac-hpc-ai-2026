@@ -1,37 +1,51 @@
 # AI talk plan and HPC handoff
 
-**Official slot:** the public rule is a combined AI and HPC talk of 15–20 minutes, followed by 10 minutes of Q&A. The team must agree the split. This plan targets about 11 minutes for AI and leaves about 4 minutes for OpenFOAM inside a 15-minute talk. The team must time the combined rehearsal; these are targets, not performed timings. The actual invitation has not been inspected.
+**AI target: 12:30 (750 seconds), including pauses.** This is an estimated rehearsal target, not an observed mock duration. The English script is about 1,400 spoken words, intended for roughly 115–125 words per minute plus slide changes and short pauses. The public slot is 15–20 minutes for the combined AI and HPC talk, followed by 10 minutes of Q&A. If the team uses the full 20 minutes, this target leaves about 7:30 for HPC. If only 15 minutes are available, agree on a shorter AI cut with the HPC presenter before rehearsal; do not assume this plan fits both talks in that slot.
 
-## Investigation flow
+The route preserves the 16 main AI slides and their order. Script headings use the exact current slide titles in the reasoning plan. The spoken script adds the reasoning that connects the existing visual evidence; it does not claim experiments or profiling that did not happen.
 
-1. **Constraint and decision (slides 1–4).** The 16 H200s occupy two nodes. The goal is useful output throughput subject to request latency and a joint success fraction. FP8 geometry, worker startup and networked KV transfer determine which layouts are eligible. The 17 usable topology observations document feasibility and tradeoffs. Because load levels and histories differ, they do not establish a uniform topology winner. Retain the two TP4/EP1 prefill workers plus TP8/EP8 decode as a practical, compatible, repeatably usable operating layout—not a global optimum.
-2. **A setup failure and a bounded repair (slides 5–7).** In one historical heterogeneous-TP recovery branch, both model workers were ready but pair warmup timed out before AIPerf. Source inspection exposed whole-pool descriptor enumeration, so the team chose a narrow request-scoped change with a cheap byte-range equivalence check. The CPU check and successful patched serving run justify feasibility. Missing unpatched scored control means no descriptor-only speedup or proof that descriptors were the dominant system bottleneck.
-3. **Diagnose, then test a separate serving hypothesis (slides 8–10).** The N48 profile names candidate areas; summed kernel durations are not a wall-time budget. The N64 first-token failures identify a latency symptom but not its cause. The decode implementation comparison is a separate supported, controlled probe motivated by candidate kernel directions. Its measured gain comes from the matched full control and repeated treatment, not from the profile percentages.
-4. **Select an operating point and test robustness (slides 11–16).** Full N62/N64 comparison and an independent N64 repeat support the selected client load; the N68 short-test gain does not survive the full test. Request-level evidence shows which SLA condition failed. Repeated results, rejected proxy wins, direct H100-derived tests on H200, and a final full replay of the repaired packaged entry keep the conclusion bounded. Slide 14 reports direct transfer evidence; slide 16, “The optimised service retains 99.9154% of reference accuracy,” reports the complete local answer-quality comparison, its point-gate result and the organiser-certification boundary. The 28197 serving performance and latency remain separate. The earlier one-point forecast is backup 33; all nine late H200 jobs are backup 34; the exact 28194 readiness failure and 28197 acceptance are backup 31.
+## Three investigation stories
 
-## Timing guide
+1. **Feasible deployment (slides 1–7):** What does the workload require, which layout could serve both phases, and why did a warmup failure lead to a narrow KV-transfer setup change? Separate the practical topology choice from the historical descriptor patch. The CPU equivalence checks and patched N32 run establish feasibility, not an isolated descriptor speedup.
+2. **Backend and load selection (slides 8–12):** What evidence gives leads without proving a bottleneck? Why test a matched decode implementation, what throughput/latency tradeoff did it show, and why retain N64 instead of N68? Distinguish the diagnostic profile from the separate controlled service experiment.
+3. **Robustness and quality (slides 13–16):** Does the portable package complete, do selected H100-derived settings transfer to H200, and do rejected proxy improvements survive whole-service evaluation? Close with the package performance result, the full local quality-retention result and three bounded decisions. Detailed quality counts belong in backup 19.
 
-| Main slides | Target | What the audience should learn |
-|---|---:|---|
-| 1–2 | 0:55 | Objective, SLA and which claims are team decisions, implementation or measured findings |
-| 3–4 | 1:25 | Why the retained split is feasible and useful; why the topology search does not prove a global winner |
-| 5–7 | 2:15 | Failure symptom, why the bounded source hypothesis came first, actual patch evidence and missing counterfactual |
-| 8–10 | 2:15 | Profile limits, separate controlled decode probe, throughput/latency tradeoff and repeat |
-| 11–13 | 2:10 | N64 decision, request-level tails and repeated evidence |
-| 14–15 | 1:15 | Direct H100-to-H200 transfer outcome and rejected alternatives |
-| 16 | 0:45 | Local quality-retention result, its scope, and explicit OpenFOAM handoff |
-| **Total** | **11:00** | Target only; rehearse aloud and time it |
+Existing SGLang, NIXL, DeepGEMM, FlashInfer and HPC-Ops are reused components. The engineering contribution is local integration and a bounded request-scoped metadata change to one NIXL transfer path, plus controlled selection and validation. Do not claim the team invented these libraries or established a first-in-the-world result.
 
-If the team is allotted only 15 minutes total, keep AI within about 11:00 and give HPC at least four minutes; trim optional details from slides 13–15, never the evidence or HPC handoff. The questions receive their separate 10-minute Q&A slot.
+## Per-slide timing
 
-## Main route and backups
+| Main slide | Target | Cumulative | Speaking purpose |
+|---|---:|---:|---|
+| 1 | 0:40 | 0:40 | State workload, SLA and why raw speed is insufficient |
+| 2 | 0:35 | 1:15 | Separate decision, implementation and measured finding |
+| 3 | 0:50 | 2:05 | Explain the feasible topology choice and its limits |
+| 4 | 0:45 | 2:50 | Explain where prompt, decode and temporary KV state move |
+| 5 | 0:45 | 3:35 | Locate the historical failure before scoring |
+| 6 | 0:55 | 4:30 | Explain why request-scoped descriptors were a cheap first hypothesis |
+| 7 | 0:50 | 5:20 | State what the patch established and what counterfactual is missing |
+| 8 | 0:50 | 6:10 | Use profiling as a lead, not causal proof |
+| 9 | 0:45 | 6:55 | Introduce a separate matched backend experiment |
+| 10 | 0:55 | 7:50 | Explain the throughput gain, latency tradeoff and repeat |
+| 11 | 0:50 | 8:40 | Explain the N64 operating-point decision and N68 rejection |
+| 12 | 0:40 | 9:20 | Describe request-level misses without inventing their cause |
+| 13 | 0:55 | 10:15 | Separate portable package acceptance from optimisation |
+| 14 | 0:55 | 11:10 | Explain direct H200 transfer checks and the useful-gain gate |
+| 15 | 0:40 | 11:50 | Reject proxy-only improvements |
+| 16 | 0:40 | 12:30 | State the three lessons, quality result and HPC handoff |
+| **Total** | **12:30** | **12:30** | **Estimated target; no live mock has been timed** |
 
-The PowerPoint contains 42 physical slides. Present AI slides 1–16, then hand control directly to HPC slide 35. AI backups 17–34 are hidden in normal slideshow mode and opened through the slide navigator only when a question calls for them. Slide 33 preserves the historical held-out H100-to-H200 forecast; slide 34 summarises nine final H200 allocations. The main-talk PDF has 24 pages: AI 1–16 followed by HPC 35–42. In the full PDF, jump from page 16 to page 35. HPC slide content belongs to its independent presenter.
+The word-count and timing targets are estimates. Practice aloud with natural pauses and slide changes, then record the actual duration and revise only after the team has rehearsed.
 
-Before the actual talk, verify this route in the presentation application, including opening hidden backups and returning to the main sequence. The PDFs and hidden flags document intended navigation; they do not prove a live screen-sharing test.
+## Route, terminology and claims
 
-## Speaking and Q&A method
+The PowerPoint has 16 main AI slides, AI backups and eight HPC slides. Present AI 1–16, then hand control to the HPC presenter. AI backup 19 is titled **“Backup · full-set accuracy verification”** and contains the full-set quality counts, interpretation and local-certification boundary. Open it only for a relevant question. Do not read the entire topology list or all nine late-run job details aloud.
 
-At each transition say: the problem that matters to the SLA; what the observation shows; why this test was selected; what decision the measurement supports; what it does not prove. Do not read the whole table. On slides 3–4 explicitly say there is no matched all-topology ranking. On slides 5–7 say descriptor enumeration was a source-visible, cheap-to-check first hypothesis—not a proven bandwidth/layout/scheduling exclusion. On slide 8→9 introduce a separate controlled decode probe, not a fix supposedly deduced from percentages.
+Explain KV as temporary attention state that lets generation continue. Explain a descriptor as an address-range list, not the transferred data. Call NIXL an existing transfer library; the team's change is a bounded, request-scoped metadata change in its integration path.
 
-The AI presenter owns the AI numbers. Use [TALK_SCRIPT_EN.md](<TALK_SCRIPT_EN.md>) or TALK_SCRIPT_VI.md (source: `TALK_SCRIPT_VI.md`, retained outside this compact package) to rehearse, then the bilingual per-slide guide (source: `TRANSCRIPT_VI.md`, retained outside this compact package) to learn diagrams and terms. Evidence cards cover request-scoped KV transfer, backend interaction, N64 selection, direct H100-derived tests on H200, packaged-entry replay and the full-set quality comparison. Use [MOCK_QA_EVIDENCE.md](<MOCK_QA_EVIDENCE.md>) for evidence links and limits. Hand OpenFOAM solver, rank-count and variability questions to its presenter. Record actual rehearsal duration and audience feedback only after the team performs it.
+For the three stories, lead with the observation and why it mattered, then state what changed, what the evidence supports and what remains unknown. Slides 3–4 explain the prefill/decode resource tradeoff; do not read out topology examples. Slides 5–7 cover the historical failure, request-address hypothesis, correctness invariant and actual patched-path usability. The main script omits the 403.8-million/188 scope illustration and detailed N32 submetrics; use backup 20 for source scale and backup 21 for the recovery evidence. There is no unpatched scored control or isolated descriptor speedup.
+
+Slides 8–12 distinguish a diagnostic profile from the separate matched backend test and the full-load N64/N68 decision. The decode result is about +5.30% good output throughput, with mean TTFT +125 ms and mean ITL −1.64 ms; N64 repeated, while full N68's +0.08% was below the usefulness gate. Slide 13 explains the readiness-to-real-requests-to-client-reader-and-cleanup chain and uses job 28197 as package acceptance, not optimization. Historical and native performance comparisons belong in backup 31. Slide 14 says the matched H200 chunk trial recovered part of the H100-derived branch but stayed 4.52% below the incumbent; phase-mode gains were below 0.14%, and no candidate cleared the 1% gate. Do not say all alternatives were below control.
+
+Slide 16 closes with three lessons: choose the phase split and backend for the target hardware; keep full, repeated gains; and verify deployment and answer quality separately. Its main evidence is accepted package performance and the full local quality-retention result. State the local point-gate pass, not BTC certification. Full quality counts remain in backup 19.
+
+Use [TALK_SCRIPT_EN.md](<TALK_SCRIPT_EN.md>) or TALK_SCRIPT_VI.md (source: `TALK_SCRIPT_VI.md`, retained outside this compact package) to rehearse. TRANSCRIPT_VI.md (source: `TRANSCRIPT_VI.md`, retained outside this compact package) remains the detailed visual and terminology guide; [MOCK_QA_EVIDENCE.md](<MOCK_QA_EVIDENCE.md>) has result links and limits. The target is a spoken explanation, not a folder tour. No live slideshow test or human mock is claimed.

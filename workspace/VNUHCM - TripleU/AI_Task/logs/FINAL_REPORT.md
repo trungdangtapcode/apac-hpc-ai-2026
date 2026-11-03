@@ -1,5 +1,17 @@
 # TripleU AI task — final research report
 
+## Presentation narrative — 12–13 minute AI edition
+
+The main talk selects three linked decisions rather than presenting the whole experiment log. First, make a phase-split service usable within sixteen GPUs. Second, test supported phase-specific execution choices against controls and retain a throughput/latency tradeoff that survives a repeat. Third, check load, target-hardware transfer, complete packaged execution and answer quality before defending the retained recipe. The original theme and sixteen main AI positions remain; the complete job history stays in the report and Q&A material.
+
+**Team implementation:** the request-scoped descriptor patch in a particular heterogeneous-TP NIXL path, with range-equivalence checks and real distributed validation. NIXL itself is an existing transfer library; a descriptor is an address/length description of memory, not the KV data or a model weight. The missing successful unpatched scored control prevents a descriptor-only speedup claim.
+
+**Team engineering and experimental contribution:** selecting and integrating existing serving components, designing bounded matched tests, reproducing the measured backend tradeoff, rejecting unsuccessful settings and checking the final service. DeepGEMM, FlashInfer, HPC-Ops and MNNVL are reused implementations, not newly invented team kernels. The phase/shape rationale is retrospective where the original before-run motive is not retained; the N48 diagnostic must not be presented as proof that it selected one causal remedy.
+
+Main slide 3 now explains the architectural tradeoff without the erroneous old topology-09/1666.01 attribution. Main slide 14 correctly reports that none of the tested transfers passed the 1% usefulness threshold, including the small positive phase-mode observations. Main slide 16 closes on the retained decisions and two separate evidence classes. Exact full-set quality counts move to backup 19. The compact speaking script targets 12:30, subject to an actual timed rehearsal; the longer bilingual guides are study material, not text to read in full during the talk.
+
+
+
 The current delivery is an engineering investigation with **16 main AI slides, 18 hidden AI backups and eight unchanged HPC slides**. The 24-page main-talk PDF (source: `TripleU_APAC2026_Main_Talk.pdf`, retained outside this compact package) presents AI 1–16, then hands directly to HPC 35–42. Backup 33 keeps the bounded historical forecast, backup 34 gives the nine final H200 verification jobs, and backup 31 retains the exact portable-entry failure and repair. English and Vietnamese scripts provide the AI reasoning and spoken transitions. The HPC content remains owned by its independent presenter.
 
 Updated 3 November 2026, Vietnam time (UTC+7). **Submission posture: preserve the official Qwen FP8 checkpoint and optimise the serving path.** The checkpoint and model weights are preserved; experiments changed the serving configuration. Exact-package deployment and performance acceptance completed in job 28197. A separate full-set local MMLU-Pro comparison now passes the predeclared 99% reference-retention point gate. This is our measured local check, not BTC certification or an organiser evaluation result.
@@ -20,7 +32,7 @@ A separate local full-set check compared the stock official FP8 deployment with 
 
 The 28197 value of 98.636602% remains the fraction of performance-benchmark requests that met both latency limits. It is not answer accuracy. Performance and quality are separate measurements. See [full quality results](quality-20261103/FULL_RESULTS.md) and [methodology](quality-20261103/METHODOLOGY.md).
 
-Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), actual job status/receipt (source: `STATUS.md`, retained outside this compact package), current presentation package (source: `ai-quality-update-20261103`, retained outside this compact package).
+Full 28197 review and failure-to-fix evidence (source: `REVIEW.md`, retained outside this compact package), actual job status/receipt (source: `STATUS.md`, retained outside this compact package), current presentation package (source: `ai-narrative-12min-20261103`, retained outside this compact package).
 
 ## Workload and score
 
