@@ -2,7 +2,7 @@
 
 Evidence captured on 3 November 2026. This report covers the team's AI/GPU work, including setup probes and failed allocations. It excludes the independent CPU/OpenFOAM research.
 
-**Open [index.html](index.html) in a browser.** Everything needed for viewing is embedded: no web server, internet connection or package installation is required. Start with the research map; switch to **Every recorded allocation** to search all job IDs, filter GPU platforms and inspect configuration/result evidence. Click a milestone or job card for its retained details. Use the map's zoom buttons and scrollbars.
+**Open [index.html](index.html) in a browser.** Everything needed for viewing is embedded: no web server, internet connection or package installation is required. In the graph tab choose **31 research milestones** for the summary or **All 419 allocations** for one node per retained job. The summary groups related tests; it does not discard jobs simply because their concurrency differs. Switch to **Every recorded allocation** to search all job IDs, filter GPU platforms and inspect configuration/result evidence. Click a milestone or job card for its retained details. Use the map's zoom buttons and scrollbars.
 
 ## How many times did we run?
 
@@ -56,3 +56,11 @@ The complete allocation map uses only retained `parent_job_ids`; these can inclu
 All diagrams are generated with standard Graphviz tools, with no invented imagery or fabricated causal links. Run `python3 build.py` followed by `python3 build_allocation_map.py` from any directory; Graphviz `dot` must be installed. Browser interaction has not been exercised with an automated browser in this environment; the offline HTML, embedded data and SVG structure were inspected, and the rendered overview was visually reviewed.
 
 No new GPU jobs, authentication, queue edits, slides/submission update or HPC payload change was needed to build this history. The current presentation remains a separate deliverable.
+
+## Four-metric hover cards
+
+Hover a milestone or an individual allocation to see a compact table of **good output tokens/s**, **mean TTFT (ms)**, **mean ITL (ms)** and **joint SLA pass share (%)**. The same tooltip is available by keyboard focus. Rows retain their job ID, concurrency N and phase. There are complete four-metric retained summaries for **256 jobs**; missing performance exports display N/A, including quality-only measurements and unscored failures. A completed scheduler state does not fill missing metrics.
+
+Different loads and phases stay separate; the tooltip never averages them or selects the best score. A milestone with many points shows the last six retained entries with an explicit count; clicking opens all retained points and their exact source summaries. Red/green continues to identify hardware only.
+
+`collect_hover_metrics.py` collects metrics from exact job-directory matches in retained `summary.json` files, excluding private runtime homes. Run it before `build.py` to refresh this source index. The complete graph view now embeds the same 419 job nodes as the inventory; the 31-milestone option is a grouped explanation, not a separate count of experiments.
