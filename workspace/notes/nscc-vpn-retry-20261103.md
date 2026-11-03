@@ -9,3 +9,7 @@ A separate read-only Iris query established terminal job 2294657. VPN and Iris a
 ## Read-only access check — 2026-11-03T18:14:02.616530+07:00
 
 The owner asked whether VPN access was working. The persistent-session helper reported a dead client pane (exit 1), and the bounded existing-session SSH helper exited because it found no live VPN session. No usable NSCC connection is established. No new authentication, DUO prompt, cache deletion or configuration change was performed. This identifies absent local VPN session state; it is not a newly tested gateway authentication rejection or CPU SSH rejection.
+
+## One owner-requested login retry — 3 November, 18:15 Vietnam
+
+Exactly one attempt was made at the owner’s explicit request. The gateway returned Authentication failed. The read-only transport probe at 11:15:22 UTC (18:15:22 Vietnam) remained NAMESPACE_UNAVAILABLE. No SSH authentication was tested. DUO delivery/approval and the cause of gateway rejection remain unknown. No further prompt, credential/cache deletion or authentication setting change was made. Safe attempt receipt: `/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/nscc-transfer-campaign-20261027/launch/access-retry-20261103T111512Z.json`.
