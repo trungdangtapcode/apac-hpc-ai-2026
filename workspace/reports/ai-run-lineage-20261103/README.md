@@ -4,6 +4,12 @@ Evidence captured on 3 November 2026. This report covers the team's AI/GPU work,
 
 **Open [index.html](index.html) in a browser.** Everything needed for viewing is embedded: no web server, internet connection or package installation is required. In the graph tab choose **31 research milestones** for the summary or **All 419 allocations** for one node per retained job. The summary groups related tests; it does not discard jobs simply because their concurrency differs. Switch to **Every recorded allocation** to search all job IDs, filter GPU platforms and inspect configuration/result evidence. Click a milestone or job card for its retained details. Use the map's zoom buttons and scrollbars.
 
+## Visual research map
+
+[![H100 red and H200 green: chronological research milestones](journey.png)](journey.svg)
+
+Click to open the scalable diagram. For hover metrics and all 419 nodes, download the offline viewer above.
+
 ## How many times did we run?
 
 | GPU platform | Recorded scheduler IDs | Confirmed started | Confirmed not started | Start unknown |
