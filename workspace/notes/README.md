@@ -11,6 +11,7 @@ Use Vietnamese for chat only. New code, documentation, notes, reports and submis
 
 | What do you need? | Where to read |
 |---|---|
+| Understand exactly what TP/EP do on the GPUs | [Under-the-hood walkthrough](../tutorial/22-tensor-expert-parallel-under-the-hood.md) |
 | Count every retained AI GPU allocation and explore the research dependencies | [Run timeline and lineage](../reports/ai-run-lineage-20261103/README.md) |
 | Separate Codex environments under one Linux account; diagnose launchers, state paths and migrations | [Practical Codex home guide](../tutorial/21-separate-codex-homes-shared-linux-user.md) |
 | Recover the session list after moving CODEX_HOME; distinguish the temporary-directory warning | [1 November Codex recovery](codex-home-session-recovery-20261101.md) |

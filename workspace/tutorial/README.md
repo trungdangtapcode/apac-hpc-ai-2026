@@ -35,3 +35,5 @@ Các thông tin máy dưới đây được kiểm tra ngày 27/09/2026; trạng
 - [Requested workload, client-reported token counts and the fixed official multiplier](20-requested-and-reported-token-counts.md).
 
 - [Separate Codex environments under one Linux account: setup, migration and session recovery](21-separate-codex-homes-shared-linux-user.md).
+
+- [Tensor/expert parallelism under the hood](22-tensor-expert-parallel-under-the-hood.md): matrix slicing, expert routing, actual TP4/EP1 and TP8/EP8 GPU/weight placement, communication and FP8 compatibility.
