@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Live checkpoint — 5 November 2026, 01:02 Vietnam
+
+2294803 RUNNING on iris001, elapsed 25:37 at 01:02:01 Vietnam. At01:02:29 the first default-policy arm completed 40 steps with printed mean 24.758556905 s/step, exit 0 and all 56 pre-exec policy/affinity proof gates passing. Candidate B1 was at step 9/40 with 56 pre-exec records; no completed candidate mean. B2/A2 had not started. Preserve the active allocation, frozen payload and 112-hour reservation; no new admission while cap is occupied. Live arm output is not a terminal four-arm score.
+
+The GitHub Pages correction is now verified live (HTTP 200): latest numeric result 2294800 is +6.09738% slower and the preparation-only branch is closed. [Hosted HPC](https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc). [Served-content receipt](../reports/hpc-repeat-result-update-20261105/published-verification.json). Earlier queued-publication records are historical and superseded.
+
 ## New native factor accepted — 5 November 2026 Vietnam
 
 **2294803 accepted** at 2026-11-04T17:36:24.887079Z. Four 40-step ABBA arms test solver-rank default versus in-rank interleave policy with preparation always inherited, qualified by actual rank/page probe 2294802. Per-rank policy/affinity proof is collected immediately before solver exec, not assumed during its whole runtime. [Frozen 64-file payload, receipt and state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/STATUS.md). No new speed result yet. Maximum 2 hours /56 CPUs /zero GPUs, 112 CPU-hours reserved; internal ledger 1,177 consumed /112 reserved /stage 1,289. This bounded 79 internal-stage extension is separate from any owner limit or site/billed SU. Preserve one-own-allocation cap.

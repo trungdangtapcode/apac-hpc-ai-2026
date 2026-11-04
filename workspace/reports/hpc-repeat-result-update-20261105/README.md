@@ -7,3 +7,7 @@ The hosted graph and inspector now prioritize the latest reviewed job 2294800, r
 ## Publication state
 
 The correction source was committed and pushed at `48f349d7`. Pages run 41877557587 remains queued at the dated check in `publication-pending.json`; the new losing result has not been verified live. Native HPC research continued independently; qualified solver-rank test 2294803 was accepted and reached 56 pre-exec rank proofs. No new speed result is assigned to it.
+
+## Served correction confirmed
+
+At 5 November 2026 01:02 Vietnam, Pages run 41877557587 has completed successfully and the served HTML contains the latest 2294800 numerical loss with closed-branch status. `published-verification.json` supersedes the earlier queued snapshot; no older favorable allocation is promoted as the current result.
