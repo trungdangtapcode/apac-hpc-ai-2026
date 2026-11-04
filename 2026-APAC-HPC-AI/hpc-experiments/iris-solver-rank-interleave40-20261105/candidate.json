@@ -1,0 +1,46 @@
+{
+  "candidate_id": "iris-solver-rank-interleave40-20261105",
+  "state": "prepared-not-submitted",
+  "hypothesis": "Applying numactl interleave-all immediately before exec of simpleFoam inside each MPI rank may change native solver timing compared with each rank's default policy, after the rank-level policy mechanism has been independently qualified.",
+  "mechanism_evidence": {
+    "qualification_job_id": 2294802,
+    "qualification_status": "completed and reviewed separately",
+    "observation": "All 56 interleaved candidate ranks reported interleave policy across both NUMA nodes with an exact 8 MiB mapping. Control ranks reported default policy and single-node 2048-page mappings. Rank CPU affinities matched between policies.",
+    "limit": "This qualifies rank policy behavior and the diagnostic's page mapping, not solver performance or a speed improvement."
+  },
+  "control": "Same accepted Scotch source, runtime, solver launch, physics, 40-step horizon, sampler, and inherited preparation validation in all arms.",
+  "treatment": "Default MPI-rank memory policy versus numactl --interleave=all immediately before the rank wrapper execs simpleFoam.",
+  "arm_order": [
+    "A1-default-solver",
+    "B1-interleaved-solver",
+    "B2-interleaved-solver",
+    "A2-default-solver"
+  ],
+  "solver_steps": 40,
+  "timed_intervals_per_arm": 39,
+  "solver_cap_seconds_each": 1500,
+  "copy_hash_cap_seconds_each": 50,
+  "pre_solver_policy_check_cap_seconds_each": 10,
+  "internal_deadline_seconds": 6800,
+  "finalization_reserve_seconds": 180,
+  "preflight_budget_seconds": 60,
+  "slurm": {
+    "cluster": "Iris",
+    "nodes": 1,
+    "cpus": 56,
+    "gpus": 0,
+    "exclusive": true,
+    "time_limit": "02:00:00",
+    "maximum_cpu_hours": 112
+  },
+  "score_claim": false,
+  "promotion_claim": false,
+  "per_rank_memory_policy_collected": true,
+  "budget_calculation": {
+    "complete_sequence_seconds": 6420,
+    "internal_deadline_seconds": 6800,
+    "wrapper_timeout_seconds": 7190,
+    "allocated_cpu_hours": 112,
+    "gpu_hours": 0
+  }
+}
