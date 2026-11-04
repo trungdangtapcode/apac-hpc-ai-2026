@@ -1,8 +1,6 @@
-# AI speaker script — English
+# AI speaking script — English
 
-**Rehearsal draft for the 16-slide AI route.** The script is designed for about 12:30 including pauses, at an estimated 115–125 spoken words per minute. It has not been delivered or timed in a live mock. The public slot is 15–20 minutes for AI and HPC together, followed by 10 minutes of Q&A; the team must agree the split. This AI target leaves about 7:30 in a 20-minute combined slot for HPC. If the total slot is 15 minutes, the team must agree a shorter AI cut before rehearsal.
-
-**Reading slides 4–7:** each idea has a **Say** paragraph for delivery and a **Study explanation** for learning. Do not read the study explanation during the presentation.
+Speaking version for the existing sixteen main AI slides, aligned with the revised Vietnamese script. Each paragraph develops one spoken idea. Values are rounded for delivery. Study notes at the end are not part of the talk. The AI target is twelve to thirteen minutes; this revision has not been delivered and timed in a live rehearsal.
 
 ## Slide 1 — Fast tokens count only when requests meet both latency limits
 
@@ -10,119 +8,101 @@ Our question is not simply how fast the model generates tokens. We must serve Qw
 
 ## Slide 2 — Three investigations support three different kinds of claim
 
-We separate three kinds of claim. The team made a deployment decision about dividing GPUs between prompt processing and generation; we made a bounded implementation change to one KV-transfer setup path; and we measured backend and client-load choices. We reused SGLang, NIXL, DeepGEMM, FlashInfer and HPC-Ops, which are existing projects, not our inventions. Our contribution is local integration, compatibility checks and evidence-based selection. These investigations ask different questions, so their evidence should not be conflated.
+Our work has three types of contribution.
+
+First, the architecture decision: how should sixteen GPUs be divided between prompt processing and token generation? We explored different layouts, checked whether they could run, and retained a suitable configuration for further optimisation.
+
+Second, a code change in the integration path of NIXL, an existing data-transfer library. We changed how transfer address lists were prepared: for the individual request, rather than by enumerating the reserved KV pool.
+
+Third, integration and experiments with backend choices and client load. We used existing projects, including SGLang, NIXL, DeepGEMM, FlashInfer and HPC-Ops. Our contribution was checking compatibility, designing comparisons and selecting configurations based on measured results.
 
 ## Slide 3 — Replica count and parallel width compete for the same 16 GPUs
 
-The first design question is how to use sixteen GPUs when prefill and decode compete for the same resources. More prefill replicas can process prompts independently; a wider decode worker can use more GPUs for generation. But each choice leaves fewer GPUs for the other phase. We retained two TP4/EP1 prefill workers feeding one TP8/EP8 decode worker because this split fit both nodes, passed model-geometry and phase checks, and supported later full tests. The evidence supports a feasible operating layout, not a controlled ranking of every possible split or a global optimum.
+The first design question was how to use sixteen GPUs when prefill and decode both need resources.
+
+More prefill workers can process more prompts independently. Giving decode more GPUs may help token generation. But both phases share the same sixteen-GPU budget, so giving more resources to one leaves fewer for the other.
+
+We explored seventeen topology configurations to identify workable ways to divide the GPUs. These results helped narrow our choice for further investigation. They were not an exhaustive search of every possible configuration under the same load.
 
 ## Slide 4 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-### Idea 1 — How prefill uses GPUs
+We retained two prefill workers and one decode worker. This arrangement fits the two nodes and completed both phases in later full benchmarks.
 
-**Say:** Node one has two prefill workers, each using four GPUs to process long prompts. TP4 means four GPU ranks cooperate on the tensor operations of one worker; EP describes expert placement.
+The first node runs two prefill workers, each using four GPUs to process long prompts. TP4 means four GPUs share the tensor computations of one worker. The second node runs one eight-GPU decode worker with TP8 and EP8. The same eight GPUs share tensor computations and distribute the model's experts.
 
-**Study explanation:** Four GPUs cooperate within each prefill worker; separate workers can handle separate requests.
-
-### Idea 2 — Decode and TP groups
-
-**Say:** Node two has one eight-GPU TP8/EP8 decode worker. Each tensor-parallel group stays inside one machine.
-
-**Study explanation:** TP8/EP8 reuses eight GPUs; these two numbers do not multiply into 64 GPUs here.
-
-### Idea 3 — Why KV must move
-
-**Say:** After prefill processes a prompt, its KV attention state must reach decode so generation can continue. Because the phases run on different machines, we check both successful connection setup and correct data transfer.
-
-**Study explanation:** The transferred KV belongs to the request; model weights are already loaded at the workers.
+This keeps each tensor-parallel group within one node. In exchange, after processing a prompt, prefill must send its KV attention state to the decode node so generation can continue. We therefore checked both connection setup and correct transfer.
 
 ## Slide 5 — Ready workers still failed before the first usable benchmark
 
-### Idea 1 — The warmup request stalled
+While checking that transfer path, we encountered a historical branch where the workers loaded the model and reported ready, but a warmup request through prefill and decode did not finish within three hundred and sixty seconds. The benchmark had not started, so that attempt had no score.
 
-**Say:** After workers loaded the model and reported ready, we sent a warmup request through the prefill–decode path. That request had not completed when its 360-second deadline expired.
+Reading the source, we found that descriptor construction prepared address information for the reserved KV pool, although a request used only part of it. Descriptors list memory addresses and lengths; they are not the KV data itself.
 
-**Study explanation:** Ready concerns individual workers; the test request checks that the two phases work together.
-
-### Idea 2 — Where the timeout occurred
-
-**Say:** The timeout happened during warmup; AIPerf had not started scoring.
-
-**Study explanation:** 360 seconds is the warmup deadline, not a measured KV-transfer duration.
-
-### Idea 3 — The source-code lead
-
-**Say:** Source inspection showed that setup constructed descriptors for the reserved KV pool. A descriptor records addresses and byte lengths used to describe a transfer. Since one request uses only part of the pool, we tested preparing that metadata for the request itself.
-
-**Study explanation:** The source exposes a specific piece of setup work worth reducing; the following test checks the proposal.
+We therefore tested reducing setup work by describing only the KV pages belonging to the request. The next slide explains the change and its correctness check.
 
 ## Slide 6 — Request-scoped descriptors remove work unrelated to the request
 
-### Idea 1 — Why this intervention came first
+The patch has two steps. First, it creates descriptors only for KV pages belonging to the current request. Then it merges adjacent memory ranges into larger ranges to shorten the descriptor list.
 
-**Say:** We examined descriptors first because the source exposed setup work we could reduce with a bounded change. Setup described the reserved KV pool, while a request needed only some pages. This concerns metadata preparation; it does not mean the old implementation transmitted the entire pool.
+For example, three consecutive ranges of one hundred bytes each can be described by one three-hundred-byte descriptor. The list becomes shorter, but the required bytes stay the same. If there is a gap between ranges, the merge must not include that gap.
 
-**Study explanation:** The team chose a bounded first check; bandwidth and scheduling remained possible investigation areas.
-
-### Idea 2 — The bounded change
-
-**Say:** The patch describes the required request pages and merges adjacent ranges.
-
-**Study explanation:** A descriptor describes addresses and lengths. Preparing fewer entries differs from transmitting fewer required KV bytes.
-
-### Idea 3 — How correctness was checked
-
-**Say:** The invariant is that the request still reads and writes exactly the intended bytes. We checked that invariant in 720 CPU cases before testing distributed serving. This gave us a source-supported first intervention with a low-cost correctness check.
-
-**Study explanation:** The 720 cases check the intended byte ranges; the later GPU run establishes working distributed execution.
+We checked correctness with seven hundred and twenty CPU cases, comparing the byte ranges described by the old and new methods. All cases passed. The next step was testing the patch on the actual GPU serving path.
 
 ## Slide 7 — The patched path became usable; descriptor-only speedup is unknown
 
-### Idea 1 — Before and after the patch
+After changing descriptor construction, the prefill–decode pair completed warmup and a full benchmark with zero scored request errors.
 
-**Say:** The unpatched attempt timed out during warmup before benchmarking. With the patch, the prefill–decode path completed warmup, served real requests and finished a full benchmark with zero scored errors.
-
-**Study explanation:** The new evidence is completed real requests and a full benchmark after the patch.
-
-### Idea 2 — What the result supports
-
-**Say:** That result supports reducing descriptor setup work and establishes that the patched path works end to end. We retained the change on that evidence.
-
-**Study explanation:** The observed recovery supports the setup-work change and retaining the working patch.
-
-### Idea 3 — Limit of the conclusion
-
-**Say:** We did not separately time the old descriptor construction or obtain a successful unpatched scored control, so the result does not establish the sole cause of the timeout or a descriptor-only speedup.
-
-**Study explanation:** The uncertainty concerns sole-cause attribution and isolated speedup; it does not negate the working patched path.
+The branch that had previously timed out had become a usable serving path. We retained the patch and continued performance experiments on that working end-to-end deployment.
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
-A separate N48 diagnostic highlighted compute, communication and attention work. Summed kernel durations overlap; they do not prove where request time is lost. Another important clue was phase specificity: an earlier DeepGEMM decode setting failed the latency gate, but that did not answer whether DeepGEMM would suit prefill, where many prompt tokens are processed together. Testing prefill separately, with decode fixed, was therefore worth trying. This phase-and-shape explanation is retrospective; we do not claim the profile predicted the winner. The evidence comes from the controlled measurements and repeat.
+Once serving worked, the next question was which computation paths were worth investigating.
+
+A separate profile at forty-eight concurrent requests highlighted matrix multiplication, communication and attention work. These are operations visible in the profile. Kernel execution can overlap, so this chart does not divide the entire waiting time of one request into separate parts.
+
+We also considered the difference between phases. Prefill processes many tokens together, while decode generates tokens sequentially, so the phases may benefit from different backends. We tested DeepGEMM for prefill with decode fixed, then used whole-service measurements to guide the decision. After improving prefill, we moved on to the decode choice.
 
 ## Slide 9 — Test the decode implementation while holding the serving setup fixed
 
-After changing prefill and its chunk size, we asked whether the earlier decode choice still held under the new operating conditions. This justified revisiting an existing implementation instead of repeating an unchanged losing experiment. We compared fresh automatic-decode control with HPC-Ops decode at full N60, holding topology, prefill, chunk, workload, attention and transport fixed. If the whole service improved and repeated, we could retain that configuration. If it only improved an internal counter or violated the SLA, we would reject it. The experiment tests that decision; it does not identify one causal kernel.
+Here, we compared two choices for the MoE computation in decode: letting SGLang select the backend automatically, and explicitly selecting HPC-Ops. HPC-Ops is an existing GPU operator library from Tencent.
+
+Both used the same sixteen H200 GPUs, DeepGEMM prefill with a chunk size of eight thousand one hundred and ninety-two, and sixty concurrent requests. We kept GPU placement, workload, attention and transport unchanged to assess the effect of changing the decode backend.
+
+The next slide presents the results.
 
 ## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 
-Good output throughput rose about 5.30 percent. Mean time to first token worsened by about 125 milliseconds, while mean inter-token latency improved by about 1.64 milliseconds. An independent treatment repeat closely reproduced the result. We retained this tested configuration for further load work, carrying the slower first token forward as a real tradeoff. This is a repeated configuration-level finding for this workload, not proof of one kernel’s mechanism or a gain to add mechanically to other experiments.
+Compared with SGLang's automatic decode-backend selection, HPC-Ops increased goodput by about five point three percent under the same setup.
+
+The tradeoff was that the first token arrived about one hundred and twenty-five milliseconds later on average, while the average gap between subsequent tokens fell by about one point six milliseconds. Requests started answering a little later, but then generated tokens faster, and the service produced more output from qualifying requests overall.
+
+An independent run produced almost the same result. We therefore retained HPC-Ops for decode and continued tuning the number of concurrent requests.
 
 ## Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage
 
-After changing the backend, we revisited client concurrency. More in-flight requests might help overlap work, or increase waiting and first-token latency. Full N62/N64 tests showed about 1.08 percent more good output throughput at N64, followed by a nearly identical independent N64 repeat. A short N68 test looked promising, but the full result improved only about 0.08 percent, below our one-percent usefulness gate. We retained N64 and closed that N68 branch. Concurrency means client requests in flight, not GPUs or decode batch size.
+When increasing concurrency, we needed to balance throughput against latency. More requests can keep the GPUs busy, but they can also increase waiting and push requests beyond the first-token limit.
+
+Moving from sixty-two to sixty-four concurrent requests increased goodput by about one point one percent, and an independent run reproduced the result. Increasing to sixty-eight looked promising in a short test, but the full measurement improved by only about zero point zero eight percent over N64, below our one-percent usefulness threshold.
+
+We therefore retained N64: it gave a clear improvement, while increasing load further brought little additional benefit. N64 means sixty-four concurrent client requests, not the number of GPUs or the decode batch size.
 
 ## Slide 12 — The remaining latency failures are first-token tails
 
-In a separate full N64 run, 1,875 of 1,902 requests met both latency limits. All 27 misses exceeded the first-token threshold; none exceeded average inter-token latency, and there were no scored errors. This tells us which service condition failed. It does not explain why: without phase timing, we cannot assign slow first tokens to queueing, prefill, transfer or another cause. We report the measured symptom and leave internal attribution open.
+After selecting N64, we wanted to understand what went wrong for requests that missed the SLA, rather than looking only at total goodput.
+
+Each point in this chart is one request. The horizontal axis is time to first token, and the vertical axis is the average gap between tokens, both in milliseconds. The red lines mark the three-second and twenty-millisecond limits. A qualifying request must lie in the lower-left region, including the boundaries.
+
+About ninety-eight point six percent of requests met both conditions. The blue-grey points are qualifying requests. The orange points are all to the right of the first-token boundary but still below the inter-token limit. These requests started answering late, but once they started, they generated tokens fast enough. There were twenty-seven such requests and no request errors.
+
+Further improvement would therefore focus on investigating why some requests waited longer for their first token.
 
 ## Slide 13 — A complete portable run reproduces the retained operating level
 
-The final package also had to become ready, serve real requests, pass the client result reader and clean up correctly. The first readiness check saw a healthy router before the model was registered, so it failed before a benchmark. We tightened readiness to wait for the model list and live workers, then ran accepted job 28197 on the retained recipe. It completed the deployment-to-client-to-cleanup chain and measured 3,051.52 good output tokens per second. With no matched control and no serving-recipe change, this is portable acceptance evidence, not an optimisation claim.
+The final package also had to become ready, serve real requests, pass the client result reader and clean up correctly. The first readiness check saw a healthy router before the model was registered, so it failed before a benchmark. We tightened readiness to wait for the model list and live workers, then ran accepted job 28197 on the retained recipe. It completed the deployment-to-client-to-cleanup chain and measured about three thousand and fifty-two good output tokens per second. With no matched control and no serving-recipe change, this is portable acceptance evidence, not an optimisation claim.
 
 ## Slide 14 — Direct H200 tests decide which H100 ideas transfer
 
-We tested selected H100-derived ideas directly against fresh controls on sixteen H200s. The full transferred recipe lost, while changing its chunk recovered part of that branch: the matched chunk trial improved 6.57 percent over its own 4096 control, yet remained 4.52 percent below the H200 incumbent. Some phase-mode variants were positive, but by less than 0.14 percent; none of the tested alternatives cleared the one-percent usefulness gate. We kept the H200-specific recipe. These tests reject promotion under the measured conditions, not the libraries universally.
+We tested selected H100-derived ideas directly against fresh controls on sixteen H200s. The full transferred recipe lost, while changing its chunk recovered part of that branch: the matched chunk trial improved about 6.6 percent over its own 4096 control, yet remained about 4.5 percent below the H200 incumbent. Some phase-mode variants were positive, but by less than 0.14 percent; none of the tested alternatives cleared the one-percent usefulness gate. We kept the H200-specific recipe. These tests reject promotion under the measured conditions, not the libraries universally.
 
 ## Slide 15 — Better proxy metrics did not always improve qualifying throughput
 
@@ -130,7 +110,7 @@ Sparse graph capture reduced a logged memory proxy but slightly lowered goodput.
 
 ## Slide 16 — The retained recipe survives performance and quality checks
 
-We close with three lessons. First, choose the phase split and backend for the target hardware; an H100 setting is not automatically an H200 setting. Second, retain full, repeated gains and reject short-test improvements that do not survive the useful-gain gate. Third, verify deployment and answer quality separately from performance. The accepted portable run reached about 3,052 good output tokens per second. On the same sixteen H200s and 12,032 MMLU-Pro questions, the optimised service answered 9,452 correctly against 9,460 for the stock FP8 reference: 99.9154 percent retention, above our local 99 percent point gate. This is a local full-set check, not BTC certification. I hand over to OpenFOAM.
+We close with three lessons. First, choose the phase split and backend for the target hardware; an H100 setting is not automatically an H200 setting. Second, retain full, repeated gains and reject short-test improvements that do not survive the useful-gain gate. Third, verify deployment and answer quality separately from performance. The accepted portable run reached about 3,052 good output tokens per second. On the same sixteen H200s and 12,032 MMLU-Pro questions, the optimised service answered 9,452 correctly against 9,460 for the stock FP8 reference: about 99.92 percent retention, above our local 99 percent point gate. This is a local full-set check, not BTC certification. I hand over to OpenFOAM.
 
 ## Backup 19 — Backup · full-set accuracy verification
 
@@ -151,3 +131,15 @@ The exact package first failed readiness because the router responded before mod
 ## Optional Q&A detail
 
 Nine late H200 runs were reviewed. The fresh control scored 3,038.02; FA3 decode scored 2,999.25. The H100-derived full recipe scored 2,721.82. HPC-Ops prefill at chunks 6,144 and 8,192 scored 2,821.88 and 2,900.61. Decode-only and prefill-only inference-mode variants were slightly positive against their control, but each stayed below the one-percent usefulness gate. None displaced the retained recipe. See [FULL_RESULTS.md](../ai-quality-verification-20261103/FULL_RESULTS.md) and [MOCK_QA_EVIDENCE.md](MOCK_QA_EVIDENCE.md) for methods, evidence and limits. No live mock timing is claimed.
+
+## Study notes for slide 8 — not spoken
+
+- Prefill-only DeepGEMM test: job 24291 on sixteen H200 GPUs at N56 reached about 2,716 good output tokens/s, +1.81% against control 24263; approximately 98.82% of requests met the SLA. This is the prefill result, separate from the +5.3% decode comparison on slide 10.
+- A later H200 HPC-Ops prefill test with the same chunk size of 8192 was about 4.52% below the DeepGEMM configuration. This is supporting evidence, not a trial that preceded the decode choice in the spoken sequence.
+- A separate H100 Triton kernel screen found no useful gain in the tested cases. It is not a whole-model serving benchmark on H200.
+- SGLang is the serving framework; NIXL handles data transfer; DeepGEMM and HPC-Ops supply computational implementations; FlashInfer supplies attention in the retained configuration. These projects are not interchangeable clients.
+- Slide 8 shows profiling rather than a prefill comparison table. These additional figures are for study and Q&A. Slide 9 explains the decode comparison setup; slide 10 presents the decode outcome.
+
+## Study notes for slide 7 — not spoken
+
+The patch was retained because the changed path completed warmup and benchmarking. There is no successful unpatched scored run or isolated descriptor-construction timer to quantify a descriptor-only speedup. Do not assign the entire effect to a single cause. Supporting detail remains in the backup sections.

@@ -9,3 +9,7 @@ Corrections to the supplied draft: NIXL is an existing library and the change is
 Prefill evidence: serving-tuning-10/PLAN.md records job 24291 versus 24263, +1.8136% on H200 N56. The later H200 HPC-Ops prefill chunk-8192 comparison loses 4.523207%; the H100 Triton result is a kernel screen, not an H200 serving result. Decode evidence: jobs 24912 and 24913, +5.295%, with the independent treatment repeat within approximately 0.033% of original 24738. These changes are not added as cumulative causal speedups.
 
 The before copy preserves the exact previous short script. Delivery duration remains a 12–13 minute target; this revision has not been timed in a human rehearsal. Work is limited to the AI script; no GPU jobs or HPC changes.
+
+## English companion revision
+
+The short English script now follows the revised Vietnamese reasoning and paragraph structure for slides 2–12, preserves all sixteen slide titles, and translates the study-only prefill and recovery notes. Spoken figures are rounded while backup sections retain exact evidence. The main English script contains 1543 whitespace-delimited words, excluding study and backup sections; duration remains an untested target. The existing English before copy preserves the previous version. No published slide, PDF, long transcript or ZIP was regenerated.
