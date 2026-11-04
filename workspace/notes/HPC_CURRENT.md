@@ -2,6 +2,10 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Actual reversed confirmation submitted — 4 November 2026
+
+**Iris job 2294735 accepted**, one node /56 CPUs /zero GPUs /maximum 2 hours, 112 allocated CPU-hours reserved. Four 40-step BAAB arms reverse the earlier 20-step ABBA experiment while preserving the same accepted Scotch source, solver and child-only preparation policy. [Frozen bundle, receipt and dated state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/STATUS.md). No completed new mean yet. Internal planning ledger is 1,024 consumed +112 reserved = 1,136; previous 1,059 stage extended by 77 for this one bounded confirmation. This is not billed SU or a new owner-set budget. Preserve the one-own-allocation cap and queue position.
+
 ## Hosted diagram delivery — 4 November 2026
 
 The owner clarified that diagram updates belong directly in the existing shared [GitHub Pages atlas](https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc), with AI and HPC on the same page. HPC-only builds preserve the existing AI component. The latest update replaces the stale unreviewed native milestone with the qualified 1.76868% signal and source-linked completed review. [Build, browser and deployment verification](../reports/hpc-atlas-update-20261104/README.md). No new performance run was submitted during this publication.
