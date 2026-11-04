@@ -15,7 +15,7 @@ for n in nodes:
  color,fill=colors[n['platform']]
  parts=[n['date']+' · '+n['platform'],n['title'],n['change'],'Jobs '+n['jobs'],n['result'],statuses[n['status']]]
  label='\n'.join('\n'.join(textwrap.wrap(t,49)) for t in parts)
- url='../../../../'+n['evidence']
+ url='../../../'+n['evidence']
  lines.append(json.dumps(n['id'])+' [label='+json.dumps(label,ensure_ascii=False)+',color="'+color+'",fillcolor="'+fill+'",penwidth=1.8,URL='+json.dumps(url)+',tooltip='+json.dumps(n['result']+' | '+statuses[n['status']]) +'];')
 for e in data['edges']:
  style='solid' if e['relation']=='repeat' else 'dotted'
