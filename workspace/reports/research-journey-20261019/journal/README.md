@@ -1,3 +1,5 @@
+Latest HPC completed review: [4 November reversed40-step result](entries/20261104-hpc-reverse40-terminal-result.md).
+
 Latest HPC acceptance: [4 November reversed 40-step preparation-policy confirmation2294735](entries/20261104-hpc-preparation-reverse40-submitted.md).
 
 Latest HPC native result: [4 November small preparation-policy signal and confirmation limits](entries/20261104-hpc-preparation-solver-result.md).

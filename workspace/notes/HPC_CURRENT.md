@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Completed confirmation reviewed — 4 November 2026
+
+2294735 COMPLETED 0:0 in 4,710 seconds, 56 CPUs. Independent native replay and all source/runtime/payload/force gates pass. Candidate pooled 21.862379771 versus control 31.502857339 s/step: 30.601914818% lower within this 40-step BAAB job. Both adjacent comparisons favor candidate; candidate repeat drift +0.17821%, control +14.16819%. Effect size differs sharply from the earlier 1.77% screen; retain as a strong within-allocation signal, not a universal speedup. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md).
+
+Cost 73.266667 allocated CPU-hours, conservatively 74; 112-hour reservation retired once: 1,098 consumed /zero reserved /1,136 internal stage. Not billed SU. Historical running snapshots below are superseded. The owner requested a top-to-bottom dated diagram like AI; both the hosted atlas and reproducible static map are updated from the reviewed results. No new job was submitted during this diagram revision.
+
 ## Live checkpoint — 4 November 2026, 20:37 Vietnam
 
 2294735 is RUNNING on iris001, elapsed 1:02:04. Three 40-step arms have returned 0: B1 interleaved 21.842916421 s/step, A1 inherited 29.418802008, A2 inherited 33.586912671. B2 is created but no completed log/return is present. These are live, unreviewed printed means, not a complete comparison or a new best. Strong control drift reinforces the need for the final arm and full review. No extra job is admitted while this one-owned-allocation cap is occupied. The existing two-hour limit and 112 CPU-hour maximum remain unchanged.
