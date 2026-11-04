@@ -2,13 +2,17 @@
 
 Evidence captured on 3 November 2026. This report covers the team's AI/GPU work, including setup probes and failed allocations. It excludes the independent CPU/OpenFOAM research.
 
-**Open [index.html](index.html) in a browser.** Everything needed for viewing is embedded: no web server, internet connection or package installation is required. In the graph tab choose **31 research milestones** for the summary or **All 419 allocations** for one node per retained job. The summary groups related tests; it does not discard jobs simply because their concurrency differs. Switch to **Every recorded allocation** to search all job IDs, filter GPU platforms and inspect configuration/result evidence. Click a milestone or job card for its retained details. Use the map's zoom buttons and scrollbars.
+**[Open the interactive research atlas](https://trungdangtapcode.github.io/apac-hpc-ai-2026/).** The same viewer is available offline as [index.html](index.html) or the directly tracked [compressed HTML](index.html.gz). It has no external runtime dependencies.
+
+The **Research map** offers 31 milestones or all 419 allocations. Drag to pan, scroll to zoom, use **Fit all** for an overview, or **Read width** to reset the scale. Search and platform filters highlight matching nodes; **Next match** centres each match. H200 is green and H100 red. Hover shows four metrics; select a node for its change, outcome, all retained measurement points, documented relationships and sources. The **Run inventory** searches every retained job and exports the filtered rows as CSV. The page opens on the first milestone at a readable scale.
+
+The hosted and offline views use the same retained snapshot. Data and counts are unchanged by the visual redesign. Machine-local paths are converted to repository references for the public page. Source documents may refer to externally retained objects; hosting the viewer does not upload those objects. The site publishes the viewer only, not a directory listing of the repository.
 
 ## Visual research map
 
 [![H100 red and H200 green: chronological research milestones](journey.png)](journey.svg)
 
-Click to open the scalable diagram. For hover metrics and all 419 nodes, download the offline viewer above.
+Click to open the scalable diagram. For hover metrics and all 419 nodes, open the interactive atlas linked above or use its offline copy.
 
 ## How many times did we run?
 
@@ -72,3 +76,9 @@ Different loads and phases stay separate; the tooltip never averages them or sel
 `collect_hover_metrics.py` collects metrics from exact job-directory matches in retained `summary.json` files, excluding private runtime homes. Run it before `build.py` to refresh this source index. The complete graph view now embeds the same 419 job nodes as the inventory; the 31-milestone option is a grouped explanation, not a separate count of experiments.
 
 The complete offline viewer also has a lossless [compressed copy](index.html.gz), retained directly in Git. If recovering only from Git, run `gzip -dk index.html.gz` in a new directory and open the extracted HTML; it already includes both graph views and the hover data. The extracted HTML exceeds the normal inline capture size, while this compressed copy preserves the exact bytes without a separate object download.
+
+## Rebuild and GitHub Pages
+
+Run `python3 build_viewer.py` from this directory to rebuild the standalone HTML and deterministic gzip from retained JSON and SVG inputs. Graphviz is required at build time for concise milestone labels. The existing `build.py` calls this renderer after refreshing the source graphs. The viewer itself requires only a browser; no analytics, external fonts, scripts or API requests are used.
+
+`viewer/prepare_pages.py --output <empty-directory>` decompresses the reviewed `index.html.gz` into exactly `index.html` and `.nojekyll`. GitHub Actions deploys only those two staged files. The workflow source is retained in `workspace/publication/github-pages/ai-research-pages.yml` and installed as `.github/workflows/ai-research-pages.yml` in the archive. Later data changes must rebuild and capture the gzip to update the hosted snapshot.

@@ -79,4 +79,6 @@ $('search').oninput=draw;$('platform').onchange=draw;function tab(t){$('overview
 (D/'index.html').write_text(html.replace('__SVG__',svg).replace('__ALLSVG__',all_svg).replace('__DATA__',payload))
 # Keep a compact, directly Git-tracked copy of the complete standalone viewer.
 (D/'index.html.gz').write_bytes(gzip.compress((D/'index.html').read_bytes(),mtime=0))
+# Apply the current standalone presentation after rebuilding source graphs.
+subprocess.run([sys.executable,str(D/'build_viewer.py')],check=True)
 print(json.dumps(dict(total_unique_allocations=len(allruns),platforms={p:sum(r['platform']==p for r in allruns) for p in colors},overview_nodes=len(ids),supported_edges=len(curated['edges']))))
