@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## New mechanism qualified — 5 November 2026 Vietnam
+
+Outer-launcher 2294801 and in-rank 2294802 both COMPLETED 0:0 in 2 seconds /56 CPUs. Outer form leaves all ranks default with single-node anonymous 8 MiB mappings. In-rank form changes all 56 to interleave and both-node residency, with identical reported CPU affinity. [Actual rank/page records and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md). This qualifies command placement, not faster OpenFOAM or policy throughout solver execution.
+
+Both small maximum reservations retired once from accounting: total 2 conservative planning hours; consumed 1,177 /zero reserved /stage 1,210. Site SU remains unknown. A distinct actual solver-rank-policy trial is being prepared, keeping preparation inherited; no native job acceptance or score is implied yet. The old preparation-child-only performance claim remains closed.
+
 ## Distinct rank-policy qualification accepted
 
 New diagnostic **2294801 accepted** at 2026-11-04T17:22:17.718827Z: 56 MPI ranks, inherited versus launcher interleave policy, anonymous 8 MiB first-touch pages per rank. Maximum 5 minutes /56 CPUs /zero GPUs; 4.666667 planning CPU-hours reserved within the unchanged 1,210-hour stage. No solver/score or improvement claim. [Receipt, frozen code and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/STATUS.md). This does not reopen the rejected preparation-child-only speed claim.

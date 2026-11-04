@@ -1,3 +1,5 @@
+Latest HPC mechanism: [In-rank policy changes actual rank/page observations](entries/20261105-hpc-rank-policy-command-placement-qualified.md).
+
 Latest HPC acceptance: [Distinct MPI-rank policy qualification2294801](entries/20261105-hpc-rank-policy-qualification-submitted.md).
 
 Latest HPC repeat: [Same-horizon ABBA rejects stable preparation-only gain](entries/20261105-hpc-independent-repeat-rejects-preparation-gain.md).
