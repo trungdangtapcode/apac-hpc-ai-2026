@@ -1,52 +1,53 @@
-# Ask whether that mechanism helps the solver
+# Confirm preparation policy with reversed order
 
 > Source-linked retrospective. Original measurements remain attributed to their platform, load and trial.
 
 ## Research question
 
-Does the preparation memory-policy change affect native OpenFOAM solver time when all solver inputs and settings stay fixed?
+Does the preparation-policy signal survive reversed order and a longer native solve?
 
 ## Why investigate this?
 
-The copy/hash qualification changed aggregate preparation counters. Completed native test 2294676 now measures whether changing only preparation-child policy affects solver time with matched Scotch inputs and runtime.
+The 20-step ABBA screen gave a small pooled signal with conflicting adjacent signs. The 40-step BAAB confirmation checks both order sensitivity and longer work with the same source, solver and child-only treatment.
 
 ## What changed?
 
 | Aspect | Before / control | After / tested setting |
 |---|---|---|
-| Preparation-child policy | Inherited policy; native solver launch and initialized Scotch source fixed. | Interleave-all policy for copy/hash child only; solver launcher parent remains unchanged. Four ABBA arms, 20 steps /19 measured intervals each. |
+| Horizon and order | 2294676: 20 steps /19 intervals, ABBA. | 2294735: 40 steps /39 intervals, BAAB; same Scotch source, 56 ranks, runtime and sampling. |
+| Treatment | Inherited preparation-child memory policy. | Interleave-all preparation-child policy; solver launcher remains unchanged. |
 
 ## What was measured?
 
 | Evidence | Recorded result |
 |---|---|
-| Terminal job | 2294676 COMPLETED 0:0; 2,200 seconds; one Iris node /56 ranks. |
-| Inherited mean | 22.163497501 seconds/step (two equal-length arms). |
-| Interleaved mean | 21.771496718 seconds/step; 1.768677456% lower pooled time. |
-| Adjacent comparisons | B1 versus A1: +0.73172% slower; B2 versus A2: -4.20539% faster. |
-| Native correctness | All four 20-step native replays pass; force-coefficient trajectories identical; source/payload gates pass. |
-| Cost | 34.222222 allocated CPU-hours, conservatively 35 planning hours; billed SU unknown. |
-| Actual confirmation | 2294735 accepted; 40 steps /39 intervals per arm, BAAB, maximum2hours /112 allocated CPU-hours. |
+| Terminal state | 2294735 COMPLETED 0:0; 4,710 seconds, Iris001 /56 CPUs. |
+| Candidate B1 /B2 | 21.842916421 /21.881843121 seconds/step. |
+| Control A1 /A2 | 29.418802008 /33.586912671 seconds/step. |
+| Pooled within-job contrast | 21.862379771 versus 31.502857339 seconds/step; 30.601914818% lower time. |
+| Adjacent changes | −25.75185% /−34.85009%; both favor candidate. |
+| Repeat drift | Candidate +0.17821%; control +14.16819%. |
+| Correctness | Four 40-step native replays pass; 39 timings each; force-coefficient trajectories identical; source/payload/runtime gates pass. |
+| Cost | 73.266667 allocated CPU-hours, conservatively 74 planning hours; billed SU unknown. |
 
 ## What did we learn?
 
-- The pooled mean favors interleaved preparation, but adjacent pair signs disagree. This is a short directional signal, not a stable optimization.
-- Control repeat drift is +2.61343%; candidate repeat drift is -2.41591%. B1 has a wider maximum step than either control.
-- Five-second whole-node diagnostics were collected: 95–98 samples per arm. CPU/I/O/memory pressure files were unavailable; missing pressure is not zero.
+- The reverse 40-step result favors interleaved preparation in both adjacent comparisons, stronger than the earlier 20-step screen.
+- The measured effect changes from 1.77% to 30.60% across allocations; control drift and nonlinear order effects prevent treating 30.60% as a stable or universal speedup.
+- Reported candidate means repeat closely; this does not establish a causal page-placement explanation or a gain against the teammate recipe.
 
 ## Decision
 
-Do not promote the 20-step signal. Reversed 40-step BAAB confirmation 2294735 was accepted on 4 November 2026; its 12:36:04 UTC snapshot was RUNNING on iris001. Review all four completed arms before deciding; no new performance result yet.
+Retain as a strong within-job signal requiring independent confirmation. Do not promote to an official 150-step score or claim a universal 30.6% improvement.
 
 ## Limits and remaining questions
 
-- One short ABBA allocation does not eliminate nonlinear drift or prove a roughly 1.77% effect.
-- Only preparation-child policy changes; per-rank memory policy, per-file residency and hardware bandwidth were not measured.
-- Iris seconds cannot establish a gain on NSCC or Gadi. This result does not compare against the teammate recipe.
+- BAAB places candidates outside the central controls; nonlinear drift or endpoint effects remain possible.
+- Per-rank memory policy, per-file residency and hardware bandwidth were not measured. Pressure files are unavailable, not zero.
+- Different platforms and allocations cannot be ranked by raw seconds; no Gadi/NSCC gain is inferred.
 
 ## Sources
 
-- [Completed native result and interpretation](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)
-- [Independent native replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/independent-native-replay.json)
-- [Detailed telemetry review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/REVIEW.json)
-- [Confirmation receipt and frozen job](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/STATUS.md)
+- [Completed reverse 40 native review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md)
+- [Independent 40-step replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/independent-native-replay.json)
+- [Earlier 20-step review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)

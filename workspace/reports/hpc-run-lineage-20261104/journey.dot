@@ -16,7 +16,7 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "xzy" [label="2 Nov · Iris\nCheck a new axis order and reverse it\n40-step screen → 52-step confirmation\nJobs 2294643 / 2294644\n−0.71% initial signal → +10.25% slower\nCLOSED / no stable gain",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../workspace/reports/hpc-iris-comparison-20261103/README.md",tooltip="−0.71% initial signal → +10.25% slower | CLOSED / no stable gain"];
 "xyz" [label="3 Nov · Iris\nRevisit native xyz with a control\n20-step four-arm screen\nJobs 2294671\nSecond candidate timed out; comparison incomplete\nINCOMPLETE / invalid comparison",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../workspace/reports/hpc-iris-comparison-20261103/README.md",tooltip="Second candidate timed out; comparison incomplete | INCOMPLETE / invalid comparison"];
 "prep" [label="3 Nov · Iris\nTest preparation memory policy\nInherited / interleaved child; copy + hash only\nJobs 2294674 failed → 2294675 qualified\nFile-page counter split changes; no solver result\nMECHANISM / not a speedup",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../workspace/reports/hpc-iris-comparison-20261103/README.md",tooltip="File-page counter split changes; no solver result | MECHANISM / not a speedup"];
-"native" [label="4 Nov review · Iris\nAsk whether that mechanism helps the solver\nSame Scotch; only preparation-child policy\nchanges\nJobs 2294676\n21.7715 vs 22.1635 s/step; −1.77%, pair signs\ndisagree\nQUALIFIED SIGNAL / repeat needed",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md",tooltip="21.7715 vs 22.1635 s/step; −1.77%, pair signs disagree | QUALIFIED SIGNAL / repeat needed"];
+"native" [label="4 Nov review · Iris\nConfirm preparation policy with reversed order\nSame Scotch; only preparation-child policy\nchanges\nJobs 2294676 / 2294735\n40-step BAAB: 21.8624 vs 31.5029 s/step; −30.60%\nin this job\nQUALIFIED SIGNAL / repeat needed",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md",tooltip="40-step BAAB: 21.8624 vs 31.5029 s/step; −30.60% in this job | QUALIFIED SIGNAL / repeat needed"];
 "access" -> "order" [constraint=false,style=dotted,label="motivated"];
 "baseline" -> "numa" [constraint=false,style=dotted,label="motivated"];
 "numa" -> "graph" [constraint=false,style=dotted,label="motivated"];
@@ -31,31 +31,36 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "xzy" -> "xyz" [constraint=false,style=dotted,label="motivated"];
 "xyz" -> "prep" [constraint=false,style=dotted,label="motivated"];
 "prep" -> "native" [constraint=false,style=dotted,label="mechanism → solver test"];
-{rank=same;"access";"baseline";"numa";}
-"access" -> "baseline" [style=invis,weight=15];
-"baseline" -> "numa" [style=invis,weight=15];
-{rank=same;"graph";"density";"confirm";}
-"graph" -> "density" [style=invis,weight=15];
-"density" -> "confirm" [style=invis,weight=15];
-{rank=same;"order";"place";"io";}
-"order" -> "place" [style=invis,weight=15];
-"place" -> "io" [style=invis,weight=15];
-{rank=same;"team";"zyx";"xzy";}
-"team" -> "zyx" [style=invis,weight=15];
-"zyx" -> "xzy" [style=invis,weight=15];
-{rank=same;"xyz";"prep";"native";}
-"xyz" -> "prep" [style=invis,weight=15];
-"prep" -> "native" [style=invis,weight=15];
-"access" -> "graph" [style=invis,weight=100];
-"graph" -> "order" [style=invis,weight=100];
-"order" -> "team" [style=invis,weight=100];
-"team" -> "xyz" [style=invis,weight=100];
-"baseline" -> "density" [style=invis,weight=100];
-"density" -> "place" [style=invis,weight=100];
-"place" -> "zyx" [style=invis,weight=100];
-"zyx" -> "prep" [style=invis,weight=100];
-"numa" -> "confirm" [style=invis,weight=100];
-"confirm" -> "io" [style=invis,weight=100];
-"io" -> "xzy" [style=invis,weight=100];
-"xzy" -> "native" [style=invis,weight=100];
+date0 [shape=plaintext,label="21 Oct",fontcolor="#607080"];
+{rank=same;date0;"access";"baseline";"numa";}
+"access" -> "baseline" [style=invis,weight=10];
+"baseline" -> "numa" [style=invis,weight=10];
+date1 [shape=plaintext,label="22 Oct",fontcolor="#607080"];
+{rank=same;date1;"graph";}
+date0 -> date1 [style=invis,weight=100];
+date2 [shape=plaintext,label="23 Oct",fontcolor="#607080"];
+{rank=same;date2;"density";"confirm";}
+"density" -> "confirm" [style=invis,weight=10];
+date1 -> date2 [style=invis,weight=100];
+date3 [shape=plaintext,label="27–28 Oct",fontcolor="#607080"];
+{rank=same;date3;"order";}
+date2 -> date3 [style=invis,weight=100];
+date4 [shape=plaintext,label="29 Oct",fontcolor="#607080"];
+{rank=same;date4;"place";}
+date3 -> date4 [style=invis,weight=100];
+date5 [shape=plaintext,label="1 Nov",fontcolor="#607080"];
+{rank=same;date5;"io";}
+date4 -> date5 [style=invis,weight=100];
+date6 [shape=plaintext,label="2 Nov",fontcolor="#607080"];
+{rank=same;date6;"team";"zyx";"xzy";}
+"team" -> "zyx" [style=invis,weight=10];
+"zyx" -> "xzy" [style=invis,weight=10];
+date5 -> date6 [style=invis,weight=100];
+date7 [shape=plaintext,label="3 Nov",fontcolor="#607080"];
+{rank=same;date7;"xyz";"prep";}
+"xyz" -> "prep" [style=invis,weight=10];
+date6 -> date7 [style=invis,weight=100];
+date8 [shape=plaintext,label="4 Nov",fontcolor="#607080"];
+{rank=same;date8;"native";}
+date7 -> date8 [style=invis,weight=100];
 }

@@ -20,12 +20,13 @@ for n in nodes:
 for e in data['edges']:
  style='solid' if e['relation']=='repeat' else 'dotted'
  lines.append(f'{json.dumps(e["source"])} -> {json.dumps(e["target"])} [constraint=false,style={style},label={json.dumps(e["relation"],ensure_ascii=False)}];')
-# Five chronological rows keep the overview legible in README and on zoom.
-for ids in [['access','baseline','numa'],['graph','density','confirm'],['order','place','io'],['team','zyx','xzy'],['xyz','prep','native']]:
- lines.append('{rank=same;'+';'.join(json.dumps(x) for x in ids)+';}')
- for a,b in zip(ids,ids[1:]):lines.append(f'{json.dumps(a)} -> {json.dumps(b)} [style=invis,weight=15];')
-for column in [['access','graph','order','team','xyz'],['baseline','density','place','zyx','prep'],['numa','confirm','io','xzy','native']]:
- for a,b in zip(column,column[1:]):lines.append(f'{json.dumps(a)} -> {json.dumps(b)} [style=invis,weight=100];')
+# Align milestones by date from top to bottom, matching the AI timeline.
+for i,group in enumerate(data['timeline']):
+ anchor='date'+str(i)
+ lines.append(anchor+' [shape=plaintext,label='+json.dumps(group['date'],ensure_ascii=False)+',fontcolor="#607080"];')
+ lines.append('{rank=same;'+anchor+';'+';'.join(json.dumps(x) for x in group['ids'])+';}')
+ for a,b in zip(group['ids'],group['ids'][1:]):lines.append(json.dumps(a)+' -> '+json.dumps(b)+' [style=invis,weight=10];')
+ if i:lines.append('date'+str(i-1)+' -> '+anchor+' [style=invis,weight=100];')
 lines.append('}');(D/'journey.dot').write_text('\n'.join(lines)+'\n')
 for ext in ['svg','png','pdf']:subprocess.run(['dot','-T'+ext,str(D/'journey.dot'),'-o',str(D/('journey.'+ext))],check=True)
 with (D/'milestones.csv').open('w') as f:
@@ -35,6 +36,6 @@ svg=(D/'journey.svg').read_text();svg=svg[svg.index('<svg'):]
 page='''<!doctype html><html lang="en"><meta charset="utf-8"><title>HPC research journey</title><style>body{font:16px system-ui;margin:0;background:#f7fafc;color:#23373b}header{padding:24px}button{padding:8px 18px;margin-right:10px}main{overflow:auto;height:80vh;padding:20px}svg{width:1500px;height:auto}a{color:#2476a1}</style><header><h1>OpenFOAM CPU research journey</h1><p>15 curated milestones · NSCC CPU in orange · Iris CPU in blue. Hover for result and decision; click a node for retained evidence in the source tree.</p><p>Historical observations, matched comparisons and mechanism tests have different evidential strength. Separate machines and allocations cannot be ranked by raw seconds.</p><button onclick="zoom(1.25)">Zoom +</button><button onclick="zoom(.8)">Zoom −</button><a href="README.md">Research guide</a></header><main>'''+svg+'''</main><script>let width=1500;function zoom(f){width*=f;document.querySelector('svg').style.width=width+'px'}</script></html>'''
 (D/'index.html').write_text(page)
 with gzip.open(D/'index.html.gz','wb') as f:f.write(page.encode())
-report={'passed':True,'curated_milestones':len(nodes),'exhaustive_job_inventory':False,'source_hashes':sources,'scheduler_queried':False,'performance_claim':'No stable own matched win; teammate recipe has qualified short-run signal.','native_followup':'2294676 reviewed: directional −1.77% pooled time; inconsistent adjacent signs; no promotion.'}
+report={'passed':True,'curated_milestones':len(nodes),'exhaustive_job_inventory':False,'source_hashes':sources,'scheduler_queried':False,'performance_claim':'No stable own matched win; teammate recipe has qualified short-run signal.','native_followup':'2294735 reviewed: −30.60% pooled time in one40-step BAAB allocation; repeated effect size unstable; no universal speedup claim.'}
 (D/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
 print('Rendered',len(nodes),'milestones; sources verified:',len(sources))

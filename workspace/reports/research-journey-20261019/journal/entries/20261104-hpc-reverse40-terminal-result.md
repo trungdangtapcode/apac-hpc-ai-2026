@@ -8,4 +8,4 @@ Telemetry 184/242/277/184 aggregate samples has required sources and no collecti
 
 The independent read-only review agrees with the root native replay and finds no gate blocker. Next scientific step remains independently allocated confirmation; no new job is claimed in the owner's diagram-layout task. The requested visualization now uses dated vertical ranks like AI, preserving the existing 15 milestones and AI data. The old unreviewed/running claims are historical.
 
-[Detailed result and retained evidence](/home/apacsc 42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse 40-20261104/completed-2294735/RESULTS.md).
+[Detailed result and retained evidence](/home/apacsc 42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md).

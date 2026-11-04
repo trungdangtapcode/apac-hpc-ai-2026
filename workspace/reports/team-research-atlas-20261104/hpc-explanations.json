@@ -558,72 +558,77 @@
     ]
   },
   "native": {
-    "question": "Does the preparation memory-policy change affect native OpenFOAM solver time when all solver inputs and settings stay fixed?",
-    "rationale": "The copy/hash qualification changed aggregate preparation counters. Completed native test 2294676 now measures whether changing only preparation-child policy affects solver time with matched Scotch inputs and runtime.",
+    "question": "Does the preparation-policy signal survive reversed order and a longer native solve?",
+    "rationale": "The 20-step ABBA screen gave a small pooled signal with conflicting adjacent signs. The 40-step BAAB confirmation checks both order sensitivity and longer work with the same source, solver and child-only treatment.",
     "changes": [
       {
-        "aspect": "Preparation-child policy",
-        "before": "Inherited policy; native solver launch and initialized Scotch source fixed.",
-        "after": "Interleave-all policy for copy/hash child only; solver launcher parent remains unchanged. Four ABBA arms, 20 steps /19 measured intervals each."
+        "aspect": "Horizon and order",
+        "before": "2294676: 20 steps /19 intervals, ABBA.",
+        "after": "2294735: 40 steps /39 intervals, BAAB; same Scotch source, 56 ranks, runtime and sampling."
+      },
+      {
+        "aspect": "Treatment",
+        "before": "Inherited preparation-child memory policy.",
+        "after": "Interleave-all preparation-child policy; solver launcher remains unchanged."
       }
     ],
     "evidence": [
       {
-        "label": "Terminal job",
-        "value": "2294676 COMPLETED 0:0; 2,200 seconds; one Iris node /56 ranks."
+        "label": "Terminal state",
+        "value": "2294735 COMPLETED 0:0; 4,710 seconds, Iris001 /56 CPUs."
       },
       {
-        "label": "Inherited mean",
-        "value": "22.163497501 seconds/step (two equal-length arms)."
+        "label": "Candidate B1 /B2",
+        "value": "21.842916421 /21.881843121 seconds/step."
       },
       {
-        "label": "Interleaved mean",
-        "value": "21.771496718 seconds/step; 1.768677456% lower pooled time."
+        "label": "Control A1 /A2",
+        "value": "29.418802008 /33.586912671 seconds/step."
       },
       {
-        "label": "Adjacent comparisons",
-        "value": "B1 versus A1: +0.73172% slower; B2 versus A2: -4.20539% faster."
+        "label": "Pooled within-job contrast",
+        "value": "21.862379771 versus 31.502857339 seconds/step; 30.601914818% lower time."
       },
       {
-        "label": "Native correctness",
-        "value": "All four 20-step native replays pass; force-coefficient trajectories identical; source/payload gates pass."
+        "label": "Adjacent changes",
+        "value": "\u221225.75185% /\u221234.85009%; both favor candidate."
+      },
+      {
+        "label": "Repeat drift",
+        "value": "Candidate +0.17821%; control +14.16819%."
+      },
+      {
+        "label": "Correctness",
+        "value": "Four 40-step native replays pass; 39 timings each; force-coefficient trajectories identical; source/payload/runtime gates pass."
       },
       {
         "label": "Cost",
-        "value": "34.222222 allocated CPU-hours, conservatively 35 planning hours; billed SU unknown."
-      },
-      {
-        "label": "Actual confirmation",
-        "value": "2294735 accepted; 40 steps /39 intervals per arm, BAAB, maximum2hours /112 allocated CPU-hours."
+        "value": "73.266667 allocated CPU-hours, conservatively 74 planning hours; billed SU unknown."
       }
     ],
     "findings": [
-      "The pooled mean favors interleaved preparation, but adjacent pair signs disagree. This is a short directional signal, not a stable optimization.",
-      "Control repeat drift is +2.61343%; candidate repeat drift is -2.41591%. B1 has a wider maximum step than either control.",
-      "Five-second whole-node diagnostics were collected: 95\u201398 samples per arm. CPU/I/O/memory pressure files were unavailable; missing pressure is not zero."
+      "The reverse 40-step result favors interleaved preparation in both adjacent comparisons, stronger than the earlier 20-step screen.",
+      "The measured effect changes from 1.77% to 30.60% across allocations; control drift and nonlinear order effects prevent treating 30.60% as a stable or universal speedup.",
+      "Reported candidate means repeat closely; this does not establish a causal page-placement explanation or a gain against the teammate recipe."
     ],
-    "decision": "Do not promote the 20-step signal. Reversed 40-step BAAB confirmation 2294735 was accepted on 4 November 2026; its 12:36:04 UTC snapshot was RUNNING on iris001. Review all four completed arms before deciding; no new performance result yet.",
+    "decision": "Retain as a strong within-job signal requiring independent confirmation. Do not promote to an official 150-step score or claim a universal 30.6% improvement.",
     "limits": [
-      "One short ABBA allocation does not eliminate nonlinear drift or prove a roughly 1.77% effect.",
-      "Only preparation-child policy changes; per-rank memory policy, per-file residency and hardware bandwidth were not measured.",
-      "Iris seconds cannot establish a gain on NSCC or Gadi. This result does not compare against the teammate recipe."
+      "BAAB places candidates outside the central controls; nonlinear drift or endpoint effects remain possible.",
+      "Per-rank memory policy, per-file residency and hardware bandwidth were not measured. Pressure files are unavailable, not zero.",
+      "Different platforms and allocations cannot be ranked by raw seconds; no Gadi/NSCC gain is inferred."
     ],
     "sources": [
       {
-        "label": "Completed native result and interpretation",
+        "label": "Completed reverse 40 native review",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+      },
+      {
+        "label": "Independent 40-step replay",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/independent-native-replay.json"
+      },
+      {
+        "label": "Earlier 20-step review",
         "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
-      },
-      {
-        "label": "Independent native replay",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/independent-native-replay.json"
-      },
-      {
-        "label": "Detailed telemetry review",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/REVIEW.json"
-      },
-      {
-        "label": "Confirmation receipt and frozen job",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/STATUS.md"
       }
     ]
   }
