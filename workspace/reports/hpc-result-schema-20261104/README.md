@@ -11,3 +11,7 @@ Validation includes schema checks, missing-data handling, exact source-linked nu
 ## Implemented schema
 
 All 15 milestones contain 51 metric records. Each record has `key`, `label`, `value` (number or null), `unit`, `direction`, `scope`, `job_id`, `horizon`, and `source`. Metrics are grouped by their own job; no cross-job means are invented. The Result panel renders numbers and units with job/horizon context, hover and milestone table use numeric summaries, and Assessment/Limitations are separate. Schema/source/type checks and Chromium desktop/mobile/hover/AI-track tests pass. Existing AI component files, embedded AI data and AI research-note bodies remain unchanged.
+
+## Hosted verification
+
+Pages run 41855510206 deployed the final reviewed artifact successfully. The live page returned HTTP 200 and exactly matched the expected HTML SHA-256, including all 51 HPC metric records. [Verification receipt](published-verification.json). Existing AI data/notes are unchanged; job 2294800 remains a separate accepted confirmation with no result assigned.
