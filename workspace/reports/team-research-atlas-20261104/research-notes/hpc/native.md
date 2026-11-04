@@ -8,35 +8,43 @@ Does the preparation memory-policy change affect native OpenFOAM solver time whe
 
 ## Why investigate this?
 
-The copy/hash test changed preparation counters, but practical value depends on solver behavior. The follow-up holds Scotch input and solver settings constant while changing only preparation-child policy; its receipt is not a result.
+The copy/hash qualification changed aggregate preparation counters. Completed native test 2294676 now measures whether changing only preparation-child policy affects solver time with matched Scotch inputs and runtime.
 
 ## What changed?
 
 | Aspect | Before / control | After / tested setting |
 |---|---|---|
-| Native follow-up | Preparation-child policy varied; native solver effect not yet tested. | Job 2294676 accepted a 20-step test with the same Scotch source and solver settings, changing only preparation-child policy. |
+| Preparation-child policy | Inherited policy; native solver launch and initialized Scotch source fixed. | Interleave-all policy for copy/hash child only; solver launcher parent remains unchanged. Four ABBA arms, 20 steps /19 measured intervals each. |
 
 ## What was measured?
 
 | Evidence | Recorded result |
 |---|---|
-| Job | 2294676; accepted 20-step native test. |
-| Review state | Completion result had not been reviewed in the 4 November curated map. |
+| Terminal job | 2294676 COMPLETED 0:0; 2,200 seconds; one Iris node /56 ranks. |
+| Inherited mean | 22.163497501 seconds/step (two equal-length arms). |
+| Interleaved mean | 21.771496718 seconds/step; 1.768677456% lower pooled time. |
+| Adjacent comparisons | B1 versus A1: +0.73172% slower; B2 versus A2: -4.20539% faster. |
+| Native correctness | All four 20-step native replays pass; force-coefficient trajectories identical; source/payload gates pass. |
+| Cost | 34.222222 allocated CPU-hours, conservatively 35 planning hours; billed SU unknown. |
 
 ## What did we learn?
 
-- The receipt establishes scheduler acceptance only; no performance conclusion is available until completed output is reviewed.
+- The pooled mean favors interleaved preparation, but adjacent pair signs disagree. This is a short directional signal, not a stable optimization.
+- Control repeat drift is +2.61343%; candidate repeat drift is -2.41591%. B1 has a wider maximum step than either control.
+- Five-second whole-node diagnostics were collected: 95–98 samples per arm. CPU/I/O/memory pressure files were unavailable; missing pressure is not zero.
 
 ## Decision
 
-Keep this milestone explicitly unreviewed; inspect the terminal result before deciding whether the mechanism matters to solver time.
+Do not promote yet. Test reversed order and a longer fixed horizon in a new reviewed bundle; no confirmation job has been submitted.
 
 ## Limits and remaining questions
 
-- Do not infer that the job completed or improved performance from acceptance.
-- The 15-milestone map is curated, not a complete allocation census, and this record's state is only as current as its dated evidence review.
+- One short ABBA allocation does not eliminate nonlinear drift or prove a roughly 1.77% effect.
+- Only preparation-child policy changes; per-rank memory policy, per-file residency and hardware bandwidth were not measured.
+- Iris seconds cannot establish a gain on NSCC or Gadi. This result does not compare against the teammate recipe.
 
 ## Sources
 
-- [Milestone source](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md)
-- [Curated lineage overview](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/workspace/reports/hpc-run-lineage-20261104/README.md)
+- [Completed native result and interpretation](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)
+- [Independent native replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/independent-native-replay.json)
+- [Detailed telemetry review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/REVIEW.json)

@@ -55,7 +55,7 @@
       },
       {
         "label": "Ordered pair",
-        "value": "Reported difference −0.994%, small enough to treat as noisy rather than a demonstrated gain."
+        "value": "Reported difference \u22120.994%, small enough to treat as noisy rather than a demonstrated gain."
       }
     ],
     "findings": [
@@ -331,7 +331,7 @@
     "evidence": [
       {
         "label": "Initial apparent change",
-        "value": "−6.07% time."
+        "value": "\u22126.07% time."
       },
       {
         "label": "Reverse check",
@@ -370,11 +370,11 @@
     "evidence": [
       {
         "label": "Matched means",
-        "value": "24.7453 vs 27.8735 seconds/step; candidate time −11.2228%."
+        "value": "24.7453 vs 27.8735 seconds/step; candidate time \u221211.2228%."
       },
       {
         "label": "Repeat variability",
-        "value": "About 18–21% drift; all four reported rank/core maps and force-coefficient trajectories matched."
+        "value": "About 18\u201321% drift; all four reported rank/core maps and force-coefficient trajectories matched."
       }
     ],
     "findings": [
@@ -453,7 +453,7 @@
     "evidence": [
       {
         "label": "Initial screen",
-        "value": "−0.71% candidate time."
+        "value": "\u22120.71% candidate time."
       },
       {
         "label": "Reverse confirmation",
@@ -559,40 +559,63 @@
   },
   "native": {
     "question": "Does the preparation memory-policy change affect native OpenFOAM solver time when all solver inputs and settings stay fixed?",
-    "rationale": "The copy/hash test changed preparation counters, but practical value depends on solver behavior. The follow-up holds Scotch input and solver settings constant while changing only preparation-child policy; its receipt is not a result.",
+    "rationale": "The copy/hash qualification changed aggregate preparation counters. Completed native test 2294676 now measures whether changing only preparation-child policy affects solver time with matched Scotch inputs and runtime.",
     "changes": [
       {
-        "aspect": "Native follow-up",
-        "before": "Preparation-child policy varied; native solver effect not yet tested.",
-        "after": "Job 2294676 accepted a 20-step test with the same Scotch source and solver settings, changing only preparation-child policy."
+        "aspect": "Preparation-child policy",
+        "before": "Inherited policy; native solver launch and initialized Scotch source fixed.",
+        "after": "Interleave-all policy for copy/hash child only; solver launcher parent remains unchanged. Four ABBA arms, 20 steps /19 measured intervals each."
       }
     ],
     "evidence": [
       {
-        "label": "Job",
-        "value": "2294676; accepted 20-step native test."
+        "label": "Terminal job",
+        "value": "2294676 COMPLETED 0:0; 2,200 seconds; one Iris node /56 ranks."
       },
       {
-        "label": "Review state",
-        "value": "Completion result had not been reviewed in the 4 November curated map."
+        "label": "Inherited mean",
+        "value": "22.163497501 seconds/step (two equal-length arms)."
+      },
+      {
+        "label": "Interleaved mean",
+        "value": "21.771496718 seconds/step; 1.768677456% lower pooled time."
+      },
+      {
+        "label": "Adjacent comparisons",
+        "value": "B1 versus A1: +0.73172% slower; B2 versus A2: -4.20539% faster."
+      },
+      {
+        "label": "Native correctness",
+        "value": "All four 20-step native replays pass; force-coefficient trajectories identical; source/payload gates pass."
+      },
+      {
+        "label": "Cost",
+        "value": "34.222222 allocated CPU-hours, conservatively 35 planning hours; billed SU unknown."
       }
     ],
     "findings": [
-      "The receipt establishes scheduler acceptance only; no performance conclusion is available until completed output is reviewed."
+      "The pooled mean favors interleaved preparation, but adjacent pair signs disagree. This is a short directional signal, not a stable optimization.",
+      "Control repeat drift is +2.61343%; candidate repeat drift is -2.41591%. B1 has a wider maximum step than either control.",
+      "Five-second whole-node diagnostics were collected: 95\u201398 samples per arm. CPU/I/O/memory pressure files were unavailable; missing pressure is not zero."
     ],
-    "decision": "Keep this milestone explicitly unreviewed; inspect the terminal result before deciding whether the mechanism matters to solver time.",
+    "decision": "Do not promote yet. Test reversed order and a longer fixed horizon in a new reviewed bundle; no confirmation job has been submitted.",
     "limits": [
-      "Do not infer that the job completed or improved performance from acceptance.",
-      "The 15-milestone map is curated, not a complete allocation census, and this record's state is only as current as its dated evidence review."
+      "One short ABBA allocation does not eliminate nonlinear drift or prove a roughly 1.77% effect.",
+      "Only preparation-child policy changes; per-rank memory policy, per-file residency and hardware bandwidth were not measured.",
+      "Iris seconds cannot establish a gain on NSCC or Gadi. This result does not compare against the teammate recipe."
     ],
     "sources": [
       {
-        "label": "Milestone source",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md"
+        "label": "Completed native result and interpretation",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
       },
       {
-        "label": "Curated lineage overview",
-        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+        "label": "Independent native replay",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/independent-native-replay.json"
+      },
+      {
+        "label": "Detailed telemetry review",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/REVIEW.json"
       }
     ]
   }

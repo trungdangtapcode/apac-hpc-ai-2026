@@ -2,6 +2,10 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Hosted diagram delivery — 4 November 2026
+
+The owner clarified that diagram updates belong directly in the existing shared [GitHub Pages atlas](https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc), with AI and HPC on the same page. HPC-only builds preserve the existing AI component. The latest update replaces the stale unreviewed native milestone with the qualified 1.76868% signal and source-linked completed review. [Build, browser and deployment verification](../reports/hpc-atlas-update-20261104/README.md). No new performance run was submitted during this publication.
+
 ## New reviewed native result — 4 November 2026
 
 Iris **2294676 COMPLETED 0:0**, 2,200 seconds /56 CPUs. Preparation-child interleave yields **21.771496718 versus 22.163497501 s/step**, **1.76868% lower pooled time**, in four 20-step arms. Adjacent pairs disagree (+0.73172% /−4.20539%); this is a short directional signal, not a stable own win. All four independent native replays and identical force trajectories pass. [Full review and diagnostic limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md).

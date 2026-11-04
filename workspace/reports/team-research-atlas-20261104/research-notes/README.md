@@ -56,5 +56,5 @@ Source-linked retrospective explanations for 31 AI milestones and 15 HPC milesto
 | [Check a new axis order and reverse it](hpc/xzy.md) | Iris | 2 Nov |
 | [Revisit native xyz with a control](hpc/xyz.md) | Iris | 3 Nov |
 | [Test preparation memory policy](hpc/prep.md) | Iris | 3 Nov |
-| [Ask whether that mechanism helps the solver](hpc/native.md) | Iris | 3 Nov receipt |
+| [Ask whether that mechanism helps the solver](hpc/native.md) | Iris | 4 Nov review |
 
