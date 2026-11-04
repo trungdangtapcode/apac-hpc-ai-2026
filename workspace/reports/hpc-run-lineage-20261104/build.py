@@ -16,7 +16,7 @@ for n in nodes:
  parts=[n['date']+' · '+n['platform'],n['title'],n['change'],'Jobs '+n['jobs'],n['result'],statuses[n['status']]]
  label='\n'.join('\n'.join(textwrap.wrap(t,49)) for t in parts)
  url='../../../'+n['evidence']
- lines.append(json.dumps(n['id'])+' [label='+json.dumps(label,ensure_ascii=False)+',color="'+color+'",fillcolor="'+fill+'",penwidth=1.8,URL='+json.dumps(url)+',tooltip='+json.dumps(n['result']+' | '+statuses[n['status']]) +'];')
+ lines.append(json.dumps(n['id'])+' [label='+json.dumps(label,ensure_ascii=False)+',color="'+color+'",fillcolor="'+fill+'",penwidth=1.8,URL='+json.dumps(url)+',tooltip='+json.dumps(n['result']+' | '+statuses[n['status']],ensure_ascii=False) +'];')
 for e in data['edges']:
  style='solid' if e['relation']=='repeat' else 'dotted'
  lines.append(f'{json.dumps(e["source"])} -> {json.dumps(e["target"])} [constraint=false,style={style},label={json.dumps(e["relation"],ensure_ascii=False)}];')
