@@ -1,8 +1,6 @@
 # Kịch bản nói phần AI — tiếng Việt
 
-**Bản tập nói cho tuyến 16 slide AI.** Thời lượng mục tiêu khoảng 12 phút 30 giây, đã tính khoảng dừng, với tốc độ ước tính 115–125 từ nói mỗi phút. Nhóm chưa trình bày thử trực tiếp và chưa bấm giờ. Khung công khai dành 15–20 phút cho cả AI và HPC, sau đó là 10 phút hỏi đáp; hai người nói cần thống nhất thời lượng. Mục tiêu này để khoảng 7 phút 30 giây trong khung 20 phút cho phần HPC. Nếu tổng thời lượng chỉ là 15 phút, nhóm cần thống nhất bản rút gọn AI trước khi tập.
-
-**Cách đọc slide 4–7:** mỗi ý có phần **Nói** để thuyết trình và phần **Giải thích để hiểu** để ôn tập. Phần giải thích không đọc khi trình bày.
+Bản nói theo 16 slide AI hiện có. Mỗi đoạn là một ý để nói; dùng “nhóm” thống nhất và làm tròn số khi trình bày. Không đọc các ghi chú ôn tập cuối tài liệu. Mục tiêu phần AI là 12–13 phút; bản chỉnh này chưa được tập trực tiếp và bấm giờ.
 
 ## Slide 1 — Fast tokens count only when requests meet both latency limits
 
@@ -10,111 +8,93 @@ Câu hỏi của nhóm không chỉ là mô hình sinh token nhanh đến đâu.
 
 ## Slide 2 — Three investigations support three different kinds of claim
 
-Nhóm phân biệt ba loại đóng góp. Thứ nhất là quyết định chia GPU giữa xử lý prompt và sinh câu trả lời. Thứ hai là thay đổi có giới hạn trong một đường thiết lập chuyển KV. Thứ ba là kết quả đo backend và tải client. Nhóm sử dụng SGLang, NIXL, DeepGEMM, FlashInfer và HPC-Ops là các dự án có sẵn, không phải sản phẩm do nhóm phát minh. Đóng góp là tích hợp cục bộ, kiểm tra tương thích và chọn lựa dựa trên bằng chứng. Ba câu chuyện trả lời các câu hỏi khác nhau.
+Nhóm có ba loại đóng góp.
+
+Thứ nhất là quyết định kiến trúc: với 16 GPU, chia thế nào giữa xử lý prompt và sinh token? Nhóm khảo sát các cách bố trí, kiểm tra khả năng chạy và giữ cấu hình phù hợp để tối ưu tiếp.
+
+Thứ hai là thay đổi mã trong đường tích hợp NIXL, một thư viện truyền dữ liệu có sẵn. Nhóm sửa cách chuẩn bị danh sách vùng nhớ cần truyền: theo request, thay vì duyệt cả pool KV đã dành trước.
+
+Thứ ba là tích hợp và thử nghiệm các lựa chọn backend cùng mức tải client. Nhóm dùng các dự án có sẵn như SGLang, NIXL, DeepGEMM, FlashInfer và HPC-Ops; đóng góp nằm ở kiểm tra tương thích, thiết kế phép so sánh và lựa chọn dựa trên kết quả.
 
 ## Slide 3 — Replica count and parallel width compete for the same 16 GPUs
 
-Câu hỏi thiết kế đầu tiên là dùng mười sáu GPU thế nào khi prefill và decode cùng cần tài nguyên. Tăng số replica prefill giúp xử lý nhiều prompt độc lập; dành nhiều GPU hơn cho decode có thể hỗ trợ sinh. Nhưng mỗi lựa chọn làm phần còn lại có ít GPU hơn. Nhóm giữ hai worker prefill TP4/EP1 và một worker decode TP8/EP8 vì cách chia vừa hai máy, qua kiểm tra hình học mô hình và hai pha, rồi dùng được trong các lượt đầy đủ sau. Đây là bố trí khả thi; dữ liệu không xếp hạng công bằng mọi cách chia hay chứng minh tối ưu toàn cục.
+Câu hỏi thiết kế đầu tiên là dùng 16 GPU thế nào khi prefill và decode cùng cần tài nguyên.
+
+Tăng số worker prefill giúp xử lý nhiều prompt độc lập. Dành nhiều GPU hơn cho decode có thể hỗ trợ pha sinh token. Nhưng cả hai cùng chia sẻ ngân sách 16 GPU, nên tăng tài nguyên cho bên này sẽ giảm phần còn lại của bên kia.
+
+Nhóm khảo sát 17 cấu hình topology để kiểm tra những cách chia khả thi. Các kết quả giúp nhóm thu hẹp lựa chọn và chọn cấu hình để nghiên cứu tiếp; đây không phải phép thử hết mọi khả năng với cùng một mức tải.
 
 ## Slide 4 — Two TP4 prefills feed one TP8 decode within the two-node budget
 
-### Ý 1 — Prefill dùng GPU thế nào
+Nhóm giữ hai worker prefill và một worker decode. Cách chia này sử dụng vừa hai máy và đã chạy được qua cả hai pha trong các lượt benchmark đầy đủ.
 
-**Nói:** Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU xử lý prompt dài. TP4 nghĩa là bốn GPU cùng chia phép tính của một worker; EP mô tả cách phân bố các expert.
+Máy thứ nhất chạy hai worker prefill, mỗi worker dùng bốn GPU để xử lý prompt dài. TP4 nghĩa là bốn GPU cùng chia phép tính của một worker. Máy thứ hai chạy một worker decode dùng tám GPU, với TP8/EP8; tám GPU này vừa chia phép tính vừa phân bố các expert của mô hình MoE.
 
-**Giải thích để hiểu:** Một prefill worker dùng bốn GPU hợp tác; hai worker có thể nhận hai request khác nhau.
-
-### Ý 2 — Decode và nhóm TP
-
-**Nói:** Máy thứ hai chạy một worker decode dùng tám GPU, TP8/EP8. Các GPU cùng một nhóm TP đều nằm trong cùng máy.
-
-**Giải thích để hiểu:** TP8/EP8 dùng cùng tám GPU; các số TP và EP không nhân thành 64 GPU trong cấu hình này.
-
-### Ý 3 — Vì sao cần chuyển KV
-
-**Nói:** Sau khi prefill xử lý prompt, trạng thái attention KV cần được chuyển sang decode để tiếp tục sinh token. Vì hai pha nằm trên hai máy, nhóm kiểm tra cả việc kết nối thành công và việc chuyển đúng dữ liệu.
-
-**Giải thích để hiểu:** KV là trạng thái attention của request cần chuyển; trọng số model đã nạp ở các worker.
+Như vậy, mỗi nhóm tensor parallel nằm trong cùng một máy. Đổi lại, sau khi xử lý prompt, prefill phải gửi trạng thái attention KV sang máy decode để tiếp tục sinh token. Vì vậy, nhóm kiểm tra riêng việc thiết lập và tính đúng đắn của đường chuyển này.
 
 ## Slide 5 — Ready workers still failed before the first usable benchmark
 
-### Ý 1 — Request warmup bị kẹt
+Khi kiểm tra đường chuyển, nhóm gặp một nhánh mà các worker đã nạp model và báo sẵn sàng, nhưng request warmup đi qua cả prefill và decode vẫn chưa hoàn tất sau 360 giây. Benchmark chưa bắt đầu nên lượt đó chưa có điểm.
 
-**Nói:** Sau khi các worker nạp xong model và báo ready, nhóm gửi request warmup để kiểm tra đường prefill–decode. Request thử này chưa hoàn tất khi hết thời hạn 360 giây.
+Đọc mã nguồn, nhóm thấy bước tạo descriptor chuẩn bị thông tin địa chỉ vùng nhớ cho cả KV pool, dù request chỉ dùng một phần. Descriptor là danh sách địa chỉ và độ dài vùng nhớ, không phải dữ liệu KV.
 
-**Giải thích để hiểu:** Ready xác nhận từng worker đã khởi động; request thử mới kiểm tra được việc phối hợp hai pha.
-
-### Ý 2 — Vị trí timeout
-
-**Nói:** Timeout xảy ra trong warmup; AIPerf chưa bắt đầu đo nên chưa có điểm.
-
-**Giải thích để hiểu:** 360 giây là giới hạn chờ request warmup; không phải số đo thời gian truyền KV.
-
-### Ý 3 — Dấu hiệu từ mã nguồn
-
-**Nói:** Khi đọc mã nguồn, nhóm thấy bước thiết lập tạo descriptor cho cả pool KV đã dành trước. Descriptor mô tả địa chỉ và độ dài vùng nhớ cần dùng để truyền dữ liệu. Request chỉ dùng một phần pool, nên nhóm chọn thử cách chuẩn bị metadata theo chính request đó.
-
-**Giải thích để hiểu:** Mã nguồn cho một công việc cụ thể đáng thử giảm; bước sau kiểm tra đề xuất đó.
+Từ đó, nhóm thử giảm công việc thiết lập bằng cách chỉ mô tả phần KV thuộc request. Slide tiếp theo trình bày bản sửa và cách kiểm tra.
 
 ## Slide 6 — Request-scoped descriptors remove work unrelated to the request
 
-### Ý 1 — Vì sao chọn hướng này trước
+Bản sửa gồm hai bước. Đầu tiên, chỉ tạo descriptor cho những trang KV thuộc request đang xử lý. Sau đó, gộp các vùng nhớ liên tiếp thành một vùng lớn hơn để rút ngắn danh sách descriptor.
 
-**Nói:** Nhóm chọn kiểm tra descriptor trước vì mã nguồn cho thấy một phần công việc thiết lập có thể giảm trong phạm vi nhỏ. Việc thiết lập chuẩn bị mô tả cho cả KV pool, trong khi request chỉ cần một số trang của nó. Điều đó nói về lượng metadata được chuẩn bị, không có nghĩa bản cũ truyền toàn bộ pool.
+Ví dụ, ba vùng nhớ liên tiếp, mỗi vùng 100 byte, có thể được mô tả bằng một descriptor dài 300 byte. Số descriptor giảm nhưng các byte cần chuyển vẫn giữ nguyên. Nếu giữa hai vùng có khoảng trống thì không được gộp qua khoảng trống đó.
 
-**Giải thích để hiểu:** Nhóm chọn một thay đổi nhỏ có thể kiểm chứng trước; các hướng bandwidth hoặc scheduling vẫn có thể cần xem xét.
-
-### Ý 2 — Thay đổi cụ thể
-
-**Nói:** Bản sửa chỉ tạo mô tả cho các trang cần dùng và gộp những vùng liên tiếp.
-
-**Giải thích để hiểu:** Descriptor là bản hướng dẫn địa chỉ/độ dài. Giảm danh sách chuẩn bị khác với giảm lượng KV cần chuyển.
-
-### Ý 3 — Cách kiểm tra tính đúng
-
-**Nói:** Điều kiện phải giữ là request vẫn đọc và ghi đúng các byte như cách cũ. Nhóm kiểm tra điều kiện này qua 720 ca trên CPU trước khi thử đường chạy phân tán. Đây là cách chọn một hướng có căn cứ trong code và kiểm tra được với chi phí thấp.
-
-**Giải thích để hiểu:** 720 ca kiểm tra so sánh vùng byte phải đọc/ghi; lượt GPU sau đó xác nhận đường chạy thật hoạt động.
+Để kiểm tra tính đúng, nhóm chạy 720 trường hợp trên CPU, đối chiếu các vùng byte mà cách cũ và cách mới mô tả. Tất cả đều đạt. Bước tiếp theo là kiểm chứng bản sửa trên đường chạy GPU thực tế.
 
 ## Slide 7 — The patched path became usable; descriptor-only speedup is unknown
 
-### Ý 1 — Trước và sau bản sửa
+Sau khi sửa cách tạo descriptor, cặp prefill–decode đã hoàn tất warmup và chạy hết benchmark, không có request lỗi được chấm.
 
-**Nói:** Ở lượt chạy chưa sửa, request warmup bị timeout trước benchmark. Sau bản sửa, đường prefill–decode hoàn tất warmup, xử lý request thật và chạy hết benchmark với không lỗi được chấm.
-
-**Giải thích để hiểu:** Bằng chứng mới là request thật và benchmark đã hoàn tất sau khi sửa.
-
-### Ý 2 — Kết quả ủng hộ điều gì
-
-**Nói:** Kết quả này ủng hộ hướng giảm công việc tạo descriptor và cho thấy bản sửa đã chạy được đầu-cuối. Nhóm giữ bản sửa dựa trên bằng chứng đó.
-
-**Giải thích để hiểu:** Có cơ sở giữ bản sửa vì nó đã chạy được và kết quả phù hợp với hướng xử lý metadata.
-
-### Ý 3 — Giới hạn kết luận
-
-**Nói:** Nhóm chưa đo riêng thời gian tạo descriptor của bản cũ và chưa có đối chứng chưa sửa chạy thành công, nên chưa thể kết luận đây là nguyên nhân duy nhất của timeout hoặc tính mức tăng tốc riêng của bản sửa.
-
-**Giải thích để hiểu:** Giới hạn nằm ở việc xác định nguyên nhân duy nhất và mức tăng tốc riêng, không phải phủ nhận kết quả bản sửa.
+Như vậy, nhánh trước đó bị timeout đã trở thành đường serving sử dụng được. Nhóm giữ bản sửa để tiếp tục thử nghiệm hiệu năng trên đường chạy đã hoạt động đầu-cuối.
 
 ## Slide 8 — Profiles identify candidates for investigation, not a proven time budget
 
-Phép chẩn đoán N48 riêng cho thấy các nhóm tính toán, giao tiếp và attention đáng xem xét. Tổng thời lượng kernel có thể chồng lấp nên chưa chứng minh yêu cầu mất thời gian ở đâu. Một dấu hiệu quan trọng khác là sự khác nhau giữa hai pha: cấu hình DeepGEMM ở decode từng không đạt ngưỡng độ trễ, nhưng điều đó chưa trả lời liệu nó có phù hợp với prefill, nơi nhiều token của prompt được xử lý cùng lúc. Vì vậy đáng thử riêng prefill, giữ decode cố định. Đây là cách giải thích kỹ thuật nhìn lại từ bằng chứng đã lưu; nhóm không nói profiling đã dự đoán được người thắng. Kết luận đến từ phép đo có đối chứng và lần chạy lặp lại.
+Khi đường serving đã chạy được, câu hỏi tiếp theo là nên thử tối ưu phần tính toán nào.
+
+Lượt profiling riêng ở mức 48 request đồng thời cho thấy các nhóm phép nhân ma trận, giao tiếp và attention đáng xem xét. Đây là những công việc xuất hiện trong profile; thời gian các kernel có thể chồng lấp nên biểu đồ này không phải cách chia toàn bộ thời gian chờ của một request.
+
+Nhóm cũng xem xét sự khác nhau giữa hai pha. Prefill xử lý nhiều token cùng lúc, còn decode sinh từng token nối tiếp, nên hai pha có thể phù hợp với backend khác nhau. Nhóm thử DeepGEMM cho prefill với decode giữ cố định, rồi dùng phép đo toàn dịch vụ để quyết định. Sau khi cải thiện prefill, nhóm chuyển sang kiểm tra lựa chọn decode.
 
 ## Slide 9 — Test the decode implementation while holding the serving setup fixed
 
-Sau khi thay prefill và kích thước chunk, nhóm đặt câu hỏi: lựa chọn decode cũ còn phù hợp dưới điều kiện vận hành mới không? Đây là lý do kiểm tra lại một implementation có sẵn, thay vì lặp nguyên một thử nghiệm đã thua. Nhóm so đối chứng decode tự động mới với HPC-Ops ở N60 đầy đủ, giữ topology, prefill, chunk, workload, attention và transport giống nhau. Nếu cả dịch vụ tốt hơn và chạy lại vẫn giữ được kết quả, nhóm có cơ sở chọn cấu hình. Nếu chỉ một chỉ số nội bộ tốt hơn hoặc vi phạm SLA, nhóm sẽ loại. Phép thử kiểm tra quyết định đó; nó chưa xác định một kernel duy nhất là nguyên nhân.
+Ở bước này, nhóm so sánh hai lựa chọn cho phần MoE ở decode: để SGLang tự chọn backend và chỉ định HPC-Ops. HPC-Ops là thư viện tính toán GPU có sẵn của Tencent.
+
+Cả hai chạy trên cùng 16 H200, dùng DeepGEMM cho prefill với chunk 8192 và 60 request đồng thời. Cách chia GPU, workload, attention và transport được giữ nguyên để đánh giá tác động của việc đổi backend decode.
+
+Kết quả được trình bày ở slide tiếp theo.
 
 ## Slide 10 — Higher goodput came with slower first tokens and faster streaming
 
-Goodput đầu ra tăng khoảng 5,30%. Thời gian token đầu trung bình chậm thêm khoảng 125 mili giây, trong khi độ trễ giữa token trung bình tốt hơn khoảng 1,64 mili giây. Lần chạy độc lập tái hiện kết quả gần như tương tự. Nhóm giữ cấu hình đã thử để nghiên cứu tải tiếp theo, đồng thời ghi nhận token đầu chậm hơn là đánh đổi thật. Đây là kết quả ở cấp cấu hình, lặp lại trong workload này; nó không chứng minh cơ chế của một kernel hay cho phép cộng cơ học mức tăng với thí nghiệm khác.
+So với chế độ tự chọn backend decode của SGLang, HPC-Ops tăng goodput khoảng 5,3% trong cùng setup.
+
+Đánh đổi là token đầu chậm thêm trung bình khoảng 125 mili giây, nhưng khoảng cách giữa các token giảm khoảng 1,6 mili giây. Nghĩa là request bắt đầu trả lời chậm hơn một chút, nhưng sau đó sinh token nhanh hơn, và toàn dịch vụ tạo ra nhiều token đạt chuẩn hơn.
+
+Lần chạy độc lập cho kết quả gần tương đương, nên nhóm giữ HPC-Ops cho decode và tiếp tục tối ưu số request đồng thời.
 
 ## Slide 11 — N64 survives a full repeat; N68 loses its short-test advantage
 
-Sau khi đổi backend, nhóm kiểm tra lại concurrency của client. Nhiều yêu cầu đang bay có thể giúp chồng lấp công việc, nhưng cũng có thể tăng thời gian chờ và làm token đầu chậm hơn. Các lượt đầy đủ N62/N64 cho thấy N64 tăng goodput khoảng 1,08%, rồi một lượt N64 độc lập cho điểm gần như tương tự. Lượt N68 ngắn có vẻ tốt, nhưng phép đo đầy đủ chỉ tăng khoảng 0,08%, dưới ngưỡng hữu ích 1% của nhóm. Nhóm giữ N64 và đóng nhánh N68. Concurrency là số yêu cầu client đang bay, không phải số GPU hay batch decode.
+Nhóm cần cân bằng giữa thông lượng và độ trễ khi tăng số request đồng thời. Nhiều request hơn giúp tận dụng GPU, nhưng cũng có thể khiến request chờ lâu và vượt giới hạn thời gian token đầu.
+
+Tăng từ 62 lên 64 request giúp goodput tăng khoảng 1,1%, với kết quả được tái hiện ở lần chạy độc lập. Tăng tiếp lên 68 có vẻ tốt ở lượt thử ngắn, nhưng phép đo đầy đủ chỉ cải thiện khoảng 0,08% so với N64, dưới ngưỡng hữu ích 1% của nhóm.
+
+Vì vậy, nhóm giữ N64: mức tải cho cải thiện rõ ràng, còn tăng thêm chưa mang lại lợi ích đáng kể. N64 là 64 request client đồng thời, không phải số GPU hay batch decode.
 
 ## Slide 12 — The remaining latency failures are first-token tails
 
-Trong một lượt N64 đầy đủ riêng, 1.875 trên 1.902 yêu cầu đạt cả hai giới hạn độ trễ. Cả 27 yêu cầu trượt đều chậm token đầu; không yêu cầu nào trượt độ trễ trung bình giữa token và không có lỗi được chấm. Điều này cho biết điều kiện dịch vụ nào bị trượt. Nhưng thiếu thời gian từng pha nên chưa thể quy token đầu chậm cho hàng đợi, prefill, chuyển dữ liệu hay nguyên nhân khác. Nhóm báo triệu chứng đã đo, chưa gán nguyên nhân nội bộ.
+Sau khi chọn N64, nhóm muốn biết những request chưa đạt SLA đang gặp vấn đề gì, thay vì chỉ nhìn goodput tổng.
+
+Mỗi chấm trong biểu đồ là một request. Trục ngang là thời gian chờ token đầu, trục dọc là khoảng cách trung bình giữa các token, đều tính bằng mili giây. Hai đường đỏ đánh dấu giới hạn ba giây và hai mươi mili giây; request đạt chuẩn phải nằm phía dưới bên trái, tính cả điểm đúng biên.
+
+Khoảng 98,6% request đạt cả hai điều kiện. Các chấm xanh xám là request đạt chuẩn. Các chấm cam đều nằm bên phải giới hạn ba giây nhưng vẫn dưới giới hạn giữa token. Nghĩa là những request này bắt đầu trả lời chậm, còn khi đã bắt đầu thì vẫn sinh token đủ nhanh. Có 27 request như vậy, và không có lỗi request.
+
+Vì vậy, nếu tiếp tục cải thiện cấu hình này, nhóm cần tập trung tìm nguyên nhân khiến một số request chờ token đầu lâu.
 
 ## Slide 13 — A complete portable run reproduces the retained operating level
 
@@ -151,3 +131,15 @@ Gói ban đầu kiểm tra router trước khi đăng ký model hoàn tất nên
 ## Chi tiết dự phòng khi hỏi
 
 Chín lượt H200 cuối được rà soát. Đối chứng mới đạt 3.038,02; decode FA3 đạt 2.999,25. Công thức H100 chuyển sang đạt 2.721,82. HPC-Ops prefill với chunk 6.144 và 8.192 đạt 2.821,88 và 2.900,61. Hai biến thể inference mode chỉ bật ở decode hoặc prefill nhỉnh hơn đôi chút so với đối chứng, nhưng đều dưới ngưỡng hữu ích 1%. Không biến thể nào thay công thức được giữ. Xem [FULL_RESULTS.md](../ai-quality-verification-20261103/FULL_RESULTS.md) để biết phương pháp kiểm tra chất lượng và [MOCK_QA_EVIDENCE.md](MOCK_QA_EVIDENCE.md) để tra nguồn cùng giới hạn của từng kết quả. Chưa có mock thuyết trình trực tiếp được bấm giờ.
+
+## Ghi chú ôn tập cho slide 8 — không đọc thành phần trình bày
+
+- Thử DeepGEMM riêng cho prefill: job 24291 trên 16 H200, N56, đạt khoảng 2.716 good tokens/s, tăng 1,81% so với control 24263; khoảng 98,82% request đạt SLA. Đây là kết quả prefill, khác phép thử decode tăng 5,3% ở slide 10.
+- Phép thử HPC-Ops prefill về sau trên H200, cùng chunk 8192, thấp hơn cấu hình DeepGEMM khoảng 4,52%. Đây là bằng chứng bổ sung cho lựa chọn, không phải lượt thử trước bước chọn decode trong câu chuyện đang trình bày.
+- Thử Triton ở mức kernel riêng trên H100 không tìm được lợi ích trong các trường hợp đã kiểm tra. Không dùng kết quả này như benchmark toàn model trên H200.
+- SGLang là framework serving; NIXL là thư viện chuyển dữ liệu; DeepGEMM và HPC-Ops cung cấp đường tính toán; FlashInfer có vai trò attention trong cấu hình giữ lại. Chúng không phải các client tương đương nhau.
+- Slide 8 hiện trình bày profiling, không hiển thị bảng so sánh prefill. Các số trên dành cho ôn tập và Q&A; slide 9 trình bày setup so sánh decode, slide 10 mới trình bày kết quả decode.
+
+## Ghi chú ôn tập cho slide 7 — không đọc thành phần trình bày
+
+Bằng chứng ủng hộ việc giữ bản sửa là đường chạy đã hoàn tất warmup và benchmark. Không có lượt chưa sửa hoàn tất để tính mức tăng tốc riêng, cũng chưa đo riêng thời gian tạo descriptor; không quy toàn bộ tác động cho một nguyên nhân duy nhất. Chi tiết giữ trong phần dự phòng.
