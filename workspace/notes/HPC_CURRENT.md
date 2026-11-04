@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Continued execution — fresh same-horizon repeat
+
+Owner asked to continue research rather than stop after review/diagram. New Iris **2294800 accepted** at 2026-11-04T15:07:28.254678Z. Same 40-step horizon and runtime/source/policy checks as 2294735, ABBA rather than BAAB. [Actual receipt and frozen payload](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/STATUS.md). Maximum 2 hours /56 CPUs /zero GPUs; 112 planning CPU-hours reserved. Ledger is 1,098 consumed +112 reserved = 1,210 internal stage; actual site SU unknown. No new performance result yet; preserve queue position and one-own cap.
+
+The owner additionally requires numerical Result schemas on the shared website, matching AI's metric-based presentation. HPC Result must show named numeric metrics, units, run/horizon context and missing-data states. Assessments belong separately. Do not turn remarks into a numeric score or treat graph-only evidence as solver performance.
+
 ## Completed confirmation reviewed — 4 November 2026
 
 2294735 COMPLETED 0:0 in 4,710 seconds, 56 CPUs. Independent native replay and all source/runtime/payload/force gates pass. Candidate pooled 21.862379771 versus control 31.502857339 s/step: 30.601914818% lower within this 40-step BAAB job. Both adjacent comparisons favor candidate; candidate repeat drift +0.17821%, control +14.16819%. Effect size differs sharply from the earlier 1.77% screen; retain as a strong within-allocation signal, not a universal speedup. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md).

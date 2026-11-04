@@ -1,0 +1,9 @@
+# Independent same-horizon ABBA confirmation actually submitted
+
+The owner asked whether research had stopped. The worker acknowledged the gap after completed 2294735 and resumed native execution. The 30.60% within-job BAAB contrast had 14.17% control drift, unlike the earlier 20-step ABBA small signal. The next hypothesis therefore changes only order in a fresh allocation while keeping 40 steps /39 intervals and all other source/runtime/policy controls.
+
+New frozen 62-path bundle passed offline treatment/order/window checks, Python compilation, shell syntax and byte identity for unchanged parent runtime/input files. Independent read-only design review agrees that ABBA tests endpoint placement but does not remove nonlinear/allocation confounding. A failed deployment before the Iris prompt was reconciled read-only (remote root absent); its intent remains retained. The new deployment's hashes pass, and definite scheduler receipt accepted **2294800** at 2026-11-04T15:07:28.254678Z. No blind sbatch retry occurred.
+
+Locked reservation is 112 allocated CPU-hours (2 hours ×56 CPUs); 1,098 consumed +112 reserved reaches 1,210, a bounded 74 extension of the previous internal 1,136 stage. These are planning units, not billed SU or owner limits. No NSCC/AI debit. The acceptance does not establish completion or a speedup. All four native work, source/runtime, timing, force and policy gates must pass before interpretation; retain all arms/tails and paired directions. A favorable result still requires variable-magnitude qualification and does not become an official 150-step result.
+
+[Plan, source, actual job and state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/STATUS.md). The owner also requested a numeric metric schema on the shared AI/HPC web atlas; that presentation change is a separate checkpoint.

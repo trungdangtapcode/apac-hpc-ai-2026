@@ -1,3 +1,5 @@
+Latest HPC acceptance: [Independent same-horizon ABBA job2294800](entries/20261104-hpc-independent-abba40-submitted.md).
+
 Latest HPC completed review: [4 November reversed40-step result](entries/20261104-hpc-reverse40-terminal-result.md).
 
 Latest HPC acceptance: [4 November reversed 40-step preparation-policy confirmation2294735](entries/20261104-hpc-preparation-reverse40-submitted.md).
