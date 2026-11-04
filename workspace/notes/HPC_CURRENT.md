@@ -2,6 +2,11 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Distinct MPI qualification accepted
+
+New **2294805 accepted** at 2026-11-04T18:34:01.882318Z: tiny MPI_Allreduce correctness/latency/component qualification, not OpenFOAM solve. Maximum 5 minutes /56 CPUs /zero GPU, 4.666667 CPU-hours reserved within unchanged 1,289 internal stage (1,219 consumed). Exact runtime/component evidence and repeated >=10% median/p95 gates must pass before any solver follow-up. [Actual receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/STATUS.md). This does not attribute 2294803's timeout to MPI.
+
+
 ## Native solver-rank trial stopped — 5 November 2026, 01:21 Vietnam
 
 2294803 FAILED 1:0, 2,667 seconds. A1 completes 40 steps, mean 24.758556905 s/step. B1 interleave times out 124 at 1,500 seconds, last started 35 with 33 measured intervals averaging 41.846495650 s/step diagnostically. B2/A2 not started. Full candidate/four-arm score is unavailable; close this unchanged interleave-all solver candidate under its envelope rather than raising the cap. Both 56-rank pre-exec policy/affinity proofs pass and 34 force-prefix rows match; post-source/runtime gates were not reached. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/RESULTS.md).
