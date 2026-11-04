@@ -1,0 +1,59 @@
+{
+  "candidate_id": "iris-preparation-reverse40-20261104",
+  "state": "prepared for independent root review; not approved, sealed, admitted, deployed, or submitted",
+  "parent": "iris-preparation-native20-20261103 (frozen unchanged)",
+  "changed_files": [
+    "candidate.json",
+    "job.sbatch",
+    "run.py",
+    "native_output.py",
+    "offline_checks.py",
+    "payload-sha256.json",
+    "payload-sha256.txt"
+  ],
+  "preserved_controls": [
+    "Accepted Scotch source and both source manifests/pins",
+    "Same native OpenFOAM v2512 double-precision build, 56-rank mpirun command, initialized fields, physics and instrumentation",
+    "Same child-only inherited versus interleave-all preparation policy; solver launcher-parent policy asserted inherited for every arm",
+    "Only runtime control edit is endTime=40 in each copied arm"
+  ],
+  "design": {
+    "arm_order": [
+      "B1-interleaved-prep",
+      "A1-inherited-prep",
+      "A2-inherited-prep",
+      "B2-interleaved-prep"
+    ],
+    "steps_per_arm": 40,
+    "timed_intervals_per_arm": 39,
+    "solver_cap_seconds_each": 1500,
+    "nodes": 1,
+    "cpus": 56,
+    "gpus": 0,
+    "exclusive": true,
+    "qos": "low",
+    "wall_time": "02:00:00",
+    "allocation_cpu_hours_maximum": 112,
+    "complete_sequence_internal_budget_seconds": 6420,
+    "internal_deadline_seconds": 6800,
+    "outer_timeout_seconds": 7190
+  },
+  "validation": {
+    "offline_checks": "passed",
+    "python_compile": [
+      "run.py",
+      "native_output.py",
+      "offline_checks.py"
+    ],
+    "bash_syntax": "passed for job.sbatch",
+    "payload_sha256_check": "passed for every entry in payload-sha256.txt",
+    "measurement_performed": false
+  },
+  "limits": [
+    "Confirms a directional preparation-factor signal only; one allocation does not establish repeatability or promotion.",
+    "BAAB balances linear order drift but cannot rule out nonlinear time drift.",
+    "Telemetry remains whole-node aggregate; no per-rank memory policy or process-attributed page-placement evidence.",
+    "Runtime execution, scheduler acceptance, source availability, output checks, and root sealing/admission remain unverified.",
+    "112 CPU-hours is the requested allocation maximum in the prepared envelope, not a billed-cost estimate or authorization to submit."
+  ]
+}
