@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## MPI qualification closed; build rules inspected
+
+2294805 COMPLETED 0:0 in 20 seconds /56 CPUs, all four correctness/binding/quantile-replay gates pass. Forced tuned candidate increases median latency by 56.8–70.4% and p95 by 44.4–85.0% in matched blocks; no native solver follow-up is warranted for that candidate. Actual runtime is Open MPI 5.0.10rc2; default verbose output includes ucc priority 100, candidate tuned priority 100. This is component evidence, not a per-operation OpenFOAM profile or proof of a bottleneck. [All raw samples and result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md).
+
+20 seconds costs 0.311111 allocated CPU-hours, conservatively 1; maximum 4.666667 retired once, leaving 1,220 consumed /zero reserved /stage 1,289. Compiler-rule inspection also found -O3 and -march=cascadelake; that does not prove binary build flags, but removes the assumption that a generic unoptimized build can simply be replaced. [Read-only provenance](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-build-flags-review-20261105/README.md). No newly qualified faster solver configuration exists from these branches; do not fill the queue with unchanged losing flags.
+
 ## Distinct MPI qualification accepted
 
 New **2294805 accepted** at 2026-11-04T18:34:01.882318Z: tiny MPI_Allreduce correctness/latency/component qualification, not OpenFOAM solve. Maximum 5 minutes /56 CPUs /zero GPU, 4.666667 CPU-hours reserved within unchanged 1,289 internal stage (1,219 consumed). Exact runtime/component evidence and repeated >=10% median/p95 gates must pass before any solver follow-up. [Actual receipt and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/STATUS.md). This does not attribute 2294803's timeout to MPI.
