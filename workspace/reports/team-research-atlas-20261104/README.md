@@ -11,3 +11,7 @@ Run `python3 build.py` with Graphviz installed. It refreshes the standalone sour
 Pages stages the reviewed team `index.html.gz` as the root page, `.nojekyll` and a tiny legacy redirect at `hpc/index.html`. The workflow watches the team gzip. It never uploads the repository root or the external object store. Individual AI and HPC component pages remain build inputs and historical offline views; the hosted product is the unified document.
 
 [Single-page browser validation and design record](../team-atlas-single-page-20261104/README.md). Earlier two-route publication receipts and tests in this directory are historical; the previous README is preserved with the new review. Source scientific records and original HPC report hashes remain retained.
+
+## Current workspace design
+
+The visual refresh replaces the large introduction with a dark navigation sidebar, a light graph workspace, compact scope cards and an original generated sidebar image. The shared page and task state are preserved. [Design direction, references, asset hashes and regression checks](../atlas-design-refresh-20261104/README.md).

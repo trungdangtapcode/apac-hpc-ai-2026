@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compose both tested research explorers into one offline-capable page."""
 from pathlib import Path
-import gzip,json,re,hashlib
+import gzip,json,re,hashlib,base64
 D=Path(__file__).resolve().parent
 AI=D.parent/'ai-run-lineage-20261103'
 
@@ -10,6 +10,7 @@ def extract(path,prefix):
     panel=re.search(r'(<section class="explorer".*?</main>)',page,re.S).group(1).removesuffix('</main>')
     tooltip=re.search(r'(<div id="tooltip".*?</div>)',page,re.S).group(1)
     panel+=tooltip
+    panel=re.sub(r'(<section class="reading-notes">.*?</section>)',lambda m:'<details class="evidence-notes"><summary>How to read this evidence</summary>'+m[1]+'</details>',panel,flags=re.S)
     ids={}
     def identifier(m):
         name=m[1];ids[name]=ids.get(name,0)+1
@@ -52,6 +53,12 @@ function chooseTrack(track,updateUrl=true){
  if(!mounted.has(track)){(track==='ai'?mountAi:mountHpc)(root,TEAM[track]);mounted.add(track);}
  document.getElementById('activeTrackName').textContent=track==='ai'?'AI / Qwen3–235B':'HPC / OpenFOAM';
  document.getElementById('activeTrackNote').textContent=track==='ai'?'Good output tokens/s · higher within the latency gate':'Solver seconds/step · lower under matched conditions';
+ document.getElementById('workspaceTitle').textContent=track==='ai'?'Qwen inference':'OpenFOAM simulation';
+ const values=track==='ai'?[['Research milestones',TEAM.ai.curated.nodes.length],['Retained allocations',TEAM.ai.runs.length],['Confirmed starts',TEAM.ai.runs.filter(r=>r.started===true).length]]:[['Research milestones',TEAM.hpc.nodes.length],['Documented connections',TEAM.hpc.edges.length],['CPU platforms',new Set(TEAM.hpc.nodes.map(n=>n.platform)).size]];
+ values.forEach(([label,value],i)=>{document.getElementById('scopeLabel'+(i+1)).textContent=label;document.getElementById('scopeValue'+(i+1)).textContent=value;});
+ document.getElementById('scopeExplanation').textContent=track==='ai'?'Includes probes and failed runs. Not 419 completed benchmarks.':'A curated investigation, not an exhaustive allocation census.';
+ document.body.dataset.track=track;
+
  current=track;if(updateUrl)history.pushState({track},'', '#'+track);
 }
 for(const track of ['ai','hpc']){
@@ -66,6 +73,8 @@ window.addEventListener('hashchange',()=>{if(location.hash.slice(1)!==current)ch
 chooseTrack(location.hash.slice(1),false);
 '''
     page=(D/'viewer/unified.html').read_text().replace('__STYLE__',(AI/'viewer/style.css').read_text()+'\n'+(D/'viewer/unified.css').read_text()).replace('__AI_PANEL__',ai).replace('__HPC_PANEL__',hpc).replace('__DATA__',json.dumps({'ai':ai_data,'hpc':hpc_data},ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')).replace('__SCRIPT__',code)
+    asset='data:image/webp;base64,'+base64.b64encode((D/'assets/research-field.webp').read_bytes()).decode()
+    page=page.replace('__SIDEBAR_IMAGE__',asset)
     assert '<iframe' not in page and '/home/apacsc42/' not in page
     # All HTML and SVG IDs must be unique after composing the two explorers.
     ids=re.findall(r'(?<![\w-])id="([^"]+)"',page);assert len(ids)==len(set(ids))
