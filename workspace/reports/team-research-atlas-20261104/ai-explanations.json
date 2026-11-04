@@ -1,0 +1,1151 @@
+{
+  "early-layout": {
+    "question": "Which split prefill/decode layouts can run Qwen across the two-node H200 allocation?",
+    "rationale": "Retrospective explanation: the retained records document early topology exploration and setup repairs, but do not preserve a single pre-registered hypothesis. Prefill processes the prompt in parallel; decode generates tokens sequentially. Their resource needs differ, so the team first had to establish which layouts were feasible before comparing service performance.",
+    "changes": [
+      {
+        "aspect": "Parallel layout",
+        "before": "Several early disaggregated layouts; exact per-job differences are in the topology records.",
+        "after": "Multiple layouts were exercised, including the later split identified as 07/09; no single layout was isolated as the winner."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 results",
+        "value": "Job 22197: 1,297.02 good output tokens/s at N32; 22131: 1,472.73 at N32; 22200: 1,649.27 at N40; separate topology 22219: 1,666.01 at N40."
+      }
+    ],
+    "findings": [
+      "These runs show that multiple layouts could serve benchmark traffic.",
+      "Because layouts and concurrency differed, the score sequence is not a controlled ranking and cannot establish that one topology caused a gain."
+    ],
+    "decision": "Treat the runs as feasibility evidence, then use later matched controls to select a usable split.",
+    "limits": [
+      "H200 only.",
+      "Different loads and layouts prevent causal comparison.",
+      "The retained summary does not define every topology code; consult the cited topology table."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/TOPOLOGY_RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RESULTS.md"
+    ]
+  },
+  "tp8-warmup-failure": {
+    "question": "Why did a heterogeneous tensor-parallel prefill/decode pair fail before it could be scored?",
+    "rationale": "The model workers could load, but the two roles still had to establish a usable request path and pass a warmup request. Investigating this boundary mattered because a model that is resident on GPUs is not yet a working inference service. The retained evidence localizes the failure to the pair setup/transfer path; the specific underlying cause was not measured.",
+    "changes": [
+      {
+        "aspect": "Worker state",
+        "before": "Workers loaded and reported ready.",
+        "after": "The prefill/decode pair did not complete warmup within the job window."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job 22271",
+        "value": "Warmup timeout; AIPerf scoring did not begin; no performance score."
+      }
+    ],
+    "findings": [
+      "This was a setup failure before scored serving, not a low-throughput benchmark result.",
+      "It motivated source inspection of the KV-transfer descriptor path; that is a research lead, not proof that descriptors caused the timeout."
+    ],
+    "decision": "Inspect the handoff path and preserve the failed run as a distinct failure class.",
+    "limits": [
+      "No successful control score exists for this exact attempt.",
+      "No phase timer or direct causal diagnosis was retained."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/TOPOLOGY_REVIEW.md"
+    ]
+  },
+  "nixl-request-scope": {
+    "question": "Can the heterogeneous prefill/decode workers establish a correct KV handoff if transfer descriptors are built for only the active request?",
+    "rationale": "Retrospective explanation: after the warmup timeout, source inspection found NIXL integration code that enumerated descriptor metadata for a reserved KV pool broader than one request needed. A descriptor is an address/length description of memory regions, not the KV tensor payload. That code observation suggested a narrower experiment; it did not identify the timeout cause by itself.",
+    "changes": [
+      {
+        "aspect": "NIXL request-scoped transfer metadata",
+        "before": "The inspected heterogeneous-TP setup enumerated descriptor metadata across the reserved KV pool.",
+        "after": "_init_hetero_tp_prep_handle caches compact geometry in _ondemand_slice_plans; send_kvcache_slice constructs source/destination pages per request and coalesces only when length, source stride, and destination stride match. Partial head strides are not coalesced."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "CPU correctness",
+        "value": "720 geometry/equivalence cases passed while preserving the byte regions represented."
+      },
+      {
+        "label": "H200 job 22294",
+        "value": "Prefill/decode warmup completed; N32 scored 1,422.96 good output tokens/s."
+      }
+    ],
+    "findings": [
+      "The patched path became usable for real prefill/decode requests.",
+      "The CPU cases support address-range equivalence for tested geometries; they do not measure service acceleration.",
+      "Source counts 403.8 million versus 188 describe different scopes and must not be read as a speed ratio."
+    ],
+    "decision": "Keep the bounded compatibility fix as a path-enabling change; do not claim a descriptor-only speedup.",
+    "limits": [
+      "There is no scored, successful unpatched comparator and no isolated initialization timer.",
+      "The run establishes feasibility, not why the former warmup timed out or how much this patch changed performance."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/README.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/RECOVERY_RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/README.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/conn.py",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/original-conn.py",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/nixl-ondemand.patch",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-ondemand/geometry-test.json"
+    ]
+  },
+  "equal-tp-recovery": {
+    "question": "Would a separately scoped equal-TP8 descriptor route make the transfer path reliable at larger request loads?",
+    "rationale": "After the first patch enabled a real request path, this branch tested another parallel layout and descriptor route. The rationale is retrospective from the sequence of topology recovery experiments: a path that works at a small load may still fail eligibility as concurrency rises. The evidence should be used to understand the tested option, not as proof that equal TP itself is intrinsically unsuitable.",
+    "changes": [
+      {
+        "aspect": "Parallel layout/transfer route",
+        "before": "Heterogeneous prefill and decode TP widths.",
+        "after": "A separately scoped equal-TP8 descriptor route; related partial and timeout attempts were retained."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 22809",
+        "value": "1,507.96 good output tokens/s at N32; 95.38% joint SLA fraction."
+      },
+      {
+        "label": "Larger loads",
+        "value": "N40 and N48 attempts did not meet eligibility."
+      }
+    ],
+    "findings": [
+      "A scored N32 run was possible, but it did not meet the joint request-quality gate.",
+      "Higher-load failures made this branch unsuitable for promotion under the tested setup."
+    ],
+    "decision": "Do not select this branch; retain the failures and continue from the denser split baseline.",
+    "limits": [
+      "The score is not comparable with other runs at different layouts or loads.",
+      "No evidence isolates TP equality as the cause of SLA failure."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nixl-equal-ondemand/README.md"
+    ]
+  },
+  "baseline-dense": {
+    "question": "What repeatable service configuration can serve as a baseline for later controlled tuning?",
+    "rationale": "Once the team had a working disaggregated path, it needed a stable reference before changing backends or load. Two prefill replicas can process independent prompts while a decode worker generates their continuations. Tensor parallel (TP) spreads layer computation across GPUs; expert parallel (EP) distributes the MoE experts. A baseline makes later candidate/control comparisons interpretable.",
+    "changes": [
+      {
+        "aspect": "H200 role allocation",
+        "before": "Earlier topology experiments and recovery paths.",
+        "after": "Two TP4 prefill replicas feed one TP8/EP8 decode worker; subsequent full runs and controls use this as the retained split baseline."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 22415",
+        "value": "N48: 1,912.30 good output tokens/s."
+      },
+      {
+        "label": "Later controls",
+        "value": "Near 1,911 good output tokens/s."
+      }
+    ],
+    "findings": [
+      "The configuration provided a usable reference point for matched tuning.",
+      "The close later controls suggest this operating point was reproducible at that stage."
+    ],
+    "decision": "Retain it as a matched-tuning baseline, not as a claim of globally optimal topology.",
+    "limits": [
+      "The measurements are from the historical workload and system state.",
+      "The evidence does not exhaustively compare every possible layout."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning/PLAN.md"
+    ]
+  },
+  "prefill-routing": {
+    "question": "Can assigning new prompts across the prefill replicas more evenly reduce first-token delay?",
+    "rationale": "The workload deliberately disabled prefix reuse. The source review noted a cache-aware prefill policy with an absolute imbalance threshold of 64 while the tested burst was N52. This suggested testing deterministic distribution across the two prefill replicas to reduce the first-burst TTFT tail. It was a routing hypothesis, not proof of a router bug.",
+    "changes": [
+      {
+        "aspect": "Prefill gateway policy",
+        "before": "Inherited cache_aware policy; absolute imbalance threshold 64 in the reviewed control.",
+        "after": "Set --prefill-policy round_robin; worker, decode and client files unchanged."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 pilot 23325",
+        "value": "2,402.64 good output tokens/s versus 2,075.11 control."
+      },
+      {
+        "label": "Mean TTFT",
+        "value": "1,437.63 ms to 333.25 ms in the pilot."
+      }
+    ],
+    "findings": [
+      "The pilot observed higher goodput and much lower mean time to first token.",
+      "It was a single treatment observation; inter-token latency approached its limit, so request-level tails remained important."
+    ],
+    "decision": "Use the routing change as a promising lead and seek controlled follow-up rather than treating the pilot as settled.",
+    "limits": [
+      "Single pilot observation; not an independent replication.",
+      "The exact causal contribution of routing is not established by the score difference."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-04/RESEARCH.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-05/PLAN.md"
+    ]
+  },
+  "backend-losses": {
+    "question": "Do FP8 KV storage or DeepGEMM decode improve the routed service without violating both latency limits?",
+    "rationale": "After routing improved the service, two plausible decode-side changes were tested separately: reducing KV representation precision and changing the decode matrix-kernel backend. KV cache stores attention state needed for future tokens; lower precision can reduce its footprint but may affect latency or quality. DeepGEMM is an existing optimized kernel library, not a team-created method. These are candidate mechanisms, not assumed wins.",
+    "changes": [
+      {
+        "aspect": "KV cache precision",
+        "before": "BF16 KV.",
+        "after": "FP8 KV tested on the routed pipeline at N52."
+      },
+      {
+        "aspect": "Decode kernel backend",
+        "before": "Existing decode backend.",
+        "after": "DeepGEMM decode tested separately at matched N52."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 matched-load tests",
+        "value": "Both tested branches failed the joint SLA at N52."
+      }
+    ],
+    "findings": [
+      "Neither candidate met the service gate in these tests.",
+      "A decode-only failure does not rule out using DeepGEMM in prefill, whose parallel workload differs."
+    ],
+    "decision": "Retain BF16 KV and close these tested branches; later test phase-specific ideas only with their own controls.",
+    "limits": [
+      "The result applies to these implementations, routing, and N52 setup.",
+      "No claim about all FP8 KV or all DeepGEMM versions."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-06/PLAN.md"
+    ]
+  },
+  "mnnvl-flashinfer": {
+    "question": "Which communication and attention backend choices improve the routed H200 service, alone and in combination?",
+    "rationale": "Attention and tensor-parallel collective work appeared in the serving path, so the team tested existing implementations separately and in combination. MNNVL here changes the decode collective/all-reduce path; it is not the NIXL transfer of KV between prefill and decode. The combined service must be measured because isolated component choices can interact.",
+    "changes": [
+      {
+        "aspect": "Decode collective backend",
+        "before": "Existing collective implementation in the control.",
+        "after": "--flashinfer-allreduce-fusion-backend mnnvl on decode."
+      },
+      {
+        "aspect": "Decode attention backend",
+        "before": "Existing attention implementation in the control.",
+        "after": "--decode-attention-backend flashinfer, tested separately and in combination."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 MNNVL",
+        "value": "2,592.16; repeat approximately 2,592.92 good output tokens/s, about 8% above its matched N52 control."
+      },
+      {
+        "label": "Combined configuration",
+        "value": "Later score 2,632.61; FlashInfer alone was near a tie."
+      }
+    ],
+    "findings": [
+      "MNNVL had a repeated positive matched-load observation in this phase.",
+      "FlashInfer alone was not a meaningful gain; the combined result is an interaction result and not the sum of component effects."
+    ],
+    "decision": "Keep the MNNVL direction for further matched refinement; do not attribute the combined result to FlashInfer alone.",
+    "limits": [
+      "Results apply to the tested H200 pipeline and load.",
+      "The combined configuration does not identify a single causal component."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-07/PLAN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/serving-tuning-10/MATCHED_REVIEW.md"
+    ]
+  },
+  "h100-commission": {
+    "question": "Can the separately allocated H100/PBS platform produce a valid full benchmark baseline?",
+    "rationale": "H100 and H200 results must remain separate because they are different GPU generations and execution environments. Early H100 attempts exposed PBS launch and model-loader failures, so the first question was operational: can the platform complete the workload at all? A completed baseline is necessary before H100-side optimization claims can be evaluated.",
+    "changes": [
+      {
+        "aspect": "H100 job execution",
+        "before": "PBS launch/loader attempts that did not complete a valid run.",
+        "after": "A full N32 baseline completed after a long startup."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H100 job 220562.pbs111",
+        "value": "Approximately 1,565.16 good output tokens/s at N32."
+      }
+    ],
+    "findings": [
+      "The platform became measurable; earlier launch failures are not benchmark scores.",
+      "This point starts an H100-specific series."
+    ],
+    "decision": "Use H100 controls for H100 hypotheses and keep their evidence separate from H200.",
+    "limits": [
+      "Long startup is part of this deployment context.",
+      "Do not pool this score with H200 or treat cross-GPU differences as a controlled optimization."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/nscc-pbs/README.md"
+    ]
+  },
+  "h100-decode-ops": {
+    "question": "On H100, does selecting HPC-Ops for decode improve the full service relative to the existing decode backend?",
+    "rationale": "The earlier H200 result suggested HPC-Ops was worth testing as an existing decode implementation on H100, but hardware transfer was uncertain. Decode repeatedly applies the model to one next token; backend choices can shift time between streaming and first-token behavior. The H100 test therefore needs its own matched control and repeat.",
+    "changes": [
+      {
+        "aspect": "Decode backend on H100",
+        "before": "Existing/automatic decode implementation.",
+        "after": "HPC-Ops selected for decode only; treatment repeated against controls."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H100 matched comparison",
+        "value": "2,308.308 versus 2,245.534 good output tokens/s (+2.7955%)."
+      },
+      {
+        "label": "Repeat/control",
+        "value": "Repeat 2,304.083 remained above fresh control job 221275."
+      },
+      {
+        "label": "Latency tradeoff",
+        "value": "ITL improved; TTFT rose."
+      }
+    ],
+    "findings": [
+      "The full-service gain repeated in the same H100 context.",
+      "The change shifted latency metrics: higher goodput and better token spacing came with slower first-token time."
+    ],
+    "decision": "Retain HPC-Ops decode as a supported H100 option under the tested recipe.",
+    "limits": [
+      "H100-only evidence; do not infer H200 effect.",
+      "This is configuration-level evidence and does not isolate an individual kernel cause."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-0900/RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-0917/RESULTS.md"
+    ]
+  },
+  "h100-both-ops": {
+    "question": "Does applying HPC-Ops to prefill as well as decode improve H100 throughput, and where does added load stop helping?",
+    "rationale": "After a repeated decode-only result, the next bounded question was whether the same existing library helped the prompt-processing phase too. Prefill operates on many prompt tokens at once, so its behavior can differ from sequential decode. Subsequent N54/N56 trials examined whether increasing client concurrency yielded additional useful goodput.",
+    "changes": [
+      {
+        "aspect": "H100 backend coverage",
+        "before": "HPC-Ops selected for decode.",
+        "after": "HPC-Ops added to prefill while retaining the decode path; load refined with repeats."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Initial comparison",
+        "value": "2,371.961 versus 2,308.979 control."
+      },
+      {
+        "label": "N54 full runs",
+        "value": "2,430.891 and repeat 2,418.588 good output tokens/s."
+      },
+      {
+        "label": "N56",
+        "value": "No further gain established."
+      }
+    ],
+    "findings": [
+      "The all-phase recipe improved the observed H100 operating point in later N54 trials.",
+      "N56 did not justify pushing the load higher."
+    ],
+    "decision": "Keep the measured H100 recipe/load as a platform-specific candidate; stop increasing concurrency without useful evidence.",
+    "limits": [
+      "The observations are H100-specific.",
+      "The contribution of prefill HPC-Ops versus interaction with decode/load was not fully isolated."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261018-1323/RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/status-review-20261019-1111/RESULTS.md"
+    ]
+  },
+  "h200-prefill-deepgemm": {
+    "question": "Can DeepGEMM help prefill on H200 even though its tested decode use failed the service gate?",
+    "rationale": "Prefill processes many prompt tokens together, unlike sequential decode; kernels that lose in decode may still fit the larger matrix operations in prefill. The team therefore changed only the prefill backend and held decode and workload fixed. This phase-specific experiment tests a concrete reason for revisiting a library rather than repeating the failed decode setup.",
+    "changes": [
+      {
+        "aspect": "H200 prefill backend",
+        "before": "Existing prefill backend with decode held fixed.",
+        "after": "Select DeepGEMM as the prefill MoE runner (--moe-runner-backend deep_gemm) while keeping decode and the workload fixed; repeat the treatment independently."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 24291",
+        "value": "2,715.842 good output tokens/s."
+      },
+      {
+        "label": "Fresh control 24320",
+        "value": "Matched reference for comparison."
+      },
+      {
+        "label": "Independent repeat 24327",
+        "value": "2,716.787; treatment was +1.7401% versus the fresh control."
+      },
+      {
+        "label": "Hardware transfer",
+        "value": "H100 did not reproduce this result."
+      }
+    ],
+    "findings": [
+      "Phase matters: a decode failure did not predict the prefill result.",
+      "The repeated H200 measurement supported retaining DeepGEMM for prefill in that recipe."
+    ],
+    "decision": "Retain DeepGEMM for H200 prefill only under the measured setup; evaluate H100 separately.",
+    "limits": [
+      "H200 result does not transfer automatically to H100.",
+      "The gain is for a full configuration comparison, not a measured kernel-only speedup."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-1830/RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261017-2335/RESULTS.md"
+    ]
+  },
+  "h100-prefill-branches": {
+    "question": "Do alternative H100 prefill chunking or dense FlashInfer attention improve the current H100 recipe?",
+    "rationale": "Once the H100 baseline recipe existed, chunk size and attention implementation were plausible controls on prompt processing. Smaller chunks can change scheduling and memory behavior; FlashInfer is an existing attention implementation. The decision criterion was complete-service performance under matched conditions, not whether a branch passed basic validity checks.",
+    "changes": [
+      {
+        "aspect": "Prefill chunk size",
+        "before": "H100 control chunk setting.",
+        "after": "Chunk 6144 tested."
+      },
+      {
+        "aspect": "Prefill attention",
+        "before": "Existing attention path.",
+        "after": "Dense FlashInfer prefill tested."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H100 chunk 6144",
+        "value": "2,411.995 versus 2,413.802 control."
+      },
+      {
+        "label": "H100 dense FlashInfer",
+        "value": "2,227.031 good output tokens/s, −7.74% versus control."
+      }
+    ],
+    "findings": [
+      "Chunk 6144 was effectively a tie/slight loss, not an improvement.",
+      "Dense FlashInfer materially reduced the measured score in this tested recipe.",
+      "Passing run gates only establishes valid execution, not benefit."
+    ],
+    "decision": "Do not promote either tested branch on H100.",
+    "limits": [
+      "These are specific H100 implementation/settings, not universal library rankings.",
+      "No kernel-level causal profiling is implied."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-1418/ATTENTION_RESULT.md"
+    ]
+  },
+  "h200-chunk-backend": {
+    "question": "Under the newer H200 prefill runner and chunk size, does HPC-Ops decode beat automatic backend selection?",
+    "rationale": "The serving setup had changed since an earlier decode test: prefill runner and chunk size were different. That can alter overlap, queues, and the operating point, so the decode decision needed a new same-load comparison. The intent was to test the backend choice under current context while monitoring first-token and streaming latency separately.",
+    "changes": [
+      {
+        "aspect": "Decode backend",
+        "before": "Automatic decode selection.",
+        "after": "HPC-Ops decode with DeepGEMM prefill and chunk 8192 in the N58 comparison."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 24721",
+        "value": "2,938.628 versus same-load control 2,780.403 (+5.6907%)."
+      },
+      {
+        "label": "Latency",
+        "value": "TTFT rose; ITL improved."
+      }
+    ],
+    "findings": [
+      "The interaction was promising at N58 and motivated independent matched confirmation.",
+      "The score alone does not say which backend mechanism caused the change."
+    ],
+    "decision": "Continue with a fresh control and independent repeat before treating the setting as incumbent.",
+    "limits": [
+      "This pair alone was not sufficient confirmation.",
+      "Changed serving context means this result should not be compared causally with older N52/N54 runs."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md"
+    ]
+  },
+  "h200-repeat-controls": {
+    "question": "Is the automatic-decode control stable across a fresh H200 N60 run?",
+    "rationale": "A promising candidate comparison is only useful if the control itself is stable. This run deliberately repeated the incumbent automatic-decode configuration separately from the N58 treatment, providing a current reference for interpreting a later matched treatment repeat.",
+    "changes": [
+      {
+        "aspect": "Decode selection",
+        "before": "HPC-Ops candidate comparison at N58.",
+        "after": "Automatic decode incumbent rerun at N60 as a fresh control."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 24732",
+        "value": "2,836.531 versus original control 2,839.532 good output tokens/s."
+      }
+    ],
+    "findings": [
+      "The two control measurements were close, supporting control stability for this configuration.",
+      "This is not a repeat of the HPC-Ops treatment and does not confirm its gain."
+    ],
+    "decision": "Use the stable fresh control to interpret the separate N60 treatment repeat.",
+    "limits": [
+      "Only this automatic-decode setting is checked.",
+      "Control stability does not prove the treatment effect or eliminate run-to-run variability."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/research-journey-20261019/journal/JOURNEY.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261019-0600/RESULTS.md"
+    ]
+  },
+  "h200-interaction-repeat": {
+    "question": "Does the HPC-Ops decode plus revised prefill interaction reproduce at N60 against a fresh control?",
+    "rationale": "After the N58 candidate looked promising and a separate run showed the automatic control was stable, the next step was a fresh matched comparison and independent treatment repeat. The question concerns the complete serving recipe under the revised phase setup, not the intrinsic speed of one kernel.",
+    "changes": [
+      {
+        "aspect": "Decode MoE runner",
+        "before": "Automatic selection (auto).",
+        "after": "HPC-Ops (hpc_ops); other serving settings held fixed."
+      },
+      {
+        "aspect": "Fixed prefill",
+        "before": "DeepGEMM / chunk 8192.",
+        "after": "DeepGEMM / chunk 8192, unchanged."
+      },
+      {
+        "aspect": "Workload and hardware",
+        "before": "N60, fixed 4000 input /200 output tokens, 16 H200.",
+        "after": "Same load, workload, topology, attention and transport."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Automatic decode control 24912",
+        "value": "2,838.853 good output tokens/s."
+      },
+      {
+        "label": "HPC-Ops repeat 24913",
+        "value": "2,989.175 good output tokens/s; +5.295% versus control."
+      },
+      {
+        "label": "Mean TTFT",
+        "value": "822.292 → 947.627 ms, about +125 ms."
+      },
+      {
+        "label": "Mean request ITL",
+        "value": "16.579 → 14.934 ms, about −1.64 ms."
+      },
+      {
+        "label": "Independent repeat",
+        "value": "Approximately 0.033% below original HPC-Ops treatment 24738."
+      }
+    ],
+    "findings": [
+      "The configuration-level goodput improvement reproduced closely in this workload.",
+      "The repeat supports the decision, while the latency tradeoff remains material."
+    ],
+    "decision": "Retain the tested interaction for subsequent load tuning; describe it as a recipe-level result.",
+    "limits": [
+      "Cannot assign the full gain to one decode kernel or add it mechanically to earlier gains.",
+      "Applies to the tested H200 topology, phase settings, and request workload."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-0028/H200_RESULTS.md",
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/MOCK_QA_EVIDENCE.md"
+    ]
+  },
+  "h100-frontier": {
+    "question": "How do H100 prefill chunk size and client load interact under complete latency gates?",
+    "rationale": "The H100 recipe had shown a higher operating point at N54, but tuning must consider whether chunk changes preserve joint TTFT/ITL eligibility and useful throughput. The test explored a bounded chunk/load frontier using full runs, rather than assuming that smaller chunks are always more responsive.",
+    "changes": [
+      {
+        "aspect": "H100 prefill chunk",
+        "before": "Control chunk setting at N54.",
+        "after": "Chunk 2048 and 8192/later chunk branches tested with full-run latency gates."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H100 N54 control job 222281",
+        "value": "2,401.578 good output tokens/s."
+      },
+      {
+        "label": "Chunk 2048",
+        "value": "Approximately 26.13% lower."
+      },
+      {
+        "label": "Chunk 8192/later branches",
+        "value": "No useful gain established."
+      }
+    ],
+    "findings": [
+      "A smaller chunk was substantially worse in this context.",
+      "The tested chunk sweep did not produce a promoted H100 improvement."
+    ],
+    "decision": "Keep the existing H100 recipe and close these chunk branches unless a new hypothesis changes conditions.",
+    "limits": [
+      "H100 evidence only.",
+      "A bounded sweep does not prove all chunk values are inferior."
+    ],
+    "sources": [
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-prefill-hpc-chunk-interaction-20261020/RESULTS.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h100-hpc-smallchunk-20261020/PAIR_REVIEW.md"
+    ]
+  },
+  "n64-selection": {
+    "question": "Does increasing client concurrency from N62 to N64 raise useful H200 goodput while retaining the full gate?",
+    "rationale": "After selecting the H200 phase recipe, the team needed to find the useful request-load operating point. Closed-loop concurrency means the client keeps up to N requests in flight; raising N can improve GPU overlap but can also add queueing and first-token delay. This paired full-run comparison tests the tradeoff directly.",
+    "changes": [
+      {
+        "aspect": "Client concurrency",
+        "before": "N62 requests in flight.",
+        "after": "N64 requests in flight on the revised recipe."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 full runs",
+        "value": "N62: 3,011.875; N64: 3,044.490 good output tokens/s (+1.082867%)."
+      },
+      {
+        "label": "SLA",
+        "value": "N64 met the full joint gate."
+      }
+    ],
+    "findings": [
+      "N64 crossed the team’s 1% useful-gain threshold in this comparison.",
+      "The result justified replication, not certainty from one pair."
+    ],
+    "decision": "Repeat N64 independently before retaining it as the operating point.",
+    "limits": [
+      "The comparison supports this recipe and workload only.",
+      "Goodput is the qualifying-request rate converted to 200 output tokens per request; it is not raw GPU token throughput."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25365-20261022/REVIEW.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25366-20261022/REVIEW.md"
+    ]
+  },
+  "n64-repeat": {
+    "question": "Does the full N64 H200 result reproduce on an independent run?",
+    "rationale": "The first N62-to-N64 comparison was only just above the useful-gain threshold. A repeat checks whether N64’s score is stable rather than a single favorable sample. Keeping the same operating recipe makes the repeat evidence about repeatability, not a new optimization.",
+    "changes": [
+      {
+        "aspect": "Concurrency/configuration",
+        "before": "First full N64 treatment.",
+        "after": "Independent full N64 repeat with same retained recipe."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 repeat 25373",
+        "value": "3,044.075 good output tokens/s; −0.013634% versus first N64."
+      },
+      {
+        "label": "Historical mean",
+        "value": "Three-run retained mean 3,044.400475."
+      }
+    ],
+    "findings": [
+      "The independent result closely matched the first N64 score.",
+      "This supports N64 as a stable operating point for later comparisons."
+    ],
+    "decision": "Retain N64 and use the repeated mean as a historical reference series.",
+    "limits": [
+      "This repeat confirms consistency, not a universal optimum.",
+      "The mean refers to its specified historical run set, not every later control."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25373-20261022/REVIEW.md"
+    ]
+  },
+  "n68-stop": {
+    "question": "Does increasing the revised H200 client load from N64 to N68 yield enough additional goodput to justify its latency cost?",
+    "rationale": "With N64 replicated, a small increase in in-flight requests tested whether more overlap could raise useful throughput. The tradeoff is that more outstanding requests may wait longer before prefill begins. Full N64/N68 runs allow both the goodput increment and TTFT shift to be considered together.",
+    "changes": [
+      {
+        "aspect": "Client concurrency",
+        "before": "N64 retained operating point.",
+        "after": "N68 full-run comparison, alongside a fresh N64 run."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Goodput change",
+        "value": "N68 improved only +0.083056%."
+      },
+      {
+        "label": "Mean TTFT",
+        "value": "Rose approximately 1,113.6 to 1,347.1 ms."
+      }
+    ],
+    "findings": [
+      "The throughput change was far below the 1% usefulness threshold.",
+      "The higher load also worsened mean first-token delay."
+    ],
+    "decision": "Retain N64 and close N68 for this recipe.",
+    "limits": [
+      "This does not establish that higher concurrency is always harmful.",
+      "The evidence is specific to the measured workload and deployment."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-review-25487-25488-20261023/REVIEW.md"
+    ]
+  },
+  "h100-separate-peak": {
+    "question": "What repeatable full-run range does the H100 recipe achieve, and should it be compared directly with H200?",
+    "rationale": "Multiple complete H100 observations are useful for understanding that platform’s own variation. Since H100 and H200 differ in hardware and possibly runtime conditions, the fair use is to maintain separate series rather than rank their raw scores as if they were matched experiments.",
+    "changes": [
+      {
+        "aspect": "Platform series",
+        "before": "Single H100 commissioning point.",
+        "after": "Three full H100 runs reviewed as a separate repeated series."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H100 goodput",
+        "value": "2,433.020 / 2,395.311 / 2,406.802 tokens/s."
+      }
+    ],
+    "findings": [
+      "The three H100 measurements define an observed range for that recipe.",
+      "They are not H200 controls and do not estimate an H200 treatment effect."
+    ],
+    "decision": "Keep H100 and H200 charts and conclusions separate; use same-platform matched comparisons.",
+    "limits": [
+      "Run-to-run differences remain visible.",
+      "No cross-hardware normalization or causal comparison is provided."
+    ],
+    "sources": [
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/research-followup-20261020-h100-restored/RESULTS.md",
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md"
+    ]
+  },
+  "phase-specific-backend": {
+    "question": "Do tokenizer, prefill-attention, or shallow speculative-decoding changes improve the H200 incumbent?",
+    "rationale": "The team screened several distinct ideas against the current H200 context: dynamic tokenization may reduce client overhead, an alternative attention backend may change prefill computation, and shallow EAGLE3 speculation may reduce sequential decode work. Each mechanism affects a different stage, so results should not be combined into one general backend claim.",
+    "changes": [
+      {
+        "aspect": "Tokenization",
+        "before": "Existing tokenizer path.",
+        "after": "Dynamic tokenizer variants."
+      },
+      {
+        "aspect": "Prefill attention",
+        "before": "Incumbent attention backend.",
+        "after": "FlashInfer prefill."
+      },
+      {
+        "aspect": "Decode generation",
+        "before": "Ordinary decode.",
+        "after": "Shallow EAGLE3 draft/verification path."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 dynamic tokenizer",
+        "value": "+0.192% / +0.270%; not promoted."
+      },
+      {
+        "label": "FlashInfer prefill",
+        "value": "−6.385%."
+      },
+      {
+        "label": "Shallow EAGLE3",
+        "value": "−2.080%."
+      }
+    ],
+    "findings": [
+      "Small tokenizer differences were below the useful-gain bar.",
+      "FlashInfer prefill and shallow speculation reduced goodput in these tests."
+    ],
+    "decision": "Keep the incumbent and close these tested branches.",
+    "limits": [
+      "Percentages apply to the cited matched tests and versions.",
+      "A loss in one implementation does not reject the technology family universally."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md"
+    ]
+  },
+  "native-repeat": {
+    "question": "Does the native H200 N64 recipe still deliver its historical operating level under the current full protocol?",
+    "rationale": "A fresh native run checks whether the retained H200 configuration remains a valid reference after earlier tuning and gate changes. It is a reproduction of the recipe, not a new candidate treatment, and should remain distinct from the historical three-run N64 mean.",
+    "changes": [
+      {
+        "aspect": "H200 deployment",
+        "before": "Historical native N64 observations.",
+        "after": "Native full N64 configuration replayed under current gates."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job 26766",
+        "value": "3,045.501509 good output tokens/s."
+      }
+    ],
+    "findings": [
+      "The native run is close to the historical N64 operating region.",
+      "It provides an individual observation in a separate series, not a new global best claim."
+    ],
+    "decision": "Retain as a current native reference and keep it distinct from the historical mean.",
+    "limits": [
+      "It is not a matched comparison with an optimization arm.",
+      "A single replay does not characterize all runtime drift."
+    ],
+    "sources": [
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-native-chunk-review-20261028/REVIEW.md",
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md"
+    ]
+  },
+  "cache-control": {
+    "question": "Does a cold-prefill cache intervention raise H200 goodput enough to offset its latency-tail behavior?",
+    "rationale": "The cold-prefix workload offers little benefit from reusable prefix lookup. The team tested whether removing radix-tree bookkeeping on prefill could improve useful throughput. This changes the cache implementation used by prefill; it does not remove the KV state needed for active requests.",
+    "changes": [
+      {
+        "aspect": "Prefill cache implementation",
+        "before": "disable_radix_cache=false; Python RadixCache on both prefill roles.",
+        "after": "disable_radix_cache=true; ChunkCache on both prefill roles."
+      },
+      {
+        "aspect": "Decode cache and workload",
+        "before": "Decode ChunkCache; cold-prefix workload, seed 2026.",
+        "after": "Unchanged; active-request KV storage remains enabled."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Candidate peak",
+        "value": "3,048.446289 good output tokens/s; +0.240921% versus control."
+      },
+      {
+        "label": "Tail behavior",
+        "value": "p95 TTFT worsened."
+      }
+    ],
+    "findings": [
+      "The small score difference was below the 1% promotion threshold.",
+      "A worsened p95 TTFT weakens the case despite a higher peak."
+    ],
+    "decision": "Do not promote; keep the existing recipe.",
+    "limits": [
+      "The result applies to this specific cache design and cold workload.",
+      "No claim about warm-cache workloads or other cache strategies."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-cold-prefill-cache-study-20261029/RESULTS.md"
+    ]
+  },
+  "sparse-graphs": {
+    "question": "Can reducing decode graph buckets lower memory use and improve service goodput?",
+    "rationale": "The hypothesis was that fewer captured graph variants might reduce memory pressure. Graph capture prepares reusable GPU execution paths; however, a memory proxy is not itself the competition metric. The full run tests whether the reduced footprint translates into qualifying-request throughput.",
+    "changes": [
+      {
+        "aspect": "Decode graph batch buckets",
+        "before": "Dense list 1–64 (64 captures).",
+        "after": "[1, 2, 4, 8, 16, 32, 48, 50, 52, 54, 56, 64] (12 captures). Maximum 64 retained."
+      },
+      {
+        "aspect": "Compilation",
+        "before": "torch.compile disabled.",
+        "after": "Still disabled; this is a graph-bucket trial, not a compile speedup."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 job 27510",
+        "value": "3,029.861122 good output tokens/s, −0.370208%."
+      },
+      {
+        "label": "Memory per rank",
+        "value": "1.15 GB to 0.36 GB."
+      },
+      {
+        "label": "Logged capture memory per rank",
+        "value": "1.15 → 0.36 GB; native capture log label, not total sampled VRAM."
+      },
+      {
+        "label": "Logged capture time",
+        "value": "101.46–101.49 → 95.98–96.05 seconds."
+      }
+    ],
+    "findings": [
+      "The memory measure fell substantially, but goodput did not improve.",
+      "Lower memory use alone was not sufficient to justify a slower measured service."
+    ],
+    "decision": "Close the sparse-graph candidate under the current objective.",
+    "limits": [
+      "Memory figures are the recorded graph-related measure, not total GPU VRAM.",
+      "No evidence that graph memory constrained this deployment."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-sparse-decode-compile-20261029/RESULTS-27510.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-sparse-decode-compile-20261029/PLAN.md"
+    ]
+  },
+  "cross-hardware-transfer": {
+    "question": "Do H100-derived decode recipes or FA3 transfer to the H200 incumbent?",
+    "rationale": "A configuration that works on H100 may interact differently with H200 hardware and software. The correct test is direct H200 measurement against a fresh H200 control, keeping same-GPU comparisons intact. FlashAttention-3 (FA3) and the H100-derived recipe are existing options, not presumed upgrades.",
+    "changes": [
+      {
+        "aspect": "H200 control",
+        "before": "Prior incumbent reference.",
+        "after": "Fresh H200 control at 3,038.022907 good output tokens/s."
+      },
+      {
+        "aspect": "Transferred backend",
+        "before": "H200 incumbent decode.",
+        "after": "FA3 decode and H100-derived recipe tested at N54/N64."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "FA3 on H200",
+        "value": "−1.276% versus fresh control."
+      },
+      {
+        "label": "H100 recipe on H200",
+        "value": "N64: −10.408% versus control."
+      }
+    ],
+    "findings": [
+      "Neither tested transfer beat the H200 control.",
+      "The result supports hardware-specific recipes rather than pooled GPU ranking."
+    ],
+    "decision": "Retain the H200-specific incumbent and do not port these settings unchanged.",
+    "limits": [
+      "The conclusion applies to the tested FA3/H100 recipe versions and loads.",
+      "It does not show those techniques are universally inferior on H200."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-h100-transfer-review-20261031/FINAL_RESULTS.md"
+    ]
+  },
+  "transfer-chunk-refine": {
+    "question": "Can chunk-size refinement recover performance when the H100-derived HPC-Ops prefill runner is used on H200?",
+    "rationale": "The prior H100 recipe transferred poorly to H200, but the runner and chunk size can interact. Rather than reject every component, this branch held the HPC-Ops prefill runner and changed chunk size, then compared its best point with the incumbent. This isolates the chunk refinement within that transferred recipe, while still requiring a direct incumbent comparison.",
+    "changes": [
+      {
+        "aspect": "Prefill chunk on transferred runner",
+        "before": "HPC-Ops prefill with chunk 4096.",
+        "after": "Chunks 6144 and 8192 tested on H200."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 results",
+        "value": "Chunk 6144: 2,821.885; chunk 8192: 2,900.607 good output tokens/s."
+      },
+      {
+        "label": "Incumbent comparison",
+        "value": "Chunk 8192 remained 4.523% below the incumbent."
+      }
+    ],
+    "findings": [
+      "Chunk 8192 recovered performance relative to 4096 within this transferred branch.",
+      "Recovery did not make the recipe competitive with the retained H200 incumbent."
+    ],
+    "decision": "Do not promote the transferred runner; retain the H200-specific recipe.",
+    "limits": [
+      "The result is a branch-level comparison, not evidence that chunk 8192 is globally best.",
+      "Different controls and recipe settings prohibit combining these values with unrelated series."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/teacher-qa-preparation-20261101/THINKING_PROCESS_EN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/PLAN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-hpc-chunk-transfer-20261031/RESULTS.md"
+    ]
+  },
+  "phase-mode-test": {
+    "question": "Do phase-specific inference-mode changes improve H200 goodput beyond a no-grad control?",
+    "rationale": "The test checked a narrow runtime change separately in prefill and decode. Inference mode can reduce framework bookkeeping for operations that do not require autograd; applying it to only one phase helps identify whether the change matters in this serving path. A no-grad control provides the explicit comparison, and the promotion bar prevents tiny fluctuations from becoming claimed gains.",
+    "changes": [
+      {
+        "aspect": "Runtime mode",
+        "before": "Explicit no_grad control.",
+        "after": "inference_mode applied to decode only or prefill only."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "H200 control",
+        "value": "3,039.167 good output tokens/s."
+      },
+      {
+        "label": "Decode-only change",
+        "value": "+0.006223%."
+      },
+      {
+        "label": "Prefill-only change",
+        "value": "+0.130765%."
+      }
+    ],
+    "findings": [
+      "Both measured differences were well below the 1% useful-gain threshold.",
+      "No phase-mode variant justified changing the incumbent."
+    ],
+    "decision": "Close both variants without promotion.",
+    "limits": [
+      "Small differences may be within runtime variation; the experiment does not establish a causal practical gain.",
+      "Applies to these code paths and deployment only."
+    ],
+    "sources": [
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/PLAN.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/h200-phase-inference-transfer-20261031/RESULTS.md"
+    ]
+  },
+  "packaged-acceptance": {
+    "question": "Does the exact portable AI entry start correctly, pass the result reader, finish the benchmark, and clean up?",
+    "rationale": "A fast local recipe is not enough if the package fails at deployment. The first attempt found that the router health check could return before model registration completed. The fix changed readiness validation to wait for the model/worker state, then reran the packaged entry. This is an operational acceptance check, not a serving optimization comparison.",
+    "changes": [
+      {
+        "aspect": "Readiness check",
+        "before": "Router health response accepted before model registration was complete.",
+        "after": "Wait for valid model registration and live worker state before proceeding."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job 28194",
+        "value": "Failed before benchmark because readiness was premature."
+      },
+      {
+        "label": "Job 28197",
+        "value": "Accepted and completed in 611 seconds at N64; 3,051.518173 good output tokens/s."
+      }
+    ],
+    "findings": [
+      "The exact packaged workflow completed serving, result parsing, performance checks, and cleanup after the readiness fix.",
+      "The accepted score is a deployment observation, not a matched optimization gain."
+    ],
+    "decision": "Keep the readiness fix and the accepted package as the portable entry evidence.",
+    "limits": [
+      "No paired control was run in this acceptance pair.",
+      "Acceptance does not prove an official organiser submission or quality certification."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-final-report-20261030/REPORT.md",
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/final-portable-acceptance-r2-20261102/REVIEW.md"
+    ]
+  },
+  "quality-pilot": {
+    "question": "Does a bounded paired pilot show that the candidate is safely above the local 99%-of-reference quality threshold?",
+    "rationale": "Before spending resources on a full evaluation, the team ran a small pilot using reference and candidate answers. A pilot can reveal gross quality regressions, but its small sample is noisy and is not a final pass. The first reference attempt failed, so only the corrected reference and candidate counts are meaningful for this comparison.",
+    "changes": [
+      {
+        "aspect": "Evaluation size",
+        "before": "No local paired quality run.",
+        "after": "N16 pilot comparing stock FP8 reference with candidate."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Failed attempt",
+        "value": "Reference job 28367 failed; not used as a score."
+      },
+      {
+        "label": "Corrected pilot",
+        "value": "Reference job 28371: 104 correct; candidate job 28368: 102 correct; 98.076923% reference-score retention."
+      }
+    ],
+    "findings": [
+      "The pilot fell below the local 99% point threshold.",
+      "That result justified a full fixed-set study; it did not establish final candidate quality."
+    ],
+    "decision": "Do not claim PASS from the pilot; complete the full paired study.",
+    "limits": [
+      "Small pilot has limited precision.",
+      "The pilot’s failed attempt must not be counted as a valid reference score."
+    ],
+    "sources": [
+      "/home/apacsc42/2026-APAC-HPC-AI/qwen-experiments/quality-verification-20261102/reviews/PILOT_RESULTS.md",
+      "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md"
+    ]
+  },
+  "quality-fullset": {
+    "question": "On the complete paired MMLU-Pro set, does the accepted candidate retain at least 99% of the stock FP8 reference score?",
+    "rationale": "The pilot was below the local point gate, so the team evaluated the complete 12,032-question set with fixed prompts, settings, parser, and eight paired shards. The question is score retention relative to the stock FP8 reference, not whether the candidate answers every item correctly. Identical evaluation scope makes the local ratio interpretable, while organiser certification remains separate.",
+    "changes": [
+      {
+        "aspect": "Quality evaluation",
+        "before": "Small N16 pilot.",
+        "after": "Full paired 12,032-question MMLU-Pro evaluation of stock FP8 reference and accepted candidate across eight paired shards."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Stock FP8 reference",
+        "value": "9,460 / 12,032 correct = 78.623670%."
+      },
+      {
+        "label": "Candidate",
+        "value": "9,452 / 12,032 correct = 78.557181%."
+      },
+      {
+        "label": "Retention",
+        "value": "9,452 / 9,460 = 99.915433%; above the local 99% point gate."
+      }
+    ],
+    "findings": [
+      "The candidate scored eight fewer questions correctly than the reference.",
+      "The measured point estimate passes the local ≥99%-of-reference criterion."
+    ],
+    "decision": "Record this as a local full-set point-gate pass, not a BTC-certified quality PASS.",
+    "limits": [
+      "This does not establish statistical equivalence on future data.",
+      "It is not organiser certification; acceptance and quality are distinct checks.",
+      "The quality pilot failed the local gate; the full-set result supersedes it for the final local assessment."
+    ],
+    "sources": [
+      "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/FULL_RESULTS.md",
+      "/home/apacsc42/workspace/reports/ai-quality-verification-20261103/METHODOLOGY.md"
+    ]
+  }
+}

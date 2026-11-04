@@ -1,0 +1,599 @@
+{
+  "access": {
+    "question": "Can we reach Iris through its actual login route and run the native OpenFOAM workload?",
+    "rationale": "A remote-command SSH attempt stayed on the gateway and was mistaken for Iris unavailability. The correct route is an interactive forced-TTY jump with no remote command, followed by commands at the Iris prompt. Access, scheduler reachability, and a successful solve are separate checks.",
+    "changes": [
+      {
+        "aspect": "Iris workload validation",
+        "before": "No runtime intervention; no full-mesh practice result in this milestone.",
+        "after": "Use the interactive Iris route and run the full-mesh practice chain through a 40-step solver test."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Full-mesh practice",
+        "value": "Job 2293754; 21.9654 seconds/step over 40 steps."
+      },
+      {
+        "label": "Platform",
+        "value": "Iris practice CPU nodes; not an official contest score."
+      }
+    ],
+    "findings": [
+      "The interactive route and native MPI chain worked."
+    ],
+    "decision": "Keep the access correction and full-chain practice as a prerequisite for later Iris experiments, not as a performance improvement.",
+    "limits": [
+      "This was practice on Iris, not the official four-node ASPIRE evaluation.",
+      "The result is not directly rankable against NSCC or another platform."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "baseline": {
+    "question": "What does an unchanged, reproducible solver reference look like before tuning?",
+    "rationale": "A performance claim needs a reference with known solver work. Full preparation ran before solver timing, avoiding a mix of setup and seconds per step. Two ordered Scotch observations were retained to expose run-to-run variation.",
+    "changes": [
+      {
+        "aspect": "Reference test design",
+        "before": "No retained unchanged reference in this comparison.",
+        "after": "Run full preparation, then measure solver steps; retain the ordered Scotch pair in jobs 25905114 and 25907325."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Reference",
+        "value": "14.9220 seconds/step."
+      },
+      {
+        "label": "Ordered pair",
+        "value": "Reported difference −0.994%, small enough to treat as noisy rather than a demonstrated gain."
+      }
+    ],
+    "findings": [
+      "The reference is not tuned, and the small pair difference warns that sub-percent changes need stronger repetition."
+    ],
+    "decision": "Use the unchanged Scotch setup as a reference and require matched controls for later claims.",
+    "limits": [
+      "The two-job difference is not evidence that either order or setting improves the solver.",
+      "This NSCC observation must not be pooled with Iris timings."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "numa": {
+    "question": "Does a NUMA-aware Scotch grouping that cuts fewer partition interfaces make the native solver faster?",
+    "rationale": "A graph cut cheaply screens how many mesh faces cross a proposed grouping. But fewer logical crossings matter only if they reduce actual communication or waiting on the solver critical path, so native timing was required.",
+    "changes": [
+      {
+        "aspect": "Scotch grouping",
+        "before": "Default Scotch grouping coefficients.",
+        "after": "Candidate NUMA-aware Scotch grouping coefficients."
+      },
+      {
+        "aspect": "Native test",
+        "before": "Graph-cut proxy only.",
+        "after": "Job 25907753 measured the candidate's native solver time as well as graph cut."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Graph proxy",
+        "value": "Logical graph cut fell 10.63%."
+      },
+      {
+        "label": "Solver",
+        "value": "Native time increased 3.44% in the measured pair."
+      }
+    ],
+    "findings": [
+      "The graph proxy improved while solver time worsened: fewer logical crossings do not guarantee a faster solve."
+    ],
+    "decision": "Close the unchanged NUMA-coefficient performance claim; retain the proxy-versus-runtime lesson.",
+    "limits": [
+      "The native comparison was a one-node pair, not proof about a four-node contest run.",
+      "The evidence does not identify whether communication, placement, or another factor caused the slowdown."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "graph": {
+    "question": "Can partition-interface counts alone explain which method will run faster?",
+    "rationale": "After the NUMA candidate's lower cut coincided with slower solver time, a graph-only comparison could help distinguish what that proxy measures from what it omits. The N256 screen compared partition interfaces without running the solver. That makes it useful for narrowing hypotheses, but not for ranking solver performance.",
+    "changes": [
+      {
+        "aspect": "Partition screen",
+        "before": "No N256 interface comparison in this test.",
+        "after": "Compare N256 partition interfaces during preparation; do not run solver."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job",
+        "value": "25907772."
+      },
+      {
+        "label": "Outcome",
+        "value": "Preparation and interface comparison only; no solver speed ranking."
+      }
+    ],
+    "findings": [
+      "The graph count describes logical partition boundaries, not bytes transferred, hardware traffic, or waiting time.",
+      "This screen is mechanism evidence for choosing what to measure next, not a speed result."
+    ],
+    "decision": "Keep graph counts as a screening diagnostic and require native timing before promoting a decomposition.",
+    "limits": [
+      "No solver ran, so no seconds-per-step result exists.",
+      "Logical groupings do not prove physical CPU or NUMA placement."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "density": {
+    "question": "How do rank density and node count relate to observed solver time?",
+    "rationale": "Rank count differs from allocated CPUs: a job can reserve a full node while using fewer ranks. Six four-node logs across 64, 96, and 128 ranks per node map the range and tails, but separate allocations cannot establish a causal winner.",
+    "changes": [
+      {
+        "aspect": "Ranks per node",
+        "before": "Earlier reviewed runs covered fewer rank-density/node combinations.",
+        "after": "Review six four-node native logs at 64, 96, and 128 ranks per node."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Lowest listed four-node observation",
+        "value": "Scotch-128: 3.6779 seconds/step over 150 steps."
+      },
+      {
+        "label": "Scope",
+        "value": "Six reviewed logs; separate runs and allocations."
+      }
+    ],
+    "findings": [
+      "The apparent method leader changes with rank density; sample warnings and long tails must remain visible, with no prescribed samples trimmed."
+    ],
+    "decision": "Use the sweep to select a candidate for controlled confirmation, not to claim a density or method winner.",
+    "limits": [
+      "Allocations were not fully matched; some CPU reservations differed.",
+      "PBS terminal history and acceptance artifacts were missing, so these are not accepted official scores."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "confirm": {
+    "question": "Can the organizer's four-node Scotch recipe be reproduced with the full prescribed work?",
+    "rationale": "The earlier rank-density results were useful observations but did not provide a strong, independently submitted reference. Repeating the organizer recipe on four nodes with 512 ranks and all 150 steps provides a clearer baseline for later work. It is a reproduction exercise, not an optimization by this team.",
+    "changes": [
+      {
+        "aspect": "Reference workload",
+        "before": "Earlier observations used varying node counts, rank counts, or run endpoints.",
+        "after": "Job 25940700: organizer Scotch, four nodes, 512 ranks, full 150-step chain."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job",
+        "value": "25940700."
+      },
+      {
+        "label": "Native average",
+        "value": "3.364622070 seconds/step."
+      }
+    ],
+    "findings": [
+      "The organizer recipe was reproduced on the intended four-node scale.",
+      "This gives subsequent comparisons a better anchored reference."
+    ],
+    "decision": "Retain this run as baseline reproduction, not as a team-created speedup.",
+    "limits": [
+      "It does not establish an optimization over the organizer's own reference.",
+      "Do not compare its raw seconds with Iris or Gadi to claim a cross-platform gain."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/notes/HPC_CURRENT.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "order": {
+    "question": "Does changing the hierarchical mesh-axis order produce a repeatable solver advantage?",
+    "rationale": "Hierarchical decomposition assigns mesh dimensions in different orders. A promising full-size zyx observation needed a reverse-order check because allocation or time drift might favor the first arm.",
+    "changes": [
+      {
+        "aspect": "Hierarchical axis order",
+        "before": "Compare zyx and xyz layouts.",
+        "after": "Reverse arm order in the full-length comparison, job 2294262."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "First zyx observation",
+        "value": "21.2296 seconds/step."
+      },
+      {
+        "label": "Reverse zyx observation",
+        "value": "26.6108 seconds/step; each allocation favored its first arm."
+      }
+    ],
+    "findings": [
+      "The low first observation is real, but the reversal undermines a stable zyx advantage. Run-to-run drift requires matched controls."
+    ],
+    "decision": "Do not promote zyx based on its isolated minimum; preserve it as an observation and improve the comparison design.",
+    "limits": [
+      "This is Iris practice data, not a contest-platform score.",
+      "A reversed pair indicates confounding but does not isolate its physical cause."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-own-research-status-20261102/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "place": {
+    "question": "Can moving communicating MPI ranks closer in the node reduce solver time?",
+    "rationale": "The graph mapping sought fewer logical crossings between NUMA groups without changing the mesh partition: ranks keep their work while runtime placement changes. A reverse cycle tested whether an earlier short ABBA signal was order-dependent.",
+    "changes": [
+      {
+        "aspect": "Rank-to-core mapping",
+        "before": "Default runtime mapping of rank IDs to CPU cores.",
+        "after": "Graph-informed rank-to-core mapping; reverse-order native comparison while keeping the partition fixed."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Lowest arm",
+        "value": "21.0512 seconds/step in a 14-step observation."
+      },
+      {
+        "label": "Reversed pooled comparison",
+        "value": "Candidate was 5.37% slower."
+      }
+    ],
+    "findings": [
+      "The short minimum did not survive reversal; the graph objective does not measure physical traffic or solver critical-path time."
+    ],
+    "decision": "Close the unchanged graph-placement speed claim; do not present the 14-step minimum as a winner.",
+    "limits": [
+      "The 21.0512 value is a 14-step arm, not a matched win.",
+      "No measured hardware counter establishes why the candidate was slower."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "io": {
+    "question": "Does the supplied collated-I/O setting itself improve native solver time?",
+    "rationale": "A borrowed runtime recipe bundled settings, so an apparent gain could not be assigned to I/O. The test isolated collated versus uncollated I/O and reversed the order to check whether the direction persisted.",
+    "changes": [
+      {
+        "aspect": "I/O setting",
+        "before": "Uncollated I/O.",
+        "after": "Collated I/O tested against the uncollated setting with a reverse-order check."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Initial apparent change",
+        "value": "−6.07% time."
+      },
+      {
+        "label": "Reverse check",
+        "value": "+9.35% time; the apparent advantage reversed."
+      }
+    ],
+    "findings": [
+      "The I/O claim reversed under the order check; one favorable arm cannot establish a gain."
+    ],
+    "decision": "Close the standalone collated-I/O speed claim; retain it as evidence that order control matters.",
+    "limits": [
+      "The result is an Iris practice comparison, not a general statement about collated I/O.",
+      "It does not identify a specific I/O bottleneck or runtime cause."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-own-research-status-20261102/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "team": {
+    "question": "Do the supplied teammate runtime settings show a favorable signal when ported to Iris under a matched comparison?",
+    "rationale": "The teammate supplied socket/core MPI mapping and collated I/O. A same-Iris comparison against organizer settings tests that recipe locally with Scotch input and solver work fixed, but cannot recreate the full Gadi environment.",
+    "changes": [
+      {
+        "aspect": "Runtime recipe",
+        "before": "Organizer default MPI mapping and uncollated I/O.",
+        "after": "Teammate-supplied socket/core mapping and collated I/O, with the same initialized Scotch source."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Matched means",
+        "value": "24.7453 vs 27.8735 seconds/step; candidate time −11.2228%."
+      },
+      {
+        "label": "Repeat variability",
+        "value": "About 18–21% drift; all four reported rank/core maps and force-coefficient trajectories matched."
+      }
+    ],
+    "findings": [
+      "This is a qualified favorable short-run signal for a teammate-supplied recipe, not proof of which setting caused it."
+    ],
+    "decision": "Report the signal with attribution and uncertainty; do not claim this team's own optimization or a definitive win.",
+    "limits": [
+      "Observed repeats were shorter than organizer sampling recommendations.",
+      "There is no matched three-way trial proving superiority over all alternatives, and Iris is not Gadi."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "zyx": {
+    "question": "Does our hierarchical zyx partition beat a matched organizer Scotch control on Iris?",
+    "rationale": "Earlier zyx minima came from different allocations and could not be ranked fairly. This trial placed Scotch and our candidate in one allocation with the same mesh, rank count, solver work, and default runtime; it tests the candidate against a direct control.",
+    "changes": [
+      {
+        "aspect": "Partition method",
+        "before": "Organizer default Scotch partition.",
+        "after": "Team hierarchical (7,4,2) partition with zyx order."
+      },
+      {
+        "aspect": "Matched trial",
+        "before": "No same-allocation control/candidate pair.",
+        "after": "Four-arm Scotch/zyx/zyx/Scotch comparison in job 2294640."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Matched means",
+        "value": "Scotch 26.9011 vs zyx 29.6490 seconds/step."
+      },
+      {
+        "label": "Candidate time change",
+        "value": "+10.2150% slower."
+      }
+    ],
+    "findings": [
+      "The matched candidate lost despite the earlier low observation, closing the claim that zyx is better on this Iris setup."
+    ],
+    "decision": "Keep Scotch as the control and stop promoting zyx on the basis of isolated minima.",
+    "limits": [
+      "The result is specific to this Iris one-node, 56-rank practice workload.",
+      "It does not establish the cause of zyx's slowdown or predict a different platform."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "xzy": {
+    "question": "Does a new xzy axis order improve performance, and does an initial small signal survive a longer reverse check?",
+    "rationale": "After zyx lost its direct control, xzy tested a distinct axis-order hypothesis. A 40-step screen showed only a small signal; the 52-step reverse-order check tested whether it persisted with more intervals and a control for temporal drift.",
+    "changes": [
+      {
+        "aspect": "Axis order and test length",
+        "before": "Scotch control and 40-step xzy screen.",
+        "after": "Reverse-order xzy confirmation, 52 steps and 51 intervals per arm, job 2294644."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Initial screen",
+        "value": "−0.71% candidate time."
+      },
+      {
+        "label": "Reverse confirmation",
+        "value": "+10.25% candidate time; slower."
+      }
+    ],
+    "findings": [
+      "The initial signal reversed in the longer comparison and was not robust enough to change the recipe."
+    ],
+    "decision": "Close the unchanged xzy speed claim and preserve both trials as a useful failed hypothesis.",
+    "limits": [
+      "The jobs were Iris practice runs, not contest scores.",
+      "The reversal demonstrates instability, not a proven physical explanation for it."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "xyz": {
+    "question": "Can a controlled native comparison establish whether our xyz decomposition is better than Scotch?",
+    "rationale": "Earlier axis-order tests had not established a win, so xyz was revisited in a controlled multi-arm screen. A valid comparison needs both candidate and control to finish; a fast partial arm cannot substitute for a timed-out arm.",
+    "changes": [
+      {
+        "aspect": "Screen design",
+        "before": "No complete matched xyz comparison.",
+        "after": "20-step four-arm Scotch/xyz screen in job 2294671; planned comparison remained incomplete after timeout."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job",
+        "value": "2294671; second xyz arm timed out at 720 seconds."
+      },
+      {
+        "label": "Observed fragments",
+        "value": "Scotch 33.6725; first xyz 25.5860; second xyz printed 34.7926 before timeout; final Scotch absent."
+      }
+    ],
+    "findings": [
+      "The planned comparison did not finish, so its fragments support neither a valid win nor a complete solver loss."
+    ],
+    "decision": "Mark the comparison incomplete and do not promote xyz from its partial timing.",
+    "limits": [
+      "No complete paired estimate or valid repeat exists.",
+      "A timeout is a terminal experiment failure, not a performance measurement."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "prep": {
+    "question": "Does changing the preparation child's memory policy change where file-backed pages are observed?",
+    "rationale": "The prior native comparison was incomplete, while a preparation-stage mechanism offered a cheaper hypothesis. The test copied and hashed files under inherited versus interleaved memory policy and inspected node-wide file-page counters; it did not run OpenFOAM.",
+    "changes": [
+      {
+        "aspect": "Preparation-child memory policy",
+        "before": "Inherited parent memory policy.",
+        "after": "Interleaved NUMA policy for child copy/hash preparation; no solver invocation."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Qualified preparation job",
+        "value": "2294675; four copy/hash preparations."
+      },
+      {
+        "label": "Aggregate file-page observation",
+        "value": "Inherited arms: about 0 / 9.78 GiB across the two NUMA nodes; interleaved arms: about 4.89 / 4.89 GiB twice."
+      }
+    ],
+    "findings": [
+      "The policy changed aggregate page-counter distribution, providing mechanism evidence but no solver speedup."
+    ],
+    "decision": "Use the result to justify a separately controlled native test, while keeping performance claims open.",
+    "limits": [
+      "The counters are node-wide and do not attribute every page to a particular file.",
+      "No solver was run; the measurement cannot show improved runtime or locality during solving."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  },
+  "native": {
+    "question": "Does the preparation memory-policy change affect native OpenFOAM solver time when all solver inputs and settings stay fixed?",
+    "rationale": "The copy/hash test changed preparation counters, but practical value depends on solver behavior. The follow-up holds Scotch input and solver settings constant while changing only preparation-child policy; its receipt is not a result.",
+    "changes": [
+      {
+        "aspect": "Native follow-up",
+        "before": "Preparation-child policy varied; native solver effect not yet tested.",
+        "after": "Job 2294676 accepted a 20-step test with the same Scotch source and solver settings, changing only preparation-child policy."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Job",
+        "value": "2294676; accepted 20-step native test."
+      },
+      {
+        "label": "Review state",
+        "value": "Completion result had not been reviewed in the 4 November curated map."
+      }
+    ],
+    "findings": [
+      "The receipt establishes scheduler acceptance only; no performance conclusion is available until completed output is reviewed."
+    ],
+    "decision": "Keep this milestone explicitly unreviewed; inspect the terminal result before deciding whether the mechanism matters to solver time.",
+    "limits": [
+      "Do not infer that the job completed or improved performance from acceptance.",
+      "The 15-milestone map is curated, not a complete allocation census, and this record's state is only as current as its dated evidence review."
+    ],
+    "sources": [
+      {
+        "label": "Milestone source",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md"
+      },
+      {
+        "label": "Curated lineage overview",
+        "path": "workspace/reports/hpc-run-lineage-20261104/README.md"
+      }
+    ]
+  }
+}
