@@ -9,3 +9,11 @@ There are 31 AI and 15 HPC retrospective notes. Each separates the research ques
 The NIXL override gives an expanded source-level investigation: job 22271's warmup timeout, reserved-pool enumeration, the two changed functions, safe coalescing conditions, CPU recording-stub comparisons across 720 cases, the representative descriptor geometry and real job 22294's result. It links original/patched code, the patch, test harness, geometry record, logs and review. Descriptor counts are not interpreted as a speed ratio; historical recovery is kept separate from the later selected recipe.
 
 Canonical material: [research-note index](../team-research-atlas-20261104/research-notes/README.md). The build validates every curated milestone has a note and all linked local sources exist. UI rendering and live-publication checks are added as the reader is completed. No scheduler, GPU, VPN, submission or original HPC-science file was changed.
+
+## Reader implementation and validation
+
+The selected record now offers Read investigation. A wide reader presents Markdown as headings, lists, before/after tables, measurements, code blocks and source links, with a section outline and Markdown download. The compact sidebar's Analysis/Context also uses formatted headings and intervention bullets. The original records and metric exports are retained; new explanations are a separate embedded notes layer.
+
+The browser test rendered all 46 notes, checked NIXL's eight outline sections, three tables, two code blocks, exact patch/test links and Markdown download; then exercised the HPC note, Escape close and mobile width. It observed no JavaScript errors and only one document request, since notes are embedded. A small parser check confirms raw HTML and javascript links cannot become executable markup. The source AI and HPC payloads equal the preceding release; notes are explicitly new retrospective material.
+
+`build_notes.py` emits the canonical Markdown and validates source paths; `build_unified.py` embeds the notes with the existing data. No third-party Markdown runtime or note API is required. Live publication verification is recorded after deployment.

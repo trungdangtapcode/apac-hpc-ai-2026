@@ -2,6 +2,7 @@
 """Compose both tested research explorers into one offline-capable page."""
 from pathlib import Path
 import gzip,json,re,hashlib,base64
+import build_notes
 D=Path(__file__).resolve().parent
 AI=D.parent/'ai-run-lineage-20261103'
 
@@ -42,8 +43,9 @@ def component(source,hpc=False):
 def main():
     ai,ai_data=extract(AI/'index.html','ai')
     hpc,hpc_data=extract(D/'hpc/index.html','hpc')
+    notes=build_notes.build()
     # Framework-free modules retain independent filters, selections and viewports.
-    code=(D/'viewer/inspector.js').read_text()+'\n'+component(AI/'viewer/app.js')+'\n'+component(D/'viewer/hpc.js',True)
+    code=(D/'viewer/research-notes.js').read_text()+'\n'+(D/'viewer/inspector.js').read_text()+'\n'+component(AI/'viewer/app.js')+'\n'+component(D/'viewer/hpc.js',True)
     code+='''
 const TEAM=JSON.parse(document.getElementById('teamData').textContent);
 const mounted=new Set();let current=null;
@@ -76,8 +78,10 @@ for(const track of ['ai','hpc']){
 window.addEventListener('popstate',()=>chooseTrack(location.hash.slice(1),false));
 window.addEventListener('hashchange',()=>{if(location.hash.slice(1)!==current)chooseTrack(location.hash.slice(1),false);});
 chooseTrack(location.hash.slice(1),false);
+document.getElementById('researchNoteClose').onclick=()=>document.getElementById('researchNote').close();
+document.getElementById('researchNote').addEventListener('click',e=>{if(e.target===e.currentTarget){const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.currentTarget.close();}});
 '''
-    page=(D/'viewer/unified.html').read_text().replace('__STYLE__',(AI/'viewer/style.css').read_text()+'\n'+(D/'viewer/unified.css').read_text()).replace('__AI_PANEL__',ai).replace('__HPC_PANEL__',hpc).replace('__DATA__',json.dumps({'ai':ai_data,'hpc':hpc_data},ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')).replace('__SCRIPT__',code)
+    page=(D/'viewer/unified.html').read_text().replace('__STYLE__',(AI/'viewer/style.css').read_text()+'\n'+(D/'viewer/unified.css').read_text()).replace('__AI_PANEL__',ai).replace('__HPC_PANEL__',hpc).replace('__DATA__',json.dumps({'ai':ai_data,'hpc':hpc_data,'notes':notes},ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')).replace('__SCRIPT__',code)
     asset='data:image/webp;base64,'+base64.b64encode((D/'assets/research-field.webp').read_bytes()).decode()
     page=page.replace('__SIDEBAR_IMAGE__',asset)
     assert '<iframe' not in page and '/home/apacsc42/' not in page

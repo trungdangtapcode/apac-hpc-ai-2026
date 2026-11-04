@@ -19,3 +19,7 @@ The visual refresh replaces the large introduction with a dark navigation sideba
 ## Flat display refinement
 
 The latest UI uses ruled counters, square graph nodes and a compact data inspector. Long outcomes and source detail are expandable rather than shown as default paragraphs. [Scope and regression checks](../atlas-flat-layout-20261104/README.md).
+
+## Source-linked investigation reader
+
+Each curated milestone has a structured research note. Use **Read investigation** to open the wide Markdown reader, then navigate its contents, inspect before/after tables and code, follow sources, or download Markdown. [Canonical note index](research-notes/README.md) includes all 31 AI and 15 HPC milestones. [Content, source and browser validation](../atlas-research-notes-20261104/README.md). The expanded NIXL note traces warmup failure, source inspection, the two patched functions, correctness checks and the real GPU result.
