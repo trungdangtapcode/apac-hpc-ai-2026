@@ -31,6 +31,11 @@ def component(source,hpc=False):
     code=code.replace("root.querySelectorAll('#runRows tr')","$('runRows').querySelectorAll('tr')")
     code=code.replace("if(state.tab==='map')fit(true);","if(!root.hidden&&state.tab==='map')fit(true);")
     code=code.replace('timer=setTimeout(()=>fit(true),150)','timer=setTimeout(()=>{if(!root.hidden)fit(true);},150)')
+    # Replace the paragraph-heavy inspector while preserving the component selection logic.
+    if hpc:
+        code+="\nconst selectBeforeCompact=select;select=function(row,scroll=false){selectBeforeCompact(row,scroll);compactInspector(root,row,true,'hpc',DATA,{milestone:id=>{const next=byId.get(id);if(next){select(next);focus(id);}}});};squareGraphNodes(root);if(state.selected)select(state.selected);\n"
+    else:
+        code+="\nconst selectBeforeCompact=selectRow;selectRow=function(row,milestone=false,scroll=false){selectBeforeCompact(row,milestone,scroll);compactInspector(root,row,milestone,'ai',DATA,{job:id=>{const next=byJob.get(id);if(next)selectRow(next);},milestone:id=>{const next=byMilestone.get(id);if(next){selectRow(next,true);focusNode(id);}}});};squareGraphNodes(root);if(state.selected)selectRow(state.selected.row,state.selected.isMilestone);\n"
     assert 'document.getElementById' not in code
     return ('function mountHpc' if hpc else 'function mountAi')+'(root,DATA){\n'+code+'\n}'
 
@@ -38,7 +43,7 @@ def main():
     ai,ai_data=extract(AI/'index.html','ai')
     hpc,hpc_data=extract(D/'hpc/index.html','hpc')
     # Framework-free modules retain independent filters, selections and viewports.
-    code=component(AI/'viewer/app.js')+'\n'+component(D/'viewer/hpc.js',True)
+    code=(D/'viewer/inspector.js').read_text()+'\n'+component(AI/'viewer/app.js')+'\n'+component(D/'viewer/hpc.js',True)
     code+='''
 const TEAM=JSON.parse(document.getElementById('teamData').textContent);
 const mounted=new Set();let current=null;
@@ -52,7 +57,7 @@ function chooseTrack(track,updateUrl=true){
  const root=document.getElementById('track-'+track);
  if(!mounted.has(track)){(track==='ai'?mountAi:mountHpc)(root,TEAM[track]);mounted.add(track);}
  document.getElementById('activeTrackName').textContent=track==='ai'?'AI / Qwen3–235B':'HPC / OpenFOAM';
- document.getElementById('activeTrackNote').textContent=track==='ai'?'Good output tokens/s · higher within the latency gate':'Solver seconds/step · lower under matched conditions';
+ document.getElementById('activeTrackNote').textContent=track==='ai'?'Good tokens/s ↑ · TTFT ≤ 3,000 ms · ITL ≤ 20 ms':'Mean s/step ↓ · NSCC / Iris';
  document.getElementById('workspaceTitle').textContent=track==='ai'?'Qwen inference':'OpenFOAM simulation';
  const values=track==='ai'?[['Research milestones',TEAM.ai.curated.nodes.length],['Retained allocations',TEAM.ai.runs.length],['Confirmed starts',TEAM.ai.runs.filter(r=>r.started===true).length]]:[['Research milestones',TEAM.hpc.nodes.length],['Documented connections',TEAM.hpc.edges.length],['CPU platforms',new Set(TEAM.hpc.nodes.map(n=>n.platform)).size]];
  values.forEach(([label,value],i)=>{document.getElementById('scopeLabel'+(i+1)).textContent=label;document.getElementById('scopeValue'+(i+1)).textContent=value;});

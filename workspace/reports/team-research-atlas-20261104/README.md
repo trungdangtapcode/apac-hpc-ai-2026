@@ -15,3 +15,7 @@ Pages stages the reviewed team `index.html.gz` as the root page, `.nojekyll` and
 ## Current workspace design
 
 The visual refresh replaces the large introduction with a dark navigation sidebar, a light graph workspace, compact scope cards and an original generated sidebar image. The shared page and task state are preserved. [Design direction, references, asset hashes and regression checks](../atlas-design-refresh-20261104/README.md).
+
+## Flat display refinement
+
+The latest UI uses ruled counters, square graph nodes and a compact data inspector. Long outcomes and source detail are expandable rather than shown as default paragraphs. [Scope and regression checks](../atlas-flat-layout-20261104/README.md).
