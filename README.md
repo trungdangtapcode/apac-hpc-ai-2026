@@ -28,7 +28,7 @@ The H100 and H200 performance series remain separate. The local MMLU-Pro result 
 
 **Explore the data:** [research guide](workspace/reports/ai-run-lineage-20261103/README.md) · [all 419 nodes](workspace/reports/ai-run-lineage-20261103/all-allocations.svg) · [PDF map](workspace/reports/ai-run-lineage-20261103/journey.pdf) · [CSV inventory](workspace/reports/ai-run-lineage-20261103/runs.csv).
 
-**Interactive hover viewer:** download [index.html.gz](workspace/reports/ai-run-lineage-20261103/index.html.gz), decompress it and open the resulting HTML in a browser. The offline viewer offers **31 milestones / all 419 jobs**, search and GPU filters. Hover shows **good output tokens/s · mean TTFT (ms) · mean ITL (ms) · SLA pass (%)**; missing exports show N/A. GitHub renders the static diagram above; interactive hover runs in the downloaded HTML.
+**[Open the interactive research atlas ↗](https://trungdangtapcode.github.io/apac-hpc-ai-2026/)** — explore **31 milestones / all 419 jobs** with pan/zoom, search, platform filters and evidence details. Hover shows **good output tokens/s · mean TTFT (ms) · mean ITL (ms) · SLA pass (%)**; missing values are N/A. [Offline copy](workspace/reports/ai-run-lineage-20261103/index.html.gz): decompress and open in a browser. The hosted viewer is the retained 3 November snapshot, not a live queue.
 
 ## HPC research at a glance
 

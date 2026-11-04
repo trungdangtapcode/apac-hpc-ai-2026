@@ -1,0 +1,38 @@
+name: Publish AI research atlas
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'workspace/reports/ai-run-lineage-20261103/index.html.gz'
+      - 'workspace/reports/ai-run-lineage-20261103/viewer/prepare_pages.py'
+      - '.github/workflows/ai-research-pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage the reviewed static viewer only
+        run: python3 workspace/reports/ai-run-lineage-20261103/viewer/prepare_pages.py --output _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
