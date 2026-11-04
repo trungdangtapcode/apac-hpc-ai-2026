@@ -1,6 +1,6 @@
 # OpenFOAM CPU research journey
 
-This retrospective map groups **15 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot prepared 4 November 2026 including the completed native review on 4 November. It is an overview, not an exhaustive count of allocations or a live queue display.
+This retrospective map groups **16 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot updated 5 November 2026 including the completed native review on 4 November. It is an overview, not an exhaustive count of allocations or a live queue display.
 
 [![OpenFOAM research journey: NSCC in orange, Iris in blue](journey.png)](journey.svg)
 
@@ -19,6 +19,8 @@ Click the diagram to zoom. Orange identifies NSCC CPU; blue identifies Iris CPU.
 A second is the wall-clock unit; one step is one solver iteration. Mean seconds/step includes every prescribed measured interval after the first iteration. Lower is better. A 14-step screen has 13 measured intervals; a 40-step test has 39, and a 150-step run has 149. Faster isolated arms and different horizons cannot establish a matched improvement.
 
 Our selected Iris minimum **21.051168942 seconds/step** is one completed 14-step graph-placement arm. Organizer **22.358237138** and teammate **22.396949743** minima are separate 40-step arms. They are not a three-way ranking. NSCC's organizer reference **3.210832548** and the supplied Gadi result **2.079045460** belong to other runs/platforms and are not plotted as improvements along the Iris path.
+
+The distinct solver-rank interleave trial 2294803 timed out before a complete candidate mean; its 33-interval partial mean is diagnostic only, with full candidate Result=N/A. Rank-policy qualification and the failed performance trial form the sixteenth milestone.
 
 ## Explore and reproduce
 

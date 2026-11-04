@@ -1,0 +1,5 @@
+# Solver-policy timeout and qualified mechanism in the hosted atlas
+
+The new sixteenth HPC milestone separates actual in-rank policy qualification from the incomplete solver trial. Jobs 2294801/2294802 are no-solver 56-rank mechanism probes. Job 2294803 has a complete control mean 24.758556905 s/step, but its candidate full mean is null because the 1,500-second cap stopped it during step 35. The 33-interval diagnostic partial mean 41.846495650 is labeled not a solver score. No four-arm comparison or percentage gain is published. Later source/runtime gates were not reached.
+
+The prior preparation-only milestone remains separately closed after independent 2294800 loses 6.09738%. Both historical gains and losses stay scoped to their own jobs. HPC counts and the vertical timeline now reflect 16 curated milestones; AI's 31 milestones and 419 allocations and note bodies are preserved. Root browser tests check the explicit N/A full mean, diagnostic-only partial value, job/horizon units, hover, mobile and track switching. Pages serves the reviewed standalone HTML only; deployment and live-byte receipts are separate.

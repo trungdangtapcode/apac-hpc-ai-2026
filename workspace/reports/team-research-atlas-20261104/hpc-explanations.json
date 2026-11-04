@@ -55,7 +55,7 @@
       },
       {
         "label": "Ordered pair",
-        "value": "Reported difference \u22120.994%, small enough to treat as noisy rather than a demonstrated gain."
+        "value": "Reported difference −0.994%, small enough to treat as noisy rather than a demonstrated gain."
       }
     ],
     "findings": [
@@ -331,7 +331,7 @@
     "evidence": [
       {
         "label": "Initial apparent change",
-        "value": "\u22126.07% time."
+        "value": "−6.07% time."
       },
       {
         "label": "Reverse check",
@@ -370,11 +370,11 @@
     "evidence": [
       {
         "label": "Matched means",
-        "value": "24.7453 vs 27.8735 seconds/step; candidate time \u221211.2228%."
+        "value": "24.7453 vs 27.8735 seconds/step; candidate time −11.2228%."
       },
       {
         "label": "Repeat variability",
-        "value": "About 18\u201321% drift; all four reported rank/core maps and force-coefficient trajectories matched."
+        "value": "About 18–21% drift; all four reported rank/core maps and force-coefficient trajectories matched."
       }
     ],
     "findings": [
@@ -453,7 +453,7 @@
     "evidence": [
       {
         "label": "Initial screen",
-        "value": "\u22120.71% candidate time."
+        "value": "−0.71% candidate time."
       },
       {
         "label": "Reverse confirmation",
@@ -595,7 +595,7 @@
       },
       {
         "label": "Adjacent changes",
-        "value": "\u221225.75185% /\u221234.85009%; both favor candidate."
+        "value": "−25.75185% /−34.85009%; both favor candidate."
       },
       {
         "label": "Repeat drift",
@@ -642,6 +642,59 @@
       {
         "label": "Actual same-horizon confirmation receipt",
         "path": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/STATUS.md"
+      }
+    ]
+  },
+  "rank_policy": {
+    "question": "Does in-rank NUMA interleave policy survive into the solver rank process and improve a matched native run?",
+    "rationale": "Outer-launcher policy did not propagate to observed ranks in 2294801. In-rank numactl changed the pre-exec rank probe in 2294802, which motivated one bounded native test. The solver candidate timed out before the planned four-arm comparison completed.",
+    "changes": [
+      {
+        "aspect": "Policy placement",
+        "before": "2294801 placed numactl outside mpirun; all 56 observed ranks retained default policy. 2294802 placed numactl inside each rank; all 56 candidate ranks observed interleave before exec.",
+        "after": "2294803 compared default solver arm A1 with in-rank interleave candidate B1 in a 40-step ABBA plan; candidate hit the 1,500-second per-arm cap before completion."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Completed control",
+        "value": "A1 completed 40 steps /39 timings at 24.7585569046 s/step."
+      },
+      {
+        "label": "Timed-out candidate",
+        "value": "B1 last started step 35, with 33 completed timing intervals and partial mean 41.8464956498 s/step. This is not a full-run score; B2 and A2 never started."
+      },
+      {
+        "label": "Pre-exec and force checks",
+        "value": "Rank policy and equal-affinity checks pass for both started arms. Force-coefficient prefix matches for 34 rows. Source-after and runtime-after gates were not reached."
+      },
+      {
+        "label": "Cost",
+        "value": "41.4866667 allocated CPU-hours; not billed SU."
+      }
+    ],
+    "findings": [
+      "The outer numactl launcher did not propagate policy to observed rank probes, while in-rank numactl did change observed pre-exec rank policy and anonymous-page placement.",
+      "The native candidate exceeded its frozen arm cap and its partial timing mean is substantially slower; no complete comparison exists."
+    ],
+    "decision": "Close the unchanged all-rank interleave solver trial under this envelope. Do not extend caps or repeat the capped loser. The policy diagnostics are pre-exec evidence only, not proof of OpenFOAM runtime placement.",
+    "limits": [
+      "Only 34 force-coefficient rows are matched; later correctness and source/runtime-after gates were not reached.",
+      "No complete candidate mean, reversed pair, B2 or A2 exists. Partial timing is not a solver score.",
+      "Pressure telemetry files were unavailable. Pre-exec rank probes do not establish memory policy or placement through the OpenFOAM runtime."
+    ],
+    "sources": [
+      {
+        "label": "Native terminal review",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+      },
+      {
+        "label": "Outer-launcher policy diagnostic",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/completed-2294801/RESULTS.md"
+      },
+      {
+        "label": "In-rank policy diagnostic",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
       }
     ]
   }

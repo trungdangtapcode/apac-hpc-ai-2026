@@ -919,6 +919,252 @@
       ],
       "assessment": "The same-horizon ABBA repeat reverses the earlier BAAB pooled gain. No stable preparation-only performance benefit is established; close this unchanged branch.",
       "limitations": "Control drift and conflicting adjacent signs remain. Earlier favorable within-job results are preserved separately, not pooled into a universal score. No official 150-step or cross-platform improvement."
+    },
+    {
+      "id": "rank_policy",
+      "date": "5 Nov",
+      "platform": "Iris",
+      "title": "Test solver-rank interleave policy",
+      "change": "Qualify outer and in-rank numactl behavior, then compare default versus in-rank policy in a 40-step ABBA solver trial.",
+      "jobs": "2294801 / 2294802 / 2294803",
+      "result": "Control A1 completed at 24.7586 s/step; candidate B1 timed out after 33 timings (partial mean 41.8465 s/step; not a score). Remaining arms did not start.",
+      "assessment": "Close the all-rank interleave solver trial under this envelope. The two diagnostic jobs verified pre-exec rank policy behavior; the native candidate exceeded its frozen arm cap, so no complete comparison or performance promotion exists.",
+      "limitations": "Policy and affinity proof covers pre-exec rank setup only, not policy or memory placement through OpenFOAM runtime. Candidate partial timings are not a full-run score. Force trajectories match only for a 34-row prefix; source-after and runtime-after gates were not reached. Pressure telemetry was unavailable. No capped-loser repeat is justified.",
+      "result_metrics": [
+        {
+          "key": "control_mean",
+          "label": "Completed default-policy control mean",
+          "value": 24.758556904589742,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "complete solver control A1",
+          "job_id": "2294803",
+          "horizon": "40 steps; 39 timings",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "candidate_full_mean",
+          "label": "Full candidate solver mean",
+          "value": null,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "no full candidate arm mean; timed out before completion",
+          "job_id": "2294803",
+          "horizon": "40-step target; B1 timed out",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "candidate_partial_mean",
+          "label": "Candidate partial diagnostic mean",
+          "value": 41.84649564975758,
+          "unit": "s/step",
+          "direction": "descriptive",
+          "scope": "33 completed timing intervals only; not a solver score or full-run mean",
+          "job_id": "2294803",
+          "horizon": "B1 timed out; last started step 35 of 40",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "candidate_timed_intervals",
+          "label": "Candidate completed timing intervals",
+          "value": 33,
+          "unit": "intervals",
+          "direction": "descriptive",
+          "scope": "partial candidate arm",
+          "job_id": "2294803",
+          "horizon": "B1 timed out; last started step 35 of 40",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "candidate_last_started_step",
+          "label": "Candidate last started solver step",
+          "value": 35,
+          "unit": "step",
+          "direction": "descriptive",
+          "scope": "partial candidate arm",
+          "job_id": "2294803",
+          "horizon": "40-step target",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "control_steps",
+          "label": "Control completed steps",
+          "value": 40,
+          "unit": "steps",
+          "direction": "descriptive",
+          "scope": "solver control A1",
+          "job_id": "2294803",
+          "horizon": "39 timing intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "control_intervals",
+          "label": "Control completed timing intervals",
+          "value": 39,
+          "unit": "intervals",
+          "direction": "descriptive",
+          "scope": "solver control A1",
+          "job_id": "2294803",
+          "horizon": "40 steps",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "matched_force_prefix",
+          "label": "Matched force-coefficient prefix rows",
+          "value": 34,
+          "unit": "rows",
+          "direction": "descriptive",
+          "scope": "correctness prefix only; remaining arms not run",
+          "job_id": "2294803",
+          "horizon": "A1/B1 prefix",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "allocated_ranks",
+          "label": "Allocated MPI ranks",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "single Iris node allocation",
+          "job_id": "2294803",
+          "horizon": "failed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "candidate_timeout",
+          "label": "Candidate arm time limit",
+          "value": 1500,
+          "unit": "s",
+          "direction": "descriptive",
+          "scope": "frozen per-arm cap; B1 timed out at this cap",
+          "job_id": "2294803",
+          "horizon": "B1 candidate arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "allocated_cost",
+          "label": "Allocated cost",
+          "value": 41.4866667,
+          "unit": "CPU-hours",
+          "direction": "descriptive",
+          "scope": "scheduler allocation; not billed SU",
+          "job_id": "2294803",
+          "horizon": "failed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "policy_checked_ranks",
+          "label": "Ranks passing pre-exec policy replay",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "each started native arm passed the retained policy/affinity replay",
+          "job_id": "2294803",
+          "horizon": "A1 control and B1 candidate",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "affinity_checked_ranks",
+          "label": "Ranks covered by equal-affinity replay",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "equal-affinity comparison passed for each started arm; pre-exec evidence only",
+          "job_id": "2294803",
+          "horizon": "A1 control and B1 candidate",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+        },
+        {
+          "key": "outer_default_ranks",
+          "label": "Ranks retaining default policy",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "pre-exec rank diagnostic; all observed ranks remained default",
+          "job_id": "2294801",
+          "horizon": "56 ranks; outer numactl launcher",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/completed-2294801/RESULTS.md"
+        },
+        {
+          "key": "outer_interleaved_ranks",
+          "label": "Ranks observed interleaved",
+          "value": 0,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "pre-exec rank diagnostic; outer launcher did not propagate policy",
+          "job_id": "2294801",
+          "horizon": "56 ranks; outer numactl launcher",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/completed-2294801/RESULTS.md"
+        },
+        {
+          "key": "outer_mapping_mib",
+          "label": "Isolated mapping size per rank",
+          "value": 8,
+          "unit": "MiB",
+          "direction": "descriptive",
+          "scope": "Python rank-probe mapping; not solver allocation",
+          "job_id": "2294801",
+          "horizon": "2,048 pages per rank",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/completed-2294801/RESULTS.md"
+        },
+        {
+          "key": "outer_elapsed",
+          "label": "Diagnostic elapsed time",
+          "value": 2,
+          "unit": "s",
+          "direction": "descriptive",
+          "scope": "scheduler elapsed time; not solver runtime",
+          "job_id": "2294801",
+          "horizon": "completed diagnostic",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/completed-2294801/RESULTS.md"
+        },
+        {
+          "key": "inrank_default_ranks",
+          "label": "Inherited ranks observed default",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "pre-exec rank diagnostic; inherited arm",
+          "job_id": "2294802",
+          "horizon": "56 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
+        },
+        {
+          "key": "inrank_interleaved_ranks",
+          "label": "Candidate ranks observed interleaved",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "descriptive",
+          "scope": "pre-exec rank diagnostic; in-rank numactl candidate",
+          "job_id": "2294802",
+          "horizon": "56 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
+        },
+        {
+          "key": "inrank_mapping_mib",
+          "label": "Isolated mapping size per rank",
+          "value": 8,
+          "unit": "MiB",
+          "direction": "descriptive",
+          "scope": "Python rank-probe mapping; not solver allocation",
+          "job_id": "2294802",
+          "horizon": "2,048 pages per rank",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
+        },
+        {
+          "key": "inrank_elapsed",
+          "label": "Diagnostic elapsed time",
+          "value": 2,
+          "unit": "s",
+          "direction": "descriptive",
+          "scope": "scheduler elapsed time; not solver runtime",
+          "job_id": "2294802",
+          "horizon": "completed diagnostic",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
+        }
+      ],
+      "status": "invalid",
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
     }
   ],
   "edges": [
@@ -991,6 +1237,11 @@
       "source": "prep",
       "target": "native",
       "relation": "mechanism \u2192 solver test"
+    },
+    {
+      "source": "native",
+      "target": "rank_policy",
+      "relation": "motivated"
     }
   ],
   "timeline": [
@@ -1052,6 +1303,12 @@
       "date": "5 Nov",
       "ids": [
         "native"
+      ]
+    },
+    {
+      "date": "5 Nov",
+      "ids": [
+        "rank_policy"
       ]
     }
   ]

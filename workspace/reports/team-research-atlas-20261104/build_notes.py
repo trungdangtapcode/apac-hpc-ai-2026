@@ -51,7 +51,7 @@ def build():
             for url in re.findall(r'\]\((https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/[^)]+)\)',note['markdown']):
                 from urllib.parse import unquote
                 relative=unquote(url[len(REPO):].split('#')[0]);assert (ROOT/relative).is_file(),relative
-    index=['# Research notes','','Source-linked retrospective explanations for 31 AI milestones and 15 HPC milestones. Original run records remain unchanged. Each note separates rationale, exact changes, measurements, decisions and evidence limits.','']
+    index=['# Research notes','','Source-linked retrospective explanations for 31 AI milestones and '+str(len(hpc['nodes']))+' HPC milestones. Original run records remain unchanged. Each note separates rationale, exact changes, measurements, decisions and evidence limits.','']
     for track in ['ai','hpc']:
         index+=['## '+track.upper(),'','| Milestone | Platform | Date |','|---|---|---|']
         for key,note in notes[track].items():index.append('| ['+note['title']+']('+track+'/'+key+'.md) | '+note['platform']+' | '+note['date']+' |')
