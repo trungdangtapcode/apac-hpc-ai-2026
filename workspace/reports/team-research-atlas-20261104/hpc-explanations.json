@@ -55,7 +55,7 @@
       },
       {
         "label": "Ordered pair",
-        "value": "Reported difference −0.994%, small enough to treat as noisy rather than a demonstrated gain."
+        "value": "Reported difference \u22120.994%, small enough to treat as noisy rather than a demonstrated gain."
       }
     ],
     "findings": [
@@ -331,7 +331,7 @@
     "evidence": [
       {
         "label": "Initial apparent change",
-        "value": "−6.07% time."
+        "value": "\u22126.07% time."
       },
       {
         "label": "Reverse check",
@@ -370,11 +370,11 @@
     "evidence": [
       {
         "label": "Matched means",
-        "value": "24.7453 vs 27.8735 seconds/step; candidate time −11.2228%."
+        "value": "24.7453 vs 27.8735 seconds/step; candidate time \u221211.2228%."
       },
       {
         "label": "Repeat variability",
-        "value": "About 18–21% drift; all four reported rank/core maps and force-coefficient trajectories matched."
+        "value": "About 18\u201321% drift; all four reported rank/core maps and force-coefficient trajectories matched."
       }
     ],
     "findings": [
@@ -453,7 +453,7 @@
     "evidence": [
       {
         "label": "Initial screen",
-        "value": "−0.71% candidate time."
+        "value": "\u22120.71% candidate time."
       },
       {
         "label": "Reverse confirmation",
@@ -595,7 +595,7 @@
       },
       {
         "label": "Adjacent changes",
-        "value": "−25.75185% /−34.85009%; both favor candidate."
+        "value": "\u221225.75185% /\u221234.85009%; both favor candidate."
       },
       {
         "label": "Repeat drift",
@@ -695,6 +695,67 @@
       {
         "label": "In-rank policy diagnostic",
         "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md"
+      }
+    ]
+  },
+  "allreduce": {
+    "question": "Can a different tiny-message collective configuration reduce latency enough to justify a native test?",
+    "rationale": "The previous NUMA solver trial timed out. A distinct cheap probe tests MPI configuration before spending another solver allocation; the timeout itself does not identify MPI as a bottleneck.",
+    "changes": [
+      {
+        "aspect": "Configuration",
+        "before": "Current default Open MPI collective selection.",
+        "after": "Forced tuned/basic/libnbc/self list, tuned priority 100, dynamic rules enabled and Allreduce algorithm 3."
+      },
+      {
+        "aspect": "Work held fixed",
+        "before": "56 ranks, 8/64-byte SUM, 100 warmups, two 1000-call blocks per launch.",
+        "after": "Same C binary and work in ABBA order, identical reported CPU binding; raw distributions retained."
+      }
+    ],
+    "evidence": [
+      {
+        "label": "Protocol",
+        "value": "2294805 COMPLETED 0:0 in 20 s; correctness, source hashes, binding and raw quantile replay pass."
+      },
+      {
+        "label": "8B block 1 A1/B1 p50",
+        "value": "2.478 us versus 4.117 us; candidate is 66.14% slower in that matched block."
+      },
+      {
+        "label": "All matched blocks",
+        "value": "Candidate median 57\u201370% higher and p95 44\u201385% higher; no qualifying benefit."
+      },
+      {
+        "label": "Actual runtime",
+        "value": "Open MPI 5.0.10rc2. Verbose default includes ucc priority 100 enabled; candidate tuned priority 100 enabled."
+      }
+    ],
+    "findings": [
+      "The strict improvement gate fails in every matched block, so a costly native follow-up is not justified for this candidate.",
+      "The default collective stack is faster than this forced configuration on this tiny-message test; this does not establish a global optimum or OpenFOAM bottleneck."
+    ],
+    "decision": "Close this forced-tuned candidate and retain default MPI for now. Inspect existing optimized build/runtime choices before selecting a distinct next trial; do not sweep losing flags blindly.",
+    "limits": [
+      "Microseconds per tiny collective call are not seconds per CFD step or a solver speedup.",
+      "Component-selection logs are not a per-operation native profile; no exact active UCX transport is inferred from linkage."
+    ],
+    "sources": [
+      {
+        "label": "Complete qualification review",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+      },
+      {
+        "label": "Raw metric/replay record",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/REVIEW.json"
+      },
+      {
+        "label": "Official component selection documentation",
+        "path": "https://docs.open-mpi.org/en/v5.0.x/tuning-apps/collectives/components.html"
+      },
+      {
+        "label": "Official tuned controls",
+        "path": "https://docs.open-mpi.org/en/v5.0.x/tuning-apps/collectives/tuned.html"
       }
     ]
   }

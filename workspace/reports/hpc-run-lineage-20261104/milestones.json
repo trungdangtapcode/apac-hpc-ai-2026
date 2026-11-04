@@ -1165,6 +1165,428 @@
       ],
       "status": "invalid",
       "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json"
+    },
+    {
+      "id": "allreduce",
+      "date": "5 Nov review (Vietnam)",
+      "platform": "Iris",
+      "title": "Qualify tiny Allreduce before a solver trial",
+      "change": "Default MPI versus forced tuned recursive doubling; 8/64-byte correctness-checked ABBA probes",
+      "jobs": "2294805",
+      "result": "8B block 1: default p50 2.478 us; forced tuned 4.117 us; candidate fails benefit gate",
+      "status": "closed",
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md",
+      "result_metrics": [
+        {
+          "key": "default_p50_8B_B1",
+          "label": "Default p50",
+          "value": 2.47800000031,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "tiny Allreduce; not OpenFOAM solver performance",
+          "job_id": "2294805",
+          "horizon": "A1 /8B /block 1 /1000 calls",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "candidate_p50_8B_B1",
+          "label": "Forced tuned p50",
+          "value": 4.11700000003,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "tiny Allreduce; not OpenFOAM solver performance",
+          "job_id": "2294805",
+          "horizon": "B1 /8B /block 1 /1000 calls",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "candidate_p50_change",
+          "label": "Candidate p50 change",
+          "value": 66.14205002078128,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched tiny-Allreduce contrast only",
+          "job_id": "2294805",
+          "horizon": "B1 vsA1 /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_8_1_p50",
+          "label": "A1 8B block 1 p50",
+          "value": 2.47800000031,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_8_1_p95",
+          "label": "A1 8B block 1 p95",
+          "value": 3.0380000000100003,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_8_2_p50",
+          "label": "A1 8B block2 p50",
+          "value": 2.4430000000699996,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_8_2_p95",
+          "label": "A1 8B block2 p95",
+          "value": 2.87400000021,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_64_1_p50",
+          "label": "A1 64B block 1 p50",
+          "value": 3.3739999998299997,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_64_1_p95",
+          "label": "A1 64B block 1 p95",
+          "value": 4.54299999975,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_64_2_p50",
+          "label": "A1 64B block2 p50",
+          "value": 3.45900000021,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A1_64_2_p95",
+          "label": "A1 64B block2 p95",
+          "value": 4.69499999989,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_8_1_p50",
+          "label": "B1 8B block 1 p50",
+          "value": 4.11700000003,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_8_1_p95",
+          "label": "B1 8B block 1 p95",
+          "value": 5.28499999985,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_8_2_p50",
+          "label": "B1 8B block2 p50",
+          "value": 4.08800000007,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_8_2_p95",
+          "label": "B1 8B block2 p95",
+          "value": 4.767999999930001,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_64_1_p50",
+          "label": "B1 64B block 1 p50",
+          "value": 5.74999999992,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_64_1_p95",
+          "label": "B1 64B block 1 p95",
+          "value": 6.64800000005,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_64_2_p50",
+          "label": "B1 64B block2 p50",
+          "value": 5.78499999992,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B1_64_2_p95",
+          "label": "B1 64B block2 p95",
+          "value": 6.91100000005,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_8_1_p50",
+          "label": "B2 8B block 1 p50",
+          "value": 4.07699999982,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_8_1_p95",
+          "label": "B2 8B block 1 p95",
+          "value": 5.250999999929999,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_8_2_p50",
+          "label": "B2 8B block2 p50",
+          "value": 4.06200000014,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_8_2_p95",
+          "label": "B2 8B block2 p95",
+          "value": 4.7190000001,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_64_1_p50",
+          "label": "B2 64B block 1 p50",
+          "value": 5.7410000000600006,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_64_1_p95",
+          "label": "B2 64B block 1 p95",
+          "value": 6.61699999993,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_64_2_p50",
+          "label": "B2 64B block2 p50",
+          "value": 5.73399999992,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "B2_64_2_p95",
+          "label": "B2 64B block2 p95",
+          "value": 6.85099999997,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_8_1_p50",
+          "label": "A2 8B block 1 p50",
+          "value": 2.46099999979,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_8_1_p95",
+          "label": "A2 8B block 1 p95",
+          "value": 2.83899999998,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_8_2_p50",
+          "label": "A2 8B block2 p50",
+          "value": 2.4619999998699997,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_8_2_p95",
+          "label": "A2 8B block2 p95",
+          "value": 2.84000000006,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /8B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_64_1_p50",
+          "label": "A2 64B block 1 p50",
+          "value": 3.66200000013,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_64_1_p95",
+          "label": "A2 64B block 1 p95",
+          "value": 4.58099999978,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block 1",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_64_2_p50",
+          "label": "A2 64B block2 p50",
+          "value": 3.4689999997000003,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "A2_64_2_p95",
+          "label": "A2 64B block2 p95",
+          "value": 4.32499999992,
+          "unit": "us",
+          "direction": "lower_is_better",
+          "scope": "worst-rank per-call latency; microbenchmark only",
+          "job_id": "2294805",
+          "horizon": "1000 calls /64B /block2",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "ranks",
+          "label": "MPI ranks",
+          "value": 56,
+          "unit": "ranks",
+          "direction": "not_applicable",
+          "scope": "qualification work size",
+          "job_id": "2294805",
+          "horizon": "all four ABBA launches",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        },
+        {
+          "key": "allocated_cost",
+          "label": "Allocated cost",
+          "value": 0.3111111111111111,
+          "unit": "CPU-h",
+          "direction": "lower_is_better",
+          "scope": "allocation accounting, not billed SU",
+          "job_id": "2294805",
+          "horizon": "20s x56CPUs",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md"
+        }
+      ],
+      "assessment": "Forced tuned is slower in every matched block. Close it without a costly native solver allocation. No MPI cause of the earlier NUMA timeout is inferred.",
+      "limitations": "No mesh or solver steps are run. Selected components and requested algorithm are recorded; this is not a native per-operation profile or a cross-platform score."
     }
   ],
   "edges": [
@@ -1242,6 +1664,11 @@
       "source": "native",
       "target": "rank_policy",
       "relation": "motivated"
+    },
+    {
+      "source": "rank_policy",
+      "target": "allreduce",
+      "relation": "motivated"
     }
   ],
   "timeline": [
@@ -1308,7 +1735,8 @@
     {
       "date": "5 Nov",
       "ids": [
-        "rank_policy"
+        "rank_policy",
+        "allreduce"
       ]
     }
   ]

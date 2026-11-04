@@ -1,6 +1,6 @@
 # OpenFOAM CPU research journey
 
-This retrospective map groups **16 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot updated 5 November 2026 including the completed native review on 4 November. It is an overview, not an exhaustive count of allocations or a live queue display.
+This retrospective map groups **17 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot updated 5 November 2026 including the completed native review on 4 November. It is an overview, not an exhaustive count of allocations or a live queue display.
 
 [![OpenFOAM research journey: NSCC in orange, Iris in blue](journey.png)](journey.svg)
 

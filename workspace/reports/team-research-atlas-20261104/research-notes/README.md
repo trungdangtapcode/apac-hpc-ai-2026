@@ -1,6 +1,6 @@
 # Research notes
 
-Source-linked retrospective explanations for 31 AI milestones and 16 HPC milestones. Original run records remain unchanged. Each note separates rationale, exact changes, measurements, decisions and evidence limits.
+Source-linked retrospective explanations for 31 AI milestones and 17 HPC milestones. Original run records remain unchanged. Each note separates rationale, exact changes, measurements, decisions and evidence limits.
 
 ## AI
 
@@ -58,4 +58,5 @@ Source-linked retrospective explanations for 31 AI milestones and 16 HPC milesto
 | [Test preparation memory policy](hpc/prep.md) | Iris | 3 Nov |
 | [Check whether the preparation-policy gain repeats](hpc/native.md) | Iris | 5 Nov review (Vietnam) |
 | [Test solver-rank interleave policy](hpc/rank_policy.md) | Iris | 5 Nov |
+| [Qualify tiny Allreduce before a solver trial](hpc/allreduce.md) | Iris | 5 Nov review (Vietnam) |
 

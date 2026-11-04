@@ -18,6 +18,7 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "prep" [label="3 Nov · Iris\nTest preparation memory policy\nInherited / interleaved child; copy + hash only\nJobs 2294674 failed → 2294675 qualified\nFile-page counter split changes; no solver result\nMECHANISM / not a speedup",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../workspace/reports/hpc-iris-comparison-20261103/README.md",tooltip="File-page counter split changes; no solver result | MECHANISM / not a speedup"];
 "native" [label="5 Nov review (Vietnam) · Iris\nCheck whether the preparation-policy gain repeats\nSame Scotch; only preparation-child policy\nchanges\nJobs 2294676 /2294735 /2294800\nIndependent ABBA 40: 29.0048 versus 27.3379\ns/step; +6.10% slower\nCLOSED / no stable gain",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/completed-2294800/RESULTS.md",tooltip="Independent ABBA 40: 29.0048 versus 27.3379 s/step; +6.10% slower | CLOSED / no stable gain"];
 "rank_policy" [label="5 Nov · Iris\nTest solver-rank interleave policy\nQualify outer and in-rank numactl behavior, then\ncompare default versus in-rank policy in a\n40-step ABBA solver trial.\nJobs 2294801 / 2294802 / 2294803\nControl A1 completed at 24.7586 s/step; candidate\nB1 timed out after 33 timings (partial mean\n41.8465 s/step; not a score). Remaining arms did\nnot start.\nINCOMPLETE / invalid comparison",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json",tooltip="Control A1 completed at 24.7586 s/step; candidate B1 timed out after 33 timings (partial mean 41.8465 s/step; not a score). Remaining arms did not start. | INCOMPLETE / invalid comparison"];
+"allreduce" [label="5 Nov review (Vietnam) · Iris\nQualify tiny Allreduce before a solver trial\nDefault MPI versus forced tuned recursive\ndoubling; 8/64-byte correctness-checked ABBA\nprobes\nJobs 2294805\n8B block 1: default p50 2.478 us; forced tuned\n4.117 us; candidate fails benefit gate\nCLOSED / no stable gain",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md",tooltip="8B block 1: default p50 2.478 us; forced tuned 4.117 us; candidate fails benefit gate | CLOSED / no stable gain"];
 "access" -> "order" [constraint=false,style=dotted,label="motivated"];
 "baseline" -> "numa" [constraint=false,style=dotted,label="motivated"];
 "numa" -> "graph" [constraint=false,style=dotted,label="motivated"];
@@ -33,6 +34,7 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "xyz" -> "prep" [constraint=false,style=dotted,label="motivated"];
 "prep" -> "native" [constraint=false,style=dotted,label="mechanism → solver test"];
 "native" -> "rank_policy" [constraint=false,style=dotted,label="motivated"];
+"rank_policy" -> "allreduce" [constraint=false,style=dotted,label="motivated"];
 date0 [shape=plaintext,label="21 Oct",fontcolor="#607080"];
 {rank=same;date0;"access";"baseline";"numa";}
 "access" -> "baseline" [style=invis,weight=10];
@@ -66,6 +68,7 @@ date8 [shape=plaintext,label="5 Nov",fontcolor="#607080"];
 {rank=same;date8;"native";}
 date7 -> date8 [style=invis,weight=100];
 date9 [shape=plaintext,label="5 Nov",fontcolor="#607080"];
-{rank=same;date9;"rank_policy";}
+{rank=same;date9;"rank_policy";"allreduce";}
+"rank_policy" -> "allreduce" [style=invis,weight=10];
 date8 -> date9 [style=invis,weight=100];
 }

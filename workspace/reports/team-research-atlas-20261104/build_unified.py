@@ -82,6 +82,7 @@ document.getElementById('researchNoteClose').onclick=()=>document.getElementById
 document.getElementById('researchNote').addEventListener('click',e=>{if(e.target===e.currentTarget){const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.currentTarget.close();}});
 '''
     page=(D/'viewer/unified.html').read_text().replace('__STYLE__',(AI/'viewer/style.css').read_text()+'\n'+(D/'viewer/unified.css').read_text()).replace('__AI_PANEL__',ai).replace('__HPC_PANEL__',hpc).replace('__DATA__',json.dumps({'ai':ai_data,'hpc':hpc_data,'notes':notes},ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')).replace('__SCRIPT__',code)
+    page=page.replace('__HPC_COUNT__',str(len(hpc_data['nodes']))).replace('__TOTAL_COUNT__',str(len(ai_data['curated']['nodes'])+len(hpc_data['nodes'])))
     asset='data:image/webp;base64,'+base64.b64encode((D/'assets/research-field.webp').read_bytes()).decode()
     page=page.replace('__SIDEBAR_IMAGE__',asset)
     assert '<iframe' not in page and '/home/apacsc42/' not in page
