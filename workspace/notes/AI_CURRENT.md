@@ -1,5 +1,7 @@
 # Current AI / Qwen handoff
 
+**Repository visibility — 4 November 2026:** The owner requested public access. GitHub now reports PUBLIC and anonymous API access succeeds. Canonical URL: https://github.com/trungdangtapcode/apac-hpc-ai-2026 (the former research URL redirects). [Screening and receipt](../reports/repository-publication-20261104/README.md). Previous private-repository references are historical. Script-only numbering edits remain uncaptured, as requested.
+
 **English rehearsal companion — 4 November 2026:** [Short English script](../reports/ai-final-report-20261030/TALK_SCRIPT_EN.md) now follows the owner-revised Vietnamese script: short paragraphs, explicit decode control, spoken rounded results, concurrency tradeoff and chart walkthrough. Extra prefill evidence is study-only. All sixteen titles match; slide/PDF/ZIP/long guides and HPC unchanged. No live rehearsal timing claimed.
 
 **Owner-edited Vietnamese rehearsal script — 4 November 2026:** [Short script](../reports/ai-final-report-20261030/TALK_SCRIPT_VI.md) consolidates the owner's inline additions into short spoken paragraphs. Clear comparison names, rounded spoken values, warmup recovery and concurrency tradeoffs replace duplicated draft alternatives. Slide 12 now introduces the investigation before explaining axes, thresholds and point colours. Extra prefill numbers remain study-only because slide 8 does not show them. [Revision and limits](../reports/ai-speaking-revision-20261104/README.md). No slide, PDF, ZIP, English-script or HPC change; no timed rehearsal claimed.
