@@ -1,4 +1,4 @@
-# Confirm preparation policy with reversed order
+# Check whether the preparation-policy gain repeats
 
 > Source-linked retrospective. Original measurements remain attributed to their platform, load and trial.
 
@@ -21,6 +21,7 @@ The 20-step ABBA screen gave a small pooled signal with conflicting adjacent sig
 
 | Evidence | Recorded result |
 |---|---|
+| Independent same-horizon repeat 2294800 | Candidate 29.004833605 versus control 27.337934579 s/step; +6.097384649% slower. ABBA, 40 steps /39 intervals per arm. All four native/source/runtime/force checks pass. |
 | Terminal state | 2294735 COMPLETED 0:0; 4,710 seconds, Iris001 /56 CPUs. |
 | Candidate B1 /B2 | 21.842916421 /21.881843121 seconds/step. |
 | Control A1 /A2 | 29.418802008 /33.586912671 seconds/step. |
@@ -32,13 +33,14 @@ The 20-step ABBA screen gave a small pooled signal with conflicting adjacent sig
 
 ## What did we learn?
 
+- The fresh same 40-step ABBA allocation 2294800 does not reproduce the earlier BAAB gain: candidate time is 6.10% higher and adjacent pair signs conflict. Close this unchanged performance branch.
 - The reverse 40-step result favors interleaved preparation in both adjacent comparisons, stronger than the earlier 20-step screen.
 - The measured effect changes from 1.77% to 30.60% across allocations; control drift and nonlinear order effects prevent treating 30.60% as a stable or universal speedup.
 - Reported candidate means repeat closely; this does not establish a causal page-placement explanation or a gain against the teammate recipe.
 
 ## Decision
 
-Retain 2294735 as a strong within-job signal with variable effect size. Independent same 40-step ABBA confirmation 2294800 is accepted; at 4 November 15:08:11 UTC it was RUNNING on iris001. No completed metrics exist for 2294800 yet; do not assign prior results to it. No universal 30.6% or official 150-step claim.
+Close preparation-child-only policy as an established performance optimization. Retain all three runs separately; the favorable 30.60% observation is not a stable speedup. A distinct small MPI-rank policy/anonymous-page qualification is being prepared, with no solver-performance result assigned.
 
 ## Limits and remaining questions
 
@@ -48,6 +50,7 @@ Retain 2294735 as a strong within-job signal with variable effect size. Independ
 
 ## Sources
 
+- [Independent repeat terminal review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/completed-2294800/RESULTS.md)
 - [Completed reverse 40 native review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md)
 - [Independent 40-step replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/independent-native-replay.json)
 - [Earlier 20-step review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)
