@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Independent repeat reviewed — 5 November 2026 Vietnam
+
+2294800 COMPLETED 0:0 in 4,925 seconds /56 CPUs. Four 40-step native replays and source/runtime/policy/force gates pass, but interleaved preparation is **29.004833605 versus 27.337934579 s/step**, **6.09738% slower**. Pairs disagree (+18.26064% /−3.96822%). The prior 30.60% BAAB gain does not reproduce under same-horizon ABBA; close the unchanged preparation-child-only performance branch. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/completed-2294800/RESULTS.md).
+
+Reservation retired once: 76.611111 allocated CPU-hours, conservatively 77. Internal ledger 1,175 consumed /zero reserved /stage 1,210; site SU remains unknown. A distinct small qualification of actual MPI-rank policy and first-touch anonymous pages is being prepared; no speed result or new admission is implied until receipt. The hosted numeric result will retain each job separately and show the latest failed confirmation rather than promoting the older favorable allocation.
+
 ## Continued execution — fresh same-horizon repeat
 
 Owner asked to continue research rather than stop after review/diagram. New Iris **2294800 accepted** at 2026-11-04T15:07:28.254678Z. Same 40-step horizon and runtime/source/policy checks as 2294735, ABBA rather than BAAB. [Actual receipt and frozen payload](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/STATUS.md). Maximum 2 hours /56 CPUs /zero GPUs; 112 planning CPU-hours reserved. Ledger is 1,098 consumed +112 reserved = 1,210 internal stage; actual site SU unknown. No new performance result yet; preserve queue position and one-own cap.

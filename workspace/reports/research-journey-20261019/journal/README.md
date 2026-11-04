@@ -1,3 +1,5 @@
+Latest HPC repeat: [Same-horizon ABBA rejects stable preparation-only gain](entries/20261105-hpc-independent-repeat-rejects-preparation-gain.md).
+
 Latest HPC acceptance: [Independent same-horizon ABBA job2294800](entries/20261104-hpc-independent-abba40-submitted.md).
 
 Latest HPC completed review: [4 November reversed40-step result](entries/20261104-hpc-reverse40-terminal-result.md).
