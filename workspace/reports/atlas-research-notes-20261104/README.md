@@ -17,3 +17,7 @@ The selected record now offers Read investigation. A wide reader presents Markdo
 The browser test rendered all 46 notes, checked NIXL's eight outline sections, three tables, two code blocks, exact patch/test links and Markdown download; then exercised the HPC note, Escape close and mobile width. It observed no JavaScript errors and only one document request, since notes are embedded. A small parser check confirms raw HTML and javascript links cannot become executable markup. The source AI and HPC payloads equal the preceding release; notes are explicitly new retrospective material.
 
 `build_notes.py` emits the canonical Markdown and validates source paths; `build_unified.py` embeds the notes with the existing data. No third-party Markdown runtime or note API is required. Live publication verification is recorded after deployment.
+
+## Verified public reader
+
+Actions run 41815319767 succeeded from 26e500df. Public HTML returned HTTP 200 and matched the reviewed SHA-256 450528ea38296bbce16dced3f9aca6d2027a1a29fe1ebc65f19f502775b12330. Hosted Chromium opened the NIXL investigation and verified its three tables, two code blocks, eight contents sections and exact send-function name. All 31 AI and 15 HPC notes are embedded; no JavaScript errors occurred. Publication receipts are retained here.
