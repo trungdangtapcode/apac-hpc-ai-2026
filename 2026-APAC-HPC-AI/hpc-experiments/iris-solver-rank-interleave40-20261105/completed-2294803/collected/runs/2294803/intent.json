@@ -1,0 +1,78 @@
+{
+  "arm_order": [
+    "A1-default-solver",
+    "B1-interleaved-solver",
+    "B2-interleaved-solver",
+    "A2-default-solver"
+  ],
+  "commands_by_arm": {
+    "A1-default-solver": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "python3",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/rank_exec.py",
+      "default",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/runs/2294803/arms/A1-default-solver/rank-policy-proof"
+    ],
+    "A2-default-solver": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "python3",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/rank_exec.py",
+      "default",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/runs/2294803/arms/A2-default-solver/rank-policy-proof"
+    ],
+    "B1-interleaved-solver": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "numactl",
+      "--interleave=all",
+      "python3",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/rank_exec.py",
+      "interleave-all",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/runs/2294803/arms/B1-interleaved-solver/rank-policy-proof"
+    ],
+    "B2-interleaved-solver": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "numactl",
+      "--interleave=all",
+      "python3",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/rank_exec.py",
+      "interleave-all",
+      "/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-solver-rank-interleave40-20261104T173529Z/kit/runs/2294803/arms/B2-interleaved-solver/rank-policy-proof"
+    ]
+  },
+  "internal_deadline_seconds": 6800,
+  "intervals_each": 39,
+  "nodes": 1,
+  "prep_cap_seconds_each": 60,
+  "ranks": 56,
+  "request_maximum_cpu_hours": 112,
+  "scope": "Same accepted Scotch source, initialized fields, native launcher, solver, physics, 40-step directional comparison and sampler. Preparation validation is inherited unchanged. Only solver rank memory policy differs: default versus numactl interleave-all immediately before the rank exec wrapper. Not a scored result.",
+  "scored_result": false,
+  "solver_cap_seconds_each": 1500,
+  "solver_rank_treatment_by_arm": {
+    "A1-default-solver": "default",
+    "A2-default-solver": "default",
+    "B1-interleaved-solver": "interleave-all",
+    "B2-interleaved-solver": "interleave-all"
+  },
+  "steps_each": 40
+}

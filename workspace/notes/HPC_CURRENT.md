@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Native solver-rank trial stopped — 5 November 2026, 01:21 Vietnam
+
+2294803 FAILED 1:0, 2,667 seconds. A1 completes 40 steps, mean 24.758556905 s/step. B1 interleave times out 124 at 1,500 seconds, last started 35 with 33 measured intervals averaging 41.846495650 s/step diagnostically. B2/A2 not started. Full candidate/four-arm score is unavailable; close this unchanged interleave-all solver candidate under its envelope rather than raising the cap. Both 56-rank pre-exec policy/affinity proofs pass and 34 force-prefix rows match; post-source/runtime gates were not reached. [Terminal review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/RESULTS.md).
+
+Cost 41.486667 allocated CPU-hours, conservatively 42, 112 reservation retired once: 1,219 consumed /zero reserved /stage 1,289. Native correctness and terminal success are separate; the failed candidate is not a valid complete benchmark. A new low-cost MPI-collective qualification is being prepared from runtime evidence; no MPI bottleneck is established by this timeout.
+
 ## Live checkpoint — 5 November 2026, 01:02 Vietnam
 
 2294803 RUNNING on iris001, elapsed 25:37 at 01:02:01 Vietnam. At01:02:29 the first default-policy arm completed 40 steps with printed mean 24.758556905 s/step, exit 0 and all 56 pre-exec policy/affinity proof gates passing. Candidate B1 was at step 9/40 with 56 pre-exec records; no completed candidate mean. B2/A2 had not started. Preserve the active allocation, frozen payload and 112-hour reservation; no new admission while cap is occupied. Live arm output is not a terminal four-arm score.

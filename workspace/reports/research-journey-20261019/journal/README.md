@@ -1,3 +1,5 @@
+Latest HPC terminal review: [Solver-rank interleave candidate times out](entries/20261105-hpc-solver-rank-interleave-times-out.md).
+
 Latest HPC native acceptance: [Qualified in-rank solver policy trial2294803](entries/20261105-hpc-solver-rank-policy-submitted.md).
 
 Latest HPC mechanism: [In-rank policy changes actual rank/page observations](entries/20261105-hpc-rank-policy-command-placement-qualified.md).
