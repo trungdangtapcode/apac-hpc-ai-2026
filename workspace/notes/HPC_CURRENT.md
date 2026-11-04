@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Live checkpoint — 4 November 2026, 20:37 Vietnam
+
+2294735 is RUNNING on iris001, elapsed 1:02:04. Three 40-step arms have returned 0: B1 interleaved 21.842916421 s/step, A1 inherited 29.418802008, A2 inherited 33.586912671. B2 is created but no completed log/return is present. These are live, unreviewed printed means, not a complete comparison or a new best. Strong control drift reinforces the need for the final arm and full review. No extra job is admitted while this one-owned-allocation cap is occupied. The existing two-hour limit and 112 CPU-hour maximum remain unchanged.
+
+The GitHub Pages update completed successfully; the live shared page returned HTTP 200 and its HPC investigation contains actual job 2294735. [Hosted page](https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc).
+
 ## Actual reversed confirmation submitted — 4 November 2026
 
 **Iris job 2294735 accepted**, one node /56 CPUs /zero GPUs /maximum 2 hours, 112 allocated CPU-hours reserved. Four 40-step BAAB arms reverse the earlier 20-step ABBA experiment while preserving the same accepted Scotch source, solver and child-only preparation policy. [Frozen bundle, receipt and dated state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/STATUS.md). No completed new mean yet. Internal planning ledger is 1,024 consumed +112 reserved = 1,136; previous 1,059 stage extended by 77 for this one bounded confirmation. This is not billed SU or a new owner-set budget. Preserve the one-own-allocation cap and queue position.
