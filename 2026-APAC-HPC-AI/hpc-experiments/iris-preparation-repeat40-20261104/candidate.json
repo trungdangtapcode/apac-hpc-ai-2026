@@ -1,0 +1,46 @@
+{
+  "candidate_id": "iris-preparation-repeat40-20261104",
+  "state": "prepared-not-submitted",
+  "hypothesis": "The preparation-policy contrast persists in a fresh allocation at the same40-step horizon when treatment order changes from BAAB to ABBA. This distinguishes order sensitivity from the prior horizon change.",
+  "mechanism_evidence": {
+    "qualification_job_id": 2294675,
+    "qualification_status": "completed and reviewed separately",
+    "observation": "Each inherited-preparation arm showed approximately +9.78 GiB FilePages on node 1 and +0 on node 0; each interleaved-preparation arm showed approximately +4.89 GiB on each node.",
+    "limit": "Cumulative node-wide counters are not process-attributed page placement and do not establish a solver-performance effect."
+  },
+  "control": "Same accepted Scotch source, runtime, solver launch, physics, 40-step horizon, sampler, and inherited launcher-parent policy in all arms.",
+  "treatment": "Copy/hash child inherited policy versus child-only numactl --interleave=all.",
+  "arm_order": [
+    "A1-inherited-prep",
+    "B1-interleaved-prep",
+    "B2-interleaved-prep",
+    "A2-inherited-prep"
+  ],
+  "solver_steps": 40,
+  "timed_intervals_per_arm": 39,
+  "solver_cap_seconds_each": 1500,
+  "copy_hash_cap_seconds_each": 50,
+  "pre_solver_policy_check_cap_seconds_each": 10,
+  "internal_deadline_seconds": 6800,
+  "finalization_reserve_seconds": 180,
+  "preflight_budget_seconds": 60,
+  "slurm": {
+    "cluster": "Iris",
+    "nodes": 1,
+    "cpus": 56,
+    "gpus": 0,
+    "exclusive": true,
+    "time_limit": "02:00:00",
+    "maximum_cpu_hours": 112
+  },
+  "score_claim": false,
+  "promotion_claim": false,
+  "per_rank_memory_policy_collected": false,
+  "budget_calculation": {
+    "complete_sequence_seconds": 6420,
+    "internal_deadline_seconds": 6800,
+    "wrapper_timeout_seconds": 7190,
+    "allocated_cpu_hours": 112,
+    "gpu_hours": 0
+  }
+}
