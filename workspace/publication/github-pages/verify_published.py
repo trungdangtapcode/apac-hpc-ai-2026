@@ -7,7 +7,7 @@ p.add_argument('--url',default='https://trungdangtapcode.github.io/apac-hpc-ai-2
 p.add_argument('--report',type=Path,required=True)
 p.add_argument('--source',type=Path,help='Reviewed compressed HTML for a companion page')
 a=p.parse_args()
-source=a.source or Path(__file__).resolve().parents[2]/'reports/ai-run-lineage-20261103/index.html.gz'
+source=a.source or Path(__file__).resolve().parents[2]/'reports/team-research-atlas-20261104/index.html.gz'
 expected=gzip.decompress(source.read_bytes())
 req=urllib.request.Request(a.url,headers={'User-Agent':'TripleU-static-publication-verifier'})
 with urllib.request.urlopen(req,timeout=30) as response:

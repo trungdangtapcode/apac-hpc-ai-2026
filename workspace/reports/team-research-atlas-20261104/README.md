@@ -1,18 +1,13 @@
-# Combined AI and HPC research atlas
+# Team research atlas — one page
 
-The owner requested combining the HPC team's work with the public AI atlas. The same website now has two linked sections with a common interface:
+Open https://trungdangtapcode.github.io/apac-hpc-ai-2026/ . AI and HPC switch in place in the same document. `#ai` and `#hpc` are shareable entry points. The old `/hpc/` path redirects to `/#hpc`. There are no iframes or track-to-track document loads.
 
-- AI: https://trungdangtapcode.github.io/apac-hpc-ai-2026/ — 419 retained allocations, 31 milestones.
-- HPC: https://trungdangtapcode.github.io/apac-hpc-ai-2026/hpc/ — 15 curated OpenFOAM milestones, 14 documented connections.
+The common header, overview and sticky track selector cover both tasks. The explorer shows the appropriate graph, index, platform legend, evidence panel and units for the active track. Each track retains its own search, filters, selected item and view state. The whole page works offline from the generated HTML.
 
-The HPC content is read from the existing HPC worker's `hpc-run-lineage-20261104/milestones.json`. Its scientific text, references, status labels and relationships are retained. NSCC is orange and Iris blue. The HPC index is explicitly a milestone index, not an exhaustive job census. Hover displays the recorded result and evidence level, rather than borrowing the AI latency metrics. Selection gives the change, result, job references, source and connected questions. Results include rejected branches, reference reproduction, qualified teammate findings, mechanisms and unreviewed trials. No new performance interpretation or measurement was added.
+AI retains 419 allocations, 31 milestones and its four latency/goodput metrics. HPC retains 15 curated milestones, not an allocation census, with the original recorded result and evidence classification. Forty-six is the sum of curated milestones, not the number of benchmark runs. Scientific text and data are unchanged. Original HPC reports remain outside this publication derivative.
 
-`build.py` refreshes the AI standalone viewer and builds an HPC companion using shared styling. The generated HPC HTML and deterministic gzip live under `hpc/`. They are publication derivatives: the HPC source report, diagrams, data, code, queues, budgets and submission payloads are untouched. `hpc-source-unchanged.json` verifies the original report files byte-for-byte against the prior archive.
+Run `python3 build.py` with Graphviz installed. It refreshes the standalone source components and then calls `build_unified.py` to compose `index.html` and a deterministic `index.html.gz`. Shared component data, scripts and styles are embedded. HTML/SVG IDs are namespaced and checked for uniqueness. Components initialise only when opened and have isolated runtime state. `viewer/unified.html` and `viewer/unified.css` define the shared shell.
 
-The Pages staging helper publishes exactly three files: `index.html`, `.nojekyll` and `hpc/index.html`. Each HTML is self-contained. The workflow watches both compressed pages. The offline HPC companion is also usable as a standalone HTML; relative track links are intended for the hosted site.
+Pages stages the reviewed team `index.html.gz` as the root page, `.nojekyll` and a tiny legacy redirect at `hpc/index.html`. The workflow watches the team gzip. It never uploads the repository root or the external object store. Individual AI and HPC component pages remain build inputs and historical offline views; the hosted product is the unified document.
 
-Browser validation exercised real navigation between both sections through a local HTTP server, all 15 HPC nodes, the practice-result tooltip, job 2294637 with its qualified label, five NSCC milestones, mobile width and the existing AI 419-job mode and exact-job search. JavaScript errors were absent. No fresh scheduler or authentication actions were taken.
-
-## Live deployment verified
-
-Actions run 41790772151 succeeded from commit 55e84bb1. Both public routes returned HTTP 200 and exactly matched their reviewed HTML hashes; `ai-published.json` and `hpc-published.json` retain the checks. A hosted Chromium session navigated AI → HPC → AI, checked the node counts, searched job 2294637 and confirmed the qualified evidence label without JavaScript errors. The source-preservation and local mobile checks remain in this report.
+[Single-page browser validation and design record](../team-atlas-single-page-20261104/README.md). Earlier two-route publication receipts and tests in this directory are historical; the previous README is preserved with the new review. Source scientific records and original HPC report hashes remain retained.

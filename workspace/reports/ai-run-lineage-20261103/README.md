@@ -86,3 +86,7 @@ Run `python3 build_viewer.py` from this directory to rebuild the standalone HTML
 ## Team HPC companion
 
 The public atlas now also includes [the HPC team’s OpenFOAM investigation](https://trungdangtapcode.github.io/apac-hpc-ai-2026/hpc/). The header switches between AI and HPC. HPC retains its own units, evidence levels and NSCC/Iris colours; its 15 curated milestones are not an allocation census. [Integration, source-preservation and browser checks](../team-research-atlas-20261104/README.md).
+
+## Unified team interface
+
+The hosted atlas now uses one page for both tasks. Choose **Qwen inference** or **OpenFOAM** in the sticky task selector. Share the HPC view with `https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc`. Filters and selections stay separate when switching. The current Pages root is built from the unified team gzip; the standalone AI file here remains available offline and supplies the AI component. [Current team build](../team-research-atlas-20261104/README.md).

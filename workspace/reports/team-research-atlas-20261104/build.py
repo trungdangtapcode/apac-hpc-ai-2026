@@ -53,4 +53,5 @@ def main():
     out=D/'hpc/index.html';out.parent.mkdir(exist_ok=True);out.write_text(page);out.with_suffix('.html.gz').write_bytes(gzip.compress(page.encode(),mtime=0))
     report={'hpc_milestones':len(data['nodes']),'hpc_relationships':len(data['edges']),'source_data_sha256':hashlib.sha256((HPC/'milestones.json').read_bytes()).hexdigest(),'hpc_source_modified':False,'scientific_measurements_added':False,'scope':'Publication of retained HPC material only; no scheduler or source-report changes.'}
     (D/'build-validation.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+    subprocess.run([sys.executable,str(D/'build_unified.py')],check=True)
 if __name__=='__main__':main()
