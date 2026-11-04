@@ -7,11 +7,26 @@
       "date": "21 Oct",
       "platform": "Iris",
       "title": "Learn the actual cluster route",
-      "change": "Interactive SSH jump \u2192 native MPI chain",
-      "jobs": "2293751\u20132293754",
+      "change": "Interactive SSH jump → native MPI chain",
+      "jobs": "2293751–2293754",
       "result": "Full mesh: 21.9654 s/step; 40 steps",
       "status": "practice",
-      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
+      "result_metrics": [
+        {
+          "key": "solver_mean",
+          "label": "Mean solver time",
+          "value": 21.965353836,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver observation",
+          "job_id": "2293754",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        }
+      ],
+      "assessment": "Full mesh: 21.9654 s/step; 40 steps",
+      "limitations": "Values from different jobs, platforms or horizons are not pooled; consult the linked source for full protocol and uncertainty."
     },
     {
       "id": "baseline",
@@ -20,9 +35,57 @@
       "title": "Establish an unchanged reference",
       "change": "Full preparation before solver timing",
       "jobs": "25905114 / 25907325",
-      "result": "Baseline 14.9220 s/step; ordered Scotch pair \u22120.994% (noisy)",
+      "result": "Baseline 14.9220 s/step; ordered Scotch pair −0.994% (noisy)",
       "status": "reference",
-      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
+      "result_metrics": [
+        {
+          "key": "baseline_mean",
+          "label": "One-node baseline mean",
+          "value": 14.921981,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver baseline",
+          "job_id": "25905114",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "hierarchical_mean",
+          "label": "Hierarchical arm mean",
+          "value": 14.787224,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; ordered pair",
+          "job_id": "25907325",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "scotch_mean",
+          "label": "Scotch arm mean",
+          "value": 14.640233,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; ordered pair",
+          "job_id": "25907325",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "scotch_time_change",
+          "label": "Scotch time change vs hierarchical",
+          "value": -0.994,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "within-job solver pair",
+          "job_id": "25907325",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        }
+      ],
+      "assessment": "The same-node ordered pair showed a weak 0.994% Scotch signal; treat it as hypothesis-generating, not a repeatable win.",
+      "limitations": "Single ordered pair, one large slow step and fewer samples than recommended."
     },
     {
       "id": "numa",
@@ -30,54 +93,173 @@
       "platform": "NSCC",
       "title": "Test NUMA-aware decomposition",
       "change": "Change Scotch grouping coefficients",
-      "jobs": "25907753",
-      "result": "Graph cut \u221210.63%; solver time +3.44%",
+      "jobs": "25907688 / 25907753",
+      "result": "Graph cut −10.63%; solver time +3.44%",
       "status": "closed",
-      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
+      "result_metrics": [
+        {
+          "key": "cross_group_faces_change",
+          "label": "Logical cross-group face change",
+          "value": -10.63,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "graph proxy; synthetic logical NUMA groups, not hardware traffic",
+          "job_id": "25907688",
+          "horizon": "preparation graph screen",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "default_mean",
+          "label": "Default Scotch mean",
+          "value": 13.880988,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver control",
+          "job_id": "25907753",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "numa_candidate_mean",
+          "label": "NUMA candidate mean",
+          "value": 14.358715,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver candidate",
+          "job_id": "25907753",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        },
+        {
+          "key": "solver_time_change",
+          "label": "Candidate time change vs default",
+          "value": 3.4416,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "within-job solver comparison",
+          "job_id": "25907753",
+          "horizon": "40 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        }
+      ],
+      "assessment": "The graph-cut proxy improved while native solver time regressed.",
+      "limitations": "One-node comparison; a graph proxy does not measure runtime."
     },
     {
       "id": "graph",
-      "date": "21\u201322 Oct",
+      "date": "21–22 Oct",
       "platform": "NSCC",
       "title": "Separate a graph proxy from runtime",
       "change": "Compare N256 partition interfaces",
       "jobs": "25907772",
       "result": "Preparation only; no solver speed ranking",
       "status": "mechanism",
-      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
+      "result_metrics": [
+        {
+          "key": "solver_mean",
+          "label": "Solver mean",
+          "value": null,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "no solver run; preparation-only graph proxy milestone",
+          "job_id": "25907772",
+          "horizon": "not applicable",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        }
+      ],
+      "assessment": "Preparation-only graph metrics informed later partition questions.",
+      "limitations": "No solver performance measurement is available."
     },
     {
       "id": "density",
-      "date": "22\u201323 Oct",
+      "date": "22–23 Oct",
       "platform": "NSCC",
       "title": "Sweep rank density and node count",
       "change": "Six four-node native logs reviewed",
       "jobs": "25921488 and sibling logs",
       "result": "Scotch-128: 3.6779 s/step; 150 steps",
       "status": "observation",
-      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+      "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
+      "result_metrics": [
+        {
+          "key": "scotch128_mean",
+          "label": "Scotch-128 mean",
+          "value": 3.6779,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver observation",
+          "job_id": "25921488",
+          "horizon": "150 steps",
+          "source": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md"
+        }
+      ],
+      "assessment": "Scotch-128: 3.6779 s/step; 150 steps",
+      "limitations": "Values from different jobs, platforms or horizons are not pooled; consult the linked source for full protocol and uncertainty."
     },
     {
       "id": "confirm",
       "date": "23 Oct onward",
       "platform": "NSCC",
       "title": "Reproduce the organizer recipe",
-      "change": "4 nodes \u00b7 512 ranks \u00b7 full 150 steps",
+      "change": "4 nodes · 512 ranks · full 150 steps",
       "jobs": "25940700",
       "result": "3.364622070 s/step; baseline reproduction",
       "status": "reference",
-      "evidence": "workspace/notes/HPC_CURRENT.md"
+      "evidence": "workspace/notes/HPC_CURRENT.md",
+      "result_metrics": [
+        {
+          "key": "reproduction_mean",
+          "label": "Organizer-recipe reproduction mean",
+          "value": 3.36462207,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver baseline reproduction",
+          "job_id": "25940700",
+          "horizon": "150 steps; 149 intervals",
+          "source": "workspace/notes/HPC_CURRENT.md"
+        }
+      ],
+      "assessment": "3.364622070 s/step; baseline reproduction",
+      "limitations": "Values from different jobs, platforms or horizons are not pooled; consult the linked source for full protocol and uncertainty."
     },
     {
       "id": "order",
-      "date": "27\u201328 Oct",
+      "date": "27–28 Oct",
       "platform": "Iris",
       "title": "Test hierarchical axis order",
       "change": "zyx versus xyz; full-length reverse order",
       "jobs": "2294234 / 2294262",
       "result": "zyx 21.2296 then 26.6108 s/step; first arm wins",
       "status": "closed",
-      "evidence": "workspace/reports/hpc-own-research-status-20261102/README.md"
+      "evidence": "workspace/reports/hpc-own-research-status-20261102/README.md",
+      "result_metrics": [
+        {
+          "key": "zyx_first_mean",
+          "label": "zyx first-arm mean",
+          "value": 21.229593669,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver observation",
+          "job_id": "2294234",
+          "horizon": "150 steps; 149 intervals",
+          "source": "workspace/reports/hpc-own-research-status-20261102/README.md"
+        },
+        {
+          "key": "zyx_reverse_mean",
+          "label": "zyx reverse-comparison mean",
+          "value": 26.610795524,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver observation",
+          "job_id": "2294262",
+          "horizon": "150 steps; 149 intervals",
+          "source": "workspace/reports/hpc-own-research-status-20261102/README.md"
+        }
+      ],
+      "assessment": "zyx 21.2296 then 26.6108 s/step; first arm wins",
+      "limitations": "Values from different jobs, platforms or horizons are not pooled; consult the linked source for full protocol and uncertainty."
     },
     {
       "id": "place",
@@ -88,7 +270,33 @@
       "jobs": "2294390",
       "result": "Best arm 21.0512 (14 steps); pooled +5.37% slower",
       "status": "closed",
-      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md"
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md",
+      "result_metrics": [
+        {
+          "key": "best_arm_mean",
+          "label": "Best isolated arm mean",
+          "value": 21.051168942,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm observation",
+          "job_id": "2294390",
+          "horizon": "14 steps; 13 intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md"
+        },
+        {
+          "key": "pooled_change",
+          "label": "Pooled candidate time change",
+          "value": 5.3685,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched solver comparison",
+          "job_id": "2294390",
+          "horizon": "short ABBA/BAAB cycle; see source",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md"
+        }
+      ],
+      "assessment": "Lower graph-proxy interface count did not translate into a stable solver gain.",
+      "limitations": "Short arms and substantial drift limit interpretation."
     },
     {
       "id": "io",
@@ -97,20 +305,83 @@
       "title": "Isolate a supplied runtime setting",
       "change": "Collated versus uncollated I/O; reverse order",
       "jobs": "2294635 and parent pair",
-      "result": "Apparent \u22126.07% reverses to +9.35%",
+      "result": "Apparent −6.07% reverses to +9.35%",
       "status": "closed",
-      "evidence": "workspace/reports/hpc-own-research-status-20261102/README.md"
+      "evidence": "workspace/reports/hpc-own-research-status-20261102/README.md",
+      "result_metrics": [
+        {
+          "key": "initial_change",
+          "label": "Initial I/O signal",
+          "value": -6.07,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver comparison; apparent signal",
+          "job_id": "2294635",
+          "horizon": "see source",
+          "source": "workspace/reports/hpc-own-research-status-20261102/README.md"
+        },
+        {
+          "key": "reverse_change",
+          "label": "Reversed I/O comparison",
+          "value": 9.35,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver comparison",
+          "job_id": "2294635",
+          "horizon": "see source",
+          "source": "workspace/reports/hpc-own-research-status-20261102/README.md"
+        }
+      ],
+      "assessment": "The apparent initial gain reversed in the confirmation.",
+      "limitations": "Do not promote the unchanged claim."
     },
     {
       "id": "team",
-      "date": "1\u20132 Nov",
+      "date": "1–2 Nov",
       "platform": "Iris",
       "title": "Port teammate settings fairly",
       "change": "Same Scotch source; socket/core MPI + collated I/O",
       "jobs": "2294637",
-      "result": "24.7453 vs 27.8735 s/step; \u221211.22%",
+      "result": "24.7453 vs 27.8735 s/step; −11.22%",
       "status": "qualified",
-      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
+      "result_metrics": [
+        {
+          "key": "candidate_mean",
+          "label": "Teammate recipe mean",
+          "value": 24.7453,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; supplied teammate settings",
+          "job_id": "2294637",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "control_mean",
+          "label": "Organizer recipe mean",
+          "value": 27.8735,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver control",
+          "job_id": "2294637",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "candidate_time_change",
+          "label": "Candidate time change vs control",
+          "value": -11.2228,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched within-job solver comparison",
+          "job_id": "2294637",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        }
+      ],
+      "assessment": "The supplied teammate recipe has a favorable short-run matched signal.",
+      "limitations": "Repeat drift was about 18–21%; this does not establish our own configuration win."
     },
     {
       "id": "zyx",
@@ -121,18 +392,81 @@
       "jobs": "2294640",
       "result": "29.6490 vs 26.9011 s/step; +10.21%",
       "status": "closed",
-      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
+      "result_metrics": [
+        {
+          "key": "candidate_mean",
+          "label": "zyx candidate mean",
+          "value": 29.649,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver candidate",
+          "job_id": "2294640",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "control_mean",
+          "label": "Scotch control mean",
+          "value": 26.9011,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver control",
+          "job_id": "2294640",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "candidate_time_change",
+          "label": "Candidate time change vs control",
+          "value": 10.215,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched within-job solver comparison",
+          "job_id": "2294640",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        }
+      ],
+      "assessment": "The matched zyx candidate was slower than its Scotch control.",
+      "limitations": "This does not invalidate isolated historical observations."
     },
     {
       "id": "xzy",
       "date": "2 Nov",
       "platform": "Iris",
       "title": "Check a new axis order and reverse it",
-      "change": "40-step screen \u2192 52-step confirmation",
+      "change": "40-step screen → 52-step confirmation",
       "jobs": "2294643 / 2294644",
-      "result": "\u22120.71% initial signal \u2192 +10.25% slower",
+      "result": "−0.71% initial signal → +10.25% slower",
       "status": "closed",
-      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
+      "result_metrics": [
+        {
+          "key": "screen_change",
+          "label": "Initial candidate time change",
+          "value": -0.7097,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched solver comparison",
+          "job_id": "2294643",
+          "horizon": "40 steps; 39 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "reverse_change",
+          "label": "Reverse-confirmation candidate time change",
+          "value": 10.2525,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched solver comparison",
+          "job_id": "2294644",
+          "horizon": "52 steps; 51 intervals",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        }
+      ],
+      "assessment": "The small first signal reversed to a loss in the longer confirmation.",
+      "limitations": "Separate allocations and order effects remain."
     },
     {
       "id": "xyz",
@@ -143,7 +477,22 @@
       "jobs": "2294671",
       "result": "Second candidate timed out; comparison incomplete",
       "status": "invalid",
-      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
+      "result_metrics": [
+        {
+          "key": "solver_mean",
+          "label": "Solver mean",
+          "value": null,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "incomplete comparison; final control absent",
+          "job_id": "2294671",
+          "horizon": "20-step screen; candidate timed out",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        }
+      ],
+      "assessment": "The comparison is incomplete because a candidate timed out and final control is absent.",
+      "limitations": "Do not infer a matched winner from partial arms."
     },
     {
       "id": "prep",
@@ -151,10 +500,58 @@
       "platform": "Iris",
       "title": "Test preparation memory policy",
       "change": "Inherited / interleaved child; copy + hash only",
-      "jobs": "2294674 failed \u2192 2294675 qualified",
+      "jobs": "2294674 failed → 2294675 qualified",
       "result": "File-page counter split changes; no solver result",
       "status": "mechanism",
-      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+      "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
+      "result_metrics": [
+        {
+          "key": "file_pages_inherited_node0",
+          "label": "Inherited policy file-page growth, node 0",
+          "value": 0,
+          "unit": "GiB",
+          "direction": "descriptive",
+          "scope": "preparation diagnostic proxy; not solver metric",
+          "job_id": "2294675",
+          "horizon": "four preparation arms",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "file_pages_inherited_node1",
+          "label": "Inherited policy file-page growth, node 1",
+          "value": 9.78,
+          "unit": "GiB",
+          "direction": "descriptive",
+          "scope": "preparation diagnostic proxy; not solver metric",
+          "job_id": "2294675",
+          "horizon": "four preparation arms",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "file_pages_interleaved_per_node",
+          "label": "Interleaved policy file-page growth per node",
+          "value": 4.89,
+          "unit": "GiB",
+          "direction": "descriptive",
+          "scope": "preparation diagnostic proxy; not solver metric",
+          "job_id": "2294675",
+          "horizon": "two interleaved preparation arms",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        },
+        {
+          "key": "solver_mean",
+          "label": "Solver mean",
+          "value": null,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "preparation-only job; OpenFOAM not run",
+          "job_id": "2294675",
+          "horizon": "not applicable",
+          "source": "workspace/reports/hpc-iris-comparison-20261103/README.md"
+        }
+      ],
+      "assessment": "Preparation-child policy changed aggregate file-page distribution consistently.",
+      "limitations": "This is a preparation diagnostic, not solver speed or per-file residency."
     },
     {
       "id": "native",
@@ -163,9 +560,233 @@
       "title": "Confirm preparation policy with reversed order",
       "change": "Same Scotch; only preparation-child policy changes",
       "jobs": "2294676 / 2294735",
-      "result": "40-step BAAB: 21.8624 vs 31.5029 s/step; \u221230.60% in this job",
+      "result": "40-step BAAB: 21.8624 vs 31.5029 s/step; −30.60% in this job",
       "status": "qualified",
-      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md",
+      "result_metrics": [
+        {
+          "key": "candidate_pooled_mean",
+          "label": "Candidate pooled mean",
+          "value": 21.862379771,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; candidate arms pooled within this job",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "control_pooled_mean",
+          "label": "Control pooled mean",
+          "value": 31.502857339,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; inherited-policy controls pooled within this job",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "candidate_time_change",
+          "label": "Candidate time change vs control",
+          "value": -30.601914818,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; within this allocation only",
+          "job_id": "2294735",
+          "horizon": "40 steps; BAAB",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "candidate_B1_mean",
+          "label": "B1 interleaved candidate",
+          "value": 21.842916421,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm B1",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "control_A1_mean",
+          "label": "A1 inherited control",
+          "value": 29.418802008,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm A1",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "control_A2_mean",
+          "label": "A2 inherited control",
+          "value": 33.586912671,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm A2",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "candidate_B2_mean",
+          "label": "B2 interleaved candidate",
+          "value": 21.881843121,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm B2",
+          "job_id": "2294735",
+          "horizon": "40 steps; 39 intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "candidate_repeat_drift",
+          "label": "Candidate repeat drift",
+          "value": 0.17821,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; B1 to B2",
+          "job_id": "2294735",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "control_repeat_drift",
+          "label": "Control repeat drift",
+          "value": 14.16819,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; A1 to A2",
+          "job_id": "2294735",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "steps_per_arm",
+          "label": "Steps per arm",
+          "value": 40,
+          "unit": "steps",
+          "direction": "descriptive",
+          "scope": "solver work",
+          "job_id": "2294735",
+          "horizon": "four-arm BAAB",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "intervals_per_arm",
+          "label": "Measured intervals per arm",
+          "value": 39,
+          "unit": "intervals",
+          "direction": "descriptive",
+          "scope": "solver timing",
+          "job_id": "2294735",
+          "horizon": "four-arm BAAB",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "allocated_cost",
+          "label": "Allocated cost",
+          "value": 73.266667,
+          "unit": "CPU-hours",
+          "direction": "descriptive",
+          "scope": "scheduler allocation; not billed SU",
+          "job_id": "2294735",
+          "horizon": "completed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md"
+        },
+        {
+          "key": "candidate_mean_2294676",
+          "label": "Candidate pooled mean",
+          "value": 21.771496718,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; candidate arms pooled within this job",
+          "job_id": "2294676",
+          "horizon": "20 steps; 19 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "control_mean_2294676",
+          "label": "Control pooled mean",
+          "value": 22.163497501,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; inherited-policy controls pooled within this job",
+          "job_id": "2294676",
+          "horizon": "20 steps; 19 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "candidate_time_change_2294676",
+          "label": "Candidate time change vs control",
+          "value": -1.76868,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; within this allocation only",
+          "job_id": "2294676",
+          "horizon": "20 steps; ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "adjacent_pair_1_change_2294676",
+          "label": "First adjacent comparison",
+          "value": null,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; exact signed value not retained in current linked summary",
+          "job_id": "2294676",
+          "horizon": "20 steps; ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "adjacent_pair_2_change_2294676",
+          "label": "Second adjacent comparison",
+          "value": null,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "solver; exact signed value not retained in current linked summary",
+          "job_id": "2294676",
+          "horizon": "20 steps; ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "steps_per_arm_2294676",
+          "label": "Steps per arm",
+          "value": 20,
+          "unit": "steps",
+          "direction": "descriptive",
+          "scope": "solver work",
+          "job_id": "2294676",
+          "horizon": "four-arm ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "intervals_per_arm_2294676",
+          "label": "Measured intervals per arm",
+          "value": 19,
+          "unit": "intervals",
+          "direction": "descriptive",
+          "scope": "solver timing",
+          "job_id": "2294676",
+          "horizon": "four-arm ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        },
+        {
+          "key": "allocated_cost_2294676",
+          "label": "Allocated cost",
+          "value": 34.2222,
+          "unit": "CPU-hours",
+          "direction": "descriptive",
+          "scope": "scheduler allocation; not billed SU",
+          "job_id": "2294676",
+          "horizon": "completed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md"
+        }
+      ],
+      "assessment": "The reversed 40-step job shows a strong within-allocation signal; the earlier 20-step job showed a 1.76868% reduction with conflicting adjacent comparisons.",
+      "limitations": "Effect size varies sharply across allocations. Control drift, endpoint effects and allocation variation remain; this is not a universal speedup or a cross-platform comparison."
     }
   ],
   "edges": [
@@ -237,7 +858,7 @@
     {
       "source": "prep",
       "target": "native",
-      "relation": "mechanism \u2192 solver test"
+      "relation": "mechanism → solver test"
     }
   ],
   "timeline": [
@@ -263,7 +884,7 @@
       ]
     },
     {
-      "date": "27\u201328 Oct",
+      "date": "27–28 Oct",
       "ids": [
         "order"
       ]

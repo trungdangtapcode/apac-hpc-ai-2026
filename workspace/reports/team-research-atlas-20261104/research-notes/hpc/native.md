@@ -38,7 +38,7 @@ The 20-step ABBA screen gave a small pooled signal with conflicting adjacent sig
 
 ## Decision
 
-Retain as a strong within-job signal requiring independent confirmation. Do not promote to an official 150-step score or claim a universal 30.6% improvement.
+Retain 2294735 as a strong within-job signal with variable effect size. Independent same 40-step ABBA confirmation 2294800 is accepted; at 4 November 15:08:11 UTC it was RUNNING on iris001. No completed metrics exist for 2294800 yet; do not assign prior results to it. No universal 30.6% or official 150-step claim.
 
 ## Limits and remaining questions
 
@@ -51,3 +51,4 @@ Retain as a strong within-job signal requiring independent confirmation. Do not 
 - [Completed reverse 40 native review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/RESULTS.md)
 - [Independent 40-step replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/completed-2294735/independent-native-replay.json)
 - [Earlier 20-step review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)
+- [Actual same-horizon confirmation receipt](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/STATUS.md)
