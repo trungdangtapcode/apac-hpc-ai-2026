@@ -2,6 +2,10 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Distinct rank-policy qualification accepted
+
+New diagnostic **2294801 accepted** at 2026-11-04T17:22:17.718827Z: 56 MPI ranks, inherited versus launcher interleave policy, anonymous 8 MiB first-touch pages per rank. Maximum 5 minutes /56 CPUs /zero GPUs; 4.666667 planning CPU-hours reserved within the unchanged 1,210-hour stage. No solver/score or improvement claim. [Receipt, frozen code and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-memory-policy-20261104/STATUS.md). This does not reopen the rejected preparation-child-only speed claim.
+
 ## Independent repeat reviewed — 5 November 2026 Vietnam
 
 2294800 COMPLETED 0:0 in 4,925 seconds /56 CPUs. Four 40-step native replays and source/runtime/policy/force gates pass, but interleaved preparation is **29.004833605 versus 27.337934579 s/step**, **6.09738% slower**. Pairs disagree (+18.26064% /−3.96822%). The prior 30.60% BAAB gain does not reproduce under same-horizon ABBA; close the unchanged preparation-child-only performance branch. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/completed-2294800/RESULTS.md).
