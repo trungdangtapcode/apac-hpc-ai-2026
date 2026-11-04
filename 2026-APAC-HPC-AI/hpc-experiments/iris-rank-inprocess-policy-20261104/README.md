@@ -1,0 +1,5 @@
+# In-rank memory-policy qualification
+
+Outer-launcher qualification 2294801 found default policy and single-node 8 MiB mappings in every rank even when numactl wrapped mpirun. This variant places numactl after the MPI launcher: `mpirun -np 56 --report-bindings --display-map -- numactl --interleave=all python3 rank_probe.py`. Inherited launch is unchanged. Guard-isolated 8 MiB anonymous first-touch records, 56 ranks, modules, diagnostics, no solver and 5-minute cap remain fixed. Observe actual policies and per-node page counts before any native speed experiment. This does not claim why the outer form lost policy or that native OpenFOAM will speed up.
+
+Offline checks are run before sealing because they regenerate an initial manifest; never run them against a frozen submitted payload. A local runtime validation is unavailable because this login machine lacks numactl. Terminal Iris execution is the actual qualification. Missing/ambiguous mappings fail rather than fabricate residency. All receipts/hashes and the unsuccessful outer-launcher result remain preserved.
