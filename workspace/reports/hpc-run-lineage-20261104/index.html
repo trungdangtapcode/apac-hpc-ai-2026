@@ -1,0 +1,344 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>HPC research journey</title><style>body{font:16px system-ui;margin:0;background:#f7fafc;color:#23373b}header{padding:24px}button{padding:8px 18px;margin-right:10px}main{overflow:auto;height:80vh;padding:20px}svg{width:1500px;height:auto}a{color:#2476a1}</style><header><h1>OpenFOAM CPU research journey</h1><p>15 curated milestones · NSCC CPU in orange · Iris CPU in blue. Hover for result and decision; click a node for retained evidence in the source tree.</p><p>Historical observations, matched comparisons and mechanism tests have different evidential strength. Separate machines and allocations cannot be ranked by raw seconds.</p><button onclick="zoom(1.25)">Zoom +</button><button onclick="zoom(.8)">Zoom −</button><a href="README.md">Research guide</a></header><main><svg width="1222pt" height="861pt"
+ viewBox="0.00 0.00 1222.10 860.60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(28.8 831.8)">
+<title>hpc</title>
+<polygon fill="#f7fafc" stroke="transparent" points="-28.8,28.8 -28.8,-831.8 1193.3,-831.8 1193.3,28.8 -28.8,28.8"/>
+<text text-anchor="middle" x="582.25" y="-783" font-family="DejaVu Sans" font-size="20.00">OpenFOAM CPU research: hypotheses, measurements and decisions</text>
+<text text-anchor="middle" x="582.25" y="-761" font-family="DejaVu Sans" font-size="20.00">Orange = NSCC CPU · Blue = Iris CPU · lower seconds/step is better</text>
+<!-- access -->
+<g id="node1" class="node">
+<title>access</title>
+<g id="a_node1"><a xlink:href="../../../../workspace/reports/hpc-research-journey-20261023/JOURNEY.md" xlink:title="Full mesh: 21.9654 s/step; 40 steps | PRACTICE / not official score">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M273,-745C273,-745 46,-745 46,-745 40,-745 34,-739 34,-733 34,-733 34,-661 34,-661 34,-655 40,-649 46,-649 46,-649 273,-649 273,-649 279,-649 285,-655 285,-661 285,-661 285,-733 285,-733 285,-739 279,-745 273,-745"/>
+<text text-anchor="middle" x="159.5" y="-724.2" font-family="DejaVu Sans" font-size="11.00">21 Oct · Iris</text>
+<text text-anchor="middle" x="159.5" y="-712.2" font-family="DejaVu Sans" font-size="11.00">Learn the actual cluster route</text>
+<text text-anchor="middle" x="159.5" y="-700.2" font-family="DejaVu Sans" font-size="11.00">Interactive SSH jump → native MPI chain</text>
+<text text-anchor="middle" x="159.5" y="-688.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2293751–2293754</text>
+<text text-anchor="middle" x="159.5" y="-676.2" font-family="DejaVu Sans" font-size="11.00">Full mesh: 21.9654 s/step; 40 steps</text>
+<text text-anchor="middle" x="159.5" y="-664.2" font-family="DejaVu Sans" font-size="11.00">PRACTICE / not official score</text>
+</a>
+</g>
+</g>
+<!-- baseline -->
+<g id="node2" class="node">
+<title>baseline</title>
+<g id="a_node2"><a xlink:href="../../../../workspace/reports/hpc-research-journey-20261023/JOURNEY.md" xlink:title="Baseline 14.9220 s/step; ordered Scotch pair u22120.994% (noisy) | REFERENCE REPRODUCTION">
+<path fill="#fff4df" stroke="#ad6b17" stroke-width="1.8" d="M674.5,-751C674.5,-751 422.5,-751 422.5,-751 416.5,-751 410.5,-745 410.5,-739 410.5,-739 410.5,-655 410.5,-655 410.5,-649 416.5,-643 422.5,-643 422.5,-643 674.5,-643 674.5,-643 680.5,-643 686.5,-649 686.5,-655 686.5,-655 686.5,-739 686.5,-739 686.5,-745 680.5,-751 674.5,-751"/>
+<text text-anchor="middle" x="548.5" y="-730.2" font-family="DejaVu Sans" font-size="11.00">21 Oct · NSCC</text>
+<text text-anchor="middle" x="548.5" y="-718.2" font-family="DejaVu Sans" font-size="11.00">Establish an unchanged reference</text>
+<text text-anchor="middle" x="548.5" y="-706.2" font-family="DejaVu Sans" font-size="11.00">Full preparation before solver timing</text>
+<text text-anchor="middle" x="548.5" y="-694.2" font-family="DejaVu Sans" font-size="11.00">Jobs 25905114 / 25907325</text>
+<text text-anchor="middle" x="548.5" y="-682.2" font-family="DejaVu Sans" font-size="11.00">Baseline 14.9220 s/step; ordered Scotch pair</text>
+<text text-anchor="middle" x="548.5" y="-670.2" font-family="DejaVu Sans" font-size="11.00">−0.994% (noisy)</text>
+<text text-anchor="middle" x="548.5" y="-658.2" font-family="DejaVu Sans" font-size="11.00">REFERENCE REPRODUCTION</text>
+</a>
+</g>
+</g>
+<!-- access&#45;&gt;baseline -->
+<!-- graph -->
+<g id="node4" class="node">
+<title>graph</title>
+<g id="a_node4"><a xlink:href="../../../../workspace/reports/hpc-research-journey-20261023/JOURNEY.md" xlink:title="Preparation only; no solver speed ranking | MECHANISM / not a speedup">
+<path fill="#fff4df" stroke="#ad6b17" stroke-width="1.8" d="M277,-585C277,-585 42,-585 42,-585 36,-585 30,-579 30,-573 30,-573 30,-501 30,-501 30,-495 36,-489 42,-489 42,-489 277,-489 277,-489 283,-489 289,-495 289,-501 289,-501 289,-573 289,-573 289,-579 283,-585 277,-585"/>
+<text text-anchor="middle" x="159.5" y="-564.2" font-family="DejaVu Sans" font-size="11.00">21–22 Oct · NSCC</text>
+<text text-anchor="middle" x="159.5" y="-552.2" font-family="DejaVu Sans" font-size="11.00">Separate a graph proxy from runtime</text>
+<text text-anchor="middle" x="159.5" y="-540.2" font-family="DejaVu Sans" font-size="11.00">Compare N256 partition interfaces</text>
+<text text-anchor="middle" x="159.5" y="-528.2" font-family="DejaVu Sans" font-size="11.00">Jobs 25907772</text>
+<text text-anchor="middle" x="159.5" y="-516.2" font-family="DejaVu Sans" font-size="11.00">Preparation only; no solver speed ranking</text>
+<text text-anchor="middle" x="159.5" y="-504.2" font-family="DejaVu Sans" font-size="11.00">MECHANISM / not a speedup</text>
+</a>
+</g>
+</g>
+<!-- access&#45;&gt;graph -->
+<!-- order -->
+<g id="node7" class="node">
+<title>order</title>
+<g id="a_node7"><a xlink:href="../../../../workspace/reports/hpc-own-research-status-20261102/README.md" xlink:title="zyx 21.2296 then 26.6108 s/step; first arm wins | CLOSED / no stable gain">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M294,-440C294,-440 25,-440 25,-440 19,-440 13,-434 13,-428 13,-428 13,-356 13,-356 13,-350 19,-344 25,-344 25,-344 294,-344 294,-344 300,-344 306,-350 306,-356 306,-356 306,-428 306,-428 306,-434 300,-440 294,-440"/>
+<text text-anchor="middle" x="159.5" y="-419.2" font-family="DejaVu Sans" font-size="11.00">27–28 Oct · Iris</text>
+<text text-anchor="middle" x="159.5" y="-407.2" font-family="DejaVu Sans" font-size="11.00">Test hierarchical axis order</text>
+<text text-anchor="middle" x="159.5" y="-395.2" font-family="DejaVu Sans" font-size="11.00">zyx versus xyz; full&#45;length reverse order</text>
+<text text-anchor="middle" x="159.5" y="-383.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294234 / 2294262</text>
+<text text-anchor="middle" x="159.5" y="-371.2" font-family="DejaVu Sans" font-size="11.00">zyx 21.2296 then 26.6108 s/step; first arm wins</text>
+<text text-anchor="middle" x="159.5" y="-359.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- access&#45;&gt;order -->
+<g id="edge1" class="edge">
+<title>access&#45;&gt;order</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M285.23,-666.91C394.53,-641.62 535.5,-609 535.5,-609 535.5,-609 1118.5,-585 1118.5,-585 1118.5,-585 1118.5,-489 1118.5,-489 1118.5,-489 377.5,-440 377.5,-440 377.5,-440 350.81,-434.25 316.1,-426.76"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="316.63,-423.3 306.12,-424.61 315.16,-430.14 316.63,-423.3"/>
+<text text-anchor="middle" x="1141.5" y="-534.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- numa -->
+<g id="node3" class="node">
+<title>numa</title>
+<g id="a_node3"><a xlink:href="../../../../workspace/reports/hpc-research-journey-20261023/JOURNEY.md" xlink:title="Graph cut u221210.63%; solver time +3.44% | CLOSED / no stable gain">
+<path fill="#fff4df" stroke="#ad6b17" stroke-width="1.8" d="M1088.5,-745C1088.5,-745 858.5,-745 858.5,-745 852.5,-745 846.5,-739 846.5,-733 846.5,-733 846.5,-661 846.5,-661 846.5,-655 852.5,-649 858.5,-649 858.5,-649 1088.5,-649 1088.5,-649 1094.5,-649 1100.5,-655 1100.5,-661 1100.5,-661 1100.5,-733 1100.5,-733 1100.5,-739 1094.5,-745 1088.5,-745"/>
+<text text-anchor="middle" x="973.5" y="-724.2" font-family="DejaVu Sans" font-size="11.00">21 Oct · NSCC</text>
+<text text-anchor="middle" x="973.5" y="-712.2" font-family="DejaVu Sans" font-size="11.00">Test NUMA&#45;aware decomposition</text>
+<text text-anchor="middle" x="973.5" y="-700.2" font-family="DejaVu Sans" font-size="11.00">Change Scotch grouping coefficients</text>
+<text text-anchor="middle" x="973.5" y="-688.2" font-family="DejaVu Sans" font-size="11.00">Jobs 25907753</text>
+<text text-anchor="middle" x="973.5" y="-676.2" font-family="DejaVu Sans" font-size="11.00">Graph cut −10.63%; solver time +3.44%</text>
+<text text-anchor="middle" x="973.5" y="-664.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- baseline&#45;&gt;numa -->
+<g id="edge2" class="edge">
+<title>baseline&#45;&gt;numa</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M686.78,-697C734.74,-697 788.46,-697 836.33,-697"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="836.45,-700.5 846.45,-697 836.45,-693.5 836.45,-700.5"/>
+<text text-anchor="middle" x="766.5" y="-702.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- baseline&#45;&gt;numa -->
+<!-- density -->
+<g id="node5" class="node">
+<title>density</title>
+<g id="a_node5"><a xlink:href="../../../../workspace/reports/hpc-research-journey-20261023/JOURNEY.md" xlink:title="Scotch&#45;128: 3.6779 s/step; 150 steps | OBSERVATION / separate allocations">
+<path fill="#fff4df" stroke="#ad6b17" stroke-width="1.8" d="M653,-585C653,-585 444,-585 444,-585 438,-585 432,-579 432,-573 432,-573 432,-501 432,-501 432,-495 438,-489 444,-489 444,-489 653,-489 653,-489 659,-489 665,-495 665,-501 665,-501 665,-573 665,-573 665,-579 659,-585 653,-585"/>
+<text text-anchor="middle" x="548.5" y="-564.2" font-family="DejaVu Sans" font-size="11.00">22–23 Oct · NSCC</text>
+<text text-anchor="middle" x="548.5" y="-552.2" font-family="DejaVu Sans" font-size="11.00">Sweep rank density and node count</text>
+<text text-anchor="middle" x="548.5" y="-540.2" font-family="DejaVu Sans" font-size="11.00">Six four&#45;node native logs reviewed</text>
+<text text-anchor="middle" x="548.5" y="-528.2" font-family="DejaVu Sans" font-size="11.00">Jobs 25921488 and sibling logs</text>
+<text text-anchor="middle" x="548.5" y="-516.2" font-family="DejaVu Sans" font-size="11.00">Scotch&#45;128: 3.6779 s/step; 150 steps</text>
+<text text-anchor="middle" x="548.5" y="-504.2" font-family="DejaVu Sans" font-size="11.00">OBSERVATION / separate allocations</text>
+</a>
+</g>
+</g>
+<!-- baseline&#45;&gt;density -->
+<!-- numa&#45;&gt;graph -->
+<g id="edge3" class="edge">
+<title>numa&#45;&gt;graph</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M846.31,-671.31C697.77,-642.48 452.84,-594.94 299.15,-565.11"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="299.64,-561.64 289.16,-563.17 298.31,-568.51 299.64,-561.64"/>
+<text text-anchor="middle" x="589.5" y="-611.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- confirm -->
+<g id="node6" class="node">
+<title>confirm</title>
+<g id="a_node6"><a xlink:href="../../../../workspace/notes/HPC_CURRENT.md" xlink:title="3.364622070 s/step; baseline reproduction | REFERENCE REPRODUCTION">
+<path fill="#fff4df" stroke="#ad6b17" stroke-width="1.8" d="M1093.5,-585C1093.5,-585 853.5,-585 853.5,-585 847.5,-585 841.5,-579 841.5,-573 841.5,-573 841.5,-501 841.5,-501 841.5,-495 847.5,-489 853.5,-489 853.5,-489 1093.5,-489 1093.5,-489 1099.5,-489 1105.5,-495 1105.5,-501 1105.5,-501 1105.5,-573 1105.5,-573 1105.5,-579 1099.5,-585 1093.5,-585"/>
+<text text-anchor="middle" x="973.5" y="-564.2" font-family="DejaVu Sans" font-size="11.00">23 Oct onward · NSCC</text>
+<text text-anchor="middle" x="973.5" y="-552.2" font-family="DejaVu Sans" font-size="11.00">Reproduce the organizer recipe</text>
+<text text-anchor="middle" x="973.5" y="-540.2" font-family="DejaVu Sans" font-size="11.00">4 nodes · 512 ranks · full 150 steps</text>
+<text text-anchor="middle" x="973.5" y="-528.2" font-family="DejaVu Sans" font-size="11.00">Jobs 25940700</text>
+<text text-anchor="middle" x="973.5" y="-516.2" font-family="DejaVu Sans" font-size="11.00">3.364622070 s/step; baseline reproduction</text>
+<text text-anchor="middle" x="973.5" y="-504.2" font-family="DejaVu Sans" font-size="11.00">REFERENCE REPRODUCTION</text>
+</a>
+</g>
+</g>
+<!-- numa&#45;&gt;confirm -->
+<!-- graph&#45;&gt;density -->
+<g id="edge4" class="edge">
+<title>graph&#45;&gt;density</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M289.03,-537C331.8,-537 379.29,-537 421.84,-537"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="421.97,-540.5 431.97,-537 421.97,-533.5 421.97,-540.5"/>
+<text text-anchor="middle" x="360.5" y="-542.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- graph&#45;&gt;density -->
+<!-- graph&#45;&gt;order -->
+<!-- density&#45;&gt;confirm -->
+<g id="edge5" class="edge">
+<title>density&#45;&gt;confirm</title>
+<path fill="none" stroke="#8595a4" d="M665.2,-537C716.45,-537 777.1,-537 830.99,-537"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="831.32,-540.5 841.32,-537 831.32,-533.5 831.32,-540.5"/>
+<text text-anchor="middle" x="753.25" y="-542.8" font-family="DejaVu Sans" font-size="9.00">repeat</text>
+</g>
+<!-- density&#45;&gt;confirm -->
+<!-- place -->
+<g id="node8" class="node">
+<title>place</title>
+<g id="a_node8"><a xlink:href="../../../../2026-APAC-HPC-AI/hpc-experiments/iris-graphmap-reverse-20261029/completed-2294390/RESULTS.md" xlink:title="Best arm 21.0512 (14 steps); pooled +5.37% slower | CLOSED / no stable gain">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M695.5,-440C695.5,-440 401.5,-440 401.5,-440 395.5,-440 389.5,-434 389.5,-428 389.5,-428 389.5,-356 389.5,-356 389.5,-350 395.5,-344 401.5,-344 401.5,-344 695.5,-344 695.5,-344 701.5,-344 707.5,-350 707.5,-356 707.5,-356 707.5,-428 707.5,-428 707.5,-434 701.5,-440 695.5,-440"/>
+<text text-anchor="middle" x="548.5" y="-419.2" font-family="DejaVu Sans" font-size="11.00">29 Oct · Iris</text>
+<text text-anchor="middle" x="548.5" y="-407.2" font-family="DejaVu Sans" font-size="11.00">Move communicating ranks closer</text>
+<text text-anchor="middle" x="548.5" y="-395.2" font-family="DejaVu Sans" font-size="11.00">Graph&#45;based rank&#45;to&#45;core placement; reverse cycle</text>
+<text text-anchor="middle" x="548.5" y="-383.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294390</text>
+<text text-anchor="middle" x="548.5" y="-371.2" font-family="DejaVu Sans" font-size="11.00">Best arm 21.0512 (14 steps); pooled +5.37% slower</text>
+<text text-anchor="middle" x="548.5" y="-359.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- density&#45;&gt;place -->
+<!-- io -->
+<g id="node9" class="node">
+<title>io</title>
+<g id="a_node9"><a xlink:href="../../../../workspace/reports/hpc-own-research-status-20261102/README.md" xlink:title="Apparent u22126.07% reverses to +9.35% | CLOSED / no stable gain">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M1100,-440C1100,-440 847,-440 847,-440 841,-440 835,-434 835,-428 835,-428 835,-356 835,-356 835,-350 841,-344 847,-344 847,-344 1100,-344 1100,-344 1106,-344 1112,-350 1112,-356 1112,-356 1112,-428 1112,-428 1112,-434 1106,-440 1100,-440"/>
+<text text-anchor="middle" x="973.5" y="-419.2" font-family="DejaVu Sans" font-size="11.00">1 Nov · Iris</text>
+<text text-anchor="middle" x="973.5" y="-407.2" font-family="DejaVu Sans" font-size="11.00">Isolate a supplied runtime setting</text>
+<text text-anchor="middle" x="973.5" y="-395.2" font-family="DejaVu Sans" font-size="11.00">Collated versus uncollated I/O; reverse order</text>
+<text text-anchor="middle" x="973.5" y="-383.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294635 and parent pair</text>
+<text text-anchor="middle" x="973.5" y="-371.2" font-family="DejaVu Sans" font-size="11.00">Apparent −6.07% reverses to +9.35%</text>
+<text text-anchor="middle" x="973.5" y="-359.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- confirm&#45;&gt;io -->
+<!-- order&#45;&gt;place -->
+<g id="edge6" class="edge">
+<title>order&#45;&gt;place</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M306.01,-392C329.96,-392 354.94,-392 379.37,-392"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="379.44,-395.5 389.44,-392 379.44,-388.5 379.44,-395.5"/>
+<text text-anchor="middle" x="347.75" y="-397.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- order&#45;&gt;place -->
+<!-- team -->
+<g id="node10" class="node">
+<title>team</title>
+<g id="a_node10"><a xlink:href="../../../../workspace/reports/hpc-iris-comparison-20261103/README.md" xlink:title="24.7453 vs 27.8735 s/step; u221211.22% | QUALIFIED SIGNAL / repeat needed">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M295,-286C295,-286 24,-286 24,-286 18,-286 12,-280 12,-274 12,-274 12,-190 12,-190 12,-184 18,-178 24,-178 24,-178 295,-178 295,-178 301,-178 307,-184 307,-190 307,-190 307,-274 307,-274 307,-280 301,-286 295,-286"/>
+<text text-anchor="middle" x="159.5" y="-265.2" font-family="DejaVu Sans" font-size="11.00">1–2 Nov · Iris</text>
+<text text-anchor="middle" x="159.5" y="-253.2" font-family="DejaVu Sans" font-size="11.00">Port teammate settings fairly</text>
+<text text-anchor="middle" x="159.5" y="-241.2" font-family="DejaVu Sans" font-size="11.00">Same Scotch source; socket/core MPI + collated</text>
+<text text-anchor="middle" x="159.5" y="-229.2" font-family="DejaVu Sans" font-size="11.00">I/O</text>
+<text text-anchor="middle" x="159.5" y="-217.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294637</text>
+<text text-anchor="middle" x="159.5" y="-205.2" font-family="DejaVu Sans" font-size="11.00">24.7453 vs 27.8735 s/step; −11.22%</text>
+<text text-anchor="middle" x="159.5" y="-193.2" font-family="DejaVu Sans" font-size="11.00">QUALIFIED SIGNAL / repeat needed</text>
+</a>
+</g>
+</g>
+<!-- order&#45;&gt;team -->
+<!-- zyx -->
+<g id="node11" class="node">
+<title>zyx</title>
+<g id="a_node11"><a xlink:href="../../../../workspace/reports/hpc-iris-comparison-20261103/README.md" xlink:title="29.6490 vs 26.9011 s/step; +10.21% | CLOSED / no stable gain">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M679,-280C679,-280 418,-280 418,-280 412,-280 406,-274 406,-268 406,-268 406,-196 406,-196 406,-190 412,-184 418,-184 418,-184 679,-184 679,-184 685,-184 691,-190 691,-196 691,-196 691,-268 691,-268 691,-274 685,-280 679,-280"/>
+<text text-anchor="middle" x="548.5" y="-259.2" font-family="DejaVu Sans" font-size="11.00">2 Nov · Iris</text>
+<text text-anchor="middle" x="548.5" y="-247.2" font-family="DejaVu Sans" font-size="11.00">Compare our partition with Scotch</text>
+<text text-anchor="middle" x="548.5" y="-235.2" font-family="DejaVu Sans" font-size="11.00">Plain zyx versus its matched organizer control</text>
+<text text-anchor="middle" x="548.5" y="-223.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294640</text>
+<text text-anchor="middle" x="548.5" y="-211.2" font-family="DejaVu Sans" font-size="11.00">29.6490 vs 26.9011 s/step; +10.21%</text>
+<text text-anchor="middle" x="548.5" y="-199.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- order&#45;&gt;zyx -->
+<g id="edge9" class="edge">
+<title>order&#45;&gt;zyx</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M275.42,-343.92C322.03,-324.99 375.86,-303.12 423.35,-283.83"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="424.82,-287.01 432.76,-280.01 422.18,-280.53 424.82,-287.01"/>
+<text text-anchor="middle" x="376.5" y="-312.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- place&#45;&gt;io -->
+<g id="edge7" class="edge">
+<title>place&#45;&gt;io</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M707.66,-392C746.06,-392 786.94,-392 824.84,-392"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="824.92,-395.5 834.92,-392 824.92,-388.5 824.92,-395.5"/>
+<text text-anchor="middle" x="771.25" y="-397.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- place&#45;&gt;io -->
+<!-- place&#45;&gt;zyx -->
+<!-- io&#45;&gt;team -->
+<g id="edge8" class="edge">
+<title>io&#45;&gt;team</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M834.79,-365.23C775.86,-354.28 720.5,-344 720.5,-344 720.5,-344 393.5,-286 393.5,-286 393.5,-286 359.3,-278.25 317.04,-268.68"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="317.56,-265.21 307.03,-266.42 316.01,-272.04 317.56,-265.21"/>
+<text text-anchor="middle" x="599.5" y="-312.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- xzy -->
+<g id="node12" class="node">
+<title>xzy</title>
+<g id="a_node12"><a xlink:href="../../../../workspace/reports/hpc-iris-comparison-20261103/README.md" xlink:title="u22120.71% initial signal u2192 +10.25% slower | CLOSED / no stable gain">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M1085.5,-280C1085.5,-280 861.5,-280 861.5,-280 855.5,-280 849.5,-274 849.5,-268 849.5,-268 849.5,-196 849.5,-196 849.5,-190 855.5,-184 861.5,-184 861.5,-184 1085.5,-184 1085.5,-184 1091.5,-184 1097.5,-190 1097.5,-196 1097.5,-196 1097.5,-268 1097.5,-268 1097.5,-274 1091.5,-280 1085.5,-280"/>
+<text text-anchor="middle" x="973.5" y="-259.2" font-family="DejaVu Sans" font-size="11.00">2 Nov · Iris</text>
+<text text-anchor="middle" x="973.5" y="-247.2" font-family="DejaVu Sans" font-size="11.00">Check a new axis order and reverse it</text>
+<text text-anchor="middle" x="973.5" y="-235.2" font-family="DejaVu Sans" font-size="11.00">40&#45;step screen → 52&#45;step confirmation</text>
+<text text-anchor="middle" x="973.5" y="-223.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294643 / 2294644</text>
+<text text-anchor="middle" x="973.5" y="-211.2" font-family="DejaVu Sans" font-size="11.00">−0.71% initial signal → +10.25% slower</text>
+<text text-anchor="middle" x="973.5" y="-199.2" font-family="DejaVu Sans" font-size="11.00">CLOSED / no stable gain</text>
+</a>
+</g>
+</g>
+<!-- io&#45;&gt;xzy -->
+<!-- team&#45;&gt;zyx -->
+<g id="edge10" class="edge">
+<title>team&#45;&gt;zyx</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M307.12,-232C336.05,-232 366.46,-232 395.57,-232"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="395.8,-235.5 405.8,-232 395.8,-228.5 395.8,-235.5"/>
+<text text-anchor="middle" x="356.5" y="-237.8" font-family="DejaVu Sans" font-size="9.00">control question</text>
+</g>
+<!-- team&#45;&gt;zyx -->
+<!-- xyz -->
+<g id="node13" class="node">
+<title>xyz</title>
+<g id="a_node13"><a xlink:href="../../../../workspace/reports/hpc-iris-comparison-20261103/README.md" xlink:title="Second candidate timed out; comparison incomplete | INCOMPLETE / invalid comparison">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M307,-108C307,-108 12,-108 12,-108 6,-108 0,-102 0,-96 0,-96 0,-24 0,-24 0,-18 6,-12 12,-12 12,-12 307,-12 307,-12 313,-12 319,-18 319,-24 319,-24 319,-96 319,-96 319,-102 313,-108 307,-108"/>
+<text text-anchor="middle" x="159.5" y="-87.2" font-family="DejaVu Sans" font-size="11.00">3 Nov · Iris</text>
+<text text-anchor="middle" x="159.5" y="-75.2" font-family="DejaVu Sans" font-size="11.00">Revisit native xyz with a control</text>
+<text text-anchor="middle" x="159.5" y="-63.2" font-family="DejaVu Sans" font-size="11.00">20&#45;step four&#45;arm screen</text>
+<text text-anchor="middle" x="159.5" y="-51.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294671</text>
+<text text-anchor="middle" x="159.5" y="-39.2" font-family="DejaVu Sans" font-size="11.00">Second candidate timed out; comparison incomplete</text>
+<text text-anchor="middle" x="159.5" y="-27.2" font-family="DejaVu Sans" font-size="11.00">INCOMPLETE / invalid comparison</text>
+</a>
+</g>
+</g>
+<!-- team&#45;&gt;xyz -->
+<!-- zyx&#45;&gt;xzy -->
+<g id="edge11" class="edge">
+<title>zyx&#45;&gt;xzy</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M691.2,-232C738.94,-232 791.97,-232 839.06,-232"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="839.32,-235.5 849.32,-232 839.32,-228.5 839.32,-235.5"/>
+<text text-anchor="middle" x="770.25" y="-237.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- zyx&#45;&gt;xzy -->
+<!-- prep -->
+<g id="node14" class="node">
+<title>prep</title>
+<g id="a_node14"><a xlink:href="../../../../workspace/reports/hpc-iris-comparison-20261103/README.md" xlink:title="File&#45;page counter split changes; no solver result | MECHANISM / not a speedup">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M683,-108C683,-108 414,-108 414,-108 408,-108 402,-102 402,-96 402,-96 402,-24 402,-24 402,-18 408,-12 414,-12 414,-12 683,-12 683,-12 689,-12 695,-18 695,-24 695,-24 695,-96 695,-96 695,-102 689,-108 683,-108"/>
+<text text-anchor="middle" x="548.5" y="-87.2" font-family="DejaVu Sans" font-size="11.00">3 Nov · Iris</text>
+<text text-anchor="middle" x="548.5" y="-75.2" font-family="DejaVu Sans" font-size="11.00">Test preparation memory policy</text>
+<text text-anchor="middle" x="548.5" y="-63.2" font-family="DejaVu Sans" font-size="11.00">Inherited / interleaved child; copy + hash only</text>
+<text text-anchor="middle" x="548.5" y="-51.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294674 failed → 2294675 qualified</text>
+<text text-anchor="middle" x="548.5" y="-39.2" font-family="DejaVu Sans" font-size="11.00">File&#45;page counter split changes; no solver result</text>
+<text text-anchor="middle" x="548.5" y="-27.2" font-family="DejaVu Sans" font-size="11.00">MECHANISM / not a speedup</text>
+</a>
+</g>
+</g>
+<!-- zyx&#45;&gt;prep -->
+<!-- xzy&#45;&gt;xyz -->
+<g id="edge12" class="edge">
+<title>xzy&#45;&gt;xyz</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M849.17,-206.59C778.31,-192.68 703.5,-178 703.5,-178 703.5,-178 389.5,-120 389.5,-120 389.5,-120 363.59,-113.35 329.16,-104.52"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="329.8,-101.07 319.24,-101.98 328.06,-107.85 329.8,-101.07"/>
+<text text-anchor="middle" x="587.5" y="-146.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- native -->
+<g id="node15" class="node">
+<title>native</title>
+<g id="a_node15"><a xlink:href="../../../../2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/STATUS.md" xlink:title="Accepted 20&#45;step test; completed result not reviewed | ACCEPTED / result not reviewed">
+<path fill="#eaf5fc" stroke="#2476a1" stroke-width="1.8" d="M1102.5,-120C1102.5,-120 844.5,-120 844.5,-120 838.5,-120 832.5,-114 832.5,-108 832.5,-108 832.5,-12 832.5,-12 832.5,-6 838.5,0 844.5,0 844.5,0 1102.5,0 1102.5,0 1108.5,0 1114.5,-6 1114.5,-12 1114.5,-12 1114.5,-108 1114.5,-108 1114.5,-114 1108.5,-120 1102.5,-120"/>
+<text text-anchor="middle" x="973.5" y="-99.2" font-family="DejaVu Sans" font-size="11.00">3 Nov receipt · Iris</text>
+<text text-anchor="middle" x="973.5" y="-87.2" font-family="DejaVu Sans" font-size="11.00">Ask whether that mechanism helps the solver</text>
+<text text-anchor="middle" x="973.5" y="-75.2" font-family="DejaVu Sans" font-size="11.00">Same Scotch; only preparation&#45;child policy</text>
+<text text-anchor="middle" x="973.5" y="-63.2" font-family="DejaVu Sans" font-size="11.00">changes</text>
+<text text-anchor="middle" x="973.5" y="-51.2" font-family="DejaVu Sans" font-size="11.00">Jobs 2294676</text>
+<text text-anchor="middle" x="973.5" y="-39.2" font-family="DejaVu Sans" font-size="11.00">Accepted 20&#45;step test; completed result not</text>
+<text text-anchor="middle" x="973.5" y="-27.2" font-family="DejaVu Sans" font-size="11.00">reviewed</text>
+<text text-anchor="middle" x="973.5" y="-15.2" font-family="DejaVu Sans" font-size="11.00">ACCEPTED / result not reviewed</text>
+</a>
+</g>
+</g>
+<!-- xzy&#45;&gt;native -->
+<!-- xyz&#45;&gt;prep -->
+<g id="edge13" class="edge">
+<title>xyz&#45;&gt;prep</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M319.12,-60C343.07,-60 367.74,-60 391.63,-60"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="391.81,-63.5 401.81,-60 391.81,-56.5 391.81,-63.5"/>
+<text text-anchor="middle" x="360.5" y="-65.8" font-family="DejaVu Sans" font-size="9.00">motivated</text>
+</g>
+<!-- xyz&#45;&gt;prep -->
+<!-- prep&#45;&gt;native -->
+<g id="edge14" class="edge">
+<title>prep&#45;&gt;native</title>
+<path fill="none" stroke="#8595a4" stroke-dasharray="1,5" d="M695.06,-60C736.08,-60 780.74,-60 822.04,-60"/>
+<polygon fill="#8595a4" stroke="#8595a4" points="822.18,-63.5 832.18,-60 822.18,-56.5 822.18,-63.5"/>
+<text text-anchor="middle" x="763.75" y="-65.8" font-family="DejaVu Sans" font-size="9.00">mechanism → solver test</text>
+</g>
+<!-- prep&#45;&gt;native -->
+</g>
+</svg>
+</main><script>let width=1500;function zoom(f){width*=f;document.querySelector('svg').style.width=width+'px'}</script></html>

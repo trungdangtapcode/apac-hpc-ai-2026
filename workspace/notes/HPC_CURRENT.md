@@ -2,6 +2,10 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## HPC research diagram — 4 November 2026
+
+The owner requested an HPC counterpart to the AI README map. [The 15-milestone visual journey](../reports/hpc-run-lineage-20261104/README.md) distinguishes NSCC/Iris, observations versus matched evidence, rejected branches and preparation qualification. It uses retained reviews through 3 November and makes no fresh scheduler claim. No job, budget or authentication was changed.
+
 ## HPC presentation publication — 3 November 2026, 16:44 Vietnam
 
 The owner requested only the HPC section. The canonical team PPTX and ZIP now contain the reviewed Iris comparison and 14-versus-40-step explanation in the existing eight HPC positions (35–42). All 34 AI slide dependency bytes, AI note bodies and AI PDF pages were preserved. NSCC job 25940700 is correctly described as a completed organizer-recipe reproduction at 3.364622070 s/step; the obsolete pending-slide claim is superseded. Job scripts and measurements in both tracks are unchanged. [Current slides, PDFs, notes and checks](../submission-review/hpc-iris-slides-20261103/README.md).

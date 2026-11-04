@@ -1,3 +1,5 @@
+Latest HPC visual journey: [4 November source-linked diagram](entries/20261104-hpc-research-diagram.md).
+
 Latest AI presentation reasoning: [three decision stories with a 12–13 minute speaking plan](entries/20261103-ai-narrative-12min.md).
 
 Latest AI history audit: [all retained GPU allocations and documented research lineage](../../ai-run-lineage-20261103/README.md), captured 3 November 2026. Counts distinguish started, cancelled and uncertain jobs; relations distinguish derivation, controls and motivation.
