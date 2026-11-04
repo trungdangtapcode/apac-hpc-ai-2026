@@ -12,3 +12,7 @@ The HPC content is read from the existing HPC worker's `hpc-run-lineage-20261104
 The Pages staging helper publishes exactly three files: `index.html`, `.nojekyll` and `hpc/index.html`. Each HTML is self-contained. The workflow watches both compressed pages. The offline HPC companion is also usable as a standalone HTML; relative track links are intended for the hosted site.
 
 Browser validation exercised real navigation between both sections through a local HTTP server, all 15 HPC nodes, the practice-result tooltip, job 2294637 with its qualified label, five NSCC milestones, mobile width and the existing AI 419-job mode and exact-job search. JavaScript errors were absent. No fresh scheduler or authentication actions were taken.
+
+## Live deployment verified
+
+Actions run 41790772151 succeeded from commit 55e84bb1. Both public routes returned HTTP 200 and exactly matched their reviewed HTML hashes; `ai-published.json` and `hpc-published.json` retain the checks. A hosted Chromium session navigated AI → HPC → AI, checked the node counts, searched job 2294637 and confirmed the qualified evidence label without JavaScript errors. The source-preservation and local mobile checks remain in this report.
