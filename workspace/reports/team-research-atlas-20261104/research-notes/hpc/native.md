@@ -26,6 +26,7 @@ The copy/hash qualification changed aggregate preparation counters. Completed na
 | Adjacent comparisons | B1 versus A1: +0.73172% slower; B2 versus A2: -4.20539% faster. |
 | Native correctness | All four 20-step native replays pass; force-coefficient trajectories identical; source/payload gates pass. |
 | Cost | 34.222222 allocated CPU-hours, conservatively 35 planning hours; billed SU unknown. |
+| Actual confirmation | 2294735 accepted; 40 steps /39 intervals per arm, BAAB, maximum2hours /112 allocated CPU-hours. |
 
 ## What did we learn?
 
@@ -35,7 +36,7 @@ The copy/hash qualification changed aggregate preparation counters. Completed na
 
 ## Decision
 
-Do not promote yet. Test reversed order and a longer fixed horizon in a new reviewed bundle; no confirmation job has been submitted.
+Do not promote the 20-step signal. Reversed 40-step BAAB confirmation 2294735 was accepted on 4 November 2026; its 12:36:04 UTC snapshot was RUNNING on iris001. Review all four completed arms before deciding; no new performance result yet.
 
 ## Limits and remaining questions
 
@@ -48,3 +49,4 @@ Do not promote yet. Test reversed order and a longer fixed horizon in a new revi
 - [Completed native result and interpretation](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md)
 - [Independent native replay](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/independent-native-replay.json)
 - [Detailed telemetry review](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/REVIEW.json)
+- [Confirmation receipt and frozen job](https://github.com/trungdangtapcode/apac-hpc-ai-2026/blob/main/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-reverse40-20261104/STATUS.md)
