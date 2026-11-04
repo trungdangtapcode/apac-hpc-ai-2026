@@ -1,4 +1,4 @@
-# APAC HPC-AI Qwen research archive
+# APAC HPC-AI research archive
 
 This repository imports the team's existing Qwen-serving research, run evidence, learning notes and presentation work from a temporary cluster account. It preserves the two original directory trees so links, run IDs and frozen execution payloads remain traceable.
 
@@ -39,6 +39,8 @@ The H100 and H200 performance series remain separate. The local MMLU-Pro result 
 **Click to zoom.** Orange identifies NSCC CPU and blue identifies Iris CPU. Dotted arrows show the next research question; solid arrows identify a repeat. Node labels distinguish baseline reproduction, observations, qualified signals, mechanisms and rejected performance claims. This is a curated overview, not an exhaustive allocation count.
 
 NSCC job **25940700** reproduced the organizer recipe at **3.364622070 seconds/step**. On Iris, supplied teammate settings had a qualified **11.2228% lower mean** against their own control; our decomposition and graph-placement branches have **no stable matched win**. The selected **21.0512 seconds/step** graph arm used only **14 steps** and does not establish first place. Different platforms, allocations and horizons are never combined into a speed ranking.
+
+**[Open the interactive HPC research map ↗](https://trungdangtapcode.github.io/apac-hpc-ai-2026/hpc/)** — the same team atlas now links AI and HPC, with platform-specific results, evidence details and search.
 
 **Explore:** [research guide](workspace/reports/hpc-run-lineage-20261104/README.md) · [PDF](workspace/reports/hpc-run-lineage-20261104/journey.pdf) · [milestone CSV](workspace/reports/hpc-run-lineage-20261104/milestones.csv) · [offline hover/zoom viewer](workspace/reports/hpc-run-lineage-20261104/index.html.gz). Extract the viewer and open it locally; GitHub displays the static map above.
 

@@ -81,4 +81,8 @@ The complete offline viewer also has a lossless [compressed copy](index.html.gz)
 
 Run `python3 build_viewer.py` from this directory to rebuild the standalone HTML and deterministic gzip from retained JSON and SVG inputs. Graphviz is required at build time for concise milestone labels. The existing `build.py` calls this renderer after refreshing the source graphs. The viewer itself requires only a browser; no analytics, external fonts, scripts or API requests are used.
 
-`viewer/prepare_pages.py --output <empty-directory>` decompresses the reviewed `index.html.gz` into exactly `index.html` and `.nojekyll`. GitHub Actions deploys only those two staged files. The workflow source is retained in `workspace/publication/github-pages/ai-research-pages.yml` and installed as `.github/workflows/ai-research-pages.yml` in the archive. Later data changes must rebuild and capture the gzip to update the hosted snapshot.
+`viewer/prepare_pages.py --output <empty-directory>` decompresses the reviewed `index.html.gz` into the team site: `index.html`, `.nojekyll` and the HPC companion at `hpc/index.html`. GitHub Actions deploys only those two staged files. The workflow source is retained in `workspace/publication/github-pages/ai-research-pages.yml` and installed as `.github/workflows/ai-research-pages.yml` in the archive. Later data changes must rebuild and capture the gzip to update the hosted snapshot.
+
+## Team HPC companion
+
+The public atlas now also includes [the HPC team’s OpenFOAM investigation](https://trungdangtapcode.github.io/apac-hpc-ai-2026/hpc/). The header switches between AI and HPC. HPC retains its own units, evidence levels and NSCC/Iris colours; its 15 curated milestones are not an allocation census. [Integration, source-preservation and browser checks](../team-research-atlas-20261104/README.md).

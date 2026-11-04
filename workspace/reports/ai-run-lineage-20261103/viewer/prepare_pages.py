@@ -13,5 +13,10 @@ def main():
     assert not any(a.output.iterdir()),'Output directory must be empty'
     (a.output/'index.html').write_bytes(content)
     (a.output/'.nojekyll').write_text('')
-    print(json.dumps({'files':['index.html','.nojekyll'],'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content)}))
+    hpc_source=Path(__file__).resolve().parents[3]/'reports/team-research-atlas-20261104/hpc/index.html.gz'
+    hpc=gzip.decompress(hpc_source.read_bytes())
+    assert b'id="researchData"' in hpc and b'/home/apacsc42/' not in hpc
+    (a.output/'hpc').mkdir()
+    (a.output/'hpc/index.html').write_bytes(hpc)
+    print(json.dumps({'files':['index.html','.nojekyll','hpc/index.html'],'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content)}))
 if __name__=='__main__':main()
