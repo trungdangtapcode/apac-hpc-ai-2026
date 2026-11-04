@@ -34,7 +34,7 @@ The H100 and H200 performance series remain separate. The local MMLU-Pro result 
 
 ## HPC research at a glance
 
-**15 curated OpenFOAM CPU research milestones · NSCC and Iris kept separate.** The map follows the questions, changed settings, measured outcomes and decisions, including losing branches and incomplete tests. Retrospective snapshot: 4 November 2026; retained reviews through 3 November.
+**17 curated OpenFOAM CPU research milestones · NSCC and Iris kept separate.** The map follows the questions, changed settings, measured outcomes and decisions, including losing branches and incomplete tests. Retrospective overview with retained reviews through 5 November 2026 (Vietnam time).
 
 [![OpenFOAM CPU research journey: NSCC in orange and Iris in blue](workspace/reports/hpc-run-lineage-20261104/journey.png)](workspace/reports/hpc-run-lineage-20261104/journey.svg)
 
