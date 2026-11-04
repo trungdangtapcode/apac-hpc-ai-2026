@@ -1,0 +1,66 @@
+{
+  "arm_order": [
+    "A1-inherited-prep",
+    "B1-interleaved-prep",
+    "B2-interleaved-prep",
+    "A2-inherited-prep"
+  ],
+  "commands_by_arm": {
+    "A1-inherited-prep": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "A2-inherited-prep": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "B1-interleaved-prep": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ],
+    "B2-interleaved-prep": [
+      "mpirun",
+      "-np",
+      "56",
+      "--report-bindings",
+      "--display-map",
+      "--",
+      "simpleFoam",
+      "-parallel"
+    ]
+  },
+  "internal_deadline_seconds": 4480,
+  "intervals_each": 19,
+  "nodes": 1,
+  "prep_cap_seconds_each": 60,
+  "preparation_treatment_by_arm": {
+    "A1-inherited-prep": "inherited",
+    "A2-inherited-prep": "inherited",
+    "B1-interleaved-prep": "interleave-all",
+    "B2-interleaved-prep": "interleave-all"
+  },
+  "ranks": 56,
+  "request_maximum_cpu_hours": 70,
+  "scope": "Same accepted Scotch source, initialized fields, native launcher, solver, physics, 20-step directional screen and sampler. Only copy/hash child policy differs; the launcher parent policy is unchanged; per-rank policy is not measured. Not a scored result.",
+  "scored_result": false,
+  "solver_cap_seconds_each": 1000,
+  "steps_each": 20
+}

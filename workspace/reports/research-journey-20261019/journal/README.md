@@ -1,3 +1,5 @@
+Latest HPC native result: [4 November small preparation-policy signal and confirmation limits](entries/20261104-hpc-preparation-solver-result.md).
+
 Latest HPC visual journey: [4 November source-linked diagram](entries/20261104-hpc-research-diagram.md).
 
 Latest AI presentation reasoning: [three decision stories with a 12–13 minute speaking plan](entries/20261103-ai-narrative-12min.md).

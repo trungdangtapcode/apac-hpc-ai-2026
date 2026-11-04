@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## New reviewed native result — 4 November 2026
+
+Iris **2294676 COMPLETED 0:0**, 2,200 seconds /56 CPUs. Preparation-child interleave yields **21.771496718 versus 22.163497501 s/step**, **1.76868% lower pooled time**, in four 20-step arms. Adjacent pairs disagree (+0.73172% /−4.20539%); this is a short directional signal, not a stable own win. All four independent native replays and identical force trajectories pass. [Full review and diagnostic limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-preparation-native20-20261103/completed-2294676/RESULTS.md).
+
+Fresh Iris queue at **4 November 18:39:25 Vietnam** is empty. Next hypothesis is reversed-order, longer-horizon confirmation of the same preparation factor. It is proposed, not submitted; a new sealed/admitted bundle is required. Actual cost 34.2222 allocated CPU-hours, conservatively 35, reservation retired once: 1,024 consumed /0 reserved /1,059 internal stage. Not billed SU. The earlier running snapshots and unreviewed diagram node are historical and superseded by this result.
+
 ## HPC research diagram — 4 November 2026
 
 The owner requested an HPC counterpart to the AI README map. [The 15-milestone visual journey](../reports/hpc-run-lineage-20261104/README.md) distinguishes NSCC/Iris, observations versus matched evidence, rejected branches and preparation qualification. It uses retained reviews through 3 November and makes no fresh scheduler claim. No job, budget or authentication was changed.

@@ -1,6 +1,6 @@
 # OpenFOAM CPU research journey
 
-This retrospective map groups **15 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot prepared 4 November 2026 from retained reviews through 3 November. It is an overview, not an exhaustive count of allocations or a live queue display.
+This retrospective map groups **15 selected research milestones**, from the first Iris full-mesh practice to the preparation-policy investigation. Snapshot prepared 4 November 2026 including the completed native review on 4 November. It is an overview, not an exhaustive count of allocations or a live queue display.
 
 [![OpenFOAM research journey: NSCC in orange, Iris in blue](journey.png)](journey.svg)
 
@@ -14,7 +14,7 @@ Click the diagram to zoom. Orange identifies NSCC CPU; blue identifies Iris CPU.
 | Do improved graph proxies ensure a faster solve? | No. The early NUMA candidate cut logical interfaces but ran **3.4416% slower**. The later reversed Iris graph-placement cycle ran **5.3685% slower**. |
 | Did our own axis ordering beat its matched Scotch control? | Plain zyx was **10.2150% slower**. An xzy screen's **0.7097% lower time** reversed to **10.2525% slower**. No stable own matched win is established. |
 | Did the supplied teammate runtime settings help on Iris? | Job 2294637: **24.7453 vs 27.8735 seconds/step**, or **11.2228% lower time**, with roughly 18–21% repeat drift. A qualified short-run signal; the recipe remains attributed to the teammate. |
-| What is the latest distinct mechanism? | Preparation-child memory policy consistently changed aggregate file-page distribution in 2294675. It ran no solver. Native follow-up 2294676 has a retained acceptance receipt; no completed result has been reviewed in this map. |
+| What is the latest distinct mechanism? | Preparation-child memory policy consistently changed aggregate file-page distribution in 2294675. It ran no solver. Native follow-up 2294676 completed: **1.76868% lower pooled time**, but adjacent signs conflict. It needs confirmation before promotion. |
 
 A second is the wall-clock unit; one step is one solver iteration. Mean seconds/step includes every prescribed measured interval after the first iteration. Lower is better. A 14-step screen has 13 measured intervals; a 40-step test has 39, and a 150-step run has 149. Faster isolated arms and different horizons cannot establish a matched improvement.
 
