@@ -2,6 +2,12 @@
 
 Updated **03 November 2026, 14:00:24 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## New native factor accepted — 5 November 2026 Vietnam
+
+**2294803 accepted** at 2026-11-04T17:36:24.887079Z. Four 40-step ABBA arms test solver-rank default versus in-rank interleave policy with preparation always inherited, qualified by actual rank/page probe 2294802. Per-rank policy/affinity proof is collected immediately before solver exec, not assumed during its whole runtime. [Frozen 64-file payload, receipt and state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/STATUS.md). No new speed result yet. Maximum 2 hours /56 CPUs /zero GPUs, 112 CPU-hours reserved; internal ledger 1,177 consumed /112 reserved /stage 1,289. This bounded 79 internal-stage extension is separate from any owner limit or site/billed SU. Preserve one-own-allocation cap.
+
+The earlier copy/hash-only gain is rejected by 2294800 (+6.09738% slower); its web correction is committed but GitHub Pages workflow 41877557587 remained queued waiting for a runner at the last check. Do not claim live publication of the new losing result before served-byte verification. Source and raw evidence are backed up.
+
 ## New mechanism qualified — 5 November 2026 Vietnam
 
 Outer-launcher 2294801 and in-rank 2294802 both COMPLETED 0:0 in 2 seconds /56 CPUs. Outer form leaves all ranks default with single-node anonymous 8 MiB mappings. In-rank form changes all 56 to interleave and both-node residency, with identical reported CPU affinity. [Actual rank/page records and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-inprocess-policy-20261104/completed-2294802/RESULTS.md). This qualifies command placement, not faster OpenFOAM or policy throughout solver execution.

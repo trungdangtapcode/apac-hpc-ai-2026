@@ -1,0 +1,9 @@
+# Solver-rank memory policy: distinct native factor accepted
+
+The independent preparation-child-only experiment lost 6.10%, closing its unchanged performance claim. Two cheap mechanism trials then established that outer-launcher numactl leaves all ranks default (2294801), while in-rank numactl changes actual policy and anonymous residency with equal affinity (2294802). New native 2294803 was accepted at 2026-11-04T17:36:24.887079Z. It holds preparation inherited and changes only in-rank policy before exec, with fixed 40-step ABBA work and matched pre-exec wrappers in both treatments.
+
+The 64-path deployment preserves all unchanged parent source/case/runtime bytes. Offline named-arm/window checks, Python compile, shell syntax and positive/negative policy/rank/affinity proof tests pass. Source, runtime, numerical work, force trajectories and all measured timing intervals still gate interpretation. Proof records describe policy immediately before same-PID exec; they do not measure every later allocation or establish causation. One favorable job would not establish a universal speedup, 150-step score or cross-machine gain.
+
+One exclusive Iris node, 56 CPUs, zero GPUs, low QoS maximum 2 hours reserves 112 CPU-hours after a fresh empty own queue. Locked ledger 1,177 consumed +112 reserved = 1,289 internal stage, a bounded 79 increase of the previous 1,210, with no site SU or owner-limit assumption. Previous diagnostic reservations retired once. Preserve the queue position and one-own-active cap. No completed new score exists at admission.
+
+[Actual receipt, frozen payload and status](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/STATUS.md). The separate web correction retains the failed confirmation numerically; publication is not complete while its Pages workflow remains queued.
