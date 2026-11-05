@@ -2,6 +2,14 @@
 
 Updated **05 November 2026, 15:29 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Scotch48 READY reviewed; forty-step comparison being prepared
+
+2294915 COMPLETED 0:0 in 111 seconds /56 CPUs on iris001. All three required native initialization stages, 48-rank probe, 288 field inventories, source/payload checks and 26 transferred hashes replay. READY and new 896-core-file +13-ancillary-file manifests are preserved. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/completed-2294915/RESULTS.md). Actual cost 1.726667 allocated CPU-hours, conservatively 2; maximum retired once: 1,227 consumed /zero reserved /stage 1,289.
+
+The selected 21.051168942 s/step graph arm was a 14-step screen, not a best-configuration ranking. In the full reversed BAAB comparison 2294390, graph arms were 21.051169 and 38.462425 versus identity controls 23.241965 and 33.239424 s/step. The pooled graph candidate was 5.3685% slower, so that unchanged performance branch was closed before longer confirmation. Displaying only its lowest arm beside 40-step organizer or teammate results can mislead; no matched win is established. Raw results remain intact.
+
+The distinct 48-versus-56 rank-density comparison will use 40 steps /39 measured intervals per arm, in one 56/48/48/56 allocation. This is not a complete official simulation or a revival of the rejected graph branch. It is being prepared; no new job acceptance or speed result is claimed here.
+
 ## Scotch48 initialization accepted — 5 November 2026
 
 **2294915 accepted**: mandatory renumberMesh → potentialFoam → applyBoundaryLayer at 48 MPI ranks, one exclusive 56-CPU Iris node, zero GPUs, at most 20 minutes. The 18.666667 allocated CPU-hour maximum is reserved with 1,225 consumed under unchanged 1,289 internal stage. All 44 frozen payload hashes, exact cut gates and offline acceptance/rejection checks pass. [Receipt, limits and pending terminal review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/STATUS.md). No assumed socket map, solver score or initialization success yet. Preserve the active allocation and one-own cap.

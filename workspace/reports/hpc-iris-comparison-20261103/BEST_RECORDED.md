@@ -1,3 +1,5 @@
+> Clarification, 5 November 2026: the selected short-arm minimum below is not a stable winner. Its complete reversed comparison lost 5.3685%; see the current journal.
+
 # Lowest observed completed mean for the three Iris recipes
 
 The owner asked for concrete best observations, not pooled comparison means. These are the lowest reviewed whole-arm means found in the retained Iris records for each group. Every mean includes all prescribed timing intervals in that completed arm. It is not the fastest individual step. Timeout and live unreviewed output are excluded.
