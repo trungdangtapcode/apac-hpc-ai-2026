@@ -1,5 +1,7 @@
 # Current AI talk: research reasoning in 12–13 minutes
 
+**Current revision — 5 November:** [Complete slide–speech alignment](../reports/ai-slide-script-alignment-20261105/README.md) updates the canonical deck and companion PDFs. The historical 3 November PDF/ZIP links below remain versioned artifacts. Use the current [main-talk PDF](../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Main_Talk.pdf).
+
 Published 2026-11-03T22:45:41.355234+07:00, Vietnam time (UTC+7). [Release, checks and reproducibility](../submission-review/ai-narrative-12min-20261103/README.md).
 
 The owner asked for more research process, not more tables, while preserving the established design. The main talk now explains a feasible phase split, a bounded request-scoped metadata contribution, the rationale for testing phases and revisiting choices after conditions changed, matched backend/load decisions and the separate validation gates. It keeps sixteen main AI slides and eighteen hidden backups; the latest HPC 35–42 content is preserved.
