@@ -1,0 +1,5 @@
+# Source-only update after the reversed confirmation
+
+Job 2294918 is now independently reviewed. The existing eighteenth milestone now retains both allocations separately: 17.3826% and 19.2133% lower 48-rank time, each with its own control, horizon, units, job and raw source. All other HPC nodes/explanations and AI source remain unchanged. This is a repeatable same-Iris 40-step configuration signal, not a full simulation or teammate comparison.
+
+Only milestones.json and hpc-explanations.json were updated. The generated HTML/browser receipts here still describe the previous eighteen-node artifact whose confirmation was pending. No new HTML build/deployment was triggered while the last known GitHub billing block remains unresolved; no live-site update is claimed. After access/account conditions permit publishing, rebuild with --hpc-only and update/replay the browser check against the latest 33 metric cards before claiming live publication. Source-only validation is in source-only-validation-2294918.json. The historical live 17-milestone hash and billing annotation remain in publication-blocked.json; they are dated evidence, not a fresh account check.

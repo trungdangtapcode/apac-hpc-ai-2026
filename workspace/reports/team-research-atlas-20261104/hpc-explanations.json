@@ -760,8 +760,8 @@
     ]
   },
   "rank_density": {
-    "question": "Does a 48-rank Scotch partition reduce solver time relative to 56 ranks when both use the same fixed 40-step work in one matched allocation?",
-    "rationale": "A short graph-placement arm had been highlighted despite using only 14 steps and losing in its full reversed comparison. This trial asks a distinct rank-density question with four full 40-step arms. The rank count and required partition change together, so a result cannot isolate a specific communication or hardware mechanism.",
+    "question": "Does the matched 48-rank Scotch signal repeat against 56 ranks at the same 40-step horizon under reversed order?",
+    "rationale": "The initial 40-step ABBA allocation (2294916) favored 48 ranks in both adjacent pairs but had 15.17% candidate repeat drift. A new BAAB allocation tests whether the same matched signal persists under reversed order. Rank count and the required partition change together, so this does not isolate a hardware mechanism.",
     "changes": [
       {
         "aspect": "Prerequisite partition and initialization",
@@ -771,59 +771,63 @@
       {
         "aspect": "Matched solver comparison",
         "before": "56-rank Scotch in all arms.",
-        "after": "Job 2294916 used A1 56 ranks, B1 48, B2 48, A2 56; each completed 40 steps /39 intervals with fixed native work."
+        "after": "Job 2294916 compared 56/48/48/56 (ABBA); job 2294918 independently compared 56/48/48/56 in reversed BAAB order. Each completed 40 steps /39 intervals in its own allocation; measurements are retained separately."
       }
     ],
     "evidence": [
       {
-        "label": "Pooled within-job means",
-        "value": "48-rank candidate 26.703647651 versus 56-rank control 32.322052535 s/step; candidate time −17.382574569%."
+        "label": "2294918 reversed-order pooled means",
+        "value": "48-rank candidate 26.159176710 versus 56-rank control 32.380543978 s/step; −19.213288300% within this allocation."
       },
       {
-        "label": "Adjacent pairs",
-        "value": "Both favor 48 ranks: −25.157475% and −9.191942%."
+        "label": "2294918 adjacent pairs and repeat drift",
+        "value": "Both adjacent pairs favor 48 ranks: −15.351001574% and −23.111015530%. Repeat drift: 48 ranks −9.993190%; 56 ranks −0.909261%."
       },
       {
-        "label": "Repeat drift",
-        "value": "48-rank repeat drift is +15.1737%; 56-rank control changes −5.0757%."
+        "label": "2294918 completed arms",
+        "value": "A1 32.528428090, B1 27.534988582, B2 24.783364839, A2 32.232659866 s/step; all four arms completed 40 steps /39 intervals."
       },
       {
-        "label": "Completed arms",
-        "value": "A1 33.163697419, B1 24.820548476, B2 28.586746826, A2 31.480407650 s/step; all are 40 steps /39 measured intervals."
+        "label": "Parent allocation 2294916 (separate result)",
+        "value": "ABBA: 48-rank mean 26.703647651 versus 56-rank mean 32.322052535 s/step, −17.382574569%; adjacent changes −25.157475169% and −9.191942038%. Candidate repeat drift +15.173711%."
       },
       {
-        "label": "Cost and telemetry",
-        "value": "82.397778 allocated CPU-hours, not billed SU. Pressure telemetry was unavailable; the available whole-node samples do not establish a hardware bottleneck."
+        "label": "2294918 cost and telemetry",
+        "value": "81.666667 allocated CPU-hours; site-billed SU unknown. Pressure telemetry unavailable; whole-node samples do not prove a hardware bottleneck."
+      },
+      {
+        "label": "Review status",
+        "value": "Both opposite-order full 40-step allocations on iris001 passed their source, native-work and correctness gates. They remain two separate job-level results."
       }
     ],
     "findings": [
-      "This is a promising matched rank-density signal within one Iris allocation; both adjacent contrasts favor 48 ranks.",
-      "The candidate repeat drift and single-allocation design require an independent reversed-order confirmation before calling the advantage stable.",
-      "Rank count and Scotch partition change together; communication, memory, frequency and other bottlenecks remain unproven."
+      "Both complete opposite-order allocations favor 48 ranks over their own 56-rank Scotch controls in the same 40-step horizon, supporting a qualified repeatable same-Iris configuration signal.",
+      "The two jobs have differing repeat drift and were run on the same physical node; no universal effect size or cross-machine winner is established.",
+      "Rank count changes together with the required Scotch partition, so communication, memory, frequency and other hardware bottlenecks remain unproven."
     ],
-    "decision": "Keep the result qualified. A reversed 48→56→56→48 40-step confirmation was accepted as job 2294918; it is pending review and has no result yet. Do not claim a stable win over teammate or organizer/BTC settings.",
+    "decision": "Treat the result as a qualified repeatable same-Iris 40-step configuration signal. It is not a full-simulation result or a matched win over teammate or organizer/BTC settings. Any new rank-count configuration is a separate future question; do not assign it an ID or result before an accepted job and review.",
     "limits": [
-      "Only one completed allocation supports this result; 48-rank repeat drift is 15.1737%.",
-      "The partition changes with rank count, so the trial does not isolate rank count from decomposition effects or prove a causal hardware bottleneck.",
-      "Pressure telemetry was unavailable; whole-node frequency and memory sampling are not hardware-cycle or bandwidth profiles.",
-      "This is Basic practice, not an official score or cross-platform comparison."
+      "Only two 40-step allocations on iris001 are reviewed; 48-rank repeat drift was +15.1737% in 2294916 and −9.99319% in 2294918.",
+      "The rank count and Scotch partition change together; no communication, memory, frequency or other causal mechanism is isolated.",
+      "Pressure telemetry was unavailable. Whole-node frequency and memory samples are not hardware-cycle or bandwidth profiles.",
+      "This is Basic practice, not an official full-simulation score, a universal speedup, or a cross-platform comparison."
     ],
     "sources": [
       {
-        "label": "Native matched rank-density review",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+        "label": "Reversed-order native review 2294918",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
       },
       {
-        "label": "Scotch48 partition gate",
+        "label": "Original ABBA native review 2294916",
+        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+      },
+      {
+        "label": "Scotch48 partition gate 2294914",
         "path": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-cut-20261105/completed-2294914/RESULTS.md"
       },
       {
-        "label": "Native 48-rank initialization",
+        "label": "Native 48-rank initialization 2294915",
         "path": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/completed-2294915/RESULTS.md"
-      },
-      {
-        "label": "Accepted reverse confirmation receipt",
-        "path": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/submission-receipt.json"
       }
     ]
   }

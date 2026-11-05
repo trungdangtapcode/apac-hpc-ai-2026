@@ -1594,14 +1594,179 @@
       "platform": "Iris",
       "title": "Test 48-rank Scotch at a matched horizon",
       "change": "Use a native 48-domain Scotch partition (job 2294914) and required initialization (2294915), then compare 48 versus 56 ranks in four 40-step ABBA arms (2294916). Rank count and required partition change together.",
-      "jobs": "2294914 partition / 2294915 initialization / 2294916 solver / 2294918 reverse confirmation accepted",
-      "result": "48-rank pooled mean 26.703647651 versus 32.322052535 s/step at 56 ranks; 17.382574569% lower within this allocation. Both adjacent pairs favor 48 ranks.",
-      "assessment": "Promising matched signal against the 56-rank Scotch control, not independently confirmed. A reversed-order 40-step confirmation, job 2294918, has been accepted and is pending; no result is available. This does not establish a stable winner over teammate or organizer/BTC settings.",
-      "limitations": "One allocation; 48-rank repeat drift is 15.1737% and effect size needs reversed-order confirmation. Rank count and partition change together, so no communication, memory or frequency bottleneck is proven. Pressure telemetry was unavailable. This is Basic practice, not an official score or cross-platform result.",
+      "jobs": "2294914 partition / 2294915 initialization / 2294916 ABBA / 2294918 BAAB",
+      "result": "2294918 BAAB: 48-rank mean 26.159176710 vs 56-rank mean 32.380543978 s/step (−19.213288300%); both adjacent pairs favor 48. Job 2294916 ABBA separately measured −17.382574569%.",
+      "assessment": "Both complete, opposite-order 40-step allocations on iris001 pass all gates and favor 48 ranks. Together they support a qualified repeatable same-Iris 40-step configuration signal. This is not a full-simulation or universal result, and does not establish a matched win over teammate or organizer/BTC settings.",
+      "limitations": "Only two allocations on the same physical node are reviewed; 48-rank repeat drift was +15.1737% in 2294916 and −9.99319% in 2294918. Rank count and required Scotch partition change together, so the causal mechanism and any hardware bottleneck remain unproven. Pressure telemetry was unavailable. This is Basic practice, not an official full-simulation score or cross-platform result.",
       "result_metrics": [
         {
-          "key": "control56_pooled_mean",
-          "label": "56-rank Scotch pooled mean",
+          "key": "control56_pooled_mean_2294918",
+          "label": "2294918 · 56-rank Scotch pooled mean",
+          "value": 32.38054397785898,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; 56-rank control arms pooled within this reverse-order allocation",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "candidate48_pooled_mean_2294918",
+          "label": "2294918 · 48-rank Scotch pooled mean",
+          "value": 26.15917671025641,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; 48-rank candidate arms pooled within this reverse-order allocation",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "candidate_time_change_2294918",
+          "label": "2294918 · 48-rank candidate time change vs 56-rank control",
+          "value": -19.213288300087193,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched within-job pooled solver contrast; not pooled with job 2294916",
+          "job_id": "2294918",
+          "horizon": "40-step BAAB; 39 intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "adjacent_pair_1_change_2294918",
+          "label": "2294918 · Adjacent A1→B1 time change",
+          "value": -15.351001573816026,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched adjacent solver pair within this allocation",
+          "job_id": "2294918",
+          "horizon": "40 steps; A1 56 ranks / B1 48 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "adjacent_pair_2_change_2294918",
+          "label": "2294918 · Adjacent B2→A2 time change",
+          "value": -23.11101552959507,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched adjacent solver pair within this allocation",
+          "job_id": "2294918",
+          "horizon": "40 steps; B2 48 ranks / A2 56 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "candidate48_repeat_drift_2294918",
+          "label": "2294918 · 48-rank repeat drift",
+          "value": -9.99319006487548,
+          "unit": "%",
+          "direction": "descriptive",
+          "scope": "B1 to B2; solver repeat variation",
+          "job_id": "2294918",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "control56_repeat_drift_2294918",
+          "label": "2294918 · 56-rank control repeat change",
+          "value": -0.9092607345231096,
+          "unit": "%",
+          "direction": "descriptive",
+          "scope": "A1 to A2; solver repeat variation",
+          "job_id": "2294918",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "arm_A1_mean_2294918",
+          "label": "2294918 · A1 Scotch 56-rank mean",
+          "value": 32.52842808994872,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; 56 MPI ranks",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "arm_B1_mean_2294918",
+          "label": "2294918 · B1 Scotch 48-rank mean",
+          "value": 27.534988581923077,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; 48 MPI ranks",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "arm_B2_mean_2294918",
+          "label": "2294918 · B2 Scotch 48-rank mean",
+          "value": 24.783364838589744,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; 48 MPI ranks",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "arm_A2_mean_2294918",
+          "label": "2294918 · A2 Scotch 56-rank mean",
+          "value": 32.23265986576923,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm; 56 MPI ranks",
+          "job_id": "2294918",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "steps_per_arm_2294918",
+          "label": "2294918 · Steps per arm",
+          "value": 40,
+          "unit": "steps",
+          "direction": "not_applicable",
+          "scope": "all four solver arms completed",
+          "job_id": "2294918",
+          "horizon": "BAAB",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "intervals_per_arm_2294918",
+          "label": "2294918 · Measured intervals per arm",
+          "value": 39,
+          "unit": "intervals",
+          "direction": "not_applicable",
+          "scope": "all four solver arms completed",
+          "job_id": "2294918",
+          "horizon": "BAAB",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "allocated_ranks_2294918",
+          "label": "2294918 · Allocated CPUs",
+          "value": 56,
+          "unit": "CPUs",
+          "direction": "not_applicable",
+          "scope": "single Iris node allocation",
+          "job_id": "2294918",
+          "horizon": "complete job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "allocated_cost_2294918",
+          "label": "2294918 · Allocated cost",
+          "value": 81.66666666666667,
+          "unit": "CPU-hours",
+          "direction": "not_applicable",
+          "scope": "scheduler allocation; site-billed SU unknown",
+          "job_id": "2294918",
+          "horizon": "completed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
+        },
+        {
+          "key": "control56_pooled_mean_2294916",
+          "label": "2294916 · 56-rank Scotch pooled mean",
           "value": 32.32205253460256,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1611,8 +1776,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
         },
         {
-          "key": "candidate48_pooled_mean",
-          "label": "48-rank Scotch pooled mean",
+          "key": "candidate48_pooled_mean_2294916",
+          "label": "2294916 · 48-rank Scotch pooled mean",
           "value": 26.70364765065385,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1622,8 +1787,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
         },
         {
-          "key": "candidate_time_change",
-          "label": "48-rank candidate time change vs 56-rank control",
+          "key": "candidate_time_change_2294916",
+          "label": "2294916 · 48-rank candidate time change vs 56-rank control",
           "value": -17.38257456865989,
           "unit": "%",
           "direction": "lower_is_better",
@@ -1633,8 +1798,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
         },
         {
-          "key": "adjacent_pair_1_change",
-          "label": "Adjacent A1→B1 time change",
+          "key": "adjacent_pair_1_change_2294916",
+          "label": "2294916 · Adjacent A1→B1 time change",
           "value": -25.15747516934862,
           "unit": "%",
           "direction": "lower_is_better",
@@ -1644,8 +1809,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "adjacent_pair_2_change",
-          "label": "Adjacent B2→A2 time change",
+          "key": "adjacent_pair_2_change_2294916",
+          "label": "2294916 · Adjacent B2→A2 time change",
           "value": -9.191942037736556,
           "unit": "%",
           "direction": "lower_is_better",
@@ -1655,8 +1820,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "candidate48_repeat_drift",
-          "label": "48-rank repeat drift",
+          "key": "candidate48_repeat_drift_2294916",
+          "label": "2294916 · 48-rank repeat drift",
           "value": 15.173711224034614,
           "unit": "%",
           "direction": "descriptive",
@@ -1666,8 +1831,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "control56_repeat_drift",
-          "label": "56-rank control repeat change",
+          "key": "control56_repeat_drift_2294916",
+          "label": "2294916 · 56-rank control repeat change",
           "value": -5.075699937276513,
           "unit": "%",
           "direction": "descriptive",
@@ -1677,8 +1842,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "arm_A1_mean",
-          "label": "A1 Scotch 56-rank mean",
+          "key": "arm_A1_mean_2294916",
+          "label": "2294916 · A1 Scotch 56-rank mean",
           "value": 33.16369741915385,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1688,8 +1853,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "arm_B1_mean",
-          "label": "B1 Scotch 48-rank mean",
+          "key": "arm_B1_mean_2294916",
+          "label": "2294916 · B1 Scotch 48-rank mean",
           "value": 24.82054847569231,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1699,8 +1864,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "arm_B2_mean",
-          "label": "B2 Scotch 48-rank mean",
+          "key": "arm_B2_mean_2294916",
+          "label": "2294916 · B2 Scotch 48-rank mean",
           "value": 28.586746825615386,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1710,8 +1875,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "arm_A2_mean",
-          "label": "A2 Scotch 56-rank mean",
+          "key": "arm_A2_mean_2294916",
+          "label": "2294916 · A2 Scotch 56-rank mean",
           "value": 31.480407650051283,
           "unit": "s/step",
           "direction": "lower_is_better",
@@ -1721,8 +1886,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "steps_per_arm",
-          "label": "Steps per arm",
+          "key": "steps_per_arm_2294916",
+          "label": "2294916 · Steps per arm",
           "value": 40,
           "unit": "steps",
           "direction": "not_applicable",
@@ -1732,8 +1897,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "intervals_per_arm",
-          "label": "Measured intervals per arm",
+          "key": "intervals_per_arm_2294916",
+          "label": "2294916 · Measured intervals per arm",
           "value": 39,
           "unit": "intervals",
           "direction": "not_applicable",
@@ -1743,8 +1908,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "allocated_ranks",
-          "label": "Allocated CPUs",
+          "key": "allocated_ranks_2294916",
+          "label": "2294916 · Allocated CPUs",
           "value": 56,
           "unit": "CPUs",
           "direction": "not_applicable",
@@ -1754,8 +1919,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "allocated_cost",
-          "label": "Allocated cost",
+          "key": "allocated_cost_2294916",
+          "label": "2294916 · Allocated cost",
           "value": 82.39777777777778,
           "unit": "CPU-hours",
           "direction": "not_applicable",
@@ -1765,8 +1930,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
         },
         {
-          "key": "scotch48_partitions",
-          "label": "Scotch48 partition domains",
+          "key": "scotch48_partitions_2294916",
+          "label": "2294916 · Scotch48 partition domains",
           "value": 48,
           "unit": "domains",
           "direction": "not_applicable",
@@ -1776,8 +1941,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-cut-20261105/completed-2294914/RESULTS.md"
         },
         {
-          "key": "sealed_core_hashes",
-          "label": "Sealed core-file hashes",
+          "key": "sealed_core_hashes_2294916",
+          "label": "2294916 · Sealed core-file hashes",
           "value": 896,
           "unit": "files",
           "direction": "not_applicable",
@@ -1787,8 +1952,8 @@
           "source": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/completed-2294915/RESULTS.md"
         },
         {
-          "key": "pinned_solver_inputs",
-          "label": "Pinned solver inputs",
+          "key": "pinned_solver_inputs_2294916",
+          "label": "2294916 · Pinned solver inputs",
           "value": 1040,
           "unit": "files",
           "direction": "not_applicable",
@@ -1799,7 +1964,7 @@
         }
       ],
       "status": "qualified",
-      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/REVIEW.json"
     }
   ],
   "edges": [
