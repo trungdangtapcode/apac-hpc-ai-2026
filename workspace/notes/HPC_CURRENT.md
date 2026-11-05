@@ -8,6 +8,10 @@ Updated **05 November 2026, 21:32 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e
 
 Maximum 140 allocated CPU-hours reserved with 1,310 consumed: internal stage 1,367 →1,450 (+83) for this bounded request; not a new owner allowance or known site-billed SU. NSCC/AI remains separate. Parent result 17.3826% lower time is promising but 48-repeat drift 15.1737% requires this confirmation. No stable winner or teammate comparison claimed.
 
+## Atlas source updated; hosted publication blocked
+
+The reviewed eighteenth HPC milestone and numerical metric cards pass local browser and AI-preservation checks and are pushed. GitHub workflow 42046513133 failed before any build step: account locked due to a billing issue; deploy skipped. Live-byte verification still finds the previous 17-milestone page. [Exact receipt and source/live hashes](../reports/hpc-rank-density-atlas-20261105/publication-blocked.json). Do not claim the new result is live. No account/payment change or blind rerun attempted. This does not affect Iris job 2294918 or its allocated budget.
+
 ## Complete forty-step result reviewed — 5 November 2026
 
 2294916 COMPLETED 0:0 in 5,297 seconds /56 CPUs on iris001. All four 40-step native replays, 228 transferred hashes, source/payload/runtime before/after, rank and same-partition force-repeat gates pass both root and independent review. 48-rank pooled 26.703647651 versus 56-rank 32.322052535 s/step: **17.382574569% lower**, with both adjacent contrasts favorable (25.157475% /9.191942%). Candidate repeats drift +15.1737%; this is a promising within-allocation signal, not a confirmed universal win or teammate comparison. [Full result and telemetry limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md).

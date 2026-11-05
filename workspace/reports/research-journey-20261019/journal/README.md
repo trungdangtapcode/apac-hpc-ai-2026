@@ -1,3 +1,5 @@
+Latest HPC atlas release: [Eighteen-milestone source validated, GitHub publication blocked](entries/20261105-hpc-atlas18-publication-blocked.md).
+
 Latest HPC acceptance: [Independent reversed forty-step confirmation2294918](entries/20261105-hpc-rank-density40-reverse-submitted.md).
 
 Latest HPC completed review: [Forty-step rank-density signal and confirmation limits](entries/20261105-hpc-rank-density40-terminal-result.md).
