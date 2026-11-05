@@ -1,5 +1,7 @@
 # Current AI talk: research reasoning in 12–13 minutes
 
+**Latest visible revision — 5 November:** [Named conditions on the result slides](../reports/ai-comparison-labels-20261105/README.md) supersedes the earlier claim that numeric/page alignment alone made the comparison understandable. The canonical Presentation folder now uses that revision.
+
 **Current revision — 5 November:** [Complete slide–speech alignment](../reports/ai-slide-script-alignment-20261105/README.md) updates the canonical deck and companion PDFs. The historical 3 November PDF/ZIP links below remain versioned artifacts. Use the current [main-talk PDF](../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Main_Talk.pdf).
 
 Published 2026-11-03T22:45:41.355234+07:00, Vietnam time (UTC+7). [Release, checks and reproducibility](../submission-review/ai-narrative-12min-20261103/README.md).
