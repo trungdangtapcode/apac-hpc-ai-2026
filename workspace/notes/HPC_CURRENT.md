@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **5 November 2026, 21:27 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **05 November 2026, 21:32 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Independent reverse confirmation accepted — 5 November 2026
+
+**2294918 accepted**, observed RUNNING on iris001 at 21:30 Vietnam. Order 48/56/56/48, all 40 steps /39 intervals. It tests the 17.38% parent signal under reversal, retaining all native physics, sources, settings and caps. All 100 frozen hashes verified, only run-order/label-based statistics and job name differ from valid parent 2294916. [Receipt, limits and test provenance](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/STATUS.md). No new speed result yet; preserve active allocation and one-own cap.
+
+Maximum 140 allocated CPU-hours reserved with 1,310 consumed: internal stage 1,367 →1,450 (+83) for this bounded request; not a new owner allowance or known site-billed SU. NSCC/AI remains separate. Parent result 17.3826% lower time is promising but 48-repeat drift 15.1737% requires this confirmation. No stable winner or teammate comparison claimed.
 
 ## Complete forty-step result reviewed — 5 November 2026
 
