@@ -1,3 +1,5 @@
+Latest HPC admission: [Mandatory Scotch48 initialization2294915](entries/20261105-hpc-scotch48-initialization-submitted.md).
+
 Latest HPC review: [Scotch48 native cut passes](entries/20261105-hpc-scotch48-cut-reviewed.md).
 
 Latest HPC admission: [Distinct Scotch48 rank-density preparation 2294914](entries/20261105-hpc-scotch48-cut-submitted.md).

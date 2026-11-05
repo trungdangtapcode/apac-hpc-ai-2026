@@ -1,6 +1,10 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **5 November 2026, 14:39 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **05 November 2026, 15:29 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Scotch48 initialization accepted — 5 November 2026
+
+**2294915 accepted**: mandatory renumberMesh → potentialFoam → applyBoundaryLayer at 48 MPI ranks, one exclusive 56-CPU Iris node, zero GPUs, at most 20 minutes. The 18.666667 allocated CPU-hour maximum is reserved with 1,225 consumed under unchanged 1,289 internal stage. All 44 frozen payload hashes, exact cut gates and offline acceptance/rejection checks pass. [Receipt, limits and pending terminal review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/STATUS.md). No assumed socket map, solver score or initialization success yet. Preserve the active allocation and one-own cap.
 
 ## Scotch48 cut reviewed — 5 November 2026, 15:23 Vietnam
 
