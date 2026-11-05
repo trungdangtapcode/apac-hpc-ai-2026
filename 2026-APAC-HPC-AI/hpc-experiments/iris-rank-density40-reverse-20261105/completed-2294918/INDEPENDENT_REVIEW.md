@@ -1,0 +1,3 @@
+# Independent read-only review
+
+A second HPC reviewer found no blocker after replaying all four raw BAAB native outputs, source/payload/runtime/field/rank gates, force repeats, timing tails and resource/telemetry evidence. It recovered 19.213288300% lower pooled 48-rank time, opposite-order persistence relative to 2294916 and limited between-allocation pooled drift. It explicitly limits the finding to same-Iris forty-step work and this partition pair; not full-simulation, universal hardware or matched teammate performance. No files, jobs or budget were changed by that reviewer. Root independently verifies 228 selected artifact hashes.

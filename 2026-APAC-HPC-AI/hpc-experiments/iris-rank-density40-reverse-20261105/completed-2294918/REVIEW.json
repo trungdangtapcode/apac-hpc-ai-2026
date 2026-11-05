@@ -1,0 +1,152 @@
+{
+  "passed": true,
+  "measurement_valid": true,
+  "job_id": "2294918",
+  "scheduler": {
+    "JobID": "2294918",
+    "JobName": "tu-iris-rank40r",
+    "State": "COMPLETED",
+    "ExitCode": "0:0",
+    "ElapsedRaw": "5250",
+    "AllocCPUS": "56",
+    "NodeList": "iris001",
+    "MaxRSS": "",
+    "TotalCPU": "2-22:24:10"
+  },
+  "arms": [
+    {
+      "arm": "A1-scotch56",
+      "ranks": 56,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 32.52842808994872,
+      "median_s_step": 31.546112238,
+      "p95_s_step_nearest_rank": 41.251678169,
+      "maximum_s_step": 41.424238026,
+      "final_Cd": 0.4369593310096111
+    },
+    {
+      "arm": "B1-scotch48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 27.534988581923077,
+      "median_s_step": 27.644646386,
+      "p95_s_step_nearest_rank": 28.342420324,
+      "maximum_s_step": 28.503129112,
+      "final_Cd": 0.43259572931102774
+    },
+    {
+      "arm": "B2-scotch48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 24.783364838589744,
+      "median_s_step": 24.765708218,
+      "p95_s_step_nearest_rank": 25.598602671,
+      "maximum_s_step": 26.808427478,
+      "final_Cd": 0.43259572931102774
+    },
+    {
+      "arm": "A2-scotch56",
+      "ranks": 56,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 32.23265986576923,
+      "median_s_step": 31.603919316,
+      "p95_s_step_nearest_rank": 40.368373174,
+      "maximum_s_step": 40.454106741,
+      "final_Cd": 0.4369593310096111
+    }
+  ],
+  "scotch56_mean_s_step": 32.38054397785898,
+  "scotch48_mean_s_step": 26.15917671025641,
+  "candidate_time_change_percent": -19.213288300087193,
+  "adjacent_time_changes_percent": [
+    -15.351001573816026,
+    -23.11101552959507
+  ],
+  "repeat_drift_percent": {
+    "56": -0.9092607345231096,
+    "48": -9.99319006487548
+  },
+  "telemetry_inspected": {
+    "A1-scotch56": {
+      "sample_count": 270,
+      "sample_read_max_ms": 4.830275,
+      "minimum_node_MemAvailable_GiB": 39.16154861450195,
+      "median_reported_CPU_frequency_MHz": 3299.9885,
+      "pressure_available_any": false,
+      "resources": {
+        "user_CPU_seconds": 73237.02,
+        "system_CPU_seconds": 1657.22,
+        "CPU_percent": 5553.0,
+        "process_peak_RSS_KiB": 2915812.0
+      },
+      "warnings": [
+        "Initial dynamic-code library lookup misses appear before normal compilation and successful completion; not established runtime failure."
+      ]
+    },
+    "B1-scotch48": {
+      "sample_count": 229,
+      "sample_read_max_ms": 3.63347,
+      "minimum_node_MemAvailable_GiB": 39.613037109375,
+      "median_reported_CPU_frequency_MHz": 3299.9995,
+      "pressure_available_any": false,
+      "resources": {
+        "user_CPU_seconds": 52383.29,
+        "system_CPU_seconds": 2113.65,
+        "CPU_percent": 4761.0,
+        "process_peak_RSS_KiB": 3102888.0
+      },
+      "warnings": [
+        "Initial dynamic-code library lookup misses appear before normal compilation and successful completion; not established runtime failure."
+      ]
+    },
+    "B2-scotch48": {
+      "sample_count": 208,
+      "sample_read_max_ms": 3.695712,
+      "minimum_node_MemAvailable_GiB": 42.12168502807617,
+      "median_reported_CPU_frequency_MHz": 3299.9984999999997,
+      "pressure_available_any": false,
+      "resources": {
+        "user_CPU_seconds": 48310.69,
+        "system_CPU_seconds": 1091.57,
+        "CPU_percent": 4764.0,
+        "process_peak_RSS_KiB": 3131056.0
+      },
+      "warnings": [
+        "Initial dynamic-code library lookup misses appear before normal compilation and successful completion; not established runtime failure."
+      ]
+    },
+    "A2-scotch56": {
+      "sample_count": 268,
+      "sample_read_max_ms": 4.618261,
+      "minimum_node_MemAvailable_GiB": 40.98149871826172,
+      "median_reported_CPU_frequency_MHz": 3299.988,
+      "pressure_available_any": false,
+      "resources": {
+        "user_CPU_seconds": 72848.75,
+        "system_CPU_seconds": 1428.9,
+        "CPU_percent": 5547.0,
+        "process_peak_RSS_KiB": 2920604.0
+      },
+      "warnings": [
+        "Initial dynamic-code library lookup misses appear before normal compilation and successful completion; not established runtime failure."
+      ]
+    }
+  },
+  "verified_files": 228,
+  "actual_allocated_CPU_hours": 81.66666666666667,
+  "cost_SU": null,
+  "assessment": "Both complete adjacent contrasts favor 48 ranks again under reversed order. Together with parent 2294916 this replicates the same-horizon signal on iris001 across two allocations; not a matched teammate comparison or full official score.",
+  "limits": [
+    "One forty-step allocation; candidate repeat drift and effect-size variation remain substantial.",
+    "Rank count and required partition change together; no isolated communication, memory or frequency cause established.",
+    "Python rank masks are pre-MPI_Init and solver binding reports are separate; no per-process bandwidth or solver-thread residency collected.",
+    "Whole-node phase samples include startup/exit; frequency reports are not hardware-cycle profiles.",
+    "Pressure telemetry unavailable; GNU time RSS is not summed MPI/node memory.",
+    "Different decompositions change intermediate Cd; Basic native fixed-work/source gates passed, no universal cross-partition Cd tolerance invented.",
+    "Not official full simulation, cross-platform comparison or scored contest result."
+  ]
+}

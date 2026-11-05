@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **05 November 2026, 21:32 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **05 November 2026, 23:19 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Reverse result reviewed: same-Iris signal repeats — 5 November 2026
+
+2294918 COMPLETED 0:0 in 5,250 seconds /56 CPUs on iris001. Root and independent reviewer pass all 228 hashes/native/source/runtime/fields/rank/force gates. Pooled 48-rank 26.159176710 versus 56-rank 32.380543978 s/step: **19.213288300% lower time**, both adjacent comparisons favorable (15.3510% /23.1110%). Opposite-order parent 2294916 showed 17.3826% lower. Between allocations, 48 means differ −2.04%, 56 means +0.18%; both on iris001. This now supports a repeatable same-Iris 40-step rank-density signal, not full-horizon/universal/teammate performance. [Detailed result, tails and telemetry limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-reverse-20261105/completed-2294918/RESULTS.md).
+
+Actual 81.666667 allocated CPU-hours, conservatively 82; 140 maximum retired once: 1,392 consumed /zero reserved /stage 1,450. Required telemetry present; pressure unavailable and no causal bandwidth/profile evidence. Next distinct candidate is 40 versus 48 ranks; fresh Scotch40 cut being prepared, not yet submitted. No implied further gain and no change to frozen old jobs.
 
 ## Independent reverse confirmation accepted — 5 November 2026
 
