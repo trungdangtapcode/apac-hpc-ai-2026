@@ -34,7 +34,7 @@ The H100 and H200 performance series remain separate. The local MMLU-Pro result 
 
 ## HPC research at a glance
 
-**17 curated OpenFOAM CPU research milestones · NSCC and Iris kept separate.** The map follows the questions, changed settings, measured outcomes and decisions, including losing branches and incomplete tests. Retrospective overview with retained reviews through 5 November 2026 (Vietnam time).
+**18 curated OpenFOAM CPU research milestones · NSCC and Iris kept separate.** The map follows the questions, changed settings, measured outcomes and decisions, including losing branches and incomplete tests. Retrospective overview with retained reviews through 5 November 2026 (Vietnam time).
 
 [![OpenFOAM CPU research journey: NSCC in orange and Iris in blue](workspace/reports/hpc-run-lineage-20261104/journey.png)](workspace/reports/hpc-run-lineage-20261104/journey.svg)
 
@@ -45,6 +45,8 @@ NSCC job **25940700** reproduced the organizer recipe at **3.364622070 seconds/s
 **[Open the interactive HPC research map ↗](https://trungdangtapcode.github.io/apac-hpc-ai-2026/#hpc)** — the same team atlas now links AI and HPC, with platform-specific results, evidence details and search.
 
 **Explore:** [research guide](workspace/reports/hpc-run-lineage-20261104/README.md) · [PDF](workspace/reports/hpc-run-lineage-20261104/journey.pdf) · [milestone CSV](workspace/reports/hpc-run-lineage-20261104/milestones.csv) · [offline hover/zoom viewer](workspace/reports/hpc-run-lineage-20261104/index.html.gz). Extract the viewer and open it locally; GitHub displays the static map above.
+
+Reviewed 40-step job **2294916** gives a qualified rank-density signal: **26.703648 versus 32.322053 s/step**, 17.3826% lower time for 48 ranks versus the 56-rank control. Candidate repeats drift 15.1737%; independent reversed confirmation **2294918** is pending. The static/local map has 18 milestones. [Hosted publication is blocked by a GitHub billing lock](workspace/reports/hpc-rank-density-atlas-20261105/README.md), so the live page remains the previous 17-milestone snapshot.
 
 ## Read the whole research journey
 
