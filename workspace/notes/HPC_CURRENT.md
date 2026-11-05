@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **05 November 2026, 15:29 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **05 November 2026, 16:10 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Full forty-step rank-density comparison accepted — 5 November 2026
+
+**Iris 2294916 accepted**: A1-56 /B1-48 /B2-48 /A2-56, all forty steps /39 intervals. Same original physical problem and native Basic settings; partition and rank count differ. Maximum 2.5 hours /56 allocated CPUs /zero GPUs, 140 allocated CPU-hours reserved. With 1,227 consumed, the selected bounded internal stage extends from 1,289 to 1,367 (+78); this is not a new owner budget or known billed SU. Fresh queue and all 100 frozen hashes verified before admission. [Exact receipt, gates and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/STATUS.md). Preserve the accepted allocation and one-own cap. No new solver result yet.
+
+The 14-step 21.0512 observation belonged to the old graph-placement branch; its complete reversed screen lost 5.3685%. It was never a Scotch48 trial or a stable winner. The new equal-horizon trial is a distinct hypothesis, not evidence that the old selected minimum beats organizer/teammate.
 
 ## Scotch48 READY reviewed; forty-step comparison being prepared
 

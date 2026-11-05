@@ -1,3 +1,5 @@
+Latest HPC acceptance: [Full forty-step rank-density comparison 2294916](entries/20261105-hpc-forty-step-rank-density-submitted.md).
+
 Latest HPC review and comparison correction: [Scotch48 READY and forty-step design](entries/20261105-hpc-forty-step-comparison-and-scotch48-ready.md).
 
 Latest HPC admission: [Mandatory Scotch48 initialization2294915](entries/20261105-hpc-scotch48-initialization-submitted.md).
