@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **05 November 2026, 16:10 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **5 November 2026, 17:06 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Live forty-step comparison — 5 November 2026, 17:06 Vietnam
+
+2294916 RUNNING on iris001, elapsed 56:52. Two complete forty-step arms: A1-56 mean 33.163697419 s/step; B1-48 mean 24.820548476 s/step, first candidate contrast 25.157475% lower. B2-48 at 26/40, final A2-56 not started. Runner per-arm native gates passed for the first two; independent terminal/source/runtime-after review is pending. No stable gain or winner claim yet. [Preserved live checkpoint](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/LIVE-20261105T1006.md).
+
+All 100 local frozen hashes match deployment. Preserve the accepted allocation and full 140 CPU-hour maximum reservation under the one-own-allocation cap; no new submission during this live checkpoint. No reservation retired or extra spending authorised by these partial means.
 
 ## Full forty-step rank-density comparison accepted — 5 November 2026
 

@@ -1,3 +1,5 @@
+Latest HPC live checkpoint: [First two forty-step arms, repeat pending](entries/20261105-hpc-rank-density-live-first-pair.md).
+
 Latest HPC acceptance: [Full forty-step rank-density comparison 2294916](entries/20261105-hpc-forty-step-rank-density-submitted.md).
 
 Latest HPC review and comparison correction: [Scotch48 READY and forty-step design](entries/20261105-hpc-forty-step-comparison-and-scotch48-ready.md).
