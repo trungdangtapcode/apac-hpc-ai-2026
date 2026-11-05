@@ -9,11 +9,11 @@ texts=[norm(' '.join(s.text for s in sl.shapes if s.has_text_frame)) for sl in p
 result={}
 for lang in ['EN','VI']:
  f=W/'reports/ai-final-report-20261030'/f'TALK_SCRIPT_{lang}.md';s=f.read_text()
- blocks=re.findall(r'^## (Slide|Backup) (\d+) — (.*?)\n(.*?)(?=^## |\Z)',s,re.M|re.S)
- assert [int(i) for kind,i,title,body in blocks if kind=='Slide']==list(range(16))
- assert [int(i) for kind,i,title,body in blocks if kind=='Backup']==[18,19,20,30]
+ blocks=re.findall(r'^## (Script|Backup script) (\d+) — PPTX page \d+ — (.*?)\n(.*?)(?=^## |\Z)',s,re.M|re.S)
+ assert [int(i) for kind,i,title,body in blocks if kind=='Script']==list(range(16))
+ assert [int(i) for kind,i,title,body in blocks if kind=='Backup script']==[18,19,20,30]
  for kind,i,title,body in blocks:assert norm(title) in texts[int(i)],(lang,i,title)
- main=[b for kind,i,title,b in blocks if kind=='Slide']
+ main=[b for kind,i,title,b in blocks if kind=='Script']
  forbidden=re.findall(r'\b(?:TP\d+|EP\d+|N\d+|\d{4,}|\d+\.\d{2,})\b',' '.join(main))
  assert not forbidden,forbidden
  result[lang]={'main_sections':16,'backup_sections':4,'all_titles_match_active_slides':True,'main_spoken_words':len(' '.join(main).split()),'hard_number_codes':forbidden,'sha256':hashlib.sha256(f.read_bytes()).hexdigest(),'script_capture':'local only, not committed'}

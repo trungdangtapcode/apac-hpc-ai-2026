@@ -1,5 +1,7 @@
 # AI slides and spoken-script alignment — 5 November 2026
 
+**Correction:** The first review missed the stale packaged English script and left ambiguous zero-based script headings. [Actual PPTX page map](PAGE_MAP.md) now resolves both. The earlier all-artifact alignment statement was too broad. The corrected packaged script remains local/uncommitted.
+
 The owner identified a real mismatch: the spoken seventeen-layout search was absent from the active topology slide. The review covers every main AI slide and both short scripts, the four spoken backups, all 34 teaching-guide title routes, numerical conditions, the scatter plot and the distinction between local evidence and organiser certification.
 
 Use the [current canonical PPTX](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Presentation.pptx), [main-talk PDF](../../VNUHCM%20-%20TripleU/Presentation/TripleU_APAC2026_Main_Talk.pdf), [English script](../ai-final-report-20261030/TALK_SCRIPT_EN.md) and [Vietnamese script](../ai-final-report-20261030/TALK_SCRIPT_VI.md). Script pages 0–15 map to printed pages 01–16. The 78-slide root-level deck is a different historical presentation.
