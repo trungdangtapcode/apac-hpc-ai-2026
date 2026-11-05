@@ -1,3 +1,5 @@
+Latest HPC live review: [Absolute times and actual mapping, full recipe comparison pending](entries/20261106-hpc-direct-recipes-live-and-mapping-proxy.md).
+
 Latest HPC acceptance: [Direct best-recipe comparison2294920, absolute seconds primary](entries/20261105-hpc-direct-best-recipes40-submitted.md).
 
 Latest HPC preparation review: [Scotch40 cut retained; direct native comparison prioritized](entries/20261105-hpc-scotch40-cut-reviewed-and-native-priority.md).

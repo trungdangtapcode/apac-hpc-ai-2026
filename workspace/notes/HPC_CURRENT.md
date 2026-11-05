@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 00:58 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **6 November 2026, 02:01 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Live direct recipe comparison — 6 November 2026, 02:01 Vietnam
+
+2294920 RUNNING on iris001, elapsed 1:08:11. Two complete 40-step /39-interval runner-reviewed arms: teammate56 mean 33.592853770 s/step, original48 mean 24.781383192. Hybrid48 has started step 40; its completed record and all three repeats are still absent at this snapshot. Historical 22-second target remains open. No complete matrix, terminal independent/source/runtime-after or repeat-force gates yet. [Live observation](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-20261105/LIVE-20261105T1901.md).
+
+Read-only proxy verifies 48 pinned boundary files and native 976,693 interface-face total. Actual pre-MPI_Init masks + job-recorded NUMA topology show original48 rank distribution 28/20 versus hybrid48 24/24, with 100,978 versus 83,145 cross-NUMA logical faces. This is mapping/mechanism evidence, not bandwidth, page residency, a causal bottleneck or a speed prediction. No solver/policy/source change occurred. Keep all 100 frozen hashes and full 224 CPU-hour reservation; one-own cap occupied, no new admission or accounting retirement.
 
 ## Direct credible-control recipe test accepted — 6 November 2026 Vietnam
 
