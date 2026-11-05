@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 00:47 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 00:58 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Direct credible-control recipe test accepted — 6 November 2026 Vietnam
+
+**2294920 accepted**, observed RUNNING 00:56 Vietnam on iris001, elapsed 2:20; no batch stderr at that snapshot. Six 40-step /39-interval arms: teammate56 socket/core+collated, original48 default+uncollated, hybrid48 socket/core+collated, then hybrid48/original48/teammate56 repeats. Primary outcome is absolute seconds per step against both credible controls, with every repeat/tail retained. No historical 22-second record or new gain claimed. [Exact recipe table, gates and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-20261105/STATUS.md).
+
+All 100 hashes and root offline interfaces/native historical collated-header check pass; only runner/prep/wrapper differ from valid parent. Source/input physics/iteration counts stay fixed. Max 4h /56 allocated CPUs /zero GPUs = 224 CPU-hours reserved. With 1,396 consumed, selected internal stage 1,450→1,620 (+170), not a new owner budget or billed SU. Iris low QoS 12h cap verified; one-own cap preserved. Keep active payload and queue position.
+
+Scotch40 cut 2294919 has passed and its cost/max reservation are reconciled; it is not READY and its optional initialization is deferred. It must not block this native experiment using valid initialized 48/56 sources. The audit confirms historical/recent same iris001/binary/48 linked-library/N56 source identities; cause of raw-time variation remains unproven. [Audit](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-absolute-time-audit-20261105/README.md).
 
 ## Owner correction: credible best controls and absolute time are primary
 
