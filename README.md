@@ -46,7 +46,7 @@ NSCC job **25940700** reproduced the organizer recipe at **3.364622070 seconds/s
 
 **Explore:** [research guide](workspace/reports/hpc-run-lineage-20261104/README.md) · [PDF](workspace/reports/hpc-run-lineage-20261104/journey.pdf) · [milestone CSV](workspace/reports/hpc-run-lineage-20261104/milestones.csv) · [offline hover/zoom viewer](workspace/reports/hpc-run-lineage-20261104/index.html.gz). Extract the viewer and open it locally; GitHub displays the static map above.
 
-Reviewed 40-step job **2294916** gives a qualified rank-density signal: **26.703648 versus 32.322053 s/step**, 17.3826% lower time for 48 ranks versus the 56-rank control. Candidate repeats drift 15.1737%; independent reversed confirmation **2294918** is pending. The static/local map has 18 milestones. [Hosted publication is blocked by a GitHub billing lock](workspace/reports/hpc-rank-density-atlas-20261105/README.md), so the live page remains the previous 17-milestone snapshot.
+Reviewed 40-step job **2294916** gives a qualified rank-density signal: **26.703648 versus 32.322053 s/step**, 17.3826% lower time for 48 ranks versus the 56-rank control. Independent reversed confirmation **2294918** passes at **26.159177 versus 32.380544 s/step**, 19.2133% lower time. Both opposite-order forty-step jobs favor 48 ranks on iris001; this is a repeated local signal, not a full-simulation or teammate comparison. The static/local map has 18 milestones. [Hosted publication is blocked by a GitHub billing lock](workspace/reports/hpc-rank-density-atlas-20261105/README.md), and the last served-content check found the previous 17-milestone snapshot. Latest confirmation metrics are retained in source JSON pending a reviewed rebuild/publication.
 
 ## Read the whole research journey
 
