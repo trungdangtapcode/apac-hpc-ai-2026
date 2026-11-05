@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **6 November 2026, 02:01 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **6 November 2026, 02:03 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Live first cycle: combined recipe is slower — 6 November 2026, 02:03 Vietnam
+
+2294920 RUNNING, elapsed 1:09:54 on iris001. Three complete 40-step /39-interval first arms: teammate56 **33.592853770**, original48 **24.781383192**, hybrid48 **34.849654258 s/step**. Hybrid is slower in this first cycle; do not promote it or claim a new absolute gain. Historical 22-second target remains open. H2 is created with no solver step yet; O2/T2 not started. Full repeats/source/runtime-after/terminal review are pending. [Dated live record](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-20261105/LIVE-20261105T1901.md).
+
+The static interface proxy improves under the balanced hybrid mapping, but this does not establish faster native timing. If the full matrix confirms a loss, close the unchanged combination. Default-mapped 48 with collated I/O is one possible later isolated-factor hypothesis; not prepared/submitted. Keep all 224 CPU-hours reserved and one-own cap occupied; no new admission or accounting retirement from partial data.
 
 ## Live direct recipe comparison — 6 November 2026, 02:01 Vietnam
 
