@@ -19,6 +19,7 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "native" [label="5 Nov review (Vietnam) · Iris\nCheck whether the preparation-policy gain repeats\nSame Scotch; only preparation-child policy\nchanges\nJobs 2294676 /2294735 /2294800\nIndependent ABBA 40: 29.0048 versus 27.3379\ns/step; +6.10% slower\nCLOSED / no stable gain",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-preparation-repeat40-20261104/completed-2294800/RESULTS.md",tooltip="Independent ABBA 40: 29.0048 versus 27.3379 s/step; +6.10% slower | CLOSED / no stable gain"];
 "rank_policy" [label="5 Nov · Iris\nTest solver-rank interleave policy\nQualify outer and in-rank numactl behavior, then\ncompare default versus in-rank policy in a\n40-step ABBA solver trial.\nJobs 2294801 / 2294802 / 2294803\nControl A1 completed at 24.7586 s/step; candidate\nB1 timed out after 33 timings (partial mean\n41.8465 s/step; not a score). Remaining arms did\nnot start.\nINCOMPLETE / invalid comparison",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-solver-rank-interleave40-20261105/completed-2294803/REVIEW.json",tooltip="Control A1 completed at 24.7586 s/step; candidate B1 timed out after 33 timings (partial mean 41.8465 s/step; not a score). Remaining arms did not start. | INCOMPLETE / invalid comparison"];
 "allreduce" [label="5 Nov review (Vietnam) · Iris\nQualify tiny Allreduce before a solver trial\nDefault MPI versus forced tuned recursive\ndoubling; 8/64-byte correctness-checked ABBA\nprobes\nJobs 2294805\n8B block 1: default p50 2.478 us; forced tuned\n4.117 us; candidate fails benefit gate\nCLOSED / no stable gain",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-allreduce-qualify-20261105/completed-2294805/RESULTS.md",tooltip="8B block 1: default p50 2.478 us; forced tuned 4.117 us; candidate fails benefit gate | CLOSED / no stable gain"];
+"rank_density" [label="5 Nov review (Vietnam) · Iris\nTest 48-rank Scotch at a matched horizon\nUse a native 48-domain Scotch partition (job\n2294914) and required initialization (2294915),\nthen compare 48 versus 56 ranks in four 40-step\nABBA arms (2294916). Rank count and required\npartition change together.\nJobs 2294914 partition / 2294915 initialization /\n2294916 solver / 2294918 reverse confirmation\naccepted\n48-rank pooled mean 26.703647651 versus\n32.322052535 s/step at 56 ranks; 17.382574569%\nlower within this allocation. Both adjacent pairs\nfavor 48 ranks.\nQUALIFIED SIGNAL / repeat needed",color="#2476a1",fillcolor="#eaf5fc",penwidth=1.8,URL="../../../2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md",tooltip="48-rank pooled mean 26.703647651 versus 32.322052535 s/step at 56 ranks; 17.382574569% lower within this allocation. Both adjacent pairs favor 48 ranks. | QUALIFIED SIGNAL / repeat needed"];
 "access" -> "order" [constraint=false,style=dotted,label="motivated"];
 "baseline" -> "numa" [constraint=false,style=dotted,label="motivated"];
 "numa" -> "graph" [constraint=false,style=dotted,label="motivated"];
@@ -35,6 +36,7 @@ edge [color="#8595a4",fontname="DejaVu Sans",fontsize=9];
 "prep" -> "native" [constraint=false,style=dotted,label="mechanism → solver test"];
 "native" -> "rank_policy" [constraint=false,style=dotted,label="motivated"];
 "rank_policy" -> "allreduce" [constraint=false,style=dotted,label="motivated"];
+"allreduce" -> "rank_density" [constraint=false,style=dotted,label="distinct next question (not causal)"];
 date0 [shape=plaintext,label="21 Oct",fontcolor="#607080"];
 {rank=same;date0;"access";"baseline";"numa";}
 "access" -> "baseline" [style=invis,weight=10];
@@ -68,7 +70,8 @@ date8 [shape=plaintext,label="5 Nov",fontcolor="#607080"];
 {rank=same;date8;"native";}
 date7 -> date8 [style=invis,weight=100];
 date9 [shape=plaintext,label="5 Nov",fontcolor="#607080"];
-{rank=same;date9;"rank_policy";"allreduce";}
+{rank=same;date9;"rank_policy";"allreduce";"rank_density";}
 "rank_policy" -> "allreduce" [style=invis,weight=10];
+"allreduce" -> "rank_density" [style=invis,weight=10];
 date8 -> date9 [style=invis,weight=100];
 }

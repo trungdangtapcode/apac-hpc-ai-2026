@@ -7,8 +7,8 @@
       "date": "21 Oct",
       "platform": "Iris",
       "title": "Learn the actual cluster route",
-      "change": "Interactive SSH jump \u2192 native MPI chain",
-      "jobs": "2293751\u20132293754",
+      "change": "Interactive SSH jump → native MPI chain",
+      "jobs": "2293751–2293754",
       "result": "Full mesh: 21.9654 s/step; 40 steps",
       "status": "practice",
       "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
@@ -35,7 +35,7 @@
       "title": "Establish an unchanged reference",
       "change": "Full preparation before solver timing",
       "jobs": "25905114 / 25907325",
-      "result": "Baseline 14.9220 s/step; ordered Scotch pair \u22120.994% (noisy)",
+      "result": "Baseline 14.9220 s/step; ordered Scotch pair −0.994% (noisy)",
       "status": "reference",
       "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
       "result_metrics": [
@@ -94,7 +94,7 @@
       "title": "Test NUMA-aware decomposition",
       "change": "Change Scotch grouping coefficients",
       "jobs": "25907688 / 25907753",
-      "result": "Graph cut \u221210.63%; solver time +3.44%",
+      "result": "Graph cut −10.63%; solver time +3.44%",
       "status": "closed",
       "evidence": "workspace/reports/hpc-research-journey-20261023/JOURNEY.md",
       "result_metrics": [
@@ -148,7 +148,7 @@
     },
     {
       "id": "graph",
-      "date": "21\u201322 Oct",
+      "date": "21–22 Oct",
       "platform": "NSCC",
       "title": "Separate a graph proxy from runtime",
       "change": "Compare N256 partition interfaces",
@@ -174,7 +174,7 @@
     },
     {
       "id": "density",
-      "date": "22\u201323 Oct",
+      "date": "22–23 Oct",
       "platform": "NSCC",
       "title": "Sweep rank density and node count",
       "change": "Six four-node native logs reviewed",
@@ -203,7 +203,7 @@
       "date": "23 Oct onward",
       "platform": "NSCC",
       "title": "Reproduce the organizer recipe",
-      "change": "4 nodes \u00b7 512 ranks \u00b7 full 150 steps",
+      "change": "4 nodes · 512 ranks · full 150 steps",
       "jobs": "25940700",
       "result": "3.364622070 s/step; baseline reproduction",
       "status": "reference",
@@ -226,7 +226,7 @@
     },
     {
       "id": "order",
-      "date": "27\u201328 Oct",
+      "date": "27–28 Oct",
       "platform": "Iris",
       "title": "Test hierarchical axis order",
       "change": "zyx versus xyz; full-length reverse order",
@@ -305,7 +305,7 @@
       "title": "Isolate a supplied runtime setting",
       "change": "Collated versus uncollated I/O; reverse order",
       "jobs": "2294635 and parent pair",
-      "result": "Apparent \u22126.07% reverses to +9.35%",
+      "result": "Apparent −6.07% reverses to +9.35%",
       "status": "closed",
       "evidence": "workspace/reports/hpc-own-research-status-20261102/README.md",
       "result_metrics": [
@@ -337,12 +337,12 @@
     },
     {
       "id": "team",
-      "date": "1\u20132 Nov",
+      "date": "1–2 Nov",
       "platform": "Iris",
       "title": "Port teammate settings fairly",
       "change": "Same Scotch source; socket/core MPI + collated I/O",
       "jobs": "2294637",
-      "result": "24.7453 vs 27.8735 s/step; \u221211.22%",
+      "result": "24.7453 vs 27.8735 s/step; −11.22%",
       "status": "qualified",
       "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
       "result_metrics": [
@@ -381,7 +381,7 @@
         }
       ],
       "assessment": "The supplied teammate recipe has a favorable short-run matched signal.",
-      "limitations": "Repeat drift was about 18\u201321%; this does not establish our own configuration win."
+      "limitations": "Repeat drift was about 18–21%; this does not establish our own configuration win."
     },
     {
       "id": "zyx",
@@ -436,9 +436,9 @@
       "date": "2 Nov",
       "platform": "Iris",
       "title": "Check a new axis order and reverse it",
-      "change": "40-step screen \u2192 52-step confirmation",
+      "change": "40-step screen → 52-step confirmation",
       "jobs": "2294643 / 2294644",
-      "result": "\u22120.71% initial signal \u2192 +10.25% slower",
+      "result": "−0.71% initial signal → +10.25% slower",
       "status": "closed",
       "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
       "result_metrics": [
@@ -500,7 +500,7 @@
       "platform": "Iris",
       "title": "Test preparation memory policy",
       "change": "Inherited / interleaved child; copy + hash only",
-      "jobs": "2294674 failed \u2192 2294675 qualified",
+      "jobs": "2294674 failed → 2294675 qualified",
       "result": "File-page counter split changes; no solver result",
       "status": "mechanism",
       "evidence": "workspace/reports/hpc-iris-comparison-20261103/README.md",
@@ -1587,6 +1587,219 @@
       ],
       "assessment": "Forced tuned is slower in every matched block. Close it without a costly native solver allocation. No MPI cause of the earlier NUMA timeout is inferred.",
       "limitations": "No mesh or solver steps are run. Selected components and requested algorithm are recorded; this is not a native per-operation profile or a cross-platform score."
+    },
+    {
+      "id": "rank_density",
+      "date": "5 Nov review (Vietnam)",
+      "platform": "Iris",
+      "title": "Test 48-rank Scotch at a matched horizon",
+      "change": "Use a native 48-domain Scotch partition (job 2294914) and required initialization (2294915), then compare 48 versus 56 ranks in four 40-step ABBA arms (2294916). Rank count and required partition change together.",
+      "jobs": "2294914 partition / 2294915 initialization / 2294916 solver / 2294918 reverse confirmation accepted",
+      "result": "48-rank pooled mean 26.703647651 versus 32.322052535 s/step at 56 ranks; 17.382574569% lower within this allocation. Both adjacent pairs favor 48 ranks.",
+      "assessment": "Promising matched signal against the 56-rank Scotch control, not independently confirmed. A reversed-order 40-step confirmation, job 2294918, has been accepted and is pending; no result is available. This does not establish a stable winner over teammate or organizer/BTC settings.",
+      "limitations": "One allocation; 48-rank repeat drift is 15.1737% and effect size needs reversed-order confirmation. Rank count and partition change together, so no communication, memory or frequency bottleneck is proven. Pressure telemetry was unavailable. This is Basic practice, not an official score or cross-platform result.",
+      "result_metrics": [
+        {
+          "key": "control56_pooled_mean",
+          "label": "56-rank Scotch pooled mean",
+          "value": 32.32205253460256,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; 56-rank control arms pooled within this allocation",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+        },
+        {
+          "key": "candidate48_pooled_mean",
+          "label": "48-rank Scotch pooled mean",
+          "value": 26.70364765065385,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver; 48-rank candidate arms pooled within this allocation",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+        },
+        {
+          "key": "candidate_time_change",
+          "label": "48-rank candidate time change vs 56-rank control",
+          "value": -17.38257456865989,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched within-job pooled solver comparison; not a cross-platform rank",
+          "job_id": "2294916",
+          "horizon": "40-step ABBA; 39 intervals per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+        },
+        {
+          "key": "adjacent_pair_1_change",
+          "label": "Adjacent A1→B1 time change",
+          "value": -25.15747516934862,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched adjacent solver pair in this allocation",
+          "job_id": "2294916",
+          "horizon": "40 steps; A1 56 ranks / B1 48 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "adjacent_pair_2_change",
+          "label": "Adjacent B2→A2 time change",
+          "value": -9.191942037736556,
+          "unit": "%",
+          "direction": "lower_is_better",
+          "scope": "matched adjacent solver pair in this allocation",
+          "job_id": "2294916",
+          "horizon": "40 steps; B2 48 ranks / A2 56 ranks",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "candidate48_repeat_drift",
+          "label": "48-rank repeat drift",
+          "value": 15.173711224034614,
+          "unit": "%",
+          "direction": "descriptive",
+          "scope": "B1 to B2; solver repeat variation",
+          "job_id": "2294916",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "control56_repeat_drift",
+          "label": "56-rank control repeat change",
+          "value": -5.075699937276513,
+          "unit": "%",
+          "direction": "descriptive",
+          "scope": "A1 to A2; solver repeat variation",
+          "job_id": "2294916",
+          "horizon": "40 steps per arm",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "arm_A1_mean",
+          "label": "A1 Scotch 56-rank mean",
+          "value": 33.16369741915385,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm A1; 56 MPI ranks",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "arm_B1_mean",
+          "label": "B1 Scotch 48-rank mean",
+          "value": 24.82054847569231,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm B1; 48 MPI ranks",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "arm_B2_mean",
+          "label": "B2 Scotch 48-rank mean",
+          "value": 28.586746825615386,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm B2; 48 MPI ranks",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "arm_A2_mean",
+          "label": "A2 Scotch 56-rank mean",
+          "value": 31.480407650051283,
+          "unit": "s/step",
+          "direction": "lower_is_better",
+          "scope": "solver arm A2; 56 MPI ranks",
+          "job_id": "2294916",
+          "horizon": "40 steps; 39 measured intervals",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "steps_per_arm",
+          "label": "Steps per arm",
+          "value": 40,
+          "unit": "steps",
+          "direction": "not_applicable",
+          "scope": "all four solver arms completed",
+          "job_id": "2294916",
+          "horizon": "ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "intervals_per_arm",
+          "label": "Measured intervals per arm",
+          "value": 39,
+          "unit": "intervals",
+          "direction": "not_applicable",
+          "scope": "all four solver arms completed",
+          "job_id": "2294916",
+          "horizon": "ABBA",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "allocated_ranks",
+          "label": "Allocated CPUs",
+          "value": 56,
+          "unit": "CPUs",
+          "direction": "not_applicable",
+          "scope": "single Iris node allocation",
+          "job_id": "2294916",
+          "horizon": "complete job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "allocated_cost",
+          "label": "Allocated cost",
+          "value": 82.39777777777778,
+          "unit": "CPU-hours",
+          "direction": "not_applicable",
+          "scope": "scheduler allocation; site-billed SU unknown",
+          "job_id": "2294916",
+          "horizon": "completed job",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/REVIEW.json"
+        },
+        {
+          "key": "scotch48_partitions",
+          "label": "Scotch48 partition domains",
+          "value": 48,
+          "unit": "domains",
+          "direction": "not_applicable",
+          "scope": "native Scotch partition prerequisite; not a performance result",
+          "job_id": "2294914",
+          "horizon": "partition preparation",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-cut-20261105/completed-2294914/RESULTS.md"
+        },
+        {
+          "key": "sealed_core_hashes",
+          "label": "Sealed core-file hashes",
+          "value": 896,
+          "unit": "files",
+          "direction": "not_applicable",
+          "scope": "initialized 48-rank source identity; provenance count",
+          "job_id": "2294915",
+          "horizon": "native initialization prerequisite",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-init-20261105/completed-2294915/RESULTS.md"
+        },
+        {
+          "key": "pinned_solver_inputs",
+          "label": "Pinned solver inputs",
+          "value": 1040,
+          "unit": "files",
+          "direction": "not_applicable",
+          "scope": "accepted source manifest; provenance count, not runtime metric",
+          "job_id": "2294916",
+          "horizon": "source/runtime gates",
+          "source": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
+        }
+      ],
+      "status": "qualified",
+      "evidence": "2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-20261105/completed-2294916/RESULTS.md"
     }
   ],
   "edges": [
@@ -1658,7 +1871,7 @@
     {
       "source": "prep",
       "target": "native",
-      "relation": "mechanism \u2192 solver test"
+      "relation": "mechanism → solver test"
     },
     {
       "source": "native",
@@ -1669,6 +1882,11 @@
       "source": "rank_policy",
       "target": "allreduce",
       "relation": "motivated"
+    },
+    {
+      "source": "allreduce",
+      "target": "rank_density",
+      "relation": "distinct next question (not causal)"
     }
   ],
   "timeline": [
@@ -1694,7 +1912,7 @@
       ]
     },
     {
-      "date": "27\u201328 Oct",
+      "date": "27–28 Oct",
       "ids": [
         "order"
       ]
@@ -1736,7 +1954,8 @@
       "date": "5 Nov",
       "ids": [
         "rank_policy",
-        "allreduce"
+        "allreduce",
+        "rank_density"
       ]
     }
   ]

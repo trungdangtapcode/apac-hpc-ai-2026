@@ -1,0 +1,5 @@
+# Reviewed rank-density result in the shared research atlas
+
+The eighteenth HPC milestone records the completed four-arm forty-step comparison 2294916: Scotch48 pooled 26.703647651 versus Scotch56 32.322052535 s/step, 17.382574569% lower time. Both adjacent comparisons favor 48; 15.1737% candidate repeat drift remains explicit. Numeric result cards retain units, job, horizon and source; assessment and limitations remain separate. Accepted reverse confirmation 2294918 has no performance score assigned.
+
+The previous 17 milestones and losing branches remain intact. AI data and all AI note bodies are exactly unchanged, with 419 retained allocations. Only the HPC source data and shared publication were rebuilt, using build.py --hpc-only. Root browser checks pass new 18 numeric cards, primary values, units/forty-step context, hover, mobile 390px, and AI switching. The HTML SHA-256 is in validation.json; workflow completion and live-byte verification are separate receipts. No deployment is claimed before those receipts pass.
