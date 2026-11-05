@@ -1,3 +1,5 @@
+Latest HPC preparation review: [Scotch40 cut retained; direct native comparison prioritized](entries/20261105-hpc-scotch40-cut-reviewed-and-native-priority.md).
+
 Latest HPC acceptance: [Distinct Scotch40 cut2294919](entries/20261105-hpc-scotch40-cut-submitted.md).
 
 Latest HPC completed review: [Opposite-order forty-step confirmation](entries/20261105-hpc-rank-density-reversal-confirms-signal.md).

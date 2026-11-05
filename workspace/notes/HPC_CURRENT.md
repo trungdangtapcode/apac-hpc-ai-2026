@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **05 November 2026, 23:23 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 00:47 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Owner correction: credible best controls and absolute time are primary
+
+The owner rejected presenting a 17–19% gain against a 32-second control as if it had beaten historical 22-second measurements. Preserve the valid 48-vs-56 matched finding, but do not label 48-default the best-known recipe. Next native comparison must replay teammate56 socket/core+collated, original48 default+uncollated, and hybrid48 socket/core+collated, twice each at 40 steps in one allocation. Report absolute means, all repeat arms/tails and credible-control contrasts; no new absolute record without measured evidence. Historical 22.39695/27.09361 teammate arms, same iris001/binary/library/N56 input identities, are retained. Cause of variation remains unproven.
+
+Scotch40 cut 2294919 now passes all ten artifact/native/source/mesh checks in 255 seconds. It is retained but not READY. Actual 3.966667 CPU-hours, conservatively 4; 37.333333 reservation retired once: 1,396 consumed /zero reserved /stage 1,450. Do not let its optional initialization block the independent native recipe comparison using already initialized 48/56 cases. [Review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch40-cut-20261105/completed-2294919/RESULTS.md).
 
 ## Distinct Scotch40 cut accepted — 5 November 2026
 
