@@ -2,6 +2,12 @@
 
 Updated **5 November 2026, 14:39 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
 
+## Scotch48 cut reviewed — 5 November 2026, 15:23 Vietnam
+
+2294914 COMPLETED 0:0 in 264 seconds /56 CPUs on iris001. Exact 48-domain and 65,334,765-cell gates pass, with 288 restored initial fields; maximum domain/mean cell ratio 1.010184. Ten transferred files, full official serial mesh identity, source before/after and native logs verify. This is not a solver or READY result. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-cut-20261105/completed-2294914/RESULTS.md).
+
+Actual cost 4.106667 allocated CPU-hours, conservatively 5. Retired 37.333333 reservation once: 1,225 consumed /zero reserved /unchanged 1,289 internal stage. Mandatory native initialization is being prepared; no acceptance implied yet. No new faster solver configuration is established.
+
 ## Distinct rank-density preparation accepted — 5 November 2026
 
 Iris **2294914 accepted**: fresh Scotch48 cut and restored fields only, not READY or a solver score. Maximum 40 minutes /56 allocated CPUs /zero GPUs, 37.333333 allocated CPU-hours reserved within unchanged 1,289 internal stage (1,220 consumed). All 45 payload hashes and local 48/47/49-domain tests pass. [Frozen payload, actual receipt and required later gates](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch48-cut-20261105/STATUS.md). This distinct 48-versus-56-rank question replaces unchanged losing flags; native initialization and matched solver comparison remain unsubmitted. Preserve one-own-allocation cap.
