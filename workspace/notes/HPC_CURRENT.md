@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **05 November 2026, 23:19 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **05 November 2026, 23:23 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Distinct Scotch40 cut accepted — 5 November 2026
+
+**2294919 accepted**: one exclusive Iris node /56 allocated CPUs /one serial task /zero GPUs /maximum 40 minutes, 37.333333 CPU-hours reserved within unchanged 1,450 stage (1,392 consumed). All 45 frozen hashes and offline 40/39/41 cardinality gates pass. It creates exact 40-domain native mesh/case preparation only; no READY/init/solver or further gain claimed. [Receipt, hypothesis and required next gates](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch40-cut-20261105/STATUS.md). Preserve active allocation and one-own cap.
+
+The established local finding is now repeated 48-over-56 improvement at 40 steps: 17.38% then 19.21% under opposite orders on iris001. New 40 ranks may win or lose; mandatory initialization and matched comparison remain separate later gates.
 
 ## Reverse result reviewed: same-Iris signal repeats — 5 November 2026
 

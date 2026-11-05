@@ -1,3 +1,5 @@
+Latest HPC acceptance: [Distinct Scotch40 cut2294919](entries/20261105-hpc-scotch40-cut-submitted.md).
+
 Latest HPC completed review: [Opposite-order forty-step confirmation](entries/20261105-hpc-rank-density-reversal-confirms-signal.md).
 
 Latest HPC atlas release: [Eighteen-milestone source validated, GitHub publication blocked](entries/20261105-hpc-atlas18-publication-blocked.md).
