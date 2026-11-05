@@ -1,0 +1,3 @@
+# Independent read-only replay
+
+A separate HPC review worker replayed all four raw native arms and inspected source/payload/runtime, rank probes, force repeats, telemetry and resources. It found no blocking issue. It independently recovered 17.382574569% lower pooled 48-rank time, favorable adjacent contrasts, and 15.1737% candidate repeat drift. It recommends reverse BAAB at the same horizon before promotion. No files, budget, scheduler or source payload were modified by the reviewer. Root independently verifies all 228 artifact hashes in review_completed.py. Pressure is uncollected; rank probes are pre-MPI_Init, not full solver-thread affinity evidence.

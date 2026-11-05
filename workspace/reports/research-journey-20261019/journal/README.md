@@ -1,3 +1,5 @@
+Latest HPC completed review: [Forty-step rank-density signal and confirmation limits](entries/20261105-hpc-rank-density40-terminal-result.md).
+
 Latest HPC live checkpoint: [First two forty-step arms, repeat pending](entries/20261105-hpc-rank-density-live-first-pair.md).
 
 Latest HPC acceptance: [Full forty-step rank-density comparison 2294916](entries/20261105-hpc-forty-step-rank-density-submitted.md).
