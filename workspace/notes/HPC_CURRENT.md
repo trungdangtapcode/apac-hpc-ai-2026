@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 14:39 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 14:46 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Complete R2 review passes; no stable I/O winner — 6 November 2026
+
+2294997 completed all six 40-step/39-interval arms. Root and terminal review verify all 642 hashes, strict rank files, native output/force/source/payload/runtime gates. io48 arms 32.502180668 /24.687984366, original48 31.801589263 /28.997183983, teammate56 34.694265954 /28.754195819 s/step. Pooled means 28.595082517 /30.399386623 /31.724230886 respectively. io48/O48 pooled time is 5.935331% lower, but paired contrasts +2.203008% and −14.860752% reverse sign. No stable I/O benefit or historical ~22-second record. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-r2-20261106/completed-2294997/RESULTS.md).
+
+No causal bottleneck identified. Whole-node telemetry collected; PSI unavailable, no bandwidth profile; root MaxRSS blank but batch-step 139187772K retained. Planning ledger reconciled 1,626 consumed /zero reserved /stage 1,724. The distinct next branch prepares the already valid 40-domain cut for mandatory native initialization, then a matched 40/48 solver test if its READY gates pass. Initialization payload passed root offline review; deployment/admission receipt not yet claimed. Earlier RUNNING and review-pending entries below are historical.
 
 ## R2 terminal accounting verified — 6 November 2026, 14:37 Vietnam
 

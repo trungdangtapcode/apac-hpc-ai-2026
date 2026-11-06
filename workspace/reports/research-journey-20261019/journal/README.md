@@ -1,3 +1,5 @@
+Latest HPC review: [Complete I/O-only matrix and forty-rank next hypothesis](entries/20261106-hpc-r2-io-result-and-forty-rank-next.md).
+
 Latest HPC acceptance: [I/O-only R2 with actual qualified proof files2294997](entries/20261106-hpc-io-only-r2-submitted-after-proof-repair.md).
 
 Latest HPC repair qualification: [Strict per-rank file transport actually passed](entries/20261106-hpc-file-proof-protocol-qualified.md).

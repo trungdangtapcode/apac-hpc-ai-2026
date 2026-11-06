@@ -1,0 +1,272 @@
+{
+  "actual_su": null,
+  "allocated_CPU_hours": 125.36222222222223,
+  "allocated_CPUs": 56,
+  "archive_bytes": 583405,
+  "archive_sha256": "8c8a777fe3080bc5a3fef31ad10cc7425e47a9d1db508801505edee05fd3023a",
+  "arms": [
+    {
+      "arm": "T1-teammate56",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 4471244,
+      "max_s_step": 35.422592289,
+      "mean_s_step": 34.69426595415385,
+      "median_s_step": 34.679263283,
+      "p95_s_step": 35.297108874,
+      "rank_proofs": 56,
+      "ranks": 56,
+      "recipe": "teammate56",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 286
+    },
+    {
+      "arm": "O1-original48",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 3115136,
+      "max_s_step": 38.943689623,
+      "mean_s_step": 31.801589263435897,
+      "median_s_step": 30.874763762,
+      "p95_s_step": 37.552805805,
+      "rank_proofs": 48,
+      "ranks": 48,
+      "recipe": "original48",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 263
+    },
+    {
+      "arm": "D1-io48",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 4356312,
+      "max_s_step": 38.733581243,
+      "mean_s_step": 32.502180667794875,
+      "median_s_step": 32.292534875,
+      "p95_s_step": 36.163396121,
+      "rank_proofs": 48,
+      "ranks": 48,
+      "recipe": "io48",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 271
+    },
+    {
+      "arm": "D2-io48",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 4356188,
+      "max_s_step": 26.585091902,
+      "mean_s_step": 24.687984365564102,
+      "median_s_step": 24.641982416,
+      "p95_s_step": 25.483246794,
+      "rank_proofs": 48,
+      "ranks": 48,
+      "recipe": "io48",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 209
+    },
+    {
+      "arm": "O2-original48",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 3089092,
+      "max_s_step": 29.846227035,
+      "mean_s_step": 28.997183982589743,
+      "median_s_step": 29.24644167,
+      "p95_s_step": 29.75273533,
+      "rank_proofs": 48,
+      "ranks": 48,
+      "recipe": "original48",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 241
+    },
+    {
+      "arm": "T2-teammate56",
+      "intervals": 39,
+      "max_rss_kib_reported_by_time": 4470604,
+      "max_s_step": 45.968763855,
+      "mean_s_step": 28.754195818564103,
+      "median_s_step": 26.686169223,
+      "p95_s_step": 37.881856624,
+      "rank_proofs": 56,
+      "ranks": 56,
+      "recipe": "teammate56",
+      "returncode": 0,
+      "steps": 40,
+      "telemetry_samples": 245
+    }
+  ],
+  "assessment": "The six-arm native measurement is complete and all recorded gates pass. The I/O-only collated recipe has a lower pooled mean, but per-arm contrasts reverse direction and every recipe has large repeat drift in this ordered single allocation. This does not establish a robust collated-I/O gain or a stable winner. No recipe beats the retained approximately 22.4 s/step historical Iris control; the 24.688 s/step D2 arm is a single repeat and not a new best claim.",
+  "complete_six_arm_matrix": true,
+  "contrasts": {
+    "first_paired_contrast_io_vs_original_percent": 2.2030075244210856,
+    "io48_vs_original48_percent": -5.935330632518232,
+    "io48_vs_teammate56_percent": -9.863590959505276,
+    "recipe_repeat_drift_percent": {
+      "io48": -24.04206776800534,
+      "original48": -8.818443813028365,
+      "teammate56": -17.121186951870236
+    },
+    "second_paired_contrast_io_vs_original_percent": -14.860752063417381
+  },
+  "elapsed_seconds": 8059,
+  "exit_code": "0:0",
+  "job_id": "2294997",
+  "limits": [
+    "A single ordered six-arm allocation; all pooled/paired contrasts are exposed to time/order drift.",
+    "The D/O contrasts isolate the file handler on the same 48-rank source and default mapping, but no independent allocation replication exists.",
+    "Comparison with teammate56 bundles rank count, source and mapping configuration.",
+    "Rank affinity evidence is sampled before MPI_Init and does not prove solver helper affinity or NUMA page placement.",
+    "Node PSI/pressure files are unavailable; telemetry is whole-node procfs sampling, not per-process causality or I/O bandwidth profiling.",
+    "MaxRSS reported by `/usr/bin/time` is a per-command peak, not summed MPI memory; Slurm root-job MaxRSS is blank; the retained batch-step row reports 139187772K, which is not a sum of MPI rank RSS.",
+    "GPU diagnostics were not collected because this CPU solver allocation requested zero GPUs.",
+    "This is a 40-step OpenFOAM microbenchmark, not a full official workload or scored contest result."
+  ],
+  "measurement_valid": true,
+  "next_decision": "Do not promote collated I/O. Close this branch as inconclusive under substantial temporal drift; use a short, block-balanced native repeat only if a feasible allocated window remains, otherwise retain original48 as practical conservative choice while keeping teammate56 as historical comparison.",
+  "node": "iris001",
+  "payload_after_return_code": 0,
+  "payload_before_return_code": 0,
+  "rank_proofs_all_passed": true,
+  "recipe_means": {
+    "io48": {
+      "arm_mean_difference_percent": -24.04206776800534,
+      "arm_mean_difference_seconds": -7.814196302230773,
+      "arms": [
+        "D1-io48",
+        "D2-io48"
+      ],
+      "mean_of_arm_medians_seconds": 28.467258645500003,
+      "mean_seconds_per_step": 28.59508251667949
+    },
+    "io48_vs_original48": {
+      "mean_seconds_per_step_delta": -1.8043041063333298,
+      "percent": -5.935330632518232
+    },
+    "io48_vs_teammate56": {
+      "mean_seconds_per_step_delta": -3.129148369679484,
+      "percent": -9.863590959505276
+    },
+    "original48": {
+      "arm_mean_difference_percent": -8.818443813028365,
+      "arm_mean_difference_seconds": -2.8044052808461544,
+      "arms": [
+        "O1-original48",
+        "O2-original48"
+      ],
+      "mean_of_arm_medians_seconds": 30.060602716,
+      "mean_seconds_per_step": 30.39938662301282
+    },
+    "teammate56": {
+      "arm_mean_difference_percent": -17.121186951870236,
+      "arm_mean_difference_seconds": -5.940070135589746,
+      "arms": [
+        "T1-teammate56",
+        "T2-teammate56"
+      ],
+      "mean_of_arm_medians_seconds": 30.682716253,
+      "mean_seconds_per_step": 31.724230886358974
+    }
+  },
+  "root_independent_replay": "ROOT_REPLAY.json",
+  "runtime_identity_stable": true,
+  "same_recipe_force_repeats": {
+    "io48": {
+      "maximum_absolute_delta_all_columns": 0.0,
+      "passed": true,
+      "tolerance": "math.isclose(rel_tol=1e-9, abs_tol=1e-10), existing same-source repeat gate",
+      "values_outside_repeat_tolerance": 0
+    },
+    "original48": {
+      "maximum_absolute_delta_all_columns": 0.0,
+      "passed": true,
+      "tolerance": "math.isclose(rel_tol=1e-9, abs_tol=1e-10), existing same-source repeat gate",
+      "values_outside_repeat_tolerance": 0
+    },
+    "teammate56": {
+      "maximum_absolute_delta_all_columns": 0.0,
+      "passed": true,
+      "tolerance": "math.isclose(rel_tol=1e-9, abs_tol=1e-10), existing same-source repeat gate",
+      "values_outside_repeat_tolerance": 0
+    }
+  },
+  "same_source_force_checks": {
+    "O1-original48_vs_D1-io48": {
+      "maximum_absolute_delta_all_columns": 0.0,
+      "passed": true,
+      "tolerance": "math.isclose(rel_tol=1e-9, abs_tol=1e-10), existing same-source repeat gate",
+      "values_outside_repeat_tolerance": 0
+    },
+    "O2-original48_vs_D2-io48": {
+      "maximum_absolute_delta_all_columns": 0.0,
+      "passed": true,
+      "tolerance": "math.isclose(rel_tol=1e-9, abs_tol=1e-10), existing same-source repeat gate",
+      "values_outside_repeat_tolerance": 0
+    }
+  },
+  "scored_result": false,
+  "source_after_return_codes": {
+    "48": 0,
+    "56": 0
+  },
+  "source_after_validations": {
+    "48": true,
+    "56": true
+  },
+  "source_before_return_codes": {
+    "48": 0,
+    "56": 0
+  },
+  "telemetry_inspected": {
+    "D1-io48": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 271,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    },
+    "D2-io48": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 209,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    },
+    "O1-original48": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 263,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    },
+    "O2-original48": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 241,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    },
+    "T1-teammate56": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 286,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    },
+    "T2-teammate56": {
+      "gpu_telemetry_collected": false,
+      "pressure_stall_data_available": false,
+      "sampler_exit": 0,
+      "samples": 245,
+      "scope": "whole-node aggregate; not per-process attribution",
+      "whole_node_procfs_interval_seconds": 5
+    }
+  },
+  "terminal_state": "COMPLETED",
+  "verified_files": 642
+}
