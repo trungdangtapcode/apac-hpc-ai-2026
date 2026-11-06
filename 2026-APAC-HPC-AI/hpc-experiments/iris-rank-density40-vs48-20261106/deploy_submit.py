@@ -78,7 +78,7 @@ def submit(files):
     deployment=json.loads((E/'deployment.json').read_text());assert deployment['files']==files and deployment['state']=='DEPLOYED_NOT_SUBMITTED'
     review=json.loads((E/'ROOT_REVIEW.json').read_text());assert review['passed'] and review['payload_sha256']==files
     init=json.loads((INIT/'completed-2294998/REVIEW.json').read_text());assert init['passed'] and init['terminal_state']=='COMPLETED'
-    parent=json.loads((R2/'completed-2294997/REVIEW.json').read_text());assert parent['passed'] and parent['measurement_valid']
+    parent=json.loads((R2/'completed-2294997/REVIEW.json').read_text());assert parent['measurement_valid'] and parent['complete_six_arm_matrix'] and parent['rank_proofs_all_passed'] and parent['runtime_identity_stable']
     auth=json.loads((E/'budget-authorisation.json').read_text());maximum=140
     assert auth['selected_request_maximum_allocated_CPU_hours']==maximum and auth['prior_consumed_allocated_CPU_hours']==1628
     intentpath=E/'submission-intent.json'

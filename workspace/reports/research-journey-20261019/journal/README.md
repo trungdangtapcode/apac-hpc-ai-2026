@@ -1,3 +1,5 @@
+Latest HPC native admission: [Matched 40/48 forty-step trial 2294999](entries/20261106-hpc-forty-versus-fortyeight-submitted.md).
+
 Latest HPC preparation review: [Scotch40 initialized source passes](entries/20261106-hpc-forty-rank-initialization-reviewed.md).
 
 Latest HPC diagnostic: [Retained node telemetry and unresolved timing drift](entries/20261106-hpc-node-telemetry-retrospective.md).

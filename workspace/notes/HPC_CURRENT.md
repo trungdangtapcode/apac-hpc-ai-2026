@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:08 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 16:19 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Native N40/N48 ABBA trial accepted — 6 November 2026, 16:18 Vietnam
+
+**2294999 accepted**, observed RUNNING on iris001 at 16:18:38 Vietnam, elapsed 38 seconds /56 allocated CPUs /zero GPUs. Payload-before passes; N40 accepted-source preflight in progress, no solver arm started and no batch stderr at that snapshot. [Actual receipt, exact controls, review and budget](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-20261106/STATUS.md).
+
+Four arms 48/40/40/48, all forty steps/39 intervals, default MPI placement and uncollated I/O fixed. N40 is reviewed initialized 2294998; all 100 frozen hashes and exact source manifests verified. Root corrected selected-rank READY parsing and actual inventory traversal before deployment; the failed helper-schema attempt preceded any reservation/sbatch and created no job. Native fields/physics/fixed iteration/runtime/source and same-decomposition force-repeat gates stay strict. No new absolute time result or historical ~22-second improvement yet.
+
+Locked budget: 1,628 consumed +140 maximum reserved /internal stage 1,724→1,768 (+44), not owner/billed SU. One-own active allocation cap occupied. Preserve job, reservation and frozen payload. Next is actual terminal review; no concurrent own admission or cost retirement while running. NSCC/AI untouched, no background Codex/schedule/MFA attempt.
 
 ## Initialized N40 source fully reviewed — 6 November 2026
 
