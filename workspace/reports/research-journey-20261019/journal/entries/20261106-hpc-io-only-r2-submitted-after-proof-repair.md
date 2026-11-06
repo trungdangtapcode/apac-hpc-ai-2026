@@ -34,3 +34,7 @@ The failed parent's actual 102.277778 CPU-hours was conservatively 103, and its 
 Collect the entire matrix and terminal/source/runtime-after evidence, replay native output independently, then report absolute means/arms/tails/errors first. A relative percentage against a slow control is not an absolute record. Retain every losing branch; no new score until all gates pass. No background Codex, automatic schedules or unsolicited MFA was enabled.
 
 [Exact R2 payload, proof qualification and receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-r2-20261106).
+
+## Actual integrated startup — 6 November 2026, 11:32 Vietnam
+
+Job 2294997 is RUNNING on iris001, elapsed 5:12. T1 preparation passed the actual file verifier with exactly 56 proof files, complete rank/world-size/schema/host/nonoverlap checks; native solver has started step 5. Batch stderr is empty at this snapshot. This verifies the repaired integration has reached native execution, not that all six arms or final measurement gates have passed. No complete new seconds-per-step result, winner or historical record is claimed. Source proof: startup-verification.json.

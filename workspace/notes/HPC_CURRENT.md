@@ -1,6 +1,10 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 11:31 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **6 November 2026, 11:32 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## R2 integrated startup verified — 6 November 2026, 11:32 Vietnam
+
+2294997 RUNNING on iris001, elapsed 5:12. Actual T1 preparation passes the per-rank file verifier with 56 proofs; solver has started step 5. Batch stderr empty. This is actual repaired integration, not a complete new performance result. [Startup snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-r2-20261106/startup-verification.json). Keep the frozen active job and full 224 CPU-hour reservation; no concurrent own admission or partial-cost retirement. Absolute 22-second goal remains open.
 
 ## I/O-only R2 accepted after verified proof repair — 6 November 2026
 

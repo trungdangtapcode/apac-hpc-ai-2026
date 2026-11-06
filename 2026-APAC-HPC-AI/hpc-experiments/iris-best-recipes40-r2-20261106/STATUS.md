@@ -32,3 +32,7 @@ One exclusive node /56 allocated CPUs /zero GPUs /maximum 4 hours = **224 alloca
 The failed parent's actual 102.277778 CPU-hours was conservatively 103, and its 224 maximum retired once. The diagnostic cost 0.031111, conservatively 1, retired 4.666667 once. Before admission, 1,500 is consumed and zero reserved. This one 224-hour request extends the internal stage 1,620→1,724 (+104), not a new owner budget or known billed site SU. NSCC/AI are separate; fresh queue, locks and one-own allocation cap remain enforced.
 
 Collect the entire matrix and terminal/source/runtime-after evidence, replay native output independently, then report absolute means/arms/tails/errors first. A relative percentage against a slow control is not an absolute record. Retain every losing branch; no new score until all gates pass. No background Codex, automatic schedules or unsolicited MFA was enabled.
+
+## Actual integrated startup — 6 November 2026, 11:32 Vietnam
+
+Job 2294997 is RUNNING on iris001, elapsed 5:12. T1 preparation passed the actual file verifier with exactly 56 proof files, complete rank/world-size/schema/host/nonoverlap checks; native solver has started step 5. Batch stderr is empty at this snapshot. This verifies the repaired integration has reached native execution, not that all six arms or final measurement gates have passed. No complete new seconds-per-step result, winner or historical record is claimed. Source proof: startup-verification.json.
