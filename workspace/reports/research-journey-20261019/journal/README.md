@@ -1,3 +1,5 @@
+Latest HPC failure review: [Five arms retained; rank proof transport must be repaired](entries/20261106-hpc-six-arm-failure-and-proof-transport-fix.md).
+
 Latest HPC live review: [Absolute times and actual mapping, full recipe comparison pending](entries/20261106-hpc-direct-recipes-live-and-mapping-proxy.md).
 
 Latest HPC acceptance: [Direct best-recipe comparison2294920, absolute seconds primary](entries/20261105-hpc-direct-best-recipes40-submitted.md).

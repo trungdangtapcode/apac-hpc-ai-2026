@@ -1,0 +1,3 @@
+# Independent read-only audit
+
+A separate worker replayed all five complete native arms, timing/force/field gates, telemetry and resource exits and diagnostically recovered all 56 T2 probe records. Its final classification agrees: FAILED 1:0; T2 unrun; missing final source/runtime gates; no valid complete matrix. An initial clerical terminal-status statement was corrected against collection.json before reporting. The pooled diagnostic H/O time difference is +30.8138% for H relative to O; the different denominator gives O about 23.56% lower than H and must not be labelled H 23.56% slower. Partial directions support excluding the unchanged combination, not a certified winner or a historical absolute record.

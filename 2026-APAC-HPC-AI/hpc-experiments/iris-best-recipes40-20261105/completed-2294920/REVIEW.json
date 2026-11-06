@@ -1,0 +1,121 @@
+{
+  "job_id": "2294920",
+  "terminal_state": "FAILED",
+  "exit_code": "1:0",
+  "measurement_valid": false,
+  "complete_six_arm_matrix": false,
+  "partial_native_replays_passed": true,
+  "partial_arms": [
+    {
+      "arm": "T1-teammate56",
+      "ranks": 56,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 33.59285376974359,
+      "median_s_step": 34.571692923,
+      "p95_s_step": 35.877385906,
+      "maximum_s_step": 40.429614739
+    },
+    {
+      "arm": "O1-original48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 24.781383191564103,
+      "median_s_step": 24.725868304,
+      "p95_s_step": 25.580773512,
+      "maximum_s_step": 27.208364013
+    },
+    {
+      "arm": "H1-hybrid48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 34.849654258307694,
+      "median_s_step": 34.938598788,
+      "p95_s_step": 35.504586188,
+      "maximum_s_step": 35.50974626
+    },
+    {
+      "arm": "H2-hybrid48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 29.897147666,
+      "median_s_step": 28.154096464,
+      "p95_s_step": 41.066359576,
+      "maximum_s_step": 42.249923362
+    },
+    {
+      "arm": "O2-original48",
+      "ranks": 48,
+      "steps": 40,
+      "intervals": 39,
+      "mean_s_step": 24.714025046384617,
+      "median_s_step": 24.616640547,
+      "p95_s_step": 25.470522712,
+      "maximum_s_step": 26.578287902
+    }
+  ],
+  "diagnostic_only_O48_mean_s_step": 24.74770411897436,
+  "diagnostic_only_H48_mean_s_step": 32.373400962153845,
+  "diagnostic_only_H48_time_change_vs_O48_percent": 30.813754708392405,
+  "rank_probe_failure": {
+    "job_id": "2294920",
+    "raw_log_sha256": "e82c70dd44cc63150f0743569bfa40cc77b07625f0deec456f9e8bc9046d2fac",
+    "original_prefixed_line_parser_count": 55,
+    "diagnostically_recovered_records": 56,
+    "missing_from_original_parser": [
+      28
+    ],
+    "all56_unique_ranks_and_nonoverlapping_CPU_masks_present": true,
+    "cause": "Concurrent stdout records interleave prefix/newline, leaving one valid JSON object without the prefix expected by the line parser. This is a parser false-negative, not evidence of an actually absent rank.",
+    "limits": "Diagnostic recovery does not make the failed job valid, execute T2 solver, or supply missing source/runtime-after gates. New runs must use strict per-rank files rather than recover mangled stdout."
+  },
+  "after_gates_reached": false,
+  "telemetry_and_resources_inspected": {
+    "T1-teammate56": {
+      "samples": 277,
+      "pressure_available_any": false,
+      "process_peak_RSS_KiB": 4470752,
+      "resource_exit": 0
+    },
+    "O1-original48": {
+      "samples": 208,
+      "pressure_available_any": false,
+      "process_peak_RSS_KiB": 3065456,
+      "resource_exit": 0
+    },
+    "H1-hybrid48": {
+      "samples": 287,
+      "pressure_available_any": false,
+      "process_peak_RSS_KiB": 4357300,
+      "resource_exit": 0
+    },
+    "H2-hybrid48": {
+      "samples": 251,
+      "pressure_available_any": false,
+      "process_peak_RSS_KiB": 4356212,
+      "resource_exit": 0
+    },
+    "O2-original48": {
+      "samples": 208,
+      "pressure_available_any": false,
+      "process_peak_RSS_KiB": 3063280,
+      "resource_exit": 0
+    }
+  },
+  "verified_files": 301,
+  "elapsed_seconds": 6575,
+  "allocated_CPUs": 56,
+  "actual_allocated_CPU_hours": 102.27777777777777,
+  "cost_SU": null,
+  "assessment": "The job is incomplete and invalid as a six-arm benchmark. Five complete native arms are retained diagnostic evidence; both H48 arms lose to neighboring O48 arms, justifying exclusion of unchanged hybrid from the next candidate. No complete teammate repeat or certified ranking exists.",
+  "next_decision": "Fix proof transport with exclusive per-rank files; qualify on a bounded MPI-only job. Then test default-mapped48 collated I/O versus O48 and actual T56 controls, retaining40steps/39intervals and absolute seconds primary.",
+  "limits": [
+    "T2 solver did not run; recovering all56 diagnostic stdout JSON records does not retroactively pass the job.",
+    "Source/runtime-after and final repeat gates were not reached; never call them passed.",
+    "Pressure data unavailable; no causal bandwidth/page-placement/communication profile collected.",
+    "Recorded process peak RSS is not aggregate MPI memory; missing telemetry is not zero."
+  ]
+}

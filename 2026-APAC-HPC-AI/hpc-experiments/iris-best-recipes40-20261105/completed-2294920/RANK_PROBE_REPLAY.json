@@ -1,0 +1,12 @@
+{
+  "job_id": "2294920",
+  "raw_log_sha256": "e82c70dd44cc63150f0743569bfa40cc77b07625f0deec456f9e8bc9046d2fac",
+  "original_prefixed_line_parser_count": 55,
+  "diagnostically_recovered_records": 56,
+  "missing_from_original_parser": [
+    28
+  ],
+  "all56_unique_ranks_and_nonoverlapping_CPU_masks_present": true,
+  "cause": "Concurrent stdout records interleave prefix/newline, leaving one valid JSON object without the prefix expected by the line parser. This is a parser false-negative, not evidence of an actually absent rank.",
+  "limits": "Diagnostic recovery does not make the failed job valid, execute T2 solver, or supply missing source/runtime-after gates. New runs must use strict per-rank files rather than recover mangled stdout."
+}

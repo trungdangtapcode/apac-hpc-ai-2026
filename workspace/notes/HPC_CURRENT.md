@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **6 November 2026, 02:03 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 11:11 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Six-arm job failed: rank-proof stdout bug — 6 November 2026
+
+2294920 FAILED 1:0, 6,575 seconds /56 CPUs /iris001. Five complete 40-step native arms replay: T1 33.592853770; O1/O2 24.781383192 /24.714025046; H1/H2 34.849654258 /29.897147666 s/step. T2 solver never ran. Source/payload-before pass, but source/runtime-after and complete matrix gates were not reached. No full score or historical 22-second improvement. [Raw evidence and review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-20261105/completed-2294920/RESULTS.md).
+
+Our stdout parser read 55 records because rank 28 JSON lost its prefix during interleaving; all 56 complete unique records/masks are diagnostically recovered. Fix future bundles with exclusive per-rank files and strict schema/count/world-size/host/mask checks, not a relaxed success gate. Qualify this protocol on a bounded MPI-only job before long R2. Do not edit or retroactively validate 2294920.
+
+Actual 102.277778 CPU-hours, conservatively 103; 224 maximum retired once: 1,499 consumed /zero reserved /stage 1,620. Queue was empty at 11:01 Vietnam. Next distinct candidate omits the losing unchanged hybrid and tests default-mapped 48 with collated I/O against O48 and teammate56, preserving 40/39 and absolute seconds primary. Native R2 admission is blocked until actual file-protocol qualification passes. No background Codex/schedule.
 
 ## Live first cycle: combined recipe is slower — 6 November 2026, 02:03 Vietnam
 
