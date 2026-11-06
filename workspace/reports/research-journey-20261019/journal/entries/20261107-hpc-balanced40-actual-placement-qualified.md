@@ -1,0 +1,22 @@
+# Balanced40 candidate accepted; actual 20/20 placement qualifies
+
+7 November 2026, 02:07:41 Vietnam (UTC+7): job **2295087 RUNNING on iris001**, elapsed 82 seconds, 56 allocated CPUs, zero GPUs. Both accepted-source preflights pass. Before any solver, a real forty-rank socket/core launch produces exact strict per-rank records and validates **20/20** across the allocated node's observed NUMA CPU sets. First control48 clone preparation has started; no solver arm or performance result yet. Pre-MPI affinity does not prove solver helper binding or page residency.
+
+The preceding default40 candidate timed out at 1,800 seconds with only 34 timing intervals; the control48 arm completed forty steps at 25.168843727 seconds/step. This is not a complete paired/ABBA result. No unchanged default40 repeat is queued. The new candidate changes both rank count and placement; compare whole configurations, without inferring a causal NUMA bottleneck from rank masks alone. Original sources, 65,334,765-cell physics, DP/fixed iterations, uncollated I/O and forty-step horizon stay fixed. Order is 48 default /40 socket-core /40 socket-core /48 default.
+
+101 operational files are frozen. Both placement-probe and each candidate's real rank records must pass 20/20 before native timing. All source/core/supplementary/field/inode/native/runtime/force gates remain. Offline validation includes actual preparation CLI with synthetic launcher (not hardware qualification), plus balanced/skewed topology fixtures; actual placement evidence here is separate and real.
+
+Resource maximum is one exclusive Iris node, zero GPUs, three hours, **168 allocated CPU-hours**. The 2,100-second per-arm cap follows the censored approximately 50 seconds/step evidence so a forty-step candidate can finish even if it does not improve; no numerical work is removed. Worst-case matrix reserve 9,600 seconds fits internal 10,600 /wrapper 10,740 /wall 10,800 seconds. Fresh queue was empty twice before locked admission. Ledger **1,682 consumed +168 reserved /internal stage 1,850**, a bounded +76 stage extension, not owner allowance or known billed site SU. Old 2295086 actual 47.242222 CPU-hours charged 48 and its maximum retired once. Preserve current maximum and one-own allocation cap.
+
+Owner now forbids status-only commits before substantive reviewed results. Home AGENTS.md and HPC handoff record that override; no capture, Git commit or push occurred this turn. Current evidence/code/notes/ledger remain local and uncaptured: the old R3 completed-2295086 evidence/review, new balanced candidate directory, journal/HPC_CURRENT, common Iris ledger, and home AGENTS.md. Preserve them for a later result-backed capture. Existing Git history and separate AI workflow unchanged. No background schedules, MFA or VPN action.
+
+[Actual receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/submission-receipt.json). [Live placement proof](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/post-submit-status.json).
+
+
+## Live timing checkpoint — 7 November 2026, 02:44:40 Vietnam
+
+Job 2295087 remains RUNNING on iris001, elapsed 37:55 at scheduler snapshot. A1-control48 completes 40 steps/39 intervals, runner-reviewed mean 27.549682806s/step (range 25.607054240–28.570320998). B1-balanced40 starts step 24/40, with 22 recorded intervals averaging 39.956253584s (range 39.273634543–40.449582944). B2/A2 not started. Candidate placement actual 20/20 gate passed, so this is not the prior 28/12 launcher pattern; it is still slower in the partial live observations. The two means have unequal horizons, and full native/source/runtime/repeat validation remains pending. No stable improvement, completed matrix or historical-record claim. No batch stderr at scheduler observation. Hardware telemetry remains sampling; not inspected at this checkpoint, not assumed healthy or zero.
+
+Keep the active allocation, frozen payload and full 168 CPU-hour maximum; one-own cap occupied, so no additional own trial is admitted. No local capture/commit/push. Latest owner result-gated policy remains in force. Raw live snapshot is retained beside the frozen kit and will join the eventual terminal review; do not label it a completed benchmark.
+
+[Live intervals snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/live-metrics-20261107T024440.json).

@@ -1,0 +1,118 @@
+{
+  "observed_utc": "2026-11-06T20:36:22.581973+00:00",
+  "job_id": "2295087",
+  "queue": {
+    "returncode": 0,
+    "stdout": "2295087|RUNNING|1:30:03|56|iris001\n",
+    "stderr": ""
+  },
+  "accounting": {
+    "returncode": 0,
+    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2295087|RUNNING|0:0|5403|56|iris001\n2295087.batch|RUNNING|0:0|5403|56|iris001\n",
+    "stderr": ""
+  },
+  "recent_phases": [
+    "{\"elapsed_seconds\": 50.2566291205585, \"phase\": \"A2-control48-preparation\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T20:13:45.349408+00:00\"}",
+    "{\"command\": [\"/global/software/rocky-9.x86_64/modules/gcc/11/hpcx/2.50/ompi5/bin/mpirun\", \"--report-bindings\", \"--display-map\", \"-np\", \"48\", \"--\", \"simpleFoam\", \"-parallel\"], \"phase\": \"A2-control48\", \"rank_count\": 48, \"state\": \"solver-start\", \"telemetry\": \"sampling\", \"utc\": \"2026-11-06T20:13:49.676461+00:00\"}",
+    "{\"mean_s_step\": 31.794129632153847, \"phase\": \"A2-control48\", \"rank_count\": 48, \"state\": \"reviewed\", \"utc\": \"2026-11-06T20:35:47.751736+00:00\"}",
+    "{\"cap_seconds\": 180, \"phase\": \"accepted-source-40-after\", \"state\": \"start\", \"utc\": \"2026-11-06T20:35:49.208833+00:00\"}",
+    "{\"elapsed_seconds\": 31.506264326162636, \"phase\": \"accepted-source-40-after\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T20:36:20.716258+00:00\"}",
+    "{\"cap_seconds\": 180, \"phase\": \"accepted-source-48-after\", \"state\": \"start\", \"utc\": \"2026-11-06T20:36:20.716697+00:00\"}"
+  ],
+  "arms": {
+    "A1-control48": {
+      "last_started_step": 40,
+      "end_marker": true
+    },
+    "B1-candidate40": {
+      "last_started_step": 40,
+      "end_marker": true
+    },
+    "B2-candidate40": {
+      "last_started_step": 40,
+      "end_marker": true
+    },
+    "A2-control48": {
+      "last_started_step": 40,
+      "end_marker": true
+    }
+  },
+  "placement_probe": {
+    "NUMA_CPU_sets": {
+      "node0": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48,
+        50,
+        52,
+        54
+      ],
+      "node1": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31,
+        33,
+        35,
+        37,
+        39,
+        41,
+        43,
+        45,
+        47,
+        49,
+        51,
+        53,
+        55
+      ]
+    },
+    "passed": true,
+    "rank_count": 40,
+    "rank_counts_by_NUMA_node": {
+      "node0": 20,
+      "node1": 20
+    },
+    "scope": "Launcher affinity before MPI_Init; not solver helper affinity or page placement."
+  },
+  "preparation_tails": {
+    "A1-control48": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.032178294844925404}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 10.81404256541282}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 37.78474080841988}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 37.8748674755916}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 46.417803089134395}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 46.69959929026663}\n{\"passed\": true, \"recipe\": \"control48\", \"rank_count\": 48, \"proof_files\": 48, \"elapsed_seconds\": 46.70155673287809}\n",
+    "B1-candidate40": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.03409982938319445}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 10.388961063697934}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 37.0265769129619}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 37.103240547701716}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 45.56754796952009}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 45.84910096973181}\n{\"passed\": true, \"recipe\": \"candidate40\", \"rank_count\": 40, \"proof_files\": 40, \"elapsed_seconds\": 45.85095688328147}\n",
+    "B2-candidate40": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.06669519003480673}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 13.798501735553145}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 40.611133893951774}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 40.68928253091872}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 49.16505189053714}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 49.44667945802212}\n{\"passed\": true, \"recipe\": \"candidate40\", \"rank_count\": 40, \"proof_files\": 40, \"elapsed_seconds\": 49.44851263705641}\n",
+    "A2-control48": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.0703715467825532}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 14.248013076372445}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 41.22189782746136}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 41.3129721051082}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 49.86650840379298}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 50.14796886127442}\n{\"passed\": true, \"recipe\": \"control48\", \"rank_count\": 48, \"proof_files\": 48, \"elapsed_seconds\": 50.15006087627262}\n"
+  },
+  "stderr_tail": ""
+}

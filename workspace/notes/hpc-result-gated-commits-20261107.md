@@ -1,0 +1,3 @@
+# HPC result-gated commits
+
+The owner corrected the workflow on 7 November 2026 Vietnam: do not create status/admission/preparation commits before a substantive reviewed benchmark result. Continue preserving local code, notes, receipts, failed evidence and reasoning. At a reviewed result, capture the coherent result and its reproducible evidence; do not inflate history with step counters. This overrides older frequent-checkpoint instructions for the HPC worker and forks only; AI workflow is unchanged. Home AGENTS.md records the override. Disclose uncaptured later work and never rewrite old history to apply it.

@@ -1,32 +1,37 @@
 {
-  "observed_utc": "2026-11-06T16:41:23.124055+00:00",
+  "observed_utc": "2026-11-06T18:58:54.393980+00:00",
   "job_id": "2295086",
   "queue": {
-    "returncode": 0,
-    "stdout": "2295086|RUNNING|3:43|56|iris001\n",
-    "stderr": ""
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "slurm_load_jobs error: Invalid job id specified\n"
   },
   "accounting": {
     "returncode": 0,
-    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2295086|RUNNING|0:0|223|56|iris001\n2295086.batch|RUNNING|0:0|223|56|iris001\n",
+    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2295086|FAILED|1:0|3037|56|iris001\n2295086.batch|FAILED|1:0|3037|56|iris001\n",
     "stderr": ""
   },
   "recent_phases": [
-    "{\"elapsed_seconds\": 31.456131820566952, \"phase\": \"accepted-source-40-before\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T16:38:14.370386+00:00\"}",
-    "{\"cap_seconds\": 180, \"phase\": \"accepted-source-48-before\", \"state\": \"start\", \"utc\": \"2026-11-06T16:38:18.599155+00:00\"}",
-    "{\"elapsed_seconds\": 31.65691861603409, \"phase\": \"accepted-source-48-before\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T16:38:50.257319+00:00\"}",
-    "{\"cap_seconds\": 180, \"phase\": \"A1-control48-preparation\", \"state\": \"start\", \"utc\": \"2026-11-06T16:38:54.541737+00:00\"}",
     "{\"elapsed_seconds\": 46.77287278883159, \"phase\": \"A1-control48-preparation\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T16:39:41.315934+00:00\"}",
-    "{\"command\": [\"/global/software/rocky-9.x86_64/modules/gcc/11/hpcx/2.50/ompi5/bin/mpirun\", \"--report-bindings\", \"--display-map\", \"-np\", \"48\", \"--\", \"simpleFoam\", \"-parallel\"], \"phase\": \"A1-control48\", \"rank_count\": 48, \"state\": \"solver-start\", \"telemetry\": \"sampling\", \"utc\": \"2026-11-06T16:39:45.638928+00:00\"}"
+    "{\"command\": [\"/global/software/rocky-9.x86_64/modules/gcc/11/hpcx/2.50/ompi5/bin/mpirun\", \"--report-bindings\", \"--display-map\", \"-np\", \"48\", \"--\", \"simpleFoam\", \"-parallel\"], \"phase\": \"A1-control48\", \"rank_count\": 48, \"state\": \"solver-start\", \"telemetry\": \"sampling\", \"utc\": \"2026-11-06T16:39:45.638928+00:00\"}",
+    "{\"mean_s_step\": 25.168843727282052, \"phase\": \"A1-control48\", \"rank_count\": 48, \"state\": \"reviewed\", \"utc\": \"2026-11-06T16:57:20.784350+00:00\"}",
+    "{\"cap_seconds\": 180, \"phase\": \"B1-candidate40-preparation\", \"state\": \"start\", \"utc\": \"2026-11-06T16:57:20.789104+00:00\"}",
+    "{\"elapsed_seconds\": 49.732161111198366, \"phase\": \"B1-candidate40-preparation\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T16:58:10.522648+00:00\"}",
+    "{\"command\": [\"/global/software/rocky-9.x86_64/modules/gcc/11/hpcx/2.50/ompi5/bin/mpirun\", \"--report-bindings\", \"--display-map\", \"-np\", \"40\", \"--\", \"simpleFoam\", \"-parallel\"], \"phase\": \"B1-candidate40\", \"rank_count\": 40, \"state\": \"solver-start\", \"telemetry\": \"sampling\", \"utc\": \"2026-11-06T16:58:14.836522+00:00\"}"
   ],
   "arms": {
     "A1-control48": {
-      "last_started_step": 3,
+      "last_started_step": 40,
+      "end_marker": true
+    },
+    "B1-candidate40": {
+      "last_started_step": 36,
       "end_marker": false
     }
   },
   "preparation_tails": {
-    "A1-control48": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.034282478503882885}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 10.7531424080953}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 37.7660272102803}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 37.86134076863527}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 46.40475803799927}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 46.68602497410029}\n{\"passed\": true, \"recipe\": \"control48\", \"rank_count\": 48, \"proof_files\": 48, \"elapsed_seconds\": 46.68806327879429}\n"
+    "A1-control48": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.034282478503882885}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 10.7531424080953}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 37.7660272102803}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 37.86134076863527}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 46.40475803799927}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 46.68602497410029}\n{\"passed\": true, \"recipe\": \"control48\", \"rank_count\": 48, \"proof_files\": 48, \"elapsed_seconds\": 46.68806327879429}\n",
+    "B1-candidate40": "{\"stage\": \"clone-start\", \"elapsed_seconds\": 0.05291735287755728}\n{\"stage\": \"clone-complete\", \"elapsed_seconds\": 14.008964239619672}\n{\"stage\": \"clone-core-hashes-verified\", \"elapsed_seconds\": 40.8162063350901}\n{\"stage\": \"clone-complete-tree-verified\", \"elapsed_seconds\": 40.89802349638194}\n{\"stage\": \"fields-and-inodes-verified\", \"elapsed_seconds\": 49.35051470436156}\n{\"stage\": \"rank-files-verified\", \"elapsed_seconds\": 49.63198505435139}\n{\"passed\": true, \"recipe\": \"candidate40\", \"rank_count\": 40, \"proof_files\": 40, \"elapsed_seconds\": 49.63391060009599}\n"
   },
-  "stderr_tail": ""
+  "stderr_tail": "Traceback (most recent call last):\n  File \"/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-rank40-vs48-20261106T163655Z/kit/run.py\", line 164, in <module>\n    if __name__=='__main__':main()\n  File \"/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-rank40-vs48-20261106T163655Z/kit/run.py\", line 123, in main\n    if proc.returncode:raise RuntimeError('%s solver returned %d'%(label,proc.returncode))\nRuntimeError: B1-candidate40 solver returned 124\n"
 }

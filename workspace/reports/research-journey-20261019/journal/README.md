@@ -1,3 +1,9 @@
+Latest reviewed HPC result: [Full balanced 40 comparison, candidate not promoted](entries/20261107-hpc-balanced40-reviewed-comparison.md).
+
+Latest local admission, not committed: [Balanced 40 actual 20/20 placement](entries/20261107-hpc-balanced40-actual-placement-qualified.md).
+
+Latest local HPC analysis (not committed): [Default40 timeout and balanced placement](entries/20261107-hpc-default40-timeout-and-balanced-placement-hypothesis.md).
+
 Latest HPC admission: [Single-pass preparation retry 2295086](entries/20261106-hpc-single-pass-preparation-native-retry.md).
 
 Latest HPC analysis: [Preparation timeout and single-pass verification](entries/20261106-hpc-preparation-timeout-and-single-pass-verification.md).

@@ -1,6 +1,34 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 23:42 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **07 November 2026, 03:43 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Full balanced 40 result reviewed: no promotion — 7 November 2026
+
+2295087 COMPLETED 0:0 /5,430s /56 CPUs /iris001. All 452 raw hashes, 101 frozen hashes, 216 actual rank records and full native/source/runtime/payload/field/force gates pass root and terminal review. Default 48 means 27.549682806 /31.794129632, pooled 29.671906219s/step. Balanced 40 means 40.020672136 /22.901997128, pooled 31.461334632s/step: **6.030716% slower**. Candidate repeat drift −42.774581% despite exact same CPU map 20/20 and zero force-repeat difference. No stable winner or historical ~22s record; close unchanged balanced 40 promotion. [Full result and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced 40-vs48-20261107/completed-2295087/RESULTS.md).
+
+Cost 84.466667 CPUh conservatively 85; retire 168 once: 1,767 consumed /zero reserved /stage 1,850. Site SU unknown. Next distinct prepared question: SAME N48 source default 28/20 vs socket/core 24/24, uncollated, forty-step BAAB, isolating mapping (older hybrid also changed I/O). Not admitted yet. Result-gated commit policy remains: one coherent reviewed-result capture permitted now; future status/admission changes stay local. No AI/NSCC/MFA/background changes; all older RUNNING snapshots below historical.
+
+## Live 40-balanced timing is slower; matrix still running — 7 November 2026, 02:44 Vietnam
+
+2295087 RUNNING on iris001, elapsed 37:55. First 48 control completes 40/39 at 27.549682806s/step. Balanced 40 (actual 20/20 rank gate) at step 24/40, 22 intervals mean 39.956253584s; B2/A2 not started. Unequal horizons and no terminal/repeat/source-after validation yet; not a complete comparison or stable gain. [Retained live metric snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/live-metrics-20261107T024440.json).
+
+Keep full 168 CPU-hour reservation and one-own cap; no other own submission while this job runs. No batch stderr at snapshot; sampled hardware telemetry not inspected in this checkpoint. No capture/commit/push under latest owner policy; all new status/notes remain local. Older live snapshots below are historical.
+
+## Balanced40 admission and actual placement gate — 7 November 2026, 02:07 Vietnam
+
+**2295087 RUNNING on iris001**, elapsed 82s /56 CPUs /zero GPUs. Both sources pass. Actual forty-rank socket/core preflight verifies exact strict files and 20/20 masks across observed NUMA CPU sets before any solver. A1-control48 preparation has started; no timing arm yet. [Actual receipt and proof](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/STATUS.md). This observes pre-MPI affinity, not solver pages or causal speed improvement.
+
+New whole-configuration trial 48 default/40 socket/40 socket/48 default, all 40 steps/39 intervals, unchanged source/physics/work/uncollated. Cap 2100s per arm, max 3h /168 allocated CPUh; ledger 1,682 consumed +168 reserved /stage 1,850 (+76 internal), billed SU unknown. One-own cap occupied; preserve frozen 101 files and full maximum, no concurrent own submission or premature retirement.
+
+Owner override active: NO status/admission/preparation commits before reviewed substantive benchmark results. No capture/commit/push this turn; local uncaptured raw review 2295086, new candidate code/receipt, notes/journal, Iris ledger and home AGENTS.md retained. AI workflow, Git history, background schedules and MFA unchanged. Earlier live snapshots below historical.
+
+## Default N40 times out; result-gated commits now required — 7 November 2026
+
+2295086 FAILED 1:0 /3,037s /56 CPUs /iris001. A1-control48 completes 40 steps/39 intervals at 25.168843727s/step; B1-default 40 times out at 1,800s, step 36; 34-interval diagnostic mean 49.676082341s. No complete ABBA/native/source-after result. 207 raw hashes/100 payload hashes verified. Actual NUMA rank masks 48=28/20 and 40=28/12 using recorded even/odd CPU sets; pre-MPI only, no causal page/bandwidth claim. [Full local review and next hypothesis](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/completed-2295086/RESULTS.md).
+
+Close unchanged default 40: observed 34 intervals already imply completed 39-interval mean≥43.307354s even with remaining 5 zero, so it cannot beat this 25.168844 control. Preparing distinct balanced 40 (socket/core 20/20) vs default 48, same four 40-step work; actual placement gate before any solver. Candidate changes both partition count and mapping; whole-configuration comparison only. Cost 47.242222 CPUh conservatively 48 retired 140 once: 1,682 consumed /zero reserved /stage 1,774 before new admission. No stable historical ~22s gain.
+
+Latest owner override: no HPC commits without substantive reviewed benchmark results; no status-only or admission/preparation commits. Rule saved to home AGENTS.md, AI worker unchanged. Continue local notes/raw/code, disclose uncaptured work; no capture/commit/push this turn. Older RUNNING snapshots below are historical, not live. No background schedules or MFA actions.
 
 ## Actual solver stepping verified — 6 November 2026, 23:41 Vietnam
 
