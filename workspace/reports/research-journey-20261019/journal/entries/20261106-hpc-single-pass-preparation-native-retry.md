@@ -13,3 +13,10 @@ The native hypothesis and controls remain **48/40/40/48**, forty steps/39 interv
 This is an actual new admission and repaired preparation implementation, not a valid completed performance comparison. Preparation elapsed time is not solver s/step. All repeated/native/source/runtime/force gates and terminal review must pass before assessing a gain, exposing order/timing drift and every arm. Historical approximately 22-second observations remain unpassed.
 
 [Receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/submission-receipt.json). [Live evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/post-submit-status.json). [Exact verification provenance](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/ROOT_INDEPENDENT_REVIEW.json).
+
+
+## Actual preparation and native launch verified
+
+At 23:40:09 Vietnam on 6 November 2026, 2295086 is RUNNING on iris001, elapsed 150 seconds. Both source preflights return zero (N40 31.456132s, N48 31.656919s). Actual A1-control48 preparation returnszero in 46.772873 seconds under the unchanged 180-second cap. Flushed stages show clone 10.753142s, core hashes verified 37.766027s, complete-tree check 37.861341s, fields/inodes 46.404758s and rank files 46.686025s (cumulative from preparation start). All 48 exact rank files and binding reports pass. Actual native mpirun/simpleFoam 48 command starts at 23:39:45.638928 Vietnam with telemetry sampling. At the snapshot no Time step line is present yet, so this proves native process launch, not completion of any measured interval or performance gain. Batch stderr empty. Preserve full 140 reservation and one-own cap.
+
+Compared with old 180-second timeout, the preparation now succeeds; the old internal timeout substage remains unobserved and these are not matched solver performance measurements. No ranked score or historical approximately 22-second improvement is claimed.

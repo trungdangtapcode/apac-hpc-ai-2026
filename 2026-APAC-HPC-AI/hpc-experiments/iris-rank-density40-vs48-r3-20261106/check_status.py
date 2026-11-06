@@ -17,6 +17,7 @@ for label in ('A1-control48','B1-candidate40','B2-candidate40','A2-control48'):
  p=run/'arms'/label/'simpleFoam.log'
  if p.exists():
   s=p.read_text();ts=re.findall(r'^Time = (\d+)\s*$',s,re.M);result['arms'][label]={'last_started_step':int(ts[-1]) if ts else None,'end_marker':bool(re.search(r'^End\s*$',s,re.M))}
+result['preparation_tails']={label:(run/(label+'-preparation.log')).read_text()[-2500:] for label in ('A1-control48','B1-candidate40','B2-candidate40','A2-control48') if (run/(label+'-preparation.log')).is_file()}
 result['stderr_tail']=(k/'runs'/(JOB+'.err')).read_text()[-1500:] if (k/'runs'/(JOB+'.err')).exists() else ''
 '''
 d=remote(body,timeout=45);(E/'post-submit-status.json').write_text(json.dumps(d,indent=2)+'\n');print(json.dumps(d,indent=2))

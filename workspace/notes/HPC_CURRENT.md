@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 23:39 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 23:41 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Actual preparation succeeds; native process starts — 6 November 2026, 23:40 Vietnam
+
+2295086 RUNNING on iris001, elapsed 150s. Both N40/N48 source checks pass; A1-control48 preparation returns 0 in 46.772873s under unchanged 180s cap. Actual phase markers: clone 10.753142s, core hashes 37.766027s, complete-tree 37.861341s, fields/inodes 46.404758s, all 48 rank files 46.686025s. Native 48 mpirun/simpleFoam starts 23:39:45.638928 Vietnam, telemetry sampling; no Time line yet at 23:40:09 snapshot, no batch stderr. [Exact live record](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/post-submit-status.json). This is actual native launch, not a complete measured arm or solver speed claim.
+
+Preserve frozen 100 files and full 140 reservation under one-own cap; no additional own admission. Old 180s prep timeout remains invalid and its exact substage unknown. No historical ~22s gain established. Notes/receipts/raw failures retained; no NSCC/AI/MFA/background changes.
 
 ## Single-pass preparation R3 accepted — 6 November 2026, 23:38 Vietnam
 
