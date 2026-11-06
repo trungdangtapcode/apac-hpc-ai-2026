@@ -1,0 +1,11 @@
+# Actual file-protocol qualification passes
+
+Iris accepted diagnostic 2294996 and completed it 0:0 in 2 seconds on iris001 with 56 allocated CPUs. Root independently verifies all 227 retained files and all 208 per-rank records for launcher modes 56 socket/core, 48 default, 48 default repeat, 56 socket/core repeat. Every mode has the exact filename/rank/world-size/schema/hostname set and nonempty nonoverlapping CPU affinity masks; same-flags repeat maps match. MPI returns zero for each mode; all four frozen source hashes match before/after. The mpirun binary hash equals the failed native parent's recorded launcher.
+
+The actual writer uses an exclusive 0600 file for each rank and fsyncs JSON before exit. The verifier does not extract rank records from stdout. Root additionally tested real writer subprocess JSON round-trip and refusal to overwrite the same proof, plus offline missing/corrupt/duplicate/world-size/overlap cases. This fixes the observed prefix/newline interleaving failure while keeping strict completeness gates. It is a pre-MPI_Init launcher-process affinity/transport qualification only: no solver, mesh, timing score, post-MPI solver-thread affinity or GPU evidence is implied.
+
+Actual cost 0.031111 allocated CPU-hours, conservatively 1. Retire its 4.666667 maximum once: **1,500 consumed /zero reserved /unchanged 1,620 internal stage**. Billed site SU remains unknown. The actual submission receipt, failed-parent hash, frozen four-file payload, source before/after, module/version/binary identity, raw proof files and replay are retained. This is a short completed milestone, not a whole experiment wave or an automatic schedule.
+
+Native R2 may proceed only with these exact qualified writer/verifier bytes and its full native/physics/source/field/force checks. Its next candidate holds successful default 48 mapping fixed and changes I/O alone, comparing against original48 and actual teammate56 controls; the unchanged slow combined mapping+I/O candidate is excluded from that plan. No 2294920 result is retroactively validated, and no new native speed result exists yet.
+
+[Actual qualification receipt, raw proofs and replay](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-probe-files-qualify-20261106).

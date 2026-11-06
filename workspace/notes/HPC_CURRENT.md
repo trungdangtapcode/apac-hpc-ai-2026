@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 11:11 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 11:22 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Rank-proof repair actually qualified — 6 November 2026
+
+2294996 COMPLETED 0:0 in 2 seconds /56 CPUs /iris001. All four 56/48/48/56 launcher modes pass strict exclusive per-rank file proofs: 208 records /227 retained file hashes, unchanged payload, correct world-size/host/nonoverlap, stable repeat maps, same recorded native mpirun binary. Root replay and actual writer round-trip/exclusive-reuse tests pass. [Proofs and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-probe-files-qualify-20261106/completed-2294996/RESULTS.md). No solver or speed score; affinity is pre-MPI_Init only.
+
+Actual 0.031111 CPU-hours, conservatively 1; 4.666667 maximum retired once: 1,500 consumed /zero reserved /stage 1,620. R2 protocol gate now satisfied, but separate native root review/deployment/receipt/budget gates remain. Reuse the exact qualified probe_writer.py/read_rank_proofs.py hashes. Do not reuse prefix-based stdout rank identity parsing. Old 2294920 stays FAILED and incomplete. No background Codex or MFA attempt.
 
 ## Six-arm job failed: rank-proof stdout bug — 6 November 2026
 

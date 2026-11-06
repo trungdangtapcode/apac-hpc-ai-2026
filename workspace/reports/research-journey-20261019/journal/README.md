@@ -1,3 +1,5 @@
+Latest HPC repair qualification: [Strict per-rank file transport actually passed](entries/20261106-hpc-file-proof-protocol-qualified.md).
+
 Latest HPC failure review: [Five arms retained; rank proof transport must be repaired](entries/20261106-hpc-six-arm-failure-and-proof-transport-fix.md).
 
 Latest HPC live review: [Absolute times and actual mapping, full recipe comparison pending](entries/20261106-hpc-direct-recipes-live-and-mapping-proxy.md).
