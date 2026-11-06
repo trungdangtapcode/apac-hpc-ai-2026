@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 14:46 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 14:51 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Scotch40 initialization accepted and running — 6 November 2026, 14:50 Vietnam
+
+**2294998 accepted**, observed RUNNING on iris001 at 14:50:19 Vietnam, elapsed 31 seconds /56 allocated CPUs /zero GPUs. Actual 40-rank file proof and initial gates passed; renumberMesh log exists and potentialFoam has started, READY absent. No solver speed or complete initialization result yet. [Receipt, exact resources, transport recovery and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch40-init-20261106/STATUS.md).
+
+Distinct lead after drift-confounded I/O48: reduce domains further using reviewed cut 2294919, with unchanged organizer native initialization. Root independently reviewed all 47 frozen files and the actual local forty-record writer/verifier round-trip plus rejection gates. Max20min reserves 18.666667 CPU-hours: 1,626 consumed +18.666667 reserved /unchanged stage 1,724. Billed SU unknown, one-own active cap occupied. Preserve this job; completed READY review is required before later matched 40/48 solver admission. No old sources/payloads modified, no NSCC/AI/MFA work or background schedule.
+
+Deployment timeout was reconciled by actual remote hashes before any admission. First queue preflight timed out before reservation/sbatch; a local fresh-line framing adapter then returned definite scheduler receipt. Keep these failures and do not claim their cause is established.
 
 ## Complete R2 review passes; no stable I/O winner — 6 November 2026
 

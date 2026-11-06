@@ -1,3 +1,5 @@
+Latest HPC admission: [Scotch40 initialization 2294998](entries/20261106-hpc-forty-rank-initialization-submitted.md).
+
 Latest HPC review: [Complete I/O-only matrix and forty-rank next hypothesis](entries/20261106-hpc-r2-io-result-and-forty-rank-next.md).
 
 Latest HPC acceptance: [I/O-only R2 with actual qualified proof files2294997](entries/20261106-hpc-io-only-r2-submitted-after-proof-repair.md).
