@@ -1,0 +1,15 @@
+{
+  "derived_from_directory": "iris-rank-density40-vs48-20261106",
+  "failed_parent_job_id": "2294999",
+  "failed_parent_state": "FAILED 1:0",
+  "failure_phase": "accepted-source-40-before, prior to solver launch",
+  "diagnosis_source": "../iris-rank-density40-vs48-20261106/completed-2294999/REVIEW.json",
+  "exception": "TypeError: cannot unpack non-iterable int object",
+  "root_cause": "verify_exact_tree() returned only len(files), while source_checks.verify() and the cloned-arm path in prepare_arm.py unpacked file and directory counts.",
+  "repair": "source_checks.verify_exact_tree() now returns (len(files), len(found_dirs)), matching both already-written callers.",
+  "old_frozen_payload_file_count": 100,
+  "old_frozen_payload_manifest_sha256": "see parent payload-sha256.json",
+  "new_frozen_payload_file_count": 100,
+  "changed_payload_paths": ["source_checks.py"],
+  "regression": "offline_checks.py constructs a native-style 40-rank source with full accepted core/supplementary manifests, then calls verify() and both source/clone verify_exact_tree() paths used by run.py and prepare_arm.py."
+}
