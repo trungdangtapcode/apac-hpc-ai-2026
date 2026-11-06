@@ -1,3 +1,5 @@
+Latest HPC repair admission: [Native 40/48 retry 2295000](entries/20261106-hpc-forty-versus-fortyeight-source-contract-retry.md).
+
 Latest HPC correction: [Native source helper interface failed before solver](entries/20261106-hpc-forty-rank-native-interface-failure.md).
 
 Latest HPC native admission: [Matched 40/48 forty-step trial 2294999](entries/20261106-hpc-forty-versus-fortyeight-submitted.md).

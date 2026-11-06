@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:22 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 16:29 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Corrected source-contract R2 accepted — 6 November 2026, 16:28 Vietnam
+
+**2295000 accepted**, observed RUNNING on iris001 at 16:28:16 Vietnam, elapsed 21 seconds /56 allocated CPUs /zero GPUs. Payload hashes pass; N40 source verification in progress; no solver arm or batch stderr at that snapshot. [Actual receipt, one-line repair and exact regression](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/STATUS.md). No successful source integration, complete native matrix or speed claim yet.
+
+Only frozen source_checks.py differs among 100 operational files: return file and directory counts as a tuple. All physics/sources/solver/timing/proof files unchanged. Full manifest-shaped source verification regression passes; root reinjected old int contract and reproduced TypeError. Old 2294999 stays FAILED before any solver, with 13 verified raw files; never retroactively certify it. New 40/48 ABBA remains all 40 steps/39 intervals on iris001 with default MPI and uncollated I/O.
+
+Fresh queue empty before locked admission and sbatch. Budget 1,629 consumed +140 reserved /internal stage 1,768→1,769 (+1), not billed SU or new owner budget. One-own allocation cap occupied; preserve active payload and maximum, no concurrent own admission or premature retirement. NSCC/AI untouched, no background schedule/MFA attempt. All earlier RUNNING and failure-preparation snapshots below are historical.
 
 ## N40/N48 native trial failed before solver; interface fix in progress — 6 November 2026, 16:20 Vietnam
 
