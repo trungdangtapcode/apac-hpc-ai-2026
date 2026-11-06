@@ -1,0 +1,7 @@
+# R2 prepared after actual file-protocol qualification
+
+Protocol gate now passes: Iris 2294996 COMPLETED 0:0; root replay verifies four launch modes, 208 independent rank files, exact schema/world-size/host/affinity gates and unchanged qualified source hashes. This supersedes the draft's earlier qualification-pending blocker. The two qualified protocol files are reused byte-for-byte; rank-proof-protocol-provenance.json pins the actual review.
+
+Root R2 review and offline checks pass for 101 operational hashes, T1/O1/D1/D2/O2/T2 wiring, native 40-step/39-interval gates and full-window/cap protection. Default 48 mapping is unchanged between O and D; only the file handler differs. Teammate56 remains a complete peer-recipe control. The new allocation is explicitly constrained to iris001 to retain historical node context. No old submitted payload changes and no historical absolute record are implied.
+
+State: PREPARED, not yet submitted at this checkpoint. Deployment, durable scheduler receipt, fresh queue and locked budget reservation remain required. Request one node /56 allocated CPUs /zero GPUs /maximum 4 hours /224 allocated CPU-hours. With 1,500 consumed, the selected internal stage would extend 1,620→1,724 (+104) for this one bounded native comparison; not a new owner budget or known site SU. The failed 2294920 remains preserved and cannot be retroactively completed from recovered stdout.
