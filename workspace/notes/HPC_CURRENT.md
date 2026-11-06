@@ -1,6 +1,10 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:29 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 16:30 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Actual N40 source gate passes after repair — 6 November 2026, 16:29 Vietnam
+
+2295000 RUNNING on iris001, elapsed 81 seconds. The actual accepted-source-40-before phase returns zero after 53.930698 seconds; N48 preflight has started. No solver arm or batch stderr at this snapshot. This verifies the repaired source integration, not a completed native benchmark or speed gain. [Live evidence](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/post-submit-status.json). Preserve active job and full 140 reservation under one-own cap; no other own admission.
 
 ## Corrected source-contract R2 accepted — 6 November 2026, 16:28 Vietnam
 

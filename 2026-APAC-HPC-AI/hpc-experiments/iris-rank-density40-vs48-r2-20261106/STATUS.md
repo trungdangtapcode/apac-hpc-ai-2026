@@ -13,3 +13,8 @@ The question remains lower rank density after repeated 48-versus-56 findings and
 One exclusive Iris node /56 allocated CPUs /zero GPUs /at most 2.5 hours reserves **140 allocated CPU-hours**. Fresh queue was empty twice at locked preflight and sbatch. Planning ledger: **1,629 consumed +140 reserved /stage 1,769**, increased only 1 from 1,768 for this bounded request. Internal planning is not owner allowance or known billed site SU. Preserve this active allocation, queue position, frozen payload and full maximum; one-own cap is occupied. No NSCC/AI spending change, background schedule, MFA attempt or automatic notification.
 
 [Actual receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/submission-receipt.json). [Live startup](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/post-submit-status.json). [Repair provenance and regression](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/ROOT_INDEPENDENT_REVIEW.json). [Previous exact failure](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-20261106/completed-2294999/RESULTS.md).
+
+
+## Actual repaired source integration verified
+
+At 16:29:16 Vietnam, 6 November 2026, 2295000 is RUNNING on iris001, elapsed 81 seconds. The actual N40 accepted-source verifier now returns zero after 53.930698 seconds, passing the full tree/manifest/input gates that previously failed at the caller interface. N48 source preflight has started. No solver arm or batch stderr is present at this snapshot; no complete native or speed claim follows. The original 100 deployed source hashes remain frozen; retain the full 140 CPU-hour maximum while running.
