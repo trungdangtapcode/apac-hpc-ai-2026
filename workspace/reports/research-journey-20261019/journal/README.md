@@ -1,3 +1,5 @@
+Latest HPC correction: [Native source helper interface failed before solver](entries/20261106-hpc-forty-rank-native-interface-failure.md).
+
 Latest HPC native admission: [Matched 40/48 forty-step trial 2294999](entries/20261106-hpc-forty-versus-fortyeight-submitted.md).
 
 Latest HPC preparation review: [Scotch40 initialized source passes](entries/20261106-hpc-forty-rank-initialization-reviewed.md).

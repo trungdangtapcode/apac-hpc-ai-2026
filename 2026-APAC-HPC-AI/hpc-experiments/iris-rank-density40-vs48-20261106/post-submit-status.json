@@ -1,21 +1,22 @@
 {
-  "observed_utc": "2026-11-06T09:18:38.003269+00:00",
+  "observed_utc": "2026-11-06T09:20:19.094076+00:00",
   "job_id": "2294999",
   "queue": {
     "returncode": 0,
-    "stdout": "2294999|RUNNING|0:38|56|iris001\n",
+    "stdout": "",
     "stderr": ""
   },
   "accounting": {
     "returncode": 0,
-    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294999|RUNNING|0:0|38|56|iris001\n2294999.batch|RUNNING|0:0|38|56|iris001\n",
+    "stdout": "JobID|State|ExitCode|ElapsedRaw|AllocCPUS|NodeList\n2294999|FAILED|1:0|61|56|iris001\n2294999.batch|FAILED|1:0|61|56|iris001\n",
     "stderr": ""
   },
   "recent_phases": [
     "{\"cap_seconds\": 20, \"phase\": \"payload-before\", \"state\": \"start\", \"utc\": \"2026-11-06T09:18:01.946914+00:00\"}",
     "{\"elapsed_seconds\": 0.12489610817283392, \"phase\": \"payload-before\", \"returncode\": 0, \"state\": \"exit\", \"utc\": \"2026-11-06T09:18:02.073131+00:00\"}",
-    "{\"cap_seconds\": 180, \"phase\": \"accepted-source-40-before\", \"state\": \"start\", \"utc\": \"2026-11-06T09:18:02.910553+00:00\"}"
+    "{\"cap_seconds\": 180, \"phase\": \"accepted-source-40-before\", \"state\": \"start\", \"utc\": \"2026-11-06T09:18:02.910553+00:00\"}",
+    "{\"elapsed_seconds\": 58.14031031727791, \"phase\": \"accepted-source-40-before\", \"returncode\": 1, \"state\": \"exit\", \"utc\": \"2026-11-06T09:19:01.052747+00:00\"}"
   ],
   "arms": {},
-  "stderr_tail": ""
+  "stderr_tail": "Traceback (most recent call last):\n  File \"/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-rank40-vs48-20261106T091646Z/kit/run.py\", line 164, in <module>\n    if __name__=='__main__':main()\n  File \"/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-rank40-vs48-20261106T091646Z/kit/run.py\", line 70, in main\n    h.bounded('accepted-source-%d-before'%ranks,['python3',KIT/'source_checks.py','--source',SOURCES[ranks],\n  File \"/global/exafs/users/rdmaworkshop30/apac2026/tripleu-iris-rank40-vs48-20261106T091646Z/kit/helpers.py\", line 34, in bounded\n    assert rc==0,(label,rc)\nAssertionError: ('accepted-source-40-before', 1)\n"
 }

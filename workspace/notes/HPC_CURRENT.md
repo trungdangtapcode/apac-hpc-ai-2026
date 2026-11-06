@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:19 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 16:22 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## N40/N48 native trial failed before solver; interface fix in progress — 6 November 2026, 16:20 Vietnam
+
+2294999 FAILED 1:0 in 61 seconds /56 allocated CPUs /iris001, before any solver arm. All 13 transferred evidence hashes and all 100 frozen payload hashes verify. The source verifier returned one integer while both callers expect file/directory counts. Root incorrectly described that API during review; offline inventory-only checks missed the full-source interface. Source walk/hash/core checks run before the TypeError, but physics-input and native gates were not reached. No valid timing or hypothesis-loss result. [Exact failure, raw logs and corrective plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-20261106/completed-2294999/RESULTS.md).
+
+Actual 0.948889 allocated CPU-hours, conservatively 1; retire 140 maximum once: 1,629 consumed /zero reserved /stage 1,768. A minimal new derived R2 returns the correct tuple and exercises the complete source verification API; old frozen payload/source untouched. New request would reserve 140 with internal stage 1,769 (+1); no new submission yet. Earlier RUNNING status below is historical. N40 initialized source 2294998 remains valid preparation, not solver performance.
 
 ## Native N40/N48 ABBA trial accepted — 6 November 2026, 16:18 Vietnam
 
