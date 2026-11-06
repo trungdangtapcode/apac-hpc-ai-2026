@@ -45,6 +45,22 @@ def main():
         rejects('overlapping CPU masks',lambda:validate_proof_dir(bad,40))
         (bad/'rank-0002.json').write_text('{corrupt')
         rejects('corrupt proof JSON',lambda:validate_proof_dir(bad,40))
+    # Exercise the actual inventory traversal for both accepted rank counts.
+    from seal_tree import inventory, rank_count
+    with tempfile.TemporaryDirectory(prefix='iris-n40n48-inventory-') as temp:
+        for ranks in (40,48):
+            case=Path(temp)/str(ranks);case.mkdir()
+            core=json.loads((KIT/('accepted-source-manifest-%d.json'%ranks)).read_text())
+            for name in core['files']:
+                p=case/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'fixture')
+            for name,target in core.get('symlinks',{}).items():
+                p=case/name;p.parent.mkdir(parents=True,exist_ok=True);p.symlink_to(target)
+            (case/'READY').write_text('N=%d\n'%ranks)
+            assert rank_count(case)==ranks
+            result=inventory(case)
+            assert set(result['files'])==set(core['files']) and result['symlinks']==core['symlinks']
+            (case/'READY').write_text('N=56\n')
+            rejects('unselected READY rank count',lambda:rank_count(case))
     script=(KIT/'job.sbatch').read_text()
     for expected in ('#SBATCH --partition=iris','#SBATCH --account=rdmaworkshop','#SBATCH --qos=low',
         '#SBATCH --exclusive','#SBATCH --gpus=0','#SBATCH --ntasks=56','#SBATCH --nodelist=iris001',

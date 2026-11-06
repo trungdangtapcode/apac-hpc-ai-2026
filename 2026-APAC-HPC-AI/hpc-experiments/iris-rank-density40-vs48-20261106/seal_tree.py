@@ -25,9 +25,9 @@ def sha256(path: pathlib.Path) -> str:
 def rank_count(root: pathlib.Path) -> int:
     ready = (root / "READY").read_text()
     import re
-    match = re.search(r"(?m)^N=(48|56)$", ready)
+    match = re.search(r"(?m)^N=(40|48)$", ready)
     if not match:
-        raise ValueError("READY must identify exactly N=48 or N=56")
+        raise ValueError("READY must identify exactly N=40 or N=48")
     return int(match.group(1))
 
 
