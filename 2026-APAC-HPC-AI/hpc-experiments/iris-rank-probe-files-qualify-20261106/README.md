@@ -1,0 +1,9 @@
+# Iris per-rank proof-file qualification
+
+Job 2294920's fifth 40-step arm failed in its rank probe because concurrent stdout records interleaved. The raw log retained rank objects, but the line-oriented parser could not safely recover them. This isolated diagnostic replaces stdout record parsing with an exclusive per-rank file protocol and qualifies the exact bytes for reuse in a later native bundle.
+
+The writer records rank, Open MPI world size, hostname, and the launching process's current OS affinity CPU IDs in `proofs/<mode>/rank-NNNN.json`, using `O_EXCL`. The reader requires an exact filename set, schema, unique rank identities, matching world size, one host, nonempty canonical masks, and no overlap. The only proof data channel is these files; MPI stdout and stderr remain separate raw binding/display-map logs and are never parsed for rank JSON. The observed affinity is for each launcher process before `MPI_Init`; it does not establish post-init or solver-thread affinity.
+
+The five-minute exclusive Iris job loads gcc/11 and hpcx/2.50 and runs four capped probes in order: 56 ranks with socket/core flags, 48 default ranks, 48 default ranks again, and 56 ranks with socket/core flags again. Each launch has a 30-second timeout; the runner has a 240-second wrapper timeout. It invokes no OpenFOAM solver and makes no solver-causality claim. Run evidence is isolated under `runs/<job-id>/`, with source hashes before and after, launcher path/version/binary hash, proof files, validation JSON, and raw launcher logs.
+
+Offline checks exercise valid 48- and 56-rank sets and rejection of 47/49 ranks, missing or corrupt files, world-size mismatch, duplicate rank identity, and overlapping masks. The job is diagnostic only; a later payload must incorporate and independently review these exact proof protocol files before any solver result relies on them.
