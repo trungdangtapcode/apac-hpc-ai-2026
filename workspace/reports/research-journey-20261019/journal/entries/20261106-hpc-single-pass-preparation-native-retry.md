@@ -20,3 +20,8 @@ This is an actual new admission and repaired preparation implementation, not a v
 At 23:40:09 Vietnam on 6 November 2026, 2295086 is RUNNING on iris001, elapsed 150 seconds. Both source preflights return zero (N40 31.456132s, N48 31.656919s). Actual A1-control48 preparation returnszero in 46.772873 seconds under the unchanged 180-second cap. Flushed stages show clone 10.753142s, core hashes verified 37.766027s, complete-tree check 37.861341s, fields/inodes 46.404758s and rank files 46.686025s (cumulative from preparation start). All 48 exact rank files and binding reports pass. Actual native mpirun/simpleFoam 48 command starts at 23:39:45.638928 Vietnam with telemetry sampling. At the snapshot no Time step line is present yet, so this proves native process launch, not completion of any measured interval or performance gain. Batch stderr empty. Preserve full 140 reservation and one-own cap.
 
 Compared with old 180-second timeout, the preparation now succeeds; the old internal timeout substage remains unobserved and these are not matched solver performance measurements. No ranked score or historical approximately 22-second improvement is claimed.
+
+
+## Actual solver stepping verified
+
+At 23:41:23 Vietnam on 6 November 2026, 2295086 is RUNNING on iris001, elapsed 223 seconds. A1-control48 native log has started step 3 of 40; batch stderr empty. Preparation passed in 46.772873 seconds. This proves the actual solver progresses after the repaired preparation; no arm has completed and no stable seconds-per-step result or historical record is claimed. Source/control/native payload stays frozen; full 140 CPU-hour maximum remains reserved and one-own cap occupied.

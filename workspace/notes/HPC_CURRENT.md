@@ -1,6 +1,10 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 23:41 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 23:42 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Actual solver stepping verified — 6 November 2026, 23:41 Vietnam
+
+2295086 RUNNING on iris001, elapsed 223s. First 48-rank control starts step 3/40; no batch stderr. Preparation succeeded in 46.772873s and all 48 rank files verified. [Actual live snapshot](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/post-submit-status.json). Remaining arms 40/40/48 pending. No complete mean, matched gain or historical ~22s record yet. Keep full 140 CPU-hour reservation, frozen 100 payload files and one-own cap; do not submit concurrently or retire partial cost.
 
 ## Actual preparation succeeds; native process starts — 6 November 2026, 23:40 Vietnam
 
