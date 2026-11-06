@@ -1,3 +1,5 @@
+Latest HPC diagnostic: [Retained node telemetry and unresolved timing drift](entries/20261106-hpc-node-telemetry-retrospective.md).
+
 Latest HPC admission: [Scotch40 initialization 2294998](entries/20261106-hpc-forty-rank-initialization-submitted.md).
 
 Latest HPC review: [Complete I/O-only matrix and forty-rank next hypothesis](entries/20261106-hpc-r2-io-result-and-forty-rank-next.md).

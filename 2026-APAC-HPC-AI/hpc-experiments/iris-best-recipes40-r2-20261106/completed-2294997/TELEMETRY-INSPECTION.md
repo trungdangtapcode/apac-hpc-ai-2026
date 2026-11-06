@@ -1,0 +1,7 @@
+# Retained node telemetry: drift remains unresolved
+
+The six-arm result has large timing drift. Inspecting retained five-second whole-node samples finds median-of-sample CPU-frequency medians near 3,300 MHz in all arms, while sampled minimum available node memory is 37.60–42.42 GiB. These frequency summaries do not prove equal effective solver clocks.
+
+D1, O1 and T2 have observed nonzero direct-reclaim scan rates (about 137.79, 92.74 and 37.70 pages/s); D2, O2 and T1 show zero delta in that counter over their sampled windows. D1 versus D2 also differs in node-wide NUMA page migrations (561.03 versus 0.87 pages/s). Swap input/output deltas are zero in every retained window. PSI data were unavailable. These observations motivate checking allocation placement and memory pressure if a later distinct diagnostic is justified; they do not establish an I/O or NUMA bottleneck. In particular, the slow T1 arm has zero direct-reclaim scan delta, and T2 has the largest migration rate while improving over T1, so no single counter explains all timings.
+
+NUMA miss counts describe allocation placement, not remote memory reads. Sampling covers whole-node activity, not individual solver ranks. The existing next native 40/48 measurement should proceed independently of optional profiling and retain every interval, rather than deleting early slow steps. No scoring rule or frozen payload is changed by this retrospective analysis. Exact deltas, samples and units are in TELEMETRY-INSPECTION.json; inspect_telemetry.py reproduces them.
