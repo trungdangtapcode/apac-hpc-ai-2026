@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 23:35 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 23:39 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Single-pass preparation R3 accepted — 6 November 2026, 23:38 Vietnam
+
+**2295086 accepted**, observed RUNNING on iris001 at 23:38:19 Vietnam, elapsed 39 seconds /56 allocated CPUs /zero GPUs. Payload-before passes; N40 source preflight returns 0 after 31.456132 seconds, N48 preflight started. No solver arm at that snapshot and no timing score. [Actual receipt, exact controls and verification](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r3-20261106/STATUS.md).
+
+Two of 100 operational files change: prepare_arm.py/source_checks.py remove repeated core hash passes using the actually successful 2294997 complete-tree helper and add flushed preparation phase markers. Each clone core still SHA-verified once before supplementary/path checks; source before/after, field/inode/proof/native gates retained. Root actual preparation-CLI fixture regression passes (synthetic launcher, not MPI qualification); tampered core rejected. Native 48/40/40/48, all 40 steps/39 intervals, solver/physics/default MPI/uncollated unchanged. Old 2295000 stays FAILED, no solver or valid measurement; timeout substage unknown.
+
+Budget 1,634 consumed +140 maximum reserved /internal stage 1,769→1,774 (+5), not billed SU or owner budget. Exclusive iris001 /56 CPUs /zero GPUs /2.5h; fresh queue empty twice before admission. One-own cap occupied. Preserve active job and maximum; no concurrent own admission, premature cost retirement, NSCC/AI changes, background schedules or MFA retries. Historical ~22s not beaten.
 
 ## Native preparation times out; no measured arm — 6 November 2026, 23:31 Vietnam
 
