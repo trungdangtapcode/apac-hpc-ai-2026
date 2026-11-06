@@ -1,3 +1,5 @@
+Latest HPC preparation review: [Scotch40 initialized source passes](entries/20261106-hpc-forty-rank-initialization-reviewed.md).
+
 Latest HPC diagnostic: [Retained node telemetry and unresolved timing drift](entries/20261106-hpc-node-telemetry-retrospective.md).
 
 Latest HPC admission: [Scotch40 initialization 2294998](entries/20261106-hpc-forty-rank-initialization-submitted.md).

@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:03 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 16:08 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Initialized N40 source fully reviewed — 6 November 2026
+
+2294998 passes root and terminal review: all three native initialization stages, forty exact per-rank files, 240 fields, 68 retained artifact hashes, original mesh/cut/source/payload gates. Full initialized source sealed: 752 core files, one approved shared-mesh symlink, 13 supplementary files and 166 directories. [Raw evidence and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-scotch40-init-20261106/completed-2294998/RESULTS.md). This is valid READY preparation, not solver performance.
+
+Budget already reconciled once: 1,628 consumed /zero reserved /stage 1,724; site SU unknown. Preparing same-iris001 ABBA 48/40/40/48, all forty steps/39 intervals and default MPI/uncollated I/O, keeping existing physics and qualified rank-file protocol. Not yet submitted. Older review-pending and RUNNING sections below are historical.
 
 ## Scotch40 initialization terminal; matched solver preparation underway — 6 November 2026, 16:02 Vietnam
 
