@@ -1,6 +1,12 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 16:30 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 23:35 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Native preparation times out; no measured arm — 6 November 2026, 23:31 Vietnam
+
+2295000 FAILED 1:0 in 303 seconds /56 CPUs /iris001. Both N40/N48 source preflights passed; A1 preparation timed out at 180 seconds/rc124 before solver. All 53 raw hashes and 100 frozen payload hashes verify. Exact internal substage unknown because preparation stdout is empty. No performance result. [Raw evidence and derived preparation plan](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-rank-density40-vs48-r2-20261106/completed-2295000/RESULTS.md).
+
+Cost 4.713333 CPU-hours conservatively 5; retire 140 once: 1,634 consumed /zero reserved /stage 1,769. Preparing R3 with single-pass clone core hashing plus complete path/supplementary/field/inode/proof validation, reusing actual successful 2294997 pattern. Source before/after and native physics/work gates remain. Actual CLI fixture regression passes and phase logs are added; exact timeout cause remains unproved. No new admission yet; old payload unchanged. Previous RUNNING observations below are historical. No NSCC/AI, MFA or background-schedule change.
 
 ## Actual N40 source gate passes after repair — 6 November 2026, 16:29 Vietnam
 

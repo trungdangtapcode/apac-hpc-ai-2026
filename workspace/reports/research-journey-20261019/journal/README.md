@@ -1,3 +1,5 @@
+Latest HPC analysis: [Preparation timeout and single-pass verification](entries/20261106-hpc-preparation-timeout-and-single-pass-verification.md).
+
 Latest HPC repair admission: [Native 40/48 retry 2295000](entries/20261106-hpc-forty-versus-fortyeight-source-contract-retry.md).
 
 Latest HPC correction: [Native source helper interface failed before solver](entries/20261106-hpc-forty-rank-native-interface-failure.md).

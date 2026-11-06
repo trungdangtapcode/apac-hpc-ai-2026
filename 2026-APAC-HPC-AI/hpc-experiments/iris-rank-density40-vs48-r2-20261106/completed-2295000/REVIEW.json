@@ -1,0 +1,50 @@
+{
+  "job_id": "2295000",
+  "reviewed_utc": "2026-11-06",
+  "classification": "failed_preparation_no_solver_measurement",
+  "scheduler": {
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed_seconds": 303,
+    "allocated_cpus": 56,
+    "node": "iris001",
+    "total_cpu": "04:56.041",
+    "max_rss": "75848K",
+    "arms_recorded": 0
+  },
+  "integrity": {
+    "raw_archive": {
+      "path": "raw-evidence.tar.gz",
+      "bytes": 29068,
+      "sha256": "88092d8114e7fad3e99603a0e8c52339acd1e31b0927ffa8e87cb65584698484"
+    },
+    "raw_files_verified": 53,
+    "raw_files_mismatched": 0,
+    "frozen_payload_files": 100,
+    "frozen_payload_hash_map_matches_collector": true,
+    "payload_hash_manifest_sha256": "19da1044d1a8854fe7aa3774c74a1de9490e86909b9096631b9d5a49dda9223d"
+  },
+  "gates": {
+    "payload_before": {"result": "PASS", "elapsed_seconds": 0.16668194811791182},
+    "accepted_source_40_before": {"result": "PASS", "elapsed_seconds": 53.93069784436375},
+    "accepted_source_48_before": {"result": "PASS", "elapsed_seconds": 58.38887619972229},
+    "A1_control48_source_selection_recorded": true,
+    "A1_control48_preparation": {"result": "FAIL_TIMEOUT", "cap_seconds": 180, "elapsed_seconds": 180.03338210377842, "return_code": 124},
+    "preparation_internal_substage_identified": false,
+    "solver_started": false,
+    "source_after": "NOT_REACHED",
+    "payload_after": "NOT_REACHED",
+    "native_arm_output_and_force_checks": "NOT_REACHED",
+    "four_arm_ABBA_matrix": "NOT_REACHED",
+    "performance_comparison": "NOT_VALID"
+  },
+  "preparation_evidence": {
+    "log_bytes": 0,
+    "selection_record_present": true,
+    "partial_arm_configuration_files_present": true,
+    "preparation_result_or_ready_proof_present": false,
+    "stderr": "AssertionError: ('A1-control48-preparation', 124)",
+    "interpretation": "The exact internal preparation operation at timeout is not observable from retained evidence; no root cause is assigned."
+  },
+  "conclusion": "Job 2295000 is a preparation-timeout failure, not a valid native performance measurement."
+}
