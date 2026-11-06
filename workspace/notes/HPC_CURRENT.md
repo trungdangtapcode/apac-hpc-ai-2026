@@ -1,6 +1,14 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **06 November 2026, 11:22 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **06 November 2026, 11:31 Vietnam (UTC+7)**. HPC fork `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## I/O-only R2 accepted after verified proof repair — 6 November 2026
+
+**2294997 accepted**, observed RUNNING 11:28 Vietnam on iris001, elapsed 1:42. Six 40-step/39-interval arms T1/O1/D1/D2/O2/T2: teammate56 socket/core+collated; original48 default+uncollated; new D48 default+collated. D/O changes only I/O, keeping successful default 48 mapping fixed; old slow hybrid48 is not repeated. Explicit iris001 node constraint retains historical context. No new native result or absolute 22-second gain yet. [Exact config, gates and actual receipt](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-best-recipes40-r2-20261106/STATUS.md).
+
+Actual file protocol qualification 2294996 passed all four launcher modes/208 strict records with before/after source hashes, actual mpirun identity, 227 retained hashes and repeat-affinity checks. Native R2 reuses the exact qualified writer/verifier bytes; do not parse rank identities from stdout in future derived bundles. Old 2294920 remains FAILED/incomplete; never change its frozen payload or certify a six-arm result.
+
+All 101 R2 hashes/offline guards pass. Max 4h /56 allocated CPUs /zero GPUs = 224 CPU-hours reserved; 1,500 consumed, selected internal stage 1,620→1,724 (+104), not owner/billed SU allowance. Fresh queue/locks and one-own active cap enforced. Preserve allocation and complete native/source/force/runtime gates before ranking. Existing NSCC/AI payloads/budgets untouched; no background Codex/MFA retries.
 
 ## Rank-proof repair actually qualified — 6 November 2026
 

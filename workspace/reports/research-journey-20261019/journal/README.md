@@ -1,3 +1,5 @@
+Latest HPC acceptance: [I/O-only R2 with actual qualified proof files2294997](entries/20261106-hpc-io-only-r2-submitted-after-proof-repair.md).
+
 Latest HPC repair qualification: [Strict per-rank file transport actually passed](entries/20261106-hpc-file-proof-protocol-qualified.md).
 
 Latest HPC failure review: [Five arms retained; rank proof transport must be repaired](entries/20261106-hpc-six-arm-failure-and-proof-transport-fix.md).
