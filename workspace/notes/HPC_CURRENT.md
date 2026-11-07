@@ -1,6 +1,26 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **07 November 2026, 14:07 Vietnam (UTC+7)**. HPC fork `01a1b4ac-9307-78d3-a224-dac4d27c1753`, verified child of `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **07 November 2026, 17:14 Vietnam (UTC+7)**. HPC fork `01a1b4ac-9307-78d3-a224-dac4d27c1753`; AI separate. No background Codex, schedules or automatic MFA loops.
+
+## Fast 21-second seed resumed; new exact-repeat job accepted
+
+**2295106 RUNNING on iris001**, observed 7 November 17:13:26 Vietnam, elapsed 15 seconds, source verification started. Three fresh exact-seed repeats, each 40 steps /39 intervals; no new timing result yet. Runtime, native argv and observed rank-to-CPU map must match 2295090 B2 (**21.085907685 s/step**). Optional process-residency observer records locality/fault evidence; native execution remains independent. Instrumented diagnostic, not a ranked promotion test. [Receipt, frozen 59 files and state](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-fast21-repeatability-20261107/STATUS.md).
+
+Owner correction: investigate and stabilize the actual 21–22-second state before more mapping variants. Its pooled loss blocks promotion, not continued research. [Retained telemetry audit](../reports/hpc-fast21-investigation-20261107/RETAINED_EVIDENCE.md). Allocation/fault correlations are not a proven cause.
+
+**2295091 COMPLETED 0:0 and fully reviewed**: alternating-rank candidate 25.111212152 versus default 30.034451863 s/step, **16.391975% lower within this allocation**. All 469 raw/57 payload hashes and 240 actual rank records pass; both matched pairs favorable. Independent confirmation outstanding; retain as secondary promising branch. [Full result](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-interleaved48-20261107/completed-2295091/RESULTS.md). Additional diagnostics do not support a simple monotonic fault-counter explanation.
+
+Ledger 1,914 consumed +112 reserved / internal stage 2,026; site billed SU unknown. One own allocation cap occupied; preserve position. Old 2295091 reservation 140 retired once for actual 75.615556 CPU-hours, conservative 76. New fast-repeat code/admission remains local uncaptured until its reviewed result. Completed 2295091 evidence is eligible for result-backed capture. Submission materials unchanged.
+
+Earlier snapshots below are historical and superseded by this checkpoint.
+
+## Explicit interleaved 48 trial admitted and qualified — 7 November 2026, 14:09 Vietnam
+
+**2295091 RUNNING on iris001**, elapsed 68s /56 CPUs /zero GPUs. Source and payload checks pass. Actual pre-solver proof verifies 24/24, strict rank NUMA alternation and CPU set 0..47, different from previous contiguous 24/24. Candidate clone preparation started; no native timing arm yet at snapshot, no batch stderr. [Actual receipt/layout and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-interleaved48-20261107/STATUS.md).
+
+SAME N48 source/physics/work/uncollated; four 40-step/39-interval BAAB. Candidate explicit PPR/span/core; default control remains practical prior 28/20, so whole placement-policy comparison, not isolated NUMA causality. Only rank-to-core association differs from previous contiguous 24/24 candidate on same 48 cores. New actual gate rejects old contiguous map before solver. If rank-order trial loses or repeated-state drift persists, qualify process-level memory-residency diagnosis instead of blind mapping variants.
+
+Budget 1,838 consumed +140 reserved /stage 1,978 (+71 internal), billed SU unknown; one-own cap occupied. Preserve frozen 57 files and maximum. Parent 2295090 full reviewed result pushed once as 3f60a169; new 2295091 code/status/ledger/journal remain local uncaptured and uncommitted under result-gated owner rule. Earlier snapshots below are historical. No AI/NSCC/MFA/background changes.
 
 ## Same N48 mapping result fully reviewed — 7 November 2026
 

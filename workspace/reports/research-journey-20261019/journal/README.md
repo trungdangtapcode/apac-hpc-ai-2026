@@ -1,3 +1,7 @@
+Latest reviewed HPC result and fast-state decision: [16.392% matched rank-order gain; exact 21-second seed resumed](entries/20261107-hpc-rank-order-result-and-fast21-investigation.md).
+
+Latest local followup, not committed: [Actually qualified interleaved 48 trial 2295091](entries/20261107-hpc-interleaved48-qualified-admission.md).
+
 Latest reviewed HPC result: [Same-N48 mapping loss and explicit interleaved ranking](entries/20261107-hpc-n48-mapping-reviewed-and-rank-order-next.md).
 
 Latest HPC followup, local until result: [Same N48 mapping-only trial 2295090](entries/20261107-hpc-same48-mapping-only-admitted.md).
