@@ -1,10 +1,24 @@
 # Current HPC/OpenFOAM handoff
 
-Updated **07 November 2026, 03:43 Vietnam (UTC+7)**. HPC fork `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`, verified child of `01a17c4b-65e6-75e0-be95-c5bea1b25502`; AI is separate. No background Codex, schedules or automatic MFA loops.
+Updated **07 November 2026, 14:07 Vietnam (UTC+7)**. HPC fork `01a1b4ac-9307-78d3-a224-dac4d27c1753`, verified child of `01a1b1b3-1f42-75c1-92c2-fb5a6b283c5d`; AI is separate. No background Codex, schedules or automatic MFA loops.
+
+## Same N48 mapping result fully reviewed — 7 November 2026
+
+2295090 COMPLETED 0:0 /4,525s /56 CPUs /iris001. All 469 raw hashes/57 payload hashes/240 actual rank records and full native/source/runtime/payload/field/force gates pass. Candidate contiguous 24/24 means 32.001684128 and 21.085907685, pooled 26.543795906s/step; default 24.663577539 and 24.200998556, pooled 24.432288048s/step. Candidate 8.642285% slower, not promoted. Fast 21.085908 is an actual full 40-step arm below retained historical ~22.35, but not a stable configuration win. Same CPU map across candidate repeats; force-repeat drift zero, paired cross-map force delta≤1.63203e-14. Causal runtime/memory issue remains unknown. [Full review](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced48-only-20261107/completed-2295090/RESULTS.md).
+
+Actual 70.388889 CPUh charged 71; retire 140 once: 1,838 consumed /zero reserved /stage 1,907. Billed SU unknown. Next distinct ready candidate explicitly interleaves rank IDs at 24/24 via PPR/span; actual prior map is contiguous, so PPR/fill duplicate was rejected before submission. Same N48 physics/work/core count; pre-solver proof must validate alternation and same core membership. Not submitted yet. If rank-order trial loses or drift persists, qualify process-level memory-residency diagnostics rather than blindly sweep more mapping flags. Result-backed capture permitted now; future admission/status changes remain local. No AI/NSCC/MFA/schedule changes.
+
+## Same N48 mapping-only trial accepted — 7 November 2026, 03:47 Vietnam
+
+**2295090 RUNNING on iris001**, elapsed 52s /56 CPUs /zero GPUs. Source 48 preflight passes; actual balanced 48 socket/core probe verifies 24/24 before any solver. First balanced 48 clone preparation running; no native arm/score yet. [Receipt and frozen controls](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced48-only-20261107/STATUS.md).
+
+Clean single-factor BAAB: balanced 48/default 48/default 48/balanced 48, SAME 48 source/physics/work/uncollated, four 40-step/39-interval arms. Candidate 24/24 revalidated before each solve; full native/source/runtime/force gates retained. 57 files frozen, root/offline passed. Max 2.5h /140 CPUh; budget 1,767 consumed +140 reserved /stage 1,907 (+57 internal), billed SU unknown; one-own cap occupied. Preserve maximum and queue position.
+
+Parent 2295087 reviewed result and associated evidence pushed once as 77ca6e2d. New 2295090 code/receipt/status/ledger/journal remain LOCAL UNCAPTURED, no status-only commit under latest owner rule. Complete result before next capture unless owner explicitly asks. No AI/NSCC, schedules or MFA changes. Previous RUNNING snapshots below are historical.
 
 ## Full balanced 40 result reviewed: no promotion — 7 November 2026
 
-2295087 COMPLETED 0:0 /5,430s /56 CPUs /iris001. All 452 raw hashes, 101 frozen hashes, 216 actual rank records and full native/source/runtime/payload/field/force gates pass root and terminal review. Default 48 means 27.549682806 /31.794129632, pooled 29.671906219s/step. Balanced 40 means 40.020672136 /22.901997128, pooled 31.461334632s/step: **6.030716% slower**. Candidate repeat drift −42.774581% despite exact same CPU map 20/20 and zero force-repeat difference. No stable winner or historical ~22s record; close unchanged balanced 40 promotion. [Full result and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced 40-vs48-20261107/completed-2295087/RESULTS.md).
+2295087 COMPLETED 0:0 /5,430s /56 CPUs /iris001. All 452 raw hashes, 101 frozen hashes, 216 actual rank records and full native/source/runtime/payload/field/force gates pass root and terminal review. Default 48 means 27.549682806 /31.794129632, pooled 29.671906219s/step. Balanced 40 means 40.020672136 /22.901997128, pooled 31.461334632s/step: **6.030716% slower**. Candidate repeat drift −42.774581% despite exact same CPU map 20/20 and zero force-repeat difference. No stable winner or historical ~22s record; close unchanged balanced 40 promotion. [Full result and limits](/home/apacsc42/2026-APAC-HPC-AI/hpc-experiments/iris-balanced40-vs48-20261107/completed-2295087/RESULTS.md).
 
 Cost 84.466667 CPUh conservatively 85; retire 168 once: 1,767 consumed /zero reserved /stage 1,850. Site SU unknown. Next distinct prepared question: SAME N48 source default 28/20 vs socket/core 24/24, uncollated, forty-step BAAB, isolating mapping (older hybrid also changed I/O). Not admitted yet. Result-gated commit policy remains: one coherent reviewed-result capture permitted now; future status/admission changes stay local. No AI/NSCC/MFA/background changes; all older RUNNING snapshots below historical.
 

@@ -1,3 +1,7 @@
+Latest reviewed HPC result: [Same-N48 mapping loss and explicit interleaved ranking](entries/20261107-hpc-n48-mapping-reviewed-and-rank-order-next.md).
+
+Latest HPC followup, local until result: [Same N48 mapping-only trial 2295090](entries/20261107-hpc-same48-mapping-only-admitted.md).
+
 Latest reviewed HPC result: [Full balanced 40 comparison, candidate not promoted](entries/20261107-hpc-balanced40-reviewed-comparison.md).
 
 Latest local admission, not committed: [Balanced 40 actual 20/20 placement](entries/20261107-hpc-balanced40-actual-placement-qualified.md).
